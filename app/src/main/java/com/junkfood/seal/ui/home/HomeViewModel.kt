@@ -20,8 +20,17 @@ class HomeViewModel : ViewModel() {
     private val _progress = MutableLiveData<Float>().apply {
         value = 0f
     }
+    private val _audioSwitch = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+    private val _thumbnailSwitch = MutableLiveData<Boolean>().apply {
+        value = false
+    }
     val text: LiveData<String> = _text
     val progress: LiveData<Float> = _progress
+    val audioSwitch: LiveData<Boolean> = _audioSwitch
+    val thumbnailSwitch: LiveData<Boolean> = _thumbnailSwitch
+
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
     fun updateTime() {
         Thread {
@@ -38,7 +47,14 @@ class HomeViewModel : ViewModel() {
             postValue(progressNum)
         }
     }
-
+    fun audioSwitchChange()
+    {
+        _audioSwitch.value= _audioSwitch.value?.not();
+    }
+    fun thumbnailSwitchChange()
+    {
+        _thumbnailSwitch.value= _thumbnailSwitch.value?.not();
+    }
     companion object {
         private const val TAG = "HomeViewModel"
     }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.FileProvider
@@ -41,6 +42,18 @@ class HomeFragment : Fragment() {
             binding.downloadProgressBar.progress = it.toInt()
             binding.downloadProgressText.text = "$it%"
         }
+        homeViewModel.audioSwitch.observe(viewLifecycleOwner) {
+            binding.audioSwitch.isChecked = it
+        }
+        homeViewModel.thumbnailSwitch.observe(viewLifecycleOwner) {
+            binding.thumbnailSwitch.isChecked = it
+        }
+        binding.audioSwitch.setOnCheckedChangeListener { _: CompoundButton, _: Boolean ->
+            homeViewModel.audioSwitchChange();
+        }
+        binding.thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, _: Boolean ->
+            homeViewModel.thumbnailSwitchChange();
+        }
         homeViewModel.updateTime()
         binding.downloadButton.setOnClickListener {
             var url = binding.inputTextUrl.editText?.text.toString()
@@ -63,13 +76,18 @@ class HomeFragment : Fragment() {
             Looper.prepare()
             val request = YoutubeDLRequest(url)
             val videoInfo = YoutubeDL.getInstance().getInfo(url)
-            val videoTitle = createFilename(videoInfo.title)
-            val videoExt = videoInfo.ext
-            Toast.makeText(context, "Start to download '$videoTitle'", Toast.LENGTH_SHORT)
+            var title = createFilename(videoInfo.title)
+            var ext = videoInfo.ext
+            Toast.makeText(context, "Start to download '$title'", Toast.LENGTH_SHORT)
                 .show()
-            request.addOption("-o", "$downloadDir/$videoTitle.$videoExt")
-            //request.addOption("--write-thumbnail")
-            //request.addOption("-o", "thumbnail:$downloadDir/%(title)s.%(ext)s")
+            request.addOption("-o", "$downloadDir/$title.$ext")
+            if (homeViewModel.audioSwitch.value == true)
+            {
+                request.addOption("-x")
+                ext="opus"
+            }
+            if (homeViewModel.thumbnailSwitch.value == true)
+                request.addOption("--write-thumbnail")
             request.addOption("--proxy", "http://127.0.0.1:7890")
             request.addOption("--force-overwrites")
             YoutubeDL.getInstance().execute(
@@ -80,7 +98,7 @@ class HomeFragment : Fragment() {
             }
             homeViewModel.updateProgress(100f);
             Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show()
-            Log.d(TAG, "$downloadDir/$videoTitle.$videoExt")
+            Log.d(TAG, "$downloadDir/$title.$ext")
             startActivity(Intent().apply {
                 action = (Intent.ACTION_VIEW)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -88,7 +106,7 @@ class HomeFragment : Fragment() {
                     FileProvider.getUriForFile(
                         BaseApplication.context,
                         BaseApplication.context.packageName + ".provider",
-                        File("$downloadDir/$videoTitle.$videoExt")
+                        File("$downloadDir/$title.$ext")
                     ), "video/*"
                 )
             })

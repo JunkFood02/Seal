@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.os.Environment
 import android.util.Log
 import com.google.android.material.color.DynamicColors
+import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import java.io.File
@@ -19,6 +20,7 @@ class BaseApplication : Application() {
         DynamicColors.applyToActivitiesIfAvailable(this)
         try {
             YoutubeDL.getInstance().init(this)
+            FFmpeg.getInstance().init(this)
         } catch (e: YoutubeDLException) {
             Log.e(TAG, "failed to initialize youtubedl-android", e)
         }
