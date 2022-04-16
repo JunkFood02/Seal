@@ -1,4 +1,4 @@
-package com.junkfood.Seal
+package com.junkfood.seal
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

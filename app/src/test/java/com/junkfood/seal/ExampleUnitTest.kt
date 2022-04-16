@@ -1,4 +1,4 @@
-package com.junkfood.Seal
+package com.junkfood.seal
 
 import org.junit.Test
 

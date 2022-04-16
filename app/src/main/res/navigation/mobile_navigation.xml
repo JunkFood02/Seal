@@ -7,19 +7,21 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.junkfood.Seal.ui.home.HomeFragment"
+        android:name="com.junkfood.seal.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.junkfood.Seal.ui.dashboard.DashboardFragment"
+        android:name="com.junkfood.seal.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.junkfood.Seal.ui.notifications.NotificationsFragment"
+        android:name="com.junkfood.seal.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
