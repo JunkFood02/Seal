@@ -13,12 +13,15 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 class HomeViewModel : ViewModel() {
-    private val scheduler = Executors.newScheduledThreadPool(5);
-    private val greeting=BaseApplication.res.getString(R.string.greeting)
+    private val greeting = BaseApplication.res.getString(R.string.greeting)
     private val _text = MutableLiveData<String>().apply {
         value = greeting
     }
+    private val _progress = MutableLiveData<Float>().apply {
+        value = 0f
+    }
     val text: LiveData<String> = _text
+    val progress: LiveData<Float> = _progress
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
     fun updateTime() {
         Thread {
@@ -27,6 +30,13 @@ class HomeViewModel : ViewModel() {
                 Thread.sleep(1000)
             }
         }.start()
+    }
+
+    fun updateProgress(progressNum: Float) {
+        with(_progress)
+        {
+            postValue(progressNum)
+        }
     }
 
     companion object {
