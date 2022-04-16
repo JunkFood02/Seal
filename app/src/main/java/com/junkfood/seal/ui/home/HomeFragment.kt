@@ -81,13 +81,19 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Start to download '$title'", Toast.LENGTH_SHORT)
                 .show()
             request.addOption("-o", "$downloadDir/$title.$ext")
-            if (homeViewModel.audioSwitch.value == true)
-            {
+            if (homeViewModel.audioSwitch.value == true) {
                 request.addOption("-x")
-                ext="opus"
+                request.addOption("--audio-format","mp3")
+                request.addOption("--audio-quality","0")
+                ext = "mp3"
             }
-            if (homeViewModel.thumbnailSwitch.value == true)
-                request.addOption("--write-thumbnail")
+            if (homeViewModel.thumbnailSwitch.value == true) {
+                //request.addOption("--write-thumbnail")
+                request.addOption("--add-metadata")
+                request.addOption("--embed-thumbnail")
+                request.addOption("--compat-options","embed-thumbnail-atomicparsley")
+                //request.addOption("--convert-thumbnails", "jpg")
+            }
             request.addOption("--proxy", "http://127.0.0.1:7890")
             request.addOption("--force-overwrites")
             YoutubeDL.getInstance().execute(
