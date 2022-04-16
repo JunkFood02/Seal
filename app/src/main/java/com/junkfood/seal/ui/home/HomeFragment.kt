@@ -19,6 +19,7 @@ import com.junkfood.seal.databinding.FragmentHomeBinding
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import java.io.File
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -123,7 +124,7 @@ class HomeFragment : Fragment() {
         val cleanFileName = title.replace("[\\\\><\"|*?'%:#/]".toRegex(), "_")
         var fileName = cleanFileName.trim { it <= '_' }.replace("_+".toRegex(), "_")
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
-        return fileName
+        return fileName+ Date().time
     }
 
     companion object {

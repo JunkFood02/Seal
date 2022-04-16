@@ -24,6 +24,7 @@ class BaseApplication : Application() {
         } catch (e: YoutubeDLException) {
             Log.e(TAG, "failed to initialize youtubedl-android", e)
         }
+        Thread{YoutubeDL.getInstance().updateYoutubeDL(this)}.start()
         downloadDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
             res.getString(R.string.app_name)
