@@ -48,11 +48,11 @@ class HomeFragment : Fragment() {
         homeViewModel.thumbnailSwitch.observe(viewLifecycleOwner) {
             binding.thumbnailSwitch.isChecked = it
         }
-        binding.audioSwitch.setOnCheckedChangeListener { _: CompoundButton, _: Boolean ->
-            homeViewModel.audioSwitchChange();
+        binding.audioSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+            homeViewModel.audioSwitchChange(b)
         }
-        binding.thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, _: Boolean ->
-            homeViewModel.thumbnailSwitchChange();
+        binding.thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+            homeViewModel.thumbnailSwitchChange(b)
         }
         homeViewModel.updateTime()
         binding.downloadButton.setOnClickListener {

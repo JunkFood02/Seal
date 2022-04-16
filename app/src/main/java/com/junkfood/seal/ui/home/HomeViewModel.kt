@@ -47,14 +47,15 @@ class HomeViewModel : ViewModel() {
             postValue(progressNum)
         }
     }
-    fun audioSwitchChange()
-    {
-        _audioSwitch.value= _audioSwitch.value?.not();
+
+    fun audioSwitchChange(b: Boolean) {
+        _audioSwitch.value = b
     }
-    fun thumbnailSwitchChange()
-    {
-        _thumbnailSwitch.value= _thumbnailSwitch.value?.not();
+
+    fun thumbnailSwitchChange(b: Boolean) {
+        _thumbnailSwitch.value = b
     }
+
     companion object {
         private const val TAG = "HomeViewModel"
     }
