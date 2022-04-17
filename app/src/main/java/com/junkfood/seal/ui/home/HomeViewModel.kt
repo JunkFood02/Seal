@@ -26,11 +26,12 @@ class HomeViewModel : ViewModel() {
     private val _thumbnailSwitch = MutableLiveData<Boolean>().apply {
         value = false
     }
+
     val text: LiveData<String> = _text
     val progress: LiveData<Float> = _progress
     val audioSwitch: LiveData<Boolean> = _audioSwitch
     val thumbnailSwitch: LiveData<Boolean> = _thumbnailSwitch
-
+    val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
     fun updateTime() {
         Thread {
