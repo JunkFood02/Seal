@@ -52,8 +52,8 @@ class HomeFragment : Fragment() {
             thumbnailSwitch.observe(viewLifecycleOwner) {
                 binding.thumbnailSwitch.isChecked = it
             }
-            proxySwitch.observe(viewLifecycleOwner){
-                binding.proxySwitch.isChecked=it
+            proxySwitch.observe(viewLifecycleOwner) {
+                binding.proxySwitch.isChecked = it
             }
             updateTime()
         }
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
             if (url.contains("list")) {
                 Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
                 request.addOption("-P", "$downloadDir/")
-                request.addOption("-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s")
+                request.addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
 //                request.addOption("-o", "$downloadDir/%(title)s.%(ext)s")
             } else {
                 Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
@@ -135,7 +135,7 @@ class HomeFragment : Fragment() {
                 request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
                 //request.addOption("--convert-thumbnails", "jpg")
             }
-            if (homeViewModel.proxy.value != "") {
+            if (homeViewModel.proxy.value != "" && homeViewModel.proxySwitch.value == true) {
                 request.addOption("--proxy", homeViewModel.proxy.value!!)
                 Toast.makeText(
                     context,
@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
                 ).show()
             }
             request.addOption("--force-overwrites")
-            var noError: Boolean = true
+            var noError = true
             try {
                 YoutubeDL.getInstance().execute(
                     request
