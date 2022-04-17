@@ -52,6 +52,9 @@ class HomeFragment : Fragment() {
             thumbnailSwitch.observe(viewLifecycleOwner) {
                 binding.thumbnailSwitch.isChecked = it
             }
+            proxySwitch.observe(viewLifecycleOwner){
+                binding.proxySwitch.isChecked=it
+            }
             updateTime()
         }
         with(binding) {
@@ -62,6 +65,9 @@ class HomeFragment : Fragment() {
             }
             thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 homeViewModel.thumbnailSwitchChange(b)
+            }
+            proxySwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+                homeViewModel.proxySwitchChange(b)
             }
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -109,12 +115,12 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
                 request.addOption("-P", "$downloadDir/")
                 request.addOption("-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s")
-//                request.addOption("-o", "$downloadDir/%{title}s.%{ext}s")
+//                request.addOption("-o", "$downloadDir/%(title)s.%(ext)s")
             } else {
                 Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
                     .show()
                 request.addOption("-P", "$downloadDir/")
-                request.addOption("-o", "$downloadDir/$title.%{ext}s")
+                request.addOption("-o", "$downloadDir/$title.%(ext)s")
             }
             if (homeViewModel.audioSwitch.value == true) {
                 request.addOption("-x")
@@ -138,6 +144,7 @@ class HomeFragment : Fragment() {
                 ).show()
             }
             request.addOption("--force-overwrites")
+            var noError: Boolean = true
             try {
                 YoutubeDL.getInstance().execute(
                     request
@@ -147,23 +154,26 @@ class HomeFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                noError = false
                 Toast.makeText(context, "Unknown error(s) occurred", Toast.LENGTH_SHORT).show()
             }
-            homeViewModel.updateProgress(100f);
-            Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show()
-            if (!url.contains("list")) {
-                Log.d(TAG, "$downloadDir/$title.$ext")
-                startActivity(Intent().apply {
-                    action = (Intent.ACTION_VIEW)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    setDataAndType(
-                        FileProvider.getUriForFile(
-                            BaseApplication.context,
-                            BaseApplication.context.packageName + ".provider",
-                            File("$downloadDir/$title.$ext")
-                        ), "video/*"
-                    )
-                })
+            if (noError) {
+                homeViewModel.updateProgress(100f)
+                Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show()
+                if (!url.contains("list")) {
+                    Log.d(TAG, "$downloadDir/$title.$ext")
+                    startActivity(Intent().apply {
+                        action = (Intent.ACTION_VIEW)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        setDataAndType(
+                            FileProvider.getUriForFile(
+                                BaseApplication.context,
+                                BaseApplication.context.packageName + ".provider",
+                                File("$downloadDir/$title.$ext")
+                            ), if (ext == "mp3") "audio/*" else "video/*"
+                        )
+                    })
+                }
             }
         }.start()
     }

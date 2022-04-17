@@ -5,7 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.os.Environment
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import com.google.android.material.color.DynamicColors
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
@@ -24,7 +26,15 @@ class BaseApplication : Application() {
         } catch (e: YoutubeDLException) {
             Log.e(TAG, "failed to initialize youtubedl-android", e)
         }
-        Thread { YoutubeDL.getInstance().updateYoutubeDL(this) }.start()
+        Thread {
+            try {
+                YoutubeDL.getInstance().updateYoutubeDL(this)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Looper.prepare()
+                Toast.makeText(context,"Failed to update youtube-dl, consider connecting with proxy.",Toast.LENGTH_SHORT).show()
+            }
+        }.start()
         downloadDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
             res.getString(R.string.app_name)

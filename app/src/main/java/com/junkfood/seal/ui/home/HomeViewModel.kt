@@ -26,7 +26,9 @@ class HomeViewModel : ViewModel() {
     private val _thumbnailSwitch = MutableLiveData<Boolean>().apply {
         value = false
     }
-
+    private val _proxySwitch = MutableLiveData<Boolean>().apply {
+        value = false
+    }
     val text: LiveData<String> = _text
     val progress: LiveData<Float> = _progress
     val audioSwitch: LiveData<Boolean> = _audioSwitch
@@ -34,7 +36,7 @@ class HomeViewModel : ViewModel() {
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val proxy: MutableLiveData<String> =
         MutableLiveData<String>().apply { value = "http://127.0.0.1:7890" }
-
+    val proxySwitch:LiveData<Boolean> = _proxySwitch
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
     fun updateTime() {
         Thread {
@@ -54,6 +56,9 @@ class HomeViewModel : ViewModel() {
 
     fun audioSwitchChange(b: Boolean) {
         _audioSwitch.value = b
+    }
+    fun proxySwitchChange(b: Boolean) {
+        _proxySwitch.value = b
     }
 
     fun thumbnailSwitchChange(b: Boolean) {
