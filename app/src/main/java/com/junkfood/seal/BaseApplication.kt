@@ -32,13 +32,23 @@ class BaseApplication : Application() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Looper.prepare()
-                Toast.makeText(context,"Failed to update youtube-dl, consider connecting with proxy.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Failed to update youtube-dl, consider connecting with proxy.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }.start()
-        downloadDir = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-            res.getString(R.string.app_name)
-        ).absolutePath
+        with(
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                res.getString(R.string.app_name)
+            )
+        ) {
+            downloadDir = if (canWrite()) absolutePath else getExternalFilesDir(null)!!.absolutePath
+        }
+
+
         context = applicationContext
     }
 

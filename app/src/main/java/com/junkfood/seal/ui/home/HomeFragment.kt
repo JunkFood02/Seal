@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
                     .show()
                 request.addOption("-P", "$downloadDir/")
-                request.addOption("-o", "$downloadDir/$title.%(ext)s")
+                request.addOption("-o", "$title.%(ext)s")
             }
             if (homeViewModel.audioSwitch.value == true) {
                 request.addOption("-x")
