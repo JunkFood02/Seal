@@ -1,11 +1,10 @@
 package com.junkfood.seal.ui.home
 
 import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
-
 import android.os.Bundle
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +15,12 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.databinding.FragmentHomeBinding
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import java.io.File
-import java.lang.Exception
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -41,47 +38,55 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        with(homeViewModel) {
+            text.observe(viewLifecycleOwner) {
+                textView.text = it
+            }
+            progress.observe(viewLifecycleOwner) {
+                binding.downloadProgressBar.progress = it.toInt()
+                binding.downloadProgressText.text = "$it%"
+            }
+            audioSwitch.observe(viewLifecycleOwner) {
+                binding.audioSwitch.isChecked = it
+            }
+            thumbnailSwitch.observe(viewLifecycleOwner) {
+                binding.thumbnailSwitch.isChecked = it
+            }
+            updateTime()
         }
-        homeViewModel.progress.observe(viewLifecycleOwner) {
-            binding.downloadProgressBar.progress = it.toInt()
-            binding.downloadProgressText.text = "$it%"
+        with(binding) {
+            inputTextUrl.editText?.setText(homeViewModel.url.value)
+            inputProxy.editText?.setText(homeViewModel.proxy.value)
+            audioSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+                homeViewModel.audioSwitchChange(b)
+            }
+            thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+                homeViewModel.thumbnailSwitchChange(b)
+            }
+            inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(p0: Editable?) {
+                    homeViewModel.url.value = p0.toString()
+                }
+            })
+            inputProxy.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(p0: Editable?) {
+                    homeViewModel.proxy.value = p0.toString()
+                }
+            })
+            downloadButton.setOnClickListener {
+                var url = binding.inputTextUrl.editText?.text.toString()
+                if (url == "") {
+                    url = "https://youtu.be/t5c8D1xbXtw";
+                }
+                Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
+                getVideo(url)
+            }
         }
-        binding.inputTextUrl.editText?.setText(homeViewModel.url.value)
 
-        homeViewModel.audioSwitch.observe(viewLifecycleOwner) {
-            binding.audioSwitch.isChecked = it
-        }
-        homeViewModel.thumbnailSwitch.observe(viewLifecycleOwner) {
-            binding.thumbnailSwitch.isChecked = it
-        }
-        binding.audioSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-            homeViewModel.audioSwitchChange(b)
-        }
-        binding.thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-            homeViewModel.thumbnailSwitchChange(b)
-        }
-        homeViewModel.updateTime()
-        binding.inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                homeViewModel.url.value = p0.toString()
-            }
-        })
-        binding.downloadButton.setOnClickListener {
-            var url = binding.inputTextUrl.editText?.text.toString()
-            if (url == "") {
-                url = "https://youtu.be/t5c8D1xbXtw";
-            }
-            Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
-            getVideo(url)
-        }
 
         return root
     }
@@ -99,15 +104,17 @@ class HomeFragment : Fragment() {
             val videoInfo = YoutubeDL.getInstance().getInfo(url)
             var title = createFilename(videoInfo.title)
             var ext = videoInfo.ext
-            Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
-                .show()
+
             if (url.contains("list")) {
+                Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
                 request.addOption("-P", "$downloadDir/")
                 request.addOption("-o", "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s")
 //                request.addOption("-o", "$downloadDir/%{title}s.%{ext}s")
             } else {
+                Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
+                    .show()
                 request.addOption("-P", "$downloadDir/")
-//              request.addOption("-o", "$downloadDir/$title.$ext")
+                request.addOption("-o", "$downloadDir/$title.%{ext}s")
             }
             if (homeViewModel.audioSwitch.value == true) {
                 request.addOption("-x")
@@ -122,7 +129,14 @@ class HomeFragment : Fragment() {
                 request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
                 //request.addOption("--convert-thumbnails", "jpg")
             }
-            request.addOption("--proxy", "http://127.0.0.1:7890")
+            if (homeViewModel.proxy.value != "") {
+                request.addOption("--proxy", homeViewModel.proxy.value!!)
+                Toast.makeText(
+                    context,
+                    "Downloading using proxy.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             request.addOption("--force-overwrites")
             try {
                 YoutubeDL.getInstance().execute(

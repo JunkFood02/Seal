@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="greeting">早上、中午或者晚上好</string>
     <string name="video_url">Video Url</string>
+    <string name="proxy">Proxy (Server:Port)</string>
 </resources>

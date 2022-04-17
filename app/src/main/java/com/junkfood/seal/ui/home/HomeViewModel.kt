@@ -32,6 +32,9 @@ class HomeViewModel : ViewModel() {
     val audioSwitch: LiveData<Boolean> = _audioSwitch
     val thumbnailSwitch: LiveData<Boolean> = _thumbnailSwitch
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
+    val proxy: MutableLiveData<String> =
+        MutableLiveData<String>().apply { value = "http://127.0.0.1:7890" }
+
     val sdf = SimpleDateFormat("HH:mm:ss", Locale.CHINA)
     fun updateTime() {
         Thread {
