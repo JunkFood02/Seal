@@ -3,15 +3,20 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def versionMajor = 0
+def versionMinor = 0
+def versionPatch = 1
+def versionBuild = 0
+
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.junkfood.Seal"
+        applicationId "com.junkfood.seal"
         minSdk 24
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

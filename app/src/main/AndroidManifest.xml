@@ -23,7 +23,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.junkfood.Seal.provider"
+            android:authorities="com.junkfood.seal.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
