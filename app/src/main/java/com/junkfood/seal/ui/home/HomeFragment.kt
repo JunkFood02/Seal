@@ -22,6 +22,7 @@ import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.databinding.FragmentHomeBinding
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
+import com.yausername.youtubedl_android.mapper.VideoInfo
 import java.io.File
 import java.util.*
 
@@ -110,9 +111,18 @@ class HomeFragment : Fragment() {
         Thread {
             Looper.prepare()
             val request = YoutubeDLRequest(url)
-            val videoInfo = YoutubeDL.getInstance().getInfo(url)
-            var title = createFilename(videoInfo.title)
-            var ext = videoInfo.ext
+            val videoInfo: VideoInfo
+            lateinit var title: String
+            lateinit var ext: String
+            try {
+                videoInfo = YoutubeDL.getInstance().getInfo(url)
+                title = createFilename(videoInfo.title)
+                ext = videoInfo.ext
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+
 
             if (url.contains("list")) {
                 Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
@@ -183,7 +193,7 @@ class HomeFragment : Fragment() {
 
     private fun createFilename(title: String): String {
         val cleanFileName = title.replace("[\\\\><\"|*?'%:#/]".toRegex(), "_")
-        var fileName = cleanFileName.trim { it <= '_' }.replace("_+".toRegex(), "_")
+        var fileName = cleanFileName.trim { it <= ' ' }.replace(" +".toRegex(), " ")
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
         return fileName + Date().time
     }

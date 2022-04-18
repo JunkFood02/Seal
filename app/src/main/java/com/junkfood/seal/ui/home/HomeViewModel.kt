@@ -21,10 +21,10 @@ class HomeViewModel : ViewModel() {
         value = 0f
     }
     private val _audioSwitch = MutableLiveData<Boolean>().apply {
-        value = false
+        value = true
     }
     private val _thumbnailSwitch = MutableLiveData<Boolean>().apply {
-        value = false
+        value = true
     }
     private val _proxySwitch = MutableLiveData<Boolean>().apply {
         value = false
