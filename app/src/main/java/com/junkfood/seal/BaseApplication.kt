@@ -27,11 +27,12 @@ class BaseApplication : Application() {
             Log.e(TAG, "failed to initialize youtubedl-android", e)
         }
         Thread {
+            Looper.prepare()
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(this)
+                Toast.makeText(context, "youtube-dl is up to date", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 e.printStackTrace()
-                Looper.prepare()
                 Toast.makeText(
                     context,
                     "Failed to update youtube-dl, consider connecting with proxy.",

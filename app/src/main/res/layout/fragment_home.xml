@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="36dp"
         android:text="@string/greeting"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,9 +37,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
+        app:layout_constraintEnd_toStartOf="@id/proxySwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioSwitch"
-        app:layout_constraintEnd_toStartOf="@id/proxySwitch">
+        app:layout_constraintTop_toBottomOf="@id/audioSwitch">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -47,15 +47,16 @@
             android:hint="@string/proxy"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/proxySwitch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:text="Use Proxy"
+        app:layout_constraintBottom_toBottomOf="@id/inputProxy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/inputProxy"
-        app:layout_constraintBottom_toBottomOf="@id/inputProxy"/>
+        app:layout_constraintTop_toTopOf="@id/inputProxy" />
 
     <ProgressBar
         android:id="@+id/downloadProgressBar"
@@ -97,6 +98,16 @@
         android:text="Create Thumbnail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/downloadProgressBar" />
+
+    <TextView
+        android:id="@+id/downloadDirText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:text="Download Directory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/proxySwitch" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/downloadButton"

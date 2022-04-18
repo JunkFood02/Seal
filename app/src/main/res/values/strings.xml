@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="greeting">早上、中午或者晚上好</string>
+    <string name="greeting">YouTube/Bilibili Video Downloader</string>
     <string name="video_url">Video Url</string>
     <string name="proxy">Proxy (Server:Port)</string>
 </resources>

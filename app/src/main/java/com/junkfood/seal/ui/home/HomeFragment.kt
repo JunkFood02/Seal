@@ -1,7 +1,9 @@
 package com.junkfood.seal.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,6 +24,7 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import java.io.File
 import java.util.*
+
 
 class HomeFragment : Fragment() {
 
@@ -55,7 +58,6 @@ class HomeFragment : Fragment() {
             proxySwitch.observe(viewLifecycleOwner) {
                 binding.proxySwitch.isChecked = it
             }
-            updateTime()
         }
         with(binding) {
             inputTextUrl.editText?.setText(homeViewModel.url.value)
@@ -91,6 +93,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
                 getVideo(url)
             }
+            downloadDirText.text = "Download Directory:$downloadDir"
         }
 
 
@@ -178,7 +181,7 @@ class HomeFragment : Fragment() {
         }.start()
     }
 
-    fun createFilename(title: String): String {
+    private fun createFilename(title: String): String {
         val cleanFileName = title.replace("[\\\\><\"|*?'%:#/]".toRegex(), "_")
         var fileName = cleanFileName.trim { it <= '_' }.replace("_+".toRegex(), "_")
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
