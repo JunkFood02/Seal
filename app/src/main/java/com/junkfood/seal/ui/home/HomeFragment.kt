@@ -111,18 +111,10 @@ class HomeFragment : Fragment() {
         Thread {
             Looper.prepare()
             val request = YoutubeDLRequest(url)
-            val videoInfo: VideoInfo
-            lateinit var title: String
             lateinit var ext: String
-            try {
-                videoInfo = YoutubeDL.getInstance().getInfo(url)
-                title = createFilename(videoInfo.title)
+            val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
+            var title: String = createFilename(videoInfo.title)
                 ext = videoInfo.ext
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-
-
 
             if (url.contains("list")) {
                 Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
