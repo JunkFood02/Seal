@@ -1,9 +1,8 @@
 package com.junkfood.seal.ui.home
 
 import android.content.Intent
-import android.net.Uri
+import android.media.MediaScannerConnection
 import android.os.Bundle
-import android.os.Environment
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
@@ -114,13 +113,14 @@ class HomeFragment : Fragment() {
             lateinit var ext: String
             val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
             var title: String = createFilename(videoInfo.title)
-                ext = videoInfo.ext
+            ext = videoInfo.ext
 
             if (url.contains("list")) {
                 Toast.makeText(context, "Start downloading playlist.", Toast.LENGTH_SHORT).show()
                 request.addOption("-P", "$downloadDir/")
                 request.addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
-//                request.addOption("-o", "$downloadDir/%(title)s.%(ext)s")
+                request.buildCommand()
+//              request.addOption("-o", "$downloadDir/%(title)s.%(ext)s")
             } else {
                 Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
                     .show()
@@ -134,11 +134,14 @@ class HomeFragment : Fragment() {
                 ext = "mp3"
             }
             if (homeViewModel.thumbnailSwitch.value == true) {
-                //request.addOption("--write-thumbnail")
-                request.addOption("--add-metadata")
-                request.addOption("--embed-thumbnail")
-                request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
-                //request.addOption("--convert-thumbnails", "jpg")
+                if (homeViewModel.audioSwitch.value == true) {
+                    request.addOption("--add-metadata")
+                    request.addOption("--embed-thumbnail")
+                    request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                } else {
+                    request.addOption("--write-thumbnail")
+                    request.addOption("--convert-thumbnails", "jpg")
+                }
             }
             if (homeViewModel.proxy.value != "" && homeViewModel.proxySwitch.value == true) {
                 request.addOption("--proxy", homeViewModel.proxy.value!!)
@@ -167,6 +170,10 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show()
                 if (!url.contains("list")) {
                     Log.d(TAG, "$downloadDir/$title.$ext")
+                    MediaScannerConnection.scanFile(
+                        context, arrayOf("$downloadDir/$title.$ext"),
+                        arrayOf(if (ext == "mp3") "audio/*" else "video/*"), null
+                    )
                     startActivity(Intent().apply {
                         action = (Intent.ACTION_VIEW)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
