@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.os.Environment
 import android.os.Looper
 import android.util.Log
@@ -40,23 +41,30 @@ class BaseApplication : Application() {
                 ).show()
             }
         }.start()
+
         with(
             File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
                 res.getString(R.string.app_name)
             )
         ) {
-            downloadDir = if (canWrite()) absolutePath else getExternalFilesDir(null)!!.absolutePath
+            downloadDir = if (Build.VERSION.SDK_INT > 29 || canWrite()) absolutePath
+            else "Unset"
         }
-
-
         context = applicationContext
     }
+
 
     companion object {
         lateinit var res: Resources
         private const val TAG = "BaseApplication"
         lateinit var downloadDir: String
+        fun updateDownloadDir() {
+            downloadDir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                res.getString(R.string.app_name)
+            ).absolutePath
+        }
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context

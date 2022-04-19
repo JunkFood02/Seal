@@ -1,7 +1,11 @@
 package com.junkfood.seal.ui.home
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.text.Editable
@@ -13,7 +17,14 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.PermissionChecker
+import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.junkfood.seal.BaseApplication
@@ -32,12 +43,39 @@ class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { result ->
+            var permissionGranted = true
+            for (b in result.values) {
+                permissionGranted = permissionGranted && b
+            }
+            if (permissionGranted) {
+                updateDownloadDir()
+                var url = binding.inputTextUrl.editText?.text.toString()
+                if (url == "") {
+                    url = "https://youtu.be/t5c8D1xbXtw";
+                }
+                Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
+                getVideo(url)
+            } else {
+                Toast.makeText(context, "Failed to request permission", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val textView: TextView = binding.textHome
@@ -86,12 +124,7 @@ class HomeFragment : Fragment() {
                 }
             })
             downloadButton.setOnClickListener {
-                var url = binding.inputTextUrl.editText?.text.toString()
-                if (url == "") {
-                    url = "https://youtu.be/t5c8D1xbXtw";
-                }
-                Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
-                getVideo(url)
+                activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             }
             downloadDirText.text = "Download Directory:$downloadDir"
         }
@@ -195,6 +228,11 @@ class HomeFragment : Fragment() {
         var fileName = cleanFileName.trim { it <= ' ' }.replace(" +".toRegex(), " ")
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
         return fileName + Date().time
+    }
+
+    fun updateDownloadDir() {
+        BaseApplication.updateDownloadDir()
+        binding.downloadDirText.text = downloadDir
     }
 
     companion object {
