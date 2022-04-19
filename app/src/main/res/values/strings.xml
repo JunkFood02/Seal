@@ -5,5 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="greeting">YouTube/Bilibili Video Downloader</string>
     <string name="video_url">Video Url</string>
-    <string name="proxy">Proxy (Server:Port)</string>
+    <string name="download_directory">Download Directory:</string>
+    <string name="extract_audio">Extract Audio</string>
+    <string name="create_thumbnail">Create Thumbnail</string>
 </resources>

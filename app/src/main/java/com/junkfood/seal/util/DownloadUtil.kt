@@ -2,7 +2,6 @@ package com.junkfood.seal.util
 
 import android.media.MediaScannerConnection
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
@@ -15,10 +14,9 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 
 object DownloadUtil {
     private const val TAG = "DownloadUtil"
-    fun getVideo(url: String, extractAudio: Boolean, createThumbnail: Boolean, handler: Handler) {
 
+    fun getVideo(url: String, extractAudio: Boolean, createThumbnail: Boolean, handler: Handler) {
         Thread {
-            Looper.prepare()
             val request = YoutubeDLRequest(url)
             lateinit var ext: String
             lateinit var title: String
@@ -27,7 +25,7 @@ object DownloadUtil {
                 videoInfo = YoutubeDL.getInstance().getInfo(url)
                 title = createFilename(videoInfo.title)
                 ext = videoInfo.ext
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 handler.post {
                     Toast.makeText(
                         context,
@@ -50,7 +48,6 @@ object DownloadUtil {
                 request.addOption("-P", "${BaseApplication.downloadDir}/")
                 request.addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
                 request.buildCommand()
-//              request.addOption("-o", "$downloadDir/%(title)s.%(ext)s")
             } else {
                 handler.post {
                     Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
@@ -75,14 +72,6 @@ object DownloadUtil {
                     request.addOption("--convert-thumbnails", "jpg")
                 }
             }
-/*            if (homeViewModel.proxy.value != "" && homeViewModel.proxySwitch.value == true) {
-                request.addOption("--proxy", homeViewModel.proxy.value!!)
-                Toast.makeText(
-                    context,
-                    "Downloading using proxy",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }*/
             request.addOption("--force-overwrites")
             try {
                 YoutubeDL.getInstance().execute(

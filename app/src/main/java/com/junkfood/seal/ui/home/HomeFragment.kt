@@ -2,10 +2,7 @@ package com.junkfood.seal.ui.home
 
 import android.Manifest
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,17 +13,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
+import com.junkfood.seal.R
 import com.junkfood.seal.databinding.FragmentHomeBinding
-import com.junkfood.seal.ui.home.HomeFragment.Companion.UPDATE_PROGRESS
 import com.junkfood.seal.util.DownloadUtil
 import java.io.File
-import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -37,12 +32,10 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
 
-    val handler: Handler = object : Handler(Looper.getMainLooper()) {
+    private val handler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
-                SHOW_ERROR_MESSAGE -> Toast.makeText(context, msg.obj as String, Toast.LENGTH_SHORT)
-                    .show()
                 UPDATE_PROGRESS -> {
                     homeViewModel.updateProgress(msg.obj as Float)
                 }
@@ -73,7 +66,7 @@ class HomeFragment : Fragment() {
             for (b in result.values) {
                 permissionGranted = permissionGranted && b
             }
-            if (permissionGranted) {
+            if (permissionGranted || Build.VERSION.SDK_INT > 29) {
                 updateDownloadDir()
                 var url = binding.inputTextUrl.editText?.text.toString()
                 if (url == "") {
@@ -116,22 +109,17 @@ class HomeFragment : Fragment() {
             thumbnailSwitch.observe(viewLifecycleOwner) {
                 binding.thumbnailSwitch.isChecked = it
             }
-            proxySwitch.observe(viewLifecycleOwner) {
-                binding.proxySwitch.isChecked = it
-            }
+
         }
         with(binding) {
             inputTextUrl.editText?.setText(homeViewModel.url.value)
-            inputProxy.editText?.setText(homeViewModel.proxy.value)
             audioSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 homeViewModel.audioSwitchChange(b)
             }
             thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
                 homeViewModel.thumbnailSwitchChange(b)
             }
-            proxySwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-                homeViewModel.proxySwitchChange(b)
-            }
+
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -139,17 +127,12 @@ class HomeFragment : Fragment() {
                     homeViewModel.url.value = p0.toString()
                 }
             })
-            inputProxy.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {
-                    homeViewModel.proxy.value = p0.toString()
-                }
-            })
+
             downloadButton.setOnClickListener {
                 activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             }
-            downloadDirText.text = "Download Directory:$downloadDir"
+            downloadDirText.text =
+                "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
         }
 
 
@@ -162,15 +145,15 @@ class HomeFragment : Fragment() {
     }
 
 
-    fun updateDownloadDir() {
+    private fun updateDownloadDir() {
         BaseApplication.updateDownloadDir()
-        binding.downloadDirText.text = downloadDir
+        binding.downloadDirText.text =
+            "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
     }
 
     companion object {
         const val UPDATE_PROGRESS = 1
         const val FINISH_DOWNLOADING = 2
-        const val SHOW_ERROR_MESSAGE = -1
         private const val TAG = "HomeFragment"
     }
 }

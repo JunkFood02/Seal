@@ -32,31 +32,6 @@
             android:hint="@string/video_url" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputProxy"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        app:layout_constraintEnd_toStartOf="@id/proxySwitch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioSwitch">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/proxy"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/proxySwitch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:text="Use Proxy"
-        app:layout_constraintBottom_toBottomOf="@id/inputProxy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/inputProxy" />
 
     <ProgressBar
         android:id="@+id/downloadProgressBar"
@@ -75,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="24dp"
-        android:text="123.0%"
         app:layout_constraintBottom_toBottomOf="@id/downloadProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/downloadProgressBar"
@@ -86,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Extract Audio"
+        android:text="@string/extract_audio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/downloadProgressBar" />
 
@@ -95,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Create Thumbnail"
+        android:text="@string/create_thumbnail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/downloadProgressBar" />
 
@@ -104,10 +78,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Download Directory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/proxySwitch" />
+        app:layout_constraintTop_toBottomOf="@id/audioSwitch" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/downloadButton"
@@ -116,5 +89,6 @@
         android:layout_margin="12dp"
         android:src="@drawable/outline_file_download_white_48"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Download" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,12 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(Intent()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                action = ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                startActivity(this)
-            }
-        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navView: BottomNavigationView = binding.navView
