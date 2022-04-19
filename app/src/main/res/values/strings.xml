@@ -8,4 +8,5 @@
     <string name="download_directory">Download Directory:</string>
     <string name="extract_audio">Extract Audio</string>
     <string name="create_thumbnail">Create Thumbnail</string>
+    <string name="settings">Settings</string>
 </resources>

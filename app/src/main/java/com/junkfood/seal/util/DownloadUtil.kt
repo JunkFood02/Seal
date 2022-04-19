@@ -104,7 +104,7 @@ object DownloadUtil {
             if (!url.contains("list")) {
                 Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
                 MediaScannerConnection.scanFile(
-                    context, arrayOf("${BaseApplication.downloadDir}/"),
+                    context, arrayOf("${BaseApplication.downloadDir}/$title.$ext"),
                     arrayOf(if (ext == "mp3") "audio/*" else "video/*"), null
                 )
                 handler.handleMessage(Message().apply {

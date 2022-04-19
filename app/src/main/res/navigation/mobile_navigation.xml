@@ -24,4 +24,9 @@
         android:name="com.junkfood.seal.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.junkfood.seal.ui.settings.SettingsFragment"
+        android:label="fragment_settings_list"
+        tools:layout="@layout/fragment_settings_list" /><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
 </navigation>
