@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.R
@@ -40,17 +41,20 @@ class HomeFragment : Fragment() {
                     homeViewModel.updateProgress(msg.obj as Float)
                 }
                 FINISH_DOWNLOADING -> {
-                    startActivity(Intent().apply {
-                        action = (Intent.ACTION_VIEW)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        setDataAndType(
-                            FileProvider.getUriForFile(
-                                BaseApplication.context,
-                                BaseApplication.context.packageName + ".provider",
-                                File(msg.obj as String)
-                            ), if (msg.arg1 == 1) "audio/*" else "video/*"
-                        )
-                    })
+                    if (PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            .getBoolean("open", false)
+                    )
+                        startActivity(Intent().apply {
+                            action = (Intent.ACTION_VIEW)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            setDataAndType(
+                                FileProvider.getUriForFile(
+                                    BaseApplication.context,
+                                    BaseApplication.context.packageName + ".provider",
+                                    File(msg.obj as String)
+                                ), if (msg.arg1 == 1) "audio/*" else "video/*"
+                            )
+                        })
                 }
             }
         }
@@ -73,10 +77,12 @@ class HomeFragment : Fragment() {
                     url = "https://youtu.be/t5c8D1xbXtw";
                 }
                 Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
-                DownloadUtil.getVideo(
-                    url, homeViewModel.audioSwitch.value!!,
-                    homeViewModel.thumbnailSwitch.value!!, handler
-                )
+                with(PreferenceManager.getDefaultSharedPreferences(requireContext())) {
+                    DownloadUtil.getVideo(
+                        url, getBoolean("audio", true),
+                        getBoolean("thumbnail", true), handler
+                    )
+                }
             } else {
                 Toast.makeText(context, "Failed to request permission", Toast.LENGTH_SHORT)
                     .show()
@@ -103,22 +109,10 @@ class HomeFragment : Fragment() {
                 binding.downloadProgressBar.progress = it.toInt()
                 binding.downloadProgressText.text = "$it%"
             }
-            audioSwitch.observe(viewLifecycleOwner) {
-                binding.audioSwitch.isChecked = it
-            }
-            thumbnailSwitch.observe(viewLifecycleOwner) {
-                binding.thumbnailSwitch.isChecked = it
-            }
 
         }
         with(binding) {
             inputTextUrl.editText?.setText(homeViewModel.url.value)
-            audioSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-                homeViewModel.audioSwitchChange(b)
-            }
-            thumbnailSwitch.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-                homeViewModel.thumbnailSwitchChange(b)
-            }
 
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -131,8 +125,8 @@ class HomeFragment : Fragment() {
             downloadButton.setOnClickListener {
                 activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             }
-            downloadDirText.text =
-                "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
+//            downloadDirText.text =
+//                "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
         }
 
 
@@ -147,8 +141,8 @@ class HomeFragment : Fragment() {
 
     private fun updateDownloadDir() {
         BaseApplication.updateDownloadDir()
-        binding.downloadDirText.text =
-            "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
+//        binding.downloadDirText.text =
+//            "%s%s".format(resources.getString(R.string.download_directory), downloadDir)
     }
 
     companion object {

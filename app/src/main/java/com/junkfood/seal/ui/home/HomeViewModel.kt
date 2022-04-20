@@ -14,17 +14,9 @@ class HomeViewModel : ViewModel() {
     private val _progress = MutableLiveData<Float>().apply {
         value = 0f
     }
-    private val _audioSwitch = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-    private val _thumbnailSwitch = MutableLiveData<Boolean>().apply {
-        value = true
-    }
 
     val text: LiveData<String> = _text
     val progress: LiveData<Float> = _progress
-    val audioSwitch: LiveData<Boolean> = _audioSwitch
-    val thumbnailSwitch: LiveData<Boolean> = _thumbnailSwitch
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
 
 
@@ -35,13 +27,6 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun audioSwitchChange(b: Boolean) {
-        _audioSwitch.value = b
-    }
-
-    fun thumbnailSwitchChange(b: Boolean) {
-        _thumbnailSwitch.value = b
-    }
 
     companion object {
         private const val TAG = "HomeViewModel"

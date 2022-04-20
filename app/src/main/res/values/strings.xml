@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="greeting">YouTube/Bilibili Video Downloader</string>
     <string name="video_url">Video Url</string>
-    <string name="download_directory">Download Directory:</string>
+    <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
     <string name="create_thumbnail">Create thumbnail</string>
     <string name="settings">Settings</string>
@@ -13,5 +13,8 @@
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Download and save thumbnail of the video.
         In Audio mode, thumbnail would be embedded into audio file.</string>
-
+    <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
+    <string name="open_when_finish">Open when finish</string>
+    <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
+    <string name="yt_dlp_update_fail">Failed to update yt-dlp, consider connecting with proxy.</string>"
 </resources>

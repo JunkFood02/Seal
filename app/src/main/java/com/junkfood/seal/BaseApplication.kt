@@ -31,12 +31,12 @@ class BaseApplication : Application() {
             Looper.prepare()
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(this)
-                Toast.makeText(context, "youtube-dl is up to date", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, res.getString(R.string.yt_dlp_up_to_date), Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(
                     context,
-                    "Failed to update youtube-dl, consider connecting with proxy.",
+                    res.getString(R.string.yt_dlp_update_fail),
                     Toast.LENGTH_SHORT
                 ).show()
             }

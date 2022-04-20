@@ -1,11 +1,26 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    <SwitchPreferenceCompat
-        app:key="audio"
-        app:summary="@string/extract_audio_summary"
-        app:title="@string/extract_audio" />
-    <SwitchPreferenceCompat
-        app:key="thumbnail"
-        app:summary="@string/create_thumbnail_summary"
-        app:title="@string/create_thumbnail" />
-
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/download_settings">
+        <Preference
+            app:key="downloadDir"
+            app:title="@string/download_directory"
+            app:iconSpaceReserved="false"/>
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="audio"
+            app:summary="@string/extract_audio_summary"
+            app:title="@string/extract_audio" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="thumbnail"
+            app:summary="@string/create_thumbnail_summary"
+            app:title="@string/create_thumbnail" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="open"
+            app:summary="@string/open_when_finish_summary"
+            app:title="@string/open_when_finish" />
+    </PreferenceCategory>
 </PreferenceScreen>

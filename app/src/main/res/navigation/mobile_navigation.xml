@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.junkfood.seal.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
 
     </fragment>
 
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.junkfood.seal.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="@string/settings" />
     <action
         android:id="@+id/action_global_settingsFragment"
         app:destination="@id/settingsFragment"
@@ -35,5 +35,7 @@
         app:exitAnim="@android:anim/slide_out_right"
         app:launchSingleTop="true"
         app:popEnterAnim="@android:anim/slide_in_left"
-        app:popExitAnim="@android:anim/slide_out_right" />
+        app:popExitAnim="@android:anim/slide_out_right"
+        app:popUpTo="@id/navigation_home"
+        app:popUpToInclusive="false" />
 </navigation>
