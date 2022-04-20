@@ -13,4 +13,5 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
 </resources>

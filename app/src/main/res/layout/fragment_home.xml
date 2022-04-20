@@ -46,7 +46,7 @@
 
     <TextView
         android:id="@+id/downloadProgressText"
-        android:layout_width="48dp"
+        android:layout_width="54dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="24dp"

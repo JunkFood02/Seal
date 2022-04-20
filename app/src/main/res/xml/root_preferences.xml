@@ -1,0 +1,11 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        app:key="audio"
+        app:summary="@string/extract_audio_summary"
+        app:title="@string/extract_audio" />
+    <SwitchPreferenceCompat
+        app:key="thumbnail"
+        app:summary="@string/create_thumbnail_summary"
+        app:title="@string/create_thumbnail" />
+
+</PreferenceScreen>

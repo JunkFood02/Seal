@@ -1,22 +1,18 @@
 package com.junkfood.seal
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.View
-import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.junkfood.seal.databinding.ActivityMainBinding
-import com.junkfood.seal.ui.settings.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,17 +26,23 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.more -> {
-                    findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.action_global_settingsFragment)
-                    true
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            binding.toolbar.title = navController.currentDestination?.label
+        }
+        with(binding.toolbar) {
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.more -> {
+                        findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.action_global_settingsFragment)
+                        title = resources.getString(R.string.settings)
+                        true
+                    }
+                    else -> {
+                        true
+                    }
                 }
-                else -> {
-                    true
-                }
-            }
 
+            }
         }
     }
 
