@@ -92,9 +92,11 @@ object DownloadUtil {
             }
             if (createThumbnail) {
                 if (extractAudio) {
-                    request.addOption("--add-metadata")
+                    request.addOption("--embed-metadata")
                     request.addOption("--embed-thumbnail")
                     request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                    request.addOption("--parse-metadata", "$title:%(meta_album)s")
+                    request.addOption("--add-metadata")
                 } else {
                     request.addOption("--write-thumbnail")
                     request.addOption("--convert-thumbnails", "jpg")
