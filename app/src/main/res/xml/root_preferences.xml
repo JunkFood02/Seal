@@ -31,6 +31,8 @@
             android:entryValues="@array/entryValues"
             app:iconSpaceReserved="false"
             app:key="language"
+            app:useSimpleSummaryProvider="true"
+            app:dialogTitle="@string/language_settings"
             app:title="@string/language" />
     </PreferenceCategory>
 </PreferenceScreen>

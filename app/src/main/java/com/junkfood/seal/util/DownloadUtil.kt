@@ -2,6 +2,7 @@ package com.junkfood.seal.util
 
 import android.media.MediaScannerConnection
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
@@ -15,13 +16,21 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 
 object DownloadUtil {
     private const val TAG = "DownloadUtil"
-
+    private var WIP = 0
     fun getVideo(url: String, extractAudio: Boolean, createThumbnail: Boolean, handler: Handler) {
+
         Thread {
+            Looper.prepare()
+            if (WIP == 1) {
+                Toast.makeText(context, context.getString(R.string.task_running), Toast.LENGTH_SHORT).show()
+                return@Thread
+            }
+            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT).show()
+            WIP = 1
             val request = YoutubeDLRequest(url)
             lateinit var ext: String
             lateinit var title: String
-            var videoInfo: VideoInfo? = null
+            val videoInfo: VideoInfo
             try {
                 videoInfo = YoutubeDL.getInstance().getInfo(url)
                 title = createFilename(videoInfo.title)
@@ -34,10 +43,11 @@ object DownloadUtil {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                BaseApplication.createLogFileOnDevice(e)
                 Log.e(TAG, "getVideo: ", e)
-            }
-            if (videoInfo == null)
+                WIP = 0
                 return@Thread
+            }
             if (url.contains("list")) {
                 handler.post {
                     Toast.makeText(
@@ -97,19 +107,21 @@ object DownloadUtil {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                BaseApplication.createLogFileOnDevice(e)
+                WIP = 0
                 return@Thread
             }
             handler.handleMessage(Message().apply {
                 what = HomeFragment.UPDATE_PROGRESS
                 obj = 100f
             })
-            handler.post(
+            handler.post {
                 Toast.makeText(
                     context,
                     context.getString(R.string.download_success_msg),
                     Toast.LENGTH_SHORT
-                )::show
-            )
+                ).show()
+            }
             if (!url.contains("list")) {
                 Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
                 MediaScannerConnection.scanFile(
@@ -122,6 +134,7 @@ object DownloadUtil {
                     arg1 = if (ext == "mp3") 1 else 0
                 })
             }
+            WIP = 0
         }.start()
     }
 

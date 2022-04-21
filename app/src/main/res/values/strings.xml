@@ -25,5 +25,9 @@
     <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
     <string name="start_download_list">Start downloading playlist</string>
     <string name="general_settings">General settings</string>
-    <string name="language">Display language</string>"
+    <string name="language">Display language</string>
+    <string name="language_settings">Set display language</string>
+    <string name="language_settings_msg">This preference would take effect after app restart</string>
+    <string name="task_running">An existing download task is already running</string>
+    "
 </resources>

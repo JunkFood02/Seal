@@ -24,5 +24,8 @@
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
     <string name="general_settings">一般设置</string>
-    <string name="language">语言</string>
+    <string name="language">界面语言</string>
+    <string name="language_settings">设置界面语言</string>
+    <string name="language_settings_msg">此项设置将在应用重启后生效</string>
+    <string name="task_running">已有正在运行中的下载任务</string>
 </resources>

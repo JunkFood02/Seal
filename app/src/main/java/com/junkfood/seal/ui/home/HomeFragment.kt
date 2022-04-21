@@ -74,7 +74,6 @@ class HomeFragment : Fragment() {
                 if (url == "") {
                     url = "https://youtu.be/t5c8D1xbXtw";
                 }
-                Toast.makeText(context, getString(R.string.fetching_info), Toast.LENGTH_SHORT).show()
                 with(PreferenceManager.getDefaultSharedPreferences(requireContext())) {
                     DownloadUtil.getVideo(
                         url, getBoolean("audio", true),

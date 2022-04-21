@@ -12,7 +12,13 @@ import com.google.android.material.color.DynamicColors
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class BaseApplication : Application() {
@@ -36,7 +42,6 @@ class BaseApplication : Application() {
                     Toast.LENGTH_SHORT
                 ).show()
             } catch (e: Exception) {
-                e.printStackTrace()
                 Toast.makeText(
                     context,
                     context.getString(R.string.yt_dlp_update_fail),
@@ -58,6 +63,9 @@ class BaseApplication : Application() {
     }
 
 
+    fun printErrorLog(th: Throwable) {
+
+    }
 
 
     companion object {
@@ -69,6 +77,27 @@ class BaseApplication : Application() {
                 context.getString(R.string.app_name)
             ).absolutePath
         }
+
+        fun createLogFileOnDevice(th: Throwable) {
+            with(context.getExternalFilesDir(null)){
+            if (this?.canWrite() == true) {
+                val timeNow: String =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
+                    } else {
+                        SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+                    }
+                with(File(this, "log$timeNow.txt")) {
+                    if (!exists())
+                        createNewFile()
+                    val logWriter = FileWriter(this, true)
+                    val out = BufferedWriter(logWriter)
+                    out.append(th.stackTraceToString())
+                    out.close()
+                }
+            }
+        }}
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
