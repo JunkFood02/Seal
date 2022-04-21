@@ -74,14 +74,16 @@ class HomeFragment : Fragment() {
                 if (url == "") {
                     url = "https://youtu.be/t5c8D1xbXtw";
                 }
-                with(PreferenceManager.getDefaultSharedPreferences(requireContext())) {
-                    DownloadUtil.getVideo(
-                        url, getBoolean("audio", true),
-                        getBoolean("thumbnail", true), handler
-                    )
-                }
-            } else Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT)
-                    .show()
+                DownloadUtil.getVideo(
+                    url, handler
+                )
+
+            } else Toast.makeText(
+                context,
+                getString(R.string.permission_denied),
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 

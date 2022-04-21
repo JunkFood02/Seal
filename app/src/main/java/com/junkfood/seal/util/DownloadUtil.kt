@@ -6,6 +6,7 @@ import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -17,15 +18,27 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 object DownloadUtil {
     private const val TAG = "DownloadUtil"
     private var WIP = 0
-    fun getVideo(url: String, extractAudio: Boolean, createThumbnail: Boolean, handler: Handler) {
+    fun getVideo(url: String, handler: Handler) {
 
         Thread {
             Looper.prepare()
             if (WIP == 1) {
-                Toast.makeText(context, context.getString(R.string.task_running), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.task_running),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@Thread
             }
-            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT).show()
+            var extractAudio: Boolean
+            var createThumbnail: Boolean
+
+            with(PreferenceManager.getDefaultSharedPreferences(context)) {
+                extractAudio = getBoolean("audio", false)
+                createThumbnail = getBoolean("thumbnail", false)
+            }
+            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT)
+                .show()
             WIP = 1
             val request = YoutubeDLRequest(url)
             lateinit var ext: String
@@ -79,9 +92,11 @@ object DownloadUtil {
             }
             if (createThumbnail) {
                 if (extractAudio) {
-                    request.addOption("--add-metadata")
+                    request.addOption("--embed-metadata")
                     request.addOption("--embed-thumbnail")
                     request.addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                    request.addOption("--parse-metadata", "$title:%(meta_album)s")
+                    request.addOption("--add-metadata")
                 } else {
                     request.addOption("--write-thumbnail")
                     request.addOption("--convert-thumbnails", "jpg")
