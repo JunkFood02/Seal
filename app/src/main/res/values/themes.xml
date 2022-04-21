@@ -11,6 +11,7 @@
 <!--        <item name="colorOnSecondary">@color/black</item>-->
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor" >?attr/colorSurface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
 </resources>

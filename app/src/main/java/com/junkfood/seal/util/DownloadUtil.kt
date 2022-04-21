@@ -2,11 +2,13 @@ package com.junkfood.seal.util
 
 import android.media.MediaScannerConnection
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.R
 import com.junkfood.seal.ui.home.HomeFragment
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -14,13 +16,21 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 
 object DownloadUtil {
     private const val TAG = "DownloadUtil"
-
+    private var WIP = 0
     fun getVideo(url: String, extractAudio: Boolean, createThumbnail: Boolean, handler: Handler) {
+
         Thread {
+            Looper.prepare()
+            if (WIP == 1) {
+                Toast.makeText(context, context.getString(R.string.task_running), Toast.LENGTH_SHORT).show()
+                return@Thread
+            }
+            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT).show()
+            WIP = 1
             val request = YoutubeDLRequest(url)
             lateinit var ext: String
             lateinit var title: String
-            var videoInfo: VideoInfo? = null
+            val videoInfo: VideoInfo
             try {
                 videoInfo = YoutubeDL.getInstance().getInfo(url)
                 title = createFilename(videoInfo.title)
@@ -29,19 +39,20 @@ object DownloadUtil {
                 handler.post {
                     Toast.makeText(
                         context,
-                        "Error occurred when fetching video info",
+                        context.getString(R.string.fetch_info_error_msg),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                BaseApplication.createLogFileOnDevice(e)
                 Log.e(TAG, "getVideo: ", e)
-            }
-            if (videoInfo == null)
+                WIP = 0
                 return@Thread
+            }
             if (url.contains("list")) {
                 handler.post {
                     Toast.makeText(
                         context,
-                        "Start downloading playlist.",
+                        context.getString(R.string.start_download_list),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -50,7 +61,11 @@ object DownloadUtil {
                 request.buildCommand()
             } else {
                 handler.post {
-                    Toast.makeText(context, "Start downloading '$title'", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        "%s'%s'".format(context.getString(R.string.start_download), title),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
                 request.addOption("-P", "${BaseApplication.downloadDir}/")
@@ -88,10 +103,12 @@ object DownloadUtil {
                 handler.post {
                     Toast.makeText(
                         context,
-                        "Error occurred when downloading video",
+                        context.getString(R.string.download_error_msg),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                BaseApplication.createLogFileOnDevice(e)
+                WIP = 0
                 return@Thread
             }
             handler.handleMessage(Message().apply {
@@ -99,7 +116,11 @@ object DownloadUtil {
                 obj = 100f
             })
             handler.post {
-                Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.download_success_msg),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             if (!url.contains("list")) {
                 Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
@@ -113,6 +134,7 @@ object DownloadUtil {
                     arg1 = if (ext == "mp3") 1 else 0
                 })
             }
+            WIP = 0
         }.start()
     }
 
