@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.home
 
 import android.Manifest
+import android.content.ClipDescription
 import android.content.Intent
 import android.os.*
 import android.text.Editable
@@ -21,6 +22,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.databinding.FragmentHomeBinding
 import com.junkfood.seal.util.DownloadUtil
 import java.io.File
+import java.util.regex.Pattern
 
 
 class HomeFragment : Fragment() {
@@ -110,7 +112,6 @@ class HomeFragment : Fragment() {
         }
         with(binding) {
             inputTextUrl.editText?.setText(homeViewModel.url.value)
-
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -118,7 +119,33 @@ class HomeFragment : Fragment() {
                     homeViewModel.url.value = p0.toString()
                 }
             })
-
+            pasteButton.setOnClickListener {
+                if (BaseApplication.clipboard.hasPrimaryClip()) {
+                    if (BaseApplication.clipboard.primaryClipDescription?.hasMimeType(
+                            ClipDescription.MIMETYPE_TEXT_PLAIN
+                        ) == true
+                    ) {
+                        val item = BaseApplication.clipboard.primaryClip?.getItemAt(0)?.text
+                            ?: return@setOnClickListener
+                        val pattern =
+                            Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
+                        with(pattern.matcher(item)) {
+                            if (find()) {
+                                inputTextUrl.editText?.setText(group())
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.paste_msg),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                return@setOnClickListener
+                            }
+                        }
+                    }
+                }
+                Toast.makeText(context, getString(R.string.paste_fail_msg), Toast.LENGTH_SHORT)
+                    .show()
+            }
             downloadButton.setOnClickListener {
                 activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             }
