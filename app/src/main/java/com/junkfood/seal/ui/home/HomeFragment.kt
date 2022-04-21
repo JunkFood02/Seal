@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.databinding.FragmentHomeBinding
 import com.junkfood.seal.util.DownloadUtil
@@ -76,17 +74,15 @@ class HomeFragment : Fragment() {
                 if (url == "") {
                     url = "https://youtu.be/t5c8D1xbXtw";
                 }
-                Toast.makeText(context, "Fetching video info.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.fetching_info), Toast.LENGTH_SHORT).show()
                 with(PreferenceManager.getDefaultSharedPreferences(requireContext())) {
                     DownloadUtil.getVideo(
                         url, getBoolean("audio", true),
                         getBoolean("thumbnail", true), handler
                     )
                 }
-            } else {
-                Toast.makeText(context, "Failed to request permission", Toast.LENGTH_SHORT)
+            } else Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT)
                     .show()
-            }
         }
     }
 

@@ -16,5 +16,14 @@
     <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
-    <string name="yt_dlp_update_fail">Failed to update yt-dlp, consider connecting with proxy.</string>"
+    <string name="yt_dlp_update_fail">Failed to update yt-dlp, consider connecting with proxy.</string>
+    <string name="fetching_info">Fetching video info</string>
+    <string name="permission_denied">Failed to request permission</string>
+    <string name="download_success_msg">Download completed</string>
+    <string name="download_error_msg">Error occurred when downloading video</string>
+    <string name="start_download">Start downloading</string>
+    <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
+    <string name="start_download_list">Start downloading playlist</string>
+    <string name="general_settings">General settings</string>
+    <string name="language">Display language</string>"
 </resources>

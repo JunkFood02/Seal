@@ -1,5 +1,6 @@
 package com.junkfood.seal
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -7,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.databinding.ActivityMainBinding
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +59,32 @@ class MainActivity : AppCompatActivity() {
             }
         } else window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
     }
+
+    override fun attachBaseContext(newBase: Context?) {
+
+        super.attachBaseContext(
+            newBase?.applyNewLocale(
+                Locale(
+                    PreferenceManager.getDefaultSharedPreferences(context)
+                        .getString("language", "en")!!
+                )
+            )
+        )
+    }
+
+    private fun Context.applyNewLocale(locale: Locale): Context {
+        val config = this.resources.configuration
+        val sysLocale =
+            config.locales.get(0)
+        if (sysLocale.language != locale.language) {
+            Locale.setDefault(locale)
+            config.setLocale(locale)
+            resources.configuration.updateFrom(config)
+        }
+        return this
+    }
+
+
 
     companion object {
         private const val TAG = "MainActivity"

@@ -1,12 +1,12 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/download_settings">
         <Preference
+            app:iconSpaceReserved="false"
             app:key="downloadDir"
-            app:title="@string/download_directory"
-            app:iconSpaceReserved="false"/>
+            app:title="@string/download_directory" />
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="audio"
@@ -22,5 +22,15 @@
             app:key="open"
             app:summary="@string/open_when_finish_summary"
             app:title="@string/open_when_finish" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/general_settings">
+        <ListPreference
+            android:entries="@array/entries"
+            android:entryValues="@array/entryValues"
+            app:iconSpaceReserved="false"
+            app:key="language"
+            app:title="@string/language" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -3,7 +3,6 @@ package com.junkfood.seal
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.os.Environment
 import android.os.Looper
@@ -19,7 +18,7 @@ import java.io.File
 class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        res = resources
+
         DynamicColors.applyToActivitiesIfAvailable(this)
         try {
             YoutubeDL.getInstance().init(this)
@@ -31,12 +30,16 @@ class BaseApplication : Application() {
             Looper.prepare()
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(this)
-                Toast.makeText(context, res.getString(R.string.yt_dlp_up_to_date), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.yt_dlp_up_to_date),
+                    Toast.LENGTH_SHORT
+                ).show()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(
                     context,
-                    res.getString(R.string.yt_dlp_update_fail),
+                    context.getString(R.string.yt_dlp_update_fail),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -45,7 +48,7 @@ class BaseApplication : Application() {
         with(
             File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                res.getString(R.string.app_name)
+                getString(R.string.app_name)
             )
         ) {
             downloadDir = if (Build.VERSION.SDK_INT > 29 || canWrite()) absolutePath
@@ -55,14 +58,15 @@ class BaseApplication : Application() {
     }
 
 
+
+
     companion object {
-        lateinit var res: Resources
         private const val TAG = "BaseApplication"
         lateinit var downloadDir: String
         fun updateDownloadDir() {
             downloadDir = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                res.getString(R.string.app_name)
+                context.getString(R.string.app_name)
             ).absolutePath
         }
 

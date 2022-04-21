@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.settings
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 
