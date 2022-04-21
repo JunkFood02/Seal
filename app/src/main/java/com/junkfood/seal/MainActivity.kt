@@ -57,7 +57,9 @@ class MainActivity : AppCompatActivity() {
                 v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
                 WindowInsetsCompat.CONSUMED
             }
-        } else window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        }
+
+
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -83,7 +85,6 @@ class MainActivity : AppCompatActivity() {
         }
         return this
     }
-
 
 
     companion object {
