@@ -2,6 +2,7 @@ package com.junkfood.seal
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.os.Environment
@@ -26,6 +27,7 @@ class BaseApplication : Application() {
         super.onCreate()
 
         DynamicColors.applyToActivitiesIfAvailable(this)
+        clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         try {
             YoutubeDL.getInstance().init(this)
             FFmpeg.getInstance().init(this)
@@ -63,13 +65,9 @@ class BaseApplication : Application() {
     }
 
 
-    fun printErrorLog(th: Throwable) {
-
-    }
-
-
     companion object {
         private const val TAG = "BaseApplication"
+        lateinit var clipboard: ClipboardManager
         lateinit var downloadDir: String
         fun updateDownloadDir() {
             downloadDir = File(
@@ -79,25 +77,26 @@ class BaseApplication : Application() {
         }
 
         fun createLogFileOnDevice(th: Throwable) {
-            with(context.getExternalFilesDir(null)){
-            if (this?.canWrite() == true) {
-                val timeNow: String =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        LocalDateTime.now()
-                            .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-                    } else {
-                        SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+            with(context.getExternalFilesDir(null)) {
+                if (this?.canWrite() == true) {
+                    val timeNow: String =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            LocalDateTime.now()
+                                .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
+                        } else {
+                            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+                        }
+                    with(File(this, "log$timeNow.txt")) {
+                        if (!exists())
+                            createNewFile()
+                        val logWriter = FileWriter(this, true)
+                        val out = BufferedWriter(logWriter)
+                        out.append(th.stackTraceToString())
+                        out.close()
                     }
-                with(File(this, "log$timeNow.txt")) {
-                    if (!exists())
-                        createNewFile()
-                    val logWriter = FileWriter(this, true)
-                    val out = BufferedWriter(logWriter)
-                    out.append(th.stackTraceToString())
-                    out.close()
                 }
             }
-        }}
+        }
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context

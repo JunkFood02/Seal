@@ -29,5 +29,7 @@
     <string name="language_settings">Set display language</string>
     <string name="language_settings_msg">This preference would take effect after app restart</string>
     <string name="task_running">An existing download task is already running</string>
+    <string name="paste_msg">Paste url from clipboard</string>
+    <string name="paste_fail_msg">Unable to match url in clipboard</string>
     "
 </resources>
