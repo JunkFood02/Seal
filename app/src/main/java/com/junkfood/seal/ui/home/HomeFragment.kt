@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
+import com.junkfood.MainActivity
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.databinding.FragmentHomeBinding
@@ -111,6 +112,11 @@ class HomeFragment : Fragment() {
 
         }
         with(binding) {
+            testButton.setOnClickListener {
+                startActivity(
+                    Intent(context, MainActivity::class.java)
+                )
+            }
             inputTextUrl.editText?.setText(homeViewModel.url.value)
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

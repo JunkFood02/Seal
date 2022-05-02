@@ -9,7 +9,7 @@ import com.junkfood.seal.R
 class HomeViewModel : ViewModel() {
     private val greeting = context.getString(R.string.greeting)
     private val _text = MutableLiveData<String>().apply {
-//        value = greeting
+        value = greeting
     }
     private val _progress = MutableLiveData<Float>().apply {
         value = 0f
