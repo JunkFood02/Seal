@@ -1,10 +1,17 @@
 package com.junkfood.seal.ui.home
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.DownloadUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel : ViewModel() {
     private val greeting = context.getString(R.string.greeting)
@@ -27,6 +34,32 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun startDownloadVideo() {
+        with(url.value) {
+            if (isNullOrBlank()) Toast.makeText(
+                context,
+                "Url is empty",
+                Toast.LENGTH_SHORT
+            ).show()
+            else {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val downloadResult = DownloadUtil.downloadVideo(
+                        this@with
+                    ) { fl: Float, _: Long, _: String -> updateProgress(fl) }
+                    withContext(Dispatchers.Main) {
+                        updateProgress(100f)
+                        if (PreferenceManager.getDefaultSharedPreferences(
+                                context
+                            ).getBoolean("open", false)
+                        ) com.junkfood.seal.util.FileUtil.openFile(
+                            context,
+                            downloadResult
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         private const val TAG = "HomeViewModel"

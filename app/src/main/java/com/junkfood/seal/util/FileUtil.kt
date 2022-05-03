@@ -1,20 +1,16 @@
 package com.junkfood.seal.util
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
-import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.MainActivity
 import java.io.File
 
 object FileUtil {
-    fun openFile(activity: Activity, downloadResult: DownloadUtil.Result) {
+    fun openFile(activity: Context, downloadResult: DownloadUtil.Result) {
             activity.startActivity(Intent().apply {
                 action = (Intent.ACTION_VIEW)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
                 setDataAndType(
                     FileProvider.getUriForFile(
                         BaseApplication.context,

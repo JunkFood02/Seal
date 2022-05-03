@@ -10,6 +10,7 @@
     <string name="create_thumbnail">Create thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings">Download settings</string>
+    <string name="download">Download</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Download and save thumbnail of the video.
         In Audio mode, thumbnail would be embedded into audio file.</string>
