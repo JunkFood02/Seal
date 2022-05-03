@@ -59,6 +59,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 animatedComposable("settings") { SettingsPage(navController) }
+                animatedComposable("download") { DownloadPreferences(navController) }
             }
 
 

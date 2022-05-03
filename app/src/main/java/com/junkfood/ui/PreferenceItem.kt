@@ -6,70 +6,59 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+
 
 @Composable
-fun SettingItem(
-    modifier: Modifier = Modifier,
-    enable: Boolean = true,
+fun PreferenceSwitch(
     title: String,
-    desc: String? = null,
-    icon: ImageVector? = null,
-    separatedActions: Boolean = false,
-    onClick: () -> Unit,
-    action: (@Composable () -> Unit)? = null
+    description: String,
+    icon: ImageVector?,
+    onClick: (() -> Unit),
+    isChecked: Boolean,
 ) {
     Surface(
-        modifier = modifier
-            .clickable { onClick() }
-            .alpha(if (enable) 1f else 0.5f),
-        color = Color.Unspecified
+        modifier = Modifier.clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp, 16.dp, 16.dp, 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(16.dp, 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
                 Icon(
-                    imageVector = it,
-                    contentDescription = null,
-                    modifier = Modifier.padding(end = 24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    imageVector = icon,
+                    contentDescription = title,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 16.dp)
+                        .size(28.dp),
                 )
             }
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = if (icon == null) 12.dp else 0.dp)
+            ) {
                 Text(
                     text = title,
-                    maxLines = if (desc == null) 2 else 1,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp)
+                    maxLines = 1,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                desc?.let {
-                    Text(
-                        text = it,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+                Text(
+                    text = description,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
-            action?.let {
-                if (separatedActions) {
-                    Divider(
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .size(1.dp, 32.dp)
-                    )
-                }
-                Box(Modifier.padding(start = 16.dp)) {
-                    it()
-                }
-            }
+            Switch(
+                checked = isChecked,
+                onCheckedChange = null,
+                modifier = Modifier.padding(end = 6.dp)
+            )
         }
     }
 }

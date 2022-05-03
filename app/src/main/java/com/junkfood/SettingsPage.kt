@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,8 +20,6 @@ import com.junkfood.ui.theme.SealTheme
 fun SettingsPage(navController: NavController) {
 
     SealTheme() {
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -40,13 +38,14 @@ fun SettingsPage(navController: NavController) {
                     )
                 }
 
-            }, modifier = Modifier.padding(9f.dp))
+            }, modifier = Modifier.padding(9f.dp)
+            )
             SettingItem(
                 title = stringResource(id = R.string.download), description = stringResource(
                     id = R.string.download_settings
-                ), icon = Icons.Outlined.FileDownload
+                ), icon = Icons.Default.Download
             ) {
-
+                navController.navigate("download") { launchSingleTop = true }
             }
         }
     }

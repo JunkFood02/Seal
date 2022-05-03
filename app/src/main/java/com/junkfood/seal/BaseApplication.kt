@@ -10,6 +10,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import com.google.android.material.color.DynamicColors
+import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
@@ -25,7 +26,7 @@ import java.util.*
 class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
+        MMKV.initialize(this)
         DynamicColors.applyToActivitiesIfAvailable(this)
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         try {
