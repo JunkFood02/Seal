@@ -47,14 +47,15 @@ class DownloadViewModel : ViewModel() {
                     val downloadResult = DownloadUtil.downloadVideo(
                         this@with
                     ) { fl: Float, _: Long, _: String -> updateProgress(fl) }
-                    withContext(Dispatchers.Main) {
-                        updateProgress(100f)
-                        if (PreferenceUtil.getValue("open_when_finish")
-                        ) openFile(
-                            context,
-                            downloadResult
-                        )
-                    }
+                    if (downloadResult.resultCode != DownloadUtil.ResultCode.EXCEPTION)
+                        withContext(Dispatchers.Main) {
+                            updateProgress(100f)
+                            if (PreferenceUtil.getValue("open_when_finish")
+                            ) openFile(
+                                context,
+                                downloadResult
+                            )
+                        }
                 }
             }
         }
