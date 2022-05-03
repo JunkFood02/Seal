@@ -1,4 +1,4 @@
-package com.junkfood.ui.theme
+package com.junkfood.seal.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

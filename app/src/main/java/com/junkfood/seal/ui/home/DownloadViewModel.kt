@@ -5,15 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil.openFile
+import com.junkfood.seal.util.PreferenceUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel : ViewModel() {
+class DownloadViewModel : ViewModel() {
     private val greeting = context.getString(R.string.greeting)
     private val _text = MutableLiveData<String>().apply {
         value = greeting
@@ -38,7 +39,7 @@ class HomeViewModel : ViewModel() {
         with(url.value) {
             if (isNullOrBlank()) Toast.makeText(
                 context,
-                "Url is empty",
+                context.resources.getString(R.string.url_empty),
                 Toast.LENGTH_SHORT
             ).show()
             else {
@@ -48,10 +49,8 @@ class HomeViewModel : ViewModel() {
                     ) { fl: Float, _: Long, _: String -> updateProgress(fl) }
                     withContext(Dispatchers.Main) {
                         updateProgress(100f)
-                        if (PreferenceManager.getDefaultSharedPreferences(
-                                context
-                            ).getBoolean("open", false)
-                        ) com.junkfood.seal.util.FileUtil.openFile(
+                        if (PreferenceUtil.getValue("open_when_finish")
+                        ) openFile(
                             context,
                             downloadResult
                         )

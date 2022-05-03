@@ -31,4 +31,5 @@
     <string name="paste_msg">从剪贴板获取视频链接</string>
     <string name="paste_fail_msg">未在剪贴板中匹配到视频链接</string>
     <string name="download">下载</string>
+    <string name="url_empty">视频链接不能为空</string>
 </resources>

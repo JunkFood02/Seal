@@ -10,8 +10,7 @@ import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.home.HomeFragment
-import com.yausername.youtubedl_android.DownloadProgressCallback
+import com.junkfood.seal.dot.HomeFragment
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -19,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object DownloadUtil {
-    class Result(val resultCode: ResultCode,val filePath: String?) {
+    class Result(val resultCode: ResultCode, val filePath: String?) {
 
         companion object {
             fun failure(): Result {
@@ -58,6 +57,7 @@ object DownloadUtil {
                 extractAudio = getBoolean("audio", false)
                 createThumbnail = getBoolean("thumbnail", false)
             }
+
             Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT)
                 .show()
             WIP = 1
@@ -199,13 +199,8 @@ object DownloadUtil {
             makeToast(context.getString(R.string.task_running))
             return Result.failure()
         }
-        val extractAudio: Boolean
-        val createThumbnail: Boolean
-
-        with(PreferenceManager.getDefaultSharedPreferences(context)) {
-            extractAudio = getBoolean("audio", false)
-            createThumbnail = getBoolean("thumbnail", false)
-        }
+        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
+        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
         WIP = 1
         val request = YoutubeDLRequest(url)
         lateinit var ext: String

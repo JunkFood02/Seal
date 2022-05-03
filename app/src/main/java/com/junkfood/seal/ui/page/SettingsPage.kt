@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.ui.SettingItem
-import com.junkfood.ui.theme.SealTheme
 
 @Composable
 fun SettingsPage(navController: NavController) {

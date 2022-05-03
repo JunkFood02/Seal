@@ -19,15 +19,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.home.HomeViewModel
+import com.junkfood.seal.ui.home.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
-import com.junkfood.ui.theme.SealTheme
+import com.junkfood.seal.ui.theme.SealTheme
 
 
 @Composable
 fun DownloadPage(
     navController: NavController,
-    homeViewModel: HomeViewModel,
+    downloadViewModel: DownloadViewModel,
     downloadCallback: () -> Unit
 ) {
 
@@ -53,9 +53,9 @@ fun DownloadPage(
                 )
                 {
                     Column {
-                        val progress = homeViewModel.progress.observeAsState(0f).value
+                        val progress = downloadViewModel.progress.observeAsState(0f).value
                         InputUrl(
-                            url = homeViewModel.url,
+                            url = downloadViewModel.url,
                             hint = context.resources.getString(R.string.video_url)
                         )
                         ProgressBar(progress = progress)
@@ -64,7 +64,7 @@ fun DownloadPage(
                         FABs(downloadCallback = downloadCallback)
                         {
                             TextUtil.readUrlFromClipboard()
-                                ?.let { homeViewModel.url.value = it }
+                                ?.let { downloadViewModel.url.value = it }
                         }
                     }
                 }

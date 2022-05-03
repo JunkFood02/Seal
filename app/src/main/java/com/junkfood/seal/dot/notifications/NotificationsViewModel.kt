@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.notifications
+package com.junkfood.seal.dot.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

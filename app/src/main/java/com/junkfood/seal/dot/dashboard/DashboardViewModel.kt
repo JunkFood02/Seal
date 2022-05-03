@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.dashboard
+package com.junkfood.seal.dot.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

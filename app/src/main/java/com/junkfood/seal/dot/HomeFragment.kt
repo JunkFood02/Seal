@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.home
+package com.junkfood.seal.dot
 
 import android.Manifest
 import android.content.ClipDescription
@@ -17,10 +17,11 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import com.junkfood.MainActivity
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.databinding.FragmentHomeBinding
+import com.junkfood.seal.ui.home.DownloadViewModel
 import com.junkfood.seal.util.DownloadUtil
 import java.io.File
 import java.util.regex.Pattern
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var downloadViewModel: DownloadViewModel
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
 
     private val handler: Handler = object : Handler(Looper.getMainLooper()) {
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
             super.handleMessage(msg)
             when (msg.what) {
                 UPDATE_PROGRESS -> {
-                    homeViewModel.updateProgress(msg.obj as Float)
+                    downloadViewModel.updateProgress(msg.obj as Float)
                 }
                 FINISH_DOWNLOADING -> {
                     if (PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -96,12 +97,12 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val textView: TextView = binding.textHome
-        with(homeViewModel) {
+        with(downloadViewModel) {
             text.observe(viewLifecycleOwner) {
                 textView.text = it
             }
@@ -117,12 +118,12 @@ class HomeFragment : Fragment() {
                     Intent(context, MainActivity::class.java)
                 )
             }
-            inputTextUrl.editText?.setText(homeViewModel.url.value)
+            inputTextUrl.editText?.setText(downloadViewModel.url.value)
             inputTextUrl.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
-                    homeViewModel.url.value = p0.toString()
+                    downloadViewModel.url.value = p0.toString()
                 }
             })
             pasteButton.setOnClickListener {
