@@ -5,8 +5,8 @@ plugins {
 
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 3
-def versionBuild = 2
+def versionPatch = 4
+def versionBuild = 0
 
 android {
     compileSdk 32
@@ -18,11 +18,14 @@ android {
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -35,6 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
     splits {
         abi {
@@ -45,25 +49,53 @@ android {
             universalApk false
         }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.7.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material3:material3:1.0.0-alpha10"
+    implementation "androidx.compose.material:material:1.2.0-alpha08"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:1.2.0-alpha08"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation "androidx.compose.animation:animation-graphics:$compose_version"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.24.6-alpha"
+
+
     implementation 'com.github.yausername.youtubedl-android:library:0.13.1'
     implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.tencent:mmkv:1.2.13'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 }

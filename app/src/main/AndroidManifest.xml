@@ -19,14 +19,22 @@
         android:theme="@style/Theme.Seal">
         <activity
             android:name=".MainActivity"
-            android:configChanges="locale|orientation"
-
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Seal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".dot.MainActivity"
+            android:configChanges="locale|orientation"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <provider

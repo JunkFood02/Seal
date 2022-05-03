@@ -10,16 +10,36 @@ import androidx.preference.PreferenceManager
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.home.HomeFragment
+import com.junkfood.seal.dot.HomeFragment
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object DownloadUtil {
+    class Result(val resultCode: ResultCode, val filePath: String?) {
+
+        companion object {
+            fun failure(): Result {
+                return Result(ResultCode.EXCEPTION, null)
+            }
+
+            fun success(title: String, ext: String): Result {
+                with(if (ext == "mp3") ResultCode.FINISH_AUDIO else ResultCode.FINISH_VIDEO) {
+                    return Result(this, "${BaseApplication.downloadDir}/$title.$ext")
+                }
+            }
+        }
+    }
+
+    enum class ResultCode {
+        FINISH_VIDEO, FINISH_AUDIO, EXCEPTION
+    }
+
     private const val TAG = "DownloadUtil"
     private var WIP = 0
     fun getVideo(url: String, handler: Handler) {
-
         Thread {
             Looper.prepare()
             if (WIP == 1) {
@@ -37,6 +57,7 @@ object DownloadUtil {
                 extractAudio = getBoolean("audio", false)
                 createThumbnail = getBoolean("thumbnail", false)
             }
+
             Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT)
                 .show()
             WIP = 1
@@ -160,4 +181,103 @@ object DownloadUtil {
         return fileName //+ Date().time
     }
 
+    private suspend fun fetchVideoInfo(url: String): VideoInfo {
+        withContext(Dispatchers.Main) {
+            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT)
+                .show()
+        }
+        return withContext(Dispatchers.IO) {
+            YoutubeDL.getInstance().getInfo(url)
+        }
+    }
+
+    suspend fun downloadVideo(
+        url: String,
+        progressCallback: ((Float, Long, String) -> Unit)?
+    ): Result {
+        if (WIP == 1) {
+            makeToast(context.getString(R.string.task_running))
+            return Result.failure()
+        }
+        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
+        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
+        WIP = 1
+        val request = YoutubeDLRequest(url)
+        lateinit var ext: String
+        lateinit var title: String
+        val videoInfo: VideoInfo
+
+        try {
+            videoInfo = fetchVideoInfo(url)
+        } catch (e: Exception) {
+            BaseApplication.createLogFileOnDevice(e)
+            Log.e(TAG, "getVideo: ", e)
+            WIP = 0
+            return Result.failure()
+        }
+        title = createFilename(videoInfo.title)
+        ext = videoInfo.ext
+        with(request) {
+            addOption("-P", "${BaseApplication.downloadDir}/")
+
+            if (url.contains("list")) {
+                makeToast(context.getString(R.string.start_download_list))
+                addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
+            } else {
+                makeToast("%s'%s'".format(context.getString(R.string.start_download), title))
+                addOption("-o", "$title.%(ext)s")
+            }
+            if (extractAudio) {
+                addOption("-x")
+                addOption("--audio-format", "mp3")
+                addOption("--audio-quality", "0")
+                ext = "mp3"
+            }
+            if (createThumbnail) {
+                if (extractAudio) {
+                    addOption("--embed-metadata")
+                    addOption("--embed-thumbnail")
+                    addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                    addOption("--parse-metadata", "$title:%(meta_album)s")
+                    addOption("--add-metadata")
+                } else {
+                    addOption("--write-thumbnail")
+                    addOption("--convert-thumbnails", "jpg")
+                }
+            }
+            addOption("--force-overwrites")
+            try {
+                withContext(Dispatchers.IO) {
+                    YoutubeDL.getInstance().execute(
+                        request, progressCallback
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                makeToast(context.getString(R.string.download_error_msg))
+                BaseApplication.createLogFileOnDevice(e)
+                WIP = 0
+                return Result.failure()
+            }
+        }
+
+        makeToast(context.getString(R.string.download_success_msg))
+
+        if (!url.contains("list")) {
+            Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
+            MediaScannerConnection.scanFile(
+                context, arrayOf("${BaseApplication.downloadDir}/$title.$ext"),
+                arrayOf(if (ext == "mp3") "audio/*" else "video/*"), null
+            )
+            WIP = 0
+        }
+        return Result.success(title, ext)
+
+    }
+
+    private suspend fun makeToast(text: String) {
+        withContext(Dispatchers.Main) {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        }
+    }
 }

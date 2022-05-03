@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.settings
+package com.junkfood.seal.dot.settings
 
 import android.os.Bundle
 import androidx.preference.Preference

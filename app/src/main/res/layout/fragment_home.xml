@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="?attr/colorPrimary"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".dot.HomeFragment">
 
     <TextView
         android:id="@+id/textHome"
@@ -55,6 +55,15 @@
         app:layout_constraintStart_toEndOf="@id/downloadProgressBar"
         app:layout_constraintTop_toTopOf="@id/downloadProgressBar" />
 
+    <Button
+        android:id="@+id/testButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="21dp"
+        android:text="Test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/downloadProgressBar" />
     <!--    <androidx.appcompat.widget.SwitchCompat-->
     <!--        android:id="@+id/audioSwitch"-->
     <!--        android:layout_width="wrap_content"-->
