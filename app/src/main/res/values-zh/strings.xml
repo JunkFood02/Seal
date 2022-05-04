@@ -32,4 +32,6 @@
     <string name="paste_fail_msg">未在剪贴板中匹配到视频链接</string>
     <string name="download">下载</string>
     <string name="url_empty">视频链接不能为空</string>
+    <string name="ytdlp_version">下载组件版本</string>
+    <string name="ytdlp_update">点此更新yt-dlp</string>
 </resources>

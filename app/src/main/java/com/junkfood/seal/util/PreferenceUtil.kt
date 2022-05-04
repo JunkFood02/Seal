@@ -8,5 +8,6 @@ object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b);
-    fun getValue(key: String): Boolean = kv.decodeBool(key,true)
+    fun getValue(key: String): Boolean = kv.decodeBool(key, true)
+    fun getString(key: String): String? = kv.decodeString(key)
 }

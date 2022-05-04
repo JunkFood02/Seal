@@ -181,15 +181,6 @@ object DownloadUtil {
         return fileName //+ Date().time
     }
 
-    private suspend fun fetchVideoInfo(url: String): VideoInfo {
-        withContext(Dispatchers.Main) {
-            Toast.makeText(context, context.getString(R.string.fetching_info), Toast.LENGTH_SHORT)
-                .show()
-        }
-        return withContext(Dispatchers.IO) {
-            YoutubeDL.getInstance().getInfo(url)
-        }
-    }
 
     suspend fun downloadVideo(
         url: String,
@@ -199,27 +190,39 @@ object DownloadUtil {
             makeToast(context.getString(R.string.task_running))
             return Result.failure()
         }
+        WIP = 1
+
         val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
         val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
-        WIP = 1
         val request = YoutubeDLRequest(url)
-        lateinit var ext: String
-        lateinit var title: String
+        var ext: String
+        val title: String
         val videoInfo: VideoInfo
 
+
+        makeToast(context.getString(R.string.fetching_info))
+
         try {
-            videoInfo = fetchVideoInfo(url)
+            withContext(Dispatchers.IO) {
+                videoInfo = YoutubeDL.getInstance().getInfo(url)
+            }
+            with(videoInfo) {
+                if (this.title.isNullOrEmpty() or this.ext.isNullOrBlank()) throw Exception(
+                    "Empty videoinfo"
+                )
+            }
         } catch (e: Exception) {
             BaseApplication.createLogFileOnDevice(e)
-            Log.e(TAG, "getVideo: ", e)
+            makeToast(context.resources.getString(R.string.fetch_info_error_msg))
             WIP = 0
             return Result.failure()
         }
+
+
         title = createFilename(videoInfo.title)
         ext = videoInfo.ext
         with(request) {
             addOption("-P", "${BaseApplication.downloadDir}/")
-
             if (url.contains("list")) {
                 makeToast(context.getString(R.string.start_download_list))
                 addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
@@ -273,6 +276,18 @@ object DownloadUtil {
         }
         return Result.success(title, ext)
 
+    }
+
+    suspend fun updateYtDlp(): String {
+        withContext(Dispatchers.IO) {
+            try {
+                YoutubeDL.getInstance().updateYoutubeDL(context)
+                makeToast(context.getString(R.string.yt_dlp_up_to_date))
+            } catch (e: Exception) {
+                makeToast(context.getString(R.string.yt_dlp_update_fail))
+            }
+        }
+        return YoutubeDL.getInstance().version(context) ?: BaseApplication.ytdlpVersion
     }
 
     private suspend fun makeToast(text: String) {
