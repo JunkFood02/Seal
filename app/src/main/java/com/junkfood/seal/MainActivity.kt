@@ -16,11 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.junkfood.DownloadPage
-import com.junkfood.DownloadPreferences
 import com.junkfood.SettingsPage
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.ui.home.DownloadViewModel
+import com.junkfood.seal.ui.page.DownloadPreferences
 import com.junkfood.ui.animatedComposable
 
 class MainActivity : ComponentActivity() {

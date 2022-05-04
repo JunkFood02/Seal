@@ -1,4 +1,4 @@
-package com.junkfood
+package com.junkfood.seal.ui.page
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.DownloadUtil.updateYtDlp
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.ui.PreferenceItem
 import com.junkfood.ui.PreferenceSwitch
-import com.junkfood.seal.ui.theme.SealTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @Composable
 fun DownloadPreferences(navController: NavController) {
@@ -46,16 +50,30 @@ fun DownloadPreferences(navController: NavController) {
             var audioSwitch by remember { mutableStateOf(PreferenceUtil.getValue("extract_audio")) }
             var openSwitch by remember { mutableStateOf(PreferenceUtil.getValue("open_when_finish")) }
             var thumbnailSwitch by remember { mutableStateOf(PreferenceUtil.getValue("create_thumbnail")) }
+
             PreferenceItem(
                 title = stringResource(id = R.string.download_directory),
                 description = BaseApplication.downloadDir,
-                icon = null
+                icon = null, enable = false
             ) {}
+
+            var ytdlpVersion by remember { mutableStateOf(BaseApplication.ytdlpVersion) }
+            PreferenceItem(
+                title = stringResource(id = R.string.ytdlp_version),
+                description = ytdlpVersion,
+                icon = null, enable = true
+            ) {
+                CoroutineScope(Job()).launch {
+                    ytdlpVersion=updateYtDlp()
+                }
+            }
+
+
             PreferenceSwitch(
                 title = stringResource(id = R.string.extract_audio), description = stringResource(
                     id = R.string.extract_audio_summary
                 ), icon = null, isChecked = audioSwitch, onClick = {
-                    audioSwitch = audioSwitch.not()
+                    audioSwitch = !audioSwitch
                     PreferenceUtil.updateValue("extract_audio", audioSwitch)
                 }
             )
@@ -68,7 +86,7 @@ fun DownloadPreferences(navController: NavController) {
                 icon = null,
                 isChecked = thumbnailSwitch,
                 onClick = {
-                    thumbnailSwitch = thumbnailSwitch.not()
+                    thumbnailSwitch = !thumbnailSwitch
                     PreferenceUtil.updateValue("create_thumbnail", thumbnailSwitch)
                 }
             )
@@ -80,7 +98,7 @@ fun DownloadPreferences(navController: NavController) {
                 icon = null,
                 isChecked = openSwitch,
                 onClick = {
-                    openSwitch = openSwitch.not()
+                    openSwitch = !openSwitch
                     PreferenceUtil.updateValue("open_when_finish", openSwitch)
                 }
             )

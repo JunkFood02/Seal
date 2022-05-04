@@ -14,9 +14,16 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun PreferenceItem(title: String, description: String, icon: ImageVector?, onClick: () -> Unit) {
+fun PreferenceItem(
+    title: String,
+    description: String,
+    icon: ImageVector?,
+    enable: Boolean,
+
+    onClick: () -> Unit,
+) {
     Surface(
-        modifier = Modifier.clickable { onClick() }
+        modifier = if (enable) Modifier.clickable { onClick() } else Modifier
     ) {
         Row(
             modifier = Modifier
@@ -38,18 +45,26 @@ fun PreferenceItem(title: String, description: String, icon: ImageVector?, onCli
                     .weight(1f)
                     .padding(start = if (icon == null) 12.dp else 0.dp)
             ) {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = description,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                with(MaterialTheme) {
+
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        style = typography.titleLarge,
+                        color = if (enable) colorScheme.onSurface else colorScheme.onSurface.copy(
+                            alpha = 0.5f
+                        )
+                    )
+
+                    Text(
+                        text = description,
+                        color = if (enable) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
+                            alpha = 0.5f
+                        ),
+                        maxLines = 1,
+                        style = typography.bodyMedium,
+                    )
+                }
             }
         }
     }
@@ -103,7 +118,7 @@ fun PreferenceSwitch(
             androidx.compose.material.Switch(
                 checked = isChecked,
                 onCheckedChange = null,
-                modifier = Modifier.padding(start = 16.dp,end = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 6.dp)
             )
         }
     }
