@@ -1,5 +1,6 @@
-package com.junkfood
+package com.junkfood.seal.ui.page
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,8 +21,8 @@ import androidx.navigation.NavController
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.home.DownloadViewModel
-import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.TextUtil
 
 
 @Composable
@@ -33,6 +34,7 @@ fun DownloadPage(
 
 
     SealTheme {
+        Log.d("TAG", "onCreate: Init")
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -69,6 +71,8 @@ fun DownloadPage(
                     }
                 }
             }
+            Log.d("TAG", "onCreate: Init Finish")
+
         }
     }
 }

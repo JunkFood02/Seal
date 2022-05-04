@@ -284,7 +284,8 @@ object DownloadUtil {
                 makeToast(context.getString(R.string.yt_dlp_update_fail))
             }
         }
-        return YoutubeDL.getInstance().version(context) ?: BaseApplication.ytdlpVersion
+        YoutubeDL.getInstance().version(context)?.let { BaseApplication.ytdlpVersion = it }
+        return BaseApplication.ytdlpVersion
     }
 
     private suspend fun makeToast(text: String) {

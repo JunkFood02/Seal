@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 fun DownloadPreferences(navController: NavController) {
 
     SealTheme() {
+        Log.d("ComposeInit", "DownloadPreferences: ")
         Column(
             modifier = Modifier
                 .fillMaxSize()
