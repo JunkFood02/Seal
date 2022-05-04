@@ -203,9 +203,7 @@ object DownloadUtil {
         makeToast(context.getString(R.string.fetching_info))
 
         try {
-            withContext(Dispatchers.IO) {
-                videoInfo = YoutubeDL.getInstance().getInfo(url)
-            }
+            videoInfo = YoutubeDL.getInstance().getInfo(url)
             with(videoInfo) {
                 if (this.title.isNullOrEmpty() or this.ext.isNullOrBlank()) throw Exception(
                     "Empty videoinfo"
@@ -217,7 +215,6 @@ object DownloadUtil {
             WIP = 0
             return Result.failure()
         }
-
 
         title = createFilename(videoInfo.title)
         ext = videoInfo.ext
