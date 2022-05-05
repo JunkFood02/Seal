@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Build
 import android.os.Environment
 import android.util.Log
 import com.google.android.material.color.DynamicColors
@@ -14,13 +13,7 @@ import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import kotlinx.coroutines.*
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileWriter
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class BaseApplication : Application() {
@@ -48,12 +41,13 @@ class BaseApplication : Application() {
 
 
         with(PreferenceUtil.getString("download_dir")) {
-            downloadDir = if (isNullOrEmpty())
-                File(
+            if (isNullOrEmpty())
+                downloadDir = File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
                     getString(R.string.app_name)
                 ).absolutePath
-            else this
+            else downloadDir = this
+
         }
 
         context = applicationContext
@@ -72,33 +66,7 @@ class BaseApplication : Application() {
             PreferenceUtil.updateString("download_dir", path)
         }
 
-        fun createLogFileOnDevice(th: Throwable) {
-            CoroutineScope(Job()).launch {
-                withContext(Dispatchers.IO) {
-                    with(context.getExternalFilesDir(null)) {
-                        if (this?.canWrite() == true) {
-                            val timeNow: String =
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    LocalDateTime.now()
-                                        .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-                                } else {
-                                    SimpleDateFormat(
-                                        "yyyyMMdd_HHmmss",
-                                        Locale.ENGLISH
-                                    ).format(Date())
-                                }
-                            with(File(this, "log$timeNow.txt")) {
-                                if (!exists()) createNewFile()
-                                val logWriter = FileWriter(this, true)
-                                val out = BufferedWriter(logWriter)
-                                out.append(th.stackTraceToString())
-                                out.close()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context

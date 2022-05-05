@@ -1,6 +1,9 @@
 package com.junkfood.seal.ui.page
 
 import android.Manifest
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,11 +13,13 @@ import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -120,23 +125,27 @@ fun InputUrl(url: MutableLiveData<String>, hint: String) {
 }
 
 @Composable
-fun ProgressBar(progress: Float) {
+@Preview
+fun ProgressBar(progress: Float = 0f) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
             .padding(0f.dp, 9f.dp)
     ) {
+        val progressAnimationValue by animateFloatAsState(
+            targetValue = progress / 100f,
+            animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+        )
         LinearProgressIndicator(
-            progress = progress / 100f, modifier = Modifier
-                .fillMaxWidth(0.75f)
+            progress = progressAnimationValue,
+            modifier = Modifier.fillMaxWidth(0.75f),
         )
         Text(
             text = "$progress%",
             textAlign = TextAlign.Center,
             modifier = Modifier
+                .padding(0.dp, 12.dp)
                 .fillMaxWidth()
-                .padding(0f.dp, 12f.dp)
         )
     }
 }
