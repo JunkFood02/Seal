@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page
 
 import android.Manifest
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -28,8 +29,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.home.DownloadViewModel
-import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.ui.viewmodel.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
 
 
@@ -42,7 +42,8 @@ fun DownloadPage(
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
+    val progress = downloadViewModel.progress.observeAsState(0f).value
+    val expanded = downloadViewModel.isDownloading.observeAsState(false).value
     val requestPermission = {
         storagePermission.launchPermissionRequest()
         when (storagePermission.status) {
@@ -52,6 +53,7 @@ fun DownloadPage(
             else -> {}
         }
     }
+
     val checkPermission = {
         if (storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
@@ -60,47 +62,47 @@ fun DownloadPage(
         }
     }
 
-    SealTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(9f.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(9f.dp)
-            ) {
-                TitleBar(title = context.resources.getString(R.string.app_name)) {
-                    navController.navigate("settings") {
-                        launchSingleTop = true
-                        popUpTo("home")
-                    }
+            TitleBar(title = context.getString(R.string.app_name)) {
+                navController.navigate("settings") {
+                    launchSingleTop = true
+                    popUpTo("home")
                 }
-                Box(
-                    modifier = Modifier
-                        .padding(16f.dp)
-                        .fillMaxSize()
-                )
-                {
-                    Column {
-                        val progress = downloadViewModel.progress.observeAsState(0f).value
-                        InputUrl(
-                            url = downloadViewModel.url,
-                            hint = context.resources.getString(R.string.video_url)
-                        )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(16f.dp)
+                    .fillMaxSize()
+            )
+            {
+                Column {
+                    InputUrl(
+                        url = downloadViewModel.url,
+                        hint = context.getString(R.string.video_url)
+                    )
+                    AnimatedVisibility(visible = expanded) {
                         ProgressBar(progress = progress)
                     }
-                    Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                        FABs(downloadCallback = checkPermission)
-                        {
-                            TextUtil.readUrlFromClipboard()
-                                ?.let { downloadViewModel.url.value = it }
-                        }
+                }
+                Column(modifier = Modifier.align(Alignment.BottomEnd)) {
+                    FABs(downloadCallback = checkPermission)
+                    {
+                        TextUtil.readUrlFromClipboard()
+                            ?.let { downloadViewModel.url.value = it }
                     }
                 }
             }
         }
     }
+
 }
 
 
@@ -200,10 +202,8 @@ fun UrlCard(url: String, pasteCallback: (() -> Unit)) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(32f.dp))
-            .clickable {
-                pasteCallback()
-            }, colors = CardDefaults.cardColors(),
+            .clickable { pasteCallback() }
+            .clip(RoundedCornerShape(32f.dp)), colors = CardDefaults.cardColors(),
         elevation = CardDefaults.cardElevation(),
         shape = RoundedCornerShape(32f.dp)
     ) {
