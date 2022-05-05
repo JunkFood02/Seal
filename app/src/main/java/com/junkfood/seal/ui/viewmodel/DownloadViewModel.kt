@@ -36,11 +36,11 @@ class DownloadViewModel : ViewModel() {
     }
 
     fun startDownloadVideo() {
-        _progress.value = 0f
-        isDownloading.value = true
         with(url.value) {
             if (isNullOrBlank()) TextUtil.makeToast(context.getString(R.string.url_empty))
             else {
+                _progress.value = 0f
+                isDownloading.value = true
                 viewModelScope.launch(Dispatchers.IO) {
                     val downloadResult = DownloadUtil.downloadVideo(
                         this@with

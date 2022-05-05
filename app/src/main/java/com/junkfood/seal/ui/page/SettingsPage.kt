@@ -1,4 +1,4 @@
-package com.junkfood
+package com.junkfood.seal.ui.page
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ import com.junkfood.ui.SettingItem
 @Composable
 fun SettingsPage(navController: NavController) {
 
-    SealTheme() {
+    SealTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
