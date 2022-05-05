@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page
 
+import android.Manifest
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
+import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.home.DownloadViewModel
@@ -25,13 +30,34 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.TextUtil
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DownloadPage(
     navController: NavController,
     downloadViewModel: DownloadViewModel,
-    downloadCallback: () -> Unit
 ) {
 
+    val storagePermission =
+        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    val requestPermission = {
+        storagePermission.launchPermissionRequest()
+        when (storagePermission.status) {
+            is PermissionStatus.Denied -> {
+                storagePermission.launchPermissionRequest()
+            }
+            else -> {
+                BaseApplication.updateDownloadDir()
+            }
+        }
+    }
+    val checkPermission = {
+        if (storagePermission.status == PermissionStatus.Granted)
+            downloadViewModel.startDownloadVideo()
+        else {
+            requestPermission()
+        }
+    }
 
     SealTheme {
         Log.d("TAG", "onCreate: Init")
@@ -45,8 +71,10 @@ fun DownloadPage(
                     .padding(9f.dp)
             ) {
                 TitleBar(title = context.resources.getString(R.string.app_name)) {
-                    navController.navigate("settings") { launchSingleTop = true
-                    popUpTo("home")}
+                    navController.navigate("settings") {
+                        launchSingleTop = true
+                        popUpTo("home")
+                    }
                 }
                 Box(
                     modifier = Modifier
@@ -63,7 +91,7 @@ fun DownloadPage(
                         ProgressBar(progress = progress)
                     }
                     Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                        FABs(downloadCallback = downloadCallback)
+                        FABs(downloadCallback = checkPermission)
                         {
                             TextUtil.readUrlFromClipboard()
                                 ?.let { downloadViewModel.url.value = it }
@@ -76,6 +104,7 @@ fun DownloadPage(
         }
     }
 }
+
 
 @Composable
 fun SimpleText(text: String) {

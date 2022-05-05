@@ -1,27 +1,33 @@
 package com.junkfood.seal.ui.page
 
-import android.Manifest
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.junkfood.SettingsPage
 import com.junkfood.seal.ui.home.DownloadViewModel
 import com.junkfood.ui.animatedComposable
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeEntry(activityResultLauncher:ActivityResultLauncher<Array<String>> ,downloadViewModel:DownloadViewModel)
-{
+fun HomeEntry(downloadViewModel: DownloadViewModel) {
+    val useDarkTheme = isSystemInDarkTheme()
+
+    rememberSystemUiController().run {
+        setStatusBarColor(Color.Transparent, !useDarkTheme)
+        setSystemBarsColor(Color.Transparent, !useDarkTheme)
+        setNavigationBarColor(Color.Transparent, !useDarkTheme)
+    }
+
     Log.d("ComposeInit", "HomeEntry: ")
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(navController = navController, startDestination = "home") {
         animatedComposable("home") {
-            DownloadPage(navController = navController, downloadViewModel = downloadViewModel) {
-                activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            }
+            DownloadPage(navController = navController, downloadViewModel = downloadViewModel)
         }
         animatedComposable("settings") { SettingsPage(navController) }
         animatedComposable("download") { DownloadPreferences(navController) }
