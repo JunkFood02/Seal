@@ -203,9 +203,7 @@ object DownloadUtil {
         makeToast(context.getString(R.string.fetching_info))
 
         try {
-            withContext(Dispatchers.IO) {
-                videoInfo = YoutubeDL.getInstance().getInfo(url)
-            }
+            videoInfo = YoutubeDL.getInstance().getInfo(url)
             with(videoInfo) {
                 if (this.title.isNullOrEmpty() or this.ext.isNullOrBlank()) throw Exception(
                     "Empty videoinfo"
@@ -217,7 +215,6 @@ object DownloadUtil {
             WIP = 0
             return Result.failure()
         }
-
 
         title = createFilename(videoInfo.title)
         ext = videoInfo.ext
@@ -287,7 +284,8 @@ object DownloadUtil {
                 makeToast(context.getString(R.string.yt_dlp_update_fail))
             }
         }
-        return YoutubeDL.getInstance().version(context) ?: BaseApplication.ytdlpVersion
+        YoutubeDL.getInstance().version(context)?.let { BaseApplication.ytdlpVersion = it }
+        return BaseApplication.ytdlpVersion
     }
 
     private suspend fun makeToast(text: String) {

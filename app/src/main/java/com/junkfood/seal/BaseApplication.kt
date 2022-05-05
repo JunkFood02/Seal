@@ -32,8 +32,10 @@ class BaseApplication : Application() {
         CoroutineScope(Job()).launch {
             withContext(Dispatchers.IO) {
                 try {
+                    Log.d(TAG, "onCreate: Init")
                     YoutubeDL.getInstance().init(this@BaseApplication)
                     FFmpeg.getInstance().init(this@BaseApplication)
+                    Log.d(TAG, "onCreate: Init Finish")
                 } catch (e: YoutubeDLException) {
                     Log.e(TAG, "failed to initialize youtubedl-android", e)
                 }

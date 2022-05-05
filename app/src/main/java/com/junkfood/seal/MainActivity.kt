@@ -1,68 +1,35 @@
 package com.junkfood.seal
 
-import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.junkfood.DownloadPage
-import com.junkfood.SettingsPage
-import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.ui.home.DownloadViewModel
-import com.junkfood.seal.ui.page.DownloadPreferences
-import com.junkfood.ui.animatedComposable
+import com.junkfood.seal.ui.page.HomeEntry
 
 class MainActivity : ComponentActivity() {
     private lateinit var downloadViewModel: DownloadViewModel
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate: Init")
         super.onCreate(savedInstanceState)
         downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
-        //setImmersiveStatusBar()
-        val activityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { result ->
-            var permissionGranted = true
-            for (b in result.values) {
-                permissionGranted = permissionGranted && b
-            }
-            if (permissionGranted || Build.VERSION.SDK_INT > 29) {
-                updateDownloadDir()
-                downloadViewModel.startDownloadVideo()
-            } else Toast.makeText(
-                context,
-                getString(R.string.permission_denied),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+        setImmersiveStatusBar()
+
 
         setContent {
-            val navController = rememberAnimatedNavController()
-            AnimatedNavHost(navController = navController, startDestination = "home") {
-                animatedComposable("home") {
-                    DownloadPage(navController = navController, downloadViewModel = downloadViewModel) {
-                        activityResultLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                    }
-                }
-                animatedComposable("settings") { SettingsPage(navController) }
-                animatedComposable("download") { DownloadPreferences(navController) }
-            }
-
-
+            HomeEntry(downloadViewModel)
         }
+        Log.d(TAG, "onCreate: Init Finish")
+
     }
 
     /*override fun attachBaseContext(newBase: Context?) {
