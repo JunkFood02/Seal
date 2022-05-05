@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ fun HomeEntry(downloadViewModel: DownloadViewModel) {
         setNavigationBarColor(Color.Transparent, !useDarkTheme)
     }
 
-    Log.d("ComposeInit", "HomeEntry: ")
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(navController = navController, startDestination = "home") {
         animatedComposable("home") {
@@ -32,6 +30,5 @@ fun HomeEntry(downloadViewModel: DownloadViewModel) {
         animatedComposable("settings") { SettingsPage(navController) }
         animatedComposable("download") { DownloadPreferences(navController) }
     }
-    Log.d("ComposeInit", "HomeEntry: Finish")
 
 }

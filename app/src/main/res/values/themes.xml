@@ -10,9 +10,9 @@
         <!--        <item name="colorSecondaryVariant">@color/teal_700</item>-->
         <!--        <item name="colorOnSecondary">@color/black</item>-->
         <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <!--        <item name="android:windowLightStatusBar">true</item>-->
+        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:windowLightNavigationBar">true</item>-->
 
     </style>
 

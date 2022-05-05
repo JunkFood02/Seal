@@ -28,16 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".dot.MainActivity"
-            android:configChanges="locale|orientation"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.junkfood.seal.provider"
