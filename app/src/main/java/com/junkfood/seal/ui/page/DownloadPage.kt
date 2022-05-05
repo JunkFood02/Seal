@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page
 
 import android.Manifest
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,7 +59,6 @@ fun DownloadPage(
     }
 
     SealTheme {
-        Log.d("TAG", "onCreate: Init")
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -99,8 +97,6 @@ fun DownloadPage(
                     }
                 }
             }
-            Log.d("TAG", "onCreate: Init Finish")
-
         }
     }
 }

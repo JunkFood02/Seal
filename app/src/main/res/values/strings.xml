@@ -33,7 +33,7 @@
     <string name="task_running">An existing download task is already running</string>
     <string name="paste_msg">Paste url from clipboard</string>
     <string name="paste_fail_msg">Unable to match url in clipboard</string>
-    <string name="ytdlp_version">YT-DLP Version</string>
+    <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
 
 </resources>
