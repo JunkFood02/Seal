@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.junkfood.seal.ui.home.DownloadViewModel
 import com.junkfood.seal.ui.page.HomeEntry
+import com.junkfood.seal.ui.theme.SealTheme
 
 class MainActivity : ComponentActivity() {
     private lateinit var downloadViewModel: DownloadViewModel
@@ -26,7 +27,9 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            HomeEntry(downloadViewModel)
+            SealTheme {
+                HomeEntry(downloadViewModel)
+            }
         }
         Log.d(TAG, "onCreate: Init Finish")
 

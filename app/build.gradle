@@ -18,9 +18,7 @@ android {
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+
     }
 
     buildTypes {
@@ -37,7 +35,6 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
         compose true
     }
     splits {
@@ -49,6 +46,9 @@ android {
             universalApk false
         }
     }
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+    }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
@@ -56,6 +56,7 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+        jniLibs.useLegacyPackaging = true
     }
 }
 
@@ -63,8 +64,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.7.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
