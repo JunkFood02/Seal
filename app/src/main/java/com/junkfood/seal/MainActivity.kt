@@ -2,7 +2,6 @@ package com.junkfood.seal
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +19,6 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate: Init")
         super.onCreate(savedInstanceState)
         downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
         setImmersiveStatusBar()
@@ -31,7 +29,6 @@ class MainActivity : ComponentActivity() {
                 HomeEntry(downloadViewModel)
             }
         }
-        Log.d(TAG, "onCreate: Init Finish")
 
     }
 

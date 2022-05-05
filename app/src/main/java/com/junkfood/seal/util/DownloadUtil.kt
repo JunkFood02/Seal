@@ -1,8 +1,6 @@
 package com.junkfood.seal.util
 
-import android.media.MediaScannerConnection
 import android.util.Log
-import android.widget.Toast
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -14,13 +12,14 @@ import kotlinx.coroutines.withContext
 
 object DownloadUtil {
     class Result(val resultCode: ResultCode, val filePath: String?) {
-
         companion object {
             fun failure(): Result {
+                WIP = 0
                 return Result(ResultCode.EXCEPTION, null)
             }
 
             fun success(title: String, ext: String): Result {
+                WIP = 0
                 with(if (ext == "mp3") ResultCode.FINISH_AUDIO else ResultCode.FINISH_VIDEO) {
                     return Result(this, "${BaseApplication.downloadDir}/$title.$ext")
                 }
@@ -35,7 +34,7 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
     private var WIP = 0
 
-    private fun createFilename(title: String): String {
+    private fun reformatFilename(title: String): String {
         val cleanFileName = title.replace("[\\\\><\"|*?'%:#/]".toRegex(), "_")
         var fileName = cleanFileName.trim { it <= ' ' }.replace(" +".toRegex(), " ")
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
@@ -48,7 +47,7 @@ object DownloadUtil {
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
         if (WIP == 1) {
-            makeToast(context.getString(R.string.task_running))
+            toast(context.getString(R.string.task_running))
             return Result.failure()
         }
         WIP = 1
@@ -61,7 +60,7 @@ object DownloadUtil {
         val videoInfo: VideoInfo
 
 
-        makeToast(context.getString(R.string.fetching_info))
+        toast(context.getString(R.string.fetching_info))
 
         try {
             videoInfo = YoutubeDL.getInstance().getInfo(url)
@@ -71,21 +70,21 @@ object DownloadUtil {
                 )
             }
         } catch (e: Exception) {
-            BaseApplication.createLogFileOnDevice(e)
-            makeToast(context.resources.getString(R.string.fetch_info_error_msg))
-            WIP = 0
+            FileUtil.createLogFileOnDevice(e)
+            toast(context.resources.getString(R.string.fetch_info_error_msg))
             return Result.failure()
         }
 
-        title = createFilename(videoInfo.title)
+        title = reformatFilename(videoInfo.title)
         ext = videoInfo.ext
+
         with(request) {
             addOption("-P", "${BaseApplication.downloadDir}/")
             if (url.contains("list")) {
-                makeToast(context.getString(R.string.start_download_list))
+                toast(context.getString(R.string.start_download_list))
                 addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
             } else {
-                makeToast("%s'%s'".format(context.getString(R.string.start_download), title))
+                toast("%s'%s'".format(context.getString(R.string.start_download), title))
                 addOption("-o", "$title.%(ext)s")
             }
             if (extractAudio) {
@@ -107,30 +106,22 @@ object DownloadUtil {
                 }
             }
             addOption("--force-overwrites")
+
             try {
-                withContext(Dispatchers.IO) {
-                    YoutubeDL.getInstance().execute(
-                        request, progressCallback
-                    )
-                }
+                YoutubeDL.getInstance().execute(request, progressCallback)
             } catch (e: Exception) {
                 e.printStackTrace()
-                makeToast(context.getString(R.string.download_error_msg))
-                BaseApplication.createLogFileOnDevice(e)
-                WIP = 0
+                toast(context.getString(R.string.download_error_msg))
+                FileUtil.createLogFileOnDevice(e)
                 return Result.failure()
             }
         }
 
-        makeToast(context.getString(R.string.download_success_msg))
+        toast(context.getString(R.string.download_success_msg))
 
         if (!url.contains("list")) {
             Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
-            MediaScannerConnection.scanFile(
-                context, arrayOf("${BaseApplication.downloadDir}/$title.$ext"),
-                arrayOf(if (ext == "mp3") "audio/*" else "video/*"), null
-            )
-            WIP = 0
+            FileUtil.scanFileToMediaLibrary(title, ext)
         }
         return Result.success(title, ext)
 
@@ -140,18 +131,26 @@ object DownloadUtil {
         withContext(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(context)
-                makeToast(context.getString(R.string.yt_dlp_up_to_date))
+                toast(context.getString(R.string.yt_dlp_up_to_date))
             } catch (e: Exception) {
-                makeToast(context.getString(R.string.yt_dlp_update_fail))
+                toast(R.string.yt_dlp_update_fail)
             }
         }
         YoutubeDL.getInstance().version(context)?.let { BaseApplication.ytdlpVersion = it }
         return BaseApplication.ytdlpVersion
     }
 
-    private suspend fun makeToast(text: String) {
+
+    private suspend fun toast(text: String) {
         withContext(Dispatchers.Main) {
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+            TextUtil.makeToast(text)
         }
     }
+
+    private suspend fun toast(id: Int) {
+        withContext(Dispatchers.Main) {
+            TextUtil.makeToast(id)
+        }
+    }
+
 }
