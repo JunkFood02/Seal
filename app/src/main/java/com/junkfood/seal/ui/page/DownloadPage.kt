@@ -21,7 +21,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.home.DownloadViewModel
@@ -45,9 +44,7 @@ fun DownloadPage(
             is PermissionStatus.Denied -> {
                 storagePermission.launchPermissionRequest()
             }
-            else -> {
-                BaseApplication.updateDownloadDir()
-            }
+            else -> {}
         }
     }
     val checkPermission = {

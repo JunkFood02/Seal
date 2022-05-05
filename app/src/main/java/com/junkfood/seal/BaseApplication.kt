@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.util.Log
 import com.google.android.material.color.DynamicColors
+import com.junkfood.seal.util.PreferenceUtil
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
@@ -45,15 +46,16 @@ class BaseApplication : Application() {
         ytdlpVersion =
             YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
-        with(
-            File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                getString(R.string.app_name)
-            )
-        ) {
-            downloadDir = if (Build.VERSION.SDK_INT > 29 || canWrite()) absolutePath
-            else "Not set"
+
+        with(PreferenceUtil.getString("download_dir")) {
+            downloadDir = if (isNullOrEmpty())
+                File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                    getString(R.string.app_name)
+                ).absolutePath
+            else this
         }
+
         context = applicationContext
     }
 
@@ -64,15 +66,10 @@ class BaseApplication : Application() {
         lateinit var downloadDir: String
         var ytdlpVersion = ""
 
-        fun updateDownloadDir() {
-            downloadDir = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                context.getString(R.string.app_name)
-            ).absolutePath
-        }
 
         fun updateDownloadDir(path: String) {
             downloadDir = path
+            PreferenceUtil.updateString("download_dir", path)
         }
 
         fun createLogFileOnDevice(th: Throwable) {
