@@ -10,9 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.junkfood.seal.ui.home.DownloadViewModel
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.ui.viewmodel.DownloadViewModel
 
 class MainActivity : ComponentActivity() {
     private lateinit var downloadViewModel: DownloadViewModel
