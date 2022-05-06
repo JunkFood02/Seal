@@ -19,6 +19,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,21 +46,14 @@ fun DownloadPage(
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
     val videoTitle = downloadViewModel.videoTitle.observeAsState().value
-    val requestPermission = {
-        storagePermission.launchPermissionRequest()
-        when (storagePermission.status) {
-            is PermissionStatus.Denied -> {
-                storagePermission.launchPermissionRequest()
-            }
-            else -> {}
-        }
-    }
+    val clipboardManager = LocalClipboardManager.current
+
 
     val checkPermission = {
         if (storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
         else {
-            requestPermission()
+            storagePermission.launchPermissionRequest()
         }
     }
 
@@ -94,10 +88,10 @@ fun DownloadPage(
                     }
                 }
                 Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                    FABs(downloadCallback = checkPermission)
-                    {
-                        TextUtil.readUrlFromClipboard()
-                            ?.let { downloadViewModel.url.value = it }
+                    FABs(downloadCallback = checkPermission) {
+                        TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())?.let {
+                            downloadViewModel.url.value = it
+                        }
                     }
                 }
             }
