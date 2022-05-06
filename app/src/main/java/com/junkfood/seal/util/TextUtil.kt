@@ -10,9 +10,7 @@ import java.util.regex.Pattern
 object TextUtil {
     fun readUrlFromClipboard(): String? {
         if (clipboard.hasPrimaryClip()) {
-            if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true
-                and (clipboard.primaryClip != null)
-            ) {
+            if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true) {
                 val item = clipboard.primaryClip?.getItemAt(0)?.text.toString()
                 val pattern =
                     Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
