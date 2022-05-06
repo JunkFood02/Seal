@@ -29,10 +29,6 @@ class DownloadViewModel : ViewModel() {
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val videoTitle: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
 
-    fun updateProgress(progressNum: Float) {
-        _progress.postValue(progressNum)
-    }
-
     fun startDownloadVideo() {
         with(url.value) {
             if (isNullOrBlank()) TextUtil.makeToast(context.getString(R.string.url_empty))
@@ -46,7 +42,7 @@ class DownloadViewModel : ViewModel() {
                         videoTitle.value = videoInfo.title
                     }
                     val downloadResult = DownloadUtil.downloadVideo(this@with, videoInfo)
-                    { fl: Float, _: Long, _: String -> updateProgress(fl) }
+                    { fl: Float, _: Long, _: String -> _progress.postValue(fl) }
                     isDownloading.postValue(false)
                     if (downloadResult.resultCode != DownloadUtil.ResultCode.EXCEPTION)
                         withContext(Dispatchers.Main) {

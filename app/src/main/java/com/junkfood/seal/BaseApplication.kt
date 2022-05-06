@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Environment
 import android.util.Log
 import com.google.android.material.color.DynamicColors
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
@@ -22,13 +23,15 @@ class BaseApplication : Application() {
         MMKV.initialize(this)
         DynamicColors.applyToActivitiesIfAvailable(this)
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
         CoroutineScope(Job()).launch {
             withContext(Dispatchers.IO) {
                 try {
                     Log.d(TAG, "onCreate: Init")
                     YoutubeDL.getInstance().init(this@BaseApplication)
                     FFmpeg.getInstance().init(this@BaseApplication)
+                    if (PreferenceUtil.getString("yt-dlp_init").isNullOrEmpty()) {
+                        DownloadUtil.updateYtDlp()
+                    }
                     Log.d(TAG, "onCreate: Init Finish")
                 } catch (e: YoutubeDLException) {
                     Log.e(TAG, "failed to initialize youtubedl-android", e)
@@ -65,7 +68,6 @@ class BaseApplication : Application() {
             downloadDir = path
             PreferenceUtil.updateString("download_dir", path)
         }
-
 
 
         @SuppressLint("StaticFieldLeak")

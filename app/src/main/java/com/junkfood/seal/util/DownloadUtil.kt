@@ -132,7 +132,10 @@ object DownloadUtil {
                 toast(R.string.yt_dlp_update_fail)
             }
         }
-        YoutubeDL.getInstance().version(context)?.let { BaseApplication.ytdlpVersion = it }
+        YoutubeDL.getInstance().version(context)?.let {
+            BaseApplication.ytdlpVersion = it
+            PreferenceUtil.updateString("yt-dlp_init", it)
+        }
         return BaseApplication.ytdlpVersion
     }
 
