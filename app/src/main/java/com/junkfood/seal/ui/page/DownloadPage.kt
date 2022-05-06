@@ -44,6 +44,7 @@ fun DownloadPage(
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
+    val videoTitle = downloadViewModel.videoTitle.observeAsState().value
     val requestPermission = {
         storagePermission.launchPermissionRequest()
         when (storagePermission.status) {
@@ -89,7 +90,7 @@ fun DownloadPage(
                         hint = context.getString(R.string.video_url)
                     )
                     AnimatedVisibility(visible = expanded) {
-                        ProgressBar(progress = progress)
+                        ProgressBar(videoTitle.toString(), progress = progress)
                     }
                 }
                 Column(modifier = Modifier.align(Alignment.BottomEnd)) {
@@ -128,28 +129,36 @@ fun InputUrl(url: MutableLiveData<String>, hint: String) {
 
 @Composable
 @Preview
-fun ProgressBar(progress: Float = 0f) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+fun ProgressBar(title: String = "videotitle", progress: Float = 0f) {
+    Column(
         modifier = Modifier
             .padding(0f.dp, 9f.dp)
     ) {
-        val progressAnimationValue by animateFloatAsState(
-            targetValue = progress / 100f,
-            animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
-        )
-        LinearProgressIndicator(
-            progress = progressAnimationValue,
-            modifier = Modifier.fillMaxWidth(0.75f),
-        )
         Text(
-            text = "$progress%",
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(0.dp, 12.dp)
-                .fillMaxWidth()
+            text = title, Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,
         )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+
+            ) {
+            val progressAnimationValue by animateFloatAsState(
+                targetValue = progress / 100f,
+                animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+            )
+            LinearProgressIndicator(
+                progress = progressAnimationValue,
+                modifier = Modifier.fillMaxWidth(0.75f),
+            )
+            Text(
+                text = "$progress%",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(0.dp, 12.dp)
+                    .fillMaxWidth()
+            )
+        }
     }
+
 }
 
 @Composable

@@ -41,12 +41,12 @@ class BaseApplication : Application() {
 
 
         with(PreferenceUtil.getString("download_dir")) {
-            if (isNullOrEmpty())
-                downloadDir = File(
+            downloadDir = if (isNullOrEmpty())
+                File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
                     getString(R.string.app_name)
                 ).absolutePath
-            else downloadDir = this
+            else this
 
         }
 

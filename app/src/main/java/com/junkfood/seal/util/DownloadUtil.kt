@@ -4,6 +4,7 @@ import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.FileUtil.reformatFilename
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -34,35 +35,10 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
     private var WIP = 0
 
-    private fun reformatFilename(title: String): String {
-        val cleanFileName = title.replace("[\\\\><\"|*?'%:#/]".toRegex(), "_")
-        var fileName = cleanFileName.trim { it <= ' ' }.replace(" +".toRegex(), " ")
-        if (fileName.length > 127) fileName = fileName.substring(0, 127)
-        return fileName //+ Date().time
-    }
-
-
-    suspend fun downloadVideo(
-        url: String,
-        progressCallback: ((Float, Long, String) -> Unit)?
-    ): Result {
-        if (WIP == 1) {
-            toast(context.getString(R.string.task_running))
-            return Result.failure()
-        }
-        WIP = 1
-
-        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
-        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
-        val request = YoutubeDLRequest(url)
-        var ext: String
-        val title: String
+    suspend fun fetchVideoInfo(url: String): VideoInfo? {
         val videoInfo: VideoInfo
-
-
-        toast(context.getString(R.string.fetching_info))
-
         try {
+            toast(context.getString(R.string.fetching_info))
             videoInfo = YoutubeDL.getInstance().getInfo(url)
             with(videoInfo) {
                 if (this.title.isNullOrEmpty() or this.ext.isNullOrBlank()) throw Exception(
@@ -72,11 +48,29 @@ object DownloadUtil {
         } catch (e: Exception) {
             FileUtil.createLogFileOnDevice(e)
             toast(context.resources.getString(R.string.fetch_info_error_msg))
+            return null
+        }
+        return videoInfo
+    }
+
+    suspend fun downloadVideo(
+        url: String,
+        videoInfo: VideoInfo,
+        progressCallback: ((Float, Long, String) -> Unit)?
+    ): Result {
+        if (WIP == 1) {
+            toast(context.getString(R.string.task_running))
             return Result.failure()
         }
+        WIP = 1
 
-        title = reformatFilename(videoInfo.title)
-        ext = videoInfo.ext
+        val ext: String
+
+        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
+        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
+        val request = YoutubeDLRequest(url)
+
+        val title: String = reformatFilename(videoInfo.title)
 
         with(request) {
             addOption("-P", "${BaseApplication.downloadDir}/")
@@ -84,15 +78,17 @@ object DownloadUtil {
                 toast(context.getString(R.string.start_download_list))
                 addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
             } else {
-                toast("%s'%s'".format(context.getString(R.string.start_download), title))
+                toast("%s'%s'".format(context.getString(R.string.start_download), videoInfo.title))
                 addOption("-o", "$title.%(ext)s")
             }
-            if (extractAudio) {
+
+            ext = if (extractAudio) {
                 addOption("-x")
                 addOption("--audio-format", "mp3")
                 addOption("--audio-quality", "0")
-                ext = "mp3"
-            }
+                "mp3"
+            } else videoInfo.ext
+
             if (createThumbnail) {
                 if (extractAudio) {
                     addOption("--embed-metadata")

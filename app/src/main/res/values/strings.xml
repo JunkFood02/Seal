@@ -13,8 +13,8 @@
     <string name="download">Download</string>
     <string name="url_empty">Url cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
-    <string name="create_thumbnail_summary">Download and save thumbnail of the video.
-        In Audio mode, thumbnail would be embedded into audio file.</string>
+    <string name="create_thumbnail_summary">Download video thumbnail as a file, or
+        embedded into extracted audio file.</string>
     <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>

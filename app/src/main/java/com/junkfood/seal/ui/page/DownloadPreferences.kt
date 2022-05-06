@@ -23,6 +23,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
+import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.util.DownloadUtil.updateYtDlp
 import com.junkfood.seal.util.PreferenceUtil
@@ -55,7 +56,7 @@ fun DownloadPreferences(navController: NavController) {
                         Environment.getExternalStorageDirectory().absolutePath,
                         it.path!!.split("primary:")[1]
                     )
-                PreferenceUtil.updateString("download_dir", path)
+                updateDownloadDir(path)
                 downloadDirectoryText = path
             }
         }

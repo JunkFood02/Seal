@@ -2,22 +2,16 @@ package com.junkfood.seal.util
 
 import android.content.ClipDescription
 import android.widget.Toast
-import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.BaseApplication.Companion.clipboard
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import java.util.regex.Pattern
 
 object TextUtil {
-
     fun readUrlFromClipboard(): String? {
-        if (BaseApplication.clipboard.hasPrimaryClip()) {
-            if (BaseApplication.clipboard.primaryClipDescription?.hasMimeType(
-                    ClipDescription.MIMETYPE_TEXT_PLAIN
-                ) == true
-            ) {
-                val item =
-                    BaseApplication.clipboard.primaryClip?.getItemAt(0)?.text
-                        ?: return null
+        if (clipboard.hasPrimaryClip()) {
+            if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true) {
+                val item = clipboard.primaryClip?.getItemAt(0)?.text.toString()
                 val pattern =
                     Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
                 with(pattern.matcher(item)) {

@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.junkfood.SettingsPage
 import com.junkfood.seal.ui.viewmodel.DownloadViewModel
 import com.junkfood.ui.animatedComposable
 
