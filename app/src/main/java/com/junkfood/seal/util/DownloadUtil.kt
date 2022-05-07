@@ -70,7 +70,7 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
         val request = YoutubeDLRequest(url)
 
-        val title: String = reformatFilename(videoInfo.title)
+        val filename: String = reformatFilename(videoInfo.title)
 
         with(request) {
             addOption("-P", "${BaseApplication.downloadDir}/")
@@ -79,27 +79,24 @@ object DownloadUtil {
                 addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
             } else {
                 toast("%s'%s'".format(context.getString(R.string.start_download), videoInfo.title))
-                addOption("-o", "$title.%(ext)s")
+                addOption("-o", "$filename.%(ext)s")
             }
 
             ext = if (extractAudio) {
                 addOption("-x")
                 addOption("--audio-format", "mp3")
                 addOption("--audio-quality", "0")
+                addOption("--embed-metadata")
+                addOption("--embed-thumbnail")
+                addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                addOption("--parse-metadata", "%(title)s:%(meta_album)s")
+                addOption("--add-metadata")
                 "mp3"
             } else videoInfo.ext
 
             if (createThumbnail) {
-                if (extractAudio) {
-                    addOption("--embed-metadata")
-                    addOption("--embed-thumbnail")
-                    addOption("--compat-options", "embed-thumbnail-atomicparsley")
-                    addOption("--parse-metadata", "$title:%(meta_album)s")
-                    addOption("--add-metadata")
-                } else {
-                    addOption("--write-thumbnail")
-                    addOption("--convert-thumbnails", "jpg")
-                }
+                addOption("--write-thumbnail")
+                addOption("--convert-thumbnails", "jpg")
             }
             addOption("--force-overwrites")
 
@@ -116,10 +113,10 @@ object DownloadUtil {
         toast(context.getString(R.string.download_success_msg))
 
         if (!url.contains("list")) {
-            Log.d(TAG, "${BaseApplication.downloadDir}/$title.$ext")
-            FileUtil.scanFileToMediaLibrary(title, ext)
+            Log.d(TAG, "${BaseApplication.downloadDir}/$filename.$ext")
+            FileUtil.scanFileToMediaLibrary(filename, ext)
         }
-        return Result.success(title, ext)
+        return Result.success(filename, ext)
 
     }
 

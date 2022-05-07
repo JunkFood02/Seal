@@ -3,7 +3,6 @@
     <string name="title_home">主页</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="greeting">YouTube/哔哩哔哩 视频下载器</string>
     <string name="video_url">视频链接</string>
     <string name="download_directory">下载目录</string>
     <string name="extract_audio">提取音频</string>
@@ -11,7 +10,7 @@
     <string name="settings">设置</string>
     <string name="download_settings">下载设置</string>
     <string name="extract_audio_summary">下载并保存音频而非视频</string>
-    <string name="create_thumbnail_summary">下载并保存视频封面；在提取音频模式下，视频缩略图会内嵌到音频文件中</string>
+    <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
     <string name="open_when_finish">完成后打开</string>
     <string name="yt_dlp_up_to_date">yt-dlp 已更新到最新版本</string>

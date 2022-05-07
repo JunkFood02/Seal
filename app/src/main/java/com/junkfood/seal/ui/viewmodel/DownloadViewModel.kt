@@ -16,15 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DownloadViewModel : ViewModel() {
-    private val greeting = context.getString(R.string.greeting)
-    private val _text = MutableLiveData<String>().apply {
-        value = greeting
-    }
+
     private val _progress = MutableLiveData<Float>().apply {
         value = 0f
     }
     val isDownloading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    val text: LiveData<String> = _text
     val progress: LiveData<Float> = _progress
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val videoTitle: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
