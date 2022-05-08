@@ -24,7 +24,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -152,11 +154,18 @@ fun VideoCard(
                 .clip(RoundedCornerShape(12.dp)),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
-                .scale(Scale.FIT)
+                .scale(Scale.FILL)
                 .crossfade(true)
                 .build(),
             contentDescription = null
-        )
+        ) {
+            val state = painter.state
+            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+            } else {
+                SubcomposeAsyncImageContent()
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()

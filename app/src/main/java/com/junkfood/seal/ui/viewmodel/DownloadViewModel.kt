@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,7 +40,13 @@ class DownloadViewModel : ViewModel() {
                         isDownloading.value = true
                         videoTitle.value = videoInfo.title
                         videoAuthor.value = videoInfo.uploader
-                        videoThumbnailUrl.value = videoInfo.thumbnail
+                        with(videoInfo.thumbnail)
+                        {
+                            if (matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?\$"))) {
+                                Log.d(TAG, "http->https")
+                                videoThumbnailUrl.value = replace("http", "https")
+                            } else videoThumbnailUrl.value = this.toString()
+                        }
                     }
                     downloadResultTemp = DownloadUtil.downloadVideo(this@with, videoInfo)
                     { fl: Float, _: Long, _: String -> _progress.postValue(fl) }
@@ -61,4 +68,7 @@ class DownloadViewModel : ViewModel() {
             openFile(downloadResultTemp)
     }
 
+    companion object {
+        private const val TAG = "DownloadViewModel"
+    }
 }
