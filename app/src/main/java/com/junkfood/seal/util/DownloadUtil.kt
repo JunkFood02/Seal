@@ -36,6 +36,10 @@ object DownloadUtil {
     private var WIP = 0
 
     suspend fun fetchVideoInfo(url: String): VideoInfo? {
+        if (WIP == 1) {
+            toast(context.getString(R.string.task_running))
+        } else
+            WIP = 1
         val videoInfo: VideoInfo
         try {
             toast(context.getString(R.string.fetching_info))
@@ -47,6 +51,7 @@ object DownloadUtil {
             }
         } catch (e: Exception) {
             FileUtil.createLogFileOnDevice(e)
+            WIP = 0
             toast(context.resources.getString(R.string.fetch_info_error_msg))
             return null
         }
@@ -58,11 +63,6 @@ object DownloadUtil {
         videoInfo: VideoInfo,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
-        if (WIP == 1) {
-            toast(context.getString(R.string.task_running))
-            return Result.failure()
-        }
-        WIP = 1
 
         val ext: String
 

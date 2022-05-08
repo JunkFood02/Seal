@@ -150,8 +150,7 @@ fun VideoCard(
         SubcomposeAsyncImage(
             modifier = Modifier
                 .padding()
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp)),
+                .fillMaxWidth(),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
                 .scale(Scale.FILL)
@@ -176,7 +175,12 @@ fun VideoCard(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
             )
-            Text(text = author, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                modifier = Modifier.padding(top = 3.dp),
+                text = author,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
 //                LinearProgressIndicator(
 //                    progress = progressAnimationValue,
 //                    modifier = Modifier.fillMaxWidth(0.75f),
