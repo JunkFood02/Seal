@@ -25,7 +25,8 @@ class DownloadViewModel : ViewModel() {
     val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val videoTitle: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
     val videoThumbnailUrl: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-
+    val videoAuthor: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
+    private lateinit var downloadResultTemp: DownloadUtil.Result
     fun startDownloadVideo() {
         with(url.value) {
             if (isNullOrBlank()) TextUtil.makeToast(context.getString(R.string.url_empty))
@@ -37,19 +38,27 @@ class DownloadViewModel : ViewModel() {
                         _progress.value = 0f
                         isDownloading.value = true
                         videoTitle.value = videoInfo.title
+                        videoAuthor.value = videoInfo.uploader
                         videoThumbnailUrl.value = videoInfo.thumbnail
                     }
-                    val downloadResult = DownloadUtil.downloadVideo(this@with, videoInfo)
+                    downloadResultTemp = DownloadUtil.downloadVideo(this@with, videoInfo)
                     { fl: Float, _: Long, _: String -> _progress.postValue(fl) }
                     //isDownloading.postValue(false)
-                    if (downloadResult.resultCode != DownloadUtil.ResultCode.EXCEPTION)
+                    if (downloadResultTemp.resultCode != DownloadUtil.ResultCode.EXCEPTION)
                         withContext(Dispatchers.Main) {
                             _progress.value = 100f
-                            if (PreferenceUtil.getValue("open_when_finish")) openFile(downloadResult)
+                            if (PreferenceUtil.getValue("open_when_finish")) openFile(
+                                downloadResultTemp
+                            )
                         }
                 }
             }
         }
+    }
+
+    fun openVideoFile() {
+        if (progress.value == 100f)
+            openFile(downloadResultTemp)
     }
 
 }

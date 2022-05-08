@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -49,6 +48,8 @@ fun DownloadPage(
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
     val videoTitle = downloadViewModel.videoTitle.observeAsState().value
+    val videoAuthor = downloadViewModel.videoAuthor.observeAsState().value
+
     val videoThumbnailUrl = downloadViewModel.videoThumbnailUrl.observeAsState().value
     val clipboardManager = LocalClipboardManager.current
 
@@ -84,10 +85,11 @@ fun DownloadPage(
             {
                 Column {
                     AnimatedVisibility(visible = expanded) {
-                        ProgressBar(
+                        VideoCard(
                             videoTitle.toString(),
+                            videoAuthor.toString(),
                             videoThumbnailUrl.toString(),
-                            progress = progress
+                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
                         )
                     }
 
@@ -133,9 +135,15 @@ fun InputUrl(url: MutableLiveData<String>, hint: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProgressBar(title: String = "videotitle", thumbnailUrl: String, progress: Float = 0f) {
+fun VideoCard(
+    title: String = "videotitle",
+    author: String = "author",
+    thumbnailUrl: String,
+    onClick: () -> Unit,
+    progress: Float = 0f
+) {
     ElevatedCard(modifier = Modifier
-        .fillMaxWidth(), onClick = {}
+        .fillMaxWidth(), onClick = { onClick() }
     ) {
         SubcomposeAsyncImage(
             modifier = Modifier
@@ -147,38 +155,47 @@ fun ProgressBar(title: String = "videotitle", thumbnailUrl: String, progress: Fl
                 .scale(Scale.FIT)
                 .crossfade(true)
                 .build(),
-            loading = {
-                CircularProgressIndicator()
-            },
             contentDescription = null
         )
         Column(
             modifier = Modifier
-                .padding(12.dp, 9.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = title, Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
             )
-            Row(
-                Modifier.padding(0.dp, 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                val progressAnimationValue by animateFloatAsState(
-                    targetValue = progress / 100f,
-                    animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
-                )
-                LinearProgressIndicator(
-                    progress = progressAnimationValue,
-                    modifier = Modifier.fillMaxWidth(0.75f),
-                )
-                Text(
-                    text = "$progress%",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
+            Text(text = author, style = MaterialTheme.typography.bodyMedium)
+//                LinearProgressIndicator(
+//                    progress = progressAnimationValue,
+//                    modifier = Modifier.fillMaxWidth(0.75f),
+//                )
+//                Text(
+//                    text = "$progress%",
+//                    textAlign = TextAlign.Center,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                )
+
+        }
+        val progressAnimationValue by animateFloatAsState(
+            targetValue = progress / 100f,
+            animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                progress = progressAnimationValue
+            )
         }
     }
 }
