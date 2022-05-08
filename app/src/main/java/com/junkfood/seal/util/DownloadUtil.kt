@@ -69,7 +69,6 @@ object DownloadUtil {
         val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
         val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
         val request = YoutubeDLRequest(url)
-
         val filename: String = reformatFilename(videoInfo.title)
 
         with(request) {

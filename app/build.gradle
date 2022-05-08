@@ -85,6 +85,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-navigation-animation:0.24.7-alpha"
     implementation "com.google.accompanist:accompanist-permissions:0.24.7-alpha"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.7-alpha"
+    implementation("io.coil-kt:coil-compose:2.0.0-rc03")
 
     implementation 'com.github.yausername.youtubedl-android:library:0.13.1'
     implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.1'
