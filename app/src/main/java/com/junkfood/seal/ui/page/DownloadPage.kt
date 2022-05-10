@@ -46,7 +46,16 @@ fun DownloadPage(
 ) {
 
     val storagePermission =
-        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rememberPermissionState(
+            permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) { b: Boolean ->
+            if (b) {
+                downloadViewModel.startDownloadVideo()
+            } else {
+                TextUtil.makeToast(context.resources.getString(R.string.permission_denied))
+            }
+        }
+
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
     val videoTitle = downloadViewModel.videoTitle.observeAsState().value
