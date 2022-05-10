@@ -9,9 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +32,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.VideoListItem
 import com.junkfood.seal.ui.viewmodel.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
 
@@ -72,7 +71,7 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-
+    val debug = { downloadViewModel.debug() }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -82,12 +81,12 @@ fun DownloadPage(
                 .fillMaxSize()
                 .padding(9f.dp)
         ) {
-            TitleBar(title = context.getString(R.string.app_name)) {
+            TitleBar(title = context.getString(R.string.app_name), onClick = {
                 navController.navigate("settings") {
                     launchSingleTop = true
                     popUpTo("home")
                 }
-            }
+            }) { navController.navigate("videolist") }
             Box(
                 modifier = Modifier
                     .padding(16f.dp)
@@ -96,12 +95,17 @@ fun DownloadPage(
             {
                 Column {
                     AnimatedVisibility(visible = expanded) {
-                        VideoCard(
-                            videoTitle.toString(),
+//                        VideoCard(
+//                            videoTitle.toString(),
+//                            videoAuthor.toString(),
+//                            videoThumbnailUrl.toString(),
+//                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
+//                        )
+                        VideoListItem(videoTitle.toString(),
                             videoAuthor.toString(),
                             videoThumbnailUrl.toString(),
-                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
-                        )
+                            "null",
+                            onClick = { downloadViewModel.openVideoFile() })
                     }
 
                     InputUrl(
@@ -111,7 +115,7 @@ fun DownloadPage(
 
                 }
                 Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                    FABs(downloadCallback = checkPermission) {
+                    FABs(downloadCallback = checkPermission, debug = debug) {
                         TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())?.let {
                             downloadViewModel.url.value = it
                         }
@@ -223,7 +227,7 @@ fun VideoCard(
 }
 
 @Composable
-fun TitleBar(title: String, onClick: () -> Unit) {
+fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
     LargeTopAppBar(title = {
         Text(
             text = title,
@@ -238,12 +242,19 @@ fun TitleBar(title: String, onClick: () -> Unit) {
             )
         }
 
+    }, actions = {
+        IconButton(onClick = videoList) {
+            Icon(
+                imageVector = Icons.Outlined.Subscriptions,
+                contentDescription = "Localized description"
+            )
+        }
     }
     )
 }
 
 @Composable
-fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
+fun FABs(downloadCallback: () -> Unit, debug: () -> Unit, pasteCallback: () -> Unit) {
     FloatingActionButton(
         onClick = pasteCallback,
         content = {
@@ -264,6 +275,16 @@ fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
         }, modifier = Modifier
             .padding(vertical = 12f.dp)
     )
+    FloatingActionButton(
+        onClick = debug,
+        content = {
+            Icon(
+                Icons.Outlined.Adb,
+                contentDescription = "download"
+            )
+        }, modifier = Modifier
+            .padding(vertical = 12f.dp)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -273,7 +294,7 @@ fun UrlCard(url: String, pasteCallback: (() -> Unit)) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { pasteCallback() }
-            .clip(RoundedCornerShape(32f.dp)), colors = CardDefaults.cardColors(),
+            .clip(RoundedCornerShape(32f.dp)),
         elevation = CardDefaults.cardElevation(),
         shape = RoundedCornerShape(32f.dp)
     ) {

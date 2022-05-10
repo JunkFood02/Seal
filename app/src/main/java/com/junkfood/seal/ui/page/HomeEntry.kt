@@ -28,6 +28,7 @@ fun HomeEntry(downloadViewModel: DownloadViewModel) {
         }
         animatedComposable("settings") { SettingsPage(navController) }
         animatedComposable("download") { DownloadPreferences(navController) }
+        animatedComposable("videolist") { VideoListPage(navController) }
     }
 
 }

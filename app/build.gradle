@@ -6,7 +6,7 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 6
-def versionBuild = 0
+def versionBuild = 1
 
 android {
     compileSdk 32
@@ -74,24 +74,26 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material3:material3:1.0.0-alpha10"
+    implementation "androidx.compose.material3:material3:1.0.0-alpha09"
     implementation "androidx.compose.material:material:1.2.0-alpha08"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha08"
     implementation "androidx.compose.material:material-icons-extended:1.2.0-alpha08"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.compose.animation:animation-graphics:$compose_version"
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.24.7-alpha"
-    implementation "com.google.accompanist:accompanist-permissions:0.24.7-alpha"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.7-alpha"
+
+    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation 'com.github.yausername.youtubedl-android:library:0.13.1'
     implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.1'
 
-    implementation 'androidx.preference:preference:1.2.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.tencent:mmkv:1.2.13'
 
     testImplementation 'junit:junit:4.13.2'
