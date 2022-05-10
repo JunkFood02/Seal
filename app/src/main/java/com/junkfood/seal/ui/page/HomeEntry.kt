@@ -15,11 +15,14 @@ import com.junkfood.ui.animatedComposable
 fun HomeEntry(downloadViewModel: DownloadViewModel) {
     val useDarkTheme = isSystemInDarkTheme()
 
-    rememberSystemUiController().run {
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.run {
         setStatusBarColor(Color.Transparent, !useDarkTheme)
         setSystemBarsColor(Color.Transparent, !useDarkTheme)
         setNavigationBarColor(Color.Transparent, !useDarkTheme)
     }
+
 
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(navController = navController, startDestination = "home") {

@@ -4,7 +4,7 @@ buildscript {
         lifecycle_version = '2.4.1'
         nav_version = '2.5.0-beta01'
         room_version = '2.4.2'
-        accompanist_version = '0.24.6-alpha'
+        accompanist_version = '0.24.7-alpha'
         kotlin_version = '1.6.10'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.

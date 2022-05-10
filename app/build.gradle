@@ -82,7 +82,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:1.2.0-alpha08"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.compose.animation:animation-graphics:$compose_version"
-
+    implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"

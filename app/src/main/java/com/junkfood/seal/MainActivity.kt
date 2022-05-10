@@ -22,8 +22,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
         setImmersiveStatusBar()
-
-
         setContent {
             SealTheme {
                 HomeEntry(downloadViewModel)

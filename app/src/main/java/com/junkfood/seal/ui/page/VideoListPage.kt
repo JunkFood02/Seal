@@ -38,8 +38,7 @@ fun VideoListPage(navController: NavController) {
                             contentDescription = "Localized description"
                         )
                     }
-                },
-                scrollBehavior = scrollBehavior
+                }, scrollBehavior = scrollBehavior
             )
         },
         content = {

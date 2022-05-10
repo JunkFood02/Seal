@@ -9,7 +9,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.ContentPaste
+import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,7 +35,6 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.VideoListItem
 import com.junkfood.seal.ui.viewmodel.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
 
@@ -95,17 +97,17 @@ fun DownloadPage(
             {
                 Column {
                     AnimatedVisibility(visible = expanded) {
-//                        VideoCard(
-//                            videoTitle.toString(),
-//                            videoAuthor.toString(),
-//                            videoThumbnailUrl.toString(),
-//                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
-//                        )
-                        VideoListItem(videoTitle.toString(),
+                        VideoCard(
+                            videoTitle.toString(),
                             videoAuthor.toString(),
                             videoThumbnailUrl.toString(),
-                            "null",
-                            onClick = { downloadViewModel.openVideoFile() })
+                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                        )
+//                        VideoListItem(videoTitle.toString(),
+//                            videoAuthor.toString(),
+//                            videoThumbnailUrl.toString(),
+//                            "null",
+//                            onClick = { downloadViewModel.openVideoFile() })
                     }
 
                     InputUrl(
@@ -275,7 +277,7 @@ fun FABs(downloadCallback: () -> Unit, debug: () -> Unit, pasteCallback: () -> U
         }, modifier = Modifier
             .padding(vertical = 12f.dp)
     )
-    FloatingActionButton(
+/*    FloatingActionButton(
         onClick = debug,
         content = {
             Icon(
@@ -284,7 +286,7 @@ fun FABs(downloadCallback: () -> Unit, debug: () -> Unit, pasteCallback: () -> U
             )
         }, modifier = Modifier
             .padding(vertical = 12f.dp)
-    )
+    )*/
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
