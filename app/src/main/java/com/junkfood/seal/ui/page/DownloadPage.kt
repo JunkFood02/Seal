@@ -46,7 +46,16 @@ fun DownloadPage(
 ) {
 
     val storagePermission =
-        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rememberPermissionState(
+            permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) { b: Boolean ->
+            if (b) {
+                downloadViewModel.startDownloadVideo()
+            } else {
+                TextUtil.makeToast(context.resources.getString(R.string.permission_denied))
+            }
+        }
+
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
     val videoTitle = downloadViewModel.videoTitle.observeAsState().value
@@ -150,8 +159,7 @@ fun VideoCard(
         SubcomposeAsyncImage(
             modifier = Modifier
                 .padding()
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp)),
+                .fillMaxWidth(),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
                 .scale(Scale.FILL)
@@ -176,7 +184,12 @@ fun VideoCard(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
             )
-            Text(text = author, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                modifier = Modifier.padding(top = 3.dp),
+                text = author,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
 //                LinearProgressIndicator(
 //                    progress = progressAnimationValue,
 //                    modifier = Modifier.fillMaxWidth(0.75f),

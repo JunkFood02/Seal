@@ -47,6 +47,7 @@ class DownloadViewModel : ViewModel() {
                                 videoThumbnailUrl.value = replace("http", "https")
                             } else videoThumbnailUrl.value = this.toString()
                         }
+
                     }
                     downloadResultTemp = DownloadUtil.downloadVideo(this@with, videoInfo)
                     { fl: Float, _: Long, _: String -> _progress.postValue(fl) }
