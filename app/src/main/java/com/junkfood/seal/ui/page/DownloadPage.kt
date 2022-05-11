@@ -73,15 +73,15 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-    val debug = { downloadViewModel.debug() }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(9f.dp)
+                .padding(9.dp)
         ) {
             TitleBar(title = context.getString(R.string.app_name), onClick = {
                 navController.navigate("settings") {
@@ -117,7 +117,7 @@ fun DownloadPage(
 
                 }
                 Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                    FABs(downloadCallback = checkPermission, debug = debug) {
+                    FABs(downloadCallback = checkPermission) {
                         TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())?.let {
                             downloadViewModel.url.value = it
                         }
@@ -256,7 +256,7 @@ fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
 }
 
 @Composable
-fun FABs(downloadCallback: () -> Unit, debug: () -> Unit, pasteCallback: () -> Unit) {
+fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
     FloatingActionButton(
         onClick = pasteCallback,
         content = {

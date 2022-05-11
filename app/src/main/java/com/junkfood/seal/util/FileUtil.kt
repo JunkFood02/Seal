@@ -32,6 +32,21 @@ object FileUtil {
         })
     }
 
+    fun openFile(path: String) {
+        context.startActivity(Intent().apply {
+            action = (Intent.ACTION_VIEW)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            setDataAndType(
+                FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".provider",
+                    File(path)
+                ),
+                if (path.contains(".mp3")) "audio/*" else "video/*"
+            )
+        })
+    }
+
     fun scanFileToMediaLibrary(title: String, ext: String) {
         MediaScannerConnection.scanFile(
             context, arrayOf("${BaseApplication.downloadDir}/$title.$ext"),

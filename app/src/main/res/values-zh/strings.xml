@@ -33,4 +33,8 @@
     <string name="url_empty">视频链接不能为空</string>
     <string name="ytdlp_version">下载组件版本</string>
     <string name="ytdlp_update">点此更新yt-dlp</string>
+    <string name="delete_info">从下载记录移除</string>
+    <string name="delete_info_msg">这个操作不会删除已下载的媒体文件</string>
+    <string name="confirm">确认</string>
+    <string name="dismiss">取消</string>
 </resources>
