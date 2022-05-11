@@ -8,7 +8,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.DeleteDialog
 import com.junkfood.seal.ui.component.VideoListItem
@@ -39,7 +41,7 @@ fun VideoListPage(navController: NavController) {
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = "Downloads",
+                        text = stringResource(R.string.downloads_history),
                         //fontSize = MaterialTheme.typography.displaySmall.fontSize
                     )
                 },

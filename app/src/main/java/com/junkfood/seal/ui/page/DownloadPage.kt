@@ -9,10 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Subscriptions
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -59,12 +57,12 @@ fun DownloadPage(
 
     val progress = downloadViewModel.progress.observeAsState(0f).value
     val expanded = downloadViewModel.isDownloading.observeAsState(false).value
-    val videoTitle = downloadViewModel.videoTitle.observeAsState().value
-    val videoAuthor = downloadViewModel.videoAuthor.observeAsState().value
-
-    val videoThumbnailUrl = downloadViewModel.videoThumbnailUrl.observeAsState().value
+    val videoTitle = downloadViewModel.videoTitle.observeAsState("").value
+    val videoAuthor = downloadViewModel.videoAuthor.observeAsState("").value
+    val errorOccurs = downloadViewModel.downloadError.observeAsState(false).value
+    val errorMessage = downloadViewModel.errorMessage.observeAsState("").value
+    val videoThumbnailUrl = downloadViewModel.videoThumbnailUrl.observeAsState("").value
     val clipboardManager = LocalClipboardManager.current
-
 
     val checkPermission = {
         if (storagePermission.status == PermissionStatus.Granted)
@@ -112,7 +110,9 @@ fun DownloadPage(
 
                     InputUrl(
                         url = downloadViewModel.url,
-                        hint = context.getString(R.string.video_url)
+                        hint = context.getString(R.string.video_url),
+                        error = errorOccurs,
+                        errorMessage = errorMessage
                     )
 
                 }
@@ -138,16 +138,32 @@ fun SimpleText(text: String) {
 }
 
 @Composable
-fun InputUrl(url: MutableLiveData<String>, hint: String) {
+fun InputUrl(url: MutableLiveData<String>, hint: String, error: Boolean, errorMessage: String) {
     val urlState = url.observeAsState("").value
     OutlinedTextField(
         value = urlState,
+        isError = error,
         onValueChange = { url.value = it },
         label = { Text(hint) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth()
     )
+    AnimatedVisibility(visible = error) {
+        Row {
+            Icon(
+                Icons.Outlined.Error,
+                contentDescription = "error",
+                tint = MaterialTheme.colorScheme.error
+            )
+            Text(
+                modifier = Modifier.padding(horizontal = 6.dp),
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error
+            )
+
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -240,7 +256,7 @@ fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
         IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.Outlined.Settings,
-                contentDescription = "Localized description"
+                contentDescription = stringResource(id = R.string.settings)
             )
         }
 
@@ -248,7 +264,7 @@ fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
         IconButton(onClick = videoList) {
             Icon(
                 imageVector = Icons.Outlined.Subscriptions,
-                contentDescription = "Localized description"
+                contentDescription = stringResource(id = R.string.downloads_history)
             )
         }
     }

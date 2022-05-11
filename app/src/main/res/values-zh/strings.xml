@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Seal</string>
     <string name="title_home">主页</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="video_url">视频链接</string>
     <string name="download_directory">下载目录</string>
     <string name="extract_audio">提取音频</string>
@@ -13,8 +11,8 @@
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
     <string name="open_when_finish">完成后打开</string>
-    <string name="yt_dlp_up_to_date">yt-dlp 已更新到最新版本</string>
-    <string name="yt_dlp_update_fail">更新 yt-dlp 失败，请尝试连接代理后重新打开 app</string>
+    <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
+    <string name="yt_dlp_update_fail">更新yt-dlp失败，下载视频可能会失败，请尝试连接代理后重新打开app</string>
     <string name="fetching_info">正在获取视频信息</string>
     <string name="permission_denied">请求储存权限失败</string>
     <string name="download_error_msg">下载视频时发生错误</string>
@@ -37,4 +35,5 @@
     <string name="delete_info_msg">这个操作不会删除已下载的媒体文件</string>
     <string name="confirm">确认</string>
     <string name="dismiss">取消</string>
+    <string name="downloads_history">下载记录</string>
 </resources>

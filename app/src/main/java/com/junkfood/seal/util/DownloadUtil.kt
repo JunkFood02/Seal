@@ -38,8 +38,8 @@ object DownloadUtil {
     suspend fun fetchVideoInfo(url: String): VideoInfo? {
         if (WIP == 1) {
             toast(context.getString(R.string.task_running))
-        } else
-            WIP = 1
+            return null
+        } else WIP = 1
         val videoInfo: VideoInfo
         try {
             toast(context.getString(R.string.fetching_info))
@@ -52,7 +52,6 @@ object DownloadUtil {
         } catch (e: Exception) {
             FileUtil.createLogFileOnDevice(e)
             WIP = 0
-            toast(context.resources.getString(R.string.fetch_info_error_msg))
             return null
         }
         return videoInfo
@@ -103,7 +102,6 @@ object DownloadUtil {
                 YoutubeDL.getInstance().execute(request, progressCallback)
             } catch (e: Exception) {
                 e.printStackTrace()
-                toast(context.getString(R.string.download_error_msg))
                 FileUtil.createLogFileOnDevice(e)
                 return Result.failure()
             }
