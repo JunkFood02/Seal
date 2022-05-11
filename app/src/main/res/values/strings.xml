@@ -36,5 +36,6 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="downloads_history">Downloads</string>
+    <string name="audio">Audio</string>
 
 </resources>

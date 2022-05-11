@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
+import com.junkfood.seal.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -25,6 +27,7 @@ fun VideoListItem(
     author: String,
     thumbnailUrl: String,
     videoUrl: String,
+    isAudio: Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
@@ -73,6 +76,12 @@ fun VideoListItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            if (isAudio)
+                Text(
+                    text = stringResource(R.string.audio),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                )
         }
     }
 }

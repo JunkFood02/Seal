@@ -67,6 +67,7 @@ fun VideoListPage(navController: NavController) {
                             author = item.videoAuthor,
                             thumbnailUrl = item.thumbnailUrl,
                             videoUrl = item.videoUrl,
+                            isAudio = item.videoPath.contains(".mp3"),
                             onClick = { FileUtil.openFile(item.videoPath) }
                         ) {
                             openDialog.value = item.id

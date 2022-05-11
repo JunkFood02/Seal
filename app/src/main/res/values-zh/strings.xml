@@ -36,4 +36,5 @@
     <string name="confirm">确认</string>
     <string name="dismiss">取消</string>
     <string name="downloads_history">下载记录</string>
+    <string name="audio">音频</string>
 </resources>
