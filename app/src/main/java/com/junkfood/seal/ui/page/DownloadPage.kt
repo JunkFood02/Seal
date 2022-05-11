@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -72,22 +73,22 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(9f.dp)
+                .padding(9.dp)
         ) {
-            TitleBar(title = context.getString(R.string.app_name)) {
+            TitleBar(title = context.getString(R.string.app_name), onClick = {
                 navController.navigate("settings") {
                     launchSingleTop = true
                     popUpTo("home")
                 }
-            }
+            }) { navController.navigate("videolist") }
             Box(
                 modifier = Modifier
                     .padding(16f.dp)
@@ -102,6 +103,11 @@ fun DownloadPage(
                             videoThumbnailUrl.toString(),
                             progress = progress, onClick = { downloadViewModel.openVideoFile() }
                         )
+//                        VideoListItem(videoTitle.toString(),
+//                            videoAuthor.toString(),
+//                            videoThumbnailUrl.toString(),
+//                            "null",
+//                            onClick = { downloadViewModel.openVideoFile() })
                     }
 
                     InputUrl(
@@ -223,7 +229,7 @@ fun VideoCard(
 }
 
 @Composable
-fun TitleBar(title: String, onClick: () -> Unit) {
+fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
     LargeTopAppBar(title = {
         Text(
             text = title,
@@ -238,6 +244,13 @@ fun TitleBar(title: String, onClick: () -> Unit) {
             )
         }
 
+    }, actions = {
+        IconButton(onClick = videoList) {
+            Icon(
+                imageVector = Icons.Outlined.Subscriptions,
+                contentDescription = "Localized description"
+            )
+        }
     }
     )
 }
@@ -264,6 +277,16 @@ fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
         }, modifier = Modifier
             .padding(vertical = 12f.dp)
     )
+/*    FloatingActionButton(
+        onClick = debug,
+        content = {
+            Icon(
+                Icons.Outlined.Adb,
+                contentDescription = "download"
+            )
+        }, modifier = Modifier
+            .padding(vertical = 12f.dp)
+    )*/
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -273,7 +296,7 @@ fun UrlCard(url: String, pasteCallback: (() -> Unit)) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { pasteCallback() }
-            .clip(RoundedCornerShape(32f.dp)), colors = CardDefaults.cardColors(),
+            .clip(RoundedCornerShape(32f.dp)),
         elevation = CardDefaults.cardElevation(),
         shape = RoundedCornerShape(32f.dp)
     ) {

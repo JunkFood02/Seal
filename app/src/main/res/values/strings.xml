@@ -33,5 +33,9 @@
     <string name="paste_fail_msg">Unable to match url in clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
+    <string name="delete_info">Remove from history</string>
+    <string name="delete_info_msg">Downloaded file would not be deleted.</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>
