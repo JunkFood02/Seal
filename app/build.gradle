@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 6
-def versionBuild = 2
+def versionBuild = 3
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))

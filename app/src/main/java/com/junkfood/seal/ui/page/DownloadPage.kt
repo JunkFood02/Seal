@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -62,6 +63,7 @@ fun DownloadPage(
     val errorOccurs = downloadViewModel.downloadError.observeAsState(false).value
     val errorMessage = downloadViewModel.errorMessage.observeAsState("").value
     val videoThumbnailUrl = downloadViewModel.videoThumbnailUrl.observeAsState("").value
+    val viewState = downloadViewModel.viewState.collectAsState()
     val clipboardManager = LocalClipboardManager.current
 
     val checkPermission = {
@@ -109,7 +111,7 @@ fun DownloadPage(
                     }
 
                     InputUrl(
-                        url = downloadViewModel.url,
+                        url = viewState.value.url,
                         hint = context.getString(R.string.video_url),
                         error = errorOccurs,
                         errorMessage = errorMessage
@@ -119,7 +121,7 @@ fun DownloadPage(
                 Column(modifier = Modifier.align(Alignment.BottomEnd)) {
                     FABs(downloadCallback = checkPermission) {
                         TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())?.let {
-                            downloadViewModel.url.value = it
+                            downloadViewModel. = it
                         }
                     }
                 }

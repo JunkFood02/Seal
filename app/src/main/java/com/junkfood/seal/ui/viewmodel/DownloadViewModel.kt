@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +11,10 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
-import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -22,40 +23,46 @@ class DownloadViewModel : ViewModel() {
     private val _progress = MutableLiveData<Float>().apply {
         value = 0f
     }
-    val isDownloading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    val progress: LiveData<Float> = _progress
-    val url: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val videoTitle: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val videoThumbnailUrl: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val videoAuthor: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
-    val downloadError: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
-    val errorMessage: MutableLiveData<String> = MutableLiveData<String>().apply { value = "" }
+
+
+    private val _viewState = MutableStateFlow(DownloadViewState())
+    val viewState = _viewState.asStateFlow()
+
+    data class DownloadViewState(
+        val isDownloading: Boolean = false,
+        val progress: Float = 0f,
+        val url: String = "",
+        val videoTitle: String = "",
+        val videoThumbnailUrl: String = "",
+        val videoAuthor: String = "",
+        val isDownloadError: Boolean = false,
+        val errorMessage: String = ""
+    )
+    fun update
 
     private lateinit var downloadResultTemp: DownloadUtil.Result
+
+
     fun startDownloadVideo() {
         viewModelScope.launch(Dispatchers.IO) {
-            with(url.value) {
+            with(_viewState.value.url) {
                 if (isNullOrBlank()) {
                     showErrorMessage(context.getString(R.string.url_empty))
                 } else {
-                    downloadError.postValue(false)
-                    val videoInfo: VideoInfo? =
-                        DownloadUtil.fetchVideoInfo(this@with)
+                    _viewState.update { it.copy(isDownloadError = false) }
+                    val videoInfo = DownloadUtil.fetchVideoInfo(this@with)
                     if (videoInfo == null) {
                         showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                         return@launch
                     }
-                    withContext(Dispatchers.Main) {
-                        _progress.value = 0f
-                        isDownloading.value = true
-                        videoTitle.value = videoInfo.title
-                        videoAuthor.value = videoInfo.uploader
-                        with(videoInfo.thumbnail)
-                        {
-                            if (matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?\$"))) {
-                                videoThumbnailUrl.value = replace("http", "https")
-                            } else videoThumbnailUrl.value = this.toString()
-                        }
+                    _viewState.update {
+                        it.copy(
+                            progress = 0f,
+                            isDownloading = true,
+                            videoTitle = videoInfo.title,
+                            videoAuthor = videoInfo.uploader,
+                            videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
+                        )
                     }
                     downloadResultTemp = DownloadUtil.downloadVideo(this@with, videoInfo)
                     { fl: Float, _: Long, _: String -> _progress.postValue(fl) }
@@ -66,15 +73,15 @@ class DownloadViewModel : ViewModel() {
                         DatabaseUtil.insertInfo(
                             DownloadedVideoInfo(
                                 0,
-                                videoTitle.value.toString(),
-                                videoAuthor.value.toString(),
-                                url.value.toString(),
-                                videoThumbnailUrl.value.toString(),
+                                videoInfo.title.toString(),
+                                videoInfo.uploader.toString(),
+                                _viewState.value.url,
+                                videoInfo.thumbnail.toString(),
                                 downloadResultTemp.filePath.toString()
                             )
                         )
                         withContext(Dispatchers.Main) {
-                            _progress.value = 100f
+                            _viewState.update { it.copy(progress = 100f) }
                             if (PreferenceUtil.getValue("open_when_finish")) openFile(
                                 downloadResultTemp
                             )
@@ -87,15 +94,13 @@ class DownloadViewModel : ViewModel() {
 
     private suspend fun showErrorMessage(s: String) {
         withContext(Dispatchers.Main) {
-            _progress.value = 0f
-            downloadError.value = true
-            errorMessage.value = s
+            _viewState.update { it.copy(progress = 0f, isDownloadError = true, errorMessage = s) }
             TextUtil.makeToast(s)
         }
     }
 
     fun openVideoFile() {
-        if (progress.value == 100f)
+        if (_viewState.value.progress == 100f)
             openFile(downloadResultTemp)
     }
 

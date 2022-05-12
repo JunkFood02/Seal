@@ -38,6 +38,7 @@ object DownloadUtil {
     suspend fun fetchVideoInfo(url: String): VideoInfo? {
         if (WIP == 1) {
             toast(context.getString(R.string.task_running))
+            WIP = 0
             return null
         } else WIP = 1
         val videoInfo: VideoInfo
