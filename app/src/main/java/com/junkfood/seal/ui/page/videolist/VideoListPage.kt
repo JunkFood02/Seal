@@ -32,7 +32,6 @@ fun VideoListPage(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
     val scope = rememberCoroutineScope()
-    val showDialog = viewState.value.showDialog
 
 
     BackHandler() {

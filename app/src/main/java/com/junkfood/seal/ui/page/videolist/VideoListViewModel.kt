@@ -4,20 +4,25 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
 class VideoListViewModel @Inject constructor() : ViewModel() {
+
     data class VideoListViewState constructor(
         val listFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getInfo(),
         val showDialog: Boolean = false
@@ -67,8 +72,17 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         _viewState.update { it.copy(showDialog = false) }
     }
 
-    fun removeItem() {
-        DatabaseUtil.deleteInfoById(_detailViewState.value.id)
+    fun removeItem(delete: Boolean) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                if (delete)
+                    with(File(_detailViewState.value.path)) {
+                        if (exists() and canWrite()) delete()
+                    }
+                DatabaseUtil.deleteInfoById(_detailViewState.value.id)
+            }
+        }
+
     }
 
     private val _detailViewState = MutableStateFlow(VideoDetailViewState())

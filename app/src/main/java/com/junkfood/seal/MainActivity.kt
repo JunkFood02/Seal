@@ -1,6 +1,5 @@
 package com.junkfood.seal
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
@@ -55,12 +54,10 @@ class MainActivity : ComponentActivity() {
 
     private fun setImmersiveStatusBar() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        if (Build.VERSION.SDK_INT >= 30) {
-            ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
-                WindowInsetsCompat.CONSUMED
-            }
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
+            WindowInsetsCompat.CONSUMED
         }
     }
 

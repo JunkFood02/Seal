@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +30,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     val context = LocalContext.current
     val detailViewState = videoListViewModel.detailViewState.collectAsState().value
     val clipboardManager = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
     with(detailViewState) {
         BottomDrawer(drawerState = drawerState, sheetContent = {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -70,7 +72,10 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
 
                     OutlinedButton(
                         modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = { videoListViewModel.showDialog() })
+                        onClick = {
+                            videoListViewModel.hideDrawer(scope)
+                            videoListViewModel.showDialog()
+                        })
                     {
                         Icon(
                             Icons.Outlined.RemoveCircleOutline,
@@ -84,6 +89,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
 
                     FilledTonalButton(
                         onClick = {
+                            videoListViewModel.hideDrawer(scope)
                             context.startActivity(Intent().apply {
                                 action = Intent.ACTION_VIEW
                                 data = Uri.parse(url)
