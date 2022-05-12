@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.videolist
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -37,6 +38,10 @@ fun VideoListPage(
         }
     }
 
+    BackHandler() {
+        if (!videoListViewModel.hideDrawer(scope))
+            navController.popBackStack()
+    }
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {

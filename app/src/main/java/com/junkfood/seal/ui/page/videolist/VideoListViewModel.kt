@@ -37,6 +37,16 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         )
     }
 
+    fun hideDrawer(scope: CoroutineScope): Boolean {
+        if (_detailViewState.value.drawerState.isVisible) {
+            scope.launch {
+                _detailViewState.value.drawerState.hide()
+            }
+            return true
+        }
+        return false
+    }
+
     fun showDrawer(scope: CoroutineScope, item: DownloadedVideoInfo) {
         scope.launch {
             _detailViewState.update {

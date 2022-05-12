@@ -12,18 +12,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.ui.component.BottomDrawer
+import com.junkfood.seal.util.TextUtil
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) {
     val context = LocalContext.current
-    val viewState = videoListViewModel.detailViewState.collectAsState().value
-    with(viewState) {
+    val detailViewState = videoListViewModel.detailViewState.collectAsState().value
+    val clipboardManager = LocalClipboardManager.current
+    with(detailViewState) {
         BottomDrawer(drawerState = drawerState, sheetContent = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -42,7 +46,12 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 )
-                TextButton(onClick = {}) {
+                TextButton(modifier = Modifier.padding(vertical = 6.dp), onClick = {
+                    clipboardManager.setText(
+                        AnnotatedString(url)
+                    )
+                    TextUtil.makeToast("Link copied to clipboard")
+                }) {
                     Icon(Icons.Outlined.Link, "")
                     Text(
                         modifier = Modifier
