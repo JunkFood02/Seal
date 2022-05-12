@@ -14,10 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.util.TextUtil
 
@@ -50,9 +52,9 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                     clipboardManager.setText(
                         AnnotatedString(url)
                     )
-                    TextUtil.makeToast("Link copied to clipboard")
+                    TextUtil.makeToast(context.getString(R.string.link_copied))
                 }) {
-                    Icon(Icons.Outlined.Link, "")
+                    Icon(Icons.Outlined.Link, stringResource(R.string.link_copied))
                     Text(
                         modifier = Modifier
                             .padding(vertical = 6.dp, horizontal = 8.dp),
@@ -68,14 +70,16 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
 
                     OutlinedButton(
                         modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = {
-                            context.startActivity(Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                data = Uri.parse(url)
-                            })
-                        }) {
-                        Icon(Icons.Outlined.RemoveCircleOutline, contentDescription = "")
-                        Text(modifier = Modifier.padding(start = 8.dp), text = "Remove")
+                        onClick = { videoListViewModel.showDialog() })
+                    {
+                        Icon(
+                            Icons.Outlined.RemoveCircleOutline,
+                            contentDescription = stringResource(R.string.remove)
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = stringResource(R.string.remove)
+                        )
                     }
 
                     FilledTonalButton(
@@ -85,8 +89,14 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                                 data = Uri.parse(url)
                             })
                         }) {
-                        Icon(Icons.Outlined.OpenInNew, contentDescription = "")
-                        Text(modifier = Modifier.padding(start = 8.dp), text = "Open Url")
+                        Icon(
+                            Icons.Outlined.OpenInNew,
+                            contentDescription = stringResource(R.string.open_url)
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = stringResource(R.string.open_url)
+                        )
                     }
 
                 }

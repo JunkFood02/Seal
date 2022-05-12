@@ -7,16 +7,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.DeleteDialog
 import com.junkfood.seal.ui.component.VideoListItem
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -31,12 +32,8 @@ fun VideoListPage(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
     val scope = rememberCoroutineScope()
-    val openDialog = remember { mutableStateOf(-1) }
-    if (openDialog.value != -1) {
-        DeleteDialog({ openDialog.value = -1 }) {
-            DatabaseUtil.deleteInfoById(openDialog.value)
-        }
-    }
+    val showDialog = viewState.value.showDialog
+
 
     BackHandler() {
         if (!videoListViewModel.hideDrawer(scope))
@@ -85,5 +82,6 @@ fun VideoListPage(
             }
         })
     VideoDetailDrawer()
-
+    if (viewState.value.showDialog)
+        RemoveItemDialog()
 }

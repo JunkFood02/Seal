@@ -32,10 +32,13 @@
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
     <string name="delete_info">Remove from history</string>
-    <string name="delete_info_msg">Downloaded file would not be deleted.</string>
+    <string name="delete_info_msg">Downloaded file would not be deleted</string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
+    <string name="link_copied">Link copied to clipboard</string>
+    <string name="open_url">Open Url</string>
+    <string name="remove">Remove</string>
 
 </resources>

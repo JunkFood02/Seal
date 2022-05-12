@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.component
+package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
@@ -8,11 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
 
 @Composable
-fun DeleteDialog(dismissCallback: () -> Unit, confirmCallback: () -> Unit) {
-    AlertDialog(onDismissRequest = dismissCallback, icon = {
+fun RemoveItemDialog(
+    videoListViewModel: VideoListViewModel = hiltViewModel(),
+) {
+    AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() }, icon = {
         Icon(
             Icons.Outlined.Delete,
             contentDescription = "delete"
@@ -20,11 +23,11 @@ fun DeleteDialog(dismissCallback: () -> Unit, confirmCallback: () -> Unit) {
     }, title = {
         Text(text = stringResource(R.string.delete_info))
     }, text = { Text(text = stringResource(R.string.delete_info_msg)) }, confirmButton = {
-        TextButton(onClick = confirmCallback) {
+        TextButton(onClick = { videoListViewModel.removeItem() }) {
             Text(text = stringResource(R.string.confirm))
         }
     }, dismissButton = {
-        TextButton(onClick = dismissCallback) {
+        TextButton(onClick = { videoListViewModel.hideDialog() }) {
             Text(text = stringResource(R.string.dismiss))
         }
     })

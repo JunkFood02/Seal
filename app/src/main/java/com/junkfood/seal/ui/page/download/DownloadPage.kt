@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page
+package com.junkfood.seal.ui.page.download
 
 import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
@@ -32,7 +33,6 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
 
 
@@ -40,7 +40,7 @@ import com.junkfood.seal.util.TextUtil
 @Composable
 fun DownloadPage(
     navController: NavController,
-    downloadViewModel: DownloadViewModel,
+    downloadViewModel: DownloadViewModel= hiltViewModel(),
 ) {
 
     val storagePermission =

@@ -20,16 +20,19 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor() : ViewModel() {
     data class VideoListViewState constructor(
         val listFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getInfo(),
+        val showDialog: Boolean = false
     )
 
     data class VideoDetailViewState(
+        val id: Int = 0,
         val title: String = "",
         val author: String = "",
         val url: String = "",
         val path: String = "",
-        var drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden)
+        var drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden),
     ) {
         constructor(info: DownloadedVideoInfo) : this(
+            info.id,
             info.videoTitle,
             info.videoAuthor,
             info.videoUrl,
@@ -56,6 +59,17 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun showDialog() {
+        _viewState.update { it.copy(showDialog = true) }
+    }
+
+    fun hideDialog() {
+        _viewState.update { it.copy(showDialog = false) }
+    }
+
+    fun removeItem() {
+        DatabaseUtil.deleteInfoById(_detailViewState.value.id)
+    }
 
     private val _detailViewState = MutableStateFlow(VideoDetailViewState())
     private val _viewState = MutableStateFlow(VideoListViewState())
