@@ -25,10 +25,10 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.R
-import com.junkfood.seal.util.DownloadUtil.updateYtDlp
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.util.DownloadUtil.updateYtDlp
+import com.junkfood.seal.util.PreferenceUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

@@ -81,7 +81,7 @@ object DownloadUtil {
                 addOption("-o", "$filename.%(ext)s")
             }
 
-            ext = if (extractAudio) {
+            ext = if (extractAudio or (videoInfo.ext == "mp3")) {
                 addOption("-x")
                 addOption("--audio-format", "mp3")
                 addOption("--audio-quality", "0")

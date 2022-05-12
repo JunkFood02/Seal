@@ -1,7 +1,8 @@
-package com.junkfood.seal.ui.page
+package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
@@ -9,29 +10,30 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.junkfood.seal.R
-import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.DeleteDialog
 import com.junkfood.seal.ui.component.VideoListItem
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun VideoListPage(navController: NavController) {
-    val list: State<List<DownloadedVideoInfo>> =
-        DatabaseUtil.getInfo().collectAsState(ArrayList())
+fun VideoListPage(
+    navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
+) {
+    val viewState = videoListViewModel.viewState.collectAsState()
+    val list = viewState.value.listFlow.collectAsState(ArrayList())
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
+    val scope = rememberCoroutineScope()
     val openDialog = remember { mutableStateOf(-1) }
-
     if (openDialog.value != -1) {
         DeleteDialog({ openDialog.value = -1 }) {
             DatabaseUtil.deleteInfoById(openDialog.value)
-            openDialog.value = -1
         }
     }
 
@@ -61,7 +63,7 @@ fun VideoListPage(navController: NavController) {
                 contentPadding = innerPadding,
             ) {
                 item {
-                    for (item in list.value)
+                    for (item in list.value) {
                         VideoListItem(
                             title = item.videoTitle,
                             author = item.videoAuthor,
@@ -70,12 +72,13 @@ fun VideoListPage(navController: NavController) {
                             isAudio = item.videoPath.contains(".mp3"),
                             onClick = { FileUtil.openFile(item.videoPath) }
                         ) {
-                            openDialog.value = item.id
+                            videoListViewModel.showDrawer(scope, item)
                         }
+                    }
                 }
 
             }
-
         })
+    VideoDetailDrawer()
 
 }

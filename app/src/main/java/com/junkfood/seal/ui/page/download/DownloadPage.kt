@@ -32,7 +32,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.viewmodel.DownloadViewModel
+import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.util.TextUtil
 
 

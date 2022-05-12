@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.viewmodel
+package com.junkfood.seal.ui.page.download
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,9 +17,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @HiltViewModel
-class DownloadViewModel : ViewModel() {
+class DownloadViewModel @Inject constructor(): ViewModel() {
 
     private val _viewState = MutableStateFlow(DownloadViewState())
     val viewState = _viewState.asStateFlow()

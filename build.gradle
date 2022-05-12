@@ -6,12 +6,14 @@ buildscript {
         room_version = '2.4.2'
         accompanist_version = '0.24.7-alpha'
         kotlin_version = '1.6.20'
+        hilt_version = '2.42'
     }
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

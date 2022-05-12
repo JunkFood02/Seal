@@ -13,17 +13,19 @@ import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.*
 import java.io.File
 
-
+@HiltAndroidApp
 class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
+        applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        CoroutineScope(Job()).launch {
+        applicationScope.launch {
             withContext(Dispatchers.IO) {
                 try {
                     Log.d(TAG, "onCreate: Init")
@@ -62,7 +64,7 @@ class BaseApplication : Application() {
         lateinit var clipboard: ClipboardManager
         lateinit var downloadDir: String
         var ytdlpVersion = ""
-
+        lateinit var applicationScope: CoroutineScope
 
         fun updateDownloadDir(path: String) {
             downloadDir = path

@@ -4,6 +4,8 @@ plugins {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def versionMajor = 0
 def versionMinor = 0
@@ -103,9 +105,11 @@ dependencies {
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation "com.google.dagger:hilt-android:2.40.5"
+    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
