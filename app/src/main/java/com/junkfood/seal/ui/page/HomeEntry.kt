@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -12,7 +13,7 @@ import com.junkfood.ui.animatedComposable
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeEntry(downloadViewModel: DownloadViewModel) {
+fun HomeEntry(downloadViewModel: DownloadViewModel = hiltViewModel()) {
     val useDarkTheme = isSystemInDarkTheme()
 
     val systemUiController = rememberSystemUiController()

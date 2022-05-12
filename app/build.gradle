@@ -102,8 +102,10 @@ dependencies {
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"

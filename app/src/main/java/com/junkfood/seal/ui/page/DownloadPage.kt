@@ -14,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +21,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
@@ -56,13 +54,6 @@ fun DownloadPage(
             }
         }
 
-    val progress = downloadViewModel.progress.observeAsState(0f).value
-    val expanded = downloadViewModel.isDownloading.observeAsState(false).value
-    val videoTitle = downloadViewModel.videoTitle.observeAsState("").value
-    val videoAuthor = downloadViewModel.videoAuthor.observeAsState("").value
-    val errorOccurs = downloadViewModel.downloadError.observeAsState(false).value
-    val errorMessage = downloadViewModel.errorMessage.observeAsState("").value
-    val videoThumbnailUrl = downloadViewModel.videoThumbnailUrl.observeAsState("").value
     val viewState = downloadViewModel.viewState.collectAsState()
     val clipboardManager = LocalClipboardManager.current
 
@@ -83,45 +74,43 @@ fun DownloadPage(
                 .fillMaxSize()
                 .padding(9.dp)
         ) {
-            TitleBar(title = context.getString(R.string.app_name), onClick = {
-                navController.navigate("settings") {
-                    launchSingleTop = true
-                    popUpTo("home")
-                }
-            }) { navController.navigate("videolist") }
-            Box(
-                modifier = Modifier
-                    .padding(16f.dp)
-                    .fillMaxSize()
-            )
-            {
-                Column {
-                    AnimatedVisibility(visible = expanded) {
-                        VideoCard(
-                            videoTitle.toString(),
-                            videoAuthor.toString(),
-                            videoThumbnailUrl.toString(),
-                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
-                        )
-//                        VideoListItem(videoTitle.toString(),
-//                            videoAuthor.toString(),
-//                            videoThumbnailUrl.toString(),
-//                            "null",
-//                            onClick = { downloadViewModel.openVideoFile() })
+                TitleBar(title = context.getString(R.string.app_name), onClick = {
+                    navController.navigate("settings") {
+                        launchSingleTop = true
+                        popUpTo("home")
                     }
+                }) { navController.navigate("videolist") }
+                Box(
+                    modifier = Modifier
+                        .padding(16f.dp)
+                        .fillMaxSize()
+                )
+                {
+                    with(viewState.value) {
+                    Column {
+                        AnimatedVisibility(visible = isDownloading) {
+                            VideoCard(
+                                videoTitle,
+                                videoAuthor,
+                                videoThumbnailUrl,
+                                progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                            )
 
-                    InputUrl(
-                        url = viewState.value.url,
-                        hint = context.getString(R.string.video_url),
-                        error = errorOccurs,
-                        errorMessage = errorMessage
-                    )
+                        }
 
-                }
-                Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                    FABs(downloadCallback = checkPermission) {
-                        TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())?.let {
-                            downloadViewModel. = it
+                        InputUrl(
+                            url = url,
+                            hint = context.getString(R.string.video_url),
+                            error = isDownloadError,
+                            errorMessage = errorMessage
+                        ) { downloadViewModel.updateUrl(it) }
+                    }
+                    Column(modifier = Modifier.align(Alignment.BottomEnd)) {
+                        FABs(downloadCallback = checkPermission) {
+                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                                ?.let {
+                                    downloadViewModel.updateUrl(it)
+                                }
                         }
                     }
                 }
@@ -140,12 +129,17 @@ fun SimpleText(text: String) {
 }
 
 @Composable
-fun InputUrl(url: MutableLiveData<String>, hint: String, error: Boolean, errorMessage: String) {
-    val urlState = url.observeAsState("").value
+fun InputUrl(
+    url: String,
+    hint: String,
+    error: Boolean,
+    errorMessage: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
-        value = urlState,
+        value = url,
         isError = error,
-        onValueChange = { url.value = it },
+        onValueChange = onValueChange,
         label = { Text(hint) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
@@ -214,16 +208,6 @@ fun VideoCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
-//                LinearProgressIndicator(
-//                    progress = progressAnimationValue,
-//                    modifier = Modifier.fillMaxWidth(0.75f),
-//                )
-//                Text(
-//                    text = "$progress%",
-//                    textAlign = TextAlign.Center,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                )
 
         }
         val progressAnimationValue by animateFloatAsState(
@@ -295,16 +279,7 @@ fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
         }, modifier = Modifier
             .padding(vertical = 12f.dp)
     )
-/*    FloatingActionButton(
-        onClick = debug,
-        content = {
-            Icon(
-                Icons.Outlined.Adb,
-                contentDescription = "download"
-            )
-        }, modifier = Modifier
-            .padding(vertical = 12f.dp)
-    )*/
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

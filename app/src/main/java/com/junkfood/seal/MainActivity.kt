@@ -5,26 +5,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.viewmodel.DownloadViewModel
+import com.junkfood.seal.ui.viewmodel.VideoListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var downloadViewModel: DownloadViewModel
+    private val videoListViewModel: VideoListViewModel by viewModels()
+    private val downloadViewModel: DownloadViewModel by viewModels()
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
+
         setImmersiveStatusBar()
         setContent {
             SealTheme {
-                HomeEntry(downloadViewModel)
+                HomeEntry()
             }
         }
 
