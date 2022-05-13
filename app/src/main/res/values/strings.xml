@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="greeting">YouTube/Bilibili Video Downloader</string>
     <string name="video_url">Video Url</string>
     <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
@@ -13,8 +10,7 @@
     <string name="download">Download</string>
     <string name="url_empty">Url cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
-    <string name="create_thumbnail_summary">Download video thumbnail as a file, or
-        embedded into extracted audio file.</string>
+    <string name="create_thumbnail_summary">Download and save video thumbnail as a file.</string>
     <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
@@ -35,5 +31,15 @@
     <string name="paste_fail_msg">Unable to match url in clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
+    <string name="delete_info">Remove from history</string>
+    <string name="delete_info_msg">This operation cannot be withdrawn.</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="downloads_history">Downloads</string>
+    <string name="audio">Audio</string>
+    <string name="link_copied">Link copied to clipboard</string>
+    <string name="open_url">Open Url</string>
+    <string name="remove">Remove</string>
+    <string name="delete_file">Delete file</string>
 
 </resources>

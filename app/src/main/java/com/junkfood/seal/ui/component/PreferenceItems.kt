@@ -1,4 +1,4 @@
-package com.junkfood.ui
+package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

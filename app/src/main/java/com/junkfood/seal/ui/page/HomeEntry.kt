@@ -7,27 +7,33 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.junkfood.seal.ui.viewmodel.DownloadViewModel
+import com.junkfood.seal.ui.page.download.DownloadPage
+import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.ui.animatedComposable
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeEntry(downloadViewModel: DownloadViewModel) {
+fun HomeEntry(
+) {
     val useDarkTheme = isSystemInDarkTheme()
 
-    rememberSystemUiController().run {
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.run {
         setStatusBarColor(Color.Transparent, !useDarkTheme)
         setSystemBarsColor(Color.Transparent, !useDarkTheme)
         setNavigationBarColor(Color.Transparent, !useDarkTheme)
     }
 
+
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(navController = navController, startDestination = "home") {
         animatedComposable("home") {
-            DownloadPage(navController = navController, downloadViewModel = downloadViewModel)
+            DownloadPage(navController = navController)
         }
         animatedComposable("settings") { SettingsPage(navController) }
         animatedComposable("download") { DownloadPreferences(navController) }
+        animatedComposable("videolist") { VideoListPage(navController) }
     }
 
 }

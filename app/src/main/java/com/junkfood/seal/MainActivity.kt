@@ -1,6 +1,5 @@
 package com.junkfood.seal
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
@@ -9,24 +8,21 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.ui.viewmodel.DownloadViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var downloadViewModel: DownloadViewModel
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
+
         setImmersiveStatusBar()
-
-
         setContent {
             SealTheme {
-                HomeEntry(downloadViewModel)
+                HomeEntry()
             }
         }
 
@@ -57,13 +53,11 @@ class MainActivity : ComponentActivity() {
     }*/
 
     private fun setImmersiveStatusBar() {
-        if (Build.VERSION.SDK_INT >= 30) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
-                WindowInsetsCompat.CONSUMED
-            }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
+            WindowInsetsCompat.CONSUMED
         }
     }
 
