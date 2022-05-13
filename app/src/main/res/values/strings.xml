@@ -45,7 +45,9 @@
     <string name="about_page">Version, releases</string>
     <string name="back">Go Back</string>
     <string name="version">Version</string>
-    <string name="latest_release_url">Check updates and changelogs</string>
+    <string name="release_desc">Check updates and changelogs</string>
     <string name="release">Latest release</string>
+    <string name="readme_desc">Check GitHub repository and README</string>
+    <string name="readme" translatable="false">README</string>
 
 </resources>

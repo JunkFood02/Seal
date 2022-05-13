@@ -46,5 +46,6 @@
     <string name="back">返回</string>
     <string name="version">当前版本</string>
     <string name="release">版本发布</string>
-    <string name="latest_release_url">查看最新版本与更新日记</string>
+    <string name="release_desc">查看最新版本与更新日记</string>
+    <string name="readme_desc">查看GitHub项目地址与应用说明</string>
 </resources>
