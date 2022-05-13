@@ -33,7 +33,7 @@ fun AboutPage(navController: NavController) {
     val info = context.packageManager.getPackageInfo(context.packageName, 0)
     val versionName = info.versionName
     val releaseURL = "https://github.com/JunkFood02/Seal/releases/latest"
-
+    val repoUrl = "https://github.com/JunkFood02/Seal"
 
     Scaffold(
         modifier = Modifier
@@ -61,6 +61,19 @@ fun AboutPage(navController: NavController) {
             LazyColumn(modifier = Modifier.padding(it)) {
                 item {
                     PreferenceItem(
+                        title = stringResource(R.string.readme),
+                        description = stringResource(R.string.readme_desc),
+                        icon = null,
+                        enable = true
+                    ) {
+                        context.startActivity(Intent().apply {
+                            action = Intent.ACTION_VIEW
+                            data = Uri.parse(repoUrl)
+                        })
+                    }
+                }
+                item {
+                    PreferenceItem(
                         title = stringResource(R.string.version),
                         description = versionName,
                         icon = null,
@@ -70,7 +83,7 @@ fun AboutPage(navController: NavController) {
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.release),
-                        description = stringResource(R.string.latest_release_url),
+                        description = stringResource(R.string.release_desc),
                         icon = null,
                         enable = true
                     ) {

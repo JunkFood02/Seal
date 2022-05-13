@@ -115,7 +115,7 @@ fun PreferenceSwitch(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            androidx.compose.material.Switch(
+            androidx.compose.material3.Switch(
                 checked = isChecked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = 16.dp, end = 6.dp)
