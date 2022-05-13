@@ -16,7 +16,12 @@ object DatabaseUtil {
     ).build()
     private val dao = db.videoInfoDao()
 
-    suspend fun insertInfo(vararg info: DownloadedVideoInfo) = dao.insertAll(*info)
+    suspend fun insertInfo(vararg infoList: DownloadedVideoInfo) {
+        for (info in infoList) {
+            dao.deleteByTitle(info.videoTitle)
+            dao.insertAll(info)
+        }
+    }
 
     fun getInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAll()
 

@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.videolist
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Link
@@ -34,79 +35,80 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     with(detailViewState) {
         BottomDrawer(drawerState = drawerState, sheetContent = {
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp),
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp),
-
-                    text = author,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                )
-                TextButton(modifier = Modifier.padding(vertical = 6.dp), onClick = {
-                    clipboardManager.setText(
-                        AnnotatedString(url)
-                    )
-                    TextUtil.makeToast(context.getString(R.string.link_copied))
-                }) {
-                    Icon(Icons.Outlined.Link, stringResource(R.string.link_copied))
+                SelectionContainer() {
                     Text(
                         modifier = Modifier
-                            .padding(vertical = 6.dp, horizontal = 8.dp),
-                        text = url, maxLines = 1, overflow = TextOverflow.Ellipsis
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp),
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+                SelectionContainer() {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    )
+                }
+            }
+            TextButton(modifier = Modifier.padding(vertical = 6.dp), onClick = {
+                clipboardManager.setText(
+                    AnnotatedString(url)
+                )
+                TextUtil.makeToast(context.getString(R.string.link_copied))
+            }) {
+                Icon(Icons.Outlined.Link, stringResource(R.string.link_copied))
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 6.dp, horizontal = 8.dp),
+                    text = url, maxLines = 1, overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp), horizontalArrangement = Arrangement.End
+            ) {
+
+                OutlinedButton(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    onClick = {
+                        videoListViewModel.hideDrawer(scope)
+                        videoListViewModel.showDialog()
+                    })
+                {
+                    Icon(
+                        Icons.Outlined.RemoveCircleOutline,
+                        contentDescription = stringResource(R.string.remove)
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = stringResource(R.string.remove)
                     )
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp), horizontalArrangement = Arrangement.End
-                ) {
-
-                    OutlinedButton(
-                        modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = {
-                            videoListViewModel.hideDrawer(scope)
-                            videoListViewModel.showDialog()
+                FilledTonalButton(
+                    onClick = {
+                        videoListViewModel.hideDrawer(scope)
+                        context.startActivity(Intent().apply {
+                            action = Intent.ACTION_VIEW
+                            data = Uri.parse(url)
                         })
-                    {
-                        Icon(
-                            Icons.Outlined.RemoveCircleOutline,
-                            contentDescription = stringResource(R.string.remove)
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = stringResource(R.string.remove)
-                        )
-                    }
-
-                    FilledTonalButton(
-                        onClick = {
-                            videoListViewModel.hideDrawer(scope)
-                            context.startActivity(Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                data = Uri.parse(url)
-                            })
-                        }) {
-                        Icon(
-                            Icons.Outlined.OpenInNew,
-                            contentDescription = stringResource(R.string.open_url)
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = stringResource(R.string.open_url)
-                        )
-                    }
-
+                    }) {
+                    Icon(
+                        Icons.Outlined.OpenInNew,
+                        contentDescription = stringResource(R.string.open_url)
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = stringResource(R.string.open_url)
+                    )
                 }
-
             }
         })
     }

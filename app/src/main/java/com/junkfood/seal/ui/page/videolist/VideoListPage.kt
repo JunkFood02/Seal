@@ -64,7 +64,7 @@ fun VideoListPage(
                 contentPadding = innerPadding,
             ) {
                 item {
-                    for (item in list.value) {
+                    for (item in list.value.reversed()) {
                         VideoListItem(
                             title = item.videoTitle,
                             author = item.videoAuthor,

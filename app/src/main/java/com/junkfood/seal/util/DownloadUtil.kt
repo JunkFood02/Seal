@@ -89,7 +89,6 @@ object DownloadUtil {
                 addOption("--embed-thumbnail")
                 addOption("--compat-options", "embed-thumbnail-atomicparsley")
                 addOption("--parse-metadata", "%(title)s:%(meta_album)s")
-                addOption("--add-metadata")
                 "mp3"
             } else videoInfo.ext
 

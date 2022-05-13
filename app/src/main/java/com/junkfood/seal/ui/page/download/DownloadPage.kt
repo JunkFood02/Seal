@@ -180,7 +180,7 @@ fun VideoCard(
                 .fillMaxWidth(),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
-                .scale(Scale.FILL)
+                .scale(Scale.FIT)
                 .crossfade(true)
                 .build(),
             contentDescription = null
