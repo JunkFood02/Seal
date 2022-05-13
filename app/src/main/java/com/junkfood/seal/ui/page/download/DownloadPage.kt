@@ -88,7 +88,7 @@ fun DownloadPage(
                 {
                     with(viewState.value) {
                     Column {
-                        AnimatedVisibility(visible = isDownloading) {
+                        AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
                                 videoTitle,
                                 videoAuthor,

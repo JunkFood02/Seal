@@ -15,12 +15,10 @@ object DownloadUtil {
     class Result(val resultCode: ResultCode, val filePath: String?) {
         companion object {
             fun failure(): Result {
-                WIP = 0
                 return Result(ResultCode.EXCEPTION, null)
             }
 
             fun success(title: String, ext: String): Result {
-                WIP = 0
                 with(if (ext == "mp3") ResultCode.FINISH_AUDIO else ResultCode.FINISH_VIDEO) {
                     return Result(this, "${BaseApplication.downloadDir}/$title.$ext")
                 }
@@ -33,14 +31,9 @@ object DownloadUtil {
     }
 
     private const val TAG = "DownloadUtil"
-    private var WIP = 0
 
     suspend fun fetchVideoInfo(url: String): VideoInfo? {
-        if (WIP == 1) {
-            toast(context.getString(R.string.task_running))
-            WIP = 0
-            return null
-        } else WIP = 1
+
         val videoInfo: VideoInfo
         try {
             toast(context.getString(R.string.fetching_info))
@@ -52,7 +45,6 @@ object DownloadUtil {
             }
         } catch (e: Exception) {
             FileUtil.createLogFileOnDevice(e)
-            WIP = 0
             return null
         }
         return videoInfo

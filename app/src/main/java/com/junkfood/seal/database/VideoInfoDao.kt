@@ -22,4 +22,7 @@ interface VideoInfoDao {
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoTitle = :title")
     suspend fun deleteByTitle(title: String)
+
+    @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
+    suspend fun deleteByPath(path: String)
 }
