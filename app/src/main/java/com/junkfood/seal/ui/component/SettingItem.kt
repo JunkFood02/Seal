@@ -1,4 +1,4 @@
-package com.junkfood.ui
+package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,7 +29,8 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
                     contentDescription = title,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
-                        .size(28.dp),
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
             Column(

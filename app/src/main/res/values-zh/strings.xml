@@ -6,17 +6,17 @@
     <string name="extract_audio">提取音频</string>
     <string name="create_thumbnail">提取视频封面</string>
     <string name="settings">设置</string>
-    <string name="download_settings">下载设置</string>
-    <string name="extract_audio_summary">下载并保存音频而非视频</string>
+    <string name="download_settings">下载目录、组件版本、下载设置</string>
+    <string name="extract_audio_summary">下载并保存音频，而非视频</string>
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
     <string name="open_when_finish">完成后打开</string>
     <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
-    <string name="yt_dlp_update_fail">更新yt-dlp失败，下载视频可能会失败，请尝试连接代理后尝试手动更新</string>
+    <string name="yt_dlp_update_fail">更新yt-dlp失败，下载可能会失败，请尝试连接代理后尝试手动更新</string>
     <string name="fetching_info">正在获取视频信息</string>
     <string name="permission_denied">请求储存权限失败</string>
     <string name="download_error_msg">下载视频时发生错误</string>
-    <string name="start_download">开始下载</string>
+    <string name="start_download">开始下载 \'%1$s\'</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
@@ -41,4 +41,10 @@
     <string name="open_url">打开链接</string>
     <string name="remove">移除</string>
     <string name="delete_file">同时删除文件</string>
+    <string name="about">关于</string>
+    <string name="about_page">版本、更新</string>
+    <string name="back">返回</string>
+    <string name="version">当前版本</string>
+    <string name="release">版本发布</string>
+    <string name="latest_release_url">查看最新版本与更新日记</string>
 </resources>

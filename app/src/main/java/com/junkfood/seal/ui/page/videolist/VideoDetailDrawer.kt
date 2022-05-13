@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.videolist
 
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
@@ -32,6 +33,11 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     val detailViewState = videoListViewModel.detailViewState.collectAsState().value
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
+
+    BackHandler(detailViewState.drawerState.isVisible) {
+        videoListViewModel.hideDrawer(scope)
+    }
+
     with(detailViewState) {
         BottomDrawer(drawerState = drawerState, sheetContent = {
             Column(modifier = Modifier.fillMaxWidth()) {

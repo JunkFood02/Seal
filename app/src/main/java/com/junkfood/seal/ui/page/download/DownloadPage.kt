@@ -33,6 +33,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.TextUtil
 
 
@@ -40,7 +41,7 @@ import com.junkfood.seal.util.TextUtil
 @Composable
 fun DownloadPage(
     navController: NavController,
-    downloadViewModel: DownloadViewModel= hiltViewModel(),
+    downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
 
     val storagePermission =
@@ -65,59 +66,69 @@ fun DownloadPage(
         }
     }
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
         color = MaterialTheme.colorScheme.background
     ) {
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(9.dp)
         ) {
-                TitleBar(title = context.getString(R.string.app_name), onClick = {
-                    navController.navigate("settings") {
-                        launchSingleTop = true
-                        popUpTo("home")
-                    }
-                }) { navController.navigate("videolist") }
-                Box(
-                    modifier = Modifier
-                        .padding(16f.dp)
-                        .fillMaxSize()
+            LargeTopAppBar(modifier = Modifier.padding(horizontal = 8.dp), title = {
+                Text(
+                    text = context.getString(R.string.app_name),
+                    style = MaterialTheme.typography.displaySmall
                 )
-                {
-                    with(viewState.value) {
-                    Column {
-                        AnimatedVisibility(visible = showVideoCard) {
-                            VideoCard(
-                                videoTitle,
-                                videoAuthor,
-                                videoThumbnailUrl,
-                                progress = progress, onClick = { downloadViewModel.openVideoFile() }
-                            )
-
-                        }
-
-                        InputUrl(
-                            url = url,
-                            hint = context.getString(R.string.video_url),
-                            error = isDownloadError,
-                            errorMessage = errorMessage
-                        ) { downloadViewModel.updateUrl(it) }
+            }, navigationIcon =
+            {
+                IconButton(
+                    onClick = {
+                        navController.navigate(Route.SETTINGS) { launchSingleTop = true }
+                    }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = stringResource(id = R.string.settings)
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Subscriptions,
+                        contentDescription = stringResource(id = R.string.downloads_history)
+                    )
+                }
+            })
+            with(viewState.value) {
+                Column(Modifier.padding(24.dp)) {
+                    AnimatedVisibility(visible = showVideoCard) {
+                        VideoCard(
+                            videoTitle,
+                            videoAuthor,
+                            videoThumbnailUrl,
+                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                        )
                     }
-                    Column(modifier = Modifier.align(Alignment.BottomEnd)) {
-                        FABs(downloadCallback = checkPermission) {
-                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                                ?.let {
-                                    downloadViewModel.updateUrl(it)
-                                }
-                        }
-                    }
+                    InputUrl(
+                        url = url,
+                        hint = context.getString(R.string.video_url),
+                        error = isDownloadError,
+                        errorMessage = errorMessage
+                    ) { downloadViewModel.updateUrl(it) }
                 }
             }
+
+            FABs(
+                Modifier.padding(),
+                downloadCallback = checkPermission
+            ) {
+                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                    ?.let { downloadViewModel.updateUrl(it) }
+            }
+
         }
     }
-
 }
 
 
@@ -214,6 +225,7 @@ fun VideoCard(
             targetValue = progress / 100f,
             animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
         )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -234,8 +246,7 @@ fun VideoCard(
 fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
     LargeTopAppBar(title = {
         Text(
-            text = title,
-            fontSize = MaterialTheme.typography.displaySmall.fontSize
+            text = title, style = MaterialTheme.typography.displaySmall
         )
     }, navigationIcon =
     {
@@ -258,29 +269,37 @@ fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
 }
 
 @Composable
-fun FABs(downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
-    FloatingActionButton(
-        onClick = pasteCallback,
-        content = {
-            Icon(
-                Icons.Outlined.ContentPaste,
-                contentDescription = "paste"
+fun FABs(modifier: Modifier, downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            FloatingActionButton(
+                onClick = pasteCallback,
+                content = {
+                    Icon(
+                        Icons.Outlined.ContentPaste,
+                        contentDescription = "paste"
+                    )
+                }, modifier = Modifier
+                    .padding(vertical = 12f.dp)
             )
-        }, modifier = Modifier
-            .padding(vertical = 12f.dp)
-    )
-    FloatingActionButton(
-        onClick = downloadCallback,
-        content = {
-            Icon(
-                Icons.Outlined.FileDownload,
-                contentDescription = "download"
+            FloatingActionButton(
+                onClick = downloadCallback,
+                content = {
+                    Icon(
+                        Icons.Outlined.FileDownload,
+                        contentDescription = "download"
+                    )
+                }, modifier = Modifier
+                    .padding(vertical = 12f.dp)
             )
-        }, modifier = Modifier
-            .padding(vertical = 12f.dp)
-    )
-
+        }
+    }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
