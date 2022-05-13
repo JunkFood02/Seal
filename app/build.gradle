@@ -3,14 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+
 
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 6
-def versionBuild = 3
+def versionPatch = 7
+def versionBuild = 1
+def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -31,7 +32,11 @@ android {
         minSdk 24
         targetSdk 32
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        if (isStable) {
+            versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+        } else {
+            versionName = "${versionMajor}.${versionMinor}.${versionPatch}-alpha0${versionBuild}"
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }

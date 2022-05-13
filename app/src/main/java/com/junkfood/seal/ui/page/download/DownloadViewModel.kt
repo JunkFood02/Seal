@@ -83,7 +83,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoInfo.title.toString(),
                         videoInfo.uploader.toString(),
                         viewState.value.url,
-                        videoInfo.thumbnail.toString(),
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail),
                         downloadResultTemp.filePath.toString()
                     )
                 )

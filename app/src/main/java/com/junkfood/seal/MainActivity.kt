@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(0, insets.top, 0, if (insets.bottom > 50) insets.bottom else 0)
+            v.setPadding(0, 0, 0, if (insets.bottom > 50) insets.bottom else 0)
             WindowInsetsCompat.CONSUMED
         }
     }

@@ -1,7 +1,8 @@
 package com.junkfood.seal.ui.page.videolist
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -14,9 +15,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.VideoListItem
 import com.junkfood.seal.util.FileUtil
 
@@ -34,29 +37,27 @@ fun VideoListPage(
     val scope = rememberCoroutineScope()
 
 
-    BackHandler() {
-        if (!videoListViewModel.hideDrawer(scope))
-            navController.popBackStack()
-    }
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.downloads_history),
-                        //fontSize = MaterialTheme.typography.displaySmall.fontSize
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        text = stringResource(R.string.downloads_history)
                     )
                 },
                 navigationIcon = {
                     IconButton(
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Localized description"
                         )
                     }
-                }, scrollBehavior = scrollBehavior
+                }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
             )
         },
         content = { innerPadding ->
