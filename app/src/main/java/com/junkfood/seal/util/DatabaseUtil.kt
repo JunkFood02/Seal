@@ -18,7 +18,7 @@ object DatabaseUtil {
 
     suspend fun insertInfo(vararg infoList: DownloadedVideoInfo) {
         for (info in infoList) {
-            dao.deleteByTitle(info.videoTitle)
+            dao.deleteByPath(info.videoPath)
             dao.insertAll(info)
         }
     }

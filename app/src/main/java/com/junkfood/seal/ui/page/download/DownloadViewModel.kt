@@ -20,13 +20,14 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DownloadViewModel @Inject constructor(): ViewModel() {
+class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val _viewState = MutableStateFlow(DownloadViewState())
     val viewState = _viewState.asStateFlow()
+    private var isDownloading = false
 
     data class DownloadViewState(
-        val isDownloading: Boolean = false,
+        val showVideoCard: Boolean = false,
         val progress: Float = 0f,
         val url: String = "",
         val videoTitle: String = "",
@@ -42,50 +43,54 @@ class DownloadViewModel @Inject constructor(): ViewModel() {
 
 
     fun startDownloadVideo() {
+        if (isDownloading) {
+            TextUtil.makeToast(context.getString(R.string.task_running))
+            return
+        }
+        isDownloading = true
         viewModelScope.launch(Dispatchers.IO) {
-            with(_viewState.value.url) {
-                if (isNullOrBlank()) {
+            with(_viewState) {
+                if (value.url.isBlank()) {
                     showErrorMessage(context.getString(R.string.url_empty))
-                } else {
-                    _viewState.update { it.copy(isDownloadError = false) }
-                    val videoInfo = DownloadUtil.fetchVideoInfo(this@with)
-                    if (videoInfo == null) {
-                        showErrorMessage(context.getString(R.string.fetch_info_error_msg))
-                        return@launch
-                    }
-                    _viewState.update {
-                        it.copy(
-                            progress = 0f,
-                            isDownloading = true,
-                            videoTitle = videoInfo.title,
-                            videoAuthor = videoInfo.uploader,
-                            videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
-                        )
-                    }
-                    downloadResultTemp = DownloadUtil.downloadVideo(this@with, videoInfo)
-                    { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
-                    //isDownloading.postValue(false)
-                    if (downloadResultTemp.resultCode == DownloadUtil.ResultCode.EXCEPTION) {
-                        showErrorMessage(context.getString(R.string.download_error_msg))
-                    } else {
-                        DatabaseUtil.insertInfo(
-                            DownloadedVideoInfo(
-                                0,
-                                videoInfo.title.toString(),
-                                videoInfo.uploader.toString(),
-                                viewState.value.url,
-                                videoInfo.thumbnail.toString(),
-                                downloadResultTemp.filePath.toString()
-                            )
-                        )
-                        withContext(Dispatchers.Main) {
-                            _viewState.update { it.copy(progress = 100f) }
-                            if (PreferenceUtil.getValue("open_when_finish")) openFile(
-                                downloadResultTemp
-                            )
-                        }
-                    }
+                    return@launch
                 }
+                update { it.copy(isDownloadError = false) }
+                val videoInfo = DownloadUtil.fetchVideoInfo(value.url)
+                if (videoInfo == null) {
+                    showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+                    return@launch
+                }
+                update {
+                    it.copy(
+                        progress = 0f,
+                        showVideoCard = true,
+                        videoTitle = videoInfo.title,
+                        videoAuthor = videoInfo.uploader,
+                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
+                    )
+                }
+
+                downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
+                { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
+
+                if (downloadResultTemp.resultCode == DownloadUtil.ResultCode.EXCEPTION) {
+                    showErrorMessage(context.getString(R.string.download_error_msg))
+                    return@launch
+                }
+                DatabaseUtil.insertInfo(
+                    DownloadedVideoInfo(
+                        0,
+                        videoInfo.title.toString(),
+                        videoInfo.uploader.toString(),
+                        viewState.value.url,
+                        videoInfo.thumbnail.toString(),
+                        downloadResultTemp.filePath.toString()
+                    )
+                )
+                _viewState.update { it.copy(progress = 100f) }
+                if (PreferenceUtil.getValue("open_when_finish"))
+                    openFile(downloadResultTemp)
+                isDownloading = false
             }
         }
     }
@@ -95,6 +100,7 @@ class DownloadViewModel @Inject constructor(): ViewModel() {
             _viewState.update { it.copy(progress = 0f, isDownloadError = true, errorMessage = s) }
             TextUtil.makeToast(s)
         }
+        isDownloading = false
     }
 
     fun openVideoFile() {
