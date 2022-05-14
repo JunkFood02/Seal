@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.component
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -30,7 +31,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary
+                    tint = if (Build.VERSION.SDK_INT >= 31) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
                 )
             }
             Column(
