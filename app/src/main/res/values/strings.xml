@@ -49,5 +49,8 @@
     <string name="release">Latest release</string>
     <string name="readme_desc">Check GitHub repository and README</string>
     <string name="readme" translatable="false">README</string>
+    <string name="video">Video</string>
+    <string name="checked">Checked</string>
+    <string name="bilibili">Bilibili</string>
 
 </resources>
