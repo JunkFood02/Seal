@@ -24,13 +24,13 @@ import com.junkfood.seal.R
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoListItem(
-    title: String,
-    author: String,
-    thumbnailUrl: String,
-    videoUrl: String,
-    isAudio: Boolean,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit
+    title: String = "",
+    author: String = "",
+    thumbnailUrl: String = "",
+    videoUrl: String = "",
+    isAudio: Boolean = false,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
 
@@ -88,6 +88,70 @@ fun VideoListItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun AudioListItem(
+    title: String = "",
+    author: String = "",
+    thumbnailUrl: String = "",
+    videoUrl: String = "",
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {}
+) {
+    val haptic = LocalHapticFeedback.current
+
+    Row(
+        modifier = Modifier
+            .combinedClickable(enabled = true, onClick = onClick, onLongClick = {
+                onLongClick()
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            })
+            .padding(12.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        SubcomposeAsyncImage(
+            modifier = Modifier
+                .fillMaxWidth(0.2f)
+                .aspectRatio(1f, matchHeightConstraintsFirst = true),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(thumbnailUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null, contentScale = ContentScale.Crop
+        ) {
+            val state = painter.state
+            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+            } else {
+                SubcomposeAsyncImageContent()
+            }
+
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxWidth(), verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2, overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                modifier = Modifier.padding(top = 3.dp),
+                text = author,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
