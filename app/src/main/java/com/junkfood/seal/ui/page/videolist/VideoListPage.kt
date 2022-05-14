@@ -64,8 +64,8 @@ fun VideoListPage(
             LazyColumn(
                 contentPadding = innerPadding,
             ) {
-                item {
-                    for (item in list.value.reversed()) {
+                for (item in list.value.reversed()) {
+                    item {
                         VideoListItem(
                             title = item.videoTitle,
                             author = item.videoAuthor,

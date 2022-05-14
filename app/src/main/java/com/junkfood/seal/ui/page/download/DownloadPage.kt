@@ -71,7 +71,13 @@ fun DownloadPage(
             .statusBarsPadding(),
         color = MaterialTheme.colorScheme.background
     ) {
-
+        FABs(
+            Modifier.padding(),
+            downloadCallback = checkPermission
+        ) {
+            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                ?.let { downloadViewModel.updateUrl(it) }
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -118,15 +124,6 @@ fun DownloadPage(
                     ) { downloadViewModel.updateUrl(it) }
                 }
             }
-
-            FABs(
-                Modifier.padding(),
-                downloadCallback = checkPermission
-            ) {
-                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                    ?.let { downloadViewModel.updateUrl(it) }
-            }
-
         }
     }
 }
