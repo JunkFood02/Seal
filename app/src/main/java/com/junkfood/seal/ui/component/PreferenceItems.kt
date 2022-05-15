@@ -2,13 +2,11 @@ package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -18,12 +16,12 @@ fun PreferenceItem(
     title: String,
     description: String,
     icon: ImageVector?,
-    enable: Boolean,
+    enabled: Boolean,
 
     onClick: () -> Unit,
 ) {
     Surface(
-        modifier = if (enable) Modifier.clickable { onClick() } else Modifier
+        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
     ) {
         Row(
             modifier = Modifier
@@ -51,14 +49,14 @@ fun PreferenceItem(
                         text = title,
                         maxLines = 1,
                         style = typography.titleLarge,
-                        color = if (enable) colorScheme.onSurface else colorScheme.onSurface.copy(
+                        color = if (enabled) colorScheme.onSurface else colorScheme.onSurface.copy(
                             alpha = 0.5f
                         )
                     )
 
                     Text(
                         text = description,
-                        color = if (enable) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
+                        color = if (enabled) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
                             alpha = 0.5f
                         ),
                         maxLines = 1,
@@ -76,11 +74,12 @@ fun PreferenceSwitch(
     title: String,
     description: String,
     icon: ImageVector?,
+    enabled: Boolean = true,
     onClick: (() -> Unit),
     isChecked: Boolean,
 ) {
     Surface(
-        modifier = Modifier.clickable { onClick() }
+        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
     ) {
         Row(
             modifier = Modifier
@@ -106,20 +105,40 @@ fun PreferenceSwitch(
                     text = title,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = 0.5f
+                    )
                 )
                 Text(
                     text = description,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = 0.5f
+                    ),
                     maxLines = 2,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            androidx.compose.material3.Switch(
+            Switch(
                 checked = isChecked,
                 onCheckedChange = null,
-                modifier = Modifier.padding(start = 16.dp, end = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 6.dp), enabled = enabled
             )
         }
     }
+}
+
+@Composable
+fun Subtitle(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary,
+) {
+    Text(
+        text = text,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(28.dp, 8.dp),
+        color = color,
+        style = MaterialTheme.typography.labelLarge
+    )
 }

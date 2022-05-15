@@ -1,6 +1,5 @@
 package com.junkfood.seal.util
 
-import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -58,8 +57,8 @@ object DownloadUtil {
 
         val ext: String
 
-        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
-        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
+        val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
+        val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val request = YoutubeDLRequest(url)
         val filename: String = reformatFilename(videoInfo.title)
 
@@ -88,7 +87,7 @@ object DownloadUtil {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-            addOption("--force-overwrites")
+//            addOption("--force-overwrites")
 
             try {
                 YoutubeDL.getInstance().execute(request, progressCallback)
@@ -102,7 +101,6 @@ object DownloadUtil {
         toast(context.getString(R.string.download_success_msg))
 
         if (!url.contains("list")) {
-            Log.d(TAG, "${BaseApplication.downloadDir}/$filename.$ext")
             FileUtil.scanFileToMediaLibrary(filename, ext)
         }
         return Result.success(filename, ext)
@@ -120,7 +118,7 @@ object DownloadUtil {
         }
         YoutubeDL.getInstance().version(context)?.let {
             BaseApplication.ytdlpVersion = it
-            PreferenceUtil.updateString("yt-dlp_init", it)
+            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
         }
         return BaseApplication.ytdlpVersion
     }

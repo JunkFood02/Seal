@@ -2,6 +2,7 @@ package com.junkfood.seal.util
 
 import android.content.Intent
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication
@@ -16,20 +17,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
-        context.startActivity(Intent().apply {
-            action = (Intent.ACTION_VIEW)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
-            setDataAndType(
-                FileProvider.getUriForFile(
-                    context,
-                    context.packageName + ".provider",
-                    File(downloadResult.filePath.toString())
-                ),
-                if (downloadResult.resultCode == DownloadUtil.ResultCode.FINISH_AUDIO) "audio/*" else "video/*"
-            )
-        })
+        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
+        openFile(downloadResult.filePath.toString())
     }
 
     fun openFile(path: String) {
@@ -77,7 +69,6 @@ object FileUtil {
                     }
                 }
             }
-
         }
     }
 
@@ -87,4 +78,16 @@ object FileUtil {
         if (fileName.length > 127) fileName = fileName.substring(0, 127)
         return fileName
     }
+
+    fun getRealPath(treeUri: Uri): String {
+        val path: String = treeUri.path.toString()
+        if (!path.contains("primary:")) {
+            TextUtil.makeToast("Download on SD Card is not supported")
+            return "SD Card Not Supported"
+        }
+        val last: String = path.split("primary:").last()
+        return "/storage/emulated/0/$last"
+    }
+
+    private const val TAG = "FileUtil"
 }

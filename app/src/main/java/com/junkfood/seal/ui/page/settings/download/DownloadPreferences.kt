@@ -1,10 +1,9 @@
-package com.junkfood.seal.ui.page.settings
+package com.junkfood.seal.ui.page.settings.download
 
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
@@ -18,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -30,19 +28,27 @@ import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
+import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @OptIn(
-    ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalUnitApi::class
+    ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 fun DownloadPreferences(navController: NavController) {
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
+    var templateEditDialog by remember { mutableStateOf(false) }
+    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(TEMPLATE)) }
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -57,11 +63,7 @@ fun DownloadPreferences(navController: NavController) {
             }
         }) {
             it?.let {
-                val path =
-                    "%s/%s".format(
-                        Environment.getExternalStorageDirectory().absolutePath,
-                        it.path!!.split("primary:")[1]
-                    )
+                val path = FileUtil.getRealPath(it)
                 updateDownloadDir(path)
                 downloadDirectoryText = path
             }
@@ -100,21 +102,31 @@ fun DownloadPreferences(navController: NavController) {
                         onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Localized description"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
+            var customCommandEnable by remember {
+                mutableStateOf(
+                    PreferenceUtil.getValue(
+                        PreferenceUtil.CUSTOM_COMMAND
+                    )
+                )
+            }
             LazyColumn(
                 modifier = Modifier
                     .padding(it)
             ) {
                 item {
+                    Subtitle(text = stringResource(id = R.string.general_settings))
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(id = R.string.download_directory),
                         description = downloadDirectoryText,
-                        icon = null, enable = true
+                        icon = null, enabled = true
                     ) {
                         openDirectoryChooser()
                     }
@@ -126,62 +138,115 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
                         description = ytdlpVersion,
-                        icon = null, enable = true
+                        icon = null, enabled = true
                     ) {
                         CoroutineScope(Job()).launch {
                             ytdlpVersion = DownloadUtil.updateYtDlp()
                         }
                     }
                 }
+
                 item {
-                    var audioSwitch by remember { mutableStateOf(PreferenceUtil.getValue("extract_audio")) }
+                    var audioSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(EXTRACT_AUDIO)
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.extract_audio),
                         description = stringResource(
                             id = R.string.extract_audio_summary
                         ),
                         icon = null,
+                        enabled = !customCommandEnable,
                         isChecked = audioSwitch,
                         onClick = {
                             audioSwitch = !audioSwitch
-                            PreferenceUtil.updateValue("extract_audio", audioSwitch)
+                            PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
                         }
                     )
                 }
                 item {
-                    var thumbnailSwitch by remember { mutableStateOf(PreferenceUtil.getValue("create_thumbnail")) }
+                    var thumbnailSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(THUMBNAIL)
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.create_thumbnail),
                         description = stringResource(
                             id = R.string.create_thumbnail_summary
                         ),
+                        enabled = !customCommandEnable,
                         icon = null,
                         isChecked = thumbnailSwitch,
                         onClick = {
                             thumbnailSwitch = !thumbnailSwitch
-                            PreferenceUtil.updateValue("create_thumbnail", thumbnailSwitch)
+                            PreferenceUtil.updateValue(THUMBNAIL, thumbnailSwitch)
                         }
                     )
                 }
 
                 item {
-                    var openSwitch by remember { mutableStateOf(PreferenceUtil.getValue("open_when_finish")) }
+                    var openSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(
+                                OPEN_IMMEDIATELY
+                            )
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.open_when_finish),
                         description = stringResource(
                             id = R.string.open_when_finish_summary
-                        ),
+                        ), enabled = !customCommandEnable,
                         icon = null,
                         isChecked = openSwitch,
                         onClick = {
                             openSwitch = !openSwitch
-                            PreferenceUtil.updateValue("open_when_finish", openSwitch)
+                            PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
                         }
                     )
                 }
+                item {
+                    Subtitle(text = stringResource(R.string.advanced_settings))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.custom_command),
+                        description = stringResource(
+                            id = R.string.custom_command_desc
+                        ),
+                        icon = null,
+                        isChecked = customCommandEnable,
+                        onClick = {
+                            customCommandEnable = !customCommandEnable
+                            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
+                        }
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.custom_command_template),
+                        description = customCommandTemplate.toString(),
+                        icon = null,
+                        enabled = customCommandEnable
+                    ) { templateEditDialog = true }
+                }
+
             }
         }
     )
+    if (templateEditDialog)
+        CommandTemplateDialog(
+            onDismissRequest = { templateEditDialog = false },
+            confirmationCallback = {
+                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate.toString())
+                templateEditDialog = false
+            },
+            onValueChange = { s -> customCommandTemplate = s },
+            template = customCommandTemplate.toString()
+        )
 }
 
 
