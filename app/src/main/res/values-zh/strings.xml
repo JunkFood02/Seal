@@ -51,4 +51,6 @@
     <string name="video">视频</string>
     <string name="checked">选中</string>
     <string name="bilibili">哔哩哔哩</string>
+    <string name="credits">致谢</string>
+    <string name="credits_desc">资源与开源软件</string>
 </resources>
