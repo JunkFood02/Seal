@@ -2,10 +2,7 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
@@ -72,7 +69,9 @@ fun VideoListPage(
             contentPadding = innerPadding,
         ) {
             item {
-                Row() {
+                Row(
+                    Modifier.height(IntrinsicSize.Min)
+                ) {
                     AnimatedVisibility(visible = !videoFilter.value) {
                         FilterChipWithIcon(
                             select = audioFilter.value,
@@ -87,6 +86,13 @@ fun VideoListPage(
                             label = stringResource(id = R.string.video)
                         )
                     }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(start = 12.dp, top = 13.5f.dp, bottom = 13.5f.dp)
+                            .width(1.5f.dp)
+                    , color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                    )
                     AnimatedVisibility(visible = !ytbFilter.value) {
                         FilterChipWithIcon(
                             select = bilibiliFilter.value,

@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.settings
+package com.junkfood.seal.ui.page.settings.download
 
 import android.Manifest
 import android.content.Context
@@ -32,6 +32,10 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
+import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -43,6 +47,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun DownloadPreferences(navController: NavController) {
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
+    var templateEditDialog by remember { mutableStateOf(false) }
+    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(PreferenceUtil.TEMPLATE)) }
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -100,12 +106,19 @@ fun DownloadPreferences(navController: NavController) {
                         onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Localized description"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
+            var customCommandEnable by remember {
+                mutableStateOf(
+                    PreferenceUtil.getValue(
+                        PreferenceUtil.CUSTOM_COMMAND
+                    )
+                )
+            }
             LazyColumn(
                 modifier = Modifier
                     .padding(it)
@@ -114,7 +127,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.download_directory),
                         description = downloadDirectoryText,
-                        icon = null, enable = true
+                        icon = null, enabled = true
                     ) {
                         openDirectoryChooser()
                     }
@@ -126,7 +139,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
                         description = ytdlpVersion,
-                        icon = null, enable = true
+                        icon = null, enabled = true
                     ) {
                         CoroutineScope(Job()).launch {
                             ytdlpVersion = DownloadUtil.updateYtDlp()
@@ -134,43 +147,82 @@ fun DownloadPreferences(navController: NavController) {
                     }
                 }
                 item {
-                    var audioSwitch by remember { mutableStateOf(PreferenceUtil.getValue("extract_audio")) }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.custom_command),
+                        description = stringResource(
+                            id = R.string.custom_command_desc
+                        ),
+                        icon = null,
+                        isChecked = customCommandEnable,
+                        onClick = {
+                            customCommandEnable = !customCommandEnable
+                            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
+                        }
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.custom_command_template),
+                        description = customCommandTemplate.toString(),
+                        icon = null,
+                        enabled = customCommandEnable
+                    ) { templateEditDialog = true }
+                }
+
+                item {
+                    var audioSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(EXTRACT_AUDIO)
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.extract_audio),
                         description = stringResource(
                             id = R.string.extract_audio_summary
                         ),
                         icon = null,
+                        enabled = !customCommandEnable,
                         isChecked = audioSwitch,
                         onClick = {
                             audioSwitch = !audioSwitch
-                            PreferenceUtil.updateValue("extract_audio", audioSwitch)
+                            PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
                         }
                     )
                 }
                 item {
-                    var thumbnailSwitch by remember { mutableStateOf(PreferenceUtil.getValue("create_thumbnail")) }
+                    var thumbnailSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(THUMBNAIL)
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.create_thumbnail),
                         description = stringResource(
                             id = R.string.create_thumbnail_summary
                         ),
+                        enabled = !customCommandEnable,
                         icon = null,
                         isChecked = thumbnailSwitch,
                         onClick = {
                             thumbnailSwitch = !thumbnailSwitch
-                            PreferenceUtil.updateValue("create_thumbnail", thumbnailSwitch)
+                            PreferenceUtil.updateValue(THUMBNAIL, thumbnailSwitch)
                         }
                     )
                 }
 
                 item {
-                    var openSwitch by remember { mutableStateOf(PreferenceUtil.getValue("open_when_finish")) }
+                    var openSwitch by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(
+                                PreferenceUtil.OPEN_IMMEDIATELY
+                            )
+                        )
+                    }
                     PreferenceSwitch(
                         title = stringResource(id = R.string.open_when_finish),
                         description = stringResource(
                             id = R.string.open_when_finish_summary
-                        ),
+                        ), enabled = !customCommandEnable,
                         icon = null,
                         isChecked = openSwitch,
                         onClick = {
@@ -182,6 +234,16 @@ fun DownloadPreferences(navController: NavController) {
             }
         }
     )
+    if (templateEditDialog)
+        CommandTemplateDialog(
+            onDismissRequest = { templateEditDialog = false },
+            confirmationCallback = {
+                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate.toString())
+                templateEditDialog = false
+            },
+            onValueChange = { s -> customCommandTemplate = s },
+            template = customCommandTemplate.toString()
+        )
 }
 
 

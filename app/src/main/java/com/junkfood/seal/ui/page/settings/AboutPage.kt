@@ -79,7 +79,7 @@ fun AboutPage(navController: NavController) {
                         title = stringResource(R.string.readme),
                         description = stringResource(R.string.readme_desc),
                         icon = null,
-                        enable = true
+                        enabled = true
                     ) { openUrl(repoUrl) }
                 }
                 item {
@@ -87,7 +87,7 @@ fun AboutPage(navController: NavController) {
                         title = stringResource(R.string.version),
                         description = versionName,
                         icon = null,
-                        enable = false
+                        enabled = false
                     ) {}
                 }
                 item {
@@ -95,7 +95,7 @@ fun AboutPage(navController: NavController) {
                         title = stringResource(R.string.release),
                         description = stringResource(R.string.release_desc),
                         icon = null,
-                        enable = true
+                        enabled = true
                     ) { openUrl(releaseURL) }
                 }
                 item {
@@ -103,7 +103,7 @@ fun AboutPage(navController: NavController) {
                         title = stringResource(id = R.string.credits),
                         description = stringResource(id = R.string.credits_desc),
                         icon = null,
-                        enable = true
+                        enabled = true
                     ) {
                         creditsDialog.value = true
                     }

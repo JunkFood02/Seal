@@ -53,4 +53,9 @@
     <string name="bilibili">哔哩哔哩</string>
     <string name="credits">致谢</string>
     <string name="credits_desc">资源与开源软件</string>
+    <string name="custom_command">自定义命令</string>
+    <string name="custom_command_desc">使用自定义的命令模板运行yt-dlp</string>
+    <string name="custom_command_template">命令模板</string>
+    <string name="edit_custom_command_template">编辑模板</string>
+    <string name="start_execute">开始执行命令</string>
 </resources>

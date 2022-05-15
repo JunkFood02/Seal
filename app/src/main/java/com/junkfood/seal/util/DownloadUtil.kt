@@ -58,8 +58,8 @@ object DownloadUtil {
 
         val ext: String
 
-        val extractAudio: Boolean = PreferenceUtil.getValue("extract_audio")
-        val createThumbnail: Boolean = PreferenceUtil.getValue("create_thumbnail")
+        val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
+        val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val request = YoutubeDLRequest(url)
         val filename: String = reformatFilename(videoInfo.title)
 
@@ -120,7 +120,7 @@ object DownloadUtil {
         }
         YoutubeDL.getInstance().version(context)?.let {
             BaseApplication.ytdlpVersion = it
-            PreferenceUtil.updateString("yt-dlp_init", it)
+            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
         }
         return BaseApplication.ytdlpVersion
     }

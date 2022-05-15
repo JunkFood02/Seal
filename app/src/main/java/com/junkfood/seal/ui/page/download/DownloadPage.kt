@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -37,7 +39,7 @@ import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.TextUtil
 
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun DownloadPage(
     navController: NavController,
@@ -72,12 +74,12 @@ fun DownloadPage(
         color = MaterialTheme.colorScheme.background
     ) {
         FABs(
-            Modifier.padding(),
-            downloadCallback = checkPermission
-        ) {
-            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                ?.let { downloadViewModel.updateUrl(it) }
-        }
+            Modifier.padding(), viewState.value.customCommandMode,
+            downloadCallback = checkPermission, pasteCallback = {
+                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                    ?.let { downloadViewModel.updateUrl(it) }
+            }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -118,7 +120,9 @@ fun DownloadPage(
                     }
                     InputUrl(
                         url = url,
-                        hint = context.getString(R.string.video_url),
+                        hint = hintText,
+                        progress = progress,
+                        isInCustomMode = customCommandMode,
                         error = isDownloadError,
                         errorMessage = errorMessage
                     ) { downloadViewModel.updateUrl(it) }
@@ -141,6 +145,8 @@ fun InputUrl(
     url: String,
     hint: String,
     error: Boolean,
+    isInCustomMode: Boolean = false,
+    progress: Float,
     errorMessage: String,
     onValueChange: (String) -> Unit
 ) {
@@ -151,7 +157,7 @@ fun InputUrl(
         label = { Text(hint) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge
     )
     AnimatedVisibility(visible = error) {
         Row {
@@ -166,6 +172,27 @@ fun InputUrl(
                 color = MaterialTheme.colorScheme.error
             )
 
+        }
+    }
+    AnimatedVisibility(visible = isInCustomMode) {
+        Row(
+            Modifier.padding(0.dp, 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            val progressAnimationValue by animateFloatAsState(
+                targetValue = progress / 100f,
+                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+            )
+            LinearProgressIndicator(
+                progress = progressAnimationValue,
+                modifier = Modifier.fillMaxWidth(0.75f),
+            )
+            Text(
+                text = "$progress%",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
         }
     }
 }
@@ -239,34 +266,14 @@ fun VideoCard(
     }
 }
 
-@Composable
-fun TitleBar(title: String, onClick: () -> Unit, videoList: () -> Unit) {
-    LargeTopAppBar(title = {
-        Text(
-            text = title, style = MaterialTheme.typography.displaySmall
-        )
-    }, navigationIcon =
-    {
-        IconButton(onClick = onClick) {
-            Icon(
-                imageVector = Icons.Outlined.Settings,
-                contentDescription = stringResource(id = R.string.settings)
-            )
-        }
-
-    }, actions = {
-        IconButton(onClick = videoList) {
-            Icon(
-                imageVector = Icons.Outlined.Subscriptions,
-                contentDescription = stringResource(id = R.string.downloads_history)
-            )
-        }
-    }
-    )
-}
 
 @Composable
-fun FABs(modifier: Modifier, downloadCallback: () -> Unit, pasteCallback: () -> Unit) {
+fun FABs(
+    modifier: Modifier,
+    isInCustomMode: Boolean,
+    downloadCallback: () -> Unit,
+    pasteCallback: () -> Unit,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = modifier

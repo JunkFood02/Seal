@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.download
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -10,6 +11,8 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
+import com.yausername.youtubedl_android.YoutubeDL
+import com.yausername.youtubedl_android.YoutubeDLRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +38,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val videoThumbnailUrl: String = "",
         val videoAuthor: String = "",
         val isDownloadError: Boolean = false,
-        val errorMessage: String = ""
+        val errorMessage: String = "",
+        val IsExecutingCommand: Boolean = false,
+        val customCommandMode: Boolean = false,
+        val hintText: String = context.getString(R.string.video_url)
     )
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
@@ -43,11 +50,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
 
     fun startDownloadVideo() {
+        switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+
         if (isDownloading) {
             TextUtil.makeToast(context.getString(R.string.task_running))
             return
         }
         isDownloading = true
+        if (viewState.value.customCommandMode) {
+            downloadWithCustomCommands()
+            return
+        }
+
         viewModelScope.launch(Dispatchers.IO) {
             with(_viewState) {
                 if (value.url.isBlank()) {
@@ -88,16 +102,77 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 )
                 _viewState.update { it.copy(progress = 100f) }
-                if (PreferenceUtil.getValue("open_when_finish"))
+                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
                     openFile(downloadResultTemp)
                 isDownloading = false
             }
         }
     }
 
+    private fun switchDownloadMode(enabled: Boolean) {
+        with(_viewState) {
+            if (enabled) {
+                update {
+                    it.copy(
+                        showVideoCard = false,
+                        customCommandMode = true,
+                    )
+                }
+            } else
+                update { it.copy(customCommandMode = false) }
+        }
+    }
+
+    private fun downloadWithCustomCommands() {
+        val request = YoutubeDLRequest(viewState.value.url)
+        request.addOption("-P", "${BaseApplication.downloadDir}/")
+        val m =
+            Pattern.compile(commandRegex)
+                .matcher(PreferenceUtil.getString(PreferenceUtil.TEMPLATE).toString())
+        while (m.find()) {
+            if (m.group(1) != null) {
+                request.addOption(m.group(1))
+            } else {
+                request.addOption(m.group(2))
+            }
+        }
+
+        _viewState.update { it.copy(isDownloadError = false) }
+        viewModelScope.launch {
+            TextUtil.makeToast(context.getString(R.string.start_execute))
+            try {
+                withContext(Dispatchers.IO) {
+                    YoutubeDL.getInstance()
+                        .execute(request) { progress, _, _ -> showProgressInCustomMode(progress) }
+                }
+                _viewState.update {
+                    it.copy(
+                        progress = 100f,
+                        IsExecutingCommand = false
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                showErrorMessage(e.message ?: "Unknown error occurred")
+            }
+            isDownloading = false
+        }
+    }
+
+    private fun showProgressInCustomMode(float: Float) {
+        _viewState.update { it.copy(progress = float) }
+    }
+
     private suspend fun showErrorMessage(s: String) {
         withContext(Dispatchers.Main) {
-            _viewState.update { it.copy(progress = 0f, isDownloadError = true, errorMessage = s) }
+            _viewState.update {
+                it.copy(
+                    progress = 0f,
+                    isDownloadError = true,
+                    errorMessage = s,
+                    IsExecutingCommand = false
+                )
+            }
             TextUtil.makeToast(s)
         }
         isDownloading = false
@@ -110,5 +185,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         private const val TAG = "DownloadViewModel"
+        private const val commandRegex = "\"([^\"]*)\"|(\\S+)"
     }
 }

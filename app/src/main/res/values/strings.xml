@@ -54,5 +54,10 @@
     <string name="bilibili">Bilibili</string>
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits and open source softwares</string>
+    <string name="custom_command">Custom command</string>
+    <string name="custom_command_desc">Execute yt-dlp custom command with template</string>
+    <string name="custom_command_template">Command template</string>
+    <string name="edit_custom_command_template">Edit template</string>
+    <string name="start_execute">Start executing command</string>
 
 </resources>
