@@ -52,5 +52,7 @@
     <string name="video">Video</string>
     <string name="checked">Checked</string>
     <string name="bilibili">Bilibili</string>
+    <string name="credits">Credits</string>
+    <string name="credits_desc">Credits and open source softwares</string>
 
 </resources>
