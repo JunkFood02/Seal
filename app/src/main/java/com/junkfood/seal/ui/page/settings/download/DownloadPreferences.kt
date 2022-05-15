@@ -7,8 +7,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -32,7 +31,9 @@ import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
@@ -49,7 +50,7 @@ fun DownloadPreferences(navController: NavController) {
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
     var templateEditDialog by remember { mutableStateOf(false) }
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(TEMPLATE)) }
-
+    var debugMessage by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val launcher =
@@ -110,14 +111,17 @@ fun DownloadPreferences(navController: NavController) {
         }, content = {
             var customCommandEnable by remember {
                 mutableStateOf(
-                    PreferenceUtil.getValue(
-                        PreferenceUtil.CUSTOM_COMMAND
-                    )
+                    PreferenceUtil.getValue(CUSTOM_COMMAND)
                 )
             }
             LazyColumn(
                 modifier = Modifier
                     .padding(it)
+                    .padding(
+                        bottom = WindowInsets.systemBars
+                            .asPaddingValues()
+                            .calculateBottomPadding()
+                    )
             ) {
                 item {
                     Subtitle(text = stringResource(id = R.string.general_settings))
@@ -209,6 +213,37 @@ fun DownloadPreferences(navController: NavController) {
                     )
                 }
                 item {
+                    var configureBeforeDownload by remember {
+                        mutableStateOf(PreferenceUtil.getValue(CONFIGURE))
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.settings_before_download),
+                        description = stringResource(
+                            id = R.string.settings_before_download_desc
+                        ), enabled = !customCommandEnable,
+                        icon = null,
+                        isChecked = configureBeforeDownload,
+                        onClick = {
+                            configureBeforeDownload = !configureBeforeDownload
+                            PreferenceUtil.updateValue(CONFIGURE, configureBeforeDownload)
+                        }
+                    )
+                }
+
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.error_report),
+                        description = stringResource(R.string.error_report_desc),
+                        enabled = !customCommandEnable,
+                        icon = null,
+                        onClick = {
+                            debugMessage = !debugMessage
+                            PreferenceUtil.updateValue(DEBUG, debugMessage)
+                        },
+                        isChecked = debugMessage
+                    )
+                }
+                item {
                     Subtitle(text = stringResource(R.string.advanced_settings))
                 }
                 item {
@@ -233,7 +268,6 @@ fun DownloadPreferences(navController: NavController) {
                         enabled = customCommandEnable
                     ) { templateEditDialog = true }
                 }
-
             }
         }
     )

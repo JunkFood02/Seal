@@ -39,7 +39,7 @@ fun AboutPage(navController: NavController) {
     val youtubedlAndroidUrl = "https://github.com/yausername/youtubedl-android"
     val ytdlpUrl = "https://github.com/yt-dlp/yt-dlp"
     val readYou = "https://github.com/Ashinch/ReadYou"
-    val muscYou = "https://github.com/Kyant0/MusicYou"
+    val musicYou = "https://github.com/Kyant0/MusicYou"
     val dvd = "https://github.com/yausername/dvd"
     val icons8 = "https://icons8.com/"
     val materialIcon = "https://fonts.google.com/icons"
@@ -119,7 +119,7 @@ fun AboutPage(navController: NavController) {
                     TextButton(onClick = { openUrl(youtubedlAndroidUrl) }) { Text(text = "youtubedl-android") }
                     TextButton(onClick = { openUrl(ytdlpUrl) }) { Text(text = "yt-dlp") }
                     TextButton(onClick = { openUrl(readYou) }) { Text(text = "Read You") }
-                    TextButton(onClick = { openUrl(muscYou) }) { Text(text = "Music You") }
+                    TextButton(onClick = { openUrl(musicYou) }) { Text(text = "Music You") }
                     TextButton(onClick = { openUrl(dvd) }) { Text(text = "dvd") }
                     TextButton(onClick = { openUrl(materialIcon) }) { Text("Material Icons") }
                     TextButton(onClick = { openUrl(icons8) }) { Text(text = "App Icon by Icons8.com") }

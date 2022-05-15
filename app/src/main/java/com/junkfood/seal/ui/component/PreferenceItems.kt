@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 
@@ -41,7 +42,7 @@ fun PreferenceItem(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = if (icon == null) 12.dp else 0.dp)
+                    .padding(horizontal = if (icon == null) 12.dp else 0.dp)
             ) {
                 with(MaterialTheme) {
 
@@ -59,7 +60,7 @@ fun PreferenceItem(
                         color = if (enabled) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
                             alpha = 0.5f
                         ),
-                        maxLines = 1,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )
                 }
@@ -72,7 +73,7 @@ fun PreferenceItem(
 @Composable
 fun PreferenceSwitch(
     title: String,
-    description: String,
+    description: String?,
     icon: ImageVector?,
     enabled: Boolean = true,
     onClick: (() -> Unit),
@@ -109,14 +110,15 @@ fun PreferenceSwitch(
                         alpha = 0.5f
                     )
                 )
-                Text(
-                    text = description,
-                    color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = 0.5f
-                    ),
-                    maxLines = 2,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                if (!description.isNullOrEmpty())
+                    Text(
+                        text = description,
+                        color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.5f
+                        ),
+                        maxLines = 2,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
             }
             Switch(
                 checked = isChecked,
@@ -137,8 +139,54 @@ fun Subtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(28.dp, 8.dp),
+            .padding(start = 28.dp, top = 28.dp, bottom = 12.dp),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SingleChoiceItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .clickable { onClick() }
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+    ) {
+        RadioButton(selected = selected, onClick = onClick)
+        Text(
+            modifier = Modifier.padding(start = 12.dp),
+            text = text,
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MultiChoiceItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .clickable { onClick() }
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+    ) {
+        Checkbox(checked = selected, onCheckedChange = null)
+        Text(
+            modifier = Modifier.padding(start = 12.dp),
+            text = text,
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
 }

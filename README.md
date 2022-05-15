@@ -8,6 +8,8 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 
 - Embed metadata and video thumbnail as album art into extracted audio files.
 
+- Execute custom yt-dlp command with template
+
 - [Material Design 3](https://m3.material.io/) UI, with [Dynamic color](https://m3.material.io/styles/color/dynamic-color/overview) (for Android 12+) 
 
 - Record and manage in-app downloads

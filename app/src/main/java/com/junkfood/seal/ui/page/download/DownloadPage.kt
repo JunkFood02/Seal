@@ -1,23 +1,28 @@
 package com.junkfood.seal.ui.page.download
 
 import android.Manifest
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -29,17 +34,24 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
-import coil.size.Scale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.core.Route
+import com.junkfood.seal.ui.page.videolist.FilterChipWithIcon
+import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
+import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.TextUtil
 
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun DownloadPage(
     navController: NavController,
@@ -56,11 +68,10 @@ fun DownloadPage(
                 TextUtil.makeToast(context.resources.getString(R.string.permission_denied))
             }
         }
-
+    val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.viewState.collectAsState()
     val clipboardManager = LocalClipboardManager.current
-
-    val checkPermission = {
+    val checkPermissionOrDownload = {
         if (storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
         else {
@@ -69,68 +80,106 @@ fun DownloadPage(
     }
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
+            .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        FABs(
-            Modifier.padding(), viewState.value.customCommandMode,
-            downloadCallback = checkPermission, pasteCallback = {
-                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                    ?.let { downloadViewModel.updateUrl(it) }
-            }
-        )
-        Column(
+        BackHandler(viewState.value.drawerState.isVisible) {
+            downloadViewModel.hideDrawer(scope)
+        }
+        Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            LargeTopAppBar(modifier = Modifier.padding(horizontal = 8.dp), title = {
-                Text(
-                    text = context.getString(R.string.app_name),
-                    style = MaterialTheme.typography.displaySmall
-                )
-            }, navigationIcon =
-            {
-                IconButton(
-                    onClick = {
-                        navController.navigate(Route.SETTINGS) { launchSingleTop = true }
-                    }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Settings,
-                        contentDescription = stringResource(id = R.string.settings)
-                    )
-                }
-            }, actions = {
-                IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Subscriptions,
-                        contentDescription = stringResource(id = R.string.downloads_history)
-                    )
-                }
-            })
-            with(viewState.value) {
-                Column(Modifier.padding(24.dp)) {
-                    AnimatedVisibility(visible = showVideoCard) {
-                        VideoCard(
-                            videoTitle,
-                            videoAuthor,
-                            videoThumbnailUrl,
-                            progress = progress, onClick = { downloadViewModel.openVideoFile() }
+            FABs(
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .systemBarsPadding(),
+                viewState.value.customCommandMode,
+                downloadCallback = {
+                    if (PreferenceUtil.getValue(CONFIGURE) and !PreferenceUtil.getValue(
+                            CUSTOM_COMMAND
                         )
+                    )
+                        downloadViewModel.showDrawer(scope)
+                    else checkPermissionOrDownload()
+                },
+                pasteCallback = {
+                    TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                        ?.let { downloadViewModel.updateUrl(it) }
+                }
+            )
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .fillMaxSize()
+            ) {
+                SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
+                    title = {},
+                    navigationIcon =
+                    {
+                        IconButton(
+                            onClick = { navController.navigate(Route.SETTINGS) }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = stringResource(id = R.string.settings)
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Subscriptions,
+                                contentDescription = stringResource(id = R.string.downloads_history)
+                            )
+                        }
+                    })
+                Row(modifier = Modifier.padding(start = 24.dp, top = 36.dp)) {
+                    Text(
+                        text = context.getString(R.string.app_name),
+                        style = MaterialTheme.typography.displaySmall
+                    )
+                    AnimatedVisibility(visible = viewState.value.isProcessing) {
+                        CircularProgressIndicator(modifier = Modifier
+                            .padding(start = 12.dp)
+                            .size(16.dp), strokeWidth = 3.dp)
                     }
-                    InputUrl(
-                        url = url,
-                        hint = hintText,
-                        progress = progress,
-                        showVideoCard = showVideoCard,
-                        isInCustomMode = customCommandMode,
-                        error = isDownloadError,
-                        errorMessage = errorMessage
-                    ) { downloadViewModel.updateUrl(it) }
+
+                }
+
+                with(viewState.value) {
+                    Column(
+                        Modifier
+                            .padding(24.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        AnimatedVisibility(visible = showVideoCard) {
+                            VideoCard(
+                                videoTitle,
+                                videoAuthor,
+                                videoThumbnailUrl,
+                                progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                            )
+                        }
+                        InputUrl(
+                            url = url,
+                            hint = hintText,
+                            progress = progress,
+                            showVideoCard = showVideoCard,
+                            isInCustomMode = customCommandMode,
+                            error = isDownloadError,
+                            errorMessage = errorMessage
+                        ) { downloadViewModel.updateUrl(it) }
+                    }
                 }
             }
         }
+        DownloadSettingDialog(
+            drawerState = viewState.value.drawerState,
+            confirm = { checkPermissionOrDownload() }) {
+            downloadViewModel.hideDrawer(scope)
+        }
     }
+
 }
 
 
@@ -215,17 +264,27 @@ fun VideoCard(
         SubcomposeAsyncImage(
             modifier = Modifier
                 .padding()
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
-                .scale(Scale.FIT)
                 .crossfade(true)
                 .build(),
-            contentDescription = null
+            contentDescription = null, contentScale = ContentScale.FillWidth
         ) {
             val state = painter.state
             if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .requiredSize(32.dp)
+                    )
+                    Text(stringResource(R.string.loading_thumbnail))
+                }
             } else {
                 SubcomposeAsyncImageContent()
             }
@@ -277,34 +336,129 @@ fun FABs(
     downloadCallback: () -> Unit,
     pasteCallback: () -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = modifier
-                .padding(16.dp)
-                .align(Alignment.BottomEnd)
-        ) {
-            FloatingActionButton(
-                onClick = pasteCallback,
-                content = {
-                    Icon(
-                        Icons.Outlined.ContentPaste,
-                        contentDescription = "paste"
-                    )
-                }, modifier = Modifier
-                    .padding(vertical = 12f.dp)
-            )
-            FloatingActionButton(
-                onClick = downloadCallback,
-                content = {
-                    Icon(
-                        Icons.Outlined.FileDownload,
-                        contentDescription = "download"
-                    )
-                }, modifier = Modifier
-                    .padding(vertical = 12f.dp)
-            )
-        }
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+    ) {
+        FloatingActionButton(
+            onClick = pasteCallback,
+            content = {
+                Icon(
+                    Icons.Outlined.ContentPaste,
+                    contentDescription = "paste"
+                )
+            }, modifier = Modifier
+                .padding(vertical = 12f.dp)
+        )
+
+        FloatingActionButton(
+            onClick = downloadCallback,
+            content = {
+                Icon(
+                    Icons.Outlined.FileDownload,
+                    contentDescription = "download"
+                )
+            }, modifier = Modifier
+                .padding(vertical = 12f.dp)
+        )
     }
+
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun DownloadSettingDialog(
+    drawerState: ModalBottomSheetState,
+    confirm: () -> Unit,
+    cancel: () -> Unit
+) {
+    var audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
+    var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
+    var open by remember { mutableStateOf(PreferenceUtil.getValue(OPEN_IMMEDIATELY)) }
+
+    BottomDrawer(drawerState = drawerState, sheetContent = {
+        Column(Modifier.fillMaxWidth()) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                imageVector = Icons.Outlined.DoneAll,
+                contentDescription = stringResource(R.string.settings)
+            )
+            Text(
+                text = stringResource(R.string.settings_before_download),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(vertical = 16.dp)
+            )
+            Text(
+                text = stringResource(R.string.settings_before_download_desc),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                FilterChipWithIcon(
+                    select = audio,
+                    onClick = { audio = !audio },
+                    label = stringResource(R.string.extract_audio)
+                )
+                FilterChipWithIcon(
+                    select = thumbnail,
+                    onClick = { thumbnail = !thumbnail },
+                    label = stringResource(R.string.create_thumbnail)
+                )
+                FilterChipWithIcon(
+                    select = open,
+                    onClick = { open = !open },
+                    label = stringResource(R.string.open_when_finish)
+                )
+            }
+
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp), horizontalArrangement = Arrangement.End
+        ) {
+
+            OutlinedButton(
+                modifier = Modifier.padding(horizontal = 12.dp),
+                onClick = cancel
+            )
+            {
+                Icon(
+                    Icons.Outlined.Cancel,
+                    contentDescription = stringResource(R.string.cancel)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = stringResource(R.string.cancel)
+                )
+            }
+
+            Button(onClick = {
+                PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
+                PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
+                PreferenceUtil.updateValue(OPEN_IMMEDIATELY, open)
+                cancel()
+                confirm()
+            }) {
+                Icon(
+                    Icons.Outlined.DownloadDone,
+                    contentDescription = stringResource(R.string.confirm)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = stringResource(R.string.confirm)
+                )
+            }
+        }
+    })
 }
 
 

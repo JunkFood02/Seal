@@ -31,20 +31,13 @@ object DownloadUtil {
 
     private const val TAG = "DownloadUtil"
 
-    suspend fun fetchVideoInfo(url: String): VideoInfo? {
-
-        val videoInfo: VideoInfo
-        try {
-            toast(context.getString(R.string.fetching_info))
-            videoInfo = YoutubeDL.getInstance().getInfo(url)
-            with(videoInfo) {
-                if (this.title.isNullOrEmpty() or this.ext.isNullOrBlank()) throw Exception(
-                    "Empty videoinfo"
-                )
+    suspend fun fetchVideoInfo(url: String): VideoInfo {
+        toast(context.getString(R.string.fetching_info))
+        val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
+        with(videoInfo) {
+            if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
+                throw Exception("Empty videoinfo")
             }
-        } catch (e: Exception) {
-            FileUtil.createLogFileOnDevice(e)
-            return null
         }
         return videoInfo
     }
@@ -88,14 +81,7 @@ object DownloadUtil {
                 addOption("--convert-thumbnails", "jpg")
             }
 //            addOption("--force-overwrites")
-
-            try {
-                YoutubeDL.getInstance().execute(request, progressCallback)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                FileUtil.createLogFileOnDevice(e)
-                return Result.failure()
-            }
+            YoutubeDL.getInstance().execute(request, progressCallback)
         }
 
         toast(context.getString(R.string.download_success_msg))

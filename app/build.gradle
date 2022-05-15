@@ -10,7 +10,7 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 7
-def versionBuild = 3
+def versionBuild = 4
 def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "com.junkfood.seal"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         if (isStable) {
@@ -124,6 +124,8 @@ dependencies {
     implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.1'
 
     implementation 'com.tencent:mmkv:1.2.13'
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -1,5 +1,8 @@
 package com.junkfood.seal.ui.page.download
 
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
@@ -13,7 +16,9 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
+import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,11 +29,11 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
+@OptIn(ExperimentalMaterialApi::class)
 class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val _viewState = MutableStateFlow(DownloadViewState())
     val viewState = _viewState.asStateFlow()
-    private var isDownloading = false
 
     data class DownloadViewState(
         val showVideoCard: Boolean = false,
@@ -41,22 +46,31 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val errorMessage: String = "",
         val IsExecutingCommand: Boolean = false,
         val customCommandMode: Boolean = false,
-        val hintText: String = context.getString(R.string.video_url)
+        val hintText: String = context.getString(R.string.video_url),
+        val isProcessing: Boolean = false,
+        var drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden)
     )
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
 
-    private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
+    fun hideDrawer(scope: CoroutineScope) {
+        scope.launch { viewState.value.drawerState.hide() }
+    }
 
+    fun showDrawer(scope: CoroutineScope) {
+        scope.launch { viewState.value.drawerState.show() }
+    }
+
+    private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
     fun startDownloadVideo() {
         switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
 
-        if (isDownloading) {
+        if (viewState.value.isProcessing) {
             TextUtil.makeToast(context.getString(R.string.task_running))
             return
         }
-        isDownloading = true
+        _viewState.update { it.copy(isProcessing = true) }
         if (viewState.value.customCommandMode) {
             downloadWithCustomCommands()
             return
@@ -69,9 +83,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     return@launch
                 }
                 update { it.copy(isDownloadError = false) }
-                val videoInfo = DownloadUtil.fetchVideoInfo(value.url)
-                if (videoInfo == null) {
-                    showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+                val videoInfo: VideoInfo
+                try {
+                    videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                    else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                     return@launch
                 }
                 update {
@@ -79,32 +98,35 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         progress = 0f,
                         showVideoCard = true,
                         videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader,
-                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
+                        videoAuthor = videoInfo.uploader ?: "null",
+                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                     )
                 }
-
-                downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
-                { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
-
-                if (downloadResultTemp.resultCode == DownloadUtil.ResultCode.EXCEPTION) {
-                    showErrorMessage(context.getString(R.string.download_error_msg))
+                try {
+                    downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
+                    { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                    else showErrorMessage(context.getString(R.string.download_error_msg))
                     return@launch
                 }
+
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        videoInfo.title.toString(),
-                        videoInfo.uploader.toString(),
+                        videoInfo.title,
+                        videoInfo.uploader ?: "null",
                         viewState.value.url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail),
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         downloadResultTemp.filePath.toString()
                     )
                 )
                 _viewState.update { it.copy(progress = 100f) }
                 if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
                     openFile(downloadResultTemp)
-                isDownloading = false
+                _viewState.update { it.copy(isProcessing = false) }
             }
         }
     }
@@ -118,8 +140,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         customCommandMode = true,
                     )
                 }
-            } else
-                update { it.copy(customCommandMode = false) }
+            } else update { it.copy(customCommandMode = false) }
         }
     }
 
@@ -136,22 +157,28 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 request.addOption(m.group(2))
             }
         }
-        TextUtil.makeToast(context.getString(R.string.start_execute))
         _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
-            with(DownloadUtil.fetchVideoInfo(viewState.value.url)) {
-                this?.let {
+            val videoInfo: VideoInfo?
+            try {
+                videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                with(videoInfo) {
                     if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
                         _viewState.update {
                             it.copy(
                                 videoTitle = title,
                                 videoThumbnailUrl = thumbnail,
-                                videoAuthor = uploader.toString(),
+                                videoAuthor = uploader ?: "null",
                                 showVideoCard = true
                             )
                         }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
+        TextUtil.makeToast(context.getString(R.string.start_execute))
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance()
                     .execute(request) { progress, _, _ ->
@@ -168,26 +195,27 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                showErrorMessage(e.message ?: "Unknown error occurred")
+                showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                return@launch
             }
-            isDownloading = false
+
+            _viewState.update { it.copy(isProcessing = false) }
         }
     }
 
 
     private suspend fun showErrorMessage(s: String) {
         withContext(Dispatchers.Main) {
-            _viewState.update {
-                it.copy(
-                    progress = 0f,
-                    isDownloadError = true,
-                    errorMessage = s,
-                    IsExecutingCommand = false
-                )
-            }
             TextUtil.makeToast(s)
         }
-        isDownloading = false
+        _viewState.update {
+            it.copy(
+                progress = 0f,
+                isDownloadError = true,
+                errorMessage = s,
+                IsExecutingCommand = false, isProcessing = false
+            )
+        }
     }
 
     fun openVideoFile() {

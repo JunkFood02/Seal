@@ -6,7 +6,7 @@
     <string name="extract_audio">提取音频</string>
     <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
-    <string name="download_settings">下载目录、组件版本、下载设置</string>
+    <string name="download_settings_desc">下载目录、组件版本、下载设置</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
@@ -20,7 +20,7 @@
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
-    <string name="general_settings">常规设置</string>
+    <string name="general_settings">常规</string>
     <string name="language">界面语言</string>
     <string name="language_settings">设置界面语言</string>
     <string name="language_settings_msg">此项设置将在应用重启后生效</string>
@@ -58,5 +58,20 @@
     <string name="custom_command_template">命令模板</string>
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
-    <string name="advanced_settings">高级设置</string>
+    <string name="advanced_settings">高级</string>
+    <string name="error_report">显示错误信息</string>
+    <string name="error_report_desc">显示详细的错误信息</string>
+    <string name="unknown_error">出现不可预知的错误</string>
+    <string name="appearance">外观</string>
+    <string name="appearance_page">动态色彩、深色模式</string>
+    <string name="dynamic_color">动态色彩</string>
+    <string name="dynamic_color_desc">使用系统壁纸主色调生成应用主题</string>
+    <string name="dark_theme">深色模式</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="on">开启</string>
+    <string name="off">关闭</string>
+    <string name="cancel">取消</string>
+    <string name="settings_before_download">下载前设置</string>
+    <string name="settings_before_download_desc">在开始下载前确认下载偏好选项</string>
+    <string name="loading_thumbnail">正在加载视频封面</string>
 </resources>
