@@ -48,4 +48,7 @@
     <string name="release">版本发布</string>
     <string name="release_desc">查看最新版本与更新日记</string>
     <string name="readme_desc">查看GitHub项目地址与应用说明</string>
+    <string name="video">视频</string>
+    <string name="checked">选中</string>
+    <string name="bilibili">哔哩哔哩</string>
 </resources>

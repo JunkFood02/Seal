@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -74,64 +74,42 @@ fun VideoListPage(
             item {
                 Row() {
                     AnimatedVisibility(visible = !videoFilter.value) {
-                        FilterChip(
-                            modifier = Modifier.padding(start = 12.dp),
-                            selected = audioFilter.value,
+                        FilterChipWithIcon(
+                            select = audioFilter.value,
                             onClick = { audioFilter.value = !audioFilter.value },
-                            label = {
-                                Text(text = "Audio")
-                            }, trailingIcon = {
-                                AnimatedVisibility(visible = audioFilter.value) {
-                                    Icon(Icons.Outlined.Clear, "", modifier = Modifier.size(18.dp))
-                                }
-                            }
-
+                            label = stringResource(id = R.string.audio)
                         )
                     }
                     AnimatedVisibility(visible = !audioFilter.value) {
-                        FilterChip(
-                            modifier = Modifier.padding(start = 12.dp),
-                            selected = videoFilter.value,
+                        FilterChipWithIcon(
+                            select = videoFilter.value,
                             onClick = { videoFilter.value = !videoFilter.value },
-                            label = {
-                                Text(text = "Video")
-                            }, trailingIcon = {
-                                AnimatedVisibility(visible = videoFilter.value) {
-                                    Icon(Icons.Outlined.Clear, "", modifier = Modifier.size(18.dp))
-                                }
-                            }
+                            label = stringResource(id = R.string.video)
                         )
                     }
-
-
-                    FilterChip(
-                        modifier = Modifier.padding(start = 12.dp),
-                        selected = bilibiliFilter.value,
-                        onClick = { bilibiliFilter.value = !bilibiliFilter.value },
-                        label = {
-                            Text(text = "Bilibili")
-                        }, trailingIcon = {
-                            AnimatedVisibility(visible = bilibiliFilter.value) {
-                                Icon(Icons.Outlined.Clear, "", modifier = Modifier.size(18.dp))
-                            }
-                        }
-                    )
-                    FilterChip(
-                        modifier = Modifier.padding(start = 12.dp),
-                        selected = ytbFilter.value,
-                        onClick = { ytbFilter.value = !ytbFilter.value },
-                        label = {
-                            Text(text = "YouTube")
-                        }, trailingIcon = {
-                            AnimatedVisibility(visible = ytbFilter.value) {
-                                Icon(Icons.Outlined.Clear, "", modifier = Modifier.size(18.dp))
-                            }
-                        }
-                    )
+                    AnimatedVisibility(visible = !ytbFilter.value) {
+                        FilterChipWithIcon(
+                            select = bilibiliFilter.value,
+                            onClick = { bilibiliFilter.value = !bilibiliFilter.value },
+                            label = stringResource(id = R.string.bilibili)
+                        )
+                    }
+                    AnimatedVisibility(visible = !bilibiliFilter.value) {
+                        FilterChipWithIcon(
+                            select = ytbFilter.value,
+                            onClick = { ytbFilter.value = !ytbFilter.value },
+                            label = "YouTube"
+                        )
+                    }
                 }
             }
             items(list.value.reversed()) {
-                AnimatedVisibility(visible = !audioFilter.value) {
+                AnimatedVisibility(
+                    visible = !audioFilter.value and (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
+                        "youtu"
+                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
+                )
+                {
                     with(it) {
                         if (!videoPath.contains(".mp3"))
                             VideoListItem(
@@ -145,16 +123,20 @@ fun VideoListPage(
                 }
             }
             items(list.value.reversed()) {
-                AnimatedVisibility(visible = !videoFilter.value) {
+                AnimatedVisibility(
+                    visible = !videoFilter.value and (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
+                        "youtu"
+                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
+                ) {
                     with(it) {
                         if (videoPath.contains(".mp3"))
-                        AudioListItem(
-                            title = videoTitle,
-                            author = videoAuthor,
-                            thumbnailUrl = thumbnailUrl,
-                            videoUrl = videoUrl,
-                            onClick = { FileUtil.openFile(videoPath) }
-                        ) { videoListViewModel.showDrawer(scope, this@with) }
+                            AudioListItem(
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = thumbnailUrl,
+                                videoUrl = videoUrl,
+                                onClick = { FileUtil.openFile(videoPath) }
+                            ) { videoListViewModel.showDrawer(scope, this@with) }
                     }
                 }
             }
@@ -164,6 +146,28 @@ fun VideoListPage(
     VideoDetailDrawer()
     if (viewState.value.showDialog)
         RemoveItemDialog()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterChipWithIcon(select: Boolean, onClick: () -> Unit, label: String) {
+    FilterChip(
+        modifier = Modifier.padding(start = 12.dp),
+        selected = select,
+        onClick = onClick,
+        label = {
+            Text(text = label)
+        },
+        trailingIcon = {
+            AnimatedVisibility(visible = select) {
+                Icon(
+                    Icons.Outlined.Check,
+                    stringResource(R.string.checked),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        },
+    )
 }
 
 
