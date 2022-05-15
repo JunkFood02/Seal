@@ -33,6 +33,7 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
@@ -49,7 +50,7 @@ fun DownloadPreferences(navController: NavController) {
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
     var templateEditDialog by remember { mutableStateOf(false) }
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(TEMPLATE)) }
-
+    var debugMessage by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val launcher =
@@ -233,7 +234,18 @@ fun DownloadPreferences(navController: NavController) {
                         enabled = customCommandEnable
                     ) { templateEditDialog = true }
                 }
-
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.error_report),
+                        description = stringResource(R.string.error_report_desc),
+                        icon = null,
+                        onClick = {
+                            debugMessage = !debugMessage
+                            PreferenceUtil.updateValue(DEBUG, debugMessage)
+                        },
+                        isChecked = debugMessage
+                    )
+                }
             }
         }
     )

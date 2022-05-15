@@ -20,7 +20,7 @@
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
-    <string name="general_settings">常规设置</string>
+    <string name="general_settings">常规</string>
     <string name="language">界面语言</string>
     <string name="language_settings">设置界面语言</string>
     <string name="language_settings_msg">此项设置将在应用重启后生效</string>
@@ -58,5 +58,8 @@
     <string name="custom_command_template">命令模板</string>
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
-    <string name="advanced_settings">高级设置</string>
+    <string name="advanced_settings">高级</string>
+    <string name="error_report">显示错误信息</string>
+    <string name="error_report_desc">显示详细的错误信息</string>
+    <string name="unknown_error">出现不可预知的错误</string>
 </resources>

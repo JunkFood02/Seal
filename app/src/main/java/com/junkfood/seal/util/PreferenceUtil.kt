@@ -17,5 +17,5 @@ object PreferenceUtil {
     const val TEMPLATE = "template"
     const val OPEN_IMMEDIATELY = "open_when_finish"
     const val YT_DLP = "yt-dlp_init"
-
+    const val DEBUG = "debug"
 }

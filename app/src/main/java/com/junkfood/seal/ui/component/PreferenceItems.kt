@@ -137,7 +137,7 @@ fun Subtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(28.dp, 8.dp),
+            .padding(start = 28.dp, top = 28.dp),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )

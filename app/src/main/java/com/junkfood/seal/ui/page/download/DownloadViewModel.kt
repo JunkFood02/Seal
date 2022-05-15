@@ -13,6 +13,7 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
+import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,9 +70,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     return@launch
                 }
                 update { it.copy(isDownloadError = false) }
-                val videoInfo = DownloadUtil.fetchVideoInfo(value.url)
-                if (videoInfo == null) {
-                    showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+                val videoInfo: VideoInfo
+                try {
+                    videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                    else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                     return@launch
                 }
                 update {
@@ -83,14 +89,17 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
                     )
                 }
-
-                downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
-                { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
-
-                if (downloadResultTemp.resultCode == DownloadUtil.ResultCode.EXCEPTION) {
-                    showErrorMessage(context.getString(R.string.download_error_msg))
+                try {
+                    downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
+                    { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                    else showErrorMessage(context.getString(R.string.download_error_msg))
                     return@launch
                 }
+
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
@@ -118,8 +127,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         customCommandMode = true,
                     )
                 }
-            } else
-                update { it.copy(customCommandMode = false) }
+            } else update { it.copy(customCommandMode = false) }
         }
     }
 
@@ -139,8 +147,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         TextUtil.makeToast(context.getString(R.string.start_execute))
         _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
-            with(DownloadUtil.fetchVideoInfo(viewState.value.url)) {
-                this?.let {
+            val videoInfo: VideoInfo?
+            try {
+                videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                with(videoInfo) {
                     if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
                         _viewState.update {
                             it.copy(
@@ -151,7 +161,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             )
                         }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+
             try {
                 YoutubeDL.getInstance()
                     .execute(request) { progress, _, _ ->
@@ -168,7 +181,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                showErrorMessage(e.message ?: "Unknown error occurred")
+                showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                return@launch
             }
             isDownloading = false
         }
