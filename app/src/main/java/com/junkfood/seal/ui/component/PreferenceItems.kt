@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -104,7 +105,9 @@ fun PreferenceSwitch(
                     text = title,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge,
-                    color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = 0.5f
+                    )
                 )
                 Text(
                     text = description,
@@ -122,4 +125,20 @@ fun PreferenceSwitch(
             )
         }
     }
+}
+
+@Composable
+fun Subtitle(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary,
+) {
+    Text(
+        text = text,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(28.dp, 8.dp),
+        color = color,
+        style = MaterialTheme.typography.labelLarge
+    )
 }

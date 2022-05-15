@@ -4,7 +4,7 @@
     <string name="video_url">视频链接</string>
     <string name="download_directory">下载目录</string>
     <string name="extract_audio">提取音频</string>
-    <string name="create_thumbnail">提取视频封面</string>
+    <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
     <string name="download_settings">下载目录、组件版本、下载设置</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
@@ -20,7 +20,7 @@
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
-    <string name="general_settings">一般设置</string>
+    <string name="general_settings">常规设置</string>
     <string name="language">界面语言</string>
     <string name="language_settings">设置界面语言</string>
     <string name="language_settings_msg">此项设置将在应用重启后生效</string>
@@ -58,4 +58,5 @@
     <string name="custom_command_template">命令模板</string>
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
+    <string name="advanced_settings">高级设置</string>
 </resources>

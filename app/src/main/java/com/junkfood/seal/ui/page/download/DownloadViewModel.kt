@@ -46,7 +46,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
 
-    private lateinit var downloadResultTemp: DownloadUtil.Result
+    private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
 
     fun startDownloadVideo() {
@@ -136,20 +136,35 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 request.addOption(m.group(2))
             }
         }
-
-        _viewState.update { it.copy(isDownloadError = false) }
-        viewModelScope.launch {
-            TextUtil.makeToast(context.getString(R.string.start_execute))
-            try {
-                withContext(Dispatchers.IO) {
-                    YoutubeDL.getInstance()
-                        .execute(request) { progress, _, _ -> showProgressInCustomMode(progress) }
+        TextUtil.makeToast(context.getString(R.string.start_execute))
+        _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
+        viewModelScope.launch(Dispatchers.IO) {
+            with(DownloadUtil.fetchVideoInfo(viewState.value.url)) {
+                this?.let {
+                    if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
+                        _viewState.update {
+                            it.copy(
+                                videoTitle = title,
+                                videoThumbnailUrl = thumbnail,
+                                videoAuthor = uploader.toString(),
+                                showVideoCard = true
+                            )
+                        }
                 }
+            }
+            try {
+                YoutubeDL.getInstance()
+                    .execute(request) { progress, _, _ ->
+                        _viewState.update { it.copy(progress = progress) }
+                    }
                 _viewState.update {
                     it.copy(
                         progress = 100f,
                         IsExecutingCommand = false
                     )
+                }
+                withContext(Dispatchers.Main) {
+                    TextUtil.makeToast(R.string.download_success_msg)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -159,9 +174,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun showProgressInCustomMode(float: Float) {
-        _viewState.update { it.copy(progress = float) }
-    }
 
     private suspend fun showErrorMessage(s: String) {
         withContext(Dispatchers.Main) {

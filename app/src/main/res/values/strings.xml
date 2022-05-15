@@ -4,13 +4,13 @@
     <string name="video_url">Video Url</string>
     <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
-    <string name="create_thumbnail">Create thumbnail</string>
+    <string name="create_thumbnail">Download thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings">Directory, yt-dlp version, preferences</string>
     <string name="download">Download</string>
     <string name="url_empty">Url cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
-    <string name="create_thumbnail_summary">Download and save video thumbnail as a file</string>
+    <string name="create_thumbnail_summary">Save video thumbnail as a file</string>
     <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
@@ -38,11 +38,11 @@
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Link copied to clipboard</string>
-    <string name="open_url">Open Url</string>
+    <string name="open_url">Open url</string>
     <string name="remove">Remove</string>
     <string name="delete_file">Delete file</string>
     <string name="about">About</string>
-    <string name="about_page">Version, releases</string>
+    <string name="about_page">Version, releases, credits</string>
     <string name="back">Go Back</string>
     <string name="version">Version</string>
     <string name="release_desc">Check updates and changelogs</string>
@@ -55,9 +55,10 @@
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits and open source softwares</string>
     <string name="custom_command">Custom command</string>
-    <string name="custom_command_desc">Execute yt-dlp custom command with template</string>
+    <string name="custom_command_desc">Execute yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>
     <string name="edit_custom_command_template">Edit template</string>
     <string name="start_execute">Start executing command</string>
+    <string name="advanced_settings">Advanced settings</string>
 
 </resources>

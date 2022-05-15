@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
@@ -18,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -30,10 +28,13 @@ import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import kotlinx.coroutines.CoroutineScope
@@ -41,14 +42,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @OptIn(
-    ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalUnitApi::class
+    ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 fun DownloadPreferences(navController: NavController) {
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
     var templateEditDialog by remember { mutableStateOf(false) }
-    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(PreferenceUtil.TEMPLATE)) }
+    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(TEMPLATE)) }
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -63,11 +63,7 @@ fun DownloadPreferences(navController: NavController) {
             }
         }) {
             it?.let {
-                val path =
-                    "%s/%s".format(
-                        Environment.getExternalStorageDirectory().absolutePath,
-                        it.path!!.split("primary:")[1]
-                    )
+                val path = FileUtil.getRealPath(it)
                 updateDownloadDir(path)
                 downloadDirectoryText = path
             }
@@ -124,6 +120,9 @@ fun DownloadPreferences(navController: NavController) {
                     .padding(it)
             ) {
                 item {
+                    Subtitle(text = stringResource(id = R.string.general_settings))
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(id = R.string.download_directory),
                         description = downloadDirectoryText,
@@ -145,28 +144,6 @@ fun DownloadPreferences(navController: NavController) {
                             ytdlpVersion = DownloadUtil.updateYtDlp()
                         }
                     }
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.custom_command),
-                        description = stringResource(
-                            id = R.string.custom_command_desc
-                        ),
-                        icon = null,
-                        isChecked = customCommandEnable,
-                        onClick = {
-                            customCommandEnable = !customCommandEnable
-                            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
-                        }
-                    )
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.custom_command_template),
-                        description = customCommandTemplate.toString(),
-                        icon = null,
-                        enabled = customCommandEnable
-                    ) { templateEditDialog = true }
                 }
 
                 item {
@@ -214,7 +191,7 @@ fun DownloadPreferences(navController: NavController) {
                     var openSwitch by remember {
                         mutableStateOf(
                             PreferenceUtil.getValue(
-                                PreferenceUtil.OPEN_IMMEDIATELY
+                                OPEN_IMMEDIATELY
                             )
                         )
                     }
@@ -227,10 +204,36 @@ fun DownloadPreferences(navController: NavController) {
                         isChecked = openSwitch,
                         onClick = {
                             openSwitch = !openSwitch
-                            PreferenceUtil.updateValue("open_when_finish", openSwitch)
+                            PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
                         }
                     )
                 }
+                item {
+                    Subtitle(text = stringResource(R.string.advanced_settings))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.custom_command),
+                        description = stringResource(
+                            id = R.string.custom_command_desc
+                        ),
+                        icon = null,
+                        isChecked = customCommandEnable,
+                        onClick = {
+                            customCommandEnable = !customCommandEnable
+                            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
+                        }
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.custom_command_template),
+                        description = customCommandTemplate.toString(),
+                        icon = null,
+                        enabled = customCommandEnable
+                    ) { templateEditDialog = true }
+                }
+
             }
         }
     )

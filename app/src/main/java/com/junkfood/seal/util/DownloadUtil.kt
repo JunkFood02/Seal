@@ -1,6 +1,5 @@
 package com.junkfood.seal.util
 
-import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -88,7 +87,7 @@ object DownloadUtil {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-            addOption("--force-overwrites")
+//            addOption("--force-overwrites")
 
             try {
                 YoutubeDL.getInstance().execute(request, progressCallback)
@@ -102,7 +101,6 @@ object DownloadUtil {
         toast(context.getString(R.string.download_success_msg))
 
         if (!url.contains("list")) {
-            Log.d(TAG, "${BaseApplication.downloadDir}/$filename.$ext")
             FileUtil.scanFileToMediaLibrary(filename, ext)
         }
         return Result.success(filename, ext)

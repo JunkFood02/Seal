@@ -5,10 +5,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -39,7 +39,7 @@ import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.TextUtil
 
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DownloadPage(
     navController: NavController,
@@ -122,6 +122,7 @@ fun DownloadPage(
                         url = url,
                         hint = hintText,
                         progress = progress,
+                        showVideoCard = showVideoCard,
                         isInCustomMode = customCommandMode,
                         error = isDownloadError,
                         errorMessage = errorMessage
@@ -146,6 +147,7 @@ fun InputUrl(
     hint: String,
     error: Boolean,
     isInCustomMode: Boolean = false,
+    showVideoCard: Boolean = false,
     progress: Float,
     errorMessage: String,
     onValueChange: (String) -> Unit
@@ -166,15 +168,16 @@ fun InputUrl(
                 contentDescription = "error",
                 tint = MaterialTheme.colorScheme.error
             )
-            Text(
-                modifier = Modifier.padding(horizontal = 6.dp),
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error
-            )
-
+            SelectionContainer {
+                Text(
+                    modifier = Modifier.padding(horizontal = 6.dp),
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
         }
     }
-    AnimatedVisibility(visible = isInCustomMode) {
+    AnimatedVisibility(visible = isInCustomMode and !showVideoCard) {
         Row(
             Modifier.padding(0.dp, 12.dp),
             verticalAlignment = Alignment.CenterVertically,
