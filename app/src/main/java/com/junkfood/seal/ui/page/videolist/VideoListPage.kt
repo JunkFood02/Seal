@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -63,16 +64,14 @@ fun VideoListPage(
             )
         }
     ) { innerPadding ->
-
+        val audioFilter = remember { mutableStateOf(false) }
+        val videoFilter = remember { mutableStateOf(false) }
+        val ytbFilter = remember { mutableStateOf(false) }
+        val bilibiliFilter = remember { mutableStateOf(false) }
         LazyColumn(
             contentPadding = innerPadding,
         ) {
             item {
-                val audioFilter = remember { mutableStateOf(true) }
-                val videoFilter = remember { mutableStateOf(false) }
-                val ytbFilter = remember { mutableStateOf(true) }
-                val bilibiliFilter = remember { mutableStateOf(true) }
-
                 Row() {
                     AnimatedVisibility(visible = !videoFilter.value) {
                         FilterChip(
@@ -131,31 +130,34 @@ fun VideoListPage(
                     )
                 }
             }
-            for (item in list.value.reversed()) {
-                item {
-                    if (item.videoPath.contains(".mp3")) {
-                        AudioListItem(
-                            title = item.videoTitle,
-                            author = item.videoAuthor,
-                            thumbnailUrl = item.thumbnailUrl,
-                            videoUrl = item.videoUrl,
-                            onClick = { FileUtil.openFile(item.videoPath) }
-                        ) {
-                            videoListViewModel.showDrawer(scope, item)
-                        }
-                    } else
-                        VideoListItem(
-                            title = item.videoTitle,
-                            author = item.videoAuthor,
-                            thumbnailUrl = item.thumbnailUrl,
-                            videoUrl = item.videoUrl,
-                            onClick = { FileUtil.openFile(item.videoPath) }
-                        ) {
-                            videoListViewModel.showDrawer(scope, item)
-                        }
+            items(list.value.reversed()) {
+                AnimatedVisibility(visible = !audioFilter.value) {
+                    with(it) {
+                        if (!videoPath.contains(".mp3"))
+                            VideoListItem(
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = thumbnailUrl,
+                                videoUrl = videoUrl,
+                                onClick = { FileUtil.openFile(videoPath) }
+                            ) { videoListViewModel.showDrawer(scope, this@with) }
+                    }
                 }
             }
-
+            items(list.value.reversed()) {
+                AnimatedVisibility(visible = !videoFilter.value) {
+                    with(it) {
+                        if (videoPath.contains(".mp3"))
+                        AudioListItem(
+                            title = videoTitle,
+                            author = videoAuthor,
+                            thumbnailUrl = thumbnailUrl,
+                            videoUrl = videoUrl,
+                            onClick = { FileUtil.openFile(videoPath) }
+                        ) { videoListViewModel.showDrawer(scope, this@with) }
+                    }
+                }
+            }
         }
 
     }
@@ -163,3 +165,5 @@ fun VideoListPage(
     if (viewState.value.showDialog)
         RemoveItemDialog()
 }
+
+
