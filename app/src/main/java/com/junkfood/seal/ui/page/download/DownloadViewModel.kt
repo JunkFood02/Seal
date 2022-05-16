@@ -85,8 +85,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         progress = 0f,
                         showVideoCard = true,
                         videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader,
-                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail)
+                        videoAuthor = videoInfo.uploader ?: "null",
+                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                     )
                 }
                 try {
@@ -103,10 +103,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        videoInfo.title.toString(),
-                        videoInfo.uploader.toString(),
+                        videoInfo.title,
+                        videoInfo.uploader ?: "null",
                         viewState.value.url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail),
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail?:""),
                         downloadResultTemp.filePath.toString()
                     )
                 )
@@ -156,7 +156,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             it.copy(
                                 videoTitle = title,
                                 videoThumbnailUrl = thumbnail,
-                                videoAuthor = uploader.toString(),
+                                videoAuthor = uploader ?: "null",
                                 showVideoCard = true
                             )
                         }

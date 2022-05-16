@@ -36,7 +36,7 @@ object DownloadUtil {
         toast(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
         with(videoInfo) {
-            if (this.title.isNullOrBlank() or this.ext.isNullOrBlank()) {
+            if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
                 throw Exception("Empty videoinfo")
             }
         }

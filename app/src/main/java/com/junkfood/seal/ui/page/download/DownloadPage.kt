@@ -7,8 +7,10 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -109,7 +111,10 @@ fun DownloadPage(
                 }
             })
             with(viewState.value) {
-                Column(Modifier.padding(24.dp)) {
+                Column(
+                    Modifier
+                        .padding(24.dp)
+                        .verticalScroll(rememberScrollState())) {
                     AnimatedVisibility(visible = showVideoCard) {
                         VideoCard(
                             videoTitle,
