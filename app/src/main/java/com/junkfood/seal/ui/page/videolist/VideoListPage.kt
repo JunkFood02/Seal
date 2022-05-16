@@ -31,7 +31,8 @@ fun VideoListPage(
     navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
 ) {
     val viewState = videoListViewModel.viewState.collectAsState()
-    val list = viewState.value.listFlow.collectAsState(ArrayList())
+    val videoList = viewState.value.videoListFlow.collectAsState(ArrayList())
+    val audioList = viewState.value.audioListFlow.collectAsState(ArrayList())
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
@@ -72,7 +73,7 @@ fun VideoListPage(
         }
 
         val filterList = listOf(ytbFilter, bilibiliFilter, nicoFilter)
-        fun videoFilter(url: String): Boolean {
+        fun urlFilter(url: String): Boolean {
             return websiteFilter(url, "youtu", ytbFilter.value) and websiteFilter(
                 url,
                 "(b23\\.tv)|(bilibili)",
@@ -150,39 +151,34 @@ fun VideoListPage(
                     }
                 }
             }
-            items(list.value.reversed()) {
+            items(videoList.value.reversed()) {
                 AnimatedVisibility(
-                    visible = !audioFilter.value and videoFilter(it.videoUrl)
+                    visible = !audioFilter.value and urlFilter(it.videoUrl)
                 )
                 {
                     with(it) {
-                        if (!videoPath.contains(".mp3"))
-                            VideoListItem(
-                                title = videoTitle,
-                                author = videoAuthor,
-                                thumbnailUrl = thumbnailUrl,
-                                videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
-                            ) { videoListViewModel.showDrawer(scope, this@with) }
+                        VideoListItem(
+                            title = videoTitle,
+                            author = videoAuthor,
+                            thumbnailUrl = thumbnailUrl,
+                            videoUrl = videoUrl,
+                            onClick = { FileUtil.openFile(videoPath) }
+                        ) { videoListViewModel.showDrawer(scope, this@with) }
                     }
                 }
             }
-            items(list.value.reversed()) {
+            items(audioList.value.reversed()) {
                 AnimatedVisibility(
-                    visible = !videoFilter.value and videoFilter(it.videoUrl)
-//                            (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
-//                        "youtu"
-//                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
+                    visible = !videoFilter.value and urlFilter(it.videoUrl)
                 ) {
                     with(it) {
-                        if (videoPath.contains(".mp3"))
-                            AudioListItem(
-                                title = videoTitle,
-                                author = videoAuthor,
-                                thumbnailUrl = thumbnailUrl,
-                                videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
-                            ) { videoListViewModel.showDrawer(scope, this@with) }
+                        AudioListItem(
+                            title = videoTitle,
+                            author = videoAuthor,
+                            thumbnailUrl = thumbnailUrl,
+                            videoUrl = videoUrl,
+                            onClick = { FileUtil.openFile(videoPath) }
+                        ) { videoListViewModel.showDrawer(scope, this@with) }
                     }
                 }
             }

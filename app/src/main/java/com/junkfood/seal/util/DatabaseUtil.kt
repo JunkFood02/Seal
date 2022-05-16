@@ -23,7 +23,8 @@ object DatabaseUtil {
         }
     }
 
-    fun getInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAll()
+    fun getVideoInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllFilter("%.mp3")
+    fun getAudioInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAll("%.mp3")
 
     fun deleteInfoById(id: Int) {
         CoroutineScope(Job()).launch {

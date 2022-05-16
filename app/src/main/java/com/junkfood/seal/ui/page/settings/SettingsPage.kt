@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Aod
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -51,13 +52,13 @@ fun SettingsPage(navController: NavController) {
                 ) {
                     navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
                 }
-/*                SettingItem(
+                SettingItem(
                     title = stringResource(id = R.string.appearance), description = stringResource(
                         id = R.string.appearance_page
                     ), icon = Icons.Default.Aod
                 ) {
                     navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
-                }*/
+                }
                 SettingItem(
                     title = stringResource(id = R.string.about), description = stringResource(
                         id = R.string.about_page

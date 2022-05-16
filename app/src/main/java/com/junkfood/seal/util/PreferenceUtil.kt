@@ -9,7 +9,7 @@ object PreferenceUtil {
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
     fun getValue(key: String): Boolean = kv.decodeBool(key, false)
-    fun getValueOrTrue(key: String): Boolean = kv.decodeBool(key, true)
+    fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
     fun getString(key: String): String? = kv.decodeString(key)
     fun updateString(key: String, string: String) = kv.encode(key, string)
     const val CUSTOM_COMMAND = "custom_command"
@@ -20,4 +20,5 @@ object PreferenceUtil {
     const val YT_DLP = "yt-dlp_init"
     const val DEBUG = "debug"
     const val DYNAMIC_COLORS = "dynamic_color"
+    const val DARK_THEME="dark_theme"
 }

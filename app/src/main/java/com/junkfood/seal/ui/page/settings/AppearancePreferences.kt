@@ -9,27 +9,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.junkfood.seal.AppearanceViewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.util.PreferenceUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppearancePreferences(navController: NavController) {
+fun AppearancePreferences(
+    navController: NavController,
+    appearanceViewModel: AppearanceViewModel = hiltViewModel()
+) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
     val context = LocalContext.current
-    var dynamicColorSwitch by remember { mutableStateOf(Build.VERSION.SDK_INT >= 31) }
+    val state = appearanceViewModel.viewState.collectAsState()
+    val dynamicColorEnabled = state.value.dynamicColor
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -59,13 +67,9 @@ fun AppearancePreferences(navController: NavController) {
                     description = stringResource(id = R.string.dynamic_color_desc),
                     icon = Icons.Outlined.Palette,
                     onClick = {
-                        dynamicColorSwitch = !dynamicColorSwitch
-                        PreferenceUtil.updateValue(
-                            PreferenceUtil.DYNAMIC_COLORS,
-                            dynamicColorSwitch
-                        )
-                    }, enabled = false,
-                    isChecked = dynamicColorSwitch
+                        appearanceViewModel.dynamicColorSwitch()
+                    }, enabled = Build.VERSION.SDK_INT >= 31,
+                    isChecked = dynamicColorEnabled
                 )
             }
         })

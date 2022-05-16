@@ -24,7 +24,8 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor() : ViewModel() {
 
     data class VideoListViewState constructor(
-        val listFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getInfo(),
+        val videoListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getVideoInfo(),
+        val audioListFlow:Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getAudioInfo(),
         val showDialog: Boolean = false
     )
 

@@ -3,9 +3,8 @@ package com.junkfood.seal.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.junkfood.seal.util.PreferenceUtil
 
 
 private val LightColorScheme = lightColorScheme(
@@ -69,17 +68,17 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-
+    dynamicColor:Boolean=Build.VERSION.SDK_INT >= 31,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    var dynamicColor by remember {
+/*    var dynamicColor by remember {
         mutableStateOf(
             (Build.VERSION.SDK_INT >= 31) and PreferenceUtil.getValue(
-                PreferenceUtil.DYNAMIC_COLORS
+                PreferenceUtil.DYNAMIC_COLORS,true
             )
         )
-    }
+    }*/
 
     val colorScheme =
         when {
