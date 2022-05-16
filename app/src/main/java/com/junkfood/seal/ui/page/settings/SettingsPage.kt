@@ -17,16 +17,14 @@ import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.SettingItem
 import com.junkfood.seal.ui.core.Route
-import com.junkfood.seal.ui.theme.SealTheme
 
 @Composable
 fun SettingsPage(navController: NavController) {
+    Surface(modifier = Modifier.fillMaxSize()) {
 
-    SealTheme {
+
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
+            modifier = Modifier.statusBarsPadding()
         ) {
             LargeTopAppBar(
                 title = {
@@ -45,6 +43,7 @@ fun SettingsPage(navController: NavController) {
                 }, modifier = Modifier.padding(start = 8.dp)
             )
             Column(modifier = Modifier.padding(top = 12.dp)) {
+
                 SettingItem(
                     title = stringResource(id = R.string.download), description = stringResource(
                         id = R.string.download_settings
@@ -52,6 +51,13 @@ fun SettingsPage(navController: NavController) {
                 ) {
                     navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
                 }
+/*                SettingItem(
+                    title = stringResource(id = R.string.appearance), description = stringResource(
+                        id = R.string.appearance_page
+                    ), icon = Icons.Default.Aod
+                ) {
+                    navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
+                }*/
                 SettingItem(
                     title = stringResource(id = R.string.about), description = stringResource(
                         id = R.string.about_page
@@ -60,7 +66,6 @@ fun SettingsPage(navController: NavController) {
                     navController.navigate(Route.ABOUT) { launchSingleTop = true }
                 }
             }
-
         }
     }
 }

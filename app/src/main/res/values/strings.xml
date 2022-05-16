@@ -63,5 +63,9 @@
     <string name="error_report">Print error message</string>
     <string name="error_report_desc">Print detailed message when error occurs</string>
     <string name="unknown_error">Unknown error occurred</string>
+    <string name="appearance">Appearance</string>
+    <string name="appearance_page">Theme, languages</string>
+    <string name="dynamic_color">Dynamic color</string>
+    <string name="dynamic_color_desc">Apply wallpaper colors to app theme (Avaliable on Android 12+)</string>
 
 </resources>

@@ -106,7 +106,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoInfo.title,
                         videoInfo.uploader ?: "null",
                         viewState.value.url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail?:""),
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         downloadResultTemp.filePath.toString()
                     )
                 )
@@ -144,7 +144,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 request.addOption(m.group(2))
             }
         }
-        TextUtil.makeToast(context.getString(R.string.start_execute))
         _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
             val videoInfo: VideoInfo?
@@ -164,7 +163,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
+        }
+        TextUtil.makeToast(context.getString(R.string.start_execute))
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance()
                     .execute(request) { progress, _, _ ->
@@ -184,6 +185,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
                 return@launch
             }
+
             isDownloading = false
         }
     }

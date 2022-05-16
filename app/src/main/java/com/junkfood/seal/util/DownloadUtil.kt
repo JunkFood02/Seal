@@ -32,7 +32,6 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
 
     suspend fun fetchVideoInfo(url: String): VideoInfo {
-
         toast(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
         with(videoInfo) {

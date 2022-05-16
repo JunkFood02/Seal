@@ -1,4 +1,4 @@
-package com.junkfood.ui
+package com.junkfood.seal.ui.core
 
 
 import androidx.compose.animation.*

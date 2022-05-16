@@ -71,8 +71,7 @@ fun DownloadPage(
     }
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
+            .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         FABs(
@@ -84,6 +83,7 @@ fun DownloadPage(
         )
         Column(
             modifier = Modifier
+                .statusBarsPadding()
                 .fillMaxSize()
         ) {
             LargeTopAppBar(modifier = Modifier.padding(horizontal = 8.dp), title = {
@@ -114,7 +114,8 @@ fun DownloadPage(
                 Column(
                     Modifier
                         .padding(24.dp)
-                        .verticalScroll(rememberScrollState())) {
+                        .verticalScroll(rememberScrollState())
+                ) {
                     AnimatedVisibility(visible = showVideoCard) {
                         VideoCard(
                             videoTitle,

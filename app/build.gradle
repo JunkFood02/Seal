@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "com.junkfood.seal"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         if (isStable) {

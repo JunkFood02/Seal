@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 
@@ -41,7 +42,7 @@ fun PreferenceItem(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = if (icon == null) 12.dp else 0.dp)
+                    .padding(horizontal = if (icon == null) 12.dp else 0.dp)
             ) {
                 with(MaterialTheme) {
 
@@ -59,7 +60,7 @@ fun PreferenceItem(
                         color = if (enabled) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
                             alpha = 0.5f
                         ),
-                        maxLines = 1,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )
                 }
