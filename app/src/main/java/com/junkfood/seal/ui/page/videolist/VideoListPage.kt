@@ -2,15 +2,17 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -23,7 +25,7 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.VideoListItem
 import com.junkfood.seal.util.FileUtil
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListPage(
     navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
@@ -35,7 +37,6 @@ fun VideoListPage(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
     val scope = rememberCoroutineScope()
-
 
     Scaffold(
         modifier = Modifier
@@ -65,55 +66,93 @@ fun VideoListPage(
         val videoFilter = remember { mutableStateOf(false) }
         val ytbFilter = remember { mutableStateOf(false) }
         val bilibiliFilter = remember { mutableStateOf(false) }
+        val nicoFilter = remember { mutableStateOf(false) }
+        fun websiteFilter(url: String, pattern: String, filterEnabled: Boolean): Boolean {
+            return (!filterEnabled or url.contains(Regex(pattern)))
+        }
+
+        val filterList = listOf(ytbFilter, bilibiliFilter, nicoFilter)
+        fun videoFilter(url: String): Boolean {
+            return websiteFilter(url, "youtu", ytbFilter.value) and websiteFilter(
+                url,
+                "(b23\\.tv)|(bilibili)",
+                bilibiliFilter.value
+            ) and websiteFilter(url, "nico", nicoFilter.value)
+        }
+
         LazyColumn(
             contentPadding = innerPadding,
         ) {
             item {
                 Row(
-                    Modifier.height(IntrinsicSize.Min)
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 6.dp)
                 ) {
-                    AnimatedVisibility(visible = !videoFilter.value) {
-                        FilterChipWithIcon(
-                            select = audioFilter.value,
-                            onClick = { audioFilter.value = !audioFilter.value },
-                            label = stringResource(id = R.string.audio)
-                        )
-                    }
-                    AnimatedVisibility(visible = !audioFilter.value) {
-                        FilterChipWithIcon(
-                            select = videoFilter.value,
-                            onClick = { videoFilter.value = !videoFilter.value },
-                            label = stringResource(id = R.string.video)
-                        )
-                    }
+                    FilterChipWithIcon(
+                        select = audioFilter.value,
+                        onClick = {
+                            audioFilter.value = !audioFilter.value
+                            if (videoFilter.value) videoFilter.value = false
+                        },
+                        label = stringResource(id = R.string.audio)
+                    )
+
+                    FilterChipWithIcon(
+                        select = videoFilter.value,
+                        onClick = {
+                            videoFilter.value = !videoFilter.value
+                            if (audioFilter.value) audioFilter.value = false
+                        },
+                        label = stringResource(id = R.string.video)
+                    )
+
                     Divider(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 12.dp, top = 13.5f.dp, bottom = 13.5f.dp)
+                            .padding(horizontal = 6.dp)
+                            .height(24.dp)
                             .width(1.5f.dp)
-                    , color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                            .align(Alignment.CenterVertically),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     )
-                    AnimatedVisibility(visible = !ytbFilter.value) {
+
+                    with(bilibiliFilter) {
                         FilterChipWithIcon(
-                            select = bilibiliFilter.value,
-                            onClick = { bilibiliFilter.value = !bilibiliFilter.value },
+                            select = value,
+                            onClick = {
+                                filterList.forEach { if (it != this) it.value = false }
+                                value = !value
+                            },
                             label = stringResource(id = R.string.bilibili)
                         )
                     }
-                    AnimatedVisibility(visible = !bilibiliFilter.value) {
+                    with(ytbFilter) {
                         FilterChipWithIcon(
-                            select = ytbFilter.value,
-                            onClick = { ytbFilter.value = !ytbFilter.value },
+                            select = value,
+                            onClick = {
+                                filterList.forEach { if (it != this) it.value = false }
+                                value = !value
+                            },
                             label = "YouTube"
+                        )
+                    }
+
+                    with(nicoFilter) {
+                        FilterChipWithIcon(
+                            select = value,
+                            onClick = {
+                                filterList.forEach { if (it != this) it.value = false }
+                                value = !value
+                            },
+                            label = "ニコニコ動画"
                         )
                     }
                 }
             }
             items(list.value.reversed()) {
                 AnimatedVisibility(
-                    visible = !audioFilter.value and (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
-                        "youtu"
-                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
+                    visible = !audioFilter.value and videoFilter(it.videoUrl)
                 )
                 {
                     with(it) {
@@ -130,9 +169,10 @@ fun VideoListPage(
             }
             items(list.value.reversed()) {
                 AnimatedVisibility(
-                    visible = !videoFilter.value and (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
-                        "youtu"
-                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
+                    visible = !videoFilter.value and videoFilter(it.videoUrl)
+//                            (!ytbFilter.value or (ytbFilter.value and it.videoUrl.contains(
+//                        "youtu"
+//                    ))) and (!bilibiliFilter.value or it.videoUrl.contains(regex = Regex("(b23\\.tv)|(bilibili)")))
                 ) {
                     with(it) {
                         if (videoPath.contains(".mp3"))
@@ -158,7 +198,7 @@ fun VideoListPage(
 @Composable
 fun FilterChipWithIcon(select: Boolean, onClick: () -> Unit, label: String) {
     FilterChip(
-        modifier = Modifier.padding(start = 12.dp),
+        modifier = Modifier.padding(horizontal = 6.dp),
         selected = select,
         onClick = onClick,
         label = {

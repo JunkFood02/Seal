@@ -210,6 +210,19 @@ fun DownloadPreferences(navController: NavController) {
                     )
                 }
                 item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.error_report),
+                        description = stringResource(R.string.error_report_desc),
+                        enabled = !customCommandEnable,
+                        icon = null,
+                        onClick = {
+                            debugMessage = !debugMessage
+                            PreferenceUtil.updateValue(DEBUG, debugMessage)
+                        },
+                        isChecked = debugMessage
+                    )
+                }
+                item {
                     Subtitle(text = stringResource(R.string.advanced_settings))
                 }
                 item {
@@ -233,18 +246,6 @@ fun DownloadPreferences(navController: NavController) {
                         icon = null,
                         enabled = customCommandEnable
                     ) { templateEditDialog = true }
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(R.string.error_report),
-                        description = stringResource(R.string.error_report_desc),
-                        icon = null,
-                        onClick = {
-                            debugMessage = !debugMessage
-                            PreferenceUtil.updateValue(DEBUG, debugMessage)
-                        },
-                        isChecked = debugMessage
-                    )
                 }
             }
         }

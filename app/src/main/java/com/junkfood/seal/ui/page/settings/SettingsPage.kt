@@ -39,25 +39,28 @@ fun SettingsPage(navController: NavController) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Localized description"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }, modifier = Modifier.padding(start = 8.dp)
             )
-            SettingItem(
-                title = stringResource(id = R.string.download), description = stringResource(
-                    id = R.string.download_settings
-                ), icon = Icons.Default.Download
-            ) {
-                navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
+            Column(modifier = Modifier.padding(top = 12.dp)) {
+                SettingItem(
+                    title = stringResource(id = R.string.download), description = stringResource(
+                        id = R.string.download_settings
+                    ), icon = Icons.Default.Download
+                ) {
+                    navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
+                }
+                SettingItem(
+                    title = stringResource(id = R.string.about), description = stringResource(
+                        id = R.string.about_page
+                    ), icon = Icons.Default.Info
+                ) {
+                    navController.navigate(Route.ABOUT) { launchSingleTop = true }
+                }
             }
-            SettingItem(
-                title = stringResource(id = R.string.about), description = stringResource(
-                    id = R.string.about_page
-                ), icon = Icons.Default.Info
-            ) {
-                navController.navigate(Route.ABOUT) { launchSingleTop = true }
-            }
+
         }
     }
 }
