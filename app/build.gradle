@@ -124,6 +124,8 @@ dependencies {
     implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.1'
 
     implementation 'com.tencent:mmkv:1.2.13'
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

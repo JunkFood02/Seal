@@ -73,7 +73,7 @@ fun PreferenceItem(
 @Composable
 fun PreferenceSwitch(
     title: String,
-    description: String,
+    description: String?,
     icon: ImageVector?,
     enabled: Boolean = true,
     onClick: (() -> Unit),
@@ -110,6 +110,7 @@ fun PreferenceSwitch(
                         alpha = 0.5f
                     )
                 )
+                if(!description.isNullOrEmpty())
                 Text(
                     text = description,
                     color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(

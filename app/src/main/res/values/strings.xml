@@ -67,5 +67,6 @@
     <string name="appearance_page">Theme, languages</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply wallpaper colors to app theme (Avaliable on Android 12+)</string>
+    <string name="dark_theme">Dark theme</string>
 
 </resources>

@@ -1,9 +1,22 @@
 package com.junkfood.seal.util
 
+import android.content.Context
+import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import com.junkfood.seal.BaseApplication.Companion.context
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 object PreferenceUtil {
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     private val kv = MMKV.defaultMMKV()
 
@@ -20,5 +33,20 @@ object PreferenceUtil {
     const val YT_DLP = "yt-dlp_init"
     const val DEBUG = "debug"
     const val DYNAMIC_COLORS = "dynamic_color"
-    const val DARK_THEME="dark_theme"
+    const val DARK_THEME = "dark_theme"
+    var darkTheme = kv.decodeBool(DARK_THEME, true)
+    val DARK_THEME_KEY = booleanPreferencesKey(DARK_THEME)
+
+    fun darkThemeSwitch() {
+        Log.d(TAG, darkTheme.toString())
+        darkTheme = darkTheme.not()
+        CoroutineScope(Job()).launch(Dispatchers.IO) {
+            context.dataStore.edit { settings ->
+                val value = settings[DARK_THEME_KEY] ?: true
+                settings[DARK_THEME_KEY] = !value
+            }
+        }
+    }
+
+    private const val TAG = "PreferenceUtil"
 }
