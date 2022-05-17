@@ -38,6 +38,24 @@ fun VideoListPage(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
     val scope = rememberCoroutineScope()
+    val audioFilter = remember { mutableStateOf(false) }
+    val videoFilter = remember { mutableStateOf(false) }
+    val ytbFilter = remember { mutableStateOf(false) }
+    val bilibiliFilter = remember { mutableStateOf(false) }
+    val nicoFilter = remember { mutableStateOf(false) }
+    fun websiteFilter(url: String, pattern: String, filterEnabled: Boolean): Boolean {
+        return (!filterEnabled or url.contains(Regex(pattern)))
+    }
+
+    val filterList = listOf(ytbFilter, bilibiliFilter, nicoFilter)
+    fun urlFilter(url: String): Boolean {
+        return websiteFilter(url, "youtu", ytbFilter.value) and websiteFilter(
+            url,
+            "(b23\\.tv)|(bilibili)",
+            bilibiliFilter.value
+        ) and websiteFilter(url, "nico", nicoFilter.value)
+    }
+
 
     Scaffold(
         modifier = Modifier
@@ -61,129 +79,118 @@ fun VideoListPage(
                     }
                 }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
             )
+
         }
     ) { innerPadding ->
-        val audioFilter = remember { mutableStateOf(false) }
-        val videoFilter = remember { mutableStateOf(false) }
-        val ytbFilter = remember { mutableStateOf(false) }
-        val bilibiliFilter = remember { mutableStateOf(false) }
-        val nicoFilter = remember { mutableStateOf(false) }
-        fun websiteFilter(url: String, pattern: String, filterEnabled: Boolean): Boolean {
-            return (!filterEnabled or url.contains(Regex(pattern)))
-        }
 
-        val filterList = listOf(ytbFilter, bilibiliFilter, nicoFilter)
-        fun urlFilter(url: String): Boolean {
-            return websiteFilter(url, "youtu", ytbFilter.value) and websiteFilter(
-                url,
-                "(b23\\.tv)|(bilibili)",
-                bilibiliFilter.value
-            ) and websiteFilter(url, "nico", nicoFilter.value)
-        }
-
-        LazyColumn(
-            contentPadding = innerPadding,
+        Column(
+            Modifier.padding(innerPadding)
         ) {
-            item {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 6.dp)
-                ) {
-                    FilterChipWithIcon(
-                        select = audioFilter.value,
-                        onClick = {
-                            audioFilter.value = !audioFilter.value
-                            if (videoFilter.value) videoFilter.value = false
-                        },
-                        label = stringResource(id = R.string.audio)
-                    )
-
-                    FilterChipWithIcon(
-                        select = videoFilter.value,
-                        onClick = {
-                            videoFilter.value = !videoFilter.value
-                            if (audioFilter.value) audioFilter.value = false
-                        },
-                        label = stringResource(id = R.string.video)
-                    )
-
-                    Divider(
-                        modifier = Modifier
+            LazyColumn(
+                modifier = Modifier.padding(
+                    bottom = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+                ),
+            ) {
+                item {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
                             .padding(horizontal = 6.dp)
-                            .height(24.dp)
-                            .width(1.5f.dp)
-                            .align(Alignment.CenterVertically),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                    ) {
+                        FilterChipWithIcon(
+                            select = audioFilter.value,
+                            onClick = {
+                                audioFilter.value = !audioFilter.value
+                                if (videoFilter.value) videoFilter.value = false
+                            },
+                            label = stringResource(id = R.string.audio)
+                        )
+
+                        FilterChipWithIcon(
+                            select = videoFilter.value,
+                            onClick = {
+                                videoFilter.value = !videoFilter.value
+                                if (audioFilter.value) audioFilter.value = false
+                            },
+                            label = stringResource(id = R.string.video)
+                        )
+
+                        Divider(
+                            modifier = Modifier
+                                .padding(horizontal = 6.dp)
+                                .height(24.dp)
+                                .width(1.5f.dp)
+                                .align(Alignment.CenterVertically),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                        )
+
+                        with(bilibiliFilter) {
+                            FilterChipWithIcon(
+                                select = value,
+                                onClick = {
+                                    filterList.forEach { if (it != this) it.value = false }
+                                    value = !value
+                                },
+                                label = stringResource(id = com.junkfood.seal.R.string.bilibili)
+                            )
+                        }
+                        with(ytbFilter) {
+                            FilterChipWithIcon(
+                                select = value,
+                                onClick = {
+                                    filterList.forEach { if (it != this) it.value = false }
+                                    value = !value
+                                },
+                                label = "YouTube"
+                            )
+                        }
+
+                        with(nicoFilter) {
+                            FilterChipWithIcon(
+                                select = value,
+                                onClick = {
+                                    filterList.forEach { if (it != this) it.value = false }
+                                    value = !value
+                                },
+                                label = "ニコニコ動画"
+                            )
+                        }
+                    }
+                }
+                items(videoList.value.reversed()) {
+                    AnimatedVisibility(
+                        visible = !audioFilter.value and urlFilter(it.videoUrl)
                     )
-
-                    with(bilibiliFilter) {
-                        FilterChipWithIcon(
-                            select = value,
-                            onClick = {
-                                filterList.forEach { if (it != this) it.value = false }
-                                value = !value
-                            },
-                            label = stringResource(id = R.string.bilibili)
-                        )
-                    }
-                    with(ytbFilter) {
-                        FilterChipWithIcon(
-                            select = value,
-                            onClick = {
-                                filterList.forEach { if (it != this) it.value = false }
-                                value = !value
-                            },
-                            label = "YouTube"
-                        )
-                    }
-
-                    with(nicoFilter) {
-                        FilterChipWithIcon(
-                            select = value,
-                            onClick = {
-                                filterList.forEach { if (it != this) it.value = false }
-                                value = !value
-                            },
-                            label = "ニコニコ動画"
-                        )
+                    {
+                        with(it) {
+                            VideoListItem(
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = thumbnailUrl,
+                                videoUrl = videoUrl,
+                                onClick = { FileUtil.openFile(videoPath) }
+                            ) { videoListViewModel.showDrawer(scope, this@with) }
+                        }
                     }
                 }
-            }
-            items(videoList.value.reversed()) {
-                AnimatedVisibility(
-                    visible = !audioFilter.value and urlFilter(it.videoUrl)
-                )
-                {
-                    with(it) {
-                        VideoListItem(
-                            title = videoTitle,
-                            author = videoAuthor,
-                            thumbnailUrl = thumbnailUrl,
-                            videoUrl = videoUrl,
-                            onClick = { FileUtil.openFile(videoPath) }
-                        ) { videoListViewModel.showDrawer(scope, this@with) }
-                    }
-                }
-            }
-            items(audioList.value.reversed()) {
-                AnimatedVisibility(
-                    visible = !videoFilter.value and urlFilter(it.videoUrl)
-                ) {
-                    with(it) {
-                        AudioListItem(
-                            title = videoTitle,
-                            author = videoAuthor,
-                            thumbnailUrl = thumbnailUrl,
-                            videoUrl = videoUrl,
-                            onClick = { FileUtil.openFile(videoPath) }
-                        ) { videoListViewModel.showDrawer(scope, this@with) }
+                items(audioList.value.reversed()) {
+                    AnimatedVisibility(
+                        visible = !videoFilter.value and urlFilter(it.videoUrl)
+                    ) {
+                        with(it) {
+                            AudioListItem(
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = thumbnailUrl,
+                                videoUrl = videoUrl,
+                                onClick = { FileUtil.openFile(videoPath) }
+                            ) { videoListViewModel.showDrawer(scope, this@with) }
+                        }
                     }
                 }
             }
         }
-
     }
     VideoDetailDrawer()
     if (viewState.value.showDialog)

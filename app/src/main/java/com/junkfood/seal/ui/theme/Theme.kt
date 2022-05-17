@@ -4,7 +4,9 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 private val LightColorScheme = lightColorScheme(
@@ -68,22 +70,23 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor:Boolean=Build.VERSION.SDK_INT >= 31,
+    dynamicColor: Boolean = Build.VERSION.SDK_INT >= 31,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-/*    var dynamicColor by remember {
-        mutableStateOf(
-            (Build.VERSION.SDK_INT >= 31) and PreferenceUtil.getValue(
-                PreferenceUtil.DYNAMIC_COLORS,true
-            )
-        )
-    }*/
+
+    val versionCheck = (Build.VERSION.SDK_INT >= 31)
+
+    rememberSystemUiController().run {
+        setStatusBarColor(Color.Transparent, !darkTheme)
+        setSystemBarsColor(Color.Transparent, !darkTheme)
+        setNavigationBarColor(Color.Transparent, !darkTheme)
+    }
 
     val colorScheme =
         when {
-            dynamicColor && darkTheme -> dynamicDarkColorScheme(context)
-            dynamicColor && !darkTheme -> dynamicLightColorScheme(context)
+            (dynamicColor && versionCheck) && darkTheme -> dynamicDarkColorScheme(context)
+            (versionCheck && dynamicColor) && !darkTheme -> dynamicLightColorScheme(context)
             darkTheme -> DarkColorScheme
             else -> LightColorScheme
         }

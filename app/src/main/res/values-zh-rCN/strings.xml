@@ -62,4 +62,12 @@
     <string name="error_report">显示错误信息</string>
     <string name="error_report_desc">显示详细的错误信息</string>
     <string name="unknown_error">出现不可预知的错误</string>
+    <string name="appearance">外观</string>
+    <string name="appearance_page">动态色彩、深色模式</string>
+    <string name="dynamic_color">动态色彩</string>
+    <string name="dynamic_color_desc">使用系统壁纸主色调生成应用主题</string>
+    <string name="dark_theme">深色模式</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="on">开启</string>
+    <string name="off">关闭</string>
 </resources>

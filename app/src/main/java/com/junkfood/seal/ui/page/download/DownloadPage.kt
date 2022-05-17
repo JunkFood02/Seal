@@ -283,7 +283,7 @@ fun FABs(
     downloadCallback: () -> Unit,
     pasteCallback: () -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
         Column(
             modifier = modifier
                 .padding(16.dp)

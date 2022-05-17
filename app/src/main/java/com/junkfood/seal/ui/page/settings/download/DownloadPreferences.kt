@@ -7,8 +7,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -111,14 +110,17 @@ fun DownloadPreferences(navController: NavController) {
         }, content = {
             var customCommandEnable by remember {
                 mutableStateOf(
-                    PreferenceUtil.getValue(
-                        PreferenceUtil.CUSTOM_COMMAND
-                    )
+                    PreferenceUtil.getValue(CUSTOM_COMMAND)
                 )
             }
             LazyColumn(
                 modifier = Modifier
                     .padding(it)
+                    .padding(
+                        bottom = WindowInsets.systemBars
+                            .asPaddingValues()
+                            .calculateBottomPadding()
+                    )
             ) {
                 item {
                     Subtitle(text = stringResource(id = R.string.general_settings))

@@ -110,15 +110,15 @@ fun PreferenceSwitch(
                         alpha = 0.5f
                     )
                 )
-                if(!description.isNullOrEmpty())
-                Text(
-                    text = description,
-                    color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = 0.5f
-                    ),
-                    maxLines = 2,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                if (!description.isNullOrEmpty())
+                    Text(
+                        text = description,
+                        color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.5f
+                        ),
+                        maxLines = 2,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
             }
             Switch(
                 checked = isChecked,
@@ -143,4 +143,22 @@ fun Subtitle(
         color = color,
         style = MaterialTheme.typography.labelLarge
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SingleChoiceItem(text: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .clickable { onClick() }
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+    ) {
+        RadioButton(selected = selected, onClick = onClick)
+        Text(
+            modifier = Modifier.padding(start = 12.dp),
+            text = text,
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
 }

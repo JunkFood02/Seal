@@ -7,9 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.junkfood.seal.ui.core.LocalDarkTheme
-import com.junkfood.seal.ui.core.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
+import com.junkfood.seal.ui.page.settings.LocalDarkTheme
+import com.junkfood.seal.ui.page.settings.LocalDynamicColor
+import com.junkfood.seal.ui.page.settings.SettingsProvider
 import com.junkfood.seal.ui.theme.SealTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +21,10 @@ class MainActivity : ComponentActivity() {
         setImmersiveStatusBar()
         setContent {
             SettingsProvider {
-                SealTheme(darkTheme = LocalDarkTheme.current) {
+                SealTheme(
+                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                    dynamicColor = LocalDynamicColor.current
+                ) {
                     HomeEntry()
                 }
             }
@@ -56,7 +60,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v: View, windowInsets: WindowInsetsCompat ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(0, 0, 0, if (insets.bottom > 50) insets.bottom else 0)
+            v.setPadding(0, 0, 0, 0)
             WindowInsetsCompat.CONSUMED
         }
     }
