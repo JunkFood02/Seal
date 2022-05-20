@@ -8,7 +8,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.ui.core.animatedComposable
 import com.junkfood.seal.ui.page.download.DownloadPage
-import com.junkfood.seal.ui.page.settings.AboutPage
+import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences

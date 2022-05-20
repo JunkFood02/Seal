@@ -77,4 +77,6 @@
     <string name="error_copied">错误报告已复制到剪贴板</string>
     <string name="thumbnail">封面</string>
     <string name="paste">粘贴链接</string>
+    <string name="yt_dlp_docs">yt-dlp 使用文档</string>
+    <string name="edit_template_desc">应用会自动向命令中添加输出路径与链接</string>
 </resources>

@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -47,9 +48,11 @@ import kotlinx.coroutines.launch
 )
 @Composable
 fun DownloadPreferences(navController: NavController) {
+    val context = LocalContext.current
+    val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
     var templateEditDialog by remember { mutableStateOf(false) }
-    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getString(TEMPLATE)) }
+    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var debugMessage by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -263,7 +266,7 @@ fun DownloadPreferences(navController: NavController) {
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
-                        description = customCommandTemplate.toString(),
+                        description = customCommandTemplate,
                         icon = null,
                         enabled = customCommandEnable
                     ) { templateEditDialog = true }
@@ -271,16 +274,27 @@ fun DownloadPreferences(navController: NavController) {
             }
         }
     )
-    if (templateEditDialog)
+    if (templateEditDialog) {
+        val temp = PreferenceUtil.getTemplate()
         CommandTemplateDialog(
-            onDismissRequest = { templateEditDialog = false },
+            onDismissRequest = {
+                customCommandTemplate = temp
+                templateEditDialog = false
+            },
             confirmationCallback = {
-                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate.toString())
+                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate)
                 templateEditDialog = false
             },
             onValueChange = { s -> customCommandTemplate = s },
-            template = customCommandTemplate.toString()
-        )
+            template = customCommandTemplate
+        ) {
+            context.startActivity(Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse(ytdlpReference)
+            })
+        }
+    }
+
 }
 
 

@@ -78,5 +78,7 @@
     <string name="error_copied">Error report was copied to the clipboard</string>
     <string name="thumbnail">thumbnail</string>
     <string name="paste">Paste link</string>
-
+    <string name="template_example" translatable="false">-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"</string>
+    <string name="yt_dlp_docs">Yt-dlp usage references</string>
+    <string name="edit_template_desc">Output path and URL would be added by the app automatically.</string>
 </resources>

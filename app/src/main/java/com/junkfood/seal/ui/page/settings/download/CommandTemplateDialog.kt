@@ -1,20 +1,23 @@
 package com.junkfood.seal.ui.page.settings.download
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommandTemplateDialog(
     onDismissRequest: () -> Unit,
     confirmationCallback: () -> Unit,
+    template: String,
     onValueChange: (String) -> Unit,
-    template: String
+    onClick: () -> Unit
 ) {
     AlertDialog(
         title = { Text(stringResource(R.string.edit_custom_command_template)) },
@@ -29,11 +32,30 @@ fun CommandTemplateDialog(
                 Text(stringResource(R.string.dismiss))
             }
         }, text = {
-            Column() {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(text = stringResource(R.string.edit_template_desc))
                 OutlinedTextField(
+                    modifier = Modifier.padding(vertical = 12.dp),
                     value = template,
                     onValueChange = onValueChange,
                     label = { Text(stringResource(R.string.custom_command_template)) })
+
+                TextButton(
+                    onClick = onClick,
+                ) {
+                    Row() {
+                        Icon(
+                            modifier = Modifier.size(18.dp),
+                            imageVector = Icons.Outlined.OpenInNew,
+                            contentDescription = null
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = stringResource(R.string.yt_dlp_docs)
+                        )
+                    }
+
+                }
             }
         })
 }

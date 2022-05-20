@@ -149,7 +149,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         request.addOption("-P", "${BaseApplication.downloadDir}/")
         val m =
             Pattern.compile(commandRegex)
-                .matcher(PreferenceUtil.getString(PreferenceUtil.TEMPLATE).toString())
+                .matcher(PreferenceUtil.getTemplate().toString())
         while (m.find()) {
             if (m.group(1) != null) {
                 request.addOption(m.group(1))
@@ -167,7 +167,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         _viewState.update {
                             it.copy(
                                 videoTitle = title,
-                                videoThumbnailUrl = thumbnail,
+                                videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
                                 videoAuthor = uploader ?: "null",
                                 showVideoCard = true
                             )

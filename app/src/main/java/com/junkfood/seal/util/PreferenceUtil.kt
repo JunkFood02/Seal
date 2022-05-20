@@ -29,6 +29,10 @@ object PreferenceUtil {
     fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
     fun getString(key: String): String? = kv.decodeString(key)
     fun updateString(key: String, string: String) = kv.encode(key, string)
+
+    fun getTemplate(): String =
+        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
+
     const val CUSTOM_COMMAND = "custom_command"
     const val EXTRACT_AUDIO = "extract_audio"
     const val THUMBNAIL = "create_thumbnail"
