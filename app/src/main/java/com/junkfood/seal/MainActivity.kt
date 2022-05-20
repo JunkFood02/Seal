@@ -8,9 +8,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.junkfood.seal.ui.page.HomeEntry
-import com.junkfood.seal.ui.page.settings.LocalDarkTheme
-import com.junkfood.seal.ui.page.settings.LocalDynamicColor
-import com.junkfood.seal.ui.page.settings.SettingsProvider
+import com.junkfood.seal.ui.core.LocalDarkTheme
+import com.junkfood.seal.ui.core.LocalDynamicColor
+import com.junkfood.seal.ui.core.SettingsProvider
 import com.junkfood.seal.ui.theme.SealTheme
 import dagger.hilt.android.AndroidEntryPoint
 

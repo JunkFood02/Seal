@@ -33,7 +33,10 @@ object DownloadUtil {
 
     suspend fun fetchVideoInfo(url: String): VideoInfo {
         toast(context.getString(R.string.fetching_info))
-        val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(url)
+        val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
+            addOption("-R", "1")
+            addOption("--socket-timeout", "5")
+        })
         with(videoInfo) {
             if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
                 throw Exception("Empty videoinfo")
@@ -56,6 +59,7 @@ object DownloadUtil {
         val filename: String = reformatFilename(videoInfo.title)
 
         with(request) {
+            addOption("-R", "3")
             addOption("-P", "${BaseApplication.downloadDir}/")
             if (url.contains("list")) {
                 toast(context.getString(R.string.start_download_list))

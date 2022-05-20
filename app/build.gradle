@@ -10,7 +10,7 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 7
-def versionBuild = 4
+def versionBuild = 5
 def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -87,8 +87,8 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.7.0-alpha01'
+    implementation 'androidx.activity:activity-compose:1.4.0'
 
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
@@ -97,12 +97,10 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material3:material3:1.0.0-alpha11"
-    implementation "androidx.compose.material:material:1.2.0-alpha08"
+    implementation "androidx.compose.material3:material3:$compose_md3_version"
+    implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation "androidx.compose.runtime:runtime-livedata:1.2.0-alpha08"
-    implementation "androidx.compose.material:material-icons-extended:1.2.0-alpha08"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.compose.animation:animation-graphics:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
@@ -113,8 +111,8 @@ dependencies {
 
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
-    implementation "com.google.dagger:hilt-android:2.40.5"
-    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -133,5 +131,4 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

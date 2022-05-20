@@ -89,7 +89,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
-                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                        showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                     else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                     return@launch
                 }
@@ -108,7 +108,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
-                        showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                        showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                     else showErrorMessage(context.getString(R.string.download_error_msg))
                     return@launch
                 }
@@ -195,11 +195,27 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                showErrorMessage(e.message ?: context.getString(R.string.unknown_error))
+                showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                 return@launch
             }
 
             _viewState.update { it.copy(isProcessing = false) }
+        }
+    }
+
+
+    private suspend fun showErrorReport(s: String) {
+        withContext(Dispatchers.Main) {
+            TextUtil.makeToast(context.getString(R.string.error_copied))
+            TextUtil.copyToClipboard(s)
+        }
+        _viewState.update {
+            it.copy(
+                progress = 0f,
+                isDownloadError = true,
+                errorMessage = s,
+                IsExecutingCommand = false, isProcessing = false
+            )
         }
     }
 

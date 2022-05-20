@@ -1,6 +1,7 @@
 package com.junkfood.seal.util
 
 import android.widget.Toast
+import com.junkfood.seal.BaseApplication.Companion.clipboard
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import java.util.regex.Pattern
@@ -18,6 +19,10 @@ object TextUtil {
         }
         makeToast(R.string.paste_fail_msg)
         return null
+    }
+
+    fun copyToClipboard(s: String) {
+        clipboard.text = s
     }
 
     fun urlHttpToHttps(url: String?): String {

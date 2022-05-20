@@ -11,8 +11,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -27,6 +25,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -139,19 +138,17 @@ fun DownloadPage(
                         style = MaterialTheme.typography.displaySmall
                     )
                     AnimatedVisibility(visible = viewState.value.isProcessing) {
-                        CircularProgressIndicator(modifier = Modifier
-                            .padding(start = 12.dp)
-                            .size(16.dp), strokeWidth = 3.dp)
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .size(16.dp), strokeWidth = 3.dp
+                        )
                     }
 
                 }
 
                 with(viewState.value) {
-                    Column(
-                        Modifier
-                            .padding(24.dp)
-                            .verticalScroll(rememberScrollState())
-                    ) {
+                    Column(Modifier.padding(24.dp)) {
                         AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
                                 videoTitle,
@@ -167,8 +164,8 @@ fun DownloadPage(
                             showVideoCard = showVideoCard,
                             isInCustomMode = customCommandMode,
                             error = isDownloadError,
-                            errorMessage = errorMessage
                         ) { downloadViewModel.updateUrl(it) }
+                        ErrorMessage(error = isDownloadError, errorMessage = errorMessage)
                     }
                 }
             }
@@ -198,7 +195,6 @@ fun InputUrl(
     isInCustomMode: Boolean = false,
     showVideoCard: Boolean = false,
     progress: Float,
-    errorMessage: String,
     onValueChange: (String) -> Unit
 ) {
     OutlinedTextField(
@@ -210,22 +206,6 @@ fun InputUrl(
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge
     )
-    AnimatedVisibility(visible = error) {
-        Row {
-            Icon(
-                Icons.Outlined.Error,
-                contentDescription = "error",
-                tint = MaterialTheme.colorScheme.error
-            )
-            SelectionContainer {
-                Text(
-                    modifier = Modifier.padding(horizontal = 6.dp),
-                    text = errorMessage,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-        }
-    }
     AnimatedVisibility(visible = isInCustomMode and !showVideoCard) {
         Row(
             Modifier.padding(0.dp, 12.dp),
@@ -248,6 +228,31 @@ fun InputUrl(
         }
     }
 }
+
+
+@Composable
+fun ErrorMessage(
+    modifier: Modifier = Modifier,
+    error: Boolean = false,
+    errorMessage: String = "",
+) {
+    AnimatedVisibility(visible = error) {
+        Row() {
+            Icon(
+                Icons.Outlined.Error, contentDescription = null,
+                tint = MaterialTheme.colorScheme.error
+            )
+            Text(
+                maxLines = 6,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 6.dp),
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -345,7 +350,7 @@ fun FABs(
             content = {
                 Icon(
                     Icons.Outlined.ContentPaste,
-                    contentDescription = "paste"
+                    contentDescription = stringResource(R.string.paste)
                 )
             }, modifier = Modifier
                 .padding(vertical = 12f.dp)
@@ -356,7 +361,7 @@ fun FABs(
             content = {
                 Icon(
                     Icons.Outlined.FileDownload,
-                    contentDescription = "download"
+                    contentDescription = stringResource(R.string.download)
                 )
             }, modifier = Modifier
                 .padding(vertical = 12f.dp)
@@ -365,7 +370,7 @@ fun FABs(
 
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DownloadSettingDialog(
     drawerState: ModalBottomSheetState,
@@ -399,8 +404,7 @@ fun DownloadSettingDialog(
                     .padding(bottom = 16.dp)
             )
             Row(
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
+                modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
                 FilterChipWithIcon(
                     select = audio,

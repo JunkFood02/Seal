@@ -1,12 +1,13 @@
 buildscript {
     ext {
-        compose_version = '1.2.0-beta01'
-        lifecycle_version = '2.4.1'
-        nav_version = '2.5.0-beta01'
+        compose_version = '1.2.0-beta02'
+        lifecycle_version = '2.5.0-rc01'
+        nav_version = '2.5.0-rc01'
         room_version = '2.4.2'
         accompanist_version = '0.24.7-alpha'
         kotlin_version = '1.6.21'
         hilt_version = '2.42'
+        compose_md3_version = "1.0.0-alpha12"
     }
     repositories {
         mavenCentral()

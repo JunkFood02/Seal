@@ -24,8 +24,8 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.SingleChoiceItem
-import com.junkfood.seal.ui.page.settings.LocalDarkTheme
-import com.junkfood.seal.ui.page.settings.LocalDynamicColor
+import com.junkfood.seal.ui.core.LocalDarkTheme
+import com.junkfood.seal.ui.core.LocalDynamicColor
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF

@@ -38,8 +38,7 @@ fun SettingsPage(navController: NavController) {
                 text = stringResource(id = R.string.settings),
                 fontSize = MaterialTheme.typography.displaySmall.fontSize
             )
-            Column(modifier = Modifier.padding(top = 12.dp)) {
-
+            Column(modifier = Modifier.padding(top = 24.dp)) {
                 SettingItem(
                     title = stringResource(id = R.string.download), description = stringResource(
                         id = R.string.download_settings_desc

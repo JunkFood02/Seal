@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
-    <string name="video_url">Video url</string>
+    <string name="video_url">Video link</string>
     <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
     <string name="create_thumbnail">Download thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings_desc">Directory, yt-dlp version, preferences</string>
     <string name="download">Download</string>
-    <string name="url_empty">Url cannot be empty</string>
+    <string name="url_empty">Link cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Save video thumbnail as a file</string>
     <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
@@ -27,8 +27,8 @@
     <string name="language_settings">Set display language</string>
     <string name="language_settings_msg">This preference would take effect after app restart</string>
     <string name="task_running">An existing download task is already running</string>
-    <string name="paste_msg">Paste url from clipboard</string>
-    <string name="paste_fail_msg">Unable to match url in clipboard</string>
+    <string name="paste_msg">Paste URL from clipboard</string>
+    <string name="paste_fail_msg">Unable to match URL in clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
     <string name="delete_info">Remove from history</string>
@@ -38,7 +38,7 @@
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Link copied to clipboard</string>
-    <string name="open_url">Open url</string>
+    <string name="open_url">Open link</string>
     <string name="remove">Remove</string>
     <string name="delete_file">Delete file</string>
     <string name="about">About</string>
@@ -60,8 +60,8 @@
     <string name="edit_custom_command_template">Edit template</string>
     <string name="start_execute">Start executing command</string>
     <string name="advanced_settings">Advanced</string>
-    <string name="error_report">Print error message</string>
-    <string name="error_report_desc">Print detailed message when error occurs</string>
+    <string name="error_report">Display error report</string>
+    <string name="error_report_desc">Display detailed message when error occurs</string>
     <string name="unknown_error">Unknown error occurred</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_page">Dynamic color, dark theme</string>
@@ -75,5 +75,8 @@
     <string name="settings_before_download">Configure before download</string>
     <string name="settings_before_download_desc">Configure preferences before start downloading</string>
     <string name="loading_thumbnail">Loading thumbnail</string>
+    <string name="error_copied">Error report was copied to the clipboard</string>
+    <string name="thumbnail">thumbnail</string>
+    <string name="paste">Paste link</string>
 
 </resources>

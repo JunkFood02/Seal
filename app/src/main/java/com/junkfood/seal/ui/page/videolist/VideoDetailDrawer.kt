@@ -62,12 +62,10 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                 }
             }
             TextButton(modifier = Modifier.padding(vertical = 6.dp), onClick = {
-                clipboardManager.setText(
-                    AnnotatedString(url)
-                )
+                clipboardManager.setText(AnnotatedString(url))
                 TextUtil.makeToast(context.getString(R.string.link_copied))
             }) {
-                Icon(Icons.Outlined.Link, stringResource(R.string.link_copied))
+                Icon(Icons.Outlined.Link, stringResource(R.string.video_url))
                 Text(
                     modifier = Modifier
                         .padding(vertical = 6.dp, horizontal = 8.dp),
@@ -89,7 +87,8 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                     })
                 {
                     Icon(
-                        Icons.Outlined.RemoveCircleOutline,
+                        modifier = Modifier.size(18.dp),
+                        imageVector = Icons.Outlined.RemoveCircleOutline,
                         contentDescription = stringResource(R.string.remove)
                     )
                     Text(

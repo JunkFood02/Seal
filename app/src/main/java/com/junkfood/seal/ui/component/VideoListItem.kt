@@ -45,16 +45,30 @@ fun VideoListItem(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
+/*        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(thumbnailUrl)
+                .diskCacheKey(thumbnailUrl)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .crossfade(true)
+                .build(),
+            contentDescription = null, contentScale = ContentScale.Crop
+        )*/
         SubcomposeAsyncImage(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
+                .diskCacheKey(thumbnailUrl)
                 .diskCachePolicy(CachePolicy.ENABLED)
                 .crossfade(true)
                 .build(),
-            contentDescription = null, contentScale = ContentScale.Crop
+            contentDescription = stringResource(R.string.thumbnail),
+            contentScale = ContentScale.Crop
         ) {
             val state = painter.state
             if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
@@ -124,7 +138,8 @@ fun AudioListItem(
                 .data(thumbnailUrl)
                 .crossfade(true)
                 .build(),
-            contentDescription = null, contentScale = ContentScale.Crop
+            contentDescription = stringResource(R.string.thumbnail),
+            contentScale = ContentScale.Crop
         ) {
             val state = painter.state
             if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {

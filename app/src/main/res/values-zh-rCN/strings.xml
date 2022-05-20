@@ -59,7 +59,7 @@
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
     <string name="advanced_settings">高级</string>
-    <string name="error_report">显示错误信息</string>
+    <string name="error_report">显示错误报告</string>
     <string name="error_report_desc">显示详细的错误信息</string>
     <string name="unknown_error">出现不可预知的错误</string>
     <string name="appearance">外观</string>
@@ -74,4 +74,7 @@
     <string name="settings_before_download">下载前设置</string>
     <string name="settings_before_download_desc">在开始下载前确认下载偏好选项</string>
     <string name="loading_thumbnail">正在加载视频封面</string>
+    <string name="error_copied">错误报告已复制到剪贴板</string>
+    <string name="thumbnail">封面</string>
+    <string name="paste">粘贴链接</string>
 </resources>

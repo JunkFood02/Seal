@@ -103,7 +103,7 @@ object PreferenceUtil {
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
                 )
-            ), kv.decodeBool(DYNAMIC_COLORS)
+            ), kv.decodeBool(DYNAMIC_COLORS, true)
         )
     }
 

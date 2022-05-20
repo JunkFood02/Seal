@@ -41,7 +41,10 @@ fun BottomDrawer(
         sheetElevation = if (drawerState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
         sheetContent = {
             Surface(
-                modifier = modifier,
+                modifier = Modifier.padding(
+                    bottom = WindowInsets.systemBars.asPaddingValues()
+                        .calculateBottomPadding().run { if (this < 30.dp) 0.dp else this }
+                ),
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 6.dp,
             ) {

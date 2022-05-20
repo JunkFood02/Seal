@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.settings
+package com.junkfood.seal.ui.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
