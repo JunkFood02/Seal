@@ -36,7 +36,8 @@ fun PreferenceItem(
                     contentDescription = title,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
-                        .size(28.dp),
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
             Column(
@@ -94,7 +95,8 @@ fun PreferenceSwitch(
                     contentDescription = title,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
-                        .size(28.dp),
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
             Column(

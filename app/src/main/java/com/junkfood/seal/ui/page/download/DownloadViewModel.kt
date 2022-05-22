@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.PreferenceUtil
@@ -113,16 +111,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     return@launch
                 }
 
-                DatabaseUtil.insertInfo(
-                    DownloadedVideoInfo(
-                        0,
-                        videoInfo.title,
-                        videoInfo.uploader ?: "null",
-                        viewState.value.url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
-                        downloadResultTemp.filePath.toString()
-                    )
-                )
                 _viewState.update { it.copy(progress = 100f) }
                 if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
                     openFile(downloadResultTemp)
@@ -159,9 +147,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
-            val videoInfo: VideoInfo?
             try {
-                videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                val videoInfo: VideoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
                 with(videoInfo) {
                     if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
                         _viewState.update {
@@ -198,7 +185,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                 return@launch
             }
-
             _viewState.update { it.copy(isProcessing = false) }
         }
     }

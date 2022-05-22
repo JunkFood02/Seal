@@ -11,11 +11,11 @@ interface VideoInfoDao {
     @Insert
     suspend fun insertAll(vararg info: DownloadedVideoInfo)
 
-    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath like :string")
-    fun getAll(string: String): Flow<List<DownloadedVideoInfo>>
+    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath not like '%.mp3' and videoPath not like '%.m4a' and videoPath not like '%.opus'")
+    fun getAllVideos(): Flow<List<DownloadedVideoInfo>>
 
-    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath not like :string")
-    fun getAllFilter(string: String): Flow<List<DownloadedVideoInfo>>
+    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath like '%.mp3' or videoPath like '%.m4a' or videoPath like '%.opus'")
+    fun getAllAudios(): Flow<List<DownloadedVideoInfo>>
 
     @Delete
     suspend fun delete(info: DownloadedVideoInfo)

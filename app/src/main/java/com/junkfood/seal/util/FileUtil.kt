@@ -4,15 +4,15 @@ import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import java.io.File
 
 
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
-        openFile(downloadResult.filePath.toString())
+        openFile(downloadResult.filePath?.get(0) ?: return)
     }
 
     fun openFile(path: String) {
@@ -25,16 +25,22 @@ object FileUtil {
                     context.packageName + ".provider",
                     File(path)
                 ),
-                if (path.contains(".mp3")) "audio/*" else "video/*"
+                if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
             )
         })
     }
 
-    fun scanFileToMediaLibrary(title: String, ext: String) {
+    fun scanFileToMediaLibrary(title: String): ArrayList<String>? {
+        val paths = ArrayList<String>()
+        val files = File(downloadDir).listFiles { _, name -> name.contains(title) } ?: return null
+        for (file in files) {
+            paths.add(file.absolutePath)
+        }
         MediaScannerConnection.scanFile(
-            context, arrayOf("${BaseApplication.downloadDir}/$title.$ext"),
-            arrayOf(if (ext == "mp3") "audio/*" else "video/*"), null
+            context, paths.toTypedArray(),
+            null, null
         )
+        return paths
     }
 
 

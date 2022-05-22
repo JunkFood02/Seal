@@ -3,6 +3,7 @@ package com.junkfood.seal.util
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.reformatFilename
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -11,22 +12,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object DownloadUtil {
-    class Result(val resultCode: ResultCode, val filePath: String?) {
+    class Result(val resultCode: ResultCode, val filePath: List<String>?) {
         companion object {
             fun failure(): Result {
                 return Result(ResultCode.EXCEPTION, null)
             }
 
-            fun success(title: String, ext: String): Result {
-                with(if (ext == "mp3") ResultCode.FINISH_AUDIO else ResultCode.FINISH_VIDEO) {
-                    return Result(this, "${BaseApplication.downloadDir}/$title.$ext")
-                }
+            fun success(filePaths: List<String>?): Result {
+                return Result(ResultCode.SUCCESS, filePaths)
             }
         }
     }
 
+
     enum class ResultCode {
-        FINISH_VIDEO, FINISH_AUDIO, EXCEPTION
+        SUCCESS, EXCEPTION
     }
 
     private const val TAG = "DownloadUtil"
@@ -51,8 +51,6 @@ object DownloadUtil {
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
-        val ext: String
-
         val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val request = YoutubeDLRequest(url)
@@ -69,32 +67,44 @@ object DownloadUtil {
                 addOption("-o", "$filename.%(ext)s")
             }
 
-            ext = if (extractAudio or (videoInfo.ext == "mp3")) {
+            if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
+//                addOption("-f", "ba")
                 addOption("-x")
-                addOption("--audio-format", "mp3")
-                addOption("--audio-quality", "0")
+//                addOption("--audio-format", "mp3")
+//                addOption("--audio-quality", "0")
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-                addOption("--compat-options", "embed-thumbnail-atomicparsley")
-                addOption("--parse-metadata", "%(title)s:%(meta_album)s")
-                "mp3"
-            } else videoInfo.ext
+//                addOption("--compat-options", "embed-thumbnail-atomicparsley")
+                addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+            }
 
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-//            addOption("--force-overwrites")
+
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 
         toast(context.getString(R.string.download_success_msg))
 
         if (!url.contains("list")) {
-            FileUtil.scanFileToMediaLibrary(filename, ext)
+            val filePaths = FileUtil.scanFileToMediaLibrary(filename)
+            if (filePaths != null)
+                for (path in filePaths) {
+                    DatabaseUtil.insertInfo(
+                        DownloadedVideoInfo(
+                            0,
+                            videoInfo.title,
+                            videoInfo.uploader ?: "null",
+                            url,
+                            TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""), path
+                        )
+                    )
+                }
+            return Result.success(filePaths)
         }
-        return Result.success(filename, ext)
-
+        return Result.success(null)
     }
 
     suspend fun updateYtDlp(): String {
