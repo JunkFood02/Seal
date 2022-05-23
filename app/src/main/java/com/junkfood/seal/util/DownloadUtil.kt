@@ -1,5 +1,6 @@
 package com.junkfood.seal.util
 
+import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -57,6 +58,7 @@ object DownloadUtil {
         val filename: String = reformatFilename(videoInfo.title)
 
         with(request) {
+            addOption("--no-mtime")
             addOption("-R", "3")
             addOption("-P", "${BaseApplication.downloadDir}/")
             if (url.contains("list")) {
@@ -68,21 +70,38 @@ object DownloadUtil {
             }
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
-//                addOption("-f", "ba")
                 addOption("-x")
-//                addOption("--audio-format", "mp3")
-//                addOption("--audio-quality", "0")
+                when (PreferenceUtil.getAudioFormat()) {
+                    1 -> {
+                        addOption("--audio-format", "mp3")
+                        addOption("--audio-quality", "0")
+                    }
+                    2 -> {
+                        addOption("--audio-format", "m4a")
+                        addOption("--audio-quality", "0")
+                    }
+                }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-//                addOption("--compat-options", "embed-thumbnail-atomicparsley")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+            } else {
+                val sorter = StringBuilder()
+                when (PreferenceUtil.getVideoQuality()) {
+                    1 -> sorter.append("res:1080")
+                    2 -> sorter.append("res:720")
+                    3 -> sorter.append("res:480")
+                }
+                if (PreferenceUtil.getValue(PreferenceUtil.MP4_PREFERRED))
+                    sorter.append(",ext")
+                if (sorter.isNotEmpty())
+                    addOption("-S", sorter.toString())
             }
-
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-
+            for (s in request.buildCommand())
+                Log.d(TAG, s)
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 

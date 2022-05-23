@@ -25,6 +25,7 @@ object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
+    fun updateValue(key: String, int: Int) = kv.encode(key, int)
     fun getValue(key: String): Boolean = kv.decodeBool(key, false)
     fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
     fun getString(key: String): String? = kv.decodeString(key)
@@ -32,6 +33,27 @@ object PreferenceUtil {
 
     fun getTemplate(): String =
         kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
+
+    fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 2)
+
+    fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
+        return when (audioFormatCode) {
+            0 -> context.getString(R.string.not_convert)
+            1 -> context.getString(R.string.convert_to).format("mp3")
+            else -> context.getString(R.string.convert_to).format("m4a")
+        }
+    }
+
+    fun getVideoQuality(): Int = kv.decodeInt(VIDEO_QUALITY, 0)
+
+    fun getVideoQualityDesc(videoQualityCode: Int = getVideoQuality()): String {
+        return when (videoQualityCode) {
+            1 -> "1080p"
+            2 -> "720p"
+            3 -> "480p"
+            else -> context.getString(R.string.best_quality)
+        }
+    }
 
     const val CUSTOM_COMMAND = "custom_command"
     const val EXTRACT_AUDIO = "extract_audio"
@@ -43,6 +65,9 @@ object PreferenceUtil {
     const val CONFIGURE = "configure"
     const val DYNAMIC_COLORS = "dynamic_color"
     const val DARK_THEME = "dark_theme_value"
+    const val AUDIO_FORMAT = "audio_format"
+    const val MP4_PREFERRED = "mp4"
+    const val VIDEO_QUALITY = "quality"
 
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
@@ -58,11 +83,11 @@ object PreferenceUtil {
         }
     }
 
-
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val dynamicColor: Boolean = true
     )
+
 
     class DarkThemePreference(var darkThemeValue: Int = FOLLOW_SYSTEM) {
         companion object {
