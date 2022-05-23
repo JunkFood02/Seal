@@ -78,10 +78,17 @@
     <string name="error_copied">Error report was copied to the clipboard</string>
     <string name="thumbnail">thumbnail</string>
     <string name="paste">Paste link</string>
-    <string name="template_example" translatable="false">-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"</string>
+    <string name="template_example" translatable="false">--no-mtime -S res:720,ext</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL would be added by the app automatically.</string>
     <string name="audio_format">Audio format</string>
     <string name="not_convert">Not convert</string>
     <string name="convert_to">Convert to %1$s</string>
+    <string name="format">Format</string>
+    <string name="prefer_mp4">Prefer mp4</string>
+    <string name="prefer_mp4_desc">Videos in mp4 format can be played on most devices or players</string>
+    <string name="audio_format_desc">Audio in mp3 or m4a format is compatible with most devices</string>
+    <string name="quality">Video quality</string>
+    <string name="best_quality">Best quality (Default)</string>
+    <string name="video_quality_desc">Download the best video with quality no greater than the resolution selected</string>
 </resources>

@@ -74,8 +74,8 @@ fun PreferenceItem(
 @Composable
 fun PreferenceSwitch(
     title: String,
-    description: String?,
-    icon: ImageVector?,
+    description: String? = null,
+    icon: ImageVector? = null,
     enabled: Boolean = true,
     onClick: (() -> Unit),
     isChecked: Boolean,
@@ -163,7 +163,7 @@ fun SingleChoiceItem(
     ) {
         RadioButton(selected = selected, onClick = onClick)
         Text(
-            modifier = Modifier.padding(start = 12.dp),
+            modifier = Modifier.padding(start = 6.dp),
             text = text,
             style = MaterialTheme.typography.bodyLarge
         )

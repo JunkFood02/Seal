@@ -82,4 +82,11 @@
     <string name="audio_format">音频格式</string>
     <string name="not_convert">不进行格式转换</string>
     <string name="convert_to">转换为 %1$s 格式</string>
+    <string name="format">格式</string>
+    <string name="prefer_mp4">优先下载 mp4</string>
+    <string name="prefer_mp4_desc">mp4 格式的视频与大多数设备兼容</string>
+    <string name="audio_format_desc">mp3 或 m4a 格式的音频与大多数设备兼容</string>
+    <string name="quality">视频画质</string>
+    <string name="best_quality">最高画质（默认）</string>
+    <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
 </resources>

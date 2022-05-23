@@ -1,5 +1,6 @@
 package com.junkfood.seal.util
 
+import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -83,13 +84,24 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+            } else {
+                val sorter = StringBuilder()
+                when (PreferenceUtil.getVideoQuality()) {
+                    1 -> sorter.append("res:1080")
+                    2 -> sorter.append("res:720")
+                    3 -> sorter.append("res:480")
+                }
+                if (PreferenceUtil.getValue(PreferenceUtil.MP4_PREFERRED))
+                    sorter.append(",ext")
+                if (sorter.isNotEmpty())
+                    addOption("-S", sorter.toString())
             }
-
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-
+            for (s in request.buildCommand())
+                Log.d(TAG, s)
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 

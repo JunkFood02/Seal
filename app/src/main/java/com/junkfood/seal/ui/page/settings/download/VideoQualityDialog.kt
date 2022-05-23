@@ -16,8 +16,8 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
 
 @Composable
-fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
-    var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioFormat()) }
+fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
+    var videoQuality by remember { mutableStateOf(PreferenceUtil.getVideoQuality()) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -26,10 +26,10 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
             }
         },
         title = {
-            Text(stringResource(R.string.audio_format))
+            Text(stringResource(R.string.quality))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.AUDIO_FORMAT, audioFormat)
+                PreferenceUtil.updateValue(PreferenceUtil.VIDEO_QUALITY, videoQuality)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -41,14 +41,15 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp),
-                    text = stringResource(R.string.audio_format_desc),
+                    text = stringResource(R.string.video_quality_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for(i in 0..2)
+                for(i in 0..3)
                 SingleChoiceItem(
-                    text = PreferenceUtil.getAudioFormatDesc(i),
-                    selected = audioFormat == i
-                ) { audioFormat = i }
+                    text = PreferenceUtil.getVideoQualityDesc(i),
+                    selected = videoQuality == i
+                ) { videoQuality = i }
+
             }
         })
 }
