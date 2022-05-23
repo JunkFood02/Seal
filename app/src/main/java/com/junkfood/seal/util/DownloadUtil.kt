@@ -57,6 +57,7 @@ object DownloadUtil {
         val filename: String = reformatFilename(videoInfo.title)
 
         with(request) {
+            addOption("--no-mtime")
             addOption("-R", "3")
             addOption("-P", "${BaseApplication.downloadDir}/")
             if (url.contains("list")) {
@@ -68,13 +69,19 @@ object DownloadUtil {
             }
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
-//                addOption("-f", "ba")
                 addOption("-x")
-//                addOption("--audio-format", "mp3")
-//                addOption("--audio-quality", "0")
+                when (PreferenceUtil.getAudioFormat()) {
+                    1 -> {
+                        addOption("--audio-format", "mp3")
+                        addOption("--audio-quality", "0")
+                    }
+                    2 -> {
+                        addOption("--audio-format", "m4a")
+                        addOption("--audio-quality", "0")
+                    }
+                }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-//                addOption("--compat-options", "embed-thumbnail-atomicparsley")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
             }
 

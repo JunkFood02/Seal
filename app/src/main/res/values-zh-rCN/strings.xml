@@ -79,4 +79,7 @@
     <string name="paste">粘贴链接</string>
     <string name="yt_dlp_docs">yt-dlp 使用文档</string>
     <string name="edit_template_desc">应用会自动向命令中添加输出路径与链接</string>
+    <string name="audio_format">音频格式</string>
+    <string name="not_convert">不进行格式转换</string>
+    <string name="convert_to">转换为 %1$s 格式</string>
 </resources>

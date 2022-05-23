@@ -65,6 +65,7 @@ fun VideoListItem(
                 .data(thumbnailUrl)
                 .diskCacheKey(thumbnailUrl)
                 .diskCachePolicy(CachePolicy.ENABLED)
+                .networkCachePolicy(CachePolicy.DISABLED)
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(R.string.thumbnail),

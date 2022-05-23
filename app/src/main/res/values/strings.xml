@@ -81,4 +81,7 @@
     <string name="template_example" translatable="false">-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL would be added by the app automatically.</string>
+    <string name="audio_format">Audio format</string>
+    <string name="not_convert">Not convert</string>
+    <string name="convert_to">Convert to %1$s</string>
 </resources>
