@@ -10,10 +10,12 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
@@ -42,9 +44,8 @@ fun BottomDrawer(
         sheetContent = {
             Surface(
                 modifier = Modifier.padding(
-                    bottom = WindowInsets.systemBars.asPaddingValues()
-                        .calculateBottomPadding().run { if (this < 30.dp) 0.dp else this }
-                ),
+                    bottom = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+                        .run { if (this < 30.dp) 0.dp else this }),
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 6.dp,
             ) {
@@ -77,5 +78,21 @@ fun BottomDrawer(
             }
         },
         content = content,
+    )
+}
+
+@Composable
+fun DrawerSheetSubtitle(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary,
+) {
+    Text(
+        text = text,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 6.dp, top = 18.dp, bottom = 9.dp),
+        color = color,
+        style = MaterialTheme.typography.labelLarge
     )
 }

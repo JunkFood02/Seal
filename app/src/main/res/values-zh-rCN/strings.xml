@@ -6,7 +6,7 @@
     <string name="extract_audio">提取音频</string>
     <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
-    <string name="download_settings_desc">下载目录、组件版本、下载设置</string>
+    <string name="download_settings_desc">常规设置、下载格式、自定义命令</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
@@ -79,14 +79,17 @@
     <string name="paste">粘贴链接</string>
     <string name="yt_dlp_docs">yt-dlp 使用文档</string>
     <string name="edit_template_desc">应用会自动向命令中添加输出路径与链接</string>
-    <string name="audio_format">音频格式</string>
+    <string name="audio_format">音频格式转换</string>
     <string name="not_convert">不进行格式转换</string>
     <string name="convert_to">转换为 %1$s 格式</string>
     <string name="format">格式</string>
-    <string name="prefer_mp4">优先下载 mp4</string>
-    <string name="prefer_mp4_desc">mp4 格式的视频与大多数设备兼容</string>
     <string name="audio_format_desc">mp3 或 m4a 格式的音频与大多数设备兼容</string>
     <string name="quality">视频画质</string>
     <string name="best_quality">最高画质（默认）</string>
     <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
+    <string name="not_specified">默认</string>
+    <string name="video_format_preference">视频格式偏好</string>
+    <string name="video_format_desc">当多种视频格式可供下载时的偏好选项</string>
+    <string name="video_format">视频格式</string>
+    <string name="convert_audio">音频转码</string>
 </resources>

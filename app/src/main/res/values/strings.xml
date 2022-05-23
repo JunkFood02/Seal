@@ -6,19 +6,19 @@
     <string name="extract_audio">Extract audio</string>
     <string name="create_thumbnail">Download thumbnail</string>
     <string name="settings">Settings</string>
-    <string name="download_settings_desc">Directory, yt-dlp version, preferences</string>
+    <string name="download_settings_desc">General, format, custom command</string>
     <string name="download">Download</string>
     <string name="url_empty">Link cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Save video thumbnail as a file</string>
-    <string name="open_when_finish_summary">Open the media file immediately after finish downloading</string>
+    <string name="open_when_finish_summary">Open file after download finishes</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
     <string name="yt_dlp_update_fail">Failed to update yt-dlp, consider connecting with proxy.</string>
     <string name="fetching_info">Fetching video info</string>
     <string name="permission_denied">Failed to request permission</string>
     <string name="download_success_msg">Download completed</string>
-    <string name="download_error_msg">Error occurred when downloading video</string>
+    <string name="download_error_msg">Error occurred when downloading</string>
     <string name="start_download">Start downloading \'%1$s\'</string>
     <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
     <string name="start_download_list">Start downloading playlist</string>
@@ -53,7 +53,7 @@
     <string name="checked">Checked</string>
     <string name="bilibili">Bilibili</string>
     <string name="credits">Credits</string>
-    <string name="credits_desc">Credits and open source softwares</string>
+    <string name="credits_desc">Credits and open source software</string>
     <string name="custom_command">Custom command</string>
     <string name="custom_command_desc">Execute yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>
@@ -61,7 +61,7 @@
     <string name="start_execute">Start executing command</string>
     <string name="advanced_settings">Advanced</string>
     <string name="error_report">Display error report</string>
-    <string name="error_report_desc">Display detailed message when error occurs</string>
+    <string name="error_report_desc">Print details when error occurs</string>
     <string name="unknown_error">Unknown error occurred</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_page">Dynamic color, dark theme</string>
@@ -73,22 +73,25 @@
     <string name="off">Off</string>
     <string name="cancel">Cancel</string>
     <string name="settings_before_download">Configure before download</string>
-    <string name="settings_before_download_desc">Configure preferences before start downloading</string>
+    <string name="settings_before_download_desc">Configure preferences before download</string>
     <string name="loading_thumbnail">Loading thumbnail</string>
     <string name="error_copied">Error report was copied to the clipboard</string>
     <string name="thumbnail">thumbnail</string>
     <string name="paste">Paste link</string>
-    <string name="template_example" translatable="false">--no-mtime -S res:720,ext</string>
+    <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b\"</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL would be added by the app automatically.</string>
-    <string name="audio_format">Audio format</string>
+    <string name="audio_format">Convert audio format</string>
     <string name="not_convert">Not convert</string>
     <string name="convert_to">Convert to %1$s</string>
     <string name="format">Format</string>
-    <string name="prefer_mp4">Prefer mp4</string>
-    <string name="prefer_mp4_desc">Videos in mp4 format can be played on most devices or players</string>
     <string name="audio_format_desc">Audio in mp3 or m4a format is compatible with most devices</string>
     <string name="quality">Video quality</string>
     <string name="best_quality">Best quality (Default)</string>
-    <string name="video_quality_desc">Download the best video with quality no greater than the resolution selected</string>
+    <string name="video_quality_desc">Download the best video with quality no better than the resolution selected</string>
+    <string name="not_specified">Not specified (Default)</string>
+    <string name="video_format_preference">Video format preference</string>
+    <string name="video_format_desc">Preferred video format when multiple formats being provided</string>
+    <string name="video_format">Video format</string>
+    <string name="convert_audio">Convert audio</string>
 </resources>

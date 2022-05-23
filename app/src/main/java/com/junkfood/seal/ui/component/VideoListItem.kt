@@ -29,7 +29,6 @@ fun VideoListItem(
     author: String = "",
     thumbnailUrl: String = "",
     videoUrl: String = "",
-    isAudio: Boolean = false,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {}
 ) {
@@ -45,18 +44,6 @@ fun VideoListItem(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
-/*        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(thumbnailUrl)
-                .diskCacheKey(thumbnailUrl)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .crossfade(true)
-                .build(),
-            contentDescription = null, contentScale = ContentScale.Crop
-        )*/
         SubcomposeAsyncImage(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
@@ -99,12 +86,6 @@ fun VideoListItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            if (isAudio)
-                Text(
-                    text = stringResource(R.string.audio),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                )
         }
     }
 }
@@ -137,6 +118,7 @@ fun AudioListItem(
                 .aspectRatio(1f, matchHeightConstraintsFirst = true),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
+                .networkCachePolicy(CachePolicy.DISABLED)
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(R.string.thumbnail),

@@ -48,10 +48,21 @@ object PreferenceUtil {
 
     fun getVideoQualityDesc(videoQualityCode: Int = getVideoQuality()): String {
         return when (videoQualityCode) {
-            1 -> "1080p"
-            2 -> "720p"
-            3 -> "480p"
+            1 -> "1440p"
+            2 -> "1080p"
+            3 -> "720p"
+            4 -> "480p"
             else -> context.getString(R.string.best_quality)
+        }
+    }
+
+    fun getVideoFormat(): Int = kv.decodeInt(VIDEO_FORMAT, 0)
+
+    fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
+        return when (videoFormatCode) {
+            1 -> "MP4"
+            2 -> "WebM"
+            else -> context.getString(R.string.not_specified)
         }
     }
 
@@ -66,7 +77,7 @@ object PreferenceUtil {
     const val DYNAMIC_COLORS = "dynamic_color"
     const val DARK_THEME = "dark_theme_value"
     const val AUDIO_FORMAT = "audio_format"
-    const val MP4_PREFERRED = "mp4"
+    const val VIDEO_FORMAT = "video_format"
     const val VIDEO_QUALITY = "quality"
 
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)

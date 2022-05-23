@@ -87,12 +87,15 @@ object DownloadUtil {
             } else {
                 val sorter = StringBuilder()
                 when (PreferenceUtil.getVideoQuality()) {
-                    1 -> sorter.append("res:1080")
-                    2 -> sorter.append("res:720")
-                    3 -> sorter.append("res:480")
+                    1 -> sorter.append("res:1440")
+                    2 -> sorter.append("res:1080")
+                    3 -> sorter.append("res:720")
+                    4 -> sorter.append("res:480")
                 }
-                if (PreferenceUtil.getValue(PreferenceUtil.MP4_PREFERRED))
-                    sorter.append(",ext")
+                when (PreferenceUtil.getVideoFormat()) {
+                    1 -> sorter.append(",ext:mp4")
+                    2 -> sorter.append(",ext:webm")
+                }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
             }

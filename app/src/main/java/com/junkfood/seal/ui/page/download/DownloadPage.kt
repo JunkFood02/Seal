@@ -6,17 +6,16 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,15 +37,10 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.core.Route
-import com.junkfood.seal.ui.page.videolist.FilterChipWithIcon
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
-import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
-import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.TextUtil
 
 
@@ -95,7 +89,7 @@ fun DownloadPage(
                     .systemBarsPadding(),
                 viewState.value.customCommandMode,
                 downloadCallback = {
-                    if (PreferenceUtil.getValue(CONFIGURE) and !PreferenceUtil.getValue(
+                    if (PreferenceUtil.getValue(CONFIGURE, true) and !PreferenceUtil.getValue(
                             CUSTOM_COMMAND
                         )
                     )
@@ -368,124 +362,4 @@ fun FABs(
         )
     }
 
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun DownloadSettingDialog(
-    drawerState: ModalBottomSheetState,
-    confirm: () -> Unit,
-    cancel: () -> Unit
-) {
-    var audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
-    var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
-    var open by remember { mutableStateOf(PreferenceUtil.getValue(OPEN_IMMEDIATELY)) }
-
-    BottomDrawer(drawerState = drawerState, sheetContent = {
-        Column(Modifier.fillMaxWidth()) {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                imageVector = Icons.Outlined.DoneAll,
-                contentDescription = stringResource(R.string.settings)
-            )
-            Text(
-                text = stringResource(R.string.settings_before_download),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp)
-            )
-            Text(
-                text = stringResource(R.string.settings_before_download_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 16.dp)
-            )
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                FilterChipWithIcon(
-                    select = audio,
-                    onClick = { audio = !audio },
-                    label = stringResource(R.string.extract_audio)
-                )
-                FilterChipWithIcon(
-                    select = thumbnail,
-                    onClick = { thumbnail = !thumbnail },
-                    label = stringResource(R.string.create_thumbnail)
-                )
-                FilterChipWithIcon(
-                    select = open,
-                    onClick = { open = !open },
-                    label = stringResource(R.string.open_when_finish)
-                )
-            }
-
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp), horizontalArrangement = Arrangement.End
-        ) {
-
-            OutlinedButton(
-                modifier = Modifier.padding(horizontal = 12.dp),
-                onClick = cancel
-            )
-            {
-                Icon(
-                    Icons.Outlined.Cancel,
-                    contentDescription = stringResource(R.string.cancel)
-                )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.cancel)
-                )
-            }
-
-            Button(onClick = {
-                PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
-                PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
-                PreferenceUtil.updateValue(OPEN_IMMEDIATELY, open)
-                cancel()
-                confirm()
-            }) {
-                Icon(
-                    Icons.Outlined.DownloadDone,
-                    contentDescription = stringResource(R.string.confirm)
-                )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.confirm)
-                )
-            }
-        }
-    })
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun UrlCard(url: String, pasteCallback: (() -> Unit)) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { pasteCallback() }
-            .clip(RoundedCornerShape(32f.dp)),
-        elevation = CardDefaults.cardElevation(),
-        shape = RoundedCornerShape(32f.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16f.dp)
-        )
-        {
-            with(MaterialTheme.typography.bodyLarge) {
-                Text(text = url, fontSize = fontSize, fontWeight = fontWeight)
-            }
-        }
-    }
 }

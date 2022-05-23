@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 fun PreferenceItem(
     title: String,
     description: String,
-    icon: ImageVector?,
+    icon: ImageVector? = null,
     enabled: Boolean,
-
     onClick: () -> Unit,
 ) {
     Surface(
