@@ -39,8 +39,13 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BottomDrawer
+import com.junkfood.seal.ui.component.ButtonChip
+import com.junkfood.seal.ui.component.DrawerSheetSubtitle
+import com.junkfood.seal.ui.component.FilterChipWithIcon
 import com.junkfood.seal.ui.core.Route
-import com.junkfood.seal.ui.page.videolist.FilterChipWithIcon
+import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
+import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
@@ -370,7 +375,7 @@ fun FABs(
 
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadSettingDialog(
     drawerState: ModalBottomSheetState,
@@ -380,50 +385,79 @@ fun DownloadSettingDialog(
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
     var open by remember { mutableStateOf(PreferenceUtil.getValue(OPEN_IMMEDIATELY)) }
+    var showAudioFormatEditDialog by remember { mutableStateOf(false) }
+    var showVideoQualityDialog by remember { mutableStateOf(false) }
+    var showVideoFormatDialog by remember { mutableStateOf(false) }
 
     BottomDrawer(drawerState = drawerState, sheetContent = {
-        Column(Modifier.fillMaxWidth()) {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                imageVector = Icons.Outlined.DoneAll,
-                contentDescription = stringResource(R.string.settings)
+        Icon(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            imageVector = Icons.Outlined.DoneAll,
+            contentDescription = stringResource(R.string.settings)
+        )
+        Text(
+            text = stringResource(R.string.settings_before_download),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(vertical = 16.dp)
+        )
+        Text(
+            text = stringResource(R.string.settings_before_download_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        )
+        DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+        ) {
+            FilterChipWithIcon(
+                select = audio,
+                onClick = { audio = !audio },
+                label = stringResource(R.string.extract_audio)
             )
-            Text(
-                text = stringResource(R.string.settings_before_download),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp)
+            FilterChipWithIcon(
+                select = thumbnail,
+                onClick = { thumbnail = !thumbnail },
+                label = stringResource(R.string.create_thumbnail)
             )
-            Text(
-                text = stringResource(R.string.settings_before_download_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 16.dp)
+            FilterChipWithIcon(
+                select = open,
+                onClick = { open = !open },
+                label = stringResource(R.string.open_when_finish)
             )
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                FilterChipWithIcon(
-                    select = audio,
-                    onClick = { audio = !audio },
-                    label = stringResource(R.string.extract_audio)
-                )
-                FilterChipWithIcon(
-                    select = thumbnail,
-                    onClick = { thumbnail = !thumbnail },
-                    label = stringResource(R.string.create_thumbnail)
-                )
-                FilterChipWithIcon(
-                    select = open,
-                    onClick = { open = !open },
-                    label = stringResource(R.string.open_when_finish)
+        }
+
+        DrawerSheetSubtitle(text = stringResource(id = R.string.format))
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+        ) {
+            AnimatedVisibility(visible = !audio) {
+                ButtonChip(
+                    onClick = { showVideoFormatDialog = true },
+                    label = stringResource(R.string.video_format),
+                    icon = Icons.Outlined.VideoFile
                 )
             }
-
+            AnimatedVisibility(visible = !audio) {
+                ButtonChip(
+                    onClick = { showVideoQualityDialog = true },
+                    label = stringResource(R.string.quality),
+                    icon = Icons.Outlined._4k
+                )
+            }
+            AnimatedVisibility(visible = audio) {
+                ButtonChip(
+                    onClick = { showAudioFormatEditDialog = true },
+                    label = stringResource(R.string.convert_audio),
+                    icon = Icons.Outlined.AudioFile
+                )
+            }
         }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -462,7 +496,18 @@ fun DownloadSettingDialog(
                 )
             }
         }
-    })
+    }
+    )
+
+    if (showAudioFormatEditDialog) {
+        AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {}
+    }
+    if (showVideoQualityDialog) {
+        VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {}
+    }
+    if (showVideoFormatDialog) {
+        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {}
+    }
 }
 
 

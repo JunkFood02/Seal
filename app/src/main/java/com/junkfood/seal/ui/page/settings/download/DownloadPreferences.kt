@@ -36,11 +36,11 @@ import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.MP4_PREFERRED
 import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
+import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoQualityDesc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -58,12 +58,13 @@ fun DownloadPreferences(navController: NavController) {
     var showTemplateEditDialog by remember { mutableStateOf(false) }
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
+    var showVideoFormatDialog by remember { mutableStateOf(false) }
 
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
-    var debugMessage by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
+    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var audioFormatDesc by remember { mutableStateOf(getAudioFormatDesc()) }
     var videoQualityDesc by remember { mutableStateOf(getVideoQualityDesc()) }
-    var isMp4Preferred by remember { mutableStateOf(PreferenceUtil.getValue(MP4_PREFERRED)) }
+    var videoFormatDesc by remember { mutableStateOf(getVideoFormatDesc()) }
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -109,7 +110,6 @@ fun DownloadPreferences(navController: NavController) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
                         text = stringResource(id = R.string.download),
-                        //fontSize = MaterialTheme.typography.displaySmall.fontSize
                     )
                 }, navigationIcon = {
                     IconButton(
@@ -253,26 +253,21 @@ fun DownloadPreferences(navController: NavController) {
                         enabled = !customCommandEnable,
                         icon = null,
                         onClick = {
-                            debugMessage = !debugMessage
-                            PreferenceUtil.updateValue(DEBUG, debugMessage)
+                            displayErrorReport = !displayErrorReport
+                            PreferenceUtil.updateValue(DEBUG, displayErrorReport)
                         },
-                        isChecked = debugMessage
+                        isChecked = displayErrorReport
                     )
                 }
                 item {
                     Subtitle(text = stringResource(id = R.string.format))
                 }
                 item {
-                    PreferenceSwitch(
-                        title = stringResource(R.string.prefer_mp4),
-                        description = stringResource(R.string.prefer_mp4_desc),
-                        onClick = {
-                            isMp4Preferred = !isMp4Preferred
-                            PreferenceUtil.updateValue(MP4_PREFERRED, isMp4Preferred)
-                        },
-                        isChecked = isMp4Preferred,
+                    PreferenceItem(
+                        title = stringResource(R.string.video_format_preference),
+                        description = videoFormatDesc,
                         enabled = !customCommandEnable and !audioSwitch
-                    )
+                    ) { showVideoFormatDialog = true }
                 }
                 item {
                     PreferenceItem(
@@ -347,6 +342,11 @@ fun DownloadPreferences(navController: NavController) {
     if (showVideoQualityDialog) {
         VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {
             videoQualityDesc = getVideoQualityDesc()
+        }
+    }
+    if (showVideoFormatDialog) {
+        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {
+            videoFormatDesc = getVideoFormatDesc()
         }
     }
 }

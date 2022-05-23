@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.AudioListItem
-import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.VideoListItem
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
 
 data class Filter(
@@ -160,37 +155,6 @@ fun VideoListPage(
                                 )
                             }
                         }
- /*                       with(bilibiliFilter) {
-                            FilterChipWithIcon(
-                                select = value,
-                                onClick = {
-                                    filterList.forEach { if (it != this) it.value = false }
-                                    value = !value
-                                },
-                                label = stringResource(id = com.junkfood.seal.R.string.bilibili)
-                            )
-                        }
-                        with(ytbFilter) {
-                            FilterChipWithIcon(
-                                select = value,
-                                onClick = {
-                                    filterList.forEach { if (it != this) it.value = false }
-                                    value = !value
-                                },
-                                label = "YouTube"
-                            )
-                        }
-
-                        with(nicoFilter) {
-                            FilterChipWithIcon(
-                                select = value,
-                                onClick = {
-                                    filterList.forEach { if (it != this) it.value = false }
-                                    value = !value
-                                },
-                                label = "ニコニコ動画"
-                            )
-                        }*/
                     }
                 }
                 items(videoList.value.reversed()) {
@@ -232,26 +196,6 @@ fun VideoListPage(
         RemoveItemDialog()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FilterChipWithIcon(select: Boolean, onClick: () -> Unit, label: String) {
-    FilterChip(
-        modifier = Modifier.padding(horizontal = 6.dp),
-        selected = select,
-        onClick = onClick,
-        label = {
-            Text(text = label)
-        },
-        trailingIcon = {
-            AnimatedVisibility(visible = select) {
-                Icon(
-                    Icons.Outlined.Check,
-                    stringResource(R.string.checked),
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-        },
-    )
-}
+
 
 
