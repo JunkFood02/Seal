@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -10,7 +9,6 @@ import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -77,18 +75,3 @@ fun FilterChipWithIcon(
 }
 
 
-@Composable
-fun DrawerSheetSubtitle(
-    modifier: Modifier = Modifier,
-    text: String,
-    color: Color = MaterialTheme.colorScheme.primary,
-) {
-    Text(
-        text = text,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(start = 6.dp, top = 18.dp, bottom = 9.dp),
-        color = color,
-        style = MaterialTheme.typography.labelLarge
-    )
-}

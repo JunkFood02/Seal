@@ -11,7 +11,7 @@ def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 7
 def versionBuild = 7
-def isStable = true
+def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))

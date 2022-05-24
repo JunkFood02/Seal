@@ -6,7 +6,7 @@
     <string name="extract_audio">提取音频</string>
     <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
-    <string name="download_settings_desc">下载目录、组件版本、下载设置</string>
+    <string name="download_settings_desc">常规设置、下载格式、自定义命令</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>

@@ -32,7 +32,6 @@ import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
@@ -170,6 +169,27 @@ fun DownloadPreferences(navController: NavController) {
                 }
 
                 item {
+                    var configureBeforeDownload by remember {
+                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.settings_before_download),
+                        description = stringResource(
+                            id = R.string.settings_before_download_desc
+                        ), enabled = !customCommandEnable,
+                        icon = null,
+                        isChecked = configureBeforeDownload,
+                        onClick = {
+                            configureBeforeDownload = !configureBeforeDownload
+                            PreferenceUtil.updateValue(
+                                PreferenceUtil.CONFIGURE,
+                                configureBeforeDownload
+                            )
+                        }
+                    )
+                }
+
+                item {
 
                     PreferenceSwitch(
                         title = stringResource(id = R.string.extract_audio),
@@ -225,23 +245,6 @@ fun DownloadPreferences(navController: NavController) {
                         onClick = {
                             openSwitch = !openSwitch
                             PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
-                        }
-                    )
-                }
-                item {
-                    var configureBeforeDownload by remember {
-                        mutableStateOf(PreferenceUtil.getValue(CONFIGURE))
-                    }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.settings_before_download),
-                        description = stringResource(
-                            id = R.string.settings_before_download_desc
-                        ), enabled = !customCommandEnable,
-                        icon = null,
-                        isChecked = configureBeforeDownload,
-                        onClick = {
-                            configureBeforeDownload = !configureBeforeDownload
-                            PreferenceUtil.updateValue(CONFIGURE, configureBeforeDownload)
                         }
                     )
                 }

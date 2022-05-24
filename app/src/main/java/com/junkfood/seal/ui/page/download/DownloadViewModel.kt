@@ -46,17 +46,24 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val customCommandMode: Boolean = false,
         val hintText: String = context.getString(R.string.video_url),
         val isProcessing: Boolean = false,
-        var drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden)
+        var drawerState: ModalBottomSheetState = ModalBottomSheetState(
+            ModalBottomSheetValue.Hidden,
+            isSkipHalfExpanded = true
+        )
     )
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
 
     fun hideDrawer(scope: CoroutineScope) {
-        scope.launch { viewState.value.drawerState.hide() }
+        scope.launch {
+            viewState.value.drawerState.hide()
+        }
     }
 
     fun showDrawer(scope: CoroutineScope) {
-        scope.launch { viewState.value.drawerState.show() }
+        scope.launch {
+            viewState.value.drawerState.show()
+        }
     }
 
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
