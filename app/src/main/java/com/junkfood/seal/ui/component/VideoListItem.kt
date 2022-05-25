@@ -3,10 +3,11 @@ package com.junkfood.seal.ui.component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -34,7 +35,7 @@ fun VideoListItem(
 ) {
     val haptic = LocalHapticFeedback.current
 
-    Row(
+    Box(
         modifier = Modifier
             .combinedClickable(enabled = true, onClick = onClick, onLongClick = {
                 onLongClick()
@@ -42,50 +43,61 @@ fun VideoListItem(
             })
             .padding(12.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
     ) {
-        SubcomposeAsyncImage(
+        Row(
             modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(thumbnailUrl)
-                .diskCacheKey(thumbnailUrl)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .networkCachePolicy(CachePolicy.DISABLED)
-                .crossfade(true)
-                .build(),
-            contentDescription = stringResource(R.string.thumbnail),
-            contentScale = ContentScale.Crop
+                .fillMaxWidth()
         ) {
-            val state = painter.state
-            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
-            } else {
-                SubcomposeAsyncImageContent()
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .diskCacheKey(thumbnailUrl)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .networkCachePolicy(CachePolicy.DISABLED)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.thumbnail),
+                contentScale = ContentScale.Crop
+            ) {
+                val state = painter.state
+                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                    CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+                } else {
+                    SubcomposeAsyncImageContent()
+                }
             }
-
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = author,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
-
-        Column(
+        IconButton(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .fillMaxWidth(), verticalArrangement = Arrangement.Top
+                .size(18.dp)
+                .align(Alignment.BottomEnd),
+            onClick = onLongClick
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2, overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = author,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "More")
         }
     }
 }
@@ -102,7 +114,7 @@ fun AudioListItem(
 ) {
     val haptic = LocalHapticFeedback.current
 
-    Row(
+    Box(
         modifier = Modifier
             .combinedClickable(enabled = true, onClick = onClick, onLongClick = {
                 onLongClick()
@@ -110,48 +122,60 @@ fun AudioListItem(
             })
             .padding(12.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
     ) {
-        SubcomposeAsyncImage(
+        Row(
             modifier = Modifier
-                .fillMaxWidth(0.2f)
-                .aspectRatio(1f, matchHeightConstraintsFirst = true),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(thumbnailUrl)
-                .networkCachePolicy(CachePolicy.DISABLED)
-                .crossfade(true)
-                .build(),
-            contentDescription = stringResource(R.string.thumbnail),
-            contentScale = ContentScale.Crop
+                .fillMaxWidth()
         ) {
-            val state = painter.state
-            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
-            } else {
-                SubcomposeAsyncImageContent()
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth(0.2f)
+                    .aspectRatio(1f, matchHeightConstraintsFirst = true),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .networkCachePolicy(CachePolicy.DISABLED)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.thumbnail),
+                contentScale = ContentScale.Crop
+            ) {
+                val state = painter.state
+                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                    CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+                } else {
+                    SubcomposeAsyncImageContent()
+                }
+
             }
 
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth(), verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = author,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
-
-        Column(
+        IconButton(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .fillMaxWidth(), verticalArrangement = Arrangement.Top
+                .size(18.dp)
+                .align(Alignment.BottomEnd),
+            onClick = onLongClick
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2, overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = author,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "More")
         }
     }
 }

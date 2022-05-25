@@ -11,17 +11,16 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.BottomDrawer
-import com.junkfood.seal.ui.component.ButtonChip
-import com.junkfood.seal.ui.component.DrawerSheetSubtitle
-import com.junkfood.seal.ui.component.FilterChipWithIcon
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
@@ -116,37 +115,24 @@ fun DownloadSettingDialog(
                 .padding(top = 24.dp), horizontalArrangement = Arrangement.End
         ) {
 
-            OutlinedButton(
+            OutlinedButtonWithIcon(
                 modifier = Modifier.padding(horizontal = 12.dp),
-                onClick = cancel
+                onClick = cancel,
+                icon = Icons.Outlined.Cancel,
+                text = stringResource(R.string.cancel)
             )
-            {
-                Icon(
-                    Icons.Outlined.Cancel,
-                    contentDescription = stringResource(R.string.cancel)
-                )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.cancel)
-                )
-            }
 
-            Button(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
-                PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
-                PreferenceUtil.updateValue(PreferenceUtil.OPEN_IMMEDIATELY, open)
-                cancel()
-                confirm()
-            }) {
-                Icon(
-                    Icons.Outlined.DownloadDone,
-                    contentDescription = stringResource(R.string.confirm)
-                )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.confirm)
-                )
-            }
+            FilledButtonWithIcon(
+                onClick = {
+                    PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
+                    PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
+                    PreferenceUtil.updateValue(PreferenceUtil.OPEN_IMMEDIATELY, open)
+                    cancel()
+                    confirm()
+                }, icon = Icons.Outlined.DownloadDone,
+                text = stringResource(R.string.start_download)
+            )
+
         }
     }
     )

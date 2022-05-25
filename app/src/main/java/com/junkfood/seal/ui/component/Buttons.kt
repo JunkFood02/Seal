@@ -74,4 +74,76 @@ fun FilterChipWithIcon(
     )
 }
 
+@Composable
+fun OutlinedButtonWithIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    icon: ImageVector,
+    text: String
+) {
+    OutlinedButton(
+        modifier = modifier,
+        onClick = onClick
+    )
+    {
+        Icon(
+            modifier = Modifier.size(18.dp),
+            imageVector = icon,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = text
+        )
+    }
+}
+
+@Composable
+fun FilledTonalButtonWithIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    icon: ImageVector,
+    text: String
+) {
+    FilledTonalButton(
+        modifier = modifier,
+        onClick = onClick
+    )
+    {
+        Icon(
+            modifier = Modifier.size(18.dp),
+            imageVector = icon,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = text
+        )
+    }
+}
+
+@Composable
+fun FilledButtonWithIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    icon: ImageVector,
+    text: String
+) {
+    Button(
+        modifier = modifier,
+        onClick = onClick
+    )
+    {
+        Icon(
+            modifier = Modifier.size(18.dp),
+            imageVector = icon,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = text
+        )
+    }
+}
+
 

@@ -4,7 +4,7 @@
     <string name="video_url">Video link</string>
     <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
-    <string name="create_thumbnail">Download thumbnail</string>
+    <string name="create_thumbnail">Save thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings_desc">General, format, custom command</string>
     <string name="download">Download</string>
@@ -19,7 +19,7 @@
     <string name="permission_denied">Failed to request permission</string>
     <string name="download_success_msg">Download completed</string>
     <string name="download_error_msg">Error occurred when downloading</string>
-    <string name="start_download">Start downloading \'%1$s\'</string>
+    <string name="download_start_msg">Start downloading \'%1$s\'</string>
     <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
     <string name="start_download_list">Start downloading playlist</string>
     <string name="general_settings">General</string>
@@ -94,4 +94,5 @@
     <string name="video_format_desc">Preferred video format when multiple formats being provided</string>
     <string name="video_format">Video format</string>
     <string name="convert_audio">Convert audio</string>
+    <string name="start_download">Start download</string>
 </resources>
