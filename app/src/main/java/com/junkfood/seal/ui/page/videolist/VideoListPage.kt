@@ -41,9 +41,6 @@ fun VideoListPage(
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }
     val videoFilter = remember { mutableStateOf(false) }
-    val ytbFilter = remember { mutableStateOf(false) }
-    val bilibiliFilter = remember { mutableStateOf(false) }
-    val nicoFilter = remember { mutableStateOf(false) }
 
 
     val filterList1 = listOf(
@@ -52,15 +49,11 @@ fun VideoListPage(
         Filter("NicoNico", "nico", remember { mutableStateOf(false) })
     )
 
-    fun websiteFilter(url: String, pattern: String, filterEnabled: Boolean): Boolean {
-        return (!filterEnabled or url.contains(Regex(pattern)))
-    }
 
     fun websiteFilter(url: String, filter: Filter): Boolean {
         return (!filter.valueState.value or url.contains(Regex(filter.regex)))
     }
 
-    val filterList = listOf(ytbFilter, bilibiliFilter, nicoFilter)
 
     fun urlFilterInList(url: String): Boolean {
         var res = true
@@ -68,14 +61,6 @@ fun VideoListPage(
             res = res.and(websiteFilter(url, filter))
         }
         return res
-    }
-
-    fun urlFilter(url: String): Boolean {
-        return websiteFilter(url, "youtu", ytbFilter.value) and websiteFilter(
-            url,
-            "(b23\\.tv)|(bilibili)",
-            bilibiliFilter.value
-        ) and websiteFilter(url, "nico", nicoFilter.value)
     }
 
 

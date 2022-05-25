@@ -65,7 +65,7 @@ object DownloadUtil {
                 toast(context.getString(R.string.start_download_list))
                 addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
             } else {
-                toast(context.getString(R.string.start_download).format(videoInfo.title))
+                toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
                 addOption("-o", "$filename.%(ext)s")
             }
 

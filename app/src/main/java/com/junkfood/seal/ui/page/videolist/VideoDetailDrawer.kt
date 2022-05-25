@@ -10,7 +10,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BottomDrawer
+import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
+import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.util.TextUtil
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -79,41 +84,28 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                     .padding(top = 24.dp), horizontalArrangement = Arrangement.End
             ) {
 
-                OutlinedButton(
+                OutlinedButtonWithIcon(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     onClick = {
                         videoListViewModel.hideDrawer(scope)
                         videoListViewModel.showDialog()
-                    })
-                {
-                    Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Outlined.RemoveCircleOutline,
-                        contentDescription = stringResource(R.string.remove)
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(R.string.remove)
-                    )
-                }
+                    },
+                    icon = Icons.Outlined.RemoveCircleOutline,
+                    text = stringResource(R.string.remove)
+                )
 
-                FilledTonalButton(
+                FilledTonalButtonWithIcon(
                     onClick = {
                         videoListViewModel.hideDrawer(scope)
                         context.startActivity(Intent().apply {
                             action = Intent.ACTION_VIEW
                             data = Uri.parse(url)
                         })
-                    }) {
-                    Icon(
-                        Icons.Outlined.OpenInNew,
-                        contentDescription = stringResource(R.string.open_url)
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(R.string.open_url)
-                    )
-                }
+                    },
+                    icon = Icons.Outlined.OpenInNew,
+                    text = stringResource(R.string.open_url)
+                )
+
             }
         })
     }

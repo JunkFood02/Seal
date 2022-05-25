@@ -23,12 +23,6 @@ fun RemoveItemDialog(
 ) {
     val deleteFile = remember { mutableStateOf(false) }
     AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
-//        icon = {
-//            Icon(
-//                Icons.Outlined.Delete,
-//                contentDescription = "delete"
-//            )
-//        },
         title = {
             Text(text = stringResource(R.string.delete_info))
         }, text = {

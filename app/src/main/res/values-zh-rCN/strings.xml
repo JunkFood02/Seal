@@ -16,7 +16,7 @@
     <string name="fetching_info">正在获取视频信息</string>
     <string name="permission_denied">请求储存权限失败</string>
     <string name="download_error_msg">下载视频时发生错误</string>
-    <string name="start_download">开始下载 \'%1$s\'</string>
+    <string name="download_start_msg">开始下载 \'%1$s\'</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
@@ -92,4 +92,5 @@
     <string name="video_format_desc">当多种视频格式可供下载时的偏好选项</string>
     <string name="video_format">视频格式</string>
     <string name="convert_audio">音频转码</string>
+    <string name="start_download">开始下载</string>
 </resources>
