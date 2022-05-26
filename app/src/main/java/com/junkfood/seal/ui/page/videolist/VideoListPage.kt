@@ -98,7 +98,7 @@ fun VideoListPage(
                         Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 6.dp)
+                            .padding(6.dp)
                     ) {
                         FilterChipWithIcon(
                             select = audioFilter.value,

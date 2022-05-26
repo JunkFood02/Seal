@@ -32,7 +32,7 @@
     <string name="ytdlp_version">下载组件版本</string>
     <string name="ytdlp_update">点此更新yt-dlp</string>
     <string name="delete_info">从下载记录移除</string>
-    <string name="delete_info_msg">这个操作无法被撤销</string>
+    <string name="delete_info_msg">确定要从下载记录移除 “%1$s” 吗？这个操作无法被撤销。</string>
     <string name="confirm">确认</string>
     <string name="dismiss">取消</string>
     <string name="downloads_history">下载记录</string>
@@ -93,4 +93,12 @@
     <string name="video_format">视频格式</string>
     <string name="convert_audio">音频转码</string>
     <string name="start_download">开始下载</string>
+    <string name="close">关闭</string>
+    <string name="close_never_show_again">关闭后不再显示</string>
+    <string name="user_guide">使用指引</string>
+    <string name="go_to_download_preferences">打开下载设置</string>
+    <string name="paste_desc">点击粘贴按钮，从剪贴板获取复制的视频链接。</string>
+    <string name="download_desc">随后点击下载按钮，在开始下载前，你可以修改用于本次下载的设置。</string>
+    <string name="download_history_desc">查看与管理包括视频与音频在内的应用内下载。</string>
+    <string name="check_download_settings_desc">在开始使用前，建议先对下载设置进行确认，并且将 yt-dlp 更新到最新版本。</string>
 </resources>

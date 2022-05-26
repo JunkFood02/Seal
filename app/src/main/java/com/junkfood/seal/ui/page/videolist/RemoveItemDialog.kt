@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +21,7 @@ import com.junkfood.seal.R
 @Composable
 fun RemoveItemDialog(
     videoListViewModel: VideoListViewModel = hiltViewModel(),
+    title: String = videoListViewModel.detailViewState.value.title
 ) {
     val deleteFile = remember { mutableStateOf(false) }
     AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
@@ -29,22 +31,29 @@ fun RemoveItemDialog(
             Column() {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    text = stringResource(R.string.delete_info_msg),// textAlign = TextAlign.Center
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    text = stringResource(R.string.delete_info_msg)
+                        .format(title),// textAlign = TextAlign.Center
                 )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 12.dp)
-                        .clickable { deleteFile.value = !deleteFile.value },
+                        .padding(vertical = 12.dp)
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ) { deleteFile.value = !deleteFile.value },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Checkbox(
                         checked = deleteFile.value,
-                        onCheckedChange = { deleteFile.value = it })
+                        onCheckedChange = null
+                    )
                     Text(
+                        modifier = Modifier.padding(start = 12.dp),
                         text = stringResource(R.string.delete_file),
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }

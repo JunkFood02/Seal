@@ -45,8 +45,7 @@ fun VideoListItem(
             .fillMaxWidth(),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             SubcomposeAsyncImage(
                 modifier = Modifier
@@ -71,7 +70,7 @@ fun VideoListItem(
             }
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
+                    .padding(start = 12.dp, end = 12.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top
             ) {
@@ -150,8 +149,8 @@ fun AudioListItem(
 
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Top
+                    .padding(start = 12.dp, end = 20.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
                     text = title,
