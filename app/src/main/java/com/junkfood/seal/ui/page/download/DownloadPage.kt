@@ -7,7 +7,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -18,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -198,7 +196,7 @@ fun InputUrl(
         label = { Text(hint) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
-            .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge
+            .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
     )
     AnimatedVisibility(visible = isInCustomMode and !showVideoCard) {
         Row(
@@ -297,12 +295,15 @@ fun VideoCard(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 modifier = Modifier.padding(top = 3.dp),
                 text = author,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
         }
@@ -311,19 +312,11 @@ fun VideoCard(
             animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
+        LinearProgressIndicator(
+            modifier = Modifier.fillMaxWidth(),
+            progress = progressAnimationValue
+        )
 
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                progress = progressAnimationValue
-            )
-        }
     }
 }
 

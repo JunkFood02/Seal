@@ -1,7 +1,6 @@
 package com.junkfood.seal.util
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.datastore.core.DataStore
@@ -25,7 +24,8 @@ object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
-    fun updateValue(key: String, int: Int) = kv.encode(key, int)
+    fun updateInt(key: String, int: Int) = kv.encode(key, int)
+    fun getInt(key: String, int: Int) = kv.decodeInt(key, int)
     fun getValue(key: String): Boolean = kv.decodeBool(key, false)
     fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
     fun getString(key: String): String? = kv.decodeString(key)
@@ -79,6 +79,7 @@ object PreferenceUtil {
     const val AUDIO_FORMAT = "audio_format"
     const val VIDEO_FORMAT = "video_format"
     const val VIDEO_QUALITY = "quality"
+    const val WELCOME_DIALOG = "welcome_dialog"
 
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
@@ -124,7 +125,6 @@ object PreferenceUtil {
 
         fun switch(value: Int) {
             darkThemeValue = value
-            Log.d(TAG, value.toString())
             CoroutineScope(Job()).launch(Dispatchers.IO) {
                 kv.encode(DARK_THEME, value)
                 context.dataStore.edit { settings ->

@@ -31,8 +31,8 @@
     <string name="paste_fail_msg">Unable to match URL in clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
-    <string name="delete_info">Remove from history</string>
-    <string name="delete_info_msg">This operation cannot be withdrawn.</string>
+    <string name="delete_info">Remove from history?</string>
+    <string name="delete_info_msg">Are you sure to remove \'%1$s\' from your download history? This operation cannot be withdrawn.</string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="downloads_history">Downloads</string>
@@ -95,4 +95,12 @@
     <string name="video_format">Video format</string>
     <string name="convert_audio">Convert audio</string>
     <string name="start_download">Start download</string>
+    <string name="close">Close</string>
+    <string name="close_never_show_again">Don\'t show up again</string>
+    <string name="user_guide">User guide</string>
+    <string name="go_to_download_preferences">Open settings</string>
+    <string name="paste_desc">Click on paste button to get video link from your clipboard.</string>
+    <string name="download_desc">Then click on download button. Before starting, you can modify configurations for this download.</string>
+    <string name="download_history_desc">Check and manage in-app downloads, including videos and audio files.</string>
+    <string name="check_download_settings_desc">It is recommended to take a glance at download settings and get yt-dlp up to date before starting usage.</string>
 </resources>

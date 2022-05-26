@@ -1,9 +1,11 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -174,20 +176,28 @@ fun SingleChoiceItem(
 fun MultiChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
-    selected: Boolean,
-    onClick: () -> Unit
+    checked: Boolean,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .clickable { onClick() }
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(checked = selected, onCheckedChange = null)
+        Checkbox(
+            checked = checked,
+            onCheckedChange = null
+        )
         Text(
             modifier = Modifier.padding(start = 12.dp),
             text = text,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
+

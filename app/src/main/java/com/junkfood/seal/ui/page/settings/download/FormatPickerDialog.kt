@@ -29,7 +29,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
             Text(stringResource(R.string.audio_format))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.AUDIO_FORMAT, audioFormat)
+                PreferenceUtil.updateInt(PreferenceUtil.AUDIO_FORMAT, audioFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -68,7 +68,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
             Text(stringResource(R.string.video_format_preference))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.VIDEO_FORMAT, videoFormat)
+                PreferenceUtil.updateInt(PreferenceUtil.VIDEO_FORMAT, videoFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -107,7 +107,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
             Text(stringResource(R.string.quality))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.VIDEO_QUALITY, videoQuality)
+                PreferenceUtil.updateInt(PreferenceUtil.VIDEO_QUALITY, videoQuality)
                 onConfirm()
                 onDismissRequest()
             }) {
