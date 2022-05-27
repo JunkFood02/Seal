@@ -154,6 +154,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         _viewState.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
+            downloadResultTemp = DownloadUtil.Result.failure()
             try {
                 val videoInfo: VideoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
                 with(videoInfo) {

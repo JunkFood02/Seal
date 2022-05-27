@@ -21,7 +21,7 @@ import com.junkfood.seal.R
 @Composable
 fun RemoveItemDialog(
     videoListViewModel: VideoListViewModel = hiltViewModel(),
-    title: String = videoListViewModel.detailViewState.value.title
+    title: String = videoListViewModel.detailViewState.value.title,
 ) {
     val deleteFile = remember { mutableStateOf(false) }
     AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },

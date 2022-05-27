@@ -34,7 +34,7 @@ object PreferenceUtil {
     fun getTemplate(): String =
         kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
 
-    fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 2)
+    fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 0)
 
     fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
         return when (audioFormatCode) {
@@ -80,6 +80,7 @@ object PreferenceUtil {
     const val VIDEO_FORMAT = "video_format"
     const val VIDEO_QUALITY = "quality"
     const val WELCOME_DIALOG = "welcome_dialog"
+    const val DOWNLOAD_DIRECTORY = "download_dir"
 
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)

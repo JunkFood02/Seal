@@ -3,6 +3,8 @@ package com.junkfood.seal.ui.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -80,6 +82,7 @@ fun PreferenceSwitch(
     enabled: Boolean = true,
     onClick: (() -> Unit),
     isChecked: Boolean,
+    checkedIcon: ImageVector? = Icons.Outlined.Check
 ) {
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
@@ -126,7 +129,8 @@ fun PreferenceSwitch(
             Switch(
                 checked = isChecked,
                 onCheckedChange = null,
-                modifier = Modifier.padding(start = 16.dp, end = 6.dp), enabled = enabled
+                modifier = Modifier.padding(start = 16.dp, end = 6.dp),
+                enabled = enabled
             )
         }
     }
@@ -158,13 +162,17 @@ fun SingleChoiceItem(
 ) {
     Row(
         modifier = modifier
-            .clickable { onClick() }
-            .fillMaxWidth(),
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() }
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
     ) {
-        RadioButton(selected = selected, onClick = onClick)
+        RadioButton(selected = selected, onClick = null)
         Text(
-            modifier = Modifier.padding(start = 6.dp),
+            modifier = Modifier.padding(start = 18.dp),
             text = text,
             style = MaterialTheme.typography.bodyLarge
         )

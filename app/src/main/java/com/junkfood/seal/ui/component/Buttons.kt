@@ -51,19 +51,19 @@ fun ButtonChip(
 @Composable
 fun FilterChipWithIcon(
     modifier: Modifier = Modifier,
-    select: Boolean,
+    selected: Boolean,
     onClick: () -> Unit,
     label: String
 ) {
     FilterChip(
         modifier = modifier.padding(horizontal = 6.dp),
-        selected = select,
+        selected = selected,
         onClick = onClick,
         label = {
             Text(text = label)
         },
         trailingIcon = {
-            AnimatedVisibility(visible = select) {
+            AnimatedVisibility(visible = selected) {
                 Icon(
                     Icons.Outlined.Check,
                     stringResource(R.string.checked),

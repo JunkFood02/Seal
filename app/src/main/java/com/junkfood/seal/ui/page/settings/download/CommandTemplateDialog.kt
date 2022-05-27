@@ -1,6 +1,8 @@
 package com.junkfood.seal.ui.page.settings.download
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.*
@@ -32,7 +34,11 @@ fun CommandTemplateDialog(
                 Text(stringResource(R.string.dismiss))
             }
         }, text = {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+            ) {
                 Text(text = stringResource(R.string.edit_template_desc))
                 OutlinedTextField(
                     modifier = Modifier.padding(vertical = 12.dp),

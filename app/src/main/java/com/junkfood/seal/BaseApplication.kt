@@ -5,10 +5,11 @@ import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Environment
-import android.util.Log
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.DOWNLOAD_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
@@ -28,15 +29,13 @@ class BaseApplication : Application() {
         applicationScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    Log.d(TAG, "onCreate: Init")
                     YoutubeDL.getInstance().init(this@BaseApplication)
                     FFmpeg.getInstance().init(this@BaseApplication)
-                    if (PreferenceUtil.getString("yt-dlp_init").isNullOrEmpty()) {
+                    if (PreferenceUtil.getString(YT_DLP).isNullOrEmpty()) {
                         DownloadUtil.updateYtDlp()
                     }
-                    Log.d(TAG, "onCreate: Init Finish")
                 } catch (e: YoutubeDLException) {
-                    Log.e(TAG, "failed to initialize youtubedl-android", e)
+                    e.printStackTrace()
                 }
             }
         }
@@ -45,7 +44,7 @@ class BaseApplication : Application() {
             YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
 
-        with(PreferenceUtil.getString("download_dir")) {
+        with(PreferenceUtil.getString(DOWNLOAD_DIRECTORY)) {
             downloadDir = if (isNullOrEmpty())
                 File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
@@ -68,7 +67,7 @@ class BaseApplication : Application() {
 
         fun updateDownloadDir(path: String) {
             downloadDir = path
-            PreferenceUtil.updateString("download_dir", path)
+            PreferenceUtil.updateString(DOWNLOAD_DIRECTORY, path)
         }
 
 

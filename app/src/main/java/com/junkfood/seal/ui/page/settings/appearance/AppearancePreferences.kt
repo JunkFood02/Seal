@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.*
@@ -79,7 +80,8 @@ fun AppearancePreferences(
                     onClick = {
                         PreferenceUtil.dynamicColorSwitch()
                     }, enabled = Build.VERSION.SDK_INT >= 31,
-                    isChecked = LocalDynamicColor.current.and(Build.VERSION.SDK_INT >= 31)
+                    isChecked = LocalDynamicColor.current.and(Build.VERSION.SDK_INT >= 31),
+                    checkedIcon = Icons.Outlined.Check
                 )
 
                 PreferenceItem(

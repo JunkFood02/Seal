@@ -10,8 +10,8 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 7
-def versionBuild = 7
-def isStable = false
+def versionBuild = 8
+def isStable = true
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -63,7 +63,6 @@ android {
     splits {
         abi {
             enable !project.hasProperty('noSplits')
-            enable true
             reset()
             include 'x86_64', 'arm64-v8a'
             universalApk false

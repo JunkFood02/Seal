@@ -1,18 +1,15 @@
 # Seal
-Video/Audio Downloader for Android, written with [Jetpack Compose](https://developer.android.com/jetpack/compose) in Kotlin.
+Video/Audio Downloader for Android, written with [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
 
 ## Features
 
 - Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp)
-
-- Embed metadata and video thumbnail as album art into extracted audio files.
-
+- Embed metadata and video thumbnail into extracted audio files
 - Execute custom yt-dlp command with template
-
-- [Material Design 3](https://m3.material.io/) UI, with [Dynamic color](https://m3.material.io/styles/color/dynamic-color/overview) (for Android 12+) 
-
-- Record and manage in-app downloads
+- Easy to use and user-friendly UI
+- [Material Design 3](https://m3.material.io/), with [dynamic color](https://m3.material.io/foundations/customization) (for Android 12+)
+- Manage in-app downloads
 
 
 

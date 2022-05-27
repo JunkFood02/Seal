@@ -23,7 +23,7 @@ import com.junkfood.seal.util.FileUtil
 data class Filter(
     val name: String,
     val regex: String,
-    val valueState: MutableState<Boolean>
+    val selected: MutableState<Boolean>
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +43,7 @@ fun VideoListPage(
     val videoFilter = remember { mutableStateOf(false) }
 
 
-    val filterList1 = listOf(
+    val filterList = listOf(
         Filter("Bilibili", "(b23\\.tv)|(bilibili)", remember { mutableStateOf(false) }),
         Filter("YouTube", "youtu", remember { mutableStateOf(false) }),
         Filter("NicoNico", "nico", remember { mutableStateOf(false) })
@@ -51,13 +51,13 @@ fun VideoListPage(
 
 
     fun websiteFilter(url: String, filter: Filter): Boolean {
-        return (!filter.valueState.value or url.contains(Regex(filter.regex)))
+        return (!filter.selected.value or url.contains(Regex(filter.regex)))
     }
 
 
     fun urlFilterInList(url: String): Boolean {
         var res = true
-        for (filter in filterList1) {
+        for (filter in filterList) {
             res = res.and(websiteFilter(url, filter))
         }
         return res
@@ -101,7 +101,7 @@ fun VideoListPage(
                             .padding(6.dp)
                     ) {
                         FilterChipWithIcon(
-                            select = audioFilter.value,
+                            selected = audioFilter.value,
                             onClick = {
                                 audioFilter.value = !audioFilter.value
                                 if (videoFilter.value) videoFilter.value = false
@@ -110,7 +110,7 @@ fun VideoListPage(
                         )
 
                         FilterChipWithIcon(
-                            select = videoFilter.value,
+                            selected = videoFilter.value,
                             onClick = {
                                 videoFilter.value = !videoFilter.value
                                 if (audioFilter.value) audioFilter.value = false
@@ -126,15 +126,15 @@ fun VideoListPage(
                                 .align(Alignment.CenterVertically),
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                         )
-                        for (filter in filterList1) {
+                        for (filter in filterList) {
                             with(filter) {
                                 FilterChipWithIcon(
-                                    select = valueState.value,
+                                    selected = selected.value,
                                     onClick = {
-                                        filterList1.forEach {
-                                            if (it != this) it.valueState.value = false
+                                        filterList.forEach {
+                                            if (it != this) it.selected.value = false
                                         }
-                                        valueState.value = !valueState.value
+                                        selected.value = !selected.value
                                     },
                                     label = name
                                 )

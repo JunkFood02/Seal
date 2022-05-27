@@ -12,11 +12,11 @@
     <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
     <string name="open_when_finish">完成后打开</string>
     <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
-    <string name="yt_dlp_update_fail">更新yt-dlp失败，下载可能会失败，请尝试连接代理后尝试手动更新</string>
+    <string name="yt_dlp_update_fail">更新yt-dlp失败，请检查与GitHub的连接后尝试手动更新</string>
     <string name="fetching_info">正在获取视频信息</string>
     <string name="permission_denied">请求储存权限失败</string>
     <string name="download_error_msg">下载视频时发生错误</string>
-    <string name="download_start_msg">开始下载 \'%1$s\'</string>
+    <string name="download_start_msg">开始下载 "%1$s"</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
@@ -47,14 +47,14 @@
     <string name="version">当前版本</string>
     <string name="release">版本发布</string>
     <string name="release_desc">查看最新版本与更新日记</string>
-    <string name="readme_desc">查看GitHub项目地址与应用说明</string>
+    <string name="readme_desc">查看 GitHub 项目地址与应用说明</string>
     <string name="video">视频</string>
     <string name="checked">选中</string>
     <string name="bilibili">哔哩哔哩</string>
     <string name="credits">致谢</string>
     <string name="credits_desc">资源与开源软件</string>
     <string name="custom_command">自定义命令</string>
-    <string name="custom_command_desc">使用自定义的命令模板运行yt-dlp</string>
+    <string name="custom_command_desc">使用自定义的命令模板运行 yt-dlp</string>
     <string name="custom_command_template">命令模板</string>
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
@@ -72,7 +72,7 @@
     <string name="off">关闭</string>
     <string name="cancel">取消</string>
     <string name="settings_before_download">下载前设置</string>
-    <string name="settings_before_download_desc">在开始下载前确认下载偏好选项</string>
+    <string name="settings_before_download_desc">在开始下载前确认下载设置</string>
     <string name="loading_thumbnail">正在加载视频封面</string>
     <string name="error_copied">错误报告已复制到剪贴板</string>
     <string name="thumbnail">封面</string>
@@ -99,6 +99,6 @@
     <string name="go_to_download_preferences">打开下载设置</string>
     <string name="paste_desc">点击粘贴按钮，从剪贴板获取复制的视频链接。</string>
     <string name="download_desc">随后点击下载按钮，在开始下载前，你可以修改用于本次下载的设置。</string>
-    <string name="download_history_desc">查看与管理包括视频与音频在内的应用内下载。</string>
+    <string name="download_history_desc">在下载记录页，查看与管理包括视频与音频在内的应用内下载。</string>
     <string name="check_download_settings_desc">在开始使用前，建议先对下载设置进行确认，并且将 yt-dlp 更新到最新版本。</string>
 </resources>

@@ -19,6 +19,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -35,7 +36,8 @@ fun WelcomeDialog(navController: NavController) {
     }
     var disableDialog by remember { mutableStateOf(false) }
     val onDismissRequest = {
-        PreferenceUtil.updateInt(WELCOME_DIALOG,
+        PreferenceUtil.updateInt(
+            WELCOME_DIALOG,
             if (disableDialog) 0 else showWelcomeDialog + 1
         )
         showWelcomeDialog = 0
@@ -54,10 +56,22 @@ fun WelcomeDialog(navController: NavController) {
             }
         }, title = { Text(stringResource(R.string.user_guide)) }, text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                PasteButtonDescription()
-                DownloadButtonDescription()
-                DownloadHistoryButtonDescription()
-                DownloadPreferencesDescription()
+                IconDescription(
+                    icon = Icons.Outlined.ContentPaste,
+                    description = stringResource(R.string.paste_desc)
+                )
+                IconDescription(
+                    icon = Icons.Outlined.FileDownload,
+                    description = stringResource(R.string.download_desc)
+                )
+                IconDescription(
+                    icon = Icons.Outlined.Subscriptions,
+                    description = stringResource(R.string.download_history_desc)
+                )
+                IconDescription(
+                    icon = Icons.Outlined.SettingsSuggest,
+                    description = stringResource(R.string.check_download_settings_desc)
+                )
                 AnimatedVisibility(visible = (showWelcomeDialog > 1)) {
                     MultiChoiceItem(
                         text = stringResource(id = R.string.close_never_show_again),
@@ -68,71 +82,20 @@ fun WelcomeDialog(navController: NavController) {
 }
 
 @Composable
-fun PasteButtonDescription(modifier: Modifier = Modifier) {
+fun IconDescription(modifier: Modifier = Modifier, icon: ImageVector, description: String) {
     Row(
-        modifier = modifier.padding(vertical = 9.dp),
+        modifier = modifier.padding(top = 12.dp, bottom = 9.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.size(21.dp),
-            imageVector = Icons.Outlined.ContentPaste,
-            contentDescription = null
-        )
-        Text(modifier = Modifier.padding(start = 12.dp), text = stringResource(R.string.paste_desc))
-    }
-}
-
-@Composable
-fun DownloadButtonDescription(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.padding(vertical = 9.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            modifier = Modifier.size(21.dp),
-            imageVector = Icons.Outlined.FileDownload,
+            modifier = Modifier.size(24.dp),
+            imageVector = icon,
             contentDescription = null
         )
         Text(
             modifier = Modifier.padding(start = 12.dp),
-            text = stringResource(R.string.download_desc)
+            text = description,
         )
     }
 }
 
-@Composable
-fun DownloadHistoryButtonDescription(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.padding(vertical = 9.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            modifier = Modifier.size(21.dp),
-            imageVector = Icons.Outlined.Subscriptions,
-            contentDescription = null
-        )
-        Text(
-            modifier = Modifier.padding(start = 12.dp),
-            text = stringResource(R.string.download_history_desc)
-        )
-    }
-}
-
-@Composable
-fun DownloadPreferencesDescription(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.padding(vertical = 9.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            modifier = Modifier.size(21.dp),
-            imageVector = Icons.Outlined.SettingsSuggest,
-            contentDescription = null
-        )
-        Text(
-            modifier = Modifier.padding(start = 12.dp),
-            text = stringResource(R.string.check_download_settings_desc)
-        )
-    }
-
-}

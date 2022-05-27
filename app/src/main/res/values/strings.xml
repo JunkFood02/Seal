@@ -14,7 +14,7 @@
     <string name="open_when_finish_summary">Open file after download finishes</string>
     <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
-    <string name="yt_dlp_update_fail">Failed to update yt-dlp, consider connecting with proxy.</string>
+    <string name="yt_dlp_update_fail">Failed to update yt-dlp, please check your connection with github.com</string>
     <string name="fetching_info">Fetching video info</string>
     <string name="permission_denied">Failed to request permission</string>
     <string name="download_success_msg">Download completed</string>

@@ -6,20 +6,22 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,10 +41,14 @@ import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun DownloadPage(
     navController: NavController,
@@ -61,6 +67,7 @@ fun DownloadPage(
         }
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.viewState.collectAsState()
+    val hapticFeedback= LocalHapticFeedback.current
     val clipboardManager = LocalClipboardManager.current
     val checkPermissionOrDownload = {
         if (storagePermission.status == PermissionStatus.Granted)
@@ -85,7 +92,6 @@ fun DownloadPage(
                 Modifier
                     .align(Alignment.BottomEnd)
                     .systemBarsPadding(),
-                viewState.value.customCommandMode,
                 downloadCallback = {
                     if (PreferenceUtil.getValue(CONFIGURE, true) and !PreferenceUtil.getValue(
                             CUSTOM_COMMAND
@@ -93,12 +99,11 @@ fun DownloadPage(
                     )
                         downloadViewModel.showDrawer(scope)
                     else checkPermissionOrDownload()
-                },
-                pasteCallback = {
-                    TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                        ?.let { downloadViewModel.updateUrl(it) }
                 }
-            )
+            ) {
+                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                    ?.let { downloadViewModel.updateUrl(it) }
+            }
             Column(
                 modifier = Modifier
                     .statusBarsPadding()
@@ -117,14 +122,26 @@ fun DownloadPage(
                         }
                     },
                     actions = {
-                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS)  }) {
                             Icon(
                                 imageVector = Icons.Outlined.Subscriptions,
                                 contentDescription = stringResource(id = R.string.downloads_history)
                             )
                         }
                     })
-                Row(modifier = Modifier.padding(start = 24.dp, top = 36.dp)) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 24.dp, top = 36.dp)
+                        .combinedClickable(indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                            onClick = {},
+                            onLongClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                PreferenceUtil.updateInt(
+                                    WELCOME_DIALOG, 1
+                                )
+                            })
+                ) {
                     Text(
                         text = context.getString(R.string.app_name),
                         style = MaterialTheme.typography.displaySmall
@@ -324,7 +341,6 @@ fun VideoCard(
 @Composable
 fun FABs(
     modifier: Modifier,
-    isInCustomMode: Boolean,
     downloadCallback: () -> Unit,
     pasteCallback: () -> Unit,
 ) {
