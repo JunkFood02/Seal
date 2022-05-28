@@ -177,8 +177,6 @@ fun VideoListPage(
         }
     }
     VideoDetailDrawer()
-    if (viewState.value.showDialog)
-        RemoveItemDialog()
 }
 
 

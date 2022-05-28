@@ -46,7 +46,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     with(detailViewState) {
         BottomDrawer(drawerState = drawerState, sheetContent = {
             Column(modifier = Modifier.fillMaxWidth()) {
-                SelectionContainer() {
+                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -55,7 +55,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                         style = MaterialTheme.typography.titleLarge,
                     )
                 }
-                SelectionContainer() {
+                SelectionContainer {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -105,9 +105,8 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                     icon = Icons.Outlined.OpenInNew,
                     text = stringResource(R.string.open_url)
                 )
-
             }
         })
     }
-
+    RemoveItemDialog()
 }

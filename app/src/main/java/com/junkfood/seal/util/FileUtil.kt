@@ -32,7 +32,13 @@ object FileUtil {
 
     fun scanFileToMediaLibrary(title: String): ArrayList<String>? {
         val paths = ArrayList<String>()
-        val files = File(downloadDir).listFiles { _, name -> name.contains(title) } ?: return null
+        val files =
+            File(downloadDir).listFiles { _, name ->
+                name.contains(title) and !name.contains(Regex("\\.f\\d+?")) and !name.contains(
+                    ".jpg"
+                )
+            }
+                ?: return null
         for (file in files) {
             paths.add(file.absolutePath)
         }

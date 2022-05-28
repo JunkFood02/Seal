@@ -26,7 +26,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     data class VideoListViewState constructor(
         val videoListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getVideoInfo(),
         val audioListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getAudioInfo(),
-        val showDialog: Boolean = false
     )
 
     data class VideoDetailViewState(
@@ -35,10 +34,11 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         val author: String = "",
         val url: String = "",
         val path: String = "",
-        var drawerState: ModalBottomSheetState = ModalBottomSheetState(
+        val drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
         ),
+        val showDialog: Boolean = false,
     ) {
         constructor(info: DownloadedVideoInfo) : this(
             info.id,
@@ -69,11 +69,11 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     }
 
     fun showDialog() {
-        _viewState.update { it.copy(showDialog = true) }
+        _detailViewState.update { it.copy(showDialog = true) }
     }
 
     fun hideDialog() {
-        _viewState.update { it.copy(showDialog = false) }
+        _detailViewState.update { it.copy(showDialog = false) }
     }
 
     fun removeItem(delete: Boolean) {

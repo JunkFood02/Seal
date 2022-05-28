@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,53 +22,56 @@ import com.junkfood.seal.R
 @Composable
 fun RemoveItemDialog(
     videoListViewModel: VideoListViewModel = hiltViewModel(),
-    title: String = videoListViewModel.detailViewState.value.title,
 ) {
     val deleteFile = remember { mutableStateOf(false) }
-    AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
-        title = {
-            Text(text = stringResource(R.string.delete_info))
-        }, text = {
-            Column() {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    text = stringResource(R.string.delete_info_msg)
-                        .format(title),// textAlign = TextAlign.Center
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp)
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) { deleteFile.value = !deleteFile.value },
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Checkbox(
-                        checked = deleteFile.value,
-                        onCheckedChange = null
-                    )
+    val detailState = videoListViewModel.detailViewState.collectAsState()
+    if (detailState.value.showDialog) {
+        deleteFile.value = false
+        AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
+            title = {
+                Text(text = stringResource(R.string.delete_info))
+            }, text = {
+                Column {
                     Text(
-                        modifier = Modifier.padding(start = 12.dp),
-                        text = stringResource(R.string.delete_file),
-                        style = MaterialTheme.typography.bodyMedium
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        text = stringResource(R.string.delete_info_msg)
+                            .format(detailState.value.title),// textAlign = TextAlign.Center
                     )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp)
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) { deleteFile.value = !deleteFile.value },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Checkbox(
+                            checked = deleteFile.value,
+                            onCheckedChange = null
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 12.dp),
+                            text = stringResource(R.string.delete_file),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
-            }
 
-        }, confirmButton = {
-            TextButton(onClick = {
-                videoListViewModel.hideDialog()
-                videoListViewModel.removeItem(deleteFile.value)
-            }) {
-                Text(text = stringResource(R.string.confirm))
-            }
-        }, dismissButton = {
-            TextButton(onClick = { videoListViewModel.hideDialog() }) {
-                Text(text = stringResource(R.string.dismiss))
-            }
-        })
+            }, confirmButton = {
+                TextButton(onClick = {
+                    videoListViewModel.hideDialog()
+                    videoListViewModel.removeItem(deleteFile.value)
+                }) {
+                    Text(text = stringResource(R.string.confirm))
+                }
+            }, dismissButton = {
+                TextButton(onClick = { videoListViewModel.hideDialog() }) {
+                    Text(text = stringResource(R.string.dismiss))
+                }
+            })
+    }
 }
