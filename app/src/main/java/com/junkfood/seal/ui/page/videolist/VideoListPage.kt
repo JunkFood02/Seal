@@ -2,7 +2,10 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,7 +14,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +24,7 @@ import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.PreferenceUtil
 
 data class Filter(
     val name: String,
@@ -26,6 +32,7 @@ data class Filter(
     val selected: MutableState<Boolean>
 )
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListPage(
@@ -41,8 +48,15 @@ fun VideoListPage(
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }
     val videoFilter = remember { mutableStateOf(false) }
-
-
+    var showUrlFilters by remember {
+        mutableStateOf(
+            PreferenceUtil.getValue(
+                "show_filters",
+                false
+            )
+        )
+    }
+    val hapticFeedback = LocalHapticFeedback.current
     val filterList = listOf(
         Filter("Bilibili", "(b23\\.tv)|(bilibili)", remember { mutableStateOf(false) }),
         Filter("YouTube", "youtu", remember { mutableStateOf(false) }),
@@ -71,7 +85,16 @@ fun VideoListPage(
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .combinedClickable(indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                onClick = {},
+                                onLongClick = {
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    showUrlFilters = true
+                                    PreferenceUtil.updateValue("show_filters", showUrlFilters)
+                                }),
                         text = stringResource(R.string.downloads_history)
                     )
                 },
@@ -117,27 +140,30 @@ fun VideoListPage(
                             },
                             label = stringResource(id = R.string.video)
                         )
-
-                        Divider(
-                            modifier = Modifier
-                                .padding(horizontal = 6.dp)
-                                .height(24.dp)
-                                .width(1.5f.dp)
-                                .align(Alignment.CenterVertically),
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                        )
-                        for (filter in filterList) {
-                            with(filter) {
-                                FilterChipWithIcon(
-                                    selected = selected.value,
-                                    onClick = {
-                                        filterList.forEach {
-                                            if (it != this) it.selected.value = false
-                                        }
-                                        selected.value = !selected.value
-                                    },
-                                    label = name
+                        AnimatedVisibility(visible = showUrlFilters) {
+                            Row {
+                                Divider(
+                                    modifier = Modifier
+                                        .padding(horizontal = 6.dp)
+                                        .height(24.dp)
+                                        .width(1.5f.dp)
+                                        .align(Alignment.CenterVertically),
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
+                                for (filter in filterList) {
+                                    with(filter) {
+                                        FilterChipWithIcon(
+                                            selected = selected.value,
+                                            onClick = {
+                                                filterList.forEach {
+                                                    if (it != this) it.selected.value = false
+                                                }
+                                                selected.value = !selected.value
+                                            },
+                                            label = name
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
