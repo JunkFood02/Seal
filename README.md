@@ -1,6 +1,8 @@
 # Seal
 Video/Audio Downloader for Android, written with [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
+[简体中文](https://github.com/JunkFood02/Seal/blob/main/README-zh.md)
+
 ## Screenshots
 
 <div>
