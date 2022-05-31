@@ -1,33 +1,45 @@
 package com.junkfood.seal.ui.page
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.junkfood.seal.ui.core.Route
-import com.junkfood.seal.ui.core.animatedComposable
+import com.junkfood.seal.ui.core.*
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
+import com.junkfood.seal.ui.theme.SealTheme
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeEntry(
 ) {
-    val navController = rememberAnimatedNavController()
-    Surface() {
-        AnimatedNavHost(navController = navController, startDestination = Route.HOME) {
-            animatedComposable(Route.HOME) { DownloadPage(navController) }
-            animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
-            animatedComposable(Route.DOWNLOAD_PREFERENCES) { DownloadPreferences(navController) }
-            animatedComposable(Route.DOWNLOADS) { VideoListPage(navController) }
-            animatedComposable(Route.ABOUT) { AboutPage(navController) }
-            animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+    SettingsProvider {
+        SealTheme(
+            darkTheme = LocalDarkTheme.current.isDarkTheme(),
+            dynamicColor = LocalDynamicColor.current
+        ) {
+            val navController = rememberAnimatedNavController()
+            Surface() {
+                AnimatedNavHost(navController = navController, startDestination = Route.HOME) {
+                    animatedComposable(Route.HOME) { DownloadPage(navController) }
+                    animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
+                    animatedComposable(Route.DOWNLOAD_PREFERENCES) {
+                        DownloadPreferences(
+                            navController
+                        )
+                    }
+                    animatedComposable(Route.DOWNLOADS) { VideoListPage(navController) }
+                    animatedComposable(Route.ABOUT) { AboutPage(navController) }
+                    animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+                }
+            }
+            WelcomeDialog(navController)
         }
     }
-    WelcomeDialog(navController)
 }

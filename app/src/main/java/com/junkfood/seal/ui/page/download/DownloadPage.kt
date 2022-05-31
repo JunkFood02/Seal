@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
@@ -67,7 +69,7 @@ fun DownloadPage(
         }
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.viewState.collectAsState()
-    val hapticFeedback= LocalHapticFeedback.current
+    val hapticFeedback = LocalHapticFeedback.current
     val clipboardManager = LocalClipboardManager.current
     val checkPermissionOrDownload = {
         if (storagePermission.status == PermissionStatus.Granted)
@@ -122,7 +124,7 @@ fun DownloadPage(
                         }
                     },
                     actions = {
-                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS)  }) {
+                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
                             Icon(
                                 imageVector = Icons.Outlined.Subscriptions,
                                 contentDescription = stringResource(id = R.string.downloads_history)
@@ -174,7 +176,11 @@ fun DownloadPage(
                             isInCustomMode = customCommandMode,
                             error = isDownloadError,
                         ) { downloadViewModel.updateUrl(it) }
-                        ErrorMessage(error = isDownloadError, errorMessage = errorMessage)
+                        ErrorMessage(
+                            error = isDownloadError, copyToClipboard = PreferenceUtil.getValue(
+                                DEBUG
+                            ) or customCommandMode, errorMessage = errorMessage
+                        )
                     }
                 }
             }
@@ -242,11 +248,14 @@ fun InputUrl(
 @Composable
 fun ErrorMessage(
     modifier: Modifier = Modifier,
+    copyToClipboard: Boolean = false,
     error: Boolean = false,
     errorMessage: String = "",
 ) {
     AnimatedVisibility(visible = error) {
-        Row() {
+        if (error and copyToClipboard)
+            LocalClipboardManager.current.setText(AnnotatedString(errorMessage))
+        Row {
             Icon(
                 Icons.Outlined.Error, contentDescription = null,
                 tint = MaterialTheme.colorScheme.error

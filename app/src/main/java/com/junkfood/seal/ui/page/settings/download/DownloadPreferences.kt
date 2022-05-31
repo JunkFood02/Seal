@@ -36,6 +36,7 @@ import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
+import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
@@ -64,6 +65,7 @@ fun DownloadPreferences(navController: NavController) {
     var audioFormatDesc by remember { mutableStateOf(getAudioFormatDesc()) }
     var videoQualityDesc by remember { mutableStateOf(getVideoQualityDesc()) }
     var videoFormatDesc by remember { mutableStateOf(getVideoFormatDesc()) }
+    var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
 
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -96,9 +98,10 @@ fun DownloadPreferences(navController: NavController) {
     }
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarScrollState()
+    )
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -248,7 +251,21 @@ fun DownloadPreferences(navController: NavController) {
                         }
                     )
                 }
-
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.download_playlist),
+                        onClick = {
+                            downloadPlaylist = !downloadPlaylist
+                            PreferenceUtil.updateValue(
+                                PLAYLIST,
+                                downloadPlaylist
+                            )
+                        },
+                        enabled = !customCommandEnable,
+                        description = stringResource(R.string.download_playlist_desc),
+                        isChecked = downloadPlaylist
+                    )
+                }
                 item {
                     PreferenceSwitch(
                         title = stringResource(R.string.error_report),

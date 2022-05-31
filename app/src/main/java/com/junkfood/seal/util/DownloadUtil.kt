@@ -3,9 +3,9 @@ package com.junkfood.seal.util
 import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.util.FileUtil.reformatFilename
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -54,20 +54,19 @@ object DownloadUtil {
 
         val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
+        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val request = YoutubeDLRequest(url)
-        val filename: String = reformatFilename(videoInfo.title)
+        val id = url.hashCode()
 
         with(request) {
             addOption("--no-mtime")
-            addOption("-R", "3")
-            addOption("-P", "${BaseApplication.downloadDir}/")
-            if (url.contains("list")) {
-                toast(context.getString(R.string.start_download_list))
-                addOption("-o", "%(playlist)s/%(title)s.%(ext)s")
-            } else {
-                toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
-                addOption("-o", "$filename.%(ext)s")
-            }
+            addOption("-P", "$downloadDir/")
+            toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
+            addOption("-o", "%(title)s_$id.%(ext)s")
+            if (downloadPlaylist)
+                addOption("--yes-playlist")
+            else
+                addOption("--no-playlist")
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
                 addOption("-x")
@@ -110,23 +109,21 @@ object DownloadUtil {
 
         toast(context.getString(R.string.download_success_msg))
 
-        if (!url.contains("list")) {
-            val filePaths = FileUtil.scanFileToMediaLibrary(filename)
-            if (filePaths != null)
-                for (path in filePaths) {
-                    DatabaseUtil.insertInfo(
-                        DownloadedVideoInfo(
-                            0,
-                            videoInfo.title,
-                            videoInfo.uploader ?: "null",
-                            url,
-                            TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""), path
-                        )
+        val filePaths = FileUtil.scanFileToMediaLibrary(id.toString())
+        if (filePaths != null)
+            for (path in filePaths) {
+                DatabaseUtil.insertInfo(
+                    DownloadedVideoInfo(
+                        0,
+                        if (downloadPlaylist) path.split("$downloadDir/").last().split("_$id")
+                            .first() else videoInfo.title,
+                        videoInfo.uploader ?: "null",
+                        url,
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""), path
                     )
-                }
-            return Result.success(filePaths)
-        }
-        return Result.success(null)
+                )
+            }
+        return Result.success(filePaths)
     }
 
     suspend fun updateYtDlp(): String {

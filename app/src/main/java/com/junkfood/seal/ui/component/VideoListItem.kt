@@ -37,10 +37,13 @@ fun VideoListItem(
 
     Box(
         modifier = Modifier
-            .combinedClickable(enabled = true, onClick = onClick, onLongClick = {
-                onLongClick()
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-            })
+            .combinedClickable(
+                enabled = true,
+                onClick = onClick,
+                onLongClick = {
+                    onLongClick()
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                })
             .padding(12.dp)
             .fillMaxWidth(),
     ) {

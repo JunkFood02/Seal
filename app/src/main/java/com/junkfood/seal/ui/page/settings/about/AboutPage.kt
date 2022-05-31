@@ -28,9 +28,10 @@ import com.junkfood.seal.ui.component.PreferenceItem
 @Composable
 fun AboutPage(navController: NavController) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarScrollState()
+    )
     val context = LocalContext.current
     val info = context.packageManager.getPackageInfo(context.packageName, 0)
     val versionName = info.versionName

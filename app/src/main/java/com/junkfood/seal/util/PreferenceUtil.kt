@@ -81,7 +81,7 @@ object PreferenceUtil {
     const val VIDEO_QUALITY = "quality"
     const val WELCOME_DIALOG = "welcome_dialog"
     const val DOWNLOAD_DIRECTORY = "download_dir"
-
+    const val PLAYLIST ="playlist"
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
 

@@ -39,7 +39,6 @@ class BaseApplication : Application() {
                 }
             }
         }
-
         ytdlpVersion =
             YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
@@ -53,7 +52,6 @@ class BaseApplication : Application() {
             else this
 
         }
-
         context = applicationContext
     }
 
@@ -69,7 +67,6 @@ class BaseApplication : Application() {
             downloadDir = path
             PreferenceUtil.updateString(DOWNLOAD_DIRECTORY, path)
         }
-
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context

@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PreferenceItem(
     title: String,
-    description: String,
+    description: String? = null,
     icon: ImageVector? = null,
-    enabled: Boolean,
-    onClick: () -> Unit,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
 ) {
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
@@ -58,7 +58,7 @@ fun PreferenceItem(
                             alpha = 0.5f
                         )
                     )
-
+                    if(description!=null)
                     Text(
                         text = description,
                         color = if (enabled) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(

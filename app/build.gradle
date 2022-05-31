@@ -9,9 +9,9 @@ plugins {
 
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 7
-def versionBuild = 8
-def isStable = true
+def versionPatch = 8
+def versionBuild = 1
+def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -25,11 +25,12 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+//    compileSdkPreview = "Tiramisu"
     compileSdk 32
-
     defaultConfig {
         applicationId "com.junkfood.seal"
         minSdk 26
+//        targetSdkPreview "Tiramisu"
         targetSdk 32
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         if (isStable) {
@@ -83,9 +84,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.7.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0-alpha03'
+    implementation 'com.google.android.material:material:1.7.0-alpha02'
     implementation 'androidx.activity:activity-compose:1.4.0'
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

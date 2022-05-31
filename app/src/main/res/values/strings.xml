@@ -103,4 +103,6 @@
     <string name="download_desc">Then click on download button. Before starting, you can modify configurations for this download.</string>
     <string name="download_history_desc">Check and manage in-app downloads, including videos and audio files.</string>
     <string name="check_download_settings_desc">It is recommended to take a glance at download settings and get yt-dlp up to date before starting usage.</string>
+    <string name="download_playlist">Download playlist</string>
+    <string name="download_playlist_desc">Download all videos when link points to a playlist</string>
 </resources>

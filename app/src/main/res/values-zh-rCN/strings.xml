@@ -101,4 +101,6 @@
     <string name="download_desc">随后点击下载按钮，在开始下载前，你可以修改用于本次下载的设置。</string>
     <string name="download_history_desc">在下载记录页，查看与管理包括视频与音频在内的应用内下载。</string>
     <string name="check_download_settings_desc">在开始使用前，建议先对下载设置进行确认，并且将 yt-dlp 更新到最新版本。</string>
+    <string name="download_playlist">下载播放列表</string>
+    <string name="download_playlist_desc">当链接指向一个播放列表时，下载列表内的所有视频</string>
 </resources>

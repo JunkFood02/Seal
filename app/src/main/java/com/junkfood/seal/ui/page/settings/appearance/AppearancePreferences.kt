@@ -19,6 +19,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.LargeTopAppBar
@@ -38,9 +39,10 @@ fun AppearancePreferences(
     navController: NavController,
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarScrollState()
+    )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val darkTheme = LocalDarkTheme.current
@@ -91,6 +93,11 @@ fun AppearancePreferences(
                     enabled = true
                 ) {
                     showDarkThemeDialog = true
+                }
+                PreferenceItem(
+                    title = "Language",
+                ) {
+                    val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("zh-CN")
                 }
             }
         })

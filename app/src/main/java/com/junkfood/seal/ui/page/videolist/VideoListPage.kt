@@ -32,8 +32,7 @@ data class Filter(
     val selected: MutableState<Boolean>
 )
 
-@ExperimentalFoundationApi
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun VideoListPage(
     navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
@@ -42,9 +41,10 @@ fun VideoListPage(
     val videoList = viewState.value.videoListFlow.collectAsState(ArrayList())
     val audioList = viewState.value.audioListFlow.collectAsState(ArrayList())
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarScrollState()
+    )
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }
     val videoFilter = remember { mutableStateOf(false) }
@@ -92,7 +92,7 @@ fun VideoListPage(
                                 onClick = {},
                                 onLongClick = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    showUrlFilters = true
+                                    showUrlFilters = !showUrlFilters
                                     PreferenceUtil.updateValue("show_filters", showUrlFilters)
                                 }),
                         text = stringResource(R.string.downloads_history)

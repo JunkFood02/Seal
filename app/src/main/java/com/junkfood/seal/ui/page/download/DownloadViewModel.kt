@@ -201,7 +201,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private suspend fun showErrorReport(s: String) {
         withContext(Dispatchers.Main) {
             TextUtil.makeToast(context.getString(R.string.error_copied))
-            TextUtil.copyToClipboard(s)
         }
         _viewState.update {
             it.copy(
