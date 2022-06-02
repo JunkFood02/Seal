@@ -115,7 +115,7 @@ object DownloadUtil {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        if (downloadPlaylist) path.split("$downloadDir/").last().split("_$id")
+                        if (filePaths.size > 1) path.split("$downloadDir/").last().split("_$id")
                             .first() else videoInfo.title,
                         videoInfo.uploader ?: "null",
                         url,

@@ -146,4 +146,18 @@ fun FilledButtonWithIcon(
     }
 }
 
+@Composable
+fun ConfirmButton(text: String = stringResource(R.string.confirm), onClick: () -> Unit) {
+    TextButton(onClick = onClick) {
+        Text(text)
+    }
+}
+
+@Composable
+fun DismissButton(text: String = stringResource(R.string.dismiss), onClick: () -> Unit) {
+    TextButton(onClick = onClick) {
+        Text(text)
+    }
+}
+
 

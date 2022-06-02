@@ -47,8 +47,8 @@ fun SettingsPage(navController: NavController) {
                     navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
                 }
                 SettingItem(
-                    title = stringResource(id = R.string.appearance), description = stringResource(
-                        id = R.string.appearance_page
+                    title = stringResource(id = R.string.display), description = stringResource(
+                        id = R.string.display_settings
                     ), icon = Icons.Default.Aod
                 ) {
                     navController.navigate(Route.APPEARANCE) { launchSingleTop = true }

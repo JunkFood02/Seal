@@ -170,7 +170,7 @@ fun DownloadPage(
                         }
                         InputUrl(
                             url = url,
-                            hint = hintText,
+                            hint = stringResource(R.string.video_url),
                             progress = progress,
                             showVideoCard = showVideoCard,
                             isInCustomMode = customCommandMode,

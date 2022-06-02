@@ -63,8 +63,8 @@
     <string name="error_report">Display error report</string>
     <string name="error_report_desc">Print details when error occurs</string>
     <string name="unknown_error">Unknown error occurred</string>
-    <string name="appearance">Appearance</string>
-    <string name="appearance_page">Dynamic color, dark theme</string>
+    <string name="display">Display</string>
+    <string name="display_settings">Dark theme, dynamic color, languages</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply wallpaper colors to app theme</string>
     <string name="dark_theme">Dark theme</string>
@@ -105,4 +105,8 @@
     <string name="check_download_settings_desc">It is recommended to take a glance at download settings and get yt-dlp up to date before starting usage.</string>
     <string name="download_playlist">Download playlist</string>
     <string name="download_playlist_desc">Download all videos when link points to a playlist</string>
+    <string name="la_zh_CN" translatable="false">简体中文</string>
+    <string name="la_en_US" translatable="false">English</string>
+    <string name="defaults">Default</string>
+
 </resources>

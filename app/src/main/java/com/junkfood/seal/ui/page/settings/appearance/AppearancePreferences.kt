@@ -8,30 +8,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.core.LocalDarkTheme
 import com.junkfood.seal.ui.core.LocalDynamicColor
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
+import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
+import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,9 +40,11 @@ fun AppearancePreferences(
         rememberTopAppBarScrollState()
     )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    var showLanguageDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
+    var language by remember { mutableStateOf(PreferenceUtil.getInt(LANGUAGE, 0)) }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +54,7 @@ fun AppearancePreferences(
                 title = {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(id = R.string.appearance),
+                        text = stringResource(id = R.string.display),
                     )
                 }, navigationIcon = {
                     IconButton(
@@ -88,27 +86,34 @@ fun AppearancePreferences(
 
                 PreferenceItem(
                     title = stringResource(id = R.string.dark_theme),
-                    description = stringResource(LocalDarkTheme.current.getDarkThemeDesc()),
+                    description = LocalDarkTheme.current.getDarkThemeDesc(),
                     icon = Icons.Outlined.DarkMode,
                     enabled = true
                 ) {
                     showDarkThemeDialog = true
                 }
                 PreferenceItem(
-                    title = "Language",
+                    title = stringResource(R.string.language),
+                    icon = Icons.Outlined.Language,
+                    description = PreferenceUtil.getLanguageDesc()
                 ) {
-                    val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("zh-CN")
+                    showLanguageDialog = true
                 }
             }
         })
     if (showDarkThemeDialog)
-        AlertDialog(onDismissRequest = { showDarkThemeDialog = false }, confirmButton = {
-            TextButton(
-                onClick = {
-                    showDarkThemeDialog = false
-                    darkTheme.switch(darkThemeValue)
-                }) {
-                Text(stringResource(R.string.confirm))
+        AlertDialog(onDismissRequest = {
+            showDarkThemeDialog = false
+            darkThemeValue = darkTheme.darkThemeValue
+        }, confirmButton = {
+            ConfirmButton {
+                showDarkThemeDialog = false
+                darkTheme.switch(darkThemeValue)
+            }
+        }, dismissButton = {
+            DismissButton {
+                showDarkThemeDialog = false
+                darkThemeValue = darkTheme.darkThemeValue
             }
         }, title = { Text(stringResource(R.string.dark_theme)) }, text = {
             Column() {
@@ -132,4 +137,37 @@ fun AppearancePreferences(
                 }
             }
         })
+
+    if (showLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showLanguageDialog = false
+                language = PreferenceUtil.getInt(LANGUAGE, 0)
+            },
+            confirmButton = {
+                ConfirmButton {
+                    showLanguageDialog = false
+                    PreferenceUtil.updateInt(LANGUAGE, language)
+                    MainActivity.setLanguage(getLanguageConfiguration())
+                }
+            }, dismissButton = {
+                DismissButton {
+                    showLanguageDialog = false
+                    language = PreferenceUtil.getInt(LANGUAGE, 0)
+                }
+            },
+            title = { Text(stringResource(R.string.language_settings)) }, text = {
+                Column {
+                    SingleChoiceItem(
+                        text = stringResource(R.string.la_en_US),
+                        selected = language == 2
+                    ) { language = 2 }
+                    SingleChoiceItem(
+                        text = stringResource(R.string.la_zh_CN),
+                        selected = language == 1
+                    ) { language = 1 }
+                }
+            }
+        )
+    }
 }

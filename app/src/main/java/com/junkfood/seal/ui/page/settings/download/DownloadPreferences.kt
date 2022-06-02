@@ -62,9 +62,6 @@ fun DownloadPreferences(navController: NavController) {
 
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
-    var audioFormatDesc by remember { mutableStateOf(getAudioFormatDesc()) }
-    var videoQualityDesc by remember { mutableStateOf(getVideoQualityDesc()) }
-    var videoFormatDesc by remember { mutableStateOf(getVideoFormatDesc()) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
 
     val storagePermission =
@@ -285,14 +282,14 @@ fun DownloadPreferences(navController: NavController) {
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
-                        description = videoFormatDesc,
+                        description = getVideoFormatDesc(),
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoFormatDialog = true }
                 }
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.quality),
-                        description = videoQualityDesc,
+                        description = getVideoQualityDesc(),
                         icon = null,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoQualityDialog = true }
@@ -300,7 +297,7 @@ fun DownloadPreferences(navController: NavController) {
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.audio_format),
-                        description = audioFormatDesc,
+                        description = getAudioFormatDesc(),
                         icon = null,
                         enabled = !customCommandEnable and audioSwitch
                     ) { showAudioFormatEditDialog = true }
@@ -356,17 +353,14 @@ fun DownloadPreferences(navController: NavController) {
     }
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
-            audioFormatDesc = getAudioFormatDesc()
         }
     }
     if (showVideoQualityDialog) {
         VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {
-            videoQualityDesc = getVideoQualityDesc()
         }
     }
     if (showVideoFormatDialog) {
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {
-            videoFormatDesc = getVideoFormatDesc()
         }
     }
 }

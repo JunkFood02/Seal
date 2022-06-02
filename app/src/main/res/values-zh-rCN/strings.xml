@@ -62,8 +62,7 @@
     <string name="error_report">显示错误报告</string>
     <string name="error_report_desc">显示详细的错误信息</string>
     <string name="unknown_error">出现不可预知的错误</string>
-    <string name="appearance">外观</string>
-    <string name="appearance_page">动态色彩、深色模式</string>
+    <string name="display">显示</string>
     <string name="dynamic_color">动态色彩</string>
     <string name="dynamic_color_desc">使用系统壁纸主色调生成应用主题</string>
     <string name="dark_theme">深色模式</string>
@@ -103,4 +102,6 @@
     <string name="check_download_settings_desc">在开始使用前，建议先对下载设置进行确认，并且将 yt-dlp 更新到最新版本。</string>
     <string name="download_playlist">下载播放列表</string>
     <string name="download_playlist_desc">当链接指向一个播放列表时，下载列表内的所有视频</string>
+    <string name="defaults">默认</string>
+    <string name="display_settings">深色主题、动态色彩、语言</string>
 </resources>

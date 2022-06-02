@@ -3,6 +3,7 @@ package com.junkfood.seal.util
 import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -36,33 +37,36 @@ object PreferenceUtil {
 
     fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 0)
 
+    @Composable
     fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
         return when (audioFormatCode) {
-            0 -> context.getString(R.string.not_convert)
-            1 -> context.getString(R.string.convert_to).format("mp3")
-            else -> context.getString(R.string.convert_to).format("m4a")
+            0 -> stringResource(R.string.not_convert)
+            1 -> stringResource(R.string.convert_to).format("mp3")
+            else -> stringResource(R.string.convert_to).format("m4a")
         }
     }
 
     fun getVideoQuality(): Int = kv.decodeInt(VIDEO_QUALITY, 0)
 
+    @Composable
     fun getVideoQualityDesc(videoQualityCode: Int = getVideoQuality()): String {
         return when (videoQualityCode) {
             1 -> "1440p"
             2 -> "1080p"
             3 -> "720p"
             4 -> "480p"
-            else -> context.getString(R.string.best_quality)
+            else -> stringResource(R.string.best_quality)
         }
     }
 
     fun getVideoFormat(): Int = kv.decodeInt(VIDEO_FORMAT, 0)
 
+    @Composable
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
             1 -> "MP4"
             2 -> "WebM"
-            else -> context.getString(R.string.not_specified)
+            else -> stringResource(R.string.not_specified)
         }
     }
 
@@ -81,10 +85,31 @@ object PreferenceUtil {
     const val VIDEO_QUALITY = "quality"
     const val WELCOME_DIALOG = "welcome_dialog"
     const val DOWNLOAD_DIRECTORY = "download_dir"
-    const val PLAYLIST ="playlist"
+    const val PLAYLIST = "playlist"
+    const val LANGUAGE = "language"
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
 
+    const val FOLLOW_SYSTEM = 0
+    const val SIMPLIFIED_CHINESE = 1
+    const val ENGLISH = 2
+
+    fun getLanguageConfiguration(language: Int = kv.decodeInt(LANGUAGE)): String {
+        return when (language) {
+            SIMPLIFIED_CHINESE -> "zh-CN"
+            ENGLISH -> "en-US"
+            else -> ""
+        }
+    }
+
+    @Composable
+    fun getLanguageDesc(language: Int = kv.decodeInt(LANGUAGE)): String {
+        return when (language) {
+            SIMPLIFIED_CHINESE -> stringResource(R.string.la_zh_CN)
+            ENGLISH -> stringResource(R.string.la_en_US)
+            else -> stringResource(R.string.defaults)
+        }
+    }
 
     fun dynamicColorSwitch() {
         CoroutineScope(Job()).launch(Dispatchers.IO) {
@@ -116,11 +141,12 @@ object PreferenceUtil {
             else darkThemeValue == ON
         }
 
-        fun getDarkThemeDesc(): Int {
+        @Composable
+        fun getDarkThemeDesc(): String {
             return when (darkThemeValue) {
-                FOLLOW_SYSTEM -> R.string.follow_system
-                ON -> R.string.on
-                else -> R.string.off
+                FOLLOW_SYSTEM -> stringResource(R.string.follow_system)
+                ON -> stringResource(R.string.on)
+                else -> stringResource(R.string.off)
             }
         }
 

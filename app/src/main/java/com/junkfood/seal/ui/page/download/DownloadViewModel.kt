@@ -44,7 +44,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val errorMessage: String = "",
         val IsExecutingCommand: Boolean = false,
         val customCommandMode: Boolean = false,
-        val hintText: String = context.getString(R.string.video_url),
         val isProcessing: Boolean = false,
         var drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden,
@@ -144,7 +143,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         request.addOption("-P", "${BaseApplication.downloadDir}/")
         val m =
             Pattern.compile(commandRegex)
-                .matcher(PreferenceUtil.getTemplate().toString())
+                .matcher(PreferenceUtil.getTemplate())
         while (m.find()) {
             if (m.group(1) != null) {
                 request.addOption(m.group(1))
