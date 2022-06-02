@@ -10,7 +10,7 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -148,7 +148,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.download_directory),
                         description = downloadDirectoryText,
-                        icon = null, enabled = true
+                        icon = Icons.Outlined.FolderOpen
                     ) {
                         openDirectoryChooser()
                     }
@@ -160,7 +160,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
                         description = ytdlpVersion,
-                        icon = null, enabled = true
+                        icon = Icons.Outlined.Update
                     ) {
                         CoroutineScope(Job()).launch {
                             ytdlpVersion = DownloadUtil.updateYtDlp()
@@ -177,7 +177,7 @@ fun DownloadPreferences(navController: NavController) {
                         description = stringResource(
                             id = R.string.settings_before_download_desc
                         ), enabled = !customCommandEnable,
-                        icon = null,
+                        icon = Icons.Outlined.DoneAll,
                         isChecked = configureBeforeDownload,
                         onClick = {
                             configureBeforeDownload = !configureBeforeDownload
@@ -196,7 +196,7 @@ fun DownloadPreferences(navController: NavController) {
                         description = stringResource(
                             id = R.string.extract_audio_summary
                         ),
-                        icon = null,
+                        icon = Icons.Outlined.MusicNote,
                         enabled = !customCommandEnable,
                         isChecked = audioSwitch,
                         onClick = {
@@ -218,7 +218,7 @@ fun DownloadPreferences(navController: NavController) {
                             id = R.string.create_thumbnail_summary
                         ),
                         enabled = !customCommandEnable,
-                        icon = null,
+                        icon = Icons.Outlined.Image,
                         isChecked = thumbnailSwitch,
                         onClick = {
                             thumbnailSwitch = !thumbnailSwitch
@@ -240,7 +240,7 @@ fun DownloadPreferences(navController: NavController) {
                         description = stringResource(
                             id = R.string.open_when_finish_summary
                         ), enabled = !customCommandEnable,
-                        icon = null,
+                        icon = Icons.Outlined.FileOpen,
                         isChecked = openSwitch,
                         onClick = {
                             openSwitch = !openSwitch
@@ -257,7 +257,7 @@ fun DownloadPreferences(navController: NavController) {
                                 PLAYLIST,
                                 downloadPlaylist
                             )
-                        },
+                        }, icon = Icons.Outlined.PlaylistAddCheck,
                         enabled = !customCommandEnable,
                         description = stringResource(R.string.download_playlist_desc),
                         isChecked = downloadPlaylist
@@ -268,7 +268,7 @@ fun DownloadPreferences(navController: NavController) {
                         title = stringResource(R.string.error_report),
                         description = stringResource(R.string.error_report_desc),
                         enabled = !customCommandEnable,
-                        icon = null,
+                        icon = Icons.Outlined.Report,
                         onClick = {
                             displayErrorReport = !displayErrorReport
                             PreferenceUtil.updateValue(DEBUG, displayErrorReport)
@@ -283,6 +283,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
                         description = getVideoFormatDesc(),
+                        icon=Icons.Outlined.VideoFile,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoFormatDialog = true }
                 }
@@ -290,7 +291,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(id = R.string.quality),
                         description = getVideoQualityDesc(),
-                        icon = null,
+                        icon = Icons.Outlined._4k,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoQualityDialog = true }
                 }
@@ -298,7 +299,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.audio_format),
                         description = getAudioFormatDesc(),
-                        icon = null,
+                        icon = Icons.Outlined.AudioFile,
                         enabled = !customCommandEnable and audioSwitch
                     ) { showAudioFormatEditDialog = true }
                 }
@@ -312,7 +313,7 @@ fun DownloadPreferences(navController: NavController) {
                         description = stringResource(
                             id = R.string.custom_command_desc
                         ),
-                        icon = null,
+                        icon = Icons.Outlined.Code,
                         isChecked = customCommandEnable,
                         onClick = {
                             customCommandEnable = !customCommandEnable
@@ -324,7 +325,6 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
                         description = customCommandTemplate,
-                        icon = null,
                         enabled = customCommandEnable
                     ) { showTemplateEditDialog = true }
                 }

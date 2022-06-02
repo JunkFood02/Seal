@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -79,9 +82,24 @@ fun AboutPage(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.readme),
                         description = stringResource(R.string.readme_desc),
-                        icon = null,
-                        enabled = true
+                        icon = Icons.Outlined.Description,
                     ) { openUrl(repoUrl) }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.release),
+                        description = stringResource(R.string.release_desc),
+                        icon = Icons.Outlined.NewReleases,
+                    ) { openUrl(releaseURL) }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.credits),
+                        description = stringResource(id = R.string.credits_desc),
+                        icon = Icons.Outlined.AutoAwesome,
+                    ) {
+                        creditsDialog.value = true
+                    }
                 }
                 item {
                     PreferenceItem(
@@ -89,25 +107,7 @@ fun AboutPage(navController: NavController) {
                         description = versionName,
                         icon = null,
                         enabled = false
-                    ) {}
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.release),
-                        description = stringResource(R.string.release_desc),
-                        icon = null,
-                        enabled = true
-                    ) { openUrl(releaseURL) }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.credits),
-                        description = stringResource(id = R.string.credits_desc),
-                        icon = null,
-                        enabled = true
-                    ) {
-                        creditsDialog.value = true
-                    }
+                    )
                 }
             }
         })

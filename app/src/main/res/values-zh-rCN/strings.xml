@@ -49,7 +49,7 @@
     <string name="release_desc">查看最新版本与更新日记</string>
     <string name="readme_desc">查看 GitHub 项目地址与应用说明</string>
     <string name="video">视频</string>
-    <string name="checked">选中</string>
+    <string name="checked">已选中</string>
     <string name="bilibili">哔哩哔哩</string>
     <string name="credits">致谢</string>
     <string name="credits_desc">资源与开源软件</string>
@@ -104,4 +104,5 @@
     <string name="download_playlist_desc">当链接指向一个播放列表时，下载列表内的所有视频</string>
     <string name="defaults">默认</string>
     <string name="display_settings">深色主题、动态色彩、语言</string>
+    <string name="settings_before_download_text">确认此次下载的下载设置</string>
 </resources>

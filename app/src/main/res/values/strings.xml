@@ -74,6 +74,7 @@
     <string name="cancel">Cancel</string>
     <string name="settings_before_download">Configure before download</string>
     <string name="settings_before_download_desc">Configure preferences before download</string>
+    <string name="settings_before_download_text">Configure preferences for this download</string>
     <string name="loading_thumbnail">Loading thumbnail</string>
     <string name="error_copied">Error report was copied to the clipboard</string>
     <string name="thumbnail">thumbnail</string>

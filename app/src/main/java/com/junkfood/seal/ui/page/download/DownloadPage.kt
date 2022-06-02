@@ -79,17 +79,13 @@ fun DownloadPage(
         }
     }
     Surface(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         BackHandler(viewState.value.drawerState.isVisible) {
             downloadViewModel.hideDrawer(scope)
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             FABs(
                 Modifier
                     .align(Alignment.BottomEnd)

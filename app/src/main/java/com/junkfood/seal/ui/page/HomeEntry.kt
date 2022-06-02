@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -15,7 +14,7 @@ import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.ui.theme.SealTheme
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeEntry(
 ) {
@@ -25,7 +24,7 @@ fun HomeEntry(
             dynamicColor = LocalDynamicColor.current
         ) {
             val navController = rememberAnimatedNavController()
-            Surface() {
+            Surface {
                 AnimatedNavHost(navController = navController, startDestination = Route.HOME) {
                     animatedComposable(Route.HOME) { DownloadPage(navController) }
                     animatedComposable(Route.SETTINGS) { SettingsPage(navController) }

@@ -40,7 +40,9 @@ fun PreferenceItem(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary
+                    tint = with(MaterialTheme.colorScheme.secondary) {
+                        if (enabled) this else copy(alpha = 0.68f)
+                    }
                 )
             }
             Column(
@@ -55,18 +57,18 @@ fun PreferenceItem(
                         maxLines = 1,
                         style = typography.titleLarge,
                         color = if (enabled) colorScheme.onSurface else colorScheme.onSurface.copy(
-                            alpha = 0.5f
+                            alpha = 0.62f
                         )
                     )
-                    if(description!=null)
-                    Text(
-                        text = description,
-                        color = if (enabled) colorScheme.onSurface.copy(alpha = 0.7f) else colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
-                        maxLines = 1, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                    if (description != null)
+                        Text(
+                            text = description,
+                            color = if (enabled) colorScheme.onSurface.copy(alpha = 0.62f) else colorScheme.onSurface.copy(
+                                alpha = 0.5f
+                            ),
+                            maxLines = 1, overflow = TextOverflow.Ellipsis,
+                            style = typography.bodyMedium,
+                        )
                 }
             }
         }
@@ -100,7 +102,9 @@ fun PreferenceSwitch(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary
+                    tint = with(MaterialTheme.colorScheme.secondary) {
+                        if (enabled) this else copy(alpha = 0.68f)
+                    }
                 )
             }
             Column(
@@ -113,13 +117,13 @@ fun PreferenceSwitch(
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge,
                     color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = 0.5f
+                        alpha = 0.62f
                     )
                 )
                 if (!description.isNullOrEmpty())
                     Text(
                         text = description,
-                        color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(
+                        color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f) else MaterialTheme.colorScheme.onSurface.copy(
                             alpha = 0.5f
                         ),
                         maxLines = 2,
@@ -146,7 +150,7 @@ fun Subtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 28.dp, top = 28.dp, bottom = 12.dp),
+            .padding(start = 24.dp, top = 28.dp, bottom = 12.dp),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )

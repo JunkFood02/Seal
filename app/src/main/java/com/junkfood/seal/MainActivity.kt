@@ -5,7 +5,9 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setLanguage(PreferenceUtil.getLanguageConfiguration())
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
+            val systemBarInsets =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, 0, 0, 0)
+            insets
+        }
         BaseApplication.context = this.baseContext
         setContent {
             HomeEntry()

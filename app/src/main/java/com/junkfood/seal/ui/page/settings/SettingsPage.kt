@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Aod
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.sharp.Aod
+import androidx.compose.material.icons.sharp.Download
+import androidx.compose.material.icons.sharp.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Surface
@@ -42,21 +42,21 @@ fun SettingsPage(navController: NavController) {
                 SettingItem(
                     title = stringResource(id = R.string.download), description = stringResource(
                         id = R.string.download_settings_desc
-                    ), icon = Icons.Default.Download
+                    ), icon = Icons.Sharp.Download
                 ) {
                     navController.navigate(Route.DOWNLOAD_PREFERENCES) { launchSingleTop = true }
                 }
                 SettingItem(
                     title = stringResource(id = R.string.display), description = stringResource(
                         id = R.string.display_settings
-                    ), icon = Icons.Default.Aod
+                    ), icon = Icons.Sharp.Aod
                 ) {
                     navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
                 }
                 SettingItem(
                     title = stringResource(id = R.string.about), description = stringResource(
                         id = R.string.about_page
-                    ), icon = Icons.Default.Info
+                    ), icon = Icons.Sharp.Info
                 ) {
                     navController.navigate(Route.ABOUT) { launchSingleTop = true }
                 }

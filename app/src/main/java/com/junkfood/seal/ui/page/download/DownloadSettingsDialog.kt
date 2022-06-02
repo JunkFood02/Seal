@@ -54,7 +54,7 @@ fun DownloadSettingDialog(
                 .padding(vertical = 16.dp)
         )
         Text(
-            text = stringResource(R.string.settings_before_download_desc),
+            text = stringResource(R.string.settings_before_download_text),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             modifier = Modifier
