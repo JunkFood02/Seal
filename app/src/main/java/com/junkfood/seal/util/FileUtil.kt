@@ -34,9 +34,9 @@ object FileUtil {
         val paths = ArrayList<String>()
         val files =
             File(downloadDir).listFiles { _, name ->
-                name.contains(title) and !name.contains(Regex("\\.f\\d+?")) and !name.contains(
-                    ".jpg"
-                )
+                with(name) {
+                    contains(title) and !contains(Regex("\\.f\\d+?|(\\.jpg)"))
+                }
             }
                 ?: return null
         for (file in files) {

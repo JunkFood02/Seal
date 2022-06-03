@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -55,7 +56,7 @@ fun PreferenceItem(
                     Text(
                         text = title,
                         maxLines = 1,
-                        style = typography.titleLarge,
+                        style = typography.titleLarge.copy(fontSize = 20.sp),
                         color = if (enabled) colorScheme.onSurface else colorScheme.onSurface.copy(
                             alpha = 0.62f
                         )
@@ -115,7 +116,7 @@ fun PreferenceSwitch(
                 Text(
                     text = title,
                     maxLines = 1,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
                     color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
                         alpha = 0.62f
                     )

@@ -64,17 +64,17 @@ fun DownloadSettingDialog(
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
-            FilterChipWithIcon(
+            FilterChipWithAnimatedIcon(
                 selected = audio,
                 onClick = { audio = !audio },
                 label = stringResource(R.string.extract_audio)
             )
-            FilterChipWithIcon(
+            FilterChipWithAnimatedIcon(
                 selected = thumbnail,
                 onClick = { thumbnail = !thumbnail },
                 label = stringResource(R.string.create_thumbnail)
             )
-            FilterChipWithIcon(
+            FilterChipWithAnimatedIcon(
                 selected = open,
                 onClick = { open = !open },
                 label = stringResource(R.string.open_when_finish)

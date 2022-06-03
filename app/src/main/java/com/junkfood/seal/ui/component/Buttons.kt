@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -49,7 +50,41 @@ fun ButtonChip(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterChipWithIcon(
+fun FilterChipWithIcons(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: String,
+    leadingIcon: ImageVector
+) {
+    FilterChip(
+        modifier = modifier.padding(horizontal = 6.dp),
+        selected = selected,
+        onClick = onClick,
+        label = {
+            Text(text = label)
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = leadingIcon,
+                contentDescription = null,
+                modifier = Modifier.requiredSize(18.dp)
+            )
+        },
+        selectedIcon = {
+            Icon(
+                Icons.Outlined.Check,
+                stringResource(R.string.checked),
+                modifier = Modifier.requiredSize(18.dp)
+            )
+        }
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterChipWithAnimatedIcon(
     modifier: Modifier = Modifier,
     selected: Boolean,
     onClick: () -> Unit,

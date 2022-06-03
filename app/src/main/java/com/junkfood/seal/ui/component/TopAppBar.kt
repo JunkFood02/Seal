@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -9,6 +10,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -25,9 +27,8 @@ fun LargeTopAppBar(
     val backgroundColor = colors.containerColor(
         scrollFraction = scrollBehavior?.scrollFraction ?: 0f
     ).value
-    Surface(
-        color = backgroundColor,
-        modifier = modifier,
+    Box(
+        modifier = modifier.drawBehind { drawRect(backgroundColor) },
     ) {
         androidx.compose.material3.LargeTopAppBar(
             title = title,

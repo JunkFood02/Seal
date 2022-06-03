@@ -34,9 +34,9 @@ fun SettingsPage(navController: NavController) {
                 modifier = Modifier.padding(start = 8.dp)
             )
             Text(
-                modifier = Modifier.padding(start = 24.dp, top = 36.dp),
+                modifier = Modifier.padding(start = 24.dp, top = 48.dp),
                 text = stringResource(id = R.string.settings),
-                fontSize = MaterialTheme.typography.displaySmall.fontSize
+                style = MaterialTheme.typography.headlineLarge
             )
             Column(modifier = Modifier.padding(top = 24.dp)) {
                 SettingItem(

@@ -331,7 +331,7 @@ fun VideoCard(
         }
         val progressAnimationValue by animateFloatAsState(
             targetValue = progress / 100f,
-            animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+            animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
         )
 
         LinearProgressIndicator(

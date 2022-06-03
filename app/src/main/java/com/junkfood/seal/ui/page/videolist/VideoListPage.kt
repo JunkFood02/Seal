@@ -123,22 +123,22 @@ fun VideoListPage(
                             .horizontalScroll(rememberScrollState())
                             .padding(6.dp)
                     ) {
-                        FilterChipWithIcon(
+                        FilterChipWithAnimatedIcon(
                             selected = audioFilter.value,
                             onClick = {
                                 audioFilter.value = !audioFilter.value
                                 if (videoFilter.value) videoFilter.value = false
                             },
-                            label = stringResource(id = R.string.audio)
+                            label = stringResource(id = R.string.audio),
                         )
 
-                        FilterChipWithIcon(
+                        FilterChipWithAnimatedIcon(
                             selected = videoFilter.value,
                             onClick = {
                                 videoFilter.value = !videoFilter.value
                                 if (audioFilter.value) audioFilter.value = false
                             },
-                            label = stringResource(id = R.string.video)
+                            label = stringResource(id = R.string.video),
                         )
                         AnimatedVisibility(visible = showUrlFilters) {
                             Row {
@@ -152,7 +152,7 @@ fun VideoListPage(
                                 )
                                 for (filter in filterList) {
                                     with(filter) {
-                                        FilterChipWithIcon(
+                                        FilterChipWithAnimatedIcon(
                                             selected = selected.value,
                                             onClick = {
                                                 filterList.forEach {

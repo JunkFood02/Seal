@@ -56,13 +56,13 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val request = YoutubeDLRequest(url)
-        val id = url.hashCode()
+        val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
 
         with(request) {
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
             toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
-            addOption("-o", "%(title)s_$id.%(ext)s")
+            addOption("-o", "%(title)s$id.%(ext)s")
             if (downloadPlaylist)
                 addOption("--yes-playlist")
             else
@@ -109,13 +109,13 @@ object DownloadUtil {
 
         toast(context.getString(R.string.download_success_msg))
 
-        val filePaths = FileUtil.scanFileToMediaLibrary(id.toString())
+        val filePaths = FileUtil.scanFileToMediaLibrary(id)
         if (filePaths != null)
             for (path in filePaths) {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        if (filePaths.size > 1) path.split("$downloadDir/").last().split("_$id")
+                        if (filePaths.size > 1) path.split("$downloadDir/").last().split(id)
                             .first() else videoInfo.title,
                         videoInfo.uploader ?: "null",
                         url,
@@ -132,7 +132,7 @@ object DownloadUtil {
                 YoutubeDL.getInstance().updateYoutubeDL(context)
                 toast(context.getString(R.string.yt_dlp_up_to_date))
             } catch (e: Exception) {
-                toast(R.string.yt_dlp_update_fail)
+                toast(context.getString(R.string.yt_dlp_update_fail))
             }
         }
         YoutubeDL.getInstance().version(context)?.let {
@@ -149,10 +149,5 @@ object DownloadUtil {
         }
     }
 
-    private suspend fun toast(id: Int) {
-        withContext(Dispatchers.Main) {
-            TextUtil.makeToast(id)
-        }
-    }
 
 }
