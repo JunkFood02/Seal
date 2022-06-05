@@ -1,4 +1,6 @@
 # Seal
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FJunkFood02%2FSeal.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FJunkFood02%2FSeal?ref=badge_shield)
+
 Video/Audio Downloader for Android, written with [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
 [简体中文](https://github.com/JunkFood02/Seal/blob/main/README-zh.md)
@@ -39,3 +41,7 @@ Seal is just a simple GUI of [youtubedl-android](https://github.com/yausername/y
 UI design and codes are heavily based on [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FJunkFood02%2FSeal.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FJunkFood02%2FSeal?ref=badge_large)
