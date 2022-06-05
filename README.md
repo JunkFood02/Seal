@@ -6,28 +6,31 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 ## Screenshots
 
 <div>
-<img src="README.assets/image-20220529220434317.png" alt="image-20220529220434317" width="30%" />
-<img src="README.assets/image-20220529220528436.png" alt="image-20220529220528436" width="30%" />
-<img src="README.assets/image-20220529220546028.png" alt="image-20220529220546028" width="30%" />
-<img src="README.assets/image-20220529220600523.png" alt="image-20220529220600523" width="30%" />
-<img src="README.assets/image-20220529222443081.png" alt="image-20220529222443081" width="30%" />
-<img src="README.assets/2022-05-30 10.26.37.jpg" width="30%"/></div>
+<img src="README.assets/1.png" width="30%" />
+<img src="README.assets/2.png" width="30%" />
+<img src="README.assets/3.png" width="30%" />
+<img src="README.assets/4.png" width="30%" />
+<img src="README.assets/5.png" width="30%" />
+<img src="README.assets/6.jpg" width="30%"/></div>
+
 
 
 
 ## Features
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
-- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen)
+- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
 
-- Execute custom yt-dlp command with template
+- Execute custom yt-dlp command with template.
 
-- Manage in-app downloads
+- Manage in-app downloads.
 
-- Easy to use and user-friendly
+- Easy to use and user-friendly.
 
 - [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (for Android 12+)
+
+- MAD: UI and Logic with pure Kotlin. Single activity, no fragments but composable destinations.
 
 ## Credits
 

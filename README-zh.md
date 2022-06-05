@@ -13,7 +13,7 @@
 </div>
 
 
-## 特性
+## 功能特色
 
 - 从 [yt-dlp](https://github.com/yt-dlp/yt-dlp) 所支持的数千个视频平台下载视频与音频
 
@@ -26,6 +26,8 @@
 - 使用简单、用户友好
 
 - 遵循 [Material Design 3](https://m3.material.io/) 设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
+
+- MAD：完全使用 Kotlin 构造界面与编写逻辑，单 Activity + Compose Navigation 应用结构
 
 ## 致谢
 
