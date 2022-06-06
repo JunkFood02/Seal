@@ -24,21 +24,20 @@ fun HomeEntry(
             dynamicColor = LocalDynamicColor.current
         ) {
             val navController = rememberAnimatedNavController()
+            val onBackPressed = { navController.popBackStack() }
             Surface {
                 AnimatedNavHost(navController = navController, startDestination = Route.HOME) {
                     animatedComposable(Route.HOME) { DownloadPage(navController) }
                     animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
-                    animatedComposable(Route.DOWNLOAD_PREFERENCES) {
-                        DownloadPreferences(
-                            navController
-                        )
-                    }
-                    animatedComposable(Route.DOWNLOADS) { VideoListPage(navController) }
-                    animatedComposable(Route.ABOUT) { AboutPage(navController) }
-                    animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+                    animatedComposable(Route.DOWNLOAD_PREFERENCES) { DownloadPreferences { onBackPressed() } }
+                    animatedComposable(Route.DOWNLOADS) { VideoListPage{ onBackPressed() } }
+                    animatedComposable(Route.ABOUT) { AboutPage { onBackPressed() } }
+                    animatedComposable(Route.APPEARANCE) { AppearancePreferences{ onBackPressed() } }
                 }
             }
-            WelcomeDialog(navController)
+            WelcomeDialog {
+                navController.navigate(Route.DOWNLOAD_PREFERENCES)
+            }
         }
     }
 }

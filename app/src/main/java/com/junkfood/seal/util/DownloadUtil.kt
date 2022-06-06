@@ -61,7 +61,7 @@ object DownloadUtil {
         with(request) {
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
-            addOption("-o", "%(title)s$id.%(ext)s")
+            addOption("-o", "%(title).60s$id.%(ext)s")
             if (downloadPlaylist)
                 addOption("--yes-playlist")
             else

@@ -18,7 +18,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -35,7 +34,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
@@ -50,7 +48,7 @@ import kotlinx.coroutines.launch
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
-fun DownloadPreferences(navController: NavController) {
+fun DownloadPreferences(onBackPressed: () -> Unit) {
     val context = LocalContext.current
     val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
@@ -88,6 +86,7 @@ fun DownloadPreferences(navController: NavController) {
             is PermissionStatus.Granted -> {
                 launcher.launch(null)
             }
+
             is PermissionStatus.Denied -> {
                 storagePermission.launchPermissionRequest()
             }
@@ -113,7 +112,8 @@ fun DownloadPreferences(navController: NavController) {
                 }, navigationIcon = {
                     IconButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = { navController.popBackStack() }) {
+                        onClick = onBackPressed
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.back)
@@ -227,7 +227,7 @@ fun DownloadPreferences(navController: NavController) {
                     )
                 }
 
-                item {
+/*                item {
                     var openSwitch by remember {
                         mutableStateOf(
                             PreferenceUtil.getValue(
@@ -247,7 +247,7 @@ fun DownloadPreferences(navController: NavController) {
                             PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
                         }
                     )
-                }
+                }*/
                 item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.download_playlist),
@@ -283,7 +283,7 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
                         description = getVideoFormatDesc(),
-                        icon=Icons.Outlined.VideoFile,
+                        icon = Icons.Outlined.VideoFile,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoFormatDialog = true }
                 }

@@ -200,7 +200,7 @@ fun MultiChoiceItem(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             checked = checked,

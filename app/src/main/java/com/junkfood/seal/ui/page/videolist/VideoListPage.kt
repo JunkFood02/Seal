@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
@@ -35,7 +34,7 @@ data class Filter(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun VideoListPage(
-    navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
+    videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
 ) {
     val viewState = videoListViewModel.viewState.collectAsState()
     val videoList = viewState.value.videoListFlow.collectAsState(ArrayList())
@@ -100,7 +99,7 @@ fun VideoListPage(
                 },
                 navigationIcon = {
                     BackButton(Modifier.padding(horizontal = 8.dp)) {
-                        navController.popBackStack()
+                        onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
             )

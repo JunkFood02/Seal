@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
@@ -32,7 +31,7 @@ import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppearancePreferences(
-    navController: NavController,
+    onBackPressed: () -> Unit
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -59,7 +58,8 @@ fun AppearancePreferences(
                 }, navigationIcon = {
                     IconButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = { navController.popBackStack() }) {
+                        onClick = onBackPressed
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.back)

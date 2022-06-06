@@ -65,7 +65,6 @@ class BaseApplication : Application() {
         lateinit var downloadDir: String
         var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
-        const val CHANNEL_ID = "1"
         fun updateDownloadDir(path: String) {
             downloadDir = path
             PreferenceUtil.updateString(DOWNLOAD_DIRECTORY, path)

@@ -110,4 +110,5 @@
     <string name="download_notification">正在下载 \"%1$s\"</string>
     <string name="download_finish_notification">下载完成，点击打开</string>
     <string name="execute_command_notification">正在执行自定义命令</string>
+    <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”</string>
 </resources>

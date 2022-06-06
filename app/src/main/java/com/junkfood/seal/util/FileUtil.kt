@@ -9,7 +9,7 @@ import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import java.io.File
 
 /**
- * No `ScopedStorage` for ever so feel free to curse me about this
+ * No `ScopedStorage` forever so feel free to curse me about this
  * And sorry for ugly codes for filename control
  */
 object FileUtil {

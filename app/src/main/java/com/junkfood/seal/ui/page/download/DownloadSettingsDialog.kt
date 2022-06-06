@@ -35,7 +35,7 @@ fun DownloadSettingDialog(
 ) {
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)) }
-    var open by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY)) }
+//    var open by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY)) }
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
@@ -74,11 +74,11 @@ fun DownloadSettingDialog(
                 onClick = { thumbnail = !thumbnail },
                 label = stringResource(R.string.create_thumbnail)
             )
-            FilterChipWithAnimatedIcon(
+/*            FilterChipWithAnimatedIcon(
                 selected = open,
                 onClick = { open = !open },
                 label = stringResource(R.string.open_when_finish)
-            )
+            )*/
         }
 
         DrawerSheetSubtitle(text = stringResource(id = R.string.format))
@@ -126,7 +126,7 @@ fun DownloadSettingDialog(
                 onClick = {
                     PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
                     PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
-                    PreferenceUtil.updateValue(PreferenceUtil.OPEN_IMMEDIATELY, open)
+//                    PreferenceUtil.updateValue(PreferenceUtil.OPEN_IMMEDIATELY, open)
                     cancel()
                     confirm()
                 }, icon = Icons.Outlined.DownloadDone,

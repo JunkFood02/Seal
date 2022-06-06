@@ -120,6 +120,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             progress = progress.toInt(),
                             text = line
                         )
+
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -143,8 +144,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 )
                 finishProcessing()
-                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
-                    openFile(downloadResultTemp)
+                /*                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
+                                    openFile(downloadResultTemp)*/
             }
         }
     }
