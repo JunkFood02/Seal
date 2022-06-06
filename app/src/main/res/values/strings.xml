@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
-    <string name="video_url">Video link</string>
     <string name="download_directory">Download directory</string>
     <string name="extract_audio">Extract audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
@@ -17,7 +16,7 @@
     <string name="yt_dlp_update_fail">Failed to update yt-dlp, please check your connection with github.com</string>
     <string name="fetching_info">Fetching video info</string>
     <string name="permission_denied">Failed to request permission</string>
-    <string name="download_success_msg">Download completed</string>
+    <string name="download_success_msg">Download finished</string>
     <string name="download_error_msg">Error occurred when downloading</string>
     <string name="download_start_msg">Start downloading \'%1$s\'</string>
     <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
@@ -32,7 +31,7 @@
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to update yt-dlp</string>
     <string name="delete_info">Remove from history?</string>
-    <string name="delete_info_msg">Are you sure to remove \'%1$s\' from your download history? This operation cannot be withdrawn.</string>
+    <string name="delete_info_msg">Are you sure to remove \"%1$s\" from your download history? This operation cannot be withdrawn.</string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="downloads_history">Downloads</string>
@@ -109,5 +108,11 @@
     <string name="la_zh_CN" translatable="false">简体中文</string>
     <string name="la_en_US" translatable="false">English</string>
     <string name="defaults">Default</string>
+    <string name="channel_name">Download</string>
+    <string name="channel_description">Display download progress and finish message</string>
+    <string name="download_notification">Downloading \"%1$s\"</string>
+    <string name="video_url">Video link</string>
+    <string name="download_finish_notification">Download finished, clicked to open</string>
+    <string name="execute_command_notification">Executing custom commands</string>
 
 </resources>

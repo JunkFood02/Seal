@@ -8,7 +8,10 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import java.io.File
 
-
+/**
+ * No `ScopedStorage` for ever so feel free to curse me about this
+ * And sorry for ugly codes for filename control
+ */
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
@@ -30,12 +33,29 @@ object FileUtil {
         })
     }
 
+    fun createIntentForOpenFile(downloadResult: DownloadUtil.Result): Intent? {
+        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return null
+        val path = downloadResult.filePath?.get(0) ?: return null
+        return Intent().apply {
+            action = (Intent.ACTION_VIEW)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            setDataAndType(
+                FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".provider",
+                    File(path)
+                ),
+                if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
+            )
+        }
+    }
+
     fun scanFileToMediaLibrary(title: String): ArrayList<String>? {
         val paths = ArrayList<String>()
         val files =
             File(downloadDir).listFiles { _, name ->
                 with(name) {
-                    contains(title) and !contains(Regex("\\.f\\d+?|(\\.jpg)"))
+                    contains("$title.") and !contains(Regex("\\.f\\d+?|(\\.jpg)"))
                 }
             }
                 ?: return null

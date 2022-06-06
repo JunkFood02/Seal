@@ -10,7 +10,7 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 8
-def versionBuild = 1
+def versionBuild = 2
 def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()

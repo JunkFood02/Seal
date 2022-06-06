@@ -33,7 +33,7 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
 
     suspend fun fetchVideoInfo(url: String): VideoInfo {
-        toast(context.getString(R.string.fetching_info))
+        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
@@ -61,7 +61,6 @@ object DownloadUtil {
         with(request) {
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
-            toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
             addOption("-o", "%(title)s$id.%(ext)s")
             if (downloadPlaylist)
                 addOption("--yes-playlist")
@@ -107,8 +106,6 @@ object DownloadUtil {
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 
-        toast(context.getString(R.string.download_success_msg))
-
         val filePaths = FileUtil.scanFileToMediaLibrary(id)
         if (filePaths != null)
             for (path in filePaths) {
@@ -130,9 +127,9 @@ object DownloadUtil {
         withContext(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(context)
-                toast(context.getString(R.string.yt_dlp_up_to_date))
+                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
             } catch (e: Exception) {
-                toast(context.getString(R.string.yt_dlp_update_fail))
+                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_update_fail))
             }
         }
         YoutubeDL.getInstance().version(context)?.let {
@@ -140,13 +137,6 @@ object DownloadUtil {
             PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
         }
         return BaseApplication.ytdlpVersion
-    }
-
-
-    private suspend fun toast(text: String) {
-        withContext(Dispatchers.Main) {
-            TextUtil.makeToast(text)
-        }
     }
 
 

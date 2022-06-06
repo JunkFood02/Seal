@@ -105,4 +105,9 @@
     <string name="defaults">默认</string>
     <string name="display_settings">深色主题、动态色彩、语言</string>
     <string name="settings_before_download_text">确认此次下载的下载设置</string>
+    <string name="channel_name">下载</string>
+    <string name="channel_description">显示下载进度与完成信息</string>
+    <string name="download_notification">正在下载 \"%1$s\"</string>
+    <string name="download_finish_notification">下载完成，点击打开</string>
+    <string name="execute_command_notification">正在执行自定义命令</string>
 </resources>

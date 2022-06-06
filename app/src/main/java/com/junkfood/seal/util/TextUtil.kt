@@ -1,9 +1,10 @@
 package com.junkfood.seal.util
 
 import android.widget.Toast
-import com.junkfood.seal.BaseApplication.Companion.clipboard
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 object TextUtil {
@@ -21,10 +22,6 @@ object TextUtil {
         return null
     }
 
-    fun copyToClipboard(s: String) {
-        clipboard.text = s
-    }
-
     fun urlHttpToHttps(url: String?): String {
         with(url.toString()) {
             if (matches(Regex("^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?\$"))) {
@@ -37,7 +34,13 @@ object TextUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun makeToast(stringId: Int) {
+    suspend fun makeToastSuspend(text: String) {
+        withContext(Dispatchers.Main) {
+            makeToast(text)
+        }
+    }
+
+    private fun makeToast(stringId: Int) {
         Toast.makeText(context, context.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 }

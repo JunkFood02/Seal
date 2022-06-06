@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Environment
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DOWNLOAD_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.YT_DLP
@@ -53,7 +54,9 @@ class BaseApplication : Application() {
 
         }
         context = applicationContext
+        NotificationUtil.createNotificationChannel()
     }
+
 
 
     companion object {
@@ -62,7 +65,7 @@ class BaseApplication : Application() {
         lateinit var downloadDir: String
         var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
-
+        const val CHANNEL_ID = "1"
         fun updateDownloadDir(path: String) {
             downloadDir = path
             PreferenceUtil.updateString(DOWNLOAD_DIRECTORY, path)
