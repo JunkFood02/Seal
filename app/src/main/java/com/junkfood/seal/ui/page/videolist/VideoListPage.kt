@@ -25,6 +25,7 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
+import java.util.regex.Pattern
 
 data class Filter(
     val name: String,
@@ -61,8 +62,12 @@ fun VideoListPage(
     val filterSet = mutableSetOf<String>()
     val filterList = mutableListOf<Filter>()
     val createFilterFromList: (DownloadedVideoInfo) -> Unit = {
-        Regex("\\[\\w+]").find(it.videoPath)?.let { matchResult ->
-            filterSet.add(matchResult.groupValues.last())
+        Pattern.compile("(\\[\\w+])").matcher(it.videoPath).let { matcher ->
+            while (matcher.find()) {
+                val s = matcher.group()
+                if (!it.videoTitle.contains(s))
+                    filterSet.add(s)
+            }
         }
     }
 

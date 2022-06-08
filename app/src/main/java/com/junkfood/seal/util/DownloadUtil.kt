@@ -59,6 +59,7 @@ object DownloadUtil {
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
 
         with(request) {
+            addOption("--concurrent-fragments","16")
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
             addOption("-o", "%(title).60s[%(extractor_key)s]$id.%(ext)s")
