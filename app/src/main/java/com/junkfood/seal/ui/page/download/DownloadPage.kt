@@ -172,11 +172,13 @@ fun DownloadPage(
                             isInCustomMode = customCommandMode,
                             error = isDownloadError,
                         ) { downloadViewModel.updateUrl(it) }
-                        ErrorMessage(
-                            error = isDownloadError, copyToClipboard = PreferenceUtil.getValue(
-                                DEBUG
-                            ) or customCommandMode, errorMessage = errorMessage
-                        )
+                        AnimatedVisibility(visible = isDownloadError) {
+                            ErrorMessage(
+                                error = isDownloadError, copyToClipboard = PreferenceUtil.getValue(
+                                    DEBUG
+                                ) or customCommandMode, errorMessage = errorMessage
+                            )
+                        }
                     }
                 }
             }
@@ -248,22 +250,21 @@ fun ErrorMessage(
     error: Boolean = false,
     errorMessage: String = "",
 ) {
-    AnimatedVisibility(visible = error) {
-        if (error and copyToClipboard)
-            LocalClipboardManager.current.setText(AnnotatedString(errorMessage))
-        Row {
-            Icon(
-                Icons.Outlined.Error, contentDescription = null,
-                tint = MaterialTheme.colorScheme.error
-            )
-            Text(
-                maxLines = 6,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 6.dp),
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error
-            )
-        }
+    if (error and copyToClipboard)
+        LocalClipboardManager.current.setText(AnnotatedString(errorMessage))
+    Row {
+        Icon(
+            Icons.Outlined.Error, contentDescription = null,
+            tint = MaterialTheme.colorScheme.error
+        )
+        Text(
+            maxLines = 6,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(start = 6.dp),
+            text = errorMessage,
+            color = MaterialTheme.colorScheme.error
+        )
+
     }
 }
 

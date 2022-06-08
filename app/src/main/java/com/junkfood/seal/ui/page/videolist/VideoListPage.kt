@@ -21,13 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
+import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 
 data class Filter(
     val name: String,
-    val regex: String,
+    val filterText: String,
     val selected: MutableState<Boolean>
 )
 
@@ -56,26 +57,33 @@ fun VideoListPage(
         )
     }
     val hapticFeedback = LocalHapticFeedback.current
-    val filterList = listOf(
-        Filter("Bilibili", "(b23\\.tv)|(bilibili)", remember { mutableStateOf(false) }),
-        Filter("YouTube", "youtu", remember { mutableStateOf(false) }),
-        Filter("NicoNico", "nico", remember { mutableStateOf(false) })
-    )
 
-
-    fun websiteFilter(url: String, filter: Filter): Boolean {
-        return (!filter.selected.value or url.contains(Regex(filter.regex)))
+    val filterSet = mutableSetOf<String>()
+    val filterList = mutableListOf<Filter>()
+    val createFilterFromList: (DownloadedVideoInfo) -> Unit = {
+        Regex("\\[\\w+]").find(it.videoPath)?.let { matchResult ->
+            filterSet.add(matchResult.groupValues.last())
+        }
     }
 
+    videoList.value.forEach(createFilterFromList)
+    audioList.value.forEach(createFilterFromList)
 
-    fun urlFilterInList(url: String): Boolean {
+    for (s in filterSet) {
+        filterList.add(Filter(s.removeSurrounding("[", "]"), s, remember { mutableStateOf(false) }))
+    }
+
+    fun filterPath(url: String, filter: Filter): Boolean {
+        return (!filter.selected.value or url.contains(filter.filterText))
+    }
+
+    fun filterPathInList(url: String): Boolean {
         var res = true
         for (filter in filterList) {
-            res = res.and(websiteFilter(url, filter))
+            res = res.and(filterPath(url, filter))
         }
         return res
     }
-
 
     Scaffold(
         modifier = Modifier
@@ -139,7 +147,7 @@ fun VideoListPage(
                             },
                             label = stringResource(id = R.string.video),
                         )
-                        AnimatedVisibility(visible = showUrlFilters) {
+                        AnimatedVisibility(visible = showUrlFilters && filterSet.isNotEmpty()) {
                             Row {
                                 Divider(
                                     modifier = Modifier
@@ -169,7 +177,7 @@ fun VideoListPage(
                 }
                 items(videoList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !audioFilter.value and urlFilterInList(it.videoUrl)
+                        visible = !audioFilter.value and filterPathInList(it.videoPath)
                     )
                     {
                         with(it) {
@@ -185,7 +193,7 @@ fun VideoListPage(
                 }
                 items(audioList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !videoFilter.value and urlFilterInList(it.videoUrl)
+                        visible = !videoFilter.value and filterPathInList(it.videoPath)
                     ) {
                         with(it) {
                             AudioListItem(

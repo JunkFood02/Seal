@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -98,14 +99,17 @@ fun FilterChipWithAnimatedIcon(
             Text(text = label)
         },
         trailingIcon = {
-            AnimatedVisibility(visible = selected) {
-                Icon(
-                    Icons.Outlined.Check,
-                    stringResource(R.string.checked),
-                    modifier = Modifier.size(18.dp)
-                )
+            Row {
+                AnimatedVisibility(visible = selected) {
+                    Icon(
+                        Icons.Outlined.Check,
+                        stringResource(R.string.checked),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
             }
-        },
+        }
     )
 }
 

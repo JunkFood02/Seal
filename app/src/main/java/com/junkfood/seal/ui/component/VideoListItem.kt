@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -53,7 +54,8 @@ fun VideoListItem(
             SubcomposeAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
-                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                    .clip(MaterialTheme.shapes.extraSmall),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
                     .diskCacheKey(thumbnailUrl)
