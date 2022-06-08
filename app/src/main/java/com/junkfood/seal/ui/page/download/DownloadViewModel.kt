@@ -105,8 +105,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                     )
                 }
+                val notificationID = value.url.hashCode()
                 try {
                     NotificationUtil.makeNotification(
+                        notificationID,
                         title = context.getString(R.string.download_notification)
                             .format(videoInfo.title), text = ""
                     )
@@ -117,6 +119,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     { progress, _, line ->
                         _viewState.update { it.copy(progress = progress) }
                         NotificationUtil.updateNotification(
+                            notificationID,
                             progress = progress.toInt(),
                             text = line
                         )
@@ -128,6 +131,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                     else showErrorMessage(context.getString(R.string.download_error_msg))
                     NotificationUtil.finishNotification(
+                        notificationID,
                         title = videoInfo.title,
                         text = context.getString(R.string.download_error_msg),
                         intent = null
@@ -135,6 +139,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     return@launch
                 }
                 NotificationUtil.finishNotification(
+                    notificationID,
                     title = videoInfo.title,
                     text = context.getString(R.string.download_finish_notification),
                     intent = PendingIntent.getActivity(
@@ -196,8 +201,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 e.printStackTrace()
             }
         }
+        val notificationID = viewState.value.url.hashCode()
+
         TextUtil.makeToast(context.getString(R.string.start_execute))
         NotificationUtil.makeNotification(
+            notificationID,
             title = context.getString(R.string.execute_command_notification), text = ""
         )
         viewModelScope.launch(Dispatchers.IO) {
@@ -205,12 +213,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 YoutubeDL.getInstance().execute(request) { progress, _, line ->
                     _viewState.update { it.copy(progress = progress) }
                     NotificationUtil.updateNotification(
+                        notificationID,
                         progress = progress.toInt(),
                         text = line
                     )
                 }
                 finishProcessing()
                 NotificationUtil.finishNotification(
+                    notificationID,
                     title = context.getString(R.string.download_success_msg),
                     text = null,
                     intent = null
@@ -219,6 +229,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 e.printStackTrace()
                 showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                 NotificationUtil.finishNotification(
+                    notificationID,
                     title = context.getString(R.string.download_error_msg),
                     text = e.message ?: context.getString(R.string.unknown_error),
                     intent = null

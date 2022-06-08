@@ -147,32 +147,33 @@ fun VideoListPage(
                             },
                             label = stringResource(id = R.string.video),
                         )
-                        AnimatedVisibility(visible = showUrlFilters && filterSet.isNotEmpty()) {
-                            Row {
-                                Divider(
-                                    modifier = Modifier
-                                        .padding(horizontal = 6.dp)
-                                        .height(24.dp)
-                                        .width(1.5f.dp)
-                                        .align(Alignment.CenterVertically),
-                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                                )
-                                for (filter in filterList) {
-                                    with(filter) {
-                                        FilterChipWithAnimatedIcon(
-                                            selected = selected.value,
-                                            onClick = {
-                                                filterList.forEach {
-                                                    if (it != this) it.selected.value = false
-                                                }
-                                                selected.value = !selected.value
-                                            },
-                                            label = name
-                                        )
+                        if (filterSet.isNotEmpty())
+                            AnimatedVisibility(visible = showUrlFilters) {
+                                Row {
+                                    Divider(
+                                        modifier = Modifier
+                                            .padding(horizontal = 6.dp)
+                                            .height(24.dp)
+                                            .width(1.5f.dp)
+                                            .align(Alignment.CenterVertically),
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                    )
+                                    for (filter in filterList) {
+                                        with(filter) {
+                                            FilterChipWithAnimatedIcon(
+                                                selected = selected.value,
+                                                onClick = {
+                                                    filterList.forEach {
+                                                        if (it != this) it.selected.value = false
+                                                    }
+                                                    selected.value = !selected.value
+                                                },
+                                                label = name
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
                     }
                 }
                 items(videoList.value.reversed()) {
