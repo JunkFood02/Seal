@@ -10,7 +10,7 @@ plugins {
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 8
-def versionBuild = 3
+def versionBuild = 4
 def isStable = false
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -39,7 +39,11 @@ android {
             versionName = "${versionMajor}.${versionMinor}.${versionPatch}-alpha0${versionBuild}"
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
     buildTypes {
         release {
@@ -121,8 +125,10 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     kapt("androidx.room:room-compiler:$room_version")
 
-    implementation 'com.github.yausername.youtubedl-android:library:-SNAPSHOT'
-    implementation 'com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT'
+//    implementation 'com.github.yausername.youtubedl-android:library:-SNAPSHOT'
+//    implementation 'com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT'
+    implementation 'com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2'
+    implementation 'com.github.JunkFood02.youtubedl-android:library:0.13.2'
 
     implementation 'com.tencent:mmkv:1.2.13'
     implementation "androidx.datastore:datastore-preferences:1.0.0"

@@ -32,7 +32,7 @@
     <string name="ytdlp_update">Click to update yt-dlp</string>
     <string name="delete_info">Remove from history?</string>
     <string name="delete_info_msg">Are you sure to remove \"%1$s\" from your download history? This operation cannot be
-        withdrawn.
+        undone.
     </string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>

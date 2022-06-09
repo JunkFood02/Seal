@@ -59,10 +59,10 @@ object DownloadUtil {
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
 
         with(request) {
-            addOption("--concurrent-fragments","16")
+            addOption("--concurrent-fragments", "16")
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
-            addOption("-o", "%(title).60s[%(extractor_key)s]$id.%(ext)s")
+            addOption("-o", "%(title).60s$id.%(ext)s")
             if (downloadPlaylist)
                 addOption("--yes-playlist")
             else
@@ -117,7 +117,9 @@ object DownloadUtil {
                             .first() else videoInfo.title,
                         videoInfo.uploader ?: "null",
                         url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""), path
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                        path,
+                        videoInfo.extractorKey
                     )
                 )
             }

@@ -58,9 +58,7 @@ fun VideoListItem(
                 ,
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .diskCacheKey(thumbnailUrl)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .networkCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.READ_ONLY)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),
@@ -137,7 +135,7 @@ fun AudioListItem(
                     .aspectRatio(1f, matchHeightConstraintsFirst = true),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.READ_ONLY)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),

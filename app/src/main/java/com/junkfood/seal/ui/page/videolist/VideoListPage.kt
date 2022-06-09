@@ -21,16 +21,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
-import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
-import java.util.regex.Pattern
 
-data class Filter(
+/*data class Filter(
     val name: String,
     val filterText: String,
     val selected: MutableState<Boolean>
+)*/
+data class Filter(
+    val index: Int,
+    val extractor: String,
 )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -59,35 +61,49 @@ fun VideoListPage(
     }
     val hapticFeedback = LocalHapticFeedback.current
 
+    /*   val filterSet = mutableSetOf<String>()
+       val filterList = mutableListOf<Filter>()
+       val createFilterFromList: (DownloadedVideoInfo) -> Unit = {
+           Pattern.compile("(\\[\\w+])").matcher(it.videoPath).let { matcher ->
+               while (matcher.find()) {
+                   val s = matcher.group()
+                   if (!it.videoTitle.contains(s))
+                       filterSet.add(s)
+               }
+           }
+       }
+       videoList.value.forEach(createFilterFromList)
+       audioList.value.forEach(createFilterFromList)
+
+       for (s in filterSet) {
+           filterList.add(Filter(s.removeSurrounding("[", "]"), s, remember { mutableStateOf(false) }))
+       }
+
+       fun filterPath(url: String, filter: Filter): Boolean {
+           return (!filter.selected.value or url.contains(filter.filterText))
+       }
+
+       fun filterPathInList(url: String): Boolean {
+           var res = true
+           for (filter in filterList) {
+               res = res.and(filterPath(url, filter))
+           }
+           return res
+       }*/
     val filterSet = mutableSetOf<String>()
     val filterList = mutableListOf<Filter>()
-    val createFilterFromList: (DownloadedVideoInfo) -> Unit = {
-        Pattern.compile("(\\[\\w+])").matcher(it.videoPath).let { matcher ->
-            while (matcher.find()) {
-                val s = matcher.group()
-                if (!it.videoTitle.contains(s))
-                    filterSet.add(s)
-            }
-        }
+
+    videoList.value.forEach { filterSet.add(it.extractor) }
+    audioList.value.forEach { filterSet.add(it.extractor) }
+    for (i in 0 until filterSet.size) {
+        filterList.add(Filter(i, filterSet.elementAt(i)))
     }
+    var activeFilter by remember { mutableStateOf(-1) }
 
-    videoList.value.forEach(createFilterFromList)
-    audioList.value.forEach(createFilterFromList)
-
-    for (s in filterSet) {
-        filterList.add(Filter(s.removeSurrounding("[", "]"), s, remember { mutableStateOf(false) }))
-    }
-
-    fun filterPath(url: String, filter: Filter): Boolean {
-        return (!filter.selected.value or url.contains(filter.filterText))
-    }
-
-    fun filterPathInList(url: String): Boolean {
-        var res = true
-        for (filter in filterList) {
-            res = res.and(filterPath(url, filter))
-        }
-        return res
+    fun filterByExtractor(extractor: String): Boolean {
+        return if (activeFilter == -1)
+            true
+        else filterList[activeFilter].extractor == extractor
     }
 
     Scaffold(
@@ -166,14 +182,12 @@ fun VideoListPage(
                                     for (filter in filterList) {
                                         with(filter) {
                                             FilterChipWithAnimatedIcon(
-                                                selected = selected.value,
+                                                selected = activeFilter == this.index,
                                                 onClick = {
-                                                    filterList.forEach {
-                                                        if (it != this) it.selected.value = false
-                                                    }
-                                                    selected.value = !selected.value
+                                                    activeFilter = if (activeFilter == this.index) -1
+                                                    else this.index
                                                 },
-                                                label = name
+                                                label = extractor
                                             )
                                         }
                                     }
@@ -183,7 +197,7 @@ fun VideoListPage(
                 }
                 items(videoList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !audioFilter.value and filterPathInList(it.videoPath)
+                        visible = !audioFilter.value and filterByExtractor(it.extractor)
                     )
                     {
                         with(it) {
@@ -199,7 +213,7 @@ fun VideoListPage(
                 }
                 items(audioList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !videoFilter.value and filterPathInList(it.videoPath)
+                        visible = !videoFilter.value and filterByExtractor(it.extractor)
                     ) {
                         with(it) {
                             AudioListItem(
