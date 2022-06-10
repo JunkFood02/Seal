@@ -15,7 +15,7 @@ import java.io.File
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
-        openFile(downloadResult.filePath?.get(0) ?: return)
+        openFileInURI(downloadResult.filePath?.get(0) ?: return)
     }
 
     fun openFile(path: String) {
@@ -31,6 +31,16 @@ object FileUtil {
                 if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
             )
         })
+    }
+
+    fun openFileInURI(path: String) {
+        MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
+            context.startActivity(Intent().apply {
+                action = (Intent.ACTION_VIEW)
+                data = uri
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
+        }
     }
 
     fun createIntentForOpenFile(downloadResult: DownloadUtil.Result): Intent? {
@@ -60,7 +70,10 @@ object FileUtil {
             }
                 ?: return null
         for (file in files) {
-            paths.add(file.absolutePath)
+            val trimmedFile = File(file.absolutePath.replace("$title.", "."))
+            if (file.renameTo(trimmedFile))
+                paths.add(trimmedFile.absolutePath)
+            else paths.add(file.absolutePath)
         }
         MediaScannerConnection.scanFile(
             context, paths.toTypedArray(),

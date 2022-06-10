@@ -11,6 +11,7 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 object DownloadUtil {
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
@@ -113,8 +114,7 @@ object DownloadUtil {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        if (filePaths.size > 1) path.split("$downloadDir/").last().split(id)
-                            .first() else videoInfo.title,
+                        if (filePaths.size > 1) File(path).nameWithoutExtension else videoInfo.title,
                         videoInfo.uploader ?: "null",
                         url,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),

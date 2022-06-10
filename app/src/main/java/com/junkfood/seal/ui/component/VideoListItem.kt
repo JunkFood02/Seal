@@ -4,8 +4,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
-import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 
@@ -58,19 +62,22 @@ fun VideoListItem(
                 ,
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.READ_ONLY)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),
                 contentScale = ContentScale.Crop
             ) {
-                val state = painter.state
-                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                    CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
-                } else {
+                if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error)
+                    Icon(
+                        Icons.Default.Movie,
+                        stringResource(R.string.video),
+                        modifier = Modifier.requiredSize(32.dp)
+                    )
+                else {
                     SubcomposeAsyncImageContent()
                 }
             }
+
             Column(
                 modifier = Modifier
                     .padding(start = 12.dp, end = 12.dp)
@@ -131,24 +138,27 @@ fun AudioListItem(
         ) {
             SubcomposeAsyncImage(
                 modifier = Modifier
-                    .fillMaxWidth(0.2f)
+                    .fillMaxWidth(0.25f)
                     .aspectRatio(1f, matchHeightConstraintsFirst = true),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.READ_ONLY)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),
                 contentScale = ContentScale.Crop
             ) {
-                val state = painter.state
-                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                    CircularProgressIndicator(modifier = Modifier.requiredSize(32.dp))
+                if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error) {
+//                        CircularProgressIndicator(modifier = Modifier.requiredSize(24.dp))
+                    Icon(
+                        Icons.Default.MusicNote,
+                        stringResource(R.string.audio),
+                        modifier = Modifier.requiredSize(24.dp)
+                    )
                 } else {
                     SubcomposeAsyncImageContent()
                 }
-
             }
+
 
             Column(
                 modifier = Modifier

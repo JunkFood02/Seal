@@ -206,7 +206,7 @@ fun VideoListPage(
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
+                                onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
                         }
                     }
@@ -221,7 +221,7 @@ fun VideoListPage(
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
+                                onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
                         }
                     }
