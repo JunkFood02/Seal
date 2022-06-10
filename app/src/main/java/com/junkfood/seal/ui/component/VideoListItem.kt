@@ -4,8 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,9 +19,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.AsyncImage
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 
@@ -54,14 +51,28 @@ fun VideoListItem(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            SubcomposeAsyncImage(
+            AsyncImage(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
+                    .fillMaxWidth(0.45f)
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                ,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .networkCachePolicy(CachePolicy.DISABLED)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.thumbnail),
+                contentScale = ContentScale.Crop
+            )
+/*            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth(0.45f)
                     .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
 //                  .clip(MaterialTheme.shapes.extraSmall)
                 ,
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
+                    .networkCachePolicy(CachePolicy.DISABLED)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),
@@ -76,7 +87,7 @@ fun VideoListItem(
                 else {
                     SubcomposeAsyncImageContent()
                 }
-            }
+            }*/
 
             Column(
                 modifier = Modifier
@@ -136,28 +147,41 @@ fun AudioListItem(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            SubcomposeAsyncImage(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth(0.25f)
                     .aspectRatio(1f, matchHeightConstraintsFirst = true),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
+                    .networkCachePolicy(CachePolicy.DISABLED)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),
                 contentScale = ContentScale.Crop
-            ) {
-                if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error) {
-//                        CircularProgressIndicator(modifier = Modifier.requiredSize(24.dp))
-                    Icon(
-                        Icons.Default.MusicNote,
-                        stringResource(R.string.audio),
-                        modifier = Modifier.requiredSize(24.dp)
-                    )
-                } else {
-                    SubcomposeAsyncImageContent()
-                }
-            }
+            )
+            /*          SubcomposeAsyncImage(
+                          modifier = Modifier
+                              .fillMaxWidth(0.25f)
+                              .aspectRatio(1f, matchHeightConstraintsFirst = true),
+                          model = ImageRequest.Builder(LocalContext.current)
+                              .data(thumbnailUrl)
+                              .networkCachePolicy(CachePolicy.DISABLED)
+                              .crossfade(true)
+                              .build(),
+                          contentDescription = stringResource(R.string.thumbnail),
+                          contentScale = ContentScale.Crop
+                      ) {
+                          if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error) {
+          //                        CircularProgressIndicator(modifier = Modifier.requiredSize(24.dp))
+                              Icon(
+                                  Icons.Default.MusicNote,
+                                  stringResource(R.string.audio),
+                                  modifier = Modifier.requiredSize(24.dp)
+                              )
+                          } else {
+                              SubcomposeAsyncImageContent()
+                          }
+                      }*/
 
 
             Column(

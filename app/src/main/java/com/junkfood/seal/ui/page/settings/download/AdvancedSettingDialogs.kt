@@ -6,13 +6,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
+import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommandTemplateDialog(
     onDismissRequest: () -> Unit,
@@ -62,6 +64,42 @@ fun CommandTemplateDialog(
                     }
 
                 }
+            }
+        })
+}
+
+@Composable
+fun ConcurrentDownloadDialog(
+    onDismissRequest: () -> Unit,
+) {
+    var concurrentFragments by remember { mutableStateOf(PreferenceUtil.getConcurrentFragments()) }
+    val count by remember {
+        derivedStateOf {
+            if (concurrentFragments <= 0.125f) 1 else
+                ((concurrentFragments * 4f).roundToInt()) * 4
+        }
+    }
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(R.string.dismiss))
+            }
+        }, confirmButton = {
+            TextButton(onClick = {
+                onDismissRequest()
+                PreferenceUtil.updateInt(CONCURRENT, count)
+            }) {
+                Text(stringResource(R.string.confirm))
+            }
+        }, title = { Text(stringResource(R.string.concurrent_download)) }, text = {
+            Column {
+                Text(text = stringResource(R.string.concurrent_download_num, count))
+                Slider(
+                    value = concurrentFragments,
+                    onValueChange = { concurrentFragments = it },
+                    steps = 3, valueRange = 0f..1f
+                )
             }
         })
 }

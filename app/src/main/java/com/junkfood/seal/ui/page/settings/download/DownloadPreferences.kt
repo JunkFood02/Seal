@@ -57,6 +57,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
 
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
@@ -250,21 +251,6 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                 }*/
                 item {
                     PreferenceSwitch(
-                        title = stringResource(id = R.string.download_playlist),
-                        onClick = {
-                            downloadPlaylist = !downloadPlaylist
-                            PreferenceUtil.updateValue(
-                                PLAYLIST,
-                                downloadPlaylist
-                            )
-                        }, icon = Icons.Outlined.PlaylistAddCheck,
-                        enabled = !customCommandEnable,
-                        description = stringResource(R.string.download_playlist_desc),
-                        isChecked = downloadPlaylist
-                    )
-                }
-                item {
-                    PreferenceSwitch(
                         title = stringResource(R.string.error_report),
                         description = stringResource(R.string.error_report_desc),
                         enabled = !customCommandEnable,
@@ -306,6 +292,29 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
 
                 item {
                     Subtitle(text = stringResource(R.string.advanced_settings))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.download_playlist),
+                        onClick = {
+                            downloadPlaylist = !downloadPlaylist
+                            PreferenceUtil.updateValue(
+                                PLAYLIST,
+                                downloadPlaylist
+                            )
+                        }, icon = Icons.Outlined.PlaylistAddCheck,
+                        enabled = !customCommandEnable,
+                        description = stringResource(R.string.download_playlist_desc),
+                        isChecked = downloadPlaylist
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.concurrent_download),
+                        description = stringResource(R.string.concurrent_download_desc),
+                        icon = Icons.Outlined.Speed,
+                        enabled = !customCommandEnable
+                    ) { showConcurrentDownloadDialog = true }
                 }
                 item {
                     PreferenceSwitch(
@@ -361,6 +370,11 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
     }
     if (showVideoFormatDialog) {
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {
+        }
+    }
+    if (showConcurrentDownloadDialog) {
+        ConcurrentDownloadDialog {
+            showConcurrentDownloadDialog = false
         }
     }
 }

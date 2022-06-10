@@ -89,7 +89,9 @@ fun DownloadPage(
             FABs(
                 Modifier
                     .align(Alignment.BottomEnd)
-                    .systemBarsPadding(),
+                    .systemBarsPadding()
+                    .imePadding(),
+
                 downloadCallback = {
                     if (PreferenceUtil.getValue(CONFIGURE, true) and !PreferenceUtil.getValue(
                             CUSTOM_COMMAND

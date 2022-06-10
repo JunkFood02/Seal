@@ -3,9 +3,7 @@ package com.junkfood.seal.ui.page.videolist
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +12,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -60,36 +57,6 @@ fun VideoListPage(
         )
     }
     val hapticFeedback = LocalHapticFeedback.current
-
-    /*   val filterSet = mutableSetOf<String>()
-       val filterList = mutableListOf<Filter>()
-       val createFilterFromList: (DownloadedVideoInfo) -> Unit = {
-           Pattern.compile("(\\[\\w+])").matcher(it.videoPath).let { matcher ->
-               while (matcher.find()) {
-                   val s = matcher.group()
-                   if (!it.videoTitle.contains(s))
-                       filterSet.add(s)
-               }
-           }
-       }
-       videoList.value.forEach(createFilterFromList)
-       audioList.value.forEach(createFilterFromList)
-
-       for (s in filterSet) {
-           filterList.add(Filter(s.removeSurrounding("[", "]"), s, remember { mutableStateOf(false) }))
-       }
-
-       fun filterPath(url: String, filter: Filter): Boolean {
-           return (!filter.selected.value or url.contains(filter.filterText))
-       }
-
-       fun filterPathInList(url: String): Boolean {
-           var res = true
-           for (filter in filterList) {
-               res = res.and(filterPath(url, filter))
-           }
-           return res
-       }*/
     val filterSet = mutableSetOf<String>()
     val filterList = mutableListOf<Filter>()
 
@@ -99,11 +66,9 @@ fun VideoListPage(
         filterList.add(Filter(i, filterSet.elementAt(i)))
     }
     var activeFilter by remember { mutableStateOf(-1) }
-
+    if (activeFilter >= filterSet.size) activeFilter = -1
     fun filterByExtractor(extractor: String): Boolean {
-        return if (activeFilter == -1)
-            true
-        else filterList[activeFilter].extractor == extractor
+        return if (activeFilter == -1) true else filterList[activeFilter].extractor == extractor
     }
 
     Scaffold(
@@ -115,14 +80,14 @@ fun VideoListPage(
                     Text(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
-                            .combinedClickable(indication = null,
+/*                            .combinedClickable(indication = null,
                                 interactionSource = remember { MutableInteractionSource() },
                                 onClick = {},
                                 onLongClick = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                     showUrlFilters = !showUrlFilters
                                     PreferenceUtil.updateValue("show_filters", showUrlFilters)
-                                }),
+                                })*/,
                         text = stringResource(R.string.downloads_history)
                     )
                 },
@@ -168,38 +133,35 @@ fun VideoListPage(
                             },
                             label = stringResource(id = R.string.video),
                         )
-                        if (filterSet.isNotEmpty())
-                            AnimatedVisibility(visible = showUrlFilters) {
-                                Row {
-                                    Divider(
-                                        modifier = Modifier
-                                            .padding(horizontal = 6.dp)
-                                            .height(24.dp)
-                                            .width(1.5f.dp)
-                                            .align(Alignment.CenterVertically),
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                                    )
-                                    for (filter in filterList) {
-                                        with(filter) {
-                                            FilterChipWithAnimatedIcon(
-                                                selected = activeFilter == this.index,
-                                                onClick = {
-                                                    activeFilter = if (activeFilter == this.index) -1
+                        if (filterSet.size > 1) {
+                            Row {
+                                Divider(
+                                    modifier = Modifier
+                                        .padding(horizontal = 6.dp)
+                                        .height(24.dp)
+                                        .width(1f.dp)
+                                        .align(Alignment.CenterVertically),
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                )
+                                for (filter in filterList) {
+                                    with(filter) {
+                                        FilterChipWithAnimatedIcon(
+                                            selected = activeFilter == this.index,
+                                            onClick = {
+                                                activeFilter =
+                                                    if (activeFilter == this.index) -1
                                                     else this.index
-                                                },
-                                                label = extractor
-                                            )
-                                        }
+                                            },
+                                            label = extractor
+                                        )
                                     }
                                 }
                             }
+                        }
                     }
                 }
                 items(videoList.value.reversed()) {
-                    AnimatedVisibility(
-                        visible = !audioFilter.value and filterByExtractor(it.extractor)
-                    )
-                    {
+                    AnimatedVisibility(visible = !audioFilter.value && filterByExtractor(it.extractor)) {
                         with(it) {
                             VideoListItem(
                                 title = videoTitle,
@@ -208,12 +170,14 @@ fun VideoListPage(
                                 videoUrl = videoUrl,
                                 onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
+
                         }
                     }
+
                 }
                 items(audioList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !videoFilter.value and filterByExtractor(it.extractor)
+                        visible = !videoFilter.value && filterByExtractor(it.extractor)
                     ) {
                         with(it) {
                             AudioListItem(
@@ -224,6 +188,7 @@ fun VideoListPage(
                                 onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
                         }
+
                     }
                 }
             }

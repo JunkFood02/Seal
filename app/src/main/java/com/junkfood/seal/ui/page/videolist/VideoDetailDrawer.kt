@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.OpenInNew
-import androidx.compose.material.icons.outlined.PlaylistRemove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -90,7 +90,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                         videoListViewModel.hideDrawer(scope)
                         videoListViewModel.showDialog()
                     },
-                    icon = Icons.Outlined.PlaylistRemove,
+                    icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.remove)
                 )
 

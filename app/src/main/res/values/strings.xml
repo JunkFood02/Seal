@@ -125,5 +125,8 @@
     <string name="execute_command_notification">Executing custom commands</string>
     <string name="battery_settings_desc">"For downloading in background, please set battery usage of this app to \"Unrestricted\" in system settings."
     </string>
+    <string name="concurrent_download">Concurrent download</string>
+    <string name="concurrent_download_desc">Download multiple fragments of m3u8/mpd videos in parallel</string>
+    <string name="concurrent_download_num">%d thread(s) would be used to download dash/hlsnative video concurrently.</string>
 
 </resources>

@@ -10,10 +10,7 @@ import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -24,8 +21,10 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor() : ViewModel() {
 
     data class VideoListViewState constructor(
-        val videoListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getVideoInfo(),
-        val audioListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getAudioInfo(),
+        val videoListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getVideoInfo()
+            .distinctUntilChanged(),
+        val audioListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getAudioInfo()
+            .distinctUntilChanged(),
     )
 
     data class VideoDetailViewState(
@@ -86,7 +85,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
                 DatabaseUtil.deleteInfoById(_detailViewState.value.id)
             }
         }
-
     }
 
     private val _detailViewState = MutableStateFlow(VideoDetailViewState())

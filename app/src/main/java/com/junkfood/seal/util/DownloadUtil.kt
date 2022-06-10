@@ -12,6 +12,7 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import kotlin.math.roundToInt
 
 object DownloadUtil {
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
@@ -56,11 +57,11 @@ object DownloadUtil {
         val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
+        val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
 
         with(request) {
-            addOption("--concurrent-fragments", "16")
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
             addOption("-o", "%(title).60s$id.%(ext)s")
@@ -98,6 +99,9 @@ object DownloadUtil {
                 }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
+            }
+            if (concurrentFragments > 0f) {
+                addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
             }
             if (createThumbnail) {
                 addOption("--write-thumbnail")

@@ -64,7 +64,7 @@ fun PreferenceItem(
                         Text(
                             text = description,
                             color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                            maxLines = 1, overflow = TextOverflow.Ellipsis,
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
                             style = typography.bodyMedium,
                         )
                 }
