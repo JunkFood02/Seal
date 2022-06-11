@@ -10,15 +10,33 @@ import java.util.regex.Pattern
 object TextUtil {
 
     fun matchUrlFromClipboard(s: String): String? {
+        matchUrlFromString(s).run {
+            if (isNullOrEmpty())
+                makeToast(R.string.paste_fail_msg)
+            else
+                makeToast(R.string.paste_msg)
+            return this
+        }
+    }
+
+    fun matchUrlFromSharedText(s: String): String? {
+        matchUrlFromString(s).run {
+            if (isNullOrEmpty())
+                makeToast(R.string.share_fail_msg)
+            else
+                makeToast(R.string.share_success_msg)
+            return this
+        }
+    }
+
+    private fun matchUrlFromString(s: String): String? {
         val pattern =
             Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
         with(pattern.matcher(s)) {
             if (find()) {
-                makeToast(R.string.paste_msg)
                 return group()
             }
         }
-        makeToast(R.string.paste_fail_msg)
         return null
     }
 

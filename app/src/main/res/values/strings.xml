@@ -131,4 +131,6 @@
     <string name="options">Options</string>
     <string name="additional_settings">Additional settings</string>
     <string name="quality">Quality</string>
+    <string name="share_fail_msg">Unable to match URL from shared content</string>
+    <string name="share_success_msg">Obtain video link from shared content</string>
 </resources>

@@ -117,4 +117,6 @@
     <string name="options">选项</string>
     <string name="additional_settings">附加设置</string>
     <string name="quality">画质</string>
+    <string name="share_fail_msg">未能从分享内容中匹配到视频链接</string>
+    <string name="share_success_msg">从分享内容获取视频链接</string>
 </resources>
