@@ -1,5 +1,7 @@
 package com.junkfood.seal.ui.page.settings.download
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -8,6 +10,7 @@ import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
@@ -18,16 +21,21 @@ import kotlin.math.roundToInt
 @Composable
 fun CommandTemplateDialog(
     onDismissRequest: () -> Unit,
-    confirmationCallback: () -> Unit,
-    template: String,
-    onValueChange: (String) -> Unit,
-    onClick: () -> Unit
+    confirmationCallback: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
+    var template by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
+
     AlertDialog(
         title = { Text(stringResource(R.string.edit_custom_command_template)) },
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = confirmationCallback) {
+            TextButton(onClick = {
+                PreferenceUtil.updateString(PreferenceUtil.TEMPLATE, template)
+                confirmationCallback()
+                onDismissRequest()
+            }) {
                 Text(stringResource(id = R.string.confirm))
             }
         },
@@ -45,13 +53,18 @@ fun CommandTemplateDialog(
                 OutlinedTextField(
                     modifier = Modifier.padding(vertical = 12.dp),
                     value = template,
-                    onValueChange = onValueChange,
+                    onValueChange = { template = it },
                     label = { Text(stringResource(R.string.custom_command_template)) })
 
                 TextButton(
-                    onClick = onClick,
+                    onClick = {
+                        context.startActivity(Intent().apply {
+                            action = Intent.ACTION_VIEW
+                            data = Uri.parse(ytdlpReference)
+                        })
+                    },
                 ) {
-                    Row() {
+                    Row {
                         Icon(
                             modifier = Modifier.size(18.dp),
                             imageVector = Icons.Outlined.OpenInNew,
@@ -62,7 +75,6 @@ fun CommandTemplateDialog(
                             text = stringResource(R.string.yt_dlp_docs)
                         )
                     }
-
                 }
             }
         })

@@ -41,7 +41,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
@@ -82,81 +81,78 @@ fun DownloadPage(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        BackHandler(viewState.value.drawerState.isVisible) {
-            downloadViewModel.hideDrawer(scope)
-        }
-        Box(modifier = Modifier.fillMaxSize()) {
-            FABs(
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .systemBarsPadding()
-                    .imePadding(),
-
-                downloadCallback = {
-                    if (PreferenceUtil.getValue(CONFIGURE, true) and !PreferenceUtil.getValue(
-                            CUSTOM_COMMAND
-                        )
-                    )
-                        downloadViewModel.showDrawer(scope)
-                    else checkPermissionOrDownload()
-                }
-            ) {
-                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                    ?.let { downloadViewModel.updateUrl(it) }
+        with(viewState.value) {
+            BackHandler(drawerState.isVisible) {
+                downloadViewModel.hideDrawer(scope)
             }
-            Column(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .fillMaxSize()
-            ) {
-                SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
-                    title = {},
-                    navigationIcon =
-                    {
-                        IconButton(
-                            onClick = { navController.navigate(Route.SETTINGS) }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Settings,
-                                contentDescription = stringResource(id = R.string.settings)
-                            )
-                        }
+            Box(modifier = Modifier.fillMaxSize()) {
+                FABs(
+                    with(
+                        Modifier
+                            .align(Alignment.BottomEnd)
+                            .systemBarsPadding()
+                    ) {
+                        if (showVideoCard) this else this.imePadding()
                     },
-                    actions = {
-                        IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Subscriptions,
-                                contentDescription = stringResource(id = R.string.downloads_history)
+                    downloadCallback = {
+                        if (PreferenceUtil.getValue(CONFIGURE, true))
+                            downloadViewModel.showDrawer(scope)
+                        else checkPermissionOrDownload()
+                    }
+                ) {
+                    TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                        ?.let { downloadViewModel.updateUrl(it) }
+                }
+                Column(
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .fillMaxSize()
+                ) {
+                    SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
+                        title = {},
+                        navigationIcon =
+                        {
+                            IconButton(
+                                onClick = { navController.navigate(Route.SETTINGS) }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = stringResource(id = R.string.settings)
+                                )
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Subscriptions,
+                                    contentDescription = stringResource(id = R.string.downloads_history)
+                                )
+                            }
+                        })
+                    Row(
+                        modifier = Modifier
+                            .padding(start = 24.dp, top = 36.dp)
+                            .combinedClickable(indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                onClick = {},
+                                onLongClick = {
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    PreferenceUtil.updateInt(
+                                        WELCOME_DIALOG, 1
+                                    )
+                                })
+                    ) {
+                        Text(
+                            text = context.getString(R.string.app_name),
+                            style = MaterialTheme.typography.displaySmall
+                        )
+                        AnimatedVisibility(visible = isProcessing) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .padding(start = 12.dp)
+                                    .size(16.dp), strokeWidth = 3.dp
                             )
                         }
-                    })
-                Row(
-                    modifier = Modifier
-                        .padding(start = 24.dp, top = 36.dp)
-                        .combinedClickable(indication = null,
-                            interactionSource = remember { MutableInteractionSource() },
-                            onClick = {},
-                            onLongClick = {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                PreferenceUtil.updateInt(
-                                    WELCOME_DIALOG, 1
-                                )
-                            })
-                ) {
-                    Text(
-                        text = context.getString(R.string.app_name),
-                        style = MaterialTheme.typography.displaySmall
-                    )
-                    AnimatedVisibility(visible = viewState.value.isProcessing) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(start = 12.dp)
-                                .size(16.dp), strokeWidth = 3.dp
-                        )
                     }
-
-                }
-
-                with(viewState.value) {
                     Column(Modifier.padding(24.dp)) {
                         AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
@@ -184,11 +180,11 @@ fun DownloadPage(
                     }
                 }
             }
-        }
-        DownloadSettingDialog(
-            drawerState = viewState.value.drawerState,
-            confirm = { checkPermissionOrDownload() }) {
-            downloadViewModel.hideDrawer(scope)
+            DownloadSettingDialog(
+                drawerState = drawerState,
+                confirm = { checkPermissionOrDownload() }) {
+                downloadViewModel.hideDrawer(scope)
+            }
         }
     }
 

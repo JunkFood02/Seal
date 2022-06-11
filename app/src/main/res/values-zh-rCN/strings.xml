@@ -83,7 +83,7 @@
     <string name="convert_to">转换为 %1$s 格式</string>
     <string name="format">格式</string>
     <string name="audio_format_desc">mp3 或 m4a 格式的音频与大多数设备兼容</string>
-    <string name="quality">视频画质</string>
+    <string name="video_quality">视频画质</string>
     <string name="best_quality">最高画质（默认）</string>
     <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
     <string name="not_specified">默认</string>
@@ -113,5 +113,8 @@
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”</string>
     <string name="concurrent_download">并发下载</string>
     <string name="concurrent_download_desc">使用多线程下载 m3u8/mpd 视频</string>
-    <string name="concurrent_download_num">将同时使用 %d 个线程下载 DASH / HLS 流视频</string>
+    <string name="concurrent_download_num">将同时使用 %d 个线程下载 HLS/DASH 流视频</string>
+    <string name="options">选项</string>
+    <string name="additional_settings">附加设置</string>
+    <string name="quality">画质</string>
 </resources>

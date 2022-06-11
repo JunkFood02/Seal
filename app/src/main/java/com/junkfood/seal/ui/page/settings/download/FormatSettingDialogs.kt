@@ -16,7 +16,7 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
 
 @Composable
-fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
+fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
     var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioFormat()) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -44,18 +44,18 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
                     text = stringResource(R.string.audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for(i in 0..2)
-                SingleChoiceItem(
-                    text = PreferenceUtil.getAudioFormatDesc(i),
-                    selected = audioFormat == i
-                ) { audioFormat = i }
+                for (i in 0..2)
+                    SingleChoiceItem(
+                        text = PreferenceUtil.getAudioFormatDesc(i),
+                        selected = audioFormat == i
+                    ) { audioFormat = i }
             }
         })
 }
 
 
 @Composable
-fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
+fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormat()) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -83,7 +83,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
                     text = stringResource(R.string.video_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for(i in 0..2)
+                for (i in 0..2)
                     SingleChoiceItem(
                         text = PreferenceUtil.getVideoFormatDesc(i),
                         selected = videoFormat == i
@@ -94,7 +94,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
 
 
 @Composable
-fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
+fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
     var videoQuality by remember { mutableStateOf(PreferenceUtil.getVideoQuality()) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -104,7 +104,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
             }
         },
         title = {
-            Text(stringResource(R.string.quality))
+            Text(stringResource(R.string.video_quality))
         }, confirmButton = {
             TextButton(onClick = {
                 PreferenceUtil.updateInt(PreferenceUtil.VIDEO_QUALITY, videoQuality)
@@ -122,7 +122,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit) {
                     text = stringResource(R.string.video_quality_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for(i in 0..4)
+                for (i in 0..4)
                     SingleChoiceItem(
                         text = PreferenceUtil.getVideoQualityDesc(i),
                         selected = videoQuality == i

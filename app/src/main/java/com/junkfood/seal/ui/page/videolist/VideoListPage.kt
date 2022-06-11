@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,26 +12,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.PreferenceUtil
 
-/*data class Filter(
-    val name: String,
-    val filterText: String,
-    val selected: MutableState<Boolean>
-)*/
 data class Filter(
     val index: Int,
     val extractor: String,
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListPage(
     videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
@@ -48,27 +40,19 @@ fun VideoListPage(
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }
     val videoFilter = remember { mutableStateOf(false) }
-    var showUrlFilters by remember {
-        mutableStateOf(
-            PreferenceUtil.getValue(
-                "show_filters",
-                false
-            )
-        )
-    }
-    val hapticFeedback = LocalHapticFeedback.current
-    val filterSet = mutableSetOf<String>()
-    val filterList = mutableListOf<Filter>()
 
-    videoList.value.forEach { filterSet.add(it.extractor) }
-    audioList.value.forEach { filterSet.add(it.extractor) }
-    for (i in 0 until filterSet.size) {
-        filterList.add(Filter(i, filterSet.elementAt(i)))
+    val filterSet = remember(videoList.value, audioList.value) {
+        with(mutableSetOf<String>()) {
+            videoList.value.forEach { add(it.extractor) }
+            audioList.value.forEach { add(it.extractor) }
+            this
+        }
     }
-    var activeFilter by remember { mutableStateOf(-1) }
-    if (activeFilter >= filterSet.size) activeFilter = -1
+
+    var activeFilter by remember(filterSet) { mutableStateOf(-1) }
+
     fun filterByExtractor(extractor: String): Boolean {
-        return if (activeFilter == -1) true else filterList[activeFilter].extractor == extractor
+        return if (activeFilter == -1) true else filterSet.elementAt(activeFilter) == extractor
     }
 
     Scaffold(
@@ -78,16 +62,7 @@ fun VideoListPage(
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-/*                            .combinedClickable(indication = null,
-                                interactionSource = remember { MutableInteractionSource() },
-                                onClick = {},
-                                onLongClick = {
-                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    showUrlFilters = !showUrlFilters
-                                    PreferenceUtil.updateValue("show_filters", showUrlFilters)
-                                })*/,
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         text = stringResource(R.string.downloads_history)
                     )
                 },
@@ -114,7 +89,7 @@ fun VideoListPage(
                         Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState())
-                            .padding(6.dp)
+                            .padding(8.dp)
                     ) {
                         FilterChipWithAnimatedIcon(
                             selected = audioFilter.value,
@@ -143,18 +118,17 @@ fun VideoListPage(
                                         .align(Alignment.CenterVertically),
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
-                                for (filter in filterList) {
-                                    with(filter) {
-                                        FilterChipWithAnimatedIcon(
-                                            selected = activeFilter == this.index,
-                                            onClick = {
-                                                activeFilter =
-                                                    if (activeFilter == this.index) -1
-                                                    else this.index
-                                            },
-                                            label = extractor
-                                        )
-                                    }
+                                for (i in 0 until filterSet.size) {
+                                    FilterChipWithAnimatedIcon(
+                                        selected = activeFilter == i,
+                                        onClick = {
+                                            activeFilter =
+                                                if (activeFilter == i) -1
+                                                else i
+                                        },
+                                        label = filterSet.elementAt(i)
+                                    )
+
                                 }
                             }
                         }

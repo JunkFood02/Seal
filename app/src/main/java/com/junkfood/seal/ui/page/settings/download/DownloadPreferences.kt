@@ -35,7 +35,6 @@ import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
@@ -50,7 +49,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun DownloadPreferences(onBackPressed: () -> Unit) {
     val context = LocalContext.current
-    val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
 
     var showTemplateEditDialog by remember { mutableStateOf(false) }
@@ -177,7 +175,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(id = R.string.settings_before_download),
                         description = stringResource(
                             id = R.string.settings_before_download_desc
-                        ), enabled = !customCommandEnable,
+                        ),
                         icon = Icons.Outlined.DoneAll,
                         isChecked = configureBeforeDownload,
                         onClick = {
@@ -228,27 +226,6 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                     )
                 }
 
-/*                item {
-                    var openSwitch by remember {
-                        mutableStateOf(
-                            PreferenceUtil.getValue(
-                                OPEN_IMMEDIATELY
-                            )
-                        )
-                    }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.open_when_finish),
-                        description = stringResource(
-                            id = R.string.open_when_finish_summary
-                        ), enabled = !customCommandEnable,
-                        icon = Icons.Outlined.FileOpen,
-                        isChecked = openSwitch,
-                        onClick = {
-                            openSwitch = !openSwitch
-                            PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
-                        }
-                    )
-                }*/
                 item {
                     PreferenceSwitch(
                         title = stringResource(R.string.error_report),
@@ -275,7 +252,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(id = R.string.quality),
+                        title = stringResource(id = R.string.video_quality),
                         description = getVideoQualityDesc(),
                         icon = Icons.Outlined._4k,
                         enabled = !customCommandEnable and !audioSwitch
@@ -341,24 +318,12 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
         }
     )
     if (showTemplateEditDialog) {
-        val temp = PreferenceUtil.getTemplate()
         CommandTemplateDialog(
-            onDismissRequest = {
-                customCommandTemplate = temp
-                showTemplateEditDialog = false
-            },
+            onDismissRequest = { showTemplateEditDialog = false },
             confirmationCallback = {
-                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate)
-                showTemplateEditDialog = false
+                customCommandTemplate = PreferenceUtil.getTemplate()
             },
-            onValueChange = { s -> customCommandTemplate = s },
-            template = customCommandTemplate
-        ) {
-            context.startActivity(Intent().apply {
-                action = Intent.ACTION_VIEW
-                data = Uri.parse(ytdlpReference)
-            })
-        }
+        )
     }
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {

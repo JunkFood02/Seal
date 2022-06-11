@@ -35,7 +35,7 @@
         undone.
     </string>
     <string name="confirm">Confirm</string>
-    <string name="dismiss">Dismiss</string>
+    <string name="dismiss">Cancel</string>
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Link copied to clipboard</string>
@@ -90,7 +90,7 @@
     <string name="convert_to">Convert to %1$s</string>
     <string name="format">Format</string>
     <string name="audio_format_desc">Audio in mp3 or m4a format is compatible with most devices</string>
-    <string name="quality">Video quality</string>
+    <string name="video_quality">Video quality</string>
     <string name="best_quality">Best quality (Default)</string>
     <string name="video_quality_desc">Download the best video with quality no better than the resolution selected
     </string>
@@ -98,7 +98,7 @@
     <string name="video_format_preference">Video format preference</string>
     <string name="video_format_desc">Preferred video format when multiple formats being provided</string>
     <string name="video_format">Video format</string>
-    <string name="convert_audio">Convert audio</string>
+    <string name="convert_audio">Audio convert</string>
     <string name="start_download">Start download</string>
     <string name="close">Close</string>
     <string name="close_never_show_again">Don\'t show up again</string>
@@ -128,5 +128,7 @@
     <string name="concurrent_download">Concurrent download</string>
     <string name="concurrent_download_desc">Download multiple fragments of m3u8/mpd videos in parallel</string>
     <string name="concurrent_download_num">%d thread(s) would be used to download dash/hlsnative video concurrently.</string>
-
+    <string name="options">Options</string>
+    <string name="additional_settings">Additional settings</string>
+    <string name="quality">Quality</string>
 </resources>

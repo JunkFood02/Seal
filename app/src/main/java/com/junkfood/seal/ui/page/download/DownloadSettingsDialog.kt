@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
@@ -31,14 +32,16 @@ import com.junkfood.seal.util.PreferenceUtil
 fun DownloadSettingDialog(
     drawerState: ModalBottomSheetState,
     confirm: () -> Unit,
-    cancel: () -> Unit
+    hide: () -> Unit
 ) {
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)) }
-//    var open by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY)) }
+    var customCommand by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)) }
+
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showCustomCommandDialog by remember { mutableStateOf(false) }
 
     BottomDrawer(drawerState = drawerState, sheetContent = {
         Icon(
@@ -57,56 +60,65 @@ fun DownloadSettingDialog(
             text = stringResource(R.string.settings_before_download_text),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
+        DrawerSheetSubtitle(text = stringResource(id = R.string.options))
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
             FilterChipWithAnimatedIcon(
                 selected = audio,
+                enabled = !customCommand,
                 onClick = { audio = !audio },
                 label = stringResource(R.string.extract_audio)
             )
             FilterChipWithAnimatedIcon(
-                selected = thumbnail,
+                selected = thumbnail, enabled = !customCommand,
                 onClick = { thumbnail = !thumbnail },
                 label = stringResource(R.string.create_thumbnail)
             )
-/*            FilterChipWithAnimatedIcon(
-                selected = open,
-                onClick = { open = !open },
-                label = stringResource(R.string.open_when_finish)
-            )*/
+
+
+            FilterChipWithAnimatedIcon(
+                selected = customCommand,
+                onClick = { customCommand = !customCommand },
+                label = stringResource(R.string.custom_command)
+            )
         }
 
-        DrawerSheetSubtitle(text = stringResource(id = R.string.format))
+        DrawerSheetSubtitle(text = stringResource(id = R.string.additional_settings))
         Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
+            modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
             AnimatedVisibility(visible = !audio) {
+                Row{
                 ButtonChip(
-                    onClick = { showVideoFormatDialog = true },
+                    onClick = { showVideoFormatDialog = true }, enabled = !customCommand && !audio,
                     label = stringResource(R.string.video_format),
                     icon = Icons.Outlined.VideoFile
                 )
-            }
-            AnimatedVisibility(visible = !audio) {
+
                 ButtonChip(
-                    onClick = { showVideoQualityDialog = true },
-                    label = stringResource(R.string.quality),
+                    onClick = { showVideoQualityDialog = true }, enabled = !customCommand && !audio,
+                    label = stringResource(R.string.video_quality),
                     icon = Icons.Outlined._4k
-                )
+                )}
             }
             AnimatedVisibility(visible = audio) {
                 ButtonChip(
-                    onClick = { showAudioFormatEditDialog = true },
+                    onClick = { showAudioFormatEditDialog = true }, enabled = !customCommand,
                     label = stringResource(R.string.convert_audio),
                     icon = Icons.Outlined.AudioFile
                 )
             }
+            ButtonChip(
+                onClick = { showCustomCommandDialog = true },
+                label = stringResource(
+                    R.string.edit_custom_command_template
+                ),
+                icon = Icons.Outlined.Code, enabled = customCommand
+            )
+
         }
 
         Row(
@@ -117,7 +129,7 @@ fun DownloadSettingDialog(
 
             OutlinedButtonWithIcon(
                 modifier = Modifier.padding(horizontal = 12.dp),
-                onClick = cancel,
+                onClick = hide,
                 icon = Icons.Outlined.Cancel,
                 text = stringResource(R.string.cancel)
             )
@@ -126,8 +138,8 @@ fun DownloadSettingDialog(
                 onClick = {
                     PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
                     PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
-//                    PreferenceUtil.updateValue(PreferenceUtil.OPEN_IMMEDIATELY, open)
-                    cancel()
+                    PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
+                    hide()
                     confirm()
                 }, icon = Icons.Outlined.DownloadDone,
                 text = stringResource(R.string.start_download)
@@ -138,12 +150,15 @@ fun DownloadSettingDialog(
     )
 
     if (showAudioFormatEditDialog) {
-        AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {}
+        AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false })
     }
     if (showVideoQualityDialog) {
-        VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {}
+        VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false })
     }
     if (showVideoFormatDialog) {
-        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {}
+        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
+    }
+    if (showCustomCommandDialog) {
+        CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = false })
     }
 }

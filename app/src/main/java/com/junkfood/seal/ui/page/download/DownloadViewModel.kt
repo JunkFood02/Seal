@@ -185,18 +185,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             downloadResultTemp = DownloadUtil.Result.failure()
             try {
-                val videoInfo: VideoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
-                with(videoInfo) {
-                    if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
-                        _viewState.update {
-                            it.copy(
-                                videoTitle = title,
-                                videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
-                                videoAuthor = uploader ?: "null",
-                                showVideoCard = true
-                            )
-                        }
-                }
+                if (viewState.value.url.isNotEmpty())
+                    with(DownloadUtil.fetchVideoInfo(viewState.value.url)) {
+                        if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
+                            _viewState.update {
+                                it.copy(
+                                    videoTitle = title,
+                                    videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
+                                    videoAuthor = uploader ?: "null",
+                                    showVideoCard = true
+                                )
+                            }
+                    }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
