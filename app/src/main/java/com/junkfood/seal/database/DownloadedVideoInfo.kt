@@ -1,5 +1,6 @@
 package com.junkfood.seal.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,6 +11,8 @@ data class DownloadedVideoInfo(
     val videoAuthor: String,
     val videoUrl: String,
     val thumbnailUrl: String,
-    val videoPath: String
+    val videoPath: String,
+    @ColumnInfo(defaultValue = "Unknown")
+    val extractor: String = "Unknown"
 )
 

@@ -2,10 +2,7 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,28 +11,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.PreferenceUtil
 
 data class Filter(
-    val name: String,
-    val regex: String,
-    val selected: MutableState<Boolean>
+    val index: Int,
+    val extractor: String,
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListPage(
-    navController: NavController, videoListViewModel: VideoListViewModel = hiltViewModel()
+    videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
 ) {
     val viewState = videoListViewModel.viewState.collectAsState()
     val videoList = viewState.value.videoListFlow.collectAsState(ArrayList())
@@ -48,35 +40,20 @@ fun VideoListPage(
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }
     val videoFilter = remember { mutableStateOf(false) }
-    var showUrlFilters by remember {
-        mutableStateOf(
-            PreferenceUtil.getValue(
-                "show_filters",
-                false
-            )
-        )
-    }
-    val hapticFeedback = LocalHapticFeedback.current
-    val filterList = listOf(
-        Filter("Bilibili", "(b23\\.tv)|(bilibili)", remember { mutableStateOf(false) }),
-        Filter("YouTube", "youtu", remember { mutableStateOf(false) }),
-        Filter("NicoNico", "nico", remember { mutableStateOf(false) })
-    )
 
-
-    fun websiteFilter(url: String, filter: Filter): Boolean {
-        return (!filter.selected.value or url.contains(Regex(filter.regex)))
-    }
-
-
-    fun urlFilterInList(url: String): Boolean {
-        var res = true
-        for (filter in filterList) {
-            res = res.and(websiteFilter(url, filter))
+    val filterSet = remember(videoList.value, audioList.value) {
+        with(mutableSetOf<String>()) {
+            videoList.value.forEach { add(it.extractor) }
+            audioList.value.forEach { add(it.extractor) }
+            this
         }
-        return res
     }
 
+    var activeFilter by remember(filterSet) { mutableStateOf(-1) }
+
+    fun filterByExtractor(extractor: String): Boolean {
+        return if (activeFilter == -1) true else filterSet.elementAt(activeFilter) == extractor
+    }
 
     Scaffold(
         modifier = Modifier
@@ -85,22 +62,13 @@ fun VideoListPage(
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .combinedClickable(indication = null,
-                                interactionSource = remember { MutableInteractionSource() },
-                                onClick = {},
-                                onLongClick = {
-                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    showUrlFilters = !showUrlFilters
-                                    PreferenceUtil.updateValue("show_filters", showUrlFilters)
-                                }),
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         text = stringResource(R.string.downloads_history)
                     )
                 },
                 navigationIcon = {
                     BackButton(Modifier.padding(horizontal = 8.dp)) {
-                        navController.popBackStack()
+                        onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
             )
@@ -121,7 +89,7 @@ fun VideoListPage(
                         Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState())
-                            .padding(6.dp)
+                            .padding(8.dp)
                     ) {
                         FilterChipWithAnimatedIcon(
                             selected = audioFilter.value,
@@ -140,53 +108,50 @@ fun VideoListPage(
                             },
                             label = stringResource(id = R.string.video),
                         )
-                        AnimatedVisibility(visible = showUrlFilters) {
+                        if (filterSet.size > 1) {
                             Row {
                                 Divider(
                                     modifier = Modifier
                                         .padding(horizontal = 6.dp)
                                         .height(24.dp)
-                                        .width(1.5f.dp)
+                                        .width(1f.dp)
                                         .align(Alignment.CenterVertically),
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
-                                for (filter in filterList) {
-                                    with(filter) {
-                                        FilterChipWithAnimatedIcon(
-                                            selected = selected.value,
-                                            onClick = {
-                                                filterList.forEach {
-                                                    if (it != this) it.selected.value = false
-                                                }
-                                                selected.value = !selected.value
-                                            },
-                                            label = name
-                                        )
-                                    }
+                                for (i in 0 until filterSet.size) {
+                                    FilterChipWithAnimatedIcon(
+                                        selected = activeFilter == i,
+                                        onClick = {
+                                            activeFilter =
+                                                if (activeFilter == i) -1
+                                                else i
+                                        },
+                                        label = filterSet.elementAt(i)
+                                    )
+
                                 }
                             }
                         }
                     }
                 }
                 items(videoList.value.reversed()) {
-                    AnimatedVisibility(
-                        visible = !audioFilter.value and urlFilterInList(it.videoUrl)
-                    )
-                    {
+                    AnimatedVisibility(visible = !audioFilter.value && filterByExtractor(it.extractor)) {
                         with(it) {
                             VideoListItem(
                                 title = videoTitle,
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
+                                onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
+
                         }
                     }
+
                 }
                 items(audioList.value.reversed()) {
                     AnimatedVisibility(
-                        visible = !videoFilter.value and urlFilterInList(it.videoUrl)
+                        visible = !videoFilter.value && filterByExtractor(it.extractor)
                     ) {
                         with(it) {
                             AudioListItem(
@@ -194,9 +159,10 @@ fun VideoListPage(
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoUrl = videoUrl,
-                                onClick = { FileUtil.openFile(videoPath) }
+                                onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
                         }
+
                     }
                 }
             }

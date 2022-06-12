@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -8,10 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.material.icons.outlined.Subscriptions
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -22,15 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.MultiChoiceItem
-import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 
 @Composable
-fun WelcomeDialog(navController: NavController) {
+fun WelcomeDialog(onClick: () -> Unit) {
     var showWelcomeDialog by remember {
         mutableStateOf(PreferenceUtil.getInt(WELCOME_DIALOG, 1))
     }
@@ -49,7 +43,7 @@ fun WelcomeDialog(navController: NavController) {
             }
         }, confirmButton = {
             TextButton(onClick = {
-                navController.navigate(Route.DOWNLOAD_PREFERENCES)
+                onClick()
                 onDismissRequest()
             }) {
                 Text(stringResource(R.string.go_to_download_preferences))
@@ -69,14 +63,17 @@ fun WelcomeDialog(navController: NavController) {
                     description = stringResource(R.string.download_history_desc)
                 )
                 IconDescription(
+                    icon = Icons.Outlined.Downloading,
+                    description = stringResource(R.string.battery_settings_desc)
+                )
+                IconDescription(
                     icon = Icons.Outlined.SettingsSuggest,
                     description = stringResource(R.string.check_download_settings_desc)
                 )
-                AnimatedVisibility(visible = (showWelcomeDialog > 1)) {
+                if ((showWelcomeDialog > 1))
                     MultiChoiceItem(
                         text = stringResource(id = R.string.close_never_show_again),
                         checked = disableDialog, onClick = { disableDialog = !disableDialog })
-                }
             }
         })
 }

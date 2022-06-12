@@ -1,5 +1,7 @@
 package com.junkfood.seal.ui.page.download
 
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
@@ -8,10 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.*
 import com.junkfood.seal.util.FileUtil.openFile
-import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -45,7 +44,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val IsExecutingCommand: Boolean = false,
         val customCommandMode: Boolean = false,
         val isProcessing: Boolean = false,
-        var drawerState: ModalBottomSheetState = ModalBottomSheetState(
+        val drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
         )
@@ -106,21 +105,52 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                     )
                 }
+                val notificationID = value.url.hashCode()
                 try {
+                    NotificationUtil.makeNotification(
+                        notificationID,
+                        title = context.getString(R.string.download_notification)
+                            .format(videoInfo.title), text = ""
+                    )
+                    TextUtil.makeToastSuspend(
+                        context.getString(R.string.download_start_msg).format(videoInfo.title)
+                    )
                     downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
-                    { fl: Float, _: Long, _: String -> _viewState.update { it.copy(progress = fl) } }
+                    { progress, _, line ->
+                        _viewState.update { it.copy(progress = progress) }
+                        NotificationUtil.updateNotification(
+                            notificationID,
+                            progress = progress.toInt(),
+                            text = line
+                        )
+
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
                         showErrorReport(e.message ?: context.getString(R.string.unknown_error))
                     else showErrorMessage(context.getString(R.string.download_error_msg))
+                    NotificationUtil.finishNotification(
+                        notificationID,
+                        title = videoInfo.title,
+                        text = context.getString(R.string.download_error_msg),
+                        intent = null
+                    )
                     return@launch
                 }
-
-                _viewState.update { it.copy(progress = 100f) }
-                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
-                    openFile(downloadResultTemp)
-                _viewState.update { it.copy(isProcessing = false) }
+                NotificationUtil.finishNotification(
+                    notificationID,
+                    title = videoInfo.title,
+                    text = context.getString(R.string.download_finish_notification),
+                    intent = PendingIntent.getActivity(
+                        context,
+                        0,
+                        FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
+                    )
+                )
+                finishProcessing()
+                /*                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
+                                    openFile(downloadResultTemp)*/
             }
         }
     }
@@ -155,52 +185,72 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             downloadResultTemp = DownloadUtil.Result.failure()
             try {
-                val videoInfo: VideoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
-                with(videoInfo) {
-                    if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
-                        _viewState.update {
-                            it.copy(
-                                videoTitle = title,
-                                videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
-                                videoAuthor = uploader ?: "null",
-                                showVideoCard = true
-                            )
-                        }
-                }
+                if (viewState.value.url.isNotEmpty())
+                    with(DownloadUtil.fetchVideoInfo(viewState.value.url)) {
+                        if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
+                            _viewState.update {
+                                it.copy(
+                                    videoTitle = title,
+                                    videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
+                                    videoAuthor = uploader ?: "null",
+                                    showVideoCard = true
+                                )
+                            }
+                    }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        val notificationID = viewState.value.url.hashCode()
+
         TextUtil.makeToast(context.getString(R.string.start_execute))
+        NotificationUtil.makeNotification(
+            notificationID,
+            title = context.getString(R.string.execute_command_notification), text = ""
+        )
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                YoutubeDL.getInstance()
-                    .execute(request) { progress, _, _ ->
-                        _viewState.update { it.copy(progress = progress) }
-                    }
-                _viewState.update {
-                    it.copy(
-                        progress = 100f,
-                        IsExecutingCommand = false
+                YoutubeDL.getInstance().execute(request) { progress, _, line ->
+                    _viewState.update { it.copy(progress = progress) }
+                    NotificationUtil.updateNotification(
+                        notificationID,
+                        progress = progress.toInt(),
+                        text = line
                     )
                 }
-                withContext(Dispatchers.Main) {
-                    TextUtil.makeToast(R.string.download_success_msg)
-                }
+                finishProcessing()
+                NotificationUtil.finishNotification(
+                    notificationID,
+                    title = context.getString(R.string.download_success_msg),
+                    text = null,
+                    intent = null
+                )
             } catch (e: Exception) {
                 e.printStackTrace()
                 showErrorReport(e.message ?: context.getString(R.string.unknown_error))
+                NotificationUtil.finishNotification(
+                    notificationID,
+                    title = context.getString(R.string.download_error_msg),
+                    text = e.message ?: context.getString(R.string.unknown_error),
+                    intent = null
+                )
                 return@launch
             }
-            _viewState.update { it.copy(isProcessing = false) }
         }
     }
 
+    private suspend fun finishProcessing() {
+        _viewState.update {
+            it.copy(
+                progress = 100f,
+                IsExecutingCommand = false, isProcessing = false
+            )
+        }
+        TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
+    }
 
     private suspend fun showErrorReport(s: String) {
-        withContext(Dispatchers.Main) {
-            TextUtil.makeToast(context.getString(R.string.error_copied))
-        }
+        TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
         _viewState.update {
             it.copy(
                 progress = 0f,
@@ -211,11 +261,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-
     private suspend fun showErrorMessage(s: String) {
-        withContext(Dispatchers.Main) {
-            TextUtil.makeToast(s)
-        }
+        TextUtil.makeToastSuspend(s)
         _viewState.update {
             it.copy(
                 progress = 0f,

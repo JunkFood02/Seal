@@ -11,6 +11,8 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
+import kotlin.math.roundToInt
 
 object DownloadUtil {
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
@@ -33,7 +35,7 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
 
     suspend fun fetchVideoInfo(url: String): VideoInfo {
-        toast(context.getString(R.string.fetching_info))
+        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
@@ -55,14 +57,14 @@ object DownloadUtil {
         val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
+        val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
 
         with(request) {
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
-            toast(context.getString(R.string.download_start_msg).format(videoInfo.title))
-            addOption("-o", "%(title)s$id.%(ext)s")
+            addOption("-o", "%(title).60s$id.%(ext)s")
             if (downloadPlaylist)
                 addOption("--yes-playlist")
             else
@@ -98,6 +100,9 @@ object DownloadUtil {
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
             }
+            if (concurrentFragments > 0f) {
+                addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
+            }
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
@@ -107,19 +112,18 @@ object DownloadUtil {
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 
-        toast(context.getString(R.string.download_success_msg))
-
         val filePaths = FileUtil.scanFileToMediaLibrary(id)
         if (filePaths != null)
             for (path in filePaths) {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        if (filePaths.size > 1) path.split("$downloadDir/").last().split(id)
-                            .first() else videoInfo.title,
+                        if (filePaths.size > 1) File(path).nameWithoutExtension else videoInfo.title,
                         videoInfo.uploader ?: "null",
                         url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""), path
+                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                        path,
+                        videoInfo.extractorKey
                     )
                 )
             }
@@ -130,9 +134,9 @@ object DownloadUtil {
         withContext(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance().updateYoutubeDL(context)
-                toast(context.getString(R.string.yt_dlp_up_to_date))
+                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
             } catch (e: Exception) {
-                toast(context.getString(R.string.yt_dlp_update_fail))
+                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_update_fail))
             }
         }
         YoutubeDL.getInstance().version(context)?.let {
@@ -140,13 +144,6 @@ object DownloadUtil {
             PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
         }
         return BaseApplication.ytdlpVersion
-    }
-
-
-    private suspend fun toast(text: String) {
-        withContext(Dispatchers.Main) {
-            TextUtil.makeToast(text)
-        }
     }
 
 

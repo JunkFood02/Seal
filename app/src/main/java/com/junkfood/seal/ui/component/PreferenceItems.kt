@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.junkfood.seal.ui.theme.applyOpacity
 
 
 @Composable
@@ -57,17 +58,13 @@ fun PreferenceItem(
                         text = title,
                         maxLines = 1,
                         style = typography.titleLarge.copy(fontSize = 20.sp),
-                        color = if (enabled) colorScheme.onSurface else colorScheme.onSurface.copy(
-                            alpha = 0.62f
-                        )
+                        color = colorScheme.onSurface.applyOpacity(enabled)
                     )
                     if (description != null)
                         Text(
                             text = description,
-                            color = if (enabled) colorScheme.onSurface.copy(alpha = 0.62f) else colorScheme.onSurface.copy(
-                                alpha = 0.5f
-                            ),
-                            maxLines = 1, overflow = TextOverflow.Ellipsis,
+                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
                             style = typography.bodyMedium,
                         )
                 }
@@ -103,15 +100,11 @@ fun PreferenceSwitch(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = with(MaterialTheme.colorScheme.secondary) {
-                        if (enabled) this else copy(alpha = 0.68f)
-                    }
+                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
                 )
             }
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = if (icon == null) 12.dp else 0.dp)
+                modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = title,
@@ -124,9 +117,7 @@ fun PreferenceSwitch(
                 if (!description.isNullOrEmpty())
                     Text(
                         text = description,
-                        color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f) else MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
                         maxLines = 2,
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -134,7 +125,7 @@ fun PreferenceSwitch(
             Switch(
                 checked = isChecked,
                 onCheckedChange = null,
-                modifier = Modifier.padding(start = 16.dp, end = 6.dp),
+                modifier = Modifier.padding(start = 20.dp, end = 6.dp),
                 enabled = enabled
             )
         }
@@ -200,7 +191,7 @@ fun MultiChoiceItem(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             checked = checked,

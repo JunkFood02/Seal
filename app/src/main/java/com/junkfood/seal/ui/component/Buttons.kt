@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -35,7 +36,7 @@ fun ButtonChip(
     icon: ImageVector? = null
 ) {
     ElevatedAssistChip(
-        modifier = modifier.padding(horizontal = 6.dp),
+        modifier = modifier.padding(horizontal = 4.dp),
         onClick = onClick,
         label = { Text(label) },
         colors = AssistChipDefaults.elevatedAssistChipColors(),
@@ -87,25 +88,31 @@ fun FilterChipWithIcons(
 fun FilterChipWithAnimatedIcon(
     modifier: Modifier = Modifier,
     selected: Boolean,
+    enabled: Boolean = true,
     onClick: () -> Unit,
-    label: String
+    label: String,
+    animated: Boolean = false
 ) {
     FilterChip(
-        modifier = modifier.padding(horizontal = 6.dp),
-        selected = selected,
+        modifier = modifier.padding(horizontal = 4.dp),
+        selected = selected, enabled = enabled,
         onClick = onClick,
         label = {
             Text(text = label)
         },
         trailingIcon = {
-            AnimatedVisibility(visible = selected) {
-                Icon(
-                    Icons.Outlined.Check,
-                    stringResource(R.string.checked),
-                    modifier = Modifier.size(18.dp)
-                )
+            Row {
+                if (animated)
+                    AnimatedVisibility(visible = selected) {
+                        Icon(
+                            Icons.Outlined.Check,
+                            stringResource(R.string.checked),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
             }
-        },
+        }
     )
 }
 

@@ -67,6 +67,10 @@ private val DarkColorScheme = darkColorScheme(
     inversePrimary = md_theme_dark_inversePrimary,
 )
 
+fun Color.applyOpacity(enabled: Boolean): Color {
+    return if (enabled) this else this.copy(alpha = 0.62f)
+}
+
 @Composable
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

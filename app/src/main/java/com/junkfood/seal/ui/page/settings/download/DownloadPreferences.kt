@@ -18,7 +18,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -35,9 +34,7 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.OPEN_IMMEDIATELY
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
@@ -50,15 +47,15 @@ import kotlinx.coroutines.launch
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
-fun DownloadPreferences(navController: NavController) {
+fun DownloadPreferences(onBackPressed: () -> Unit) {
     val context = LocalContext.current
-    val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
 
     var showTemplateEditDialog by remember { mutableStateOf(false) }
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
 
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
@@ -88,6 +85,7 @@ fun DownloadPreferences(navController: NavController) {
             is PermissionStatus.Granted -> {
                 launcher.launch(null)
             }
+
             is PermissionStatus.Denied -> {
                 storagePermission.launchPermissionRequest()
             }
@@ -113,7 +111,8 @@ fun DownloadPreferences(navController: NavController) {
                 }, navigationIcon = {
                     IconButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = { navController.popBackStack() }) {
+                        onClick = onBackPressed
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.back)
@@ -176,7 +175,7 @@ fun DownloadPreferences(navController: NavController) {
                         title = stringResource(id = R.string.settings_before_download),
                         description = stringResource(
                             id = R.string.settings_before_download_desc
-                        ), enabled = !customCommandEnable,
+                        ),
                         icon = Icons.Outlined.DoneAll,
                         isChecked = configureBeforeDownload,
                         onClick = {
@@ -228,42 +227,6 @@ fun DownloadPreferences(navController: NavController) {
                 }
 
                 item {
-                    var openSwitch by remember {
-                        mutableStateOf(
-                            PreferenceUtil.getValue(
-                                OPEN_IMMEDIATELY
-                            )
-                        )
-                    }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.open_when_finish),
-                        description = stringResource(
-                            id = R.string.open_when_finish_summary
-                        ), enabled = !customCommandEnable,
-                        icon = Icons.Outlined.FileOpen,
-                        isChecked = openSwitch,
-                        onClick = {
-                            openSwitch = !openSwitch
-                            PreferenceUtil.updateValue(OPEN_IMMEDIATELY, openSwitch)
-                        }
-                    )
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.download_playlist),
-                        onClick = {
-                            downloadPlaylist = !downloadPlaylist
-                            PreferenceUtil.updateValue(
-                                PLAYLIST,
-                                downloadPlaylist
-                            )
-                        }, icon = Icons.Outlined.PlaylistAddCheck,
-                        enabled = !customCommandEnable,
-                        description = stringResource(R.string.download_playlist_desc),
-                        isChecked = downloadPlaylist
-                    )
-                }
-                item {
                     PreferenceSwitch(
                         title = stringResource(R.string.error_report),
                         description = stringResource(R.string.error_report_desc),
@@ -283,13 +246,13 @@ fun DownloadPreferences(navController: NavController) {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
                         description = getVideoFormatDesc(),
-                        icon=Icons.Outlined.VideoFile,
+                        icon = Icons.Outlined.VideoFile,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoFormatDialog = true }
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(id = R.string.quality),
+                        title = stringResource(id = R.string.video_quality),
                         description = getVideoQualityDesc(),
                         icon = Icons.Outlined._4k,
                         enabled = !customCommandEnable and !audioSwitch
@@ -306,6 +269,29 @@ fun DownloadPreferences(navController: NavController) {
 
                 item {
                     Subtitle(text = stringResource(R.string.advanced_settings))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.download_playlist),
+                        onClick = {
+                            downloadPlaylist = !downloadPlaylist
+                            PreferenceUtil.updateValue(
+                                PLAYLIST,
+                                downloadPlaylist
+                            )
+                        }, icon = Icons.Outlined.PlaylistAddCheck,
+                        enabled = !customCommandEnable,
+                        description = stringResource(R.string.download_playlist_desc),
+                        isChecked = downloadPlaylist
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.concurrent_download),
+                        description = stringResource(R.string.concurrent_download_desc),
+                        icon = Icons.Outlined.Speed,
+                        enabled = !customCommandEnable
+                    ) { showConcurrentDownloadDialog = true }
                 }
                 item {
                     PreferenceSwitch(
@@ -332,24 +318,12 @@ fun DownloadPreferences(navController: NavController) {
         }
     )
     if (showTemplateEditDialog) {
-        val temp = PreferenceUtil.getTemplate()
         CommandTemplateDialog(
-            onDismissRequest = {
-                customCommandTemplate = temp
-                showTemplateEditDialog = false
-            },
+            onDismissRequest = { showTemplateEditDialog = false },
             confirmationCallback = {
-                PreferenceUtil.updateString(TEMPLATE, customCommandTemplate)
-                showTemplateEditDialog = false
+                customCommandTemplate = PreferenceUtil.getTemplate()
             },
-            onValueChange = { s -> customCommandTemplate = s },
-            template = customCommandTemplate
-        ) {
-            context.startActivity(Intent().apply {
-                action = Intent.ACTION_VIEW
-                data = Uri.parse(ytdlpReference)
-            })
-        }
+        )
     }
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
@@ -361,6 +335,11 @@ fun DownloadPreferences(navController: NavController) {
     }
     if (showVideoFormatDialog) {
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {
+        }
+    }
+    if (showConcurrentDownloadDialog) {
+        ConcurrentDownloadDialog {
+            showConcurrentDownloadDialog = false
         }
     }
 }

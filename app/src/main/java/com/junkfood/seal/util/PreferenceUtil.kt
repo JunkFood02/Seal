@@ -71,6 +71,7 @@ object PreferenceUtil {
     }
 
     const val CUSTOM_COMMAND = "custom_command"
+    const val CONCURRENT = "concurrent_fragments"
     const val EXTRACT_AUDIO = "extract_audio"
     const val THUMBNAIL = "create_thumbnail"
     const val TEMPLATE = "template"
@@ -99,6 +100,16 @@ object PreferenceUtil {
             SIMPLIFIED_CHINESE -> "zh-CN"
             ENGLISH -> "en-US"
             else -> ""
+        }
+    }
+
+    fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
+        return when (level) {
+            1 -> 0f
+            4 -> 0.25f
+            8 -> 0.5f
+            12 -> 0.75f
+            else -> 1f
         }
     }
 
