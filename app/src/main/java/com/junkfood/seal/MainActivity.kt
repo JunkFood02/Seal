@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -22,6 +23,8 @@ import kotlinx.coroutines.runBlocking
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val downloadViewModel: DownloadViewModel by viewModels()
+
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         runBlocking {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration()))
@@ -50,12 +53,18 @@ class MainActivity : AppCompatActivity() {
             intent.getStringExtra(Intent.EXTRA_TEXT)
                 ?.let { it ->
                     TextUtil.matchUrlFromSharedText(it)
-                        ?.let { it1 -> downloadViewModel.updateUrl(it1) }
+                        ?.let { it1 ->
+                            if (sharedUrl != it1) {
+                                sharedUrl = it1
+                                downloadViewModel.updateUrl(sharedUrl)
+                            }
+                        }
                 }
     }
 
     companion object {
         private const val TAG = "MainActivity"
+        private var sharedUrl = ""
         fun setLanguage(locale: String) {
             if (locale.isEmpty()) return
             BaseApplication.applicationScope.launch(Dispatchers.Main) {

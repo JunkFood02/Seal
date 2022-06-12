@@ -17,7 +17,7 @@ object NotificationUtil {
     private const val CHANNEL_ID = "download_notification"
     private const val NOTIFICATION_ID = 100
 
-    private val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+    private var builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
     fun createNotificationChannel() {
         val name = context.getString(R.string.channel_name)
@@ -30,7 +30,7 @@ object NotificationUtil {
     }
 
     fun makeNotification(notificationId: Int = NOTIFICATION_ID, title: String, text: String) {
-        builder.setContentTitle(title)
+        builder = NotificationCompat.Builder(context, CHANNEL_ID).setContentTitle(title)
             .setContentText(text)
             .setSmallIcon(R.drawable.seal)
             .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, false)

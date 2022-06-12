@@ -130,7 +130,7 @@
     <string name="concurrent_download_num">%d thread(s) would be used to download dash/hlsnative video concurrently.</string>
     <string name="options">Options</string>
     <string name="additional_settings">Additional settings</string>
-    <string name="quality">Quality</string>
     <string name="share_fail_msg">Unable to match URL from shared content</string>
-    <string name="share_success_msg">Obtain video link from shared content</string>
+    <string name="share_success_msg">Reading video link from shared content</string>
+    <string name="show_more_actions">Show more actions</string>
 </resources>

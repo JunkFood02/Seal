@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,7 +28,7 @@ fun CommandTemplateDialog(
     val context = LocalContext.current
     val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     var template by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
-
+    val clipboardManager = LocalClipboardManager.current
     AlertDialog(
         title = { Text(stringResource(R.string.edit_custom_command_template)) },
         onDismissRequest = onDismissRequest,
@@ -53,8 +55,13 @@ fun CommandTemplateDialog(
                 OutlinedTextField(
                     modifier = Modifier.padding(vertical = 12.dp),
                     value = template,
-                    onValueChange = { template = it },
-                    label = { Text(stringResource(R.string.custom_command_template)) })
+                    onValueChange = { template = it }, trailingIcon = {
+                        IconButton(onClick = {
+                            clipboardManager.getText()?.let { template = it.text }
+                        }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+                    },
+                    label = { Text(stringResource(R.string.custom_command_template)) },maxLines = 3
+                )
 
                 TextButton(
                     onClick = {

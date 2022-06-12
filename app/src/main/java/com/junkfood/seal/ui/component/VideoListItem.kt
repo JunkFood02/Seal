@@ -54,8 +54,7 @@ fun VideoListItem(
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth(0.45f)
-                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                ,
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
                     .networkCachePolicy(CachePolicy.DISABLED)
@@ -117,7 +116,10 @@ fun VideoListItem(
                 .align(Alignment.BottomEnd),
             onClick = onLongClick
         ) {
-            Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "More")
+            Icon(
+                imageVector = Icons.Outlined.MoreVert,
+                contentDescription = stringResource(id = R.string.show_more_actions)
+            )
         }
     }
 }
@@ -211,7 +213,10 @@ fun AudioListItem(
                 .align(Alignment.BottomEnd),
             onClick = onLongClick
         ) {
-            Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "More")
+            Icon(
+                imageVector = Icons.Outlined.MoreVert,
+                contentDescription = stringResource(id = R.string.show_more_actions)
+            )
         }
     }
 }

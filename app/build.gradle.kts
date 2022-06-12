@@ -12,8 +12,8 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 0
 val versionMinor = 0
 val versionPatch = 8
-val versionBuild = 4
-val isStable = false
+val versionBuild = 5
+val isStable = true
 
 val composeVersion = "1.2.0-beta03"
 val lifecycleVersion = "2.5.0-rc01"
@@ -23,6 +23,7 @@ val accompanistVersion = "0.24.7-alpha"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha13"
+
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
