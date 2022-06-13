@@ -11,9 +11,9 @@ apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 0
 val versionMinor = 0
-val versionPatch = 8
-val versionBuild = 5
-val isStable = true
+val versionPatch = 9
+val versionBuild = 1
+val isStable = false
 
 val composeVersion = "1.2.0-beta03"
 val lifecycleVersion = "2.5.0-rc01"
@@ -135,6 +135,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
 
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
+    implementation("io.coil-kt:coil-video:2.1.0")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
