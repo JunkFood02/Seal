@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import coil.request.videoFrameMillis
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.core.LocalVideoThumbnailLoader
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -30,12 +32,20 @@ fun VideoListItem(
     title: String = "",
     author: String = "",
     thumbnailUrl: String = "",
+    videoPath: String = "",
     videoUrl: String = "",
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {}
 ) {
-    val haptic = LocalHapticFeedback.current
 
+    val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
+    val imageModel = ImageRequest.Builder(context)
+        .data(if (author == "playlist") videoPath else thumbnailUrl)
+        .networkCachePolicy(CachePolicy.DISABLED)
+        .videoFrameMillis(10000)
+        .crossfade(true)
+        .build()
     Box(
         modifier = Modifier
             .combinedClickable(
@@ -55,39 +65,11 @@ fun VideoListItem(
                 modifier = Modifier
                     .fillMaxWidth(0.45f)
                     .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.DISABLED)
-                    .crossfade(true)
-                    .build(),
+                model = imageModel,
                 contentDescription = stringResource(R.string.thumbnail),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                imageLoader = LocalVideoThumbnailLoader.current
             )
-/*            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth(0.45f)
-                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-//                  .clip(MaterialTheme.shapes.extraSmall)
-                ,
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.DISABLED)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = stringResource(R.string.thumbnail),
-                contentScale = ContentScale.Crop
-            ) {
-                if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error)
-                    Icon(
-                        Icons.Default.Movie,
-                        stringResource(R.string.video),
-                        modifier = Modifier.requiredSize(32.dp)
-                    )
-                else {
-                    SubcomposeAsyncImageContent()
-                }
-            }*/
-
             Column(
                 modifier = Modifier
                     .padding(start = 12.dp, end = 12.dp)
@@ -100,14 +82,15 @@ fun VideoListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2, overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    modifier = Modifier.padding(top = 3.dp),
-                    text = author,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (author != "playlist" && author != "null")
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
             }
         }
         IconButton(
@@ -129,6 +112,7 @@ fun VideoListItem(
 fun AudioListItem(
     title: String = "",
     author: String = "",
+    videoPath: String = "",
     thumbnailUrl: String = "",
     videoUrl: String = "",
     onClick: () -> Unit = {},
@@ -145,6 +129,7 @@ fun AudioListItem(
             .padding(12.dp)
             .fillMaxWidth(),
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -161,30 +146,6 @@ fun AudioListItem(
                 contentDescription = stringResource(R.string.thumbnail),
                 contentScale = ContentScale.Crop
             )
-            /*          SubcomposeAsyncImage(
-                          modifier = Modifier
-                              .fillMaxWidth(0.25f)
-                              .aspectRatio(1f, matchHeightConstraintsFirst = true),
-                          model = ImageRequest.Builder(LocalContext.current)
-                              .data(thumbnailUrl)
-                              .networkCachePolicy(CachePolicy.DISABLED)
-                              .crossfade(true)
-                              .build(),
-                          contentDescription = stringResource(R.string.thumbnail),
-                          contentScale = ContentScale.Crop
-                      ) {
-                          if (painter.state is AsyncImagePainter.State.Loading || painter.state is AsyncImagePainter.State.Error) {
-          //                        CircularProgressIndicator(modifier = Modifier.requiredSize(24.dp))
-                              Icon(
-                                  Icons.Default.MusicNote,
-                                  stringResource(R.string.audio),
-                                  modifier = Modifier.requiredSize(24.dp)
-                              )
-                          } else {
-                              SubcomposeAsyncImageContent()
-                          }
-                      }*/
-
 
             Column(
                 modifier = Modifier
@@ -197,14 +158,15 @@ fun AudioListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2, overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    modifier = Modifier.padding(top = 3.dp),
-                    text = author,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (author != "playlist" && author != "null")
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
             }
         }
         IconButton(

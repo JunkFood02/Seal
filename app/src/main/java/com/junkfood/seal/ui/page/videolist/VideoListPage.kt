@@ -19,11 +19,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.FileUtil
 
-data class Filter(
-    val index: Int,
-    val extractor: String,
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListPage(
@@ -141,6 +136,7 @@ fun VideoListPage(
                                 title = videoTitle,
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
+                                videoPath = videoPath,
                                 videoUrl = videoUrl,
                                 onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
@@ -158,6 +154,7 @@ fun VideoListPage(
                                 title = videoTitle,
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
+                                videoPath = videoPath,
                                 videoUrl = videoUrl,
                                 onClick = { FileUtil.openFileInURI(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, this@with) }
