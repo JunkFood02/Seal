@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
@@ -34,11 +35,13 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoQualityDesc
+import com.junkfood.seal.util.TextUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -85,12 +88,24 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
             is PermissionStatus.Granted -> {
                 launcher.launch(null)
             }
-
-            is PermissionStatus.Denied -> {
+            else -> {
                 storagePermission.launchPermissionRequest()
             }
         }
     }
+
+    var downloadNotification by remember {
+        mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
+    }
+
+    val notificationPermission =
+        if (Build.VERSION.SDK_INT >= 33)
+            rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { status ->
+                if (!status) TextUtil.makeToast(context.getString(R.string.permission_denied))
+            } else null
+
+    fun checkNotificationPermission(): Boolean =
+        notificationPermission == null || (notificationPermission.status == PermissionStatus.Granted)
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -165,6 +180,30 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                             ytdlpVersion = DownloadUtil.updateYtDlp()
                         }
                     }
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.download_notification),
+                        description = stringResource(
+                            id = if (notificationPermission == null || notificationPermission.status == PermissionStatus.Granted) R.string.download_notification_desc
+                            else R.string.permission_denied
+                        ),
+                        icon = if (!checkNotificationPermission())
+                            Icons.Outlined.NotificationsOff
+                        else if (!downloadNotification) Icons.Outlined.Notifications
+                        else Icons.Outlined.NotificationsActive,
+                        isChecked = downloadNotification && checkNotificationPermission(),
+                        onClick = {
+                            notificationPermission?.launchPermissionRequest()
+                            if (checkNotificationPermission()) {
+                                downloadNotification = !downloadNotification
+                                PreferenceUtil.updateValue(
+                                    NOTIFICATION,
+                                    downloadNotification
+                                )
+                            }
+                        }
+                    )
                 }
 
                 item {
