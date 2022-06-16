@@ -112,7 +112,7 @@ fun PreferenceSwitch(
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
                     color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
                         alpha = 0.62f
-                    )
+                    ), overflow = TextOverflow.Ellipsis
                 )
                 if (!description.isNullOrEmpty())
                     Text(
