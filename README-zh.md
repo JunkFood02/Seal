@@ -19,6 +19,8 @@
 
 - 提取媒体元数据与专辑封面，调用 [mutagen](https://github.com/quodlibet/mutagen) 嵌入到提取的音频文件中
 
+- 播放列表下载支持
+
 - 执行自定义的 yt-dlp 命令模板
 
 - 管理应用内下载

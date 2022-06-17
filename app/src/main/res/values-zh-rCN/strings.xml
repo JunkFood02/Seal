@@ -14,7 +14,7 @@
     <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
     <string name="yt_dlp_update_fail">更新yt-dlp失败，请检查与GitHub的连接后尝试手动更新</string>
     <string name="fetching_info">正在获取视频信息</string>
-    <string name="permission_denied">请求权限失败</string>
+    <string name="permission_denied">未取得相关权限</string>
     <string name="download_error_msg">下载视频时发生错误</string>
     <string name="download_start_msg">开始下载 "%1$s"</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>

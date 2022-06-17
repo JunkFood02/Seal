@@ -11,7 +11,7 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 <img src="README.assets/3.png" width="30%" />
 <img src="README.assets/4.png" width="30%" />
 <img src="README.assets/5.png" width="30%" />
-<img src="README.assets/6.jpg" width="30%"/></div>
+<img src="README.assets/6.png" width="30%"/></div>
 
 
 
@@ -22,6 +22,8 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 
 - Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
 
+- Download all videos in playlist in one click
+
 - Execute custom yt-dlp command with template.
 
 - Manage in-app downloads.
@@ -31,6 +33,8 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 - [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (for Android 12+)
 
 - MAD: UI and Logic with pure Kotlin. Single activity, no fragments but composable destinations.
+
+
 
 ## Credits
 

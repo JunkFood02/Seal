@@ -84,14 +84,9 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
         }
 
     fun openDirectoryChooser() {
-        when (storagePermission.status) {
-            is PermissionStatus.Granted -> {
-                launcher.launch(null)
-            }
-            else -> {
-                storagePermission.launchPermissionRequest()
-            }
-        }
+        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
+            launcher.launch(null)
+        else storagePermission.launchPermissionRequest()
     }
 
     var downloadNotification by remember {

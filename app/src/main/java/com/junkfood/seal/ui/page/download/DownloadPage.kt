@@ -56,7 +56,6 @@ fun DownloadPage(
     navController: NavController,
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
-
     val storagePermission =
         rememberPermissionState(
             permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -64,7 +63,7 @@ fun DownloadPage(
             if (b) {
                 downloadViewModel.startDownloadVideo()
             } else {
-                TextUtil.makeToast(context.resources.getString(R.string.permission_denied))
+                TextUtil.makeToast(R.string.permission_denied)
             }
         }
     val scope = rememberCoroutineScope()
@@ -72,7 +71,7 @@ fun DownloadPage(
     val hapticFeedback = LocalHapticFeedback.current
     val clipboardManager = LocalClipboardManager.current
     val checkPermissionOrDownload = {
-        if (Build.VERSION.SDK_INT >= 30 || storagePermission.status == PermissionStatus.Granted)
+        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
         else {
             storagePermission.launchPermissionRequest()
@@ -178,7 +177,7 @@ fun DownloadPage(
                                 error = isDownloadError,
                                 copyToClipboard = PreferenceUtil.getValue(
                                     DEBUG
-                                ) or customCommandMode,
+                                ) or customCommandMode and url.isNotEmpty(),
                                 errorMessage = errorMessage
                             )
                         }
@@ -365,7 +364,7 @@ fun FABs(
                     contentDescription = stringResource(R.string.paste)
                 )
             }, modifier = Modifier
-                .padding(vertical = 12f.dp)
+                .padding(vertical = 12.dp)
         )
 
         FloatingActionButton(
@@ -376,7 +375,7 @@ fun FABs(
                     contentDescription = stringResource(R.string.download)
                 )
             }, modifier = Modifier
-                .padding(vertical = 12f.dp)
+                .padding(vertical = 12.dp)
         )
     }
 
