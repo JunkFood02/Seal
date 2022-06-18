@@ -88,7 +88,6 @@ object PreferenceUtil {
     const val DOWNLOAD_DIRECTORY = "download_dir"
     const val PLAYLIST = "playlist"
     const val LANGUAGE = "language"
-    const val NOTIFICATION = "notification"
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
     val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
 

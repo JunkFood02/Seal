@@ -14,7 +14,7 @@
     <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
     <string name="yt_dlp_update_fail">更新yt-dlp失败，请检查与GitHub的连接后尝试手动更新</string>
     <string name="fetching_info">正在获取视频信息</string>
-    <string name="permission_denied">未取得相关权限</string>
+    <string name="permission_denied">请求储存权限失败</string>
     <string name="download_error_msg">下载视频时发生错误</string>
     <string name="download_start_msg">开始下载 "%1$s"</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
@@ -107,7 +107,7 @@
     <string name="settings_before_download_text">确认此次下载的下载设置</string>
     <string name="channel_name">下载</string>
     <string name="channel_description">显示下载进度与完成信息</string>
-    <string name="download_notification_template">正在下载 \"%1$s\"</string>
+    <string name="download_notification">正在下载 \"%1$s\"</string>
     <string name="download_finish_notification">下载完成，点击打开</string>
     <string name="execute_command_notification">正在执行自定义命令</string>
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”</string>
@@ -119,6 +119,4 @@
     <string name="share_fail_msg">未能从分享内容中匹配到视频链接</string>
     <string name="share_success_msg">从分享内容获取视频链接</string>
     <string name="show_more_actions">显示更多操作</string>
-    <string name="download_notification">下载通知</string>
-    <string name="download_notification_desc">在系统通知中显示下载进度与完成信息</string>
 </resources>

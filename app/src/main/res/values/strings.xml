@@ -15,7 +15,7 @@
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
     <string name="yt_dlp_update_fail">Failed to update yt-dlp, please check your connection with github.com</string>
     <string name="fetching_info">Fetching video info</string>
-    <string name="permission_denied">Permission denied</string>
+    <string name="permission_denied">Failed to request permission</string>
     <string name="download_success_msg">Download finished</string>
     <string name="download_error_msg">Error occurred when downloading</string>
     <string name="download_start_msg">Start downloading \'%1$s\'</string>
@@ -119,7 +119,7 @@
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
     <string name="channel_description">Display download progress and finish message</string>
-    <string name="download_notification_template">Downloading \"%1$s\"</string>
+    <string name="download_notification">Downloading \"%1$s\"</string>
     <string name="video_url">Video link</string>
     <string name="download_finish_notification">Download finished, clicked to open</string>
     <string name="execute_command_notification">Executing custom commands</string>
@@ -133,6 +133,4 @@
     <string name="share_fail_msg">Unable to match URL from shared content</string>
     <string name="share_success_msg">Reading video link from shared content</string>
     <string name="show_more_actions">Show more actions</string>
-    <string name="download_notification">Download notification</string>
-    <string name="download_notification_desc">"Notify download progress and finish messages "</string>
 </resources>

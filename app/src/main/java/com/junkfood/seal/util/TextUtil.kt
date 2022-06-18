@@ -58,7 +58,7 @@ object TextUtil {
         }
     }
 
-    fun makeToast(stringId: Int) {
+    private fun makeToast(stringId: Int) {
         Toast.makeText(context, context.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 }

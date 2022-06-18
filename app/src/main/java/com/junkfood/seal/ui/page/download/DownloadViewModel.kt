@@ -109,7 +109,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 try {
                     NotificationUtil.makeNotification(
                         notificationID,
-                        title = context.getString(R.string.download_notification_template)
+                        title = context.getString(R.string.download_notification)
                             .format(videoInfo.title), text = ""
                     )
                     TextUtil.makeToastSuspend(

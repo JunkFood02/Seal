@@ -11,19 +11,19 @@ apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 0
 val versionMinor = 0
-val versionPatch = 9
-val versionBuild = 1
-val isStable = false
+val versionPatch = 8
+val versionBuild = 5
+val isStable = true
 
 val composeVersion = "1.2.0-beta03"
 val lifecycleVersion = "2.5.0-rc01"
 val navigationVersion = "2.5.0-rc01"
 val roomVersion = "2.4.2"
-val accompanistVersion = "0.24.10-beta"
+val accompanistVersion = "0.24.7-alpha"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha13"
-val coilVersion = "2.1.0"
+
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
@@ -37,16 +37,18 @@ android {
             storePassword = keystoreProperties["storePassword"].toString()
         }
     }
-    compileSdk = 33
+//    compileSdkPreview = "Tiramisu"
+    compileSdk = 32
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 26
-        targetSdk = 33
+//        targetSdkPreview "Tiramisu"
+        targetSdk = 32
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
-        versionName = if (isStable) {
-            "${versionMajor}.${versionMinor}.${versionPatch}"
+        if (isStable) {
+            versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
         } else {
-            "${versionMajor}.${versionMinor}.${versionPatch}-alpha0${versionBuild}"
+            versionName = "${versionMajor}.${versionMinor}.${versionPatch}-alpha0${versionBuild}"
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
@@ -108,9 +110,9 @@ dependencies {
 
 
     implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.0-alpha05")
+    implementation("androidx.appcompat:appcompat:1.6.0-alpha04")
     implementation("com.google.android.material:material:1.7.0-alpha02")
-    implementation("androidx.activity:activity-compose:1.6.0-alpha05")
+    implementation("androidx.activity:activity-compose:1.4.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
@@ -130,9 +132,9 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+    implementation ("com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
 
-    implementation("io.coil-kt:coil-compose:$coilVersion")
-    implementation("io.coil-kt:coil-video:$coilVersion")
+    implementation("io.coil-kt:coil-compose:2.0.0-rc03")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
@@ -157,4 +159,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.core:core-ktx:+")
 }

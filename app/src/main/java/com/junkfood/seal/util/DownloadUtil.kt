@@ -119,7 +119,7 @@ object DownloadUtil {
                     DownloadedVideoInfo(
                         0,
                         if (filePaths.size > 1) File(path).nameWithoutExtension else videoInfo.title,
-                        if (filePaths.size > 1) "playlist" else if (videoInfo.uploader == null) "null" else videoInfo.uploader,
+                        videoInfo.uploader ?: "null",
                         url,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         path,
