@@ -1,32 +1,40 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.*
-import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.color.palettes.CorePalette
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColor
+import com.junkfood.seal.ui.component.*
+import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
+import com.junkfood.seal.util.PreferenceUtil.modifyThemeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +91,6 @@ fun AppearancePreferences(
                     isChecked = LocalDynamicColor.current.and(Build.VERSION.SDK_INT >= 31),
                     checkedIcon = Icons.Outlined.Check
                 )
-
                 PreferenceItem(
                     title = stringResource(id = R.string.dark_theme),
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
@@ -99,6 +106,36 @@ fun AppearancePreferences(
                 ) {
                     showLanguageDialog = true
                 }
+                var showcase by remember { mutableStateOf(false) }
+                PreferenceSwitch(
+                    title = "Color theming showcase",
+                    icon = Icons.Outlined.Colorize,
+                    description = "Material You color theming",
+                    onClick = { showcase = !showcase },
+                    isChecked = showcase
+                )
+                var tone by remember { mutableStateOf(0f) }
+                AnimatedVisibility(visible = showcase) {
+                    Column{ Slider(
+                        modifier = Modifier.padding(18.dp),
+                        value = tone / 100f,
+                        onValueChange = { fl -> tone = fl * 100f })
+                    Row(
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState())
+                            .padding(18.dp)
+                    ) {
+                        ColorButton(color = Color(CorePalette.of(Color.Yellow.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(CorePalette.of(Color.Red.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(CorePalette.of(Color.Cyan.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(CorePalette.of(Color.Green.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(CorePalette.of(Color.Magenta.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(CorePalette.of(Color.Blue.toArgb()).a1.tone(25 + tone.toInt() / 2)))
+                        ColorButton(color = Color(DEFAULT_SEED_COLOR))
+                    }
+                }
+                }
+
             }
         })
     if (showDarkThemeDialog)
@@ -170,4 +207,16 @@ fun AppearancePreferences(
             }
         )
     }
+}
+
+@Composable
+fun ColorButton(modifier: Modifier = Modifier, color: Color) {
+    Surface(
+        modifier = modifier
+            .padding(8.dp)
+            .size(64.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .clickable { modifyThemeColor(color.toArgb()) },
+        color = color
+    ) {}
 }
