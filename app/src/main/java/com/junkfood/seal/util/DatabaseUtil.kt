@@ -10,12 +10,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 object DatabaseUtil {
+    private const val DATABASE_NAME = "app_database"
+
     private val db = Room.databaseBuilder(
         context,
-        AppDatabase::class.java, "app_database"
+        AppDatabase::class.java, DATABASE_NAME
     ).build()
     private val dao = db.videoInfoDao()
-
     suspend fun insertInfo(vararg infoList: DownloadedVideoInfo) {
         for (info in infoList) {
             dao.deleteByPath(info.videoPath)

@@ -11,7 +11,7 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 <img src="README.assets/3.png" width="30%" />
 <img src="README.assets/4.png" width="30%" />
 <img src="README.assets/5.png" width="30%" />
-<img src="README.assets/6.jpg" width="30%"/></div>
+<img src="README.assets/6.png" width="30%"/></div>
 
 
 

@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page.download
 
 import android.Manifest
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -37,7 +38,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.core.Route
 import com.junkfood.seal.util.PreferenceUtil
@@ -56,7 +56,6 @@ fun DownloadPage(
     navController: NavController,
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
-
     val storagePermission =
         rememberPermissionState(
             permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -64,7 +63,7 @@ fun DownloadPage(
             if (b) {
                 downloadViewModel.startDownloadVideo()
             } else {
-                TextUtil.makeToast(context.resources.getString(R.string.permission_denied))
+                TextUtil.makeToast(R.string.permission_denied)
             }
         }
     val scope = rememberCoroutineScope()
@@ -72,7 +71,7 @@ fun DownloadPage(
     val hapticFeedback = LocalHapticFeedback.current
     val clipboardManager = LocalClipboardManager.current
     val checkPermissionOrDownload = {
-        if (storagePermission.status == PermissionStatus.Granted)
+        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
         else {
             storagePermission.launchPermissionRequest()
@@ -98,7 +97,8 @@ fun DownloadPage(
                     downloadCallback = {
                         if (PreferenceUtil.getValue(CONFIGURE, true))
                             downloadViewModel.showDrawer(scope)
-                        else checkPermissionOrDownload()
+                        else
+                            checkPermissionOrDownload()
                     }
                 ) {
                     TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
@@ -160,7 +160,8 @@ fun DownloadPage(
                                 videoTitle,
                                 videoAuthor,
                                 videoThumbnailUrl,
-                                progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                                progress = progress,
+                                onClick = { downloadViewModel.openVideoFile() }
                             )
                         }
                         InputUrl(
@@ -173,9 +174,11 @@ fun DownloadPage(
                         ) { downloadViewModel.updateUrl(it) }
                         AnimatedVisibility(visible = isDownloadError) {
                             ErrorMessage(
-                                error = isDownloadError, copyToClipboard = PreferenceUtil.getValue(
+                                error = isDownloadError,
+                                copyToClipboard = PreferenceUtil.getValue(
                                     DEBUG
-                                ) or customCommandMode, errorMessage = errorMessage
+                                ) or customCommandMode and url.isNotEmpty(),
+                                errorMessage = errorMessage
                             )
                         }
                     }
@@ -361,7 +364,7 @@ fun FABs(
                     contentDescription = stringResource(R.string.paste)
                 )
             }, modifier = Modifier
-                .padding(vertical = 12f.dp)
+                .padding(vertical = 12.dp)
         )
 
         FloatingActionButton(
@@ -372,7 +375,7 @@ fun FABs(
                     contentDescription = stringResource(R.string.download)
                 )
             }, modifier = Modifier
-                .padding(vertical = 12f.dp)
+                .padding(vertical = 12.dp)
         )
     }
 
