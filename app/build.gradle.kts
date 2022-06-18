@@ -15,11 +15,11 @@ val versionPatch = 9
 val versionBuild = 1
 val isStable = false
 
-val composeVersion = "1.2.0-beta03"
-val lifecycleVersion = "2.5.0-rc01"
-val navigationVersion = "2.5.0-rc01"
+val composeVersion = "1.2.0-rc01"
+val lifecycleVersion = "2.5.0-rc02"
+val navigationVersion = "2.5.0-rc02"
 val roomVersion = "2.4.2"
-val accompanistVersion = "0.24.10-beta"
+val accompanistVersion = "0.24.11-rc"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha13"
@@ -151,6 +151,7 @@ dependencies {
     implementation("com.tencent:mmkv:1.2.13")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    implementation ("androidx.palette:palette-ktx:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

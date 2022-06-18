@@ -11,6 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -18,6 +19,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -37,9 +40,10 @@ import coil.request.ImageRequest
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.android.material.color.MaterialColors
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.core.Route
+import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
@@ -161,7 +165,7 @@ fun DownloadPage(
                                 videoAuthor,
                                 videoThumbnailUrl,
                                 progress = progress,
-                                onClick = { downloadViewModel.openVideoFile() }
+                                onClick = { downloadViewModel.openVideoFile() },
                             )
                         }
                         InputUrl(
@@ -180,6 +184,27 @@ fun DownloadPage(
                                 ) or customCommandMode and url.isNotEmpty(),
                                 errorMessage = errorMessage
                             )
+                        }
+                        palette?.let {
+                            Row {
+                                Surface(
+                                    color = Color(it.dominantSwatch?.rgb ?: 0x111111),
+                                    shape = RoundedCornerShape(bottomStart = 6.dp, topStart = 6.dp),
+                                    modifier = Modifier.size(30.dp)
+                                ) {}
+                                Surface(
+                                    color = Color(it.mutedSwatch?.rgb ?: 0x111111),
+                                    modifier = Modifier.size(30.dp)
+                                ) {}
+                                Surface(
+                                    color = Color(it.vibrantSwatch?.rgb ?: 0x111111),
+                                    shape = RoundedCornerShape(
+                                        topEnd = 6.dp,
+                                        bottomEnd = 6.dp
+                                    ),
+                                    modifier = Modifier.size(30.dp)
+                                ) {}
+                            }
                         }
                     }
                 }
@@ -278,10 +303,13 @@ fun VideoCard(
     author: String = "author",
     thumbnailUrl: String,
     onClick: () -> Unit,
-    progress: Float = 0f
+    progress: Float = 0f,
 ) {
-    ElevatedCard(modifier = Modifier
-        .fillMaxWidth(), onClick = { onClick() }
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth(),
+        onClick = { onClick() }
+
     ) {
         SubcomposeAsyncImage(
             modifier = Modifier
@@ -330,7 +358,6 @@ fun VideoCard(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-
         }
         val progressAnimationValue by animateFloatAsState(
             targetValue = progress / 100f,
@@ -339,12 +366,15 @@ fun VideoCard(
 
         LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
-            progress = progressAnimationValue
+            progress = progressAnimationValue,
         )
 
     }
 }
 
+fun harmonize(color1: Color, color2: Color): Color {
+    return Color(MaterialColors.harmonize(color1.toArgb(), color2.toArgb()))
+}
 
 @Composable
 fun FABs(
@@ -363,10 +393,9 @@ fun FABs(
                     Icons.Outlined.ContentPaste,
                     contentDescription = stringResource(R.string.paste)
                 )
-            }, modifier = Modifier
-                .padding(vertical = 12.dp)
+            },
+            modifier = Modifier.padding(vertical = 12.dp),
         )
-
         FloatingActionButton(
             onClick = downloadCallback,
             content = {

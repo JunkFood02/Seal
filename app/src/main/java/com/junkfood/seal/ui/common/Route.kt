@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.core
+package com.junkfood.seal.ui.common
 
 class Route {
     companion object{
