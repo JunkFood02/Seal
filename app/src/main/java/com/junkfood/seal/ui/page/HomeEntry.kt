@@ -23,7 +23,6 @@ fun HomeEntry(
     SettingsProvider {
         SealTheme(
             darkTheme = LocalDarkTheme.current.isDarkTheme(),
-            dynamicColor = LocalDynamicColor.current,
             seedColor = LocalSeedColor.current
         ) {
             val navController = rememberAnimatedNavController()

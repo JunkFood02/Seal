@@ -101,6 +101,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                     return@launch
                 }
+/*                val palette = extractColorsFromImage(
+                    TextUtil.urlHttpToHttps(
+                        videoInfo.thumbnail ?: ""
+                    )
+                )*/
                 update {
                     it.copy(
                         progress = 0f,
@@ -108,13 +113,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoTitle = videoInfo.title,
                         videoAuthor = videoInfo.uploader ?: "null",
                         videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
-                        palette = extractColorsFromImage(
-                            TextUtil.urlHttpToHttps(
-                                videoInfo.thumbnail ?: ""
-                            )
-                        )
+//                        palette = palette
                     )
                 }
+//                PreferenceUtil.modifyThemeColor(palette.getVibrantColor(0xffffff))
                 val notificationID = value.url.hashCode()
                 try {
                     NotificationUtil.makeNotification(

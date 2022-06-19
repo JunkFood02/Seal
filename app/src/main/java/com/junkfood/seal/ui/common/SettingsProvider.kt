@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 val LocalDarkTheme = compositionLocalOf { PreferenceUtil.DarkThemePreference() }
-val LocalDynamicColor = compositionLocalOf { true }
 val LocalVideoThumbnailLoader = staticCompositionLocalOf {
     ImageLoader.Builder(context).build()
 }
@@ -23,7 +22,6 @@ val settingFlow: Flow<PreferenceUtil.AppSettings> =
     context.dataStore.data.map {
         PreferenceUtil.AppSettings(
             PreferenceUtil.DarkThemePreference(it[PreferenceUtil.DARK_THEME_KEY] ?: FOLLOW_SYSTEM),
-            it[PreferenceUtil.DYNAMIC_COLOR_KEY] ?: true,
             it[PreferenceUtil.THEME_COLOR_KEY] ?: DEFAULT_SEED_COLOR
         )
     }
@@ -33,7 +31,6 @@ fun SettingsProvider(content: @Composable () -> Unit) {
     val appSettingsState = settingFlow.collectAsState(PreferenceUtil.initialAppSettings()).value
     CompositionLocalProvider(
         LocalDarkTheme provides appSettingsState.darkTheme,
-        LocalDynamicColor provides (appSettingsState.dynamicColor),
         LocalVideoThumbnailLoader provides ImageLoader.Builder(LocalContext.current)
             .components { add(VideoFrameDecoder.Factory()) }.build(),
         LocalSeedColor provides appSettingsState.seedColor,

@@ -121,4 +121,6 @@
     <string name="show_more_actions">显示更多操作</string>
     <string name="download_notification">下载通知</string>
     <string name="download_notification_desc">在系统通知中显示下载进度与完成信息</string>
+    <string name="color_theming">色彩主题</string>
+    <string name="color_theming_desc">"Material You "</string>
 </resources>

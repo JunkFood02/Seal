@@ -301,12 +301,12 @@ fun ErrorMessage(
 fun VideoCard(
     title: String = "videotitle",
     author: String = "author",
-    thumbnailUrl: String,
+    thumbnailUrl: Any,
     onClick: () -> Unit,
-    progress: Float = 0f,
+    progress: Float = 0f, modifier: Modifier = Modifier
 ) {
     ElevatedCard(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         onClick = { onClick() }
 
@@ -361,7 +361,7 @@ fun VideoCard(
         }
         val progressAnimationValue by animateFloatAsState(
             targetValue = progress / 100f,
-            animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
         )
 
         LinearProgressIndicator(

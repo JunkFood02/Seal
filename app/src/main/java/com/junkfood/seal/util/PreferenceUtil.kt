@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -79,7 +78,6 @@ object PreferenceUtil {
     const val YT_DLP = "yt-dlp_init"
     const val DEBUG = "debug"
     const val CONFIGURE = "configure"
-    const val DYNAMIC_COLORS = "dynamic_color"
     const val DARK_THEME = "dark_theme_value"
     const val AUDIO_FORMAT = "audio_format"
     const val VIDEO_FORMAT = "video_format"
@@ -91,7 +89,6 @@ object PreferenceUtil {
     const val NOTIFICATION = "notification"
     const val THEME_COLOR = "theme_color"
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
-    val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
     val THEME_COLOR_KEY = intPreferencesKey(THEME_COLOR)
     const val FOLLOW_SYSTEM = 0
     const val SIMPLIFIED_CHINESE = 1
@@ -124,16 +121,6 @@ object PreferenceUtil {
         }
     }
 
-    fun dynamicColorSwitch() {
-        applicationScope.launch(Dispatchers.IO) {
-            context.dataStore.edit { settings ->
-                val value = settings[DYNAMIC_COLOR_KEY] ?: true
-                settings[DYNAMIC_COLOR_KEY] = !value
-                kv.encode(DYNAMIC_COLORS, !value)
-            }
-        }
-    }
-
     fun modifyThemeColor(colorArgb: Int) {
         applicationScope.launch {
             context.dataStore.edit { settings ->
@@ -145,7 +132,6 @@ object PreferenceUtil {
 
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
-        val dynamicColor: Boolean = true,
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
@@ -192,7 +178,7 @@ object PreferenceUtil {
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
                 )
-            ), kv.decodeBool(DYNAMIC_COLORS, true), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
+            ), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
         )
     }
 

@@ -12,7 +12,7 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 0
 val versionMinor = 0
 val versionPatch = 9
-val versionBuild = 1
+val versionBuild = 2
 val isStable = false
 
 val composeVersion = "1.2.0-rc01"
@@ -143,8 +143,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-//    implementation "com.github.yausername.youtubedl-android:library:-SNAPSHOT"
-//    implementation "com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT"
+//    implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
+//    implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
     implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2")
     implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
 
