@@ -11,7 +11,13 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 <img src="README.assets/3.png" width="30%" />
 <img src="README.assets/4.png" width="30%" />
 <img src="README.assets/5.png" width="30%" />
-<img src="README.assets/6.png" width="30%"/></div>
+<img src="README.assets/6.png" width="30%" />
+<img src="README.assets/9.jpg" width="30%" />
+<img src="README.assets/7.jpg" width="30%" />
+<img src="README.assets/8.jpg" width="30%" />
+</div>
+
+
 
 
 
@@ -30,9 +36,9 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 
 - Easy to use and user-friendly.
 
-- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (for Android 12+)
+- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (~~is this really needed in a video downloader?~~)
 
-- MAD: UI and Logic with pure Kotlin. Single activity, no fragments but composable destinations.
+- MAD: UI and logic written with pure Kotlin. Single activity, no fragments but composable destinations.
 
 
 
@@ -43,3 +49,5 @@ Seal is just a simple GUI of [youtubedl-android](https://github.com/yausername/y
 UI design and codes are heavily based on [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
+
+[Material color utilities](https://github.com/material-foundation/material-color-utilities)

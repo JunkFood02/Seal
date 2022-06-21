@@ -12,14 +12,14 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 0
 val versionMinor = 0
 val versionPatch = 9
-val versionBuild = 1
+val versionBuild = 2
 val isStable = false
 
-val composeVersion = "1.2.0-beta03"
-val lifecycleVersion = "2.5.0-rc01"
-val navigationVersion = "2.5.0-rc01"
+val composeVersion = "1.2.0-rc01"
+val lifecycleVersion = "2.5.0-rc02"
+val navigationVersion = "2.5.0-rc02"
 val roomVersion = "2.4.2"
-val accompanistVersion = "0.24.10-beta"
+val accompanistVersion = "0.24.11-rc"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha13"
@@ -143,14 +143,15 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-//    implementation "com.github.yausername.youtubedl-android:library:-SNAPSHOT"
-//    implementation "com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT"
+//    implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
+//    implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
     implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2")
     implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
 
     implementation("com.tencent:mmkv:1.2.13")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    implementation ("androidx.palette:palette-ktx:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

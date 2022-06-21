@@ -135,4 +135,6 @@
     <string name="show_more_actions">Show more actions</string>
     <string name="download_notification">Download notification</string>
     <string name="download_notification_desc">"Notify download progress and finish messages "</string>
+    <string name="color_theming">Color theming</string>
+    <string name="color_theming_desc">Choose color which apply to app theme</string>
 </resources>

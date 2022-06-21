@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.SettingItem
-import com.junkfood.seal.ui.core.Route
+import com.junkfood.seal.ui.common.Route
 
 @Composable
 fun SettingsPage(navController: NavController) {

@@ -1,7 +1,9 @@
 package com.junkfood.seal.ui.page.settings.about
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +37,12 @@ fun AboutPage(onBackPressed: () -> Unit) {
         rememberTopAppBarScrollState()
     )
     val context = LocalContext.current
-    val info = context.packageManager.getPackageInfo(context.packageName, 0)
+    val info = if (Build.VERSION.SDK_INT >= 33) context.packageManager.getPackageInfo(
+        context.packageName,
+        PackageManager.PackageInfoFlags.of(0)
+    )
+    else context.packageManager.getPackageInfo(context.packageName, 0)
+
     val versionName = info.versionName
     val releaseURL = "https://github.com/JunkFood02/Seal/releases/latest"
     val repoUrl = "https://github.com/JunkFood02/Seal"
@@ -46,6 +53,7 @@ fun AboutPage(onBackPressed: () -> Unit) {
     val dvd = "https://github.com/yausername/dvd"
     val icons8 = "https://icons8.com/"
     val materialIcon = "https://fonts.google.com/icons"
+    val materialColor = "https://github.com/material-foundation/material-color-utilities"
     val creditsDialog = remember { mutableStateOf(false) }
     fun openUrl(url: String) {
         context.startActivity(Intent().apply {
@@ -67,7 +75,8 @@ fun AboutPage(onBackPressed: () -> Unit) {
                 }, navigationIcon = {
                     IconButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed) {
+                        onClick = onBackPressed
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.back)
@@ -115,13 +124,14 @@ fun AboutPage(onBackPressed: () -> Unit) {
             onDismissRequest = { creditsDialog.value = false },
             title = { Text(stringResource(id = R.string.credits)) },
             text = {
-                Column() {
+                Column {
                     TextButton(onClick = { openUrl(youtubedlAndroidUrl) }) { Text(text = "youtubedl-android") }
                     TextButton(onClick = { openUrl(ytdlpUrl) }) { Text(text = "yt-dlp") }
                     TextButton(onClick = { openUrl(readYou) }) { Text(text = "Read You") }
                     TextButton(onClick = { openUrl(musicYou) }) { Text(text = "Music You") }
                     TextButton(onClick = { openUrl(dvd) }) { Text(text = "dvd") }
                     TextButton(onClick = { openUrl(materialIcon) }) { Text("Material Icons") }
+                    TextButton(onClick = { openUrl(materialColor) }) { Text(text = "Material color utilities") }
                     TextButton(onClick = { openUrl(icons8) }) { Text(text = "App Icon by Icons8.com") }
                 }
             }, confirmButton = {

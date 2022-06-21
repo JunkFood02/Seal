@@ -5,7 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.junkfood.seal.ui.core.*
+import com.junkfood.seal.ui.common.*
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.page.settings.SettingsPage
@@ -23,7 +23,7 @@ fun HomeEntry(
     SettingsProvider {
         SealTheme(
             darkTheme = LocalDarkTheme.current.isDarkTheme(),
-            dynamicColor = LocalDynamicColor.current
+            seedColor = LocalSeedColor.current
         ) {
             val navController = rememberAnimatedNavController()
             val onBackPressed = { navController.popBackStack() }

@@ -6,16 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
@@ -79,7 +78,6 @@ object PreferenceUtil {
     const val YT_DLP = "yt-dlp_init"
     const val DEBUG = "debug"
     const val CONFIGURE = "configure"
-    const val DYNAMIC_COLORS = "dynamic_color"
     const val DARK_THEME = "dark_theme_value"
     const val AUDIO_FORMAT = "audio_format"
     const val VIDEO_FORMAT = "video_format"
@@ -89,9 +87,9 @@ object PreferenceUtil {
     const val PLAYLIST = "playlist"
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
+    const val THEME_COLOR = "theme_color"
     val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
-    val DYNAMIC_COLOR_KEY = booleanPreferencesKey(DYNAMIC_COLORS)
-
+    val THEME_COLOR_KEY = intPreferencesKey(THEME_COLOR)
     const val FOLLOW_SYSTEM = 0
     const val SIMPLIFIED_CHINESE = 1
     const val ENGLISH = 2
@@ -123,19 +121,18 @@ object PreferenceUtil {
         }
     }
 
-    fun dynamicColorSwitch() {
-        CoroutineScope(Job()).launch(Dispatchers.IO) {
+    fun modifyThemeColor(colorArgb: Int) {
+        applicationScope.launch {
             context.dataStore.edit { settings ->
-                val value = settings[DYNAMIC_COLOR_KEY] ?: true
-                settings[DYNAMIC_COLOR_KEY] = !value
-                kv.encode(DYNAMIC_COLORS, !value)
+                settings[THEME_COLOR_KEY] = colorArgb
+                kv.encode(THEME_COLOR, colorArgb)
             }
         }
     }
 
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
-        val dynamicColor: Boolean = true
+        val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
 
@@ -164,7 +161,7 @@ object PreferenceUtil {
 
         fun switch(value: Int) {
             darkThemeValue = value
-            CoroutineScope(Job()).launch(Dispatchers.IO) {
+            applicationScope.launch(Dispatchers.IO) {
                 kv.encode(DARK_THEME, value)
                 context.dataStore.edit { settings ->
                     settings[DARK_THEME_KEY] = value
@@ -172,7 +169,6 @@ object PreferenceUtil {
             }
         }
     }
-
 
     @Composable
     fun initialAppSettings(): AppSettings {
@@ -182,7 +178,7 @@ object PreferenceUtil {
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
                 )
-            ), kv.decodeBool(DYNAMIC_COLORS, true)
+            ), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
         )
     }
 

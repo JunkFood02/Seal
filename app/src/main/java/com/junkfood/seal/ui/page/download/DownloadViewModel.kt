@@ -2,11 +2,15 @@ package com.junkfood.seal.ui.page.download
 
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.palette.graphics.Palette
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -47,7 +51,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
-        )
+        ),
+        val palette: Palette? = null
     )
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
@@ -96,15 +101,22 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
                     return@launch
                 }
+/*                val palette = extractColorsFromImage(
+                    TextUtil.urlHttpToHttps(
+                        videoInfo.thumbnail ?: ""
+                    )
+                )*/
                 update {
                     it.copy(
                         progress = 0f,
                         showVideoCard = true,
                         videoTitle = videoInfo.title,
                         videoAuthor = videoInfo.uploader ?: "null",
-                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
+                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+//                        palette = palette
                     )
                 }
+//                PreferenceUtil.modifyThemeColor(palette.getVibrantColor(0xffffff))
                 val notificationID = value.url.hashCode()
                 try {
                     NotificationUtil.makeNotification(
@@ -271,6 +283,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 IsExecutingCommand = false, isProcessing = false
             )
         }
+    }
+
+    suspend fun extractColorsFromImage(url: String): Palette {
+        return Palette.Builder(
+            (ImageLoader(context).execute(
+                ImageRequest.Builder(context).data(url).allowHardware(false).build()
+            ).drawable as BitmapDrawable).bitmap
+        ).generate()
     }
 
     fun openVideoFile() {

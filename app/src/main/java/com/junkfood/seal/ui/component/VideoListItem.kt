@@ -24,7 +24,7 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.request.videoFrameMillis
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.core.LocalVideoThumbnailLoader
+import com.junkfood.seal.ui.common.LocalVideoThumbnailLoader
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
