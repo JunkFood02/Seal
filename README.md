@@ -11,7 +11,13 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 <img src="README.assets/3.png" width="30%" />
 <img src="README.assets/4.png" width="30%" />
 <img src="README.assets/5.png" width="30%" />
-<img src="README.assets/6.png" width="30%"/></div>
+<img src="README.assets/6.png" width="30%" />
+<img src="README.assets/9.jpg" width="30%" />
+<img src="README.assets/7.jpg" width="30%" />
+<img src="README.assets/8.jpg" width="30%" />
+</div>
+
+
 
 
 
@@ -30,7 +36,7 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 
 - Easy to use and user-friendly.
 
-- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (for Android 12+)
+- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (~~is this really needed in a video downloader?~~)
 
 - MAD: UI and logic written with pure Kotlin. Single activity, no fragments but composable destinations.
 
