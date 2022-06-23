@@ -2,7 +2,7 @@
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
     <string name="download_directory">Download directory</string>
-    <string name="extract_audio">Extract audio</string>
+    <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings_desc">General, format, custom command</string>

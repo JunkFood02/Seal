@@ -12,7 +12,7 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 0
 val versionMinor = 0
 val versionPatch = 9
-val versionBuild = 2
+val versionBuild = 3
 val isStable = false
 
 val composeVersion = "1.2.0-rc01"
@@ -40,7 +40,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "com.junkfood.seal"
-        minSdk = 26
+        minSdk = 23
         targetSdk = 33
         versionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         versionName = if (isStable) {
@@ -77,7 +77,7 @@ android {
         abi {
             isEnable = !project.hasProperty("noSplits")
             reset()
-            include("x86_64", "arm64-v8a")
+            include("x86_64", "arm64-v8a","armeabi-v7a")
             isUniversalApk = false
         }
     }
@@ -143,10 +143,10 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-//    implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
-//    implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
-    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2")
-    implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
+    implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
+    implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
+//    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2")
+//    implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
 
     implementation("com.tencent:mmkv:1.2.13")
     implementation("androidx.datastore:datastore-preferences:1.0.0")

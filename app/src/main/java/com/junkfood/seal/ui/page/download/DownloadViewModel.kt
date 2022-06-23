@@ -150,15 +150,16 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                     return@launch
                 }
+                val intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
                 NotificationUtil.finishNotification(
                     notificationID,
                     title = videoInfo.title,
                     text = context.getString(R.string.download_finish_notification),
-                    intent = PendingIntent.getActivity(
+                    intent = if (intent != null) PendingIntent.getActivity(
                         context,
                         0,
                         FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
-                    )
+                    ) else null
                 )
                 finishProcessing()
                 /*                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))

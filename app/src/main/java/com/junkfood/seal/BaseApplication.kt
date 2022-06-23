@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.os.Environment
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.util.DownloadUtil
@@ -54,9 +55,9 @@ class BaseApplication : Application() {
 
         }
         context = applicationContext
-        NotificationUtil.createNotificationChannel()
+        if (Build.VERSION.SDK_INT >= 26)
+            NotificationUtil.createNotificationChannel()
     }
-
 
 
     companion object {
