@@ -45,9 +45,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val videoAuthor: String = "",
         val isDownloadError: Boolean = false,
         val errorMessage: String = "",
+        val progressText: String = "",
         val IsExecutingCommand: Boolean = false,
         val customCommandMode: Boolean = false,
         val isProcessing: Boolean = false,
+        val debugMode: Boolean = false,
         val drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
@@ -78,7 +80,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             TextUtil.makeToast(context.getString(R.string.task_running))
             return
         }
-        _viewState.update { it.copy(isProcessing = true) }
+        _viewState.update {
+            it.copy(
+                isProcessing = true, debugMode = PreferenceUtil.getValue(
+                    PreferenceUtil.DEBUG
+                )
+            )
+        }
         if (viewState.value.customCommandMode) {
             downloadWithCustomCommands()
             return
@@ -129,7 +137,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                     downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
                     { progress, _, line ->
-                        _viewState.update { it.copy(progress = progress) }
+                        _viewState.update { it.copy(progress = progress, progressText = line) }
                         NotificationUtil.updateNotification(
                             notificationID,
                             progress = progress.toInt(),
@@ -224,7 +232,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 YoutubeDL.getInstance().execute(request) { progress, _, line ->
-                    _viewState.update { it.copy(progress = progress) }
+                    _viewState.update { it.copy(progress = progress, progressText = line) }
                     NotificationUtil.updateNotification(
                         notificationID,
                         progress = progress.toInt(),
@@ -256,7 +264,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         _viewState.update {
             it.copy(
                 progress = 100f,
-                IsExecutingCommand = false, isProcessing = false
+                IsExecutingCommand = false, isProcessing = false, progressText = ""
             )
         }
         TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
@@ -269,7 +277,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 progress = 0f,
                 isDownloadError = true,
                 errorMessage = s,
-                IsExecutingCommand = false, isProcessing = false
+                IsExecutingCommand = false, isProcessing = false, progressText = ""
             )
         }
     }
@@ -281,7 +289,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 progress = 0f,
                 isDownloadError = true,
                 errorMessage = s,
-                IsExecutingCommand = false, isProcessing = false
+                IsExecutingCommand = false, isProcessing = false, progressText = ""
             )
         }
     }

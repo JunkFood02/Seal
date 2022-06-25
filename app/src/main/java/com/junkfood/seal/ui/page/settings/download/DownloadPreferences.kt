@@ -262,10 +262,10 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
 
                 item {
                     PreferenceSwitch(
-                        title = stringResource(R.string.error_report),
-                        description = stringResource(R.string.error_report_desc),
+                        title = stringResource(R.string.print_details),
+                        description = stringResource(R.string.print_details_desc),
                         enabled = !customCommandEnable,
-                        icon = Icons.Outlined.Report,
+                        icon = if (displayErrorReport) Icons.Outlined.Print else Icons.Outlined.PrintDisabled,
                         onClick = {
                             displayErrorReport = !displayErrorReport
                             PreferenceUtil.updateValue(DEBUG, displayErrorReport)

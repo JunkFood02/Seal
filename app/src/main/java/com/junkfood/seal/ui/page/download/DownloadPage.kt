@@ -45,7 +45,6 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
@@ -170,6 +169,7 @@ fun DownloadPage(
                                     onClick = { downloadViewModel.openVideoFile() },
                                 )
                             }
+
                             InputUrl(
                                 url = url,
                                 hint = stringResource(R.string.video_url),
@@ -177,13 +177,19 @@ fun DownloadPage(
                                 showVideoCard = showVideoCard,
                                 isInCustomMode = customCommandMode,
                                 error = isDownloadError,
-                            ) { downloadViewModel.updateUrl(it) }
+                            ) { url -> downloadViewModel.updateUrl(url) }
+                            AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
+                                Text(
+                                    text = progressText,
+                                    maxLines = 3,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                             AnimatedVisibility(visible = isDownloadError) {
-                                ErrorMessage(
+                                OutputMessage(
                                     error = isDownloadError,
-                                    copyToClipboard = PreferenceUtil.getValue(
-                                        DEBUG
-                                    ) or customCommandMode and url.isNotEmpty(),
+                                    copyToClipboard = debugMode || customCommandMode && url.isNotEmpty(),
                                     errorMessage = errorMessage
                                 )
                             }
@@ -277,7 +283,7 @@ fun InputUrl(
 
 
 @Composable
-fun ErrorMessage(
+fun OutputMessage(
     modifier: Modifier = Modifier,
     copyToClipboard: Boolean = false,
     error: Boolean = false,
