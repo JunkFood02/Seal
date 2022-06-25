@@ -38,6 +38,7 @@ object DownloadUtil {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
+            addOption("-I", "1")
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
@@ -65,8 +66,10 @@ object DownloadUtil {
             addOption("--no-mtime")
             addOption("-P", "$downloadDir/")
             addOption("-o", "%(title).60s$id.%(ext)s")
-            if (downloadPlaylist)
+            if (downloadPlaylist) {
                 addOption("--yes-playlist")
+                addOption("--progress-template", "download:%(progress._default_template)s %(info.playlist_index)s/%(info.playlist_count)s")
+            }
             else
                 addOption("--no-playlist")
 
