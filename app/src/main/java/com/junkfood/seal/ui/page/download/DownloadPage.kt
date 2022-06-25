@@ -164,8 +164,8 @@ fun DownloadPage(
                                 videoTitle,
                                 videoAuthor,
                                 videoThumbnailUrl,
-                                progressText,
-                                progress = progress, onClick = { downloadViewModel.openVideoFile() }
+                                progress = progress,
+                                onClick = { downloadViewModel.openVideoFile() },
                             )
                         }
                         InputUrl(
@@ -302,7 +302,6 @@ fun VideoCard(
     title: String = "videotitle",
     author: String = "author",
     thumbnailUrl: Any,
-    progressText: String,
     onClick: () -> Unit,
     progress: Float = 0f, modifier: Modifier = Modifier
 ) {
@@ -359,14 +358,6 @@ fun VideoCard(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = progressText,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
-
         }
         val progressAnimationValue by animateFloatAsState(
             targetValue = progress / 100f,
