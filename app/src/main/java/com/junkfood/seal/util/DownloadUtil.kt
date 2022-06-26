@@ -53,7 +53,7 @@ object DownloadUtil {
             val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
             val jsonObj = JSONObject(resp.out)
             val tp : String = jsonObj.getString("_type")
-            if (tp != null && tp == "playlist") {
+            if (tp == "playlist") {
                 playlistCount = jsonObj.getInt("playlist_count")
             }
         }
@@ -85,7 +85,7 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
-        val realUrl = videoInfo?.webpageUrl?:(videoInfo?.url?:url)
+        val realUrl = videoInfo.webpageUrl?:(videoInfo.url?:url)
         val request = YoutubeDLRequest(realUrl)
         val id = if (extractAudio) "${url.hashCode()}audio" else realUrl.hashCode().toString()
         val pathBuilder = StringBuilder("$downloadDir/")
