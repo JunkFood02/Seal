@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 
 object PreferenceUtil {
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
     private val kv = MMKV.defaultMMKV()
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)

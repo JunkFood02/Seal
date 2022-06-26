@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
+import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
@@ -102,7 +103,10 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
                     thumbnailUrl = R.drawable.sample,
-                    onClick = {}, title = "Video title sample text", author = "Video creator sample text", progress = 100f
+                    onClick = {},
+                    title = "Video title sample text",
+                    author = "Video creator sample text",
+                    progress = 100f
                 )
                 Column {
                     Row(
@@ -130,12 +134,12 @@ fun AppearancePreferences(
                     icon = Icons.Outlined.DarkMode,
                     enabled = true
                 ) { showDarkThemeDialog = true }
-
-                PreferenceItem(
-                    title = stringResource(R.string.language),
-                    icon = Icons.Outlined.Language,
-                    description = PreferenceUtil.getLanguageDesc()
-                ) { showLanguageDialog = true }
+                if (Build.VERSION.SDK_INT >= 24)
+                    PreferenceItem(
+                        title = stringResource(R.string.language),
+                        icon = Icons.Outlined.Language,
+                        description = PreferenceUtil.getLanguageDesc()
+                    ) { showLanguageDialog = true }
             }
         })
     if (showDarkThemeDialog)

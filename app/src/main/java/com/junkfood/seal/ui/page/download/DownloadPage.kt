@@ -45,15 +45,13 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
-import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 fun DownloadPage(
@@ -90,120 +88,134 @@ fun DownloadPage(
                 downloadViewModel.hideDrawer(scope)
             }
             Box(modifier = Modifier.fillMaxSize()) {
-                FABs(
-                    with(
-                        Modifier
-                            .align(Alignment.BottomEnd)
-                            .systemBarsPadding()
-                    ) {
-                        if (showVideoCard) this else this.imePadding()
-                    },
-                    downloadCallback = {
-                        if (PreferenceUtil.getValue(CONFIGURE, true))
-                            downloadViewModel.showDrawer(scope)
-                        else
-                            checkPermissionOrDownload()
-                    }
-                ) {
-                    TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                        ?.let { downloadViewModel.updateUrl(it) }
-                }
-                Column(
-                    modifier = Modifier
-                        .statusBarsPadding()
-                        .fillMaxSize()
-                ) {
-                    SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
-                        title = {},
-                        navigationIcon =
-                        {
-                            IconButton(
-                                onClick = { navController.navigate(Route.SETTINGS) }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(id = R.string.settings)
-                                )
-                            }
+                Scaffold(floatingActionButton = {
+                    FABs(
+                        with(
+                            Modifier
+                                .align(Alignment.BottomEnd)
+                                .systemBarsPadding()
+                        ) {
+                            if (showVideoCard) this else this.imePadding()
                         },
-                        actions = {
-                            IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Subscriptions,
-                                    contentDescription = stringResource(id = R.string.downloads_history)
+                        downloadCallback = {
+                            if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
+                                downloadViewModel.showDrawer(scope)
+                            else
+                                checkPermissionOrDownload()
+                        }
+                    ) {
+                        TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                            ?.let { downloadViewModel.updateUrl(it) }
+                    }
+                }) {
+                    Column(
+                        modifier = Modifier
+                            .statusBarsPadding()
+                            .padding(it)
+                            .fillMaxSize()
+                    ) {
+                        SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
+                            title = {},
+                            navigationIcon =
+                            {
+                                IconButton(
+                                    onClick = { navController.navigate(Route.SETTINGS) }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Settings,
+                                        contentDescription = stringResource(id = R.string.settings)
+                                    )
+                                }
+                            },
+                            actions = {
+                                IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Subscriptions,
+                                        contentDescription = stringResource(id = R.string.downloads_history)
+                                    )
+                                }
+                            })
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 24.dp, top = 36.dp)
+                                .combinedClickable(indication = null,
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    onClick = {},
+                                    onLongClick = {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        PreferenceUtil.updateInt(
+                                            WELCOME_DIALOG, 1
+                                        )
+                                    })
+                        ) {
+                            Text(
+                                text = context.getString(R.string.app_name),
+                                style = MaterialTheme.typography.displaySmall
+                            )
+                            AnimatedVisibility(visible = isProcessing) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .padding(start = 12.dp)
+                                        .size(16.dp), strokeWidth = 3.dp
                                 )
                             }
-                        })
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 24.dp, top = 36.dp)
-                            .combinedClickable(indication = null,
-                                interactionSource = remember { MutableInteractionSource() },
-                                onClick = {},
-                                onLongClick = {
-                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    PreferenceUtil.updateInt(
-                                        WELCOME_DIALOG, 1
-                                    )
-                                })
-                    ) {
-                        Text(
-                            text = context.getString(R.string.app_name),
-                            style = MaterialTheme.typography.displaySmall
-                        )
-                        AnimatedVisibility(visible = isProcessing) {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .padding(start = 12.dp)
-                                    .size(16.dp), strokeWidth = 3.dp
-                            )
                         }
-                    }
-                    Column(Modifier.padding(24.dp)) {
-                        AnimatedVisibility(visible = showVideoCard) {
-                            VideoCard(
-                                videoTitle,
-                                videoAuthor,
-                                videoThumbnailUrl,
+                        Column(Modifier.padding(24.dp)) {
+                            AnimatedVisibility(visible = showVideoCard) {
+                                VideoCard(
+                                    videoTitle,
+                                    videoAuthor,
+                                    videoThumbnailUrl,
+                                    progress = progress,
+                                    onClick = { downloadViewModel.openVideoFile() },
+                                )
+                            }
+
+                            InputUrl(
+                                url = url,
+                                hint = stringResource(R.string.video_url),
                                 progress = progress,
-                                onClick = { downloadViewModel.openVideoFile() },
-                            )
-                        }
-                        InputUrl(
-                            url = url,
-                            hint = stringResource(R.string.video_url),
-                            progress = progress,
-                            showVideoCard = showVideoCard,
-                            isInCustomMode = customCommandMode,
-                            error = isDownloadError,
-                        ) { downloadViewModel.updateUrl(it) }
-                        AnimatedVisibility(visible = isDownloadError) {
-                            ErrorMessage(
+                                showVideoCard = showVideoCard,
+                                isInCustomMode = customCommandMode,
                                 error = isDownloadError,
-                                copyToClipboard = PreferenceUtil.getValue(
-                                    DEBUG
-                                ) or customCommandMode and url.isNotEmpty(),
-                                errorMessage = errorMessage
-                            )
-                        }
-                        palette?.let {
-                            Row {
-                                Surface(
-                                    color = Color(it.dominantSwatch?.rgb ?: 0x111111),
-                                    shape = RoundedCornerShape(bottomStart = 6.dp, topStart = 6.dp),
-                                    modifier = Modifier.size(30.dp)
-                                ) {}
-                                Surface(
-                                    color = Color(it.mutedSwatch?.rgb ?: 0x111111),
-                                    modifier = Modifier.size(30.dp)
-                                ) {}
-                                Surface(
-                                    color = Color(it.vibrantSwatch?.rgb ?: 0x111111),
-                                    shape = RoundedCornerShape(
-                                        topEnd = 6.dp,
-                                        bottomEnd = 6.dp
-                                    ),
-                                    modifier = Modifier.size(30.dp)
-                                ) {}
+                            ) { url -> downloadViewModel.updateUrl(url) }
+                            AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
+                                Text(
+                                    text = progressText,
+                                    maxLines = 3,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                            AnimatedVisibility(visible = isDownloadError) {
+                                OutputMessage(
+                                    error = isDownloadError,
+                                    copyToClipboard = debugMode || customCommandMode && url.isNotEmpty(),
+                                    errorMessage = errorMessage
+                                )
+                            }
+                            palette?.let {
+                                Row {
+                                    Surface(
+                                        color = Color(it.dominantSwatch?.rgb ?: 0x111111),
+                                        shape = RoundedCornerShape(
+                                            bottomStart = 6.dp,
+                                            topStart = 6.dp
+                                        ),
+                                        modifier = Modifier.size(30.dp)
+                                    ) {}
+                                    Surface(
+                                        color = Color(it.mutedSwatch?.rgb ?: 0x111111),
+                                        modifier = Modifier.size(30.dp)
+                                    ) {}
+                                    Surface(
+                                        color = Color(it.vibrantSwatch?.rgb ?: 0x111111),
+                                        shape = RoundedCornerShape(
+                                            topEnd = 6.dp,
+                                            bottomEnd = 6.dp
+                                        ),
+                                        modifier = Modifier.size(30.dp)
+                                    ) {}
+                                }
                             }
                         }
                     }
@@ -271,7 +283,7 @@ fun InputUrl(
 
 
 @Composable
-fun ErrorMessage(
+fun OutputMessage(
     modifier: Modifier = Modifier,
     copyToClipboard: Boolean = false,
     error: Boolean = false,

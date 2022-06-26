@@ -5,12 +5,10 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.BaseApplication.Companion.downloadDir
 import java.io.File
 
 /**
- * No `ScopedStorage` forever so feel free to curse me about this
- * And sorry for ugly codes for filename control
+ * Sorry for ugly codes for filename control
  */
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
@@ -44,8 +42,8 @@ object FileUtil {
     }
 
     fun createIntentForOpenFile(downloadResult: DownloadUtil.Result): Intent? {
-        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return null
-        val path = downloadResult.filePath?.get(0) ?: return null
+        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
+        val path = downloadResult.filePath?.first() ?: return null
         return Intent().apply {
             action = (Intent.ACTION_VIEW)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -60,7 +58,7 @@ object FileUtil {
         }
     }
 
-    fun scanFileToMediaLibrary(title: String): ArrayList<String>? {
+    fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String>? {
         val paths = ArrayList<String>()
         val files =
             File(downloadDir).listFiles { _, name ->

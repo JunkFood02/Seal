@@ -38,7 +38,7 @@ object DownloadUtil {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
-            addOption("-I", "1")
+            addOption("--playlist-items", "1")
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
@@ -61,17 +61,10 @@ object DownloadUtil {
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
+        val pathBuilder = StringBuilder("$downloadDir/")
 
         with(request) {
             addOption("--no-mtime")
-            addOption("-P", "$downloadDir/")
-            addOption("-o", "%(title).60s$id.%(ext)s")
-            if (downloadPlaylist) {
-                addOption("--yes-playlist")
-                addOption("--progress-template", "download:%(progress._default_template)s %(info.playlist_index)s/%(info.playlist_count)s")
-            }
-            else
-                addOption("--no-playlist")
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
                 addOption("-x")
@@ -88,6 +81,7 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+                pathBuilder.append("Audio/")
             } else {
                 val sorter = StringBuilder()
                 when (PreferenceUtil.getVideoQuality()) {
@@ -110,12 +104,23 @@ object DownloadUtil {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
+            if (downloadPlaylist) {
+                addOption("--yes-playlist")
+                addOption("--progress-template", "download:%(progress._default_template)s %(info.playlist_index)s/%(info.playlist_count)s")
+            }
+            else
+                addOption("--no-playlist")
+                
+            pathBuilder.append("${videoInfo.extractorKey}/")
+            addOption("-P", pathBuilder.toString())
+            addOption("-o", "%(title).60s$id.%(ext)s")
+
             for (s in request.buildCommand())
                 Log.d(TAG, s)
             YoutubeDL.getInstance().execute(request, progressCallback)
         }
 
-        val filePaths = FileUtil.scanFileToMediaLibrary(id)
+        val filePaths = FileUtil.scanFileToMediaLibrary(id, pathBuilder.toString())
         if (filePaths != null)
             for (path in filePaths) {
                 DatabaseUtil.insertInfo(

@@ -59,8 +59,8 @@
     <string name="edit_custom_command_template">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
     <string name="advanced_settings">高级</string>
-    <string name="error_report">显示错误报告</string>
-    <string name="error_report_desc">显示详细的错误信息</string>
+    <string name="print_details">显示详细信息</string>
+    <string name="print_details_desc">显示详细的界面信息与错误报告</string>
     <string name="unknown_error">出现不可预知的错误</string>
     <string name="display">显示</string>
     <string name="dynamic_color">动态色彩</string>

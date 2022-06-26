@@ -2,7 +2,7 @@
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
     <string name="download_directory">Download directory</string>
-    <string name="extract_audio">Extract audio</string>
+    <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings_desc">General, format, custom command</string>
@@ -61,8 +61,8 @@
     <string name="edit_custom_command_template">Edit template</string>
     <string name="start_execute">Start executing command</string>
     <string name="advanced_settings">Advanced</string>
-    <string name="error_report">Display error report</string>
-    <string name="error_report_desc">Print details when error occurs</string>
+    <string name="print_details">Detailed output</string>
+    <string name="print_details_desc">Print detailed messages when downloading</string>
     <string name="unknown_error">Unknown error occurred</string>
     <string name="display">Display</string>
     <string name="display_settings">Dark theme, dynamic color, languages</string>

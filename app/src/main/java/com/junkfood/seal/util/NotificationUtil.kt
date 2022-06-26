@@ -5,6 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.junkfood.seal.BaseApplication.Companion.context
@@ -24,6 +26,7 @@ object NotificationUtil {
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.seal)
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel() {
         val name = context.getString(R.string.channel_name)
         val descriptionText = context.getString(R.string.channel_description)
@@ -64,8 +67,8 @@ object NotificationUtil {
             .setProgress(0, 0, false)
             .setAutoCancel(true)
             .setOngoing(false)
-            .setContentIntent(intent)
             .setStyle(null)
+        intent?.let { builder.setContentIntent(it) }
         notificationManager.cancel(notificationId)
         notificationManager.notify(notificationId, builder.build())
     }
