@@ -150,7 +150,7 @@ object DownloadUtil {
                     DownloadedVideoInfo(
                         0,
                         videoInfo.title,
-                        if (url != realUrl) "playlist" else if (videoInfo.uploader == null) "null" else videoInfo.uploader,
+                        if (videoInfo.uploader == null) "null" else videoInfo.uploader,
                         realUrl,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         path,
