@@ -137,4 +137,6 @@
     <string name="download_notification_desc">"Notify download progress and finish messages "</string>
     <string name="color_theming">Color theming</string>
     <string name="color_theming_desc">Choose color which apply to app theme</string>
+    <string name="fetching_playlist_info">Fetching playlist info</string>
+    <string name="stop_next">Stop after this video</string>
 </resources>

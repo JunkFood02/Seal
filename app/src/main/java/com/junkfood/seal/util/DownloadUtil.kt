@@ -8,9 +8,11 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
+import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -34,11 +36,35 @@ object DownloadUtil {
 
     private const val TAG = "DownloadUtil"
 
-    suspend fun fetchVideoInfo(url: String): VideoInfo {
+    suspend fun fetchPlaylistInfo(url: String): Int {
+        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
+        var playlistCount: Int = 1
+        if (downloadPlaylist) {
+            TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
+            val request = YoutubeDLRequest(url)
+            with(request) {
+                addOption("--flat-playlist")
+                addOption("-J")
+                addOption("-R", "1")
+                addOption("--socket-timeout", "5")
+            }
+            for (s in request.buildCommand())
+                Log.d(TAG, s)
+            val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
+            val jsonObj = JSONObject(resp.out)
+            val tp : String = jsonObj.getString("_type")
+            if (tp != null && tp == "playlist") {
+                playlistCount = jsonObj.getInt("playlist_count")
+            }
+        }
+        return playlistCount
+    }
+
+    suspend fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
-            addOption("--playlist-items", "1")
+            addOption("--playlist-items", playlistItem)
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
@@ -59,8 +85,9 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
-        val request = YoutubeDLRequest(url)
-        val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
+        val realUrl = videoInfo?.url?:(videoInfo.webpageUrl?:url)
+        val request = YoutubeDLRequest(realUrl)
+        val id = if (extractAudio) "${url.hashCode()}audio" else realUrl.hashCode().toString()
         val pathBuilder = StringBuilder("$downloadDir/")
 
         with(request) {
@@ -104,11 +131,7 @@ object DownloadUtil {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-            if (downloadPlaylist) {
-                addOption("--yes-playlist")
-                addOption("--progress-template", "download:%(progress._default_template)s %(info.playlist_index)s/%(info.playlist_count)s")
-            }
-            else
+            if (!downloadPlaylist)
                 addOption("--no-playlist")
                 
             pathBuilder.append("${videoInfo.extractorKey}/")
@@ -126,9 +149,9 @@ object DownloadUtil {
                 DatabaseUtil.insertInfo(
                     DownloadedVideoInfo(
                         0,
-                        if (filePaths.size > 1) File(path).nameWithoutExtension else videoInfo.title,
-                        if (filePaths.size > 1) "playlist" else if (videoInfo.uploader == null) "null" else videoInfo.uploader,
-                        url,
+                        videoInfo.title,
+                        if (url != realUrl) "playlist" else if (videoInfo.uploader == null) "null" else videoInfo.uploader,
+                        realUrl,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         path,
                         videoInfo.extractorKey
