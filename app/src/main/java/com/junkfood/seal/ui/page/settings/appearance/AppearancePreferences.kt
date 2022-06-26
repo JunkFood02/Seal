@@ -103,8 +103,7 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
                     thumbnailUrl = R.drawable.sample,
-                    onClick = {}, title = "Video title sample text", author = "Video creator sample text", progress = 100f,
-                    progressText = "75.9% of 173.97MiB at    8.52MiB/s ETA 00:04"
+                    onClick = {}, title = "Video title sample text", author = "Video creator sample text", progress = 100f
                 )
                 Column {
                     Row(
