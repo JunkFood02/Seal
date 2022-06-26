@@ -123,8 +123,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     try {
                         videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url, i+1)
                     } catch (e: Exception) {
-                    	manageDownloadError(e)
-                        continue
+                        manageDownloadError(e)
+                        if (value.stopNext)
+                            break
+                        else
+                            continue
                     }
 /*                val palette = extractColorsFromImage(
                     TextUtil.urlHttpToHttps(
@@ -171,7 +174,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             text = context.getString(R.string.download_error_msg),
                             intent = null
                         )
-                        continue
+                        if (value.stopNext)
+                            break
+                        else
+                            continue
                     }
                 val intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
                 NotificationUtil.finishNotification(

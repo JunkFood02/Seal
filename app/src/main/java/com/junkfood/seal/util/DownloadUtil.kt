@@ -85,7 +85,7 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
-        val realUrl = videoInfo?.url?:(videoInfo.webpageUrl?:url)
+        val realUrl = videoInfo?.webpageUrl?:(videoInfo?.url:url)
         val request = YoutubeDLRequest(realUrl)
         val id = if (extractAudio) "${url.hashCode()}audio" else realUrl.hashCode().toString()
         val pathBuilder = StringBuilder("$downloadDir/")
