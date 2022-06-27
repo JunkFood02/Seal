@@ -54,7 +54,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
         ),
-        val palette: Palette? = null
+        val palette: Palette? = null,
+        val stopNext:Boolean = false,
+        val playlistCount: Int = 0,
+        val playlistIndex: Int = 0
     )
 
     fun updateUrl(url: String) = _viewState.update { it.copy(url = url) }
@@ -72,6 +75,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
+
+    fun CoroutineScope.manageDownloadError(e: Exception) = launch {
+        e.printStackTrace()
+        if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+            showErrorReport(e.message ?: context.getString(R.string.unknown_error))
+        else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+    }
 
     fun startDownloadVideo() {
         switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
@@ -98,66 +108,77 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     showErrorMessage(context.getString(R.string.url_empty))
                     return@launch
                 }
-                update { it.copy(isDownloadError = false) }
-                val videoInfo: VideoInfo
+                update { it.copy(isDownloadError = false, stopNext = false) }
+                var videoInfo: VideoInfo
+                var plCount: Int = 1
                 try {
-                    videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url)
+                    plCount = DownloadUtil.fetchPlaylistInfo(viewState.value.url)
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
-                        showErrorReport(e.message ?: context.getString(R.string.unknown_error))
-                    else showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+                    manageDownloadError(e)
                     return@launch
                 }
+                update { it.copy(playlistCount = plCount) }
+                var notificationID = value.url.hashCode()
+                for (i in 0 until plCount) {       // i in 1 until 10, excluding 10
+                    try {
+                        videoInfo = DownloadUtil.fetchVideoInfo(viewState.value.url, i+1)
+                    } catch (e: Exception) {
+                        manageDownloadError(e)
+                        if (value.stopNext)
+                            break
+                        else
+                            continue
+                    }
 /*                val palette = extractColorsFromImage(
                     TextUtil.urlHttpToHttps(
                         videoInfo.thumbnail ?: ""
                     )
                 )*/
-                update {
-                    it.copy(
-                        progress = 0f,
-                        showVideoCard = true,
-                        videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader ?: "null",
-                        videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                    update {
+                        it.copy(
+                            progress = 0f,
+                            playlistIndex = i,
+                            showVideoCard = true,
+                            videoTitle = videoInfo.title,
+                            videoAuthor = videoInfo.uploader ?: "null",
+                            videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
 //                        palette = palette
-                    )
-                }
-//                PreferenceUtil.modifyThemeColor(palette.getVibrantColor(0xffffff))
-                val notificationID = value.url.hashCode()
-                try {
-                    NotificationUtil.makeNotification(
-                        notificationID,
-                        title = context.getString(R.string.download_notification_template)
-                            .format(videoInfo.title), text = ""
-                    )
-                    TextUtil.makeToastSuspend(
-                        context.getString(R.string.download_start_msg).format(videoInfo.title)
-                    )
-                    downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo)
-                    { progress, _, line ->
-                        _viewState.update { it.copy(progress = progress, progressText = line) }
-                        NotificationUtil.updateNotification(
-                            notificationID,
-                            progress = progress.toInt(),
-                            text = line
                         )
-
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
-                        showErrorReport(e.message ?: context.getString(R.string.unknown_error))
-                    else showErrorMessage(context.getString(R.string.download_error_msg))
-                    NotificationUtil.finishNotification(
-                        notificationID,
-                        title = videoInfo.title,
-                        text = context.getString(R.string.download_error_msg),
-                        intent = null
-                    )
-                    return@launch
-                }
+//                PreferenceUtil.modifyThemeColor(palette.getVibrantColor(0xffffff))
+                    notificationID = (value.url + (if (videoInfo.id != null) videoInfo.id else i)).hashCode()
+                    val appendS = " [" + (i+1) + "/" + plCount + "]"
+                    try {
+                        NotificationUtil.makeNotification(
+                            notificationID,
+                            title = context.getString(R.string.download_notification_template)
+                                .format(videoInfo.title) + appendS, text = ""
+                        )
+                        TextUtil.makeToastSuspend(
+                            context.getString(R.string.download_start_msg).format(videoInfo.title) + appendS
+                        )
+                        downloadResultTemp = DownloadUtil.downloadVideo(value.url, videoInfo) { progress, _, line ->
+                            _viewState.update { it.copy(progress = progress, progressText = line) }
+                            NotificationUtil.updateNotification(
+                                notificationID,
+                                progress = progress.toInt(),
+                                text = line
+                            )
+                        }
+
+                    } catch (e: Exception) {
+                        manageDownloadError(e)
+                        NotificationUtil.finishNotification(
+                            notificationID,
+                            title = videoInfo.title,
+                            text = context.getString(R.string.download_error_msg),
+                            intent = null
+                        )
+                        if (value.stopNext)
+                            break
+                        else
+                            continue
+                    }
                 val intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
                 NotificationUtil.finishNotification(
                     notificationID,
@@ -169,6 +190,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
                     ) else null
                 )
+                    if (value.stopNext)
+                        break
+                }
+
                 finishProcessing()
                 /*                if (PreferenceUtil.getValue(PreferenceUtil.OPEN_IMMEDIATELY))
                                     openFile(downloadResultTemp)*/
@@ -305,6 +330,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun openVideoFile() {
         if (_viewState.value.progress == 100f)
             openFile(downloadResultTemp)
+    }
+
+    fun stopNext(v: Boolean) {
+        _viewState.update {
+            it.copy(
+                stopNext = v
+            )
+        }
     }
 
     companion object {

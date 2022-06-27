@@ -45,6 +45,9 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CONFIGURE
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
+import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
@@ -161,13 +164,19 @@ fun DownloadPage(
                         }
                         Column(Modifier.padding(24.dp)) {
                             AnimatedVisibility(visible = showVideoCard) {
-                                VideoCard(
-                                    videoTitle,
-                                    videoAuthor,
-                                    videoThumbnailUrl,
-                                    progress = progress,
-                                    onClick = { downloadViewModel.openVideoFile() },
-                                )
+	                            VideoCard(
+	                                videoTitle,
+	                                videoAuthor,
+	                                videoThumbnailUrl,
+	                                progress = progress,
+	                                playlistIndex = playlistIndex,
+	                                playlistCount = playlistCount,
+	                                onClick = { downloadViewModel.openVideoFile() },
+	                                stopNext = stopNext,
+	                                onCheckedChange = {
+	                                    downloadViewModel.stopNext(it)
+	                                },
+	                            )
                             }
 
                             InputUrl(
@@ -315,7 +324,11 @@ fun VideoCard(
     author: String = "author",
     thumbnailUrl: Any,
     onClick: () -> Unit,
-    progress: Float = 0f, modifier: Modifier = Modifier
+    stopNext: Boolean = false,
+    progress: Float = 0f, modifier: Modifier = Modifier,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
+    playlistCount: Int = 1,
+    playlistIndex: Int = 1
 ) {
     ElevatedCard(
         modifier = modifier
@@ -370,6 +383,30 @@ fun VideoCard(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            AnimatedVisibility(visible = PreferenceUtil.getValue(
+                PLAYLIST
+            ) && playlistIndex + 1 < playlistCount) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = context.getString(R.string.stop_next) + " [" + (playlistIndex + 1) + "/" + playlistCount + "]",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        overflow = TextOverflow.Ellipsis)
+                    Switch(
+                        checked = stopNext,
+                        onCheckedChange = onCheckedChange
+                    )
+                }
+            }
+
         }
         val progressAnimationValue by animateFloatAsState(
             targetValue = progress / 100f,
