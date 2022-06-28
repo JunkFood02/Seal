@@ -139,4 +139,6 @@
     <string name="color_theming_desc">Choose color which apply to app theme</string>
     <string name="fetching_playlist_info">Fetching playlist info</string>
     <string name="stop_next">Stop after this video</string>
+    <string name="download_range_selection">Download selection</string>
+    <string name="download_range_desc">Input video index range you want to download from this playlist.</string>
 </resources>

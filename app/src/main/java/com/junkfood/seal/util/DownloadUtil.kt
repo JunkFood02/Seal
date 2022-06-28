@@ -13,7 +13,6 @@ import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.File
 import kotlin.math.roundToInt
 
 object DownloadUtil {
@@ -38,7 +37,7 @@ object DownloadUtil {
 
     suspend fun fetchPlaylistInfo(url: String): Int {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
-        var playlistCount: Int = 1
+        var playlistCount = 1
         if (downloadPlaylist) {
             TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
             val request = YoutubeDLRequest(url)

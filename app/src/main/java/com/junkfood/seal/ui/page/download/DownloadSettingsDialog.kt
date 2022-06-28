@@ -37,6 +37,7 @@ fun DownloadSettingDialog(
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)) }
     var customCommand by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)) }
+    var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) }
 
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
@@ -78,6 +79,10 @@ fun DownloadSettingDialog(
                 label = stringResource(R.string.create_thumbnail)
             )
 
+            FilterChipWithAnimatedIcon(
+                selected = playlist, onClick = { playlist = !playlist },
+                label = stringResource(R.string.download_playlist)
+            )
 
             FilterChipWithAnimatedIcon(
                 selected = customCommand,
@@ -91,18 +96,21 @@ fun DownloadSettingDialog(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
             AnimatedVisibility(visible = !audio) {
-                Row{
-                ButtonChip(
-                    onClick = { showVideoFormatDialog = true }, enabled = !customCommand && !audio,
-                    label = stringResource(R.string.video_format),
-                    icon = Icons.Outlined.VideoFile
-                )
+                Row {
+                    ButtonChip(
+                        onClick = { showVideoFormatDialog = true },
+                        enabled = !customCommand && !audio,
+                        label = stringResource(R.string.video_format),
+                        icon = Icons.Outlined.VideoFile
+                    )
 
-                ButtonChip(
-                    onClick = { showVideoQualityDialog = true }, enabled = !customCommand && !audio,
-                    label = stringResource(R.string.video_quality),
-                    icon = Icons.Outlined._4k
-                )}
+                    ButtonChip(
+                        onClick = { showVideoQualityDialog = true },
+                        enabled = !customCommand && !audio,
+                        label = stringResource(R.string.video_quality),
+                        icon = Icons.Outlined._4k
+                    )
+                }
             }
             AnimatedVisibility(visible = audio) {
                 ButtonChip(
