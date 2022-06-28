@@ -45,7 +45,6 @@ import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
-import com.junkfood.seal.util.PreferenceUtil.modifyThemeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,7 +102,10 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
                     thumbnailUrl = R.drawable.sample,
-                    onClick = {}, title = "Video title sample text", author = "Video creator sample text", progress = 100f
+                    onClick = {},
+                    title = "Video title sample text",
+                    author = "Video creator sample text",
+                    progress = 100f
                 )
                 Column {
                     Row(
@@ -146,7 +148,7 @@ fun AppearancePreferences(
         }, confirmButton = {
             ConfirmButton {
                 showDarkThemeDialog = false
-                darkTheme.switch(darkThemeValue)
+                PreferenceUtil.switchDarkThemeMode(darkThemeValue)
             }
         }, dismissButton = {
             DismissButton {
@@ -224,7 +226,7 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color) {
     val state2 = animateDpAsState(targetValue = if (currentColor) 18.dp else 0.dp)
     ElevatedCard(modifier = modifier
         .padding(4.dp)
-        .size(72.dp), onClick = { modifyThemeColor(seedColor) }) {
+        .size(72.dp), onClick = { PreferenceUtil.modifyThemeSeedColor(seedColor) }) {
         Box(Modifier.fillMaxSize()) {
             Box(
                 modifier = modifier

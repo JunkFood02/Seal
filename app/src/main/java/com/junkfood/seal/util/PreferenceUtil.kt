@@ -1,25 +1,21 @@
 package com.junkfood.seal.util
 
-import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
 object PreferenceUtil {
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
     private val kv = MMKV.defaultMMKV()
 
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
@@ -87,8 +83,6 @@ object PreferenceUtil {
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
     const val THEME_COLOR = "theme_color"
-    val DARK_THEME_KEY = intPreferencesKey(DARK_THEME)
-    val THEME_COLOR_KEY = intPreferencesKey(THEME_COLOR)
     const val FOLLOW_SYSTEM = 0
     const val SIMPLIFIED_CHINESE = 1
     const val ENGLISH = 2
@@ -120,20 +114,40 @@ object PreferenceUtil {
         }
     }
 
-    fun modifyThemeColor(colorArgb: Int) {
-        applicationScope.launch {
-            context.dataStore.edit { settings ->
-                settings[THEME_COLOR_KEY] = colorArgb
-                kv.encode(THEME_COLOR, colorArgb)
-            }
-        }
-    }
-
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
+    private val mutableAppSettingsStateFlow = MutableStateFlow(
+        AppSettings(
+            DarkThemePreference(
+                kv.decodeInt(
+                    DARK_THEME,
+                    DarkThemePreference.FOLLOW_SYSTEM
+                )
+            ), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
+        )
+    )
+    val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
+
+    fun switchDarkThemeMode(mode: Int) {
+        applicationScope.launch(Dispatchers.IO) {
+            mutableAppSettingsStateFlow.update {
+                it.copy(darkTheme = DarkThemePreference(mode))
+            }
+            kv.encode(DARK_THEME, mode)
+        }
+    }
+
+    fun modifyThemeSeedColor(colorArgb: Int) {
+        applicationScope.launch(Dispatchers.IO) {
+            mutableAppSettingsStateFlow.update {
+                it.copy(seedColor = colorArgb)
+            }
+            kv.encode(THEME_COLOR, colorArgb)
+        }
+    }
 
     class DarkThemePreference(var darkThemeValue: Int = FOLLOW_SYSTEM) {
         companion object {
@@ -158,27 +172,6 @@ object PreferenceUtil {
             }
         }
 
-        fun switch(value: Int) {
-            darkThemeValue = value
-            applicationScope.launch(Dispatchers.IO) {
-                kv.encode(DARK_THEME, value)
-                context.dataStore.edit { settings ->
-                    settings[DARK_THEME_KEY] = value
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun initialAppSettings(): AppSettings {
-        return AppSettings(
-            DarkThemePreference(
-                kv.decodeInt(
-                    DARK_THEME,
-                    DarkThemePreference.FOLLOW_SYSTEM
-                )
-            ), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
-        )
     }
 
     private const val TAG = "PreferenceUtil"

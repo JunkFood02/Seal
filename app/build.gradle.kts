@@ -149,7 +149,6 @@ dependencies {
 //    implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
 
     implementation("com.tencent:mmkv:1.2.13")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation ("androidx.palette:palette-ktx:1.0.0")
 

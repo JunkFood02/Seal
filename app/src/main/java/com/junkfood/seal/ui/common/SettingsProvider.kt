@@ -7,10 +7,6 @@ import coil.decode.VideoFrameDecoder
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
-import com.junkfood.seal.util.PreferenceUtil.dataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 val LocalDarkTheme = compositionLocalOf { PreferenceUtil.DarkThemePreference() }
 val LocalVideoThumbnailLoader = staticCompositionLocalOf {
@@ -18,17 +14,11 @@ val LocalVideoThumbnailLoader = staticCompositionLocalOf {
 }
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }
 
-val settingFlow: Flow<PreferenceUtil.AppSettings> =
-    context.dataStore.data.map {
-        PreferenceUtil.AppSettings(
-            PreferenceUtil.DarkThemePreference(it[PreferenceUtil.DARK_THEME_KEY] ?: FOLLOW_SYSTEM),
-            it[PreferenceUtil.THEME_COLOR_KEY] ?: DEFAULT_SEED_COLOR
-        )
-    }
+val settingFlow = PreferenceUtil.AppSettingsStateFlow
 
 @Composable
 fun SettingsProvider(content: @Composable () -> Unit) {
-    val appSettingsState = settingFlow.collectAsState(PreferenceUtil.initialAppSettings()).value
+    val appSettingsState = settingFlow.collectAsState().value
     CompositionLocalProvider(
         LocalDarkTheme provides appSettingsState.darkTheme,
         LocalVideoThumbnailLoader provides ImageLoader.Builder(LocalContext.current)
