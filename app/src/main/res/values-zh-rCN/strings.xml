@@ -122,5 +122,10 @@
     <string name="download_notification">下载通知</string>
     <string name="download_notification_desc">在系统通知中显示下载进度与完成信息</string>
     <string name="color_theming">色彩主题</string>
-    <string name="color_theming_desc">"Material You "</string>
+    <string name="fetching_playlist_info">正在获取播放列表信息</string>
+    <string name="download_range_selection">下载范围选择</string>
+    <string name="download_range_desc">指定要从播放列表下载的视频（序号范围：%d-%d）</string>
+    <string name="from">起始序号</string>
+    <string name="to">结束序号</string>
+    <string name="invalid_index_range">序号范围非法</string>
 </resources>

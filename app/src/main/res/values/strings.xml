@@ -136,12 +136,11 @@
     <string name="download_notification">Download notification</string>
     <string name="download_notification_desc">"Notify download progress and finish messages "</string>
     <string name="color_theming">Color theming</string>
-    <string name="color_theming_desc">Choose color which apply to app theme</string>
     <string name="fetching_playlist_info">Fetching playlist info</string>
     <string name="stop_next">Stop after this video</string>
-    <string name="download_range_selection">Download selection</string>
-    <string name="download_range_desc">Input video index range you want to download from this playlist (ranged from 1 to %d). </string>
-    <string name="from">From</string>
-    <string name="to">To</string>
+    <string name="download_range_selection">Playlist selection</string>
+    <string name="download_range_desc">"Specify video index range you want to download from this playlist (ranged from %d to %d). "</string>
+    <string name="from">Start index</string>
+    <string name="to">End index</string>
     <string name="invalid_index_range">Invalid index range</string>
 </resources>
