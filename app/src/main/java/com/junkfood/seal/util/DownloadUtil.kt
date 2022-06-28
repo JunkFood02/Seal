@@ -35,12 +35,12 @@ object DownloadUtil {
 
     private const val TAG = "DownloadUtil"
 
-    suspend fun fetchPlaylistInfo(url: String): Int {
+    suspend fun getPlaylistSize(playlistSize: String): Int {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         var playlistCount = 1
         if (downloadPlaylist) {
             TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(url)
+            val request = YoutubeDLRequest(playlistSize)
             with(request) {
                 addOption("--flat-playlist")
                 addOption("-J")
@@ -51,7 +51,7 @@ object DownloadUtil {
                 Log.d(TAG, s)
             val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
             val jsonObj = JSONObject(resp.out)
-            val tp : String = jsonObj.getString("_type")
+            val tp: String = jsonObj.getString("_type")
             if (tp == "playlist") {
                 playlistCount = jsonObj.getInt("playlist_count")
             }
@@ -75,7 +75,6 @@ object DownloadUtil {
     }
 
     suspend fun downloadVideo(
-        url: String,
         videoInfo: VideoInfo,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
@@ -84,9 +83,9 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
-        val realUrl = videoInfo.webpageUrl?:(videoInfo.url?:url)
-        val request = YoutubeDLRequest(realUrl)
-        val id = if (extractAudio) "${url.hashCode()}audio" else realUrl.hashCode().toString()
+        val url = videoInfo.webpageUrl ?: return Result.failure()
+        val request = YoutubeDLRequest(url)
+        val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
         val pathBuilder = StringBuilder("$downloadDir/")
 
         with(request) {
@@ -132,7 +131,7 @@ object DownloadUtil {
             }
             if (!downloadPlaylist)
                 addOption("--no-playlist")
-                
+
             pathBuilder.append("${videoInfo.extractorKey}/")
             addOption("-P", pathBuilder.toString())
             addOption("-o", "%(title).60s$id.%(ext)s")
@@ -150,7 +149,7 @@ object DownloadUtil {
                         0,
                         videoInfo.title,
                         if (videoInfo.uploader == null) "null" else videoInfo.uploader,
-                        realUrl,
+                        url,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         path,
                         videoInfo.extractorKey

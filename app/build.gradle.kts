@@ -145,8 +145,8 @@ dependencies {
 
     implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
     implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
-//    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:0.13.2")
-//    implementation("com.github.JunkFood02.youtubedl-android:library:0.13.2")
+//    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
+//    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 
     implementation("com.tencent:mmkv:1.2.13")
 

@@ -70,7 +70,7 @@ fun DownloadPage(
             }
         }
     val scope = rememberCoroutineScope()
-    val viewState = downloadViewModel.viewState.collectAsState()
+    val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
     val hapticFeedback = LocalHapticFeedback.current
 
@@ -81,6 +81,7 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
+    PlaylistSelectionDialog()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -143,7 +144,7 @@ fun DownloadPage(
                                 videoThumbnailUrl,
                                 progress = progress,
                                 playlistIndex = playlistIndex,
-                                playlistCount = playlistCount,
+                                playlistCount = playlistSize,
                                 onClick = { downloadViewModel.openVideoFile() },
                                 stopNext = stopNext,
                                 onCheckedChange = {
@@ -157,7 +158,7 @@ fun DownloadPage(
                             hint = stringResource(R.string.video_url),
                             progress = progress,
                             showVideoCard = showVideoCard,
-                            isInCustomMode = customCommandMode,
+                            isInCustomMode = isInCustomCommandMode,
                             error = isDownloadError,
                         ) { url -> downloadViewModel.updateUrl(url) }
                         AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
@@ -171,7 +172,7 @@ fun DownloadPage(
                         AnimatedVisibility(visible = isDownloadError) {
                             OutputMessage(
                                 error = isDownloadError,
-                                copyToClipboard = debugMode || customCommandMode && url.isNotEmpty(),
+                                copyToClipboard = debugMode || isInCustomCommandMode && url.isNotEmpty(),
                                 errorMessage = errorMessage
                             )
                         }

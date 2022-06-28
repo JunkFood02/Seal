@@ -1,6 +1,7 @@
 package com.junkfood.seal.util
 
 import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +9,10 @@ import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
 object TextUtil {
+
+    fun String.isNumberInRange(start: Int, end: Int): Boolean {
+        return this.isNotEmpty() && this.isDigitsOnly() && this.length < 4 && this.toInt() >= start && this.toInt() <= end
+    }
 
     fun matchUrlFromClipboard(s: String): String? {
         matchUrlFromString(s).run {

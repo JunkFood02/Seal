@@ -41,7 +41,11 @@ object NotificationUtil {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun makeNotification(notificationId: Int = NOTIFICATION_ID, title: String, text: String) {
+    fun makeNotification(
+        notificationId: Int = NOTIFICATION_ID,
+        title: String,
+        text: String? = null
+    ) {
         builder.setContentTitle(title)
             .setContentText(text)
             .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, false)
@@ -59,10 +63,14 @@ object NotificationUtil {
     }
 
     fun finishNotification(
-        notificationId: Int = NOTIFICATION_ID, title: String, text: String?, intent: PendingIntent?
+        notificationId: Int = NOTIFICATION_ID,
+        title: String? = null,
+        text: String? = null,
+        intent: PendingIntent? = null
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        builder.setContentTitle(title)
+        title?.let { builder.setContentTitle(title) }
+        builder
             .setContentText(text)
             .setProgress(0, 0, false)
             .setAutoCancel(true)
