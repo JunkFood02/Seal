@@ -134,7 +134,7 @@
     <string name="share_success_msg">Reading video link from shared content</string>
     <string name="show_more_actions">Show more actions</string>
     <string name="download_notification">Download notification</string>
-    <string name="download_notification_desc">"Notify download progress and finish messages "</string>
+    <string name="download_notification_desc">"Notify download progress and finish messages"</string>
     <string name="color_theming">Color theming</string>
     <string name="fetching_playlist_info">Fetching playlist info</string>
     <string name="download_range_selection">Playlist selection</string>
@@ -148,4 +148,6 @@
     <string name="download_directory_desc">Configure download directory for videos and audio files</string>
     <string name="subdirectory">Save to subdirectory</string>
     <string name="subdirectory_desc">Save files to subdirectory named with websites</string>
+    <string name="permission_issue">Storage permission issue</string>
+    <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
 </resources>

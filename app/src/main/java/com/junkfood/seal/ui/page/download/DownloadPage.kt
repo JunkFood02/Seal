@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.download
 
 import android.Manifest
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -271,7 +270,6 @@ fun TitleWithProgressIndicator(
                 }
             }
         }
-        Log.d("tag", "isDownloadingPlaylist:$isDownloadingPlaylist ")
         AnimatedVisibility(visible = isDownloadingPlaylist) {
             Text(
                 stringResource(R.string.playlist_indicator_text).format(

@@ -134,4 +134,6 @@
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
     <string name="subdirectory">下载到子目录</string>
     <string name="subdirectory_desc">将文件保存到以网站名命名的子文件夹</string>
+    <string name="permission_issue">存储权限提示</string>
+    <string name="permission_issue_desc">无法下载到除 Download/ 及 Documents/ 以外的目录</string>
 </resources>

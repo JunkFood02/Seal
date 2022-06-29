@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.SnippetFolder
@@ -22,6 +23,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -32,14 +34,15 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.ui.component.Subtitle
+import com.junkfood.seal.ui.component.PreferencesCaution
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
+    val uriHandler = LocalUriHandler.current
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
@@ -104,9 +107,14 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                item {
-                    Subtitle(text = stringResource(R.string.general_settings))
-                }
+                if (Build.VERSION.SDK_INT >= 29)
+                    item {
+                        PreferencesCaution(
+                            title = stringResource(R.string.permission_issue),
+                            description = stringResource(R.string.permission_issue_desc),
+                            icon = Icons.Filled.SdCardAlert
+                        ) { uriHandler.openUri("https://github.com/JunkFood02/Seal/issues/34") }
+                    }
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_directory),

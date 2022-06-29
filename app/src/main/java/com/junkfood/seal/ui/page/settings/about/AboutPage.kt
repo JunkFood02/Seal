@@ -1,8 +1,6 @@
 package com.junkfood.seal.ui.page.settings.about
 
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.Column
@@ -21,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
@@ -55,11 +54,9 @@ fun AboutPage(onBackPressed: () -> Unit) {
     val materialIcon = "https://fonts.google.com/icons"
     val materialColor = "https://github.com/material-foundation/material-color-utilities"
     val creditsDialog = remember { mutableStateOf(false) }
+    val uriHandler= LocalUriHandler.current
     fun openUrl(url: String) {
-        context.startActivity(Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse(url)
-        })
+        uriHandler.openUri(url)
     }
     Scaffold(
         modifier = Modifier

@@ -92,7 +92,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun parsePlaylistInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            checkStateBeforeDownload()
+            if (!checkStateBeforeDownload()) return@launch
             with(mutableStateFlow) {
                 if (value.url.isBlank()) {
                     showErrorMessage(context.getString(R.string.url_empty))
@@ -122,7 +122,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         indexRange: IntRange
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            checkStateBeforeDownload()
+            if (!checkStateBeforeDownload()) return@launch
             mutableStateFlow.update {
                 it.copy(
                     isDownloadingPlaylist = true,
@@ -155,7 +155,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            checkStateBeforeDownload()
+            if (!checkStateBeforeDownload()) return@launch
             downloadVideo(stateFlow.value.url)
             finishProcessing()
         }
@@ -298,10 +298,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private suspend fun checkStateBeforeDownload() {
+    private suspend fun checkStateBeforeDownload(): Boolean {
         if (stateFlow.value.isProcessing) {
             TextUtil.makeToastSuspend(context.getString(R.string.task_running))
-            return
+            return false
         }
         mutableStateFlow.update {
             it.copy(
@@ -310,6 +310,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
             )
         }
+        return true
     }
 
     private suspend fun finishProcessing() {
