@@ -128,4 +128,5 @@
     <string name="from">起始序号</string>
     <string name="to">结束序号</string>
     <string name="invalid_index_range">序号范围非法</string>
+    <string name="playlist_indicator_text">正在下载播放列表(%d/%d)，点击停止</string>
 </resources>

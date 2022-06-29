@@ -30,15 +30,16 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
 
     val viewState = downloadViewModel.stateFlow.collectAsState().value
     val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
-    val playlistItemCount = viewState.playlistSize
+    val playlistItemCount = viewState.downloadItemCount
     var from by remember { mutableStateOf(1.toString()) }
+    var to by remember { mutableStateOf(viewState.downloadItemCount.toString()) }
 
     var error by remember { mutableStateOf(false) }
     val (item1, item2) = remember { FocusRequester.createRefs() }
 
     if (viewState.showPlaylistSelectionDialog) {
-        var to by remember { mutableStateOf(viewState.playlistSize.toString()) }
-
+        from = "1"
+        to = viewState.downloadItemCount.toString()
         AlertDialog(onDismissRequest = {}, icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
             title = { Text(stringResource(R.string.download_range_selection)) },
             text = {

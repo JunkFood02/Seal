@@ -51,9 +51,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
         ),
-        val stopNext: Boolean = false,
-        val playlistSize: Int = 0,
-        val playlistIndex: Int = 0
+        val isDownloadingPlaylist: Boolean = false,
+        val downloadItemCount: Int = 0,
+        val currentIndex: Int = 0
     )
 
     fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
@@ -92,12 +92,19 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun parsePlaylistInfo() {
         viewModelScope.launch(Dispatchers.IO) {
+            checkStateBeforeDownload()
             with(mutableStateFlow) {
                 if (value.url.isBlank()) {
                     showErrorMessage(context.getString(R.string.url_empty))
                     return@launch
                 }
-                update { it.copy(isDownloadError = false, stopNext = false) }
+                update {
+                    it.copy(
+                        isDownloadError = false,
+                        isDownloadingPlaylist = false,
+                        isProcessing = true
+                    )
+                }
                 try {
                     val playlistSize = DownloadUtil.getPlaylistSize(value.url)
                     Log.d(TAG, playlistSize.toString())
@@ -115,8 +122,17 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         indexRange: IntRange
     ) {
         viewModelScope.launch(Dispatchers.IO) {
+            checkStateBeforeDownload()
+            mutableStateFlow.update {
+                it.copy(
+                    isDownloadingPlaylist = true,
+                    downloadItemCount = indexRange.last - indexRange.first + 1
+                )
+            }
             for (index in indexRange) {
-                if (stateFlow.value.stopNext) break
+                Log.d(TAG, stateFlow.value.isDownloadingPlaylist.toString())
+                if (!stateFlow.value.isDownloadingPlaylist) break
+                mutableStateFlow.update { it.copy(currentIndex = index - indexRange.first + 1) }
                 downloadVideo(url, index)
             }
             finishProcessing()
@@ -137,7 +153,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
+
         viewModelScope.launch(Dispatchers.IO) {
+            checkStateBeforeDownload()
             downloadVideo(stateFlow.value.url)
             finishProcessing()
         }
@@ -145,9 +163,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private suspend fun downloadVideo(url: String, index: Int = 1) {
         with(mutableStateFlow) {
-            checkStateBeforeDownload()
 
-            update { it.copy(isDownloadError = false, stopNext = false) }
+            update { it.copy(isDownloadError = false) }
 
             lateinit var videoInfo: VideoInfo
             try {
@@ -281,9 +298,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun checkStateBeforeDownload() {
+    private suspend fun checkStateBeforeDownload() {
         if (stateFlow.value.isProcessing) {
-            TextUtil.makeToast(context.getString(R.string.task_running))
+            TextUtil.makeToastSuspend(context.getString(R.string.task_running))
             return
         }
         mutableStateFlow.update {
@@ -299,7 +316,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         mutableStateFlow.update {
             it.copy(
                 progress = 100f,
-                isProcessing = false, progressText = "", playlistSize = 0
+                isProcessing = false,
+                progressText = "",
+                downloadItemCount = 0,
+                isDownloadingPlaylist = false,
+                currentIndex = 0
             )
         }
         TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
@@ -335,25 +356,21 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             openFile(downloadResultTemp)
     }
 
-    fun stopNext(v: Boolean) {
-        mutableStateFlow.update {
-            it.copy(
-                stopNext = v
-            )
-        }
-    }
-
     private fun showPlaylistDialog(playlistSize: Int) {
         mutableStateFlow.update {
             it.copy(
                 showPlaylistSelectionDialog = true,
-                playlistSize = playlistSize, isProcessing = false
+                downloadItemCount = playlistSize, isProcessing = false
             )
         }
     }
 
     fun hidePlaylistDialog() {
         mutableStateFlow.update { it.copy(showPlaylistSelectionDialog = false) }
+    }
+
+    fun stopDownloadPlaylistOnNextItem() {
+        mutableStateFlow.update { it.copy(isDownloadingPlaylist = false) }
     }
 
     companion object {

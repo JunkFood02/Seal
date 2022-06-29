@@ -2,22 +2,25 @@ package com.junkfood.seal.ui.page.download
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -25,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -127,12 +129,16 @@ fun DownloadPage(
                             }
 
                         })
-                    TitleWithProgressIndicator(isProcessing) {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        PreferenceUtil.updateInt(
-                            PreferenceUtil.WELCOME_DIALOG, 1
-                        )
-                    }
+                    TitleWithProgressIndicator(
+                        isProcessing = isProcessing,
+                        isDownloadingPlaylist = isDownloadingPlaylist,
+                        currentIndex = currentIndex,
+                        downloadItemCount = downloadItemCount,
+                        onClick = {
+                            downloadViewModel.stopDownloadPlaylistOnNextItem()
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                    )
                     Column(Modifier.padding(24.dp)) {
                         AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
@@ -224,39 +230,58 @@ fun InputUrl(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
-fun TitleWithProgressIndicator(isProcessing: Boolean = true, onLongClick: () -> Unit = {}) {
-    Row(
-        modifier = Modifier
-            .padding(start = 24.dp, top = 36.dp)
-            .combinedClickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = {},
-                onLongClick = onLongClick
-            ),
+fun TitleWithProgressIndicator(
+    isProcessing: Boolean = true,
+    isDownloadingPlaylist: Boolean = true,
+    currentIndex: Int = 1,
+    downloadItemCount: Int = 4,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
+) {
+    Column(
+        modifier = with(Modifier.padding(start = 12.dp, top = 24.dp)) {
+            if (isDownloadingPlaylist)
+                this.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onClick() } else this
+        }
     ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.displaySmall
-        )
-        AnimatedVisibility(visible = isProcessing) {
-            Column(
-                modifier = Modifier.padding(start = 12.dp)
-            ) {
-                CircularProgressIndicator(
+        Row(
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.extraLarge)
+                .padding(horizontal = 12.dp)
+                .padding(top = 12.dp, bottom = 3.dp)
+        ) {
+            Text(
+                modifier = Modifier,
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.displaySmall
+            )
+            AnimatedVisibility(visible = isProcessing) {
+                Column(
                     modifier = Modifier
-                        .size(16.dp), strokeWidth = 3.dp
-                )
-                Text(
-                    modifier = Modifier.padding(top = 4.dp),
-                    text = "1/4",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                        .padding(start = 12.dp)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp), strokeWidth = 3.dp
+                    )
+                }
             }
+        }
+        Log.d("tag", "isDownloadingPlaylist:$isDownloadingPlaylist ")
+        AnimatedVisibility(visible = isDownloadingPlaylist) {
+            Text(
+                stringResource(R.string.playlist_indicator_text).format(
+                    currentIndex,
+                    downloadItemCount
+                ),
+                modifier = Modifier.padding(start = 12.dp, top = 3.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -302,112 +327,18 @@ fun VideoCard(
             .fillMaxWidth(),
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
-        Box() {
-            OutlinedIconButton(onClick = {}) {
-                Icon(Icons.Rounded.Stop, null)
-            }
-            Column {
-                AsyncImage(
-                    modifier = Modifier
-                        .padding()
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(thumbnailUrl)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null, contentScale = ContentScale.FillWidth
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        modifier = Modifier.padding(top = 3.dp),
-                        text = author,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                val progressAnimationValue by animateFloatAsState(
-                    targetValue = progress / 100f,
-                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-                )
-
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
-                    progress = progressAnimationValue,
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-@Preview
-fun PreviewVideoCard(
-    modifier: Modifier = Modifier,
-    title: String = "Video title sample text",
-    author: String = "Video creator sample text",
-    thumbnailUrl: Any = R.drawable.sample,
-    onClick: () -> Unit = {},
-    progress: Float = 100f,
-) {
-    ElevatedCard(
-        modifier = modifier
-            .fillMaxWidth(),
-        onClick = { onClick() }, shape = MaterialTheme.shapes.small
-    ) {
-
-
         Column {
-            Box {
-                Image(
-                    painter = painterResource(id = R.drawable.sample),
-                    modifier = Modifier
-                        .padding()
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                    contentDescription = null, contentScale = ContentScale.FillWidth
-                )
-/*                FilledIconButton(
-                    onClick = {},
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(12.dp),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    )
-                ) {
-                    Icon(Icons.Rounded.Stop, null)
-                }*/
-                ElevatedAssistChip(
-                    onClick = {},
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(horizontal = 6.dp),
-                    label = { Text(text = "Stop") },
-                    leadingIcon = { Icon(Icons.Rounded.Stop, null) },
-                    colors = AssistChipDefaults.elevatedAssistChipColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        labelColor = MaterialTheme.colorScheme.onErrorContainer,
-                        leadingIconContentColor = MaterialTheme.colorScheme.error
-                    )
-                )
-            }
-
+            AsyncImage(
+                modifier = Modifier
+                    .padding()
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null, contentScale = ContentScale.FillWidth
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -424,7 +355,7 @@ fun PreviewVideoCard(
                     modifier = Modifier.padding(top = 3.dp),
                     text = author,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -438,16 +369,16 @@ fun PreviewVideoCard(
                 modifier = Modifier.fillMaxWidth(),
                 progress = progressAnimationValue,
             )
-        }
 
+        }
     }
 }
+
 
 fun harmonize(color1: Color, color2: Color): Color {
     return Color(MaterialColors.harmonize(color1.toArgb(), color2.toArgb()))
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FABs(
     modifier: Modifier = Modifier,
@@ -457,19 +388,8 @@ fun FABs(
     Column(
         modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
     ) {
-        var b by remember { mutableStateOf(true) }
-        if (b)
-            OutlinedIconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Rounded.Stop,
-                    contentDescription = stringResource(id = R.string.downloads_history)
-                )
-            }
         FloatingActionButton(
-            onClick = {
-                pasteCallback()
-                b = !b
-            },
+            onClick = pasteCallback,
             content = {
                 Icon(
                     Icons.Outlined.ContentPaste,

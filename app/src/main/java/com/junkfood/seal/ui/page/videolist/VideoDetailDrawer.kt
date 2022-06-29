@@ -63,7 +63,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                                 .padding(vertical = 6.dp),
                             text = author,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
             }

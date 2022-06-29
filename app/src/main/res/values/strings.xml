@@ -137,10 +137,10 @@
     <string name="download_notification_desc">"Notify download progress and finish messages "</string>
     <string name="color_theming">Color theming</string>
     <string name="fetching_playlist_info">Fetching playlist info</string>
-    <string name="stop_next">Stop after this video</string>
     <string name="download_range_selection">Playlist selection</string>
     <string name="download_range_desc">"Specify video index range you want to download from this playlist (ranged from %d to %d). "</string>
     <string name="from">Start index</string>
     <string name="to">End index</string>
     <string name="invalid_index_range">Invalid index range</string>
+    <string name="playlist_indicator_text">Downloading playlist (%d/%d), click to stop</string>
 </resources>

@@ -46,7 +46,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
                 )
                 Text(
                     text = description,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     style = MaterialTheme.typography.bodyMedium,
                 )
