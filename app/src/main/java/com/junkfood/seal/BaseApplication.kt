@@ -10,7 +10,8 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.DOWNLOAD_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
@@ -45,14 +46,18 @@ class BaseApplication : Application() {
             YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
 
-        with(PreferenceUtil.getString(DOWNLOAD_DIRECTORY)) {
-            downloadDir = if (isNullOrEmpty())
+        with(PreferenceUtil.getString(VIDEO_DIRECTORY)) {
+            videoDownloadDir = if (isNullOrEmpty())
                 File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
                     getString(R.string.app_name)
                 ).absolutePath
             else this
+        }
 
+        with(PreferenceUtil.getString(AUDIO_DIRECTORY)) {
+            audioDownloadDir = if (isNullOrEmpty()) File(videoDownloadDir, "Audio").absolutePath
+            else this
         }
         context = applicationContext
         if (Build.VERSION.SDK_INT >= 26)
@@ -63,12 +68,18 @@ class BaseApplication : Application() {
     companion object {
         private const val TAG = "BaseApplication"
         lateinit var clipboard: ClipboardManager
-        lateinit var downloadDir: String
+        lateinit var videoDownloadDir: String
+        lateinit var audioDownloadDir: String
         var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
-        fun updateDownloadDir(path: String) {
-            downloadDir = path
-            PreferenceUtil.updateString(DOWNLOAD_DIRECTORY, path)
+        fun updateDownloadDir(path: String, isAudio: Boolean = false) {
+            if (isAudio) {
+                audioDownloadDir = path
+                PreferenceUtil.updateString(AUDIO_DIRECTORY, path)
+            } else {
+                videoDownloadDir = path
+                PreferenceUtil.updateString(VIDEO_DIRECTORY, path)
+            }
         }
 
         @SuppressLint("StaticFieldLeak")

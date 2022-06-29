@@ -2,10 +2,12 @@ package com.junkfood.seal.util
 
 import android.util.Log
 import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
 import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.BaseApplication.Companion.downloadDir
+import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
@@ -86,12 +88,14 @@ object DownloadUtil {
         val url = videoInfo.webpageUrl ?: return Result.failure()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
-        val pathBuilder = StringBuilder("$downloadDir/")
+        val pathBuilder = StringBuilder()
 
         with(request) {
             addOption("--no-mtime")
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
+                pathBuilder.append(audioDownloadDir)
+
                 addOption("-x")
                 when (PreferenceUtil.getAudioFormat()) {
                     1 -> {
@@ -106,8 +110,9 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
-                pathBuilder.append("Audio/")
             } else {
+                pathBuilder.append(videoDownloadDir)
+
                 val sorter = StringBuilder()
                 when (PreferenceUtil.getVideoQuality()) {
                     1 -> sorter.append("res:1440")
@@ -131,8 +136,8 @@ object DownloadUtil {
             }
             if (!downloadPlaylist)
                 addOption("--no-playlist")
-
-            pathBuilder.append("${videoInfo.extractorKey}/")
+            if (PreferenceUtil.getValue(SUBDIRECTORY))
+                pathBuilder.append("/${videoInfo.extractorKey}/")
             addOption("-P", pathBuilder.toString())
             addOption("-o", "%(title).60s$id.%(ext)s")
 

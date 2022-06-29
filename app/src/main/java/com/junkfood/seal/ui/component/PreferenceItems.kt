@@ -80,9 +80,9 @@ fun PreferenceSwitch(
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
-    onClick: (() -> Unit),
     isChecked: Boolean,
-    checkedIcon: ImageVector? = Icons.Outlined.Check
+    checkedIcon: ImageVector? = Icons.Outlined.Check,
+    onClick: (() -> Unit),
 ) {
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier

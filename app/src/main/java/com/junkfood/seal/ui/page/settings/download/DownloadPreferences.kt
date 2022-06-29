@@ -1,12 +1,7 @@
 package com.junkfood.seal.ui.page.settings.download
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,14 +18,11 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.downloadDir
-import com.junkfood.seal.BaseApplication.Companion.updateDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
@@ -50,9 +42,8 @@ import kotlinx.coroutines.launch
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
-fun DownloadPreferences(onBackPressed: () -> Unit) {
+fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: () -> Unit) {
     val context = LocalContext.current
-    var downloadDirectoryText by remember { mutableStateOf(downloadDir) }
 
     var showTemplateEditDialog by remember { mutableStateOf(false) }
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
@@ -63,31 +54,6 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
     var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
-
-    val storagePermission =
-        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    val launcher =
-        rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
-            override fun createIntent(context: Context, input: Uri?): Intent {
-                return (super.createIntent(context, input)).apply {
-                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                }
-            }
-        }) {
-            it?.let {
-                val path = FileUtil.getRealPath(it)
-                updateDownloadDir(path)
-                downloadDirectoryText = path
-            }
-        }
-
-    fun openDirectoryChooser() {
-        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
-            launcher.launch(null)
-        else storagePermission.launchPermissionRequest()
-    }
 
     var downloadNotification by remember {
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
@@ -156,11 +122,9 @@ fun DownloadPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.download_directory),
-                        description = downloadDirectoryText,
+                        description = stringResource(R.string.download_directory_desc),
                         icon = Icons.Outlined.FolderOpen
-                    ) {
-                        openDirectoryChooser()
-                    }
+                    ) { navigateToDownloadDirectory() }
                 }
                 item {
                     var ytdlpVersion by remember {
