@@ -2,7 +2,7 @@
     <string name="app_name">Seal</string>
     <string name="title_home">主页</string>
     <string name="video_url">视频链接</string>
-    <string name="download_directory">下载目录</string>
+    <string name="video_directory">视频目录</string>
     <string name="extract_audio">提取音频</string>
     <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
@@ -129,4 +129,9 @@
     <string name="to">结束序号</string>
     <string name="invalid_index_range">序号范围非法</string>
     <string name="playlist_indicator_text">正在下载播放列表(%d/%d)，点击停止</string>
+    <string name="audio_directory">音频目录</string>
+    <string name="download_directory">下载目录设置</string>
+    <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
+    <string name="subdirectory">下载到子目录</string>
+    <string name="subdirectory_desc">将文件保存到以网站名命名的子文件夹</string>
 </resources>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Seal</string>
     <string name="title_home">Home</string>
-    <string name="download_directory">Download directory</string>
+    <string name="video_directory">Video directory</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
     <string name="settings">Settings</string>
@@ -143,4 +143,9 @@
     <string name="to">End index</string>
     <string name="invalid_index_range">Invalid index range</string>
     <string name="playlist_indicator_text">Downloading playlist (%d/%d), click to stop</string>
+    <string name="audio_directory">Audio directory</string>
+    <string name="download_directory">Download directory</string>
+    <string name="download_directory_desc">Configure download directory for videos and audio files</string>
+    <string name="subdirectory">Save to subdirectory</string>
+    <string name="subdirectory_desc">Save files to subdirectory named by websites</string>
 </resources>

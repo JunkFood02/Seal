@@ -11,6 +11,7 @@ import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
+import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.ui.theme.SealTheme
@@ -36,10 +37,17 @@ fun HomeEntry(
                         )
                     }
                     animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
-                    animatedComposable(Route.DOWNLOAD_PREFERENCES) { DownloadPreferences { onBackPressed() } }
+                    animatedComposable(Route.DOWNLOAD_PREFERENCES) {
+                        DownloadPreferences(
+                            onBackPressed = { onBackPressed() }
+                        ) { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
+                    }
                     animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
                     animatedComposable(Route.ABOUT) { AboutPage { onBackPressed() } }
                     animatedComposable(Route.APPEARANCE) { AppearancePreferences { onBackPressed() } }
+                    animatedComposable(Route.DOWNLOAD_DIRECTORY) {
+                        DownloadDirectoryPreferences { onBackPressed() }
+                    }
                 }
             }
             WelcomeDialog {

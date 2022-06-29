@@ -236,7 +236,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun downloadWithCustomCommands() {
         val request = YoutubeDLRequest(stateFlow.value.url)
-        request.addOption("-P", "${BaseApplication.downloadDir}/")
+        request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
         val m =
             Pattern.compile(commandRegex)
                 .matcher(PreferenceUtil.getTemplate())
