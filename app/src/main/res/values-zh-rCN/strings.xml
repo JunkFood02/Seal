@@ -101,7 +101,7 @@
     <string name="download_history_desc">在下载记录页，查看与管理包括视频与音频在内的应用内下载。</string>
     <string name="check_download_settings_desc">在开始使用前，建议先对下载设置进行确认，并且将 yt-dlp 更新到最新版本。</string>
     <string name="download_playlist">下载播放列表</string>
-    <string name="download_playlist_desc">当链接指向一个播放列表时，下载列表内的所有视频</string>
+    <string name="download_playlist_desc">一次性下载播放列表中的多个视频</string>
     <string name="defaults">默认</string>
     <string name="display_settings">深色主题、动态色彩、语言</string>
     <string name="settings_before_download_text">确认此次下载的下载设置</string>
@@ -130,7 +130,7 @@
     <string name="invalid_index_range">序号范围非法</string>
     <string name="playlist_indicator_text">正在下载播放列表(%d/%d)，点击停止</string>
     <string name="audio_directory">音频目录</string>
-    <string name="download_directory">下载目录设置</string>
+    <string name="download_directory">下载目录</string>
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
     <string name="subdirectory">下载到子目录</string>
     <string name="subdirectory_desc">将文件保存到以网站名命名的子文件夹</string>
