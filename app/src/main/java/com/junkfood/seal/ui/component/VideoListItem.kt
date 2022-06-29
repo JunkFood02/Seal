@@ -87,7 +87,7 @@ fun VideoListItem(
                         modifier = Modifier.padding(top = 3.dp),
                         text = author,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -163,7 +163,7 @@ fun AudioListItem(
                         modifier = Modifier.padding(top = 3.dp),
                         text = author,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )

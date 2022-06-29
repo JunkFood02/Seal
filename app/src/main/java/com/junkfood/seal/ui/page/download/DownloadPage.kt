@@ -2,13 +2,13 @@ package com.junkfood.seal.ui.page.download
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -20,6 +20,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -31,22 +32,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.material.color.MaterialColors
-import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.TextUtil
 
 
@@ -81,7 +79,7 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-    PlaylistSelectionDialog()
+    PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -129,13 +127,18 @@ fun DownloadPage(
                                     contentDescription = stringResource(id = R.string.downloads_history)
                                 )
                             }
+
                         })
-                    TitleWithProgressIndicator(isProcessing) {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        PreferenceUtil.updateInt(
-                            PreferenceUtil.WELCOME_DIALOG, 1
-                        )
-                    }
+                    TitleWithProgressIndicator(
+                        isProcessing = isProcessing,
+                        isDownloadingPlaylist = isDownloadingPlaylist,
+                        currentIndex = currentIndex,
+                        downloadItemCount = downloadItemCount,
+                        onClick = {
+                            downloadViewModel.stopDownloadPlaylistOnNextItem()
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                    )
                     Column(Modifier.padding(24.dp)) {
                         AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
@@ -143,13 +146,7 @@ fun DownloadPage(
                                 videoAuthor,
                                 videoThumbnailUrl,
                                 progress = progress,
-                                playlistIndex = playlistIndex,
-                                playlistCount = playlistSize,
                                 onClick = { downloadViewModel.openVideoFile() },
-                                stopNext = stopNext,
-                                onCheckedChange = {
-                                    downloadViewModel.stopNext(it)
-                                },
                             )
                         }
 
@@ -233,28 +230,57 @@ fun InputUrl(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TitleWithProgressIndicator(isProcessing: Boolean = true, onLongClick: () -> Unit = {}) {
-    Row(
-        modifier = Modifier
-            .padding(start = 24.dp, top = 36.dp)
-            .combinedClickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = {},
-                onLongClick = onLongClick
-            )
+@Preview
+fun TitleWithProgressIndicator(
+    isProcessing: Boolean = true,
+    isDownloadingPlaylist: Boolean = true,
+    currentIndex: Int = 1,
+    downloadItemCount: Int = 4,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
+) {
+    Column(
+        modifier = with(Modifier.padding(start = 12.dp, top = 24.dp)) {
+            if (isDownloadingPlaylist)
+                this.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onClick() } else this
+        }
     ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.displaySmall
-        )
-        AnimatedVisibility(visible = isProcessing) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .padding(start = 12.dp)
-                    .size(16.dp), strokeWidth = 3.dp
+        Row(
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.extraLarge)
+                .padding(horizontal = 12.dp)
+                .padding(top = 12.dp, bottom = 3.dp)
+        ) {
+            Text(
+                modifier = Modifier,
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.displaySmall
+            )
+            AnimatedVisibility(visible = isProcessing) {
+                Column(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp), strokeWidth = 3.dp
+                    )
+                }
+            }
+        }
+        Log.d("tag", "isDownloadingPlaylist:$isDownloadingPlaylist ")
+        AnimatedVisibility(visible = isDownloadingPlaylist) {
+            Text(
+                stringResource(R.string.playlist_indicator_text).format(
+                    currentIndex,
+                    downloadItemCount
+                ),
+                modifier = Modifier.padding(start = 12.dp, top = 3.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -267,8 +293,9 @@ fun OutputMessage(
     error: Boolean = false,
     errorMessage: String = "",
 ) {
-    if (error and copyToClipboard)
-        LocalClipboardManager.current.setText(AnnotatedString(errorMessage))
+    val clipboardManager = LocalClipboardManager.current
+    if (error && copyToClipboard && clipboardManager.getText() != AnnotatedString(errorMessage))
+        clipboardManager.setText(AnnotatedString(errorMessage))
     Row {
         Icon(
             Icons.Outlined.Error, contentDescription = null,
@@ -285,113 +312,68 @@ fun OutputMessage(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoCard(
     modifier: Modifier = Modifier,
-    title: String = "videotitle",
-    author: String = "author",
-    thumbnailUrl: Any,
-    onClick: () -> Unit,
-    stopNext: Boolean = false,
-    progress: Float = 0f,
-    onCheckedChange: ((Boolean) -> Unit)? = null,
-    playlistCount: Int = 1,
-    playlistIndex: Int = 1
+    title: String = "Video title sample text",
+    author: String = "Video creator sample text",
+    thumbnailUrl: Any = R.drawable.sample,
+    onClick: () -> Unit = {},
+    progress: Float = 100f,
 ) {
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(),
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
-        SubcomposeAsyncImage(
-            modifier = Modifier
-                .padding()
-                .fillMaxWidth()
-                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(thumbnailUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = null, contentScale = ContentScale.FillWidth
-        ) {
-            val state = painter.state
-            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .requiredSize(32.dp)
-                    )
-                    Text(stringResource(R.string.loading_thumbnail))
-                }
-            } else {
-                SubcomposeAsyncImageContent()
-            }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+        Column {
+            AsyncImage(
+                modifier = Modifier
+                    .padding()
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null, contentScale = ContentScale.FillWidth
             )
-            Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = author,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            AnimatedVisibility(
-                visible = PreferenceUtil.getValue(
-                    PLAYLIST
-                ) && playlistIndex + 1 < playlistCount
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.Start
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-
-                    Text(
-                        modifier = Modifier.padding(top = 3.dp),
-                        text = context.getString(R.string.stop_next) + " [" + (playlistIndex + 1) + "/" + playlistCount + "]",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Switch(
-                        checked = stopNext,
-                        onCheckedChange = onCheckedChange
-                    )
-                }
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = author,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
+            val progressAnimationValue by animateFloatAsState(
+                targetValue = progress / 100f,
+                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+            )
+
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = progressAnimationValue,
+            )
 
         }
-        val progressAnimationValue by animateFloatAsState(
-            targetValue = progress / 100f,
-            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-        )
-
-        LinearProgressIndicator(
-            modifier = Modifier.fillMaxWidth(),
-            progress = progressAnimationValue,
-        )
-
     }
 }
+
 
 fun harmonize(color1: Color, color2: Color): Color {
     return Color(MaterialColors.harmonize(color1.toArgb(), color2.toArgb()))
@@ -399,13 +381,12 @@ fun harmonize(color1: Color, color2: Color): Color {
 
 @Composable
 fun FABs(
-    modifier: Modifier,
-    downloadCallback: () -> Unit,
-    pasteCallback: () -> Unit,
+    modifier: Modifier = Modifier,
+    downloadCallback: () -> Unit = {},
+    pasteCallback: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .padding(16.dp)
+        modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
     ) {
         FloatingActionButton(
             onClick = pasteCallback,

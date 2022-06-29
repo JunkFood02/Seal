@@ -80,7 +80,7 @@ fun DownloadSettingDialog(
             )
 
             FilterChipWithAnimatedIcon(
-                selected = playlist, onClick = { playlist = !playlist },
+                selected = playlist, enabled = !customCommand, onClick = { playlist = !playlist },
                 label = stringResource(R.string.download_playlist)
             )
 
@@ -147,6 +147,8 @@ fun DownloadSettingDialog(
                     PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
                     PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
                     PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
+                    PreferenceUtil.updateValue(PreferenceUtil.PLAYLIST, playlist)
+
                     hide()
                     confirm()
                 }, icon = Icons.Outlined.DownloadDone,
