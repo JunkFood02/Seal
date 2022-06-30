@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.download
 
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.content.Intent
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
@@ -171,6 +172,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 videoInfo = DownloadUtil.fetchVideoInfo(url, index)
             } catch (e: Exception) {
                 manageDownloadError(e)
+                return
             }
             Log.d(TAG, "downloadVideo: $index" + videoInfo.title)
             update {
@@ -183,6 +185,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
             }
             val notificationId = (url + index).hashCode()
+            var intent: Intent? = null
             try {
                 TextUtil.makeToastSuspend(
                     context.getString(R.string.download_start_msg)
@@ -203,11 +206,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             text = line
                         )
                     }
-
+                intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
             } catch (e: Exception) {
                 manageDownloadError(e, false, notificationId)
             }
-            val intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
+
             NotificationUtil.finishNotification(
                 notificationId,
                 title = videoInfo.title,
