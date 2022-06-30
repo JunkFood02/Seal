@@ -136,4 +136,6 @@
     <string name="subdirectory_desc">将文件保存到以网站名命名的子文件夹</string>
     <string name="permission_issue">存储权限提示</string>
     <string name="permission_issue_desc">无法下载到除 Download/ 及 Documents/ 以外的目录</string>
+    <string name="battery_configuration">后台下载设置</string>
+    <string name="battery_configuration_desc">允许本应用在后台运行以在后台进行下载</string>
 </resources>

@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.request.videoFrameMillis
 import com.junkfood.seal.R
@@ -42,7 +41,7 @@ fun VideoListItem(
     val context = LocalContext.current
     val imageModel = ImageRequest.Builder(context)
         .data(if (author == "playlist") videoPath else thumbnailUrl)
-        .networkCachePolicy(CachePolicy.DISABLED)
+//        .networkCachePolicy(CachePolicy.DISABLED)
         .videoFrameMillis(10000)
         .crossfade(true)
         .build()
@@ -140,7 +139,7 @@ fun AudioListItem(
                     .aspectRatio(1f, matchHeightConstraintsFirst = true),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(thumbnailUrl)
-                    .networkCachePolicy(CachePolicy.DISABLED)
+//                    .networkCachePolicy(CachePolicy.DISABLED)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.thumbnail),

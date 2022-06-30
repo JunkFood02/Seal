@@ -150,4 +150,6 @@
     <string name="subdirectory_desc">Save files to subdirectory named with websites</string>
     <string name="permission_issue">Storage permission issue</string>
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
+    <string name="battery_configuration">Battery configuration</string>
+    <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
 </resources>

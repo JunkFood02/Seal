@@ -146,7 +146,7 @@ fun PreferencesCaution(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(MaterialTheme.colorScheme.errorContainer)
             .clickable { onClick() }
@@ -192,6 +192,63 @@ fun PreferencesCaution(
 
 }
 
+@Composable
+fun PreferencesHint(
+    title: String,
+    description: String? = null,
+    icon: ImageVector? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .clickable { onClick() }
+            .padding(horizontal = 12.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        icon?.let {
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 16.dp)
+                    .size(24.dp),
+                tint = with(MaterialTheme.colorScheme.secondary) {
+                    if (enabled) this else copy(alpha = 0.68f)
+                }
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
+        ) {
+            with(MaterialTheme) {
+
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    style = typography.titleLarge.copy(fontSize = 20.sp),
+                    color = colorScheme.onSecondaryContainer.applyOpacity(enabled)
+                )
+                if (description != null)
+                    Text(
+                        text = description,
+                        color = colorScheme.onSecondaryContainer.applyOpacity(enabled),
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                    )
+            }
+        }
+    }
+
+
+}
 
 @Composable
 fun Subtitle(
