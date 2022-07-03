@@ -152,9 +152,6 @@ class BaseApplication : Application() {
 
         private fun bindServiceInvoked() {
             if (!isBinding) {
-                val intent = Intent()
-                intent.action = "com.junkfood.service.action.MESSENGER"
-                intent.setPackage("com.junkfood.service")
                 isBinding = true
                 context.bindService(intentToService, serviceConnection, BIND_AUTO_CREATE)
             }

@@ -2,10 +2,8 @@ package com.junkfood.seal.service
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.drawable.Icon
 import android.os.*
 import android.util.Log
@@ -65,18 +63,6 @@ class VideoDownloadService : Service() {
         Observer<ServiceState> { s->
             if (s.task != currentState.oldTask && s.task != null) {
                 startDownloadVideo(s.task)
-            }
-        }
-
-    private val notificationReceiver: BroadcastReceiver =
-        object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                when (intent.extras?.getString(Constants.ACTION_NOTIFICATION_NAME)) {
-                    Constants.ACTION_STOP -> {
-                        Log.i(TAG, "Stop Notification Action has been clicked")
-                        stopForegroundService()
-                    }
-                }
             }
         }
 
@@ -494,10 +480,16 @@ class VideoDownloadService : Service() {
 
         val notification: Notification = getNotification()
 
-        registerReceiver(notificationReceiver, IntentFilter(Constants.ACTION_NOTIFICATION_KEY))
-
         // Notification ID cannot be 0.
         startForeground(Constants.NOTIFICATION_ID, notification)
+    }
+
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        if (Constants.ACTION_STOP.equals(intent.action)) {
+            Log.d(TAG, "called to cancel service")
+            stopForegroundService()
+        }
+        return super.onStartCommand(intent, flags, startId)
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
@@ -508,13 +500,10 @@ class VideoDownloadService : Service() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntentMain = PendingIntent.getActivity(this, 0, intentMain, PendingIntent.FLAG_IMMUTABLE)
-
-        val intentStop = Intent(this, notificationReceiver.javaClass).apply {
-            action = Constants.ACTION_STOP
-        }
-        val pendingIntentStop = PendingIntent.getBroadcast(
-            this, 0, intentStop, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val intentStop = Intent(this, VideoDownloadService::class.java)
+        intentStop.setAction(Constants.ACTION_STOP)
+        val pendingIntentStop =
+            PendingIntent.getService(this, 0, intentStop, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val chan = NotificationChannel(
@@ -550,11 +539,12 @@ class VideoDownloadService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(TAG, "Stop Service ...............................")
-        unregisterReceiver(notificationReceiver)
     }
 
     private fun stopForegroundService() {
         Log.d(TAG, "Stop foreground service.")
+        val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)!!
+        manager!!.cancel(Constants.NOTIFICATION_ID)
 
         // Stop foreground service and remove the notification.
         stopForeground(STOP_FOREGROUND_REMOVE)
