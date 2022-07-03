@@ -10,6 +10,7 @@
         android:name="android.permission.POST_NOTIFICATIONS"
         tools:targetApi="tiramisu" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".BaseApplication"
@@ -20,6 +21,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Seal">
+        <service
+            android:name=".service.VideoDownloadService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.junkfood.service.action.MESSENGER"/>
+            </intent-filter>
+        </service>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"

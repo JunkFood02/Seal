@@ -22,7 +22,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.Subtitle
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
@@ -58,6 +57,8 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
     var downloadNotification by remember {
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
     }
+
+    val ytdlpVersion = BaseApplication.ytdlpVersion.collectAsState()
 
     val notificationPermission =
         if (Build.VERSION.SDK_INT >= 33)
@@ -127,17 +128,12 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                     ) { navigateToDownloadDirectory() }
                 }
                 item {
-                    var ytdlpVersion by remember {
-                        mutableStateOf(BaseApplication.ytdlpVersion)
-                    }
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
-                        description = ytdlpVersion,
+                        description = ytdlpVersion.value,
                         icon = Icons.Outlined.Update
                     ) {
-                        CoroutineScope(Job()).launch {
-                            ytdlpVersion = DownloadUtil.updateYtDlp()
-                        }
+                        BaseApplication.updateytDlp(true)
                     }
                 }
                 item {

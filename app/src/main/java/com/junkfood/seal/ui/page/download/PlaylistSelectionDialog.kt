@@ -28,18 +28,18 @@ import com.junkfood.seal.util.TextUtil.isNumberInRange
 @Composable
 fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
 
-    val viewState = downloadViewModel.stateFlow.collectAsState().value
+    val viewState = downloadViewModel.playlistSelectionState.collectAsState().value
     val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
-    val playlistItemCount = viewState.downloadItemCount
+    val playlistItemCount = viewState.playlistSize
     var from by remember { mutableStateOf(1.toString()) }
-    var to by remember { mutableStateOf(viewState.downloadItemCount.toString()) }
+    var to by remember { mutableStateOf(viewState.playlistSize.toString()) }
 
     var error by remember { mutableStateOf(false) }
     val (item1, item2) = remember { FocusRequester.createRefs() }
 
     if (viewState.showPlaylistSelectionDialog) {
         from = "1"
-        to = viewState.downloadItemCount.toString()
+        to = viewState.playlistSize.toString()
         AlertDialog(onDismissRequest = {}, icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
             title = { Text(stringResource(R.string.download_range_selection)) },
             text = {
@@ -114,7 +114,7 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                     ) || from.toInt() > to.toInt()
                     if (error) TextUtil.makeToast(R.string.invalid_index_range)
                     else {
-                        downloadViewModel.downloadVideoInPlaylistByIndexRange(indexRange = from.toInt()..to.toInt())
+                        downloadViewModel.startDownloadVideo(indexRange = from.toInt()..to.toInt())
                         onDismissRequest()
                     }
                 }) {

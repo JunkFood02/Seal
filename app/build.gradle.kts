@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 apply(plugin = "dagger.hilt.android.plugin")
 

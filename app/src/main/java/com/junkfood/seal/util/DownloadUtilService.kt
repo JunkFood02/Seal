@@ -1,23 +1,15 @@
 package com.junkfood.seal.util
 
 import android.util.Log
-import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
-import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
-import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
-object DownloadUtil {
+object DownloadUtilService {
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
         companion object {
             fun failure(): Result {
@@ -35,34 +27,29 @@ object DownloadUtil {
         SUCCESS, EXCEPTION
     }
 
-    private const val TAG = "DownloadUtil"
+    private const val TAG = "DownloadUtilService"
 
-    suspend fun getPlaylistSize(playlistSize: String): Int {
-        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
+fun getPlaylistSize(playlistSize: String): Int {
         var playlistCount = 1
-        if (downloadPlaylist) {
-            TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(playlistSize)
-            with(request) {
-                addOption("--flat-playlist")
-                addOption("-J")
-                addOption("-R", "1")
-                addOption("--socket-timeout", "5")
-            }
-            for (s in request.buildCommand())
-                Log.d(TAG, s)
-            val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
-            val jsonObj = JSONObject(resp.out)
-            val tp: String = jsonObj.getString("_type")
-            if (tp == "playlist") {
-                playlistCount = jsonObj.getInt("playlist_count")
-            }
+        val request = YoutubeDLRequest(playlistSize)
+        with(request) {
+            addOption("--flat-playlist")
+            addOption("-J")
+            addOption("-R", "1")
+            addOption("--socket-timeout", "5")
+        }
+        for (s in request.buildCommand())
+            Log.d(TAG, s)
+        val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
+        val jsonObj = JSONObject(resp.out)
+        val tp: String = jsonObj.getString("_type")
+        if (tp == "playlist") {
+            playlistCount = jsonObj.getInt("playlist_count")
         }
         return playlistCount
     }
 
-    suspend fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
-        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
+fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
             addOption("--playlist-items", playlistItem)
@@ -78,13 +65,14 @@ object DownloadUtil {
 
     suspend fun downloadVideo(
         videoInfo: VideoInfo,
+        task: DownloadTask,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
-        val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
-        val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
-        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
-        val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
+        val extractAudio: Boolean =  task.settings.extractAudio
+        val createThumbnail: Boolean = task.settings.createThumbnail
+        val downloadPlaylist: Boolean = task.settings.downloadPlaylist
+        val concurrentFragments: Float = task.settings.concurrentFragments
         val url = videoInfo.webpageUrl ?: return Result.failure()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
@@ -94,10 +82,10 @@ object DownloadUtil {
             addOption("--no-mtime")
 
             if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
-                pathBuilder.append(audioDownloadDir)
+                pathBuilder.append(task.settings.audioDownloadDir)
 
                 addOption("-x")
-                when (PreferenceUtil.getAudioFormat()) {
+                when (task.settings.audioFormat) {
                     1 -> {
                         addOption("--audio-format", "mp3")
                         addOption("--audio-quality", "0")
@@ -111,16 +99,16 @@ object DownloadUtil {
                 addOption("--embed-thumbnail")
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
             } else {
-                pathBuilder.append(videoDownloadDir)
+                pathBuilder.append(task.settings.videoDownloadDir)
 
                 val sorter = StringBuilder()
-                when (PreferenceUtil.getVideoQuality()) {
+                when (task.settings.videoQuality) {
                     1 -> sorter.append("res:1440")
                     2 -> sorter.append("res:1080")
                     3 -> sorter.append("res:720")
                     4 -> sorter.append("res:480")
                 }
-                when (PreferenceUtil.getVideoFormat()) {
+                when (task.settings.videoFormat) {
                     1 -> sorter.append(",ext:mp4")
                     2 -> sorter.append(",ext:webm")
                 }
@@ -136,7 +124,7 @@ object DownloadUtil {
             }
             if (!downloadPlaylist)
                 addOption("--no-playlist")
-            if (PreferenceUtil.getValue(SUBDIRECTORY))
+            if (task.settings.subdirectory)
                 pathBuilder.append("/${videoInfo.extractorKey}/")
             addOption("-P", pathBuilder.toString())
             addOption("-o", "%(title).60s$id.%(ext)s")
@@ -163,22 +151,5 @@ object DownloadUtil {
             }
         return Result.success(filePaths)
     }
-
-    suspend fun updateYtDlp(): String {
-        withContext(Dispatchers.IO) {
-            try {
-                YoutubeDL.getInstance().updateYoutubeDL(context)
-                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
-            } catch (e: Exception) {
-                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_update_fail))
-            }
-        }
-        YoutubeDL.getInstance().version(context)?.let {
-            BaseApplication.ytdlpVersion = it
-            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
-        }
-        return BaseApplication.ytdlpVersion
-    }
-
 
 }

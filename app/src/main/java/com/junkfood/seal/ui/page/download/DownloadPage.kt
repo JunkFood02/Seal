@@ -89,7 +89,7 @@ fun DownloadPage(
             }
             Scaffold(floatingActionButton = {
                 FABs(
-                    with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
+                    with(Modifier.systemBarsPadding()) { if (state.showVideoCard) this else this.imePadding() },
                     downloadCallback = {
                         if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
                             downloadViewModel.showDrawer(scope)
@@ -131,20 +131,20 @@ fun DownloadPage(
                     TitleWithProgressIndicator(
                         isProcessing = isProcessing,
                         isDownloadingPlaylist = isDownloadingPlaylist,
-                        currentIndex = currentIndex,
-                        downloadItemCount = downloadItemCount,
+                        currentIndex = state.currentIndex,
+                        downloadItemCount = state.downloadItemCount,
                         onClick = {
                             downloadViewModel.stopDownloadPlaylistOnNextItem()
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         }
                     )
                     Column(Modifier.padding(24.dp)) {
-                        AnimatedVisibility(visible = showVideoCard) {
+                        AnimatedVisibility(visible = state.showVideoCard) {
                             VideoCard(
-                                Modifier, videoTitle,
-                                videoAuthor,
-                                videoThumbnailUrl,
-                                progress = progress,
+                                Modifier, state.videoTitle,
+                                state.videoAuthor,
+                                state.videoThumbnailUrl,
+                                progress = state.progress,
                                 onClick = { downloadViewModel.openVideoFile() },
                             )
                         }
@@ -152,14 +152,14 @@ fun DownloadPage(
                         InputUrl(
                             url = url,
                             hint = stringResource(R.string.video_url),
-                            progress = progress,
-                            showVideoCard = showVideoCard,
+                            progress = state.progress,
+                            showVideoCard = state.showVideoCard,
                             isInCustomMode = isInCustomCommandMode,
                             error = isDownloadError,
                         ) { url -> downloadViewModel.updateUrl(url) }
-                        AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
+                        AnimatedVisibility(visible = debugMode && state.progressText.isNotEmpty()) {
                             Text(
-                                text = progressText,
+                                text = state.progressText,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.bodyMedium

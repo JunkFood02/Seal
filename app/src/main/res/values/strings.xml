@@ -152,4 +152,10 @@
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
+    <string name="seal_service">Seal Video Download Service</string>
+    <string name="btn_stop">Stop</string>
+    <string name="seal_service_running">Running</string>
+    <string name="invalid_task_error">Cannot add task: invalid!</string>
+    <string name="task_added">Task Added for url %1$s</string>
+    <string name="task_cancelled">Task Cancelled for url %1$s</string>
 </resources>

@@ -11,8 +11,8 @@ import java.io.File
  * Sorry for ugly codes for filename control
  */
 object FileUtil {
-    fun openFile(downloadResult: DownloadUtil.Result) {
-        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
+    fun openFile(downloadResult: DownloadUtilService.Result) {
+        if (downloadResult.resultCode == DownloadUtilService.ResultCode.EXCEPTION) return
         openFileInURI(downloadResult.filePath?.get(0) ?: return)
     }
 
@@ -41,8 +41,25 @@ object FileUtil {
         }
     }
 
-    fun createIntentForOpenFile(downloadResult: DownloadUtil.Result): Intent? {
-        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
+    fun createIntentForOpenFile(downloadResult: DownloadUtilService.Result): Intent? {
+        if (downloadResult.resultCode == DownloadUtilService.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
+        val path = downloadResult.filePath?.first() ?: return null
+        return Intent().apply {
+            action = (Intent.ACTION_VIEW)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            setDataAndType(
+                FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".provider",
+                    File(path)
+                ),
+                if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
+            )
+        }
+    }
+
+    fun createIntentForOpenFileService(downloadResult: DownloadUtilService.Result): Intent? {
+        if (downloadResult.resultCode == DownloadUtilService.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
         val path = downloadResult.filePath?.first() ?: return null
         return Intent().apply {
             action = (Intent.ACTION_VIEW)
