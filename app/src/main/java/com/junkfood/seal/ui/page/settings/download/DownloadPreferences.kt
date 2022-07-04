@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -34,9 +33,6 @@ import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoQualityDesc
 import com.junkfood.seal.util.TextUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class

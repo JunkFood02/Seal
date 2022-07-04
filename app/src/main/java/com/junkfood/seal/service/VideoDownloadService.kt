@@ -301,7 +301,7 @@ class VideoDownloadService : Service() {
 
     private fun updateYtDlp(to: Messenger) {
         serviceScope.launch(Dispatchers.IO) {
-            var rv: YoutubeDL.UpdateStatus
+            val rv: YoutubeDL.UpdateStatus
             try {
                 rv = YoutubeDL.getInstance().updateYoutubeDL(context)
             } catch (e: Exception) {
@@ -470,8 +470,7 @@ class VideoDownloadService : Service() {
             var dest: Messenger? = to
             if (to != null)
                 downloadClient.postValue(to)
-            else if (to == null)
-                dest = downloadClient.value!!
+            else dest = downloadClient.value!!
             dest!!.send(message)
         } catch (e: RemoteException) {
             e.printStackTrace()
@@ -487,7 +486,7 @@ class VideoDownloadService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        if (Constants.ACTION_STOP.equals(intent.action)) {
+        if (Constants.ACTION_STOP == intent.action) {
             Log.d(TAG, "called to cancel service")
             stopForegroundService()
         }
@@ -503,7 +502,7 @@ class VideoDownloadService : Service() {
         }
         val pendingIntentMain = PendingIntent.getActivity(this, 0, intentMain, PendingIntent.FLAG_IMMUTABLE)
         val intentStop = Intent(this, VideoDownloadService::class.java)
-        intentStop.setAction(Constants.ACTION_STOP)
+        intentStop.action = Constants.ACTION_STOP
         val pendingIntentStop =
             PendingIntent.getService(this, 0, intentStop, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 

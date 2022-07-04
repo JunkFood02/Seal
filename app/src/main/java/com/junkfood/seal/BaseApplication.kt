@@ -79,7 +79,7 @@ class BaseApplication : Application() {
         }
 
         //Receive service connection and disconnection messages
-        var serviceConnection: ServiceConnection = object : ServiceConnection {
+        private val serviceConnection: ServiceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder) {
                 Log.i(TAG, "service connected")
                 isBinding = false
