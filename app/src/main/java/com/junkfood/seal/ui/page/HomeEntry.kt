@@ -39,6 +39,7 @@ fun HomeEntry(
                     animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
                     animatedComposable(Route.DOWNLOAD_PREFERENCES) {
                         DownloadPreferences(
+                            downloadViewModel,
                             onBackPressed = { onBackPressed() }
                         ) { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
                     }

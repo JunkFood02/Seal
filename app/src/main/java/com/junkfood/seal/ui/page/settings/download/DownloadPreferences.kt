@@ -22,6 +22,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.Subtitle
+import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
@@ -41,7 +42,7 @@ import kotlinx.coroutines.launch
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
-fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: () -> Unit) {
+fun DownloadPreferences(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit, navigateToDownloadDirectory: () -> Unit) {
     val context = LocalContext.current
 
     var showTemplateEditDialog by remember { mutableStateOf(false) }
@@ -58,7 +59,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
     }
 
-    val ytdlpVersion = BaseApplication.ytdlpVersion.collectAsState()
+    val ytdlpVersion = downloadViewModel.ytdlpVersion.collectAsState()
 
     val notificationPermission =
         if (Build.VERSION.SDK_INT >= 33)
@@ -133,7 +134,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                         description = ytdlpVersion.value,
                         icon = Icons.Outlined.Update
                     ) {
-                        BaseApplication.updateytDlp(true)
+                        downloadViewModel.updateytDlp(true)
                     }
                 }
                 item {

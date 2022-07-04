@@ -301,10 +301,12 @@ class VideoDownloadService : Service() {
 
     private fun updateYtDlp(to: Messenger) {
         serviceScope.launch(Dispatchers.IO) {
+            var rv: YoutubeDL.UpdateStatus
             try {
-                YoutubeDL.getInstance().updateYoutubeDL(context)
+                rv = YoutubeDL.getInstance().updateYoutubeDL(context)
             } catch (e: Exception) {
-
+                sendError(WHAT_YTDLP_VERSION.ordinal, R.string.yt_dlp_update_fail, to, e.message)
+                return@launch
             }
 
             YoutubeDL.getInstance().version(context)?.let {
@@ -312,7 +314,7 @@ class VideoDownloadService : Service() {
             }
             val b = Bundle()
             b.putString(WHAT_YTDLP_VERSION.name, ytdlpVersion)
-            sendMessage(WHAT_YTDLP_VERSION.ordinal, b, to)
+            sendMessage(WHAT_YTDLP_VERSION.ordinal, b, to, arg1 = if (rv == YoutubeDL.UpdateStatus.DONE) R.string.ytdlp_version else R.string.yt_dlp_up_to_date)
         }
     }
 
@@ -329,7 +331,7 @@ class VideoDownloadService : Service() {
                     }
                     else {
                         b.putString(WHAT_YTDLP_VERSION.name, ytdlpVersion)
-                        sendMessage(msg.what, b, msg.replyTo, download=false)
+                        sendMessage(msg.what, b, msg.replyTo)
                     }
                 }
                 WHAT_APPEND_TASK.ordinal -> {
@@ -455,8 +457,8 @@ class VideoDownloadService : Service() {
         sendMessage(what, arg1 = -WHAT_ERROR.ordinal, data = b, arg2 = errorCode, to = to)
     }
 
-    fun sendMessage(what: Int, data: Bundle? = null, to: Messenger? = null, arg1: Int = Constants.NO_ERROR, arg2: Int = Constants.NO_ERROR, download: Boolean = true) {
-        if ((null == downloadClient.value && to == null) || (to == null && !download)) {
+    fun sendMessage(what: Int, data: Bundle? = null, to: Messenger? = null, arg1: Int = Constants.NO_ERROR, arg2: Int = Constants.NO_ERROR) {
+        if (null == downloadClient.value && to == null) {
             Log.d(TAG, "client is null")
             return
         }
@@ -466,7 +468,7 @@ class VideoDownloadService : Service() {
             message.arg2 = arg2
             message.data = data
             var dest: Messenger? = to
-            if (to != null && download)
+            if (to != null)
                 downloadClient.postValue(to)
             else if (to == null)
                 dest = downloadClient.value!!

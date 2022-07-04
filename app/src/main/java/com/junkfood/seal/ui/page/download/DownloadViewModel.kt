@@ -54,6 +54,23 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private val playlistSelectionMutable = MutableStateFlow(PlaylistSelectionViewState())
     val playlistSelectionState = playlistSelectionMutable.asStateFlow()
 
+    private val ytdlpVersionM = MutableStateFlow("")
+    val ytdlpVersion = ytdlpVersionM.asStateFlow()
+
+    fun updateytDlp(force: Boolean = false) {
+        val s = PreferenceUtil.getString(PreferenceUtil.YT_DLP)
+        if (s.isNullOrEmpty() || force) {
+            val b = Bundle()
+            b.putString(WHAT_YTDLP_VERSION.name, "")
+            val m = Message.obtain(null, WHAT_YTDLP_VERSION.ordinal)
+            m.replyTo = mMessenger
+            m.data = b
+            BaseApplication.sendMessage(m)
+        }
+        else
+            ytdlpVersionM.update { s }
+    }
+
     //Receive messages from the server
     private val downloadHandler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -62,6 +79,17 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     Log.i(TAG, "find device")
                     if (!messageHasError(msg) && msg.arg1 > 1) {
                         showPlaylistDialog(msg.arg1)
+                    }
+                }
+                WHAT_YTDLP_VERSION.ordinal -> {
+                    Log.i(TAG, "ver ok")
+                    val b = msg.peekData()
+                    if (!messageHasError(msg) && b != null) {
+                        val s = b.getString(WHAT_YTDLP_VERSION.name)!!
+                        PreferenceUtil.updateString(PreferenceUtil.YT_DLP, s)
+                        if (msg.arg1>0)
+                            viewModelScope.launch { TextUtil.makeToastSuspend(context.getString(msg.arg1) + " (" + s +")") }
+                        ytdlpVersionM.update { s }
                     }
                 }
                 WHAT_APPEND_TASK.ordinal -> {
@@ -275,6 +303,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     init {
         val m = Message.obtain(null, WHAT_TASK_PROGRESS.ordinal)
+        updateytDlp()
         m.replyTo = mMessenger
         BaseApplication.sendMessage(m)
     }

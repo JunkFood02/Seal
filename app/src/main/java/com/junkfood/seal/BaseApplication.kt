@@ -6,20 +6,15 @@ import android.content.*
 import android.os.*
 import android.util.Log
 import com.google.android.material.color.DynamicColors
-import com.junkfood.seal.service.Constants
 import com.junkfood.seal.service.VideoDownloadService
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.tencent.mmkv.MMKV
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import java.io.File
 
 
@@ -52,30 +47,10 @@ class BaseApplication : Application() {
             NotificationUtil.createNotificationChannel()
     }
 
-    //Receive messages from the server
-    class ClientHandler : Handler(Looper.getMainLooper()) {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                Constants.What.WHAT_YTDLP_VERSION.ordinal -> {
-                    Log.i(TAG, "ver ok")
-                    val b = msg.peekData()
-                    if (msg.arg1 != Constants.What.WHAT_ERROR.ordinal && b != null) {
-                        val s = b.getString(Constants.What.WHAT_YTDLP_VERSION.name)!!
-                        PreferenceUtil.updateString(YT_DLP, s)
-                        ytdlpVersionM.update { s }
-                    }
-                }
-            }
-        }
-    }
-
     companion object {
         private const val TAG = "BaseApplication"
-        private val mMessenger = Messenger(ClientHandler())
         var mService: Messenger? = null
         var messageToSend: Message? = null
-        private val ytdlpVersionM = MutableStateFlow("")
-        val ytdlpVersion = ytdlpVersionM.asStateFlow()
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
@@ -83,19 +58,6 @@ class BaseApplication : Application() {
         private var isBinding = false
         private val intentToService by lazy {
             Intent(context, VideoDownloadService::class.java)
-        }
-        fun updateytDlp(force: Boolean = false) {
-            val s = PreferenceUtil.getString(YT_DLP)
-            if (s.isNullOrEmpty() || force) {
-                val b = Bundle()
-                b.putString(Constants.What.WHAT_YTDLP_VERSION.name, "")
-                val m = Message.obtain(null, Constants.What.WHAT_YTDLP_VERSION.ordinal)
-                m.replyTo = mMessenger
-                m.data = b
-                sendMessage(m)
-            }
-            else
-                ytdlpVersionM.update { s }
         }
         fun updateDownloadDir(path: String, isAudio: Boolean = false) {
             if (isAudio) {
@@ -126,8 +88,6 @@ class BaseApplication : Application() {
                 //Since the server does not have the client's messenger after binding, send the client's messenger to the server after binding
                 if (mService != null) {
                     try {
-                        Log.d(TAG, "send messenger")
-                        updateytDlp()
                         if (messageToSend != null) {
                             sendMessage(messageToSend!!)
                             messageToSend = null
