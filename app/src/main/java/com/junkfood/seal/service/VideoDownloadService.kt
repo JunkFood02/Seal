@@ -287,7 +287,7 @@ class VideoDownloadService : Service() {
         serviceScope.launch(Dispatchers.IO) {
             if (task.settings.isCustom())
                 downloadWithCustomCommands()
-            else if (task.settings.downloadPlaylist && task.endItem - task.startItem > 0)
+            else if (task.settings.downloadPlaylist && task.endItem - task.startItem >= 0 && task.endItem > 0 && task.startItem > 0)
                 downloadVideoInPlaylistByIndexRange()
             else
                 downloadVideo()
