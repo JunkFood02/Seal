@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.service.Constants.What.*
 import com.junkfood.seal.util.*
@@ -65,7 +66,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             val m = Message.obtain(null, WHAT_YTDLP_VERSION.ordinal)
             m.replyTo = mMessenger
             m.data = b
-            BaseApplication.sendMessage(m)
+            MainActivity.sendMessage(m)
         }
         else
             ytdlpVersionM.update { s }
@@ -80,6 +81,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     if (!messageHasError(msg) && msg.arg1 > 1) {
                         showPlaylistDialog(msg.arg1)
                     }
+                }
+                WHAT_EXIT_REQUEST.ordinal -> {
+                    MainActivity.exit(0)
                 }
                 WHAT_YTDLP_VERSION.ordinal -> {
                     Log.i(TAG, "ver ok")
@@ -233,7 +237,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val b = Bundle()
         b.putParcelable(values()[what].name, task)
         m.data = b
-        BaseApplication.sendMessage(m)
+        MainActivity.sendMessage(m)
         return task
     }
 
@@ -305,6 +309,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val m = Message.obtain(null, WHAT_TASK_PROGRESS.ordinal)
         updateytDlp()
         m.replyTo = mMessenger
-        BaseApplication.sendMessage(m)
+        MainActivity.sendMessage(m)
     }
 }
