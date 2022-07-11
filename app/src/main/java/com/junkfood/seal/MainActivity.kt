@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
 import com.junkfood.seal.service.VideoDownloadService
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.page.download.DownloadViewModel
@@ -131,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun bindServiceInvoked() {
-            if (!isBinding && instance != null) {
+            if (!isBinding && instance != null && instance!!.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                 isBinding = true
                 instance!!.baseContext.bindService(Intent(instance!!.baseContext, VideoDownloadService::class.java), serviceConnection, BIND_AUTO_CREATE)
             }
