@@ -36,6 +36,7 @@ class VideoDownloadService : Service() {
             super.postValue(v)
         }
     }
+    private var allowServiceStop: Boolean? = null
     private val downloadClient = MutableLiveData<Messenger>(null)
     private val mTaskList = ConcurrentLinkedQueue<DownloadTask>()
 
@@ -61,8 +62,10 @@ class VideoDownloadService : Service() {
 
     private val taskChangeObserver =
         Observer<ServiceState> { s->
-            if (s.task != currentState.oldTask && s.task != null) {
-                startDownloadVideo(s.task)
+            if (s.task != currentState.oldTask) {
+                updateNotification(s.task != null)
+                if (s.task != null)
+                    startDownloadVideo(s.task)
             }
         }
 
@@ -481,7 +484,7 @@ class VideoDownloadService : Service() {
 
     private fun startForegroundService() {
 
-        val notification: Notification = getNotification()
+        val notification: Notification = getNotification()!!
 
         // Notification ID cannot be 0.
         startForeground(Constants.NOTIFICATION_ID, notification)
@@ -495,9 +498,19 @@ class VideoDownloadService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getNotification(): Notification {
+    private fun updateNotification(allowStop: Boolean) {
+        val notif = getNotification(allowStop)
+        if (notif != null) {
+            val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)!!
+            manager.notify(Constants.NOTIFICATION_ID, notif)
+        }
+    }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private fun getNotification(allowStop: Boolean = false): Notification? {
+        if (allowStop == allowServiceStop)
+            return null
+        allowServiceStop = allowStop
         // Create an explicit intent for an Activity in your app
         val intentMain = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -527,14 +540,15 @@ class VideoDownloadService : Service() {
                 .setCategory(Notification.CATEGORY_PROGRESS)
                 .setAutoCancel(true)
                 .setStyle(Notification.DecoratedMediaCustomViewStyle())
+                if (allowStop)
                 //.setCustomContentView(RemoteViews(this.packageName, R.layout.layout_notification))
-                .addAction(
-                    Notification.Action.Builder(
-                        Icon.createWithResource(this, R.drawable.ic_baseline_close_24),
-                        getText(R.string.btn_stop),
-                        pendingIntentStop
-                    ).build()
-                )
+                    notificationBuilder.addAction(
+                        Notification.Action.Builder(
+                            Icon.createWithResource(this, R.drawable.ic_baseline_close_24),
+                            getText(R.string.btn_stop),
+                            pendingIntentStop
+                        ).build()
+                    )
         }
         return notificationBuilder.build()
     }
