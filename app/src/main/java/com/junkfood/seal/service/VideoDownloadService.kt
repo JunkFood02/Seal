@@ -421,12 +421,14 @@ class VideoDownloadService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.i(TAG, "service bind")
+        updateNotification(currentState.value!!.task != null)
         return messenger.binder
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
         Log.i(TAG, "service unbind")
         downloadClient.postValue(null)
+        updateNotification(true)
         return super.onUnbind(intent)
     }
 
