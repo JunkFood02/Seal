@@ -128,6 +128,7 @@ class VideoDownloadService : Service() {
                 state = value!!.state.copy(
                     progress = 0f,
                     showVideoCard = true,
+                    fileNames = null,
                     videoTitle = videoInfo.title,
                     videoAuthor = videoInfo.uploader ?: "null",
                     videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
@@ -198,6 +199,7 @@ class VideoDownloadService : Service() {
                 state = value!!.state.copy(
                     progress = 0f,
                     showVideoCard = false,
+                    fileNames = null,
                 )
             ))
             serviceScope.launch(Dispatchers.IO) {
