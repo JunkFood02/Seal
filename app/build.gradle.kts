@@ -25,16 +25,18 @@ val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha13"
 val coilVersion = "2.1.0"
 val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
-    signingConfigs {
-        all {
-            keyAlias = keystoreProperties["keyAlias"].toString()
-            keyPassword = keystoreProperties["keyPassword"].toString()
-            storeFile = file(keystoreProperties["storeFile"]!!)
-            storePassword = keystoreProperties["storePassword"].toString()
+    if (keystorePropertiesFile.exists()) {
+        val keystoreProperties = Properties()
+        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+        signingConfigs {
+            all {
+                keyAlias = keystoreProperties["keyAlias"].toString()
+                keyPassword = keystoreProperties["keyPassword"].toString()
+                storeFile = file(keystoreProperties["storeFile"]!!)
+                storePassword = keystoreProperties["storePassword"].toString()
+            }
         }
     }
     compileSdk = 33
@@ -77,7 +79,7 @@ android {
         abi {
             isEnable = !project.hasProperty("noSplits")
             reset()
-            include("x86_64", "arm64-v8a","armeabi-v7a")
+            include("x86_64", "arm64-v8a", "armeabi-v7a")
             isUniversalApk = false
         }
     }
@@ -143,14 +145,14 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    implementation ("com.github.yausername.youtubedl-android:library:-SNAPSHOT")
-    implementation ("com.github.yausername.youtubedl-android:ffmpeg:-SNAPSHOT")
+    implementation("com.github.yausername.youtubedl-android:library:0.13.2")
+    implementation("com.github.yausername.youtubedl-android:ffmpeg:0.13.2")
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 
     implementation("com.tencent:mmkv:1.2.13")
 
-    implementation ("androidx.palette:palette-ktx:1.0.0")
+//    implementation("androidx.palette:palette-ktx:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
