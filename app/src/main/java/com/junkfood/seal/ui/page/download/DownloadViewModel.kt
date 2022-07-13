@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.util.*
 import com.junkfood.seal.util.FileUtil.openFile
@@ -89,6 +90,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     notificationId, text = context.getString(R.string.download_error_msg),
                 )
             }
+            MainActivity.stopService()
         }
 
     private fun parsePlaylistInfo() {
@@ -163,6 +165,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private suspend fun downloadVideo(url: String, index: Int = 1) {
+        MainActivity.startService()
+
         with(mutableStateFlow) {
 
             update { it.copy(isDownloadError = false) }
@@ -327,7 +331,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 currentIndex = 0
             )
         }
-        TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
+        MainActivity.stopService()
+        if (!stateFlow.value.isDownloadError)
+            TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
     }
 
     private suspend fun showErrorReport(s: String) {

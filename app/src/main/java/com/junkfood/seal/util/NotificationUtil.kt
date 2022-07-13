@@ -1,13 +1,11 @@
 package com.junkfood.seal.util
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import androidx.core.app.NotificationManagerCompat
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -19,6 +17,7 @@ object NotificationUtil {
     private const val PROGRESS_MAX = 100
     private const val PROGRESS_INITIAL = 0
     private const val CHANNEL_ID = "download_notification"
+    private const val SERVICE_CHANNEL_ID = "download_service"
     private const val NOTIFICATION_GROUP_ID = "seal.download.notification"
     private const val NOTIFICATION_ID = 100
 
@@ -37,8 +36,13 @@ object NotificationUtil {
             description = descriptionText
             group = NOTIFICATION_GROUP_ID
         }
+        val serviceChannel = NotificationChannel(SERVICE_CHANNEL_ID, name, importance).apply {
+            description = context.getString(R.string.service_title)
+            group = NOTIFICATION_GROUP_ID
+        }
         notificationManager.createNotificationChannelGroup(channelGroup)
         notificationManager.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(serviceChannel)
     }
 
     fun makeNotification(
@@ -79,5 +83,15 @@ object NotificationUtil {
         intent?.let { builder.setContentIntent(it) }
         notificationManager.cancel(notificationId)
         notificationManager.notify(notificationId, builder.build())
+    }
+
+    fun makeServiceNotification(intent: PendingIntent): Notification {
+        return NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
+            .setSmallIcon(R.drawable.seal)
+            .setContentTitle(context.getString(R.string.service_title))
+            .setOngoing(true)
+            .setContentIntent(intent)
+            .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
+            .build()
     }
 }
