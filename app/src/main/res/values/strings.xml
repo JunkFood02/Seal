@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Seal</string>
-    <string name="title_home">Home</string>
+    <string name="app_name" translatable="false">Seal</string>
     <string name="video_directory">Video directory</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
@@ -10,8 +9,6 @@
     <string name="url_empty">Link cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Save video thumbnail as a file</string>
-    <string name="open_when_finish_summary">Open file after download finishes</string>
-    <string name="open_when_finish">Open when finish</string>
     <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
     <string name="yt_dlp_update_fail">Failed to update yt-dlp, please check your connection with github.com</string>
     <string name="fetching_info">Fetching video info</string>
@@ -20,11 +17,9 @@
     <string name="download_error_msg">Error occurred when downloading</string>
     <string name="download_start_msg">Start downloading \'%1$s\'</string>
     <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
-    <string name="start_download_list">Start downloading playlist</string>
     <string name="general_settings">General</string>
     <string name="language">Display language</string>
     <string name="language_settings">Set display language</string>
-    <string name="language_settings_msg">This preference would take effect after app restart</string>
     <string name="task_running">An existing download task is already running</string>
     <string name="paste_msg">Paste URL from clipboard</string>
     <string name="paste_fail_msg">Unable to match URL in clipboard</string>
@@ -52,7 +47,6 @@
     <string name="readme" translatable="false">README</string>
     <string name="video">Video</string>
     <string name="checked">Checked</string>
-    <string name="bilibili">Bilibili</string>
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits and open source software</string>
     <string name="custom_command">Custom command</string>
@@ -63,11 +57,8 @@
     <string name="advanced_settings">Advanced</string>
     <string name="print_details">Detailed output</string>
     <string name="print_details_desc">Print detailed messages when downloading</string>
-    <string name="unknown_error">Unknown error occurred</string>
     <string name="display">Display</string>
     <string name="display_settings">Dark theme, dynamic color, languages</string>
-    <string name="dynamic_color">Dynamic color</string>
-    <string name="dynamic_color_desc">Apply wallpaper colors to app theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="follow_system">Follow system</string>
     <string name="on">On</string>
@@ -76,7 +67,6 @@
     <string name="settings_before_download">Configure before download</string>
     <string name="settings_before_download_desc">Configure preferences before download</string>
     <string name="settings_before_download_text">Configure preferences for this download</string>
-    <string name="loading_thumbnail">Loading thumbnail</string>
     <string name="error_copied">Error report was copied to the clipboard</string>
     <string name="thumbnail">thumbnail</string>
     <string name="paste">Paste link</string>
@@ -119,7 +109,6 @@
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
     <string name="channel_description">Display download progress and finish message</string>
-    <string name="download_notification_template">Downloading \"%1$s\"</string>
     <string name="video_url">Video link</string>
     <string name="download_finish_notification">Download finished, clicked to open</string>
     <string name="execute_command_notification">Executing custom commands</string>
@@ -135,14 +124,13 @@
     <string name="show_more_actions">Show more actions</string>
     <string name="download_notification">Download notification</string>
     <string name="download_notification_desc">"Notify download progress and finish messages"</string>
-    <string name="color_theming">Color theming</string>
     <string name="fetching_playlist_info">Fetching playlist info</string>
     <string name="download_range_selection">Playlist selection</string>
-    <string name="download_range_desc">"Specify the range of video index to be downloaded from the playlist (ranged from %d to %d). "</string>
+    <string name="download_range_desc">"Specify the range of video index to be downloaded from the playlist (ranged from %1$d to %2$d). "</string>
     <string name="from">Start index</string>
     <string name="to">End index</string>
     <string name="invalid_index_range">Invalid index range</string>
-    <string name="playlist_indicator_text">Downloading playlist (%d/%d), click to stop</string>
+    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), click to stop</string>
     <string name="audio_directory">Audio directory</string>
     <string name="download_directory">Download directory</string>
     <string name="download_directory_desc">Configure download directory for videos and audio files</string>
@@ -152,5 +140,6 @@
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
-    <string name="service_title">Seal download service</string>
+    <string name="service_title">Seal is executing download task</string>
+    <string name="unknown_error">Unknown error occurred</string>
 </resources>
