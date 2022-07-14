@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Seal</string>
-    <string name="title_home">主页</string>
     <string name="video_url">视频链接</string>
     <string name="video_directory">视频目录</string>
     <string name="extract_audio">提取音频</string>
@@ -9,8 +7,6 @@
     <string name="download_settings_desc">常规设置、下载格式、自定义命令</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
     <string name="create_thumbnail_summary">下载并保存视频封面</string>
-    <string name="open_when_finish_summary">在下载完成后立即打开媒体文件</string>
-    <string name="open_when_finish">完成后打开</string>
     <string name="yt_dlp_up_to_date">yt-dlp已更新到最新版本</string>
     <string name="yt_dlp_update_fail">更新yt-dlp失败，请检查与GitHub的连接后尝试手动更新</string>
     <string name="fetching_info">正在获取视频信息</string>
@@ -18,12 +14,10 @@
     <string name="download_error_msg">下载视频时发生错误</string>
     <string name="download_start_msg">开始下载 "%1$s"</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
-    <string name="start_download_list">开始下载播放列表</string>
     <string name="download_success_msg">下载完成</string>
     <string name="general_settings">常规</string>
     <string name="language">界面语言</string>
     <string name="language_settings">设置界面语言</string>
-    <string name="language_settings_msg">此项设置将在应用重启后生效</string>
     <string name="task_running">已有正在运行中的下载任务</string>
     <string name="paste_msg">从剪贴板获取视频链接</string>
     <string name="paste_fail_msg">未在剪贴板中匹配到视频链接</string>
@@ -50,7 +44,6 @@
     <string name="readme_desc">查看 GitHub 项目地址与应用说明</string>
     <string name="video">视频</string>
     <string name="checked">已选中</string>
-    <string name="bilibili">哔哩哔哩</string>
     <string name="credits">致谢</string>
     <string name="credits_desc">资源与开源软件</string>
     <string name="custom_command">自定义命令</string>
@@ -61,10 +54,7 @@
     <string name="advanced_settings">高级</string>
     <string name="print_details">显示详细信息</string>
     <string name="print_details_desc">显示详细的界面信息与错误报告</string>
-    <string name="unknown_error">出现不可预知的错误</string>
     <string name="display">显示</string>
-    <string name="dynamic_color">动态色彩</string>
-    <string name="dynamic_color_desc">使用系统壁纸主色调生成应用主题</string>
     <string name="dark_theme">深色模式</string>
     <string name="follow_system">跟随系统</string>
     <string name="on">开启</string>
@@ -72,7 +62,6 @@
     <string name="cancel">取消</string>
     <string name="settings_before_download">下载前设置</string>
     <string name="settings_before_download_desc">在开始下载前确认下载设置</string>
-    <string name="loading_thumbnail">正在加载视频封面</string>
     <string name="error_copied">错误报告已复制到剪贴板</string>
     <string name="thumbnail">封面</string>
     <string name="paste">粘贴链接</string>
@@ -107,7 +96,6 @@
     <string name="settings_before_download_text">确认此次下载的下载设置</string>
     <string name="channel_name">下载</string>
     <string name="channel_description">显示下载进度与完成信息</string>
-    <string name="download_notification_template">正在下载 \"%1$s\"</string>
     <string name="download_finish_notification">下载完成，点击打开</string>
     <string name="execute_command_notification">正在执行自定义命令</string>
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”</string>
@@ -121,14 +109,13 @@
     <string name="show_more_actions">显示更多操作</string>
     <string name="download_notification">下载通知</string>
     <string name="download_notification_desc">在系统通知中显示下载进度与完成信息</string>
-    <string name="color_theming">色彩主题</string>
     <string name="fetching_playlist_info">正在获取播放列表信息</string>
     <string name="download_range_selection">下载范围选择</string>
-    <string name="download_range_desc">指定要从播放列表下载的视频（序号范围：%d-%d）</string>
+    <string name="download_range_desc">指定要从播放列表下载的视频（序号范围：%1$d-%2$d）</string>
     <string name="from">起始序号</string>
     <string name="to">结束序号</string>
     <string name="invalid_index_range">序号范围非法</string>
-    <string name="playlist_indicator_text">正在下载播放列表(%d/%d)，点击停止</string>
+    <string name="playlist_indicator_text">正在下载播放列表(%1$d/%2$d)，点击停止</string>
     <string name="audio_directory">音频目录</string>
     <string name="download_directory">下载目录</string>
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
@@ -138,4 +125,6 @@
     <string name="permission_issue_desc">无法下载到除 Download/ 及 Documents/ 以外的目录</string>
     <string name="battery_configuration">后台下载设置</string>
     <string name="battery_configuration_desc">允许本应用在后台运行以在后台进行下载</string>
+    <string name="service_title">Seal 正在执行下载任务</string>
+    <string name="unknown_error">出现不可预知的错误</string>
 </resources>
