@@ -11,6 +11,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -28,6 +30,7 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : AppCompatActivity() {
     private val downloadViewModel: DownloadViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         runBlocking {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration()))
@@ -38,9 +41,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
-        BaseApplication.context = this.baseContext
+
+        context = this.baseContext
         setContent {
-            HomeEntry(downloadViewModel)
+            val windowSizeClass = calculateWindowSizeClass(this)
+            HomeEntry(downloadViewModel, windowSizeClass.widthSizeClass)
         }
         handleShareIntent(intent)
     }

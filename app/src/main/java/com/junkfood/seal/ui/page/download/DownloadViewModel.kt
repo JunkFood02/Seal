@@ -53,6 +53,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             ModalBottomSheetValue.Hidden,
             isSkipHalfExpanded = true
         ),
+        val showDownloadSettingDialog: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
         val currentIndex: Int = 0
@@ -60,15 +61,21 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
 
-    fun hideDrawer(scope: CoroutineScope) {
+    fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
-            stateFlow.value.drawerState.hide()
+            if (isDialog)
+                mutableStateFlow.update { it.copy(showDownloadSettingDialog = false) }
+            else
+                stateFlow.value.drawerState.hide()
         }
     }
 
-    fun showDrawer(scope: CoroutineScope) {
+    fun showDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
-            stateFlow.value.drawerState.show()
+            if (isDialog)
+                mutableStateFlow.update { it.copy(showDownloadSettingDialog = true) }
+            else
+                stateFlow.value.drawerState.show()
         }
     }
 

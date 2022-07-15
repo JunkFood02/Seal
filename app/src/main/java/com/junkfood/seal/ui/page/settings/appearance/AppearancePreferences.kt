@@ -89,6 +89,7 @@ fun AppearancePreferences(
             Column(
                 Modifier
                     .padding(it)
+                    .systemBarsPadding()
                     .verticalScroll(rememberScrollState())
             ) {
 /*                var showcase by remember { mutableStateOf(false) }
