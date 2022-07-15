@@ -24,14 +24,15 @@
         <service
             android:name=".DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false">
+        </service>
 
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.Seal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

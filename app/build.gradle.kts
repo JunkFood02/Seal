@@ -15,14 +15,14 @@ val versionPatch = 9
 val versionBuild = 4
 val isStable = false
 
-val composeVersion = "1.2.0-rc01"
-val lifecycleVersion = "2.5.0-rc02"
-val navigationVersion = "2.5.0-rc02"
+val composeVersion = "1.3.0-alpha01"
+val lifecycleVersion = "2.6.0-alpha01"
+val navigationVersion = "2.5.0"
 val roomVersion = "2.4.2"
 val accompanistVersion = "0.24.11-rc"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
-val composeMd3Version = "1.0.0-alpha13"
+val composeMd3Version = "1.0.0-alpha14"
 val coilVersion = "2.1.0"
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -102,7 +102,7 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = "1.2.0-rc01"
     }
     packagingOptions {
         resources {
@@ -130,6 +130,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.material3:material3:$composeMd3Version")
+    implementation("androidx.compose.material3:material3-window-size-class:$composeMd3Version")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")

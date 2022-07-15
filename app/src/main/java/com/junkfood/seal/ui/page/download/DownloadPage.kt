@@ -7,6 +7,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -40,8 +40,8 @@ import coil.request.ImageRequest
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.material.color.MaterialColors
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
@@ -70,6 +70,7 @@ fun DownloadPage(
     val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
     val hapticFeedback = LocalHapticFeedback.current
+    val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
 
     val checkPermissionOrDownload = {
         if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
@@ -79,30 +80,37 @@ fun DownloadPage(
         }
     }
     PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                MaterialTheme.colorScheme.background
+            ),
     ) {
         with(viewState.value) {
             BackHandler(drawerState.isVisible) {
-                downloadViewModel.hideDrawer(scope)
+                downloadViewModel.hideDialog(scope, useDialog)
             }
-            Scaffold(floatingActionButton = {
-                FABs(
-                    with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
-                    downloadCallback = {
-                        if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
-                            downloadViewModel.showDrawer(scope)
-                        else checkPermissionOrDownload()
-                    }, pasteCallback = {
-                        TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                            ?.let { downloadViewModel.updateUrl(it) }
-                    }
-                )
-            }) {
+            Scaffold(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth(),
+                floatingActionButton = {
+                    FABs(
+                        with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
+                        downloadCallback = {
+                            if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
+                                downloadViewModel.showDialog(scope, useDialog)
+                            else checkPermissionOrDownload()
+                        }, pasteCallback = {
+                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                                ?.let { downloadViewModel.updateUrl(it) }
+                        }
+                    )
+                }) {
                 Column(
                     modifier = Modifier
-                        .statusBarsPadding()
+                        .systemBarsPadding()
                         .padding(it)
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
@@ -177,9 +185,11 @@ fun DownloadPage(
                 }
             }
             DownloadSettingDialog(
+                useDialog = useDialog,
+                dialogState = showDownloadSettingDialog,
                 drawerState = drawerState,
                 confirm = { checkPermissionOrDownload() }) {
-                downloadViewModel.hideDrawer(scope)
+                downloadViewModel.hideDialog(scope, useDialog)
             }
         }
     }
@@ -372,10 +382,6 @@ fun VideoCard(
     }
 }
 
-
-fun harmonize(color1: Color, color2: Color): Color {
-    return Color(MaterialColors.harmonize(color1.toArgb(), color2.toArgb()))
-}
 
 @Composable
 fun FABs(
