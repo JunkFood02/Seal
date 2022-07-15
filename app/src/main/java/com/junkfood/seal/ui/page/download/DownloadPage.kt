@@ -7,12 +7,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -44,6 +41,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
 
@@ -144,6 +142,10 @@ fun DownloadPage(
                         onClick = {
                             downloadViewModel.stopDownloadPlaylistOnNextItem()
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        },
+                        onLongClick = {
+                            PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         }
                     )
                     Column(Modifier.padding(24.dp)) {
@@ -239,6 +241,7 @@ fun InputUrl(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun TitleWithProgressIndicator(
@@ -255,7 +258,12 @@ fun TitleWithProgressIndicator(
                 this.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
-                ) { onClick() } else this
+                ) { onClick() } else this.combinedClickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {},
+                onLongClick = onLongClick
+            )
         }
     ) {
         Row(

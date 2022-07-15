@@ -46,7 +46,7 @@ fun WelcomeDialog(onClick: () -> Unit) {
                 onClick()
                 onDismissRequest()
             }) {
-                Text(stringResource(R.string.go_to_download_preferences))
+                Text(stringResource(R.string.open_settings))
             }
         }, title = { Text(stringResource(R.string.user_guide)) }, text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {

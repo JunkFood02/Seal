@@ -36,15 +36,23 @@ fun HomeEntry(
         ) {
             val navController = rememberAnimatedNavController()
             val onBackPressed = { navController.popBackStack() }
-            Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
                 AnimatedNavHost(
-                    modifier = Modifier.fillMaxWidth(
-                        when (LocalWindowWidthState.current) {
-                            WindowWidthSizeClass.Compact -> 1f
-                            WindowWidthSizeClass.Expanded -> 0.5f
-                            else -> 0.8f
-                        }
-                    ).align(Alignment.Center), navController = navController, startDestination = Route.HOME
+                    modifier = Modifier
+                        .fillMaxWidth(
+                            when (LocalWindowWidthState.current) {
+                                WindowWidthSizeClass.Compact -> 1f
+                                WindowWidthSizeClass.Expanded -> 0.5f
+                                else -> 0.8f
+                            }
+                        )
+                        .align(Alignment.Center),
+                    navController = navController,
+                    startDestination = Route.HOME
                 ) {
                     animatedComposable(Route.HOME) {
                         DownloadPage(
@@ -67,7 +75,7 @@ fun HomeEntry(
                 }
             }
             WelcomeDialog {
-                navController.navigate(Route.DOWNLOAD_PREFERENCES)
+                navController.navigate(Route.SETTINGS)
             }
         }
     }

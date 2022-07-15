@@ -84,7 +84,7 @@
     <string name="close">关闭</string>
     <string name="close_never_show_again">关闭后不再显示</string>
     <string name="user_guide">使用指引</string>
-    <string name="go_to_download_preferences">打开下载设置</string>
+    <string name="open_settings">打开应用设置</string>
     <string name="paste_desc">点击粘贴按钮，从剪贴板获取复制的视频链接。</string>
     <string name="download_desc">随后点击下载按钮，在开始下载前，你可以修改用于本次下载的设置。</string>
     <string name="download_history_desc">在下载记录页，查看与管理包括视频与音频在内的应用内下载。</string>

@@ -93,7 +93,7 @@
     <string name="close">Close</string>
     <string name="close_never_show_again">Don\'t show up again</string>
     <string name="user_guide">User guide</string>
-    <string name="go_to_download_preferences">Open settings</string>
+    <string name="open_settings">Open settings</string>
     <string name="paste_desc">Click on paste button to get video link from your clipboard.</string>
     <string name="download_desc">Then click on download button. Before starting, you can modify configurations for this
         download.
