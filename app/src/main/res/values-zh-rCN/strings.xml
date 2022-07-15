@@ -125,6 +125,6 @@
     <string name="permission_issue_desc">无法下载到除 Download/ 及 Documents/ 以外的目录</string>
     <string name="battery_configuration">后台下载设置</string>
     <string name="battery_configuration_desc">允许本应用在后台运行以在后台进行下载</string>
-    <string name="service_title">Seal 正在执行下载任务</string>
+    <string name="service_title">Seal 正在进行下载</string>
     <string name="unknown_error">出现不可预知的错误</string>
 </resources>

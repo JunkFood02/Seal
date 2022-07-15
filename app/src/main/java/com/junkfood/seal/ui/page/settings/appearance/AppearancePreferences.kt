@@ -43,7 +43,10 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
+import com.junkfood.seal.util.PreferenceUtil.ENGLISH
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
+import com.junkfood.seal.util.PreferenceUtil.SIMPLIFIED_CHINESE
+import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,7 +92,11 @@ fun AppearancePreferences(
             Column(
                 Modifier
                     .padding(it)
-                    .systemBarsPadding()
+                    .padding(
+                        bottom = WindowInsets.systemBars
+                            .asPaddingValues()
+                            .calculateBottomPadding()
+                    )
                     .verticalScroll(rememberScrollState())
             ) {
 /*                var showcase by remember { mutableStateOf(false) }
@@ -200,13 +207,17 @@ fun AppearancePreferences(
             title = { Text(stringResource(R.string.language_settings)) }, text = {
                 Column {
                     SingleChoiceItem(
+                        text = stringResource(R.string.defaults),
+                        selected = language == SYSTEM_DEFAULT
+                    ) { language = SYSTEM_DEFAULT }
+                    SingleChoiceItem(
                         text = stringResource(R.string.la_en_US),
-                        selected = language == 2
-                    ) { language = 2 }
+                        selected = language == ENGLISH
+                    ) { language = ENGLISH }
                     SingleChoiceItem(
                         text = stringResource(R.string.la_zh_CN),
-                        selected = language == 1
-                    ) { language = 1 }
+                        selected = language == SIMPLIFIED_CHINESE
+                    ) { language = SIMPLIFIED_CHINESE }
                 }
             }
         )

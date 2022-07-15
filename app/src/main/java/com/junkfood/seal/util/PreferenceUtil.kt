@@ -85,7 +85,7 @@ object PreferenceUtil {
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
     const val THEME_COLOR = "theme_color"
-    const val FOLLOW_SYSTEM = 0
+    const val SYSTEM_DEFAULT = 0
     const val SIMPLIFIED_CHINESE = 1
     const val ENGLISH = 2
 

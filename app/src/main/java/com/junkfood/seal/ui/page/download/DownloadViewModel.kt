@@ -132,17 +132,23 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         indexRange: IntRange
     ) {
         viewModelScope.launch(Dispatchers.IO) {
+            val itemCount = indexRange.last - indexRange.first + 1
             if (!checkStateBeforeDownload()) return@launch
             mutableStateFlow.update {
                 it.copy(
                     isDownloadingPlaylist = true,
-                    downloadItemCount = indexRange.last - indexRange.first + 1
+                    downloadItemCount = itemCount
                 )
             }
             for (index in indexRange) {
                 Log.d(TAG, stateFlow.value.isDownloadingPlaylist.toString())
                 if (!stateFlow.value.isDownloadingPlaylist) break
                 mutableStateFlow.update { it.copy(currentIndex = index - indexRange.first + 1) }
+                if (MainActivity.isServiceRunning)
+                    NotificationUtil.updateServiceNotification(
+                        index - indexRange.first + 1,
+                        itemCount
+                    )
                 downloadVideo(url, index)
             }
             finishProcessing()
@@ -150,6 +156,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun startDownloadVideo() {
+        if (stateFlow.value.url.isBlank()) {
+            viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
+            return
+        }
+        MainActivity.startService()
         switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
         if (stateFlow.value.isInCustomCommandMode) {
             downloadWithCustomCommands()
@@ -159,10 +170,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
 
-        if (stateFlow.value.url.isBlank()) {
-            viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
-            return
-        }
+
 
         viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
@@ -172,8 +180,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private suspend fun downloadVideo(url: String, index: Int = 1) {
-        MainActivity.startService()
-
         with(mutableStateFlow) {
 
             update { it.copy(isDownloadError = false) }

@@ -15,7 +15,7 @@ val versionPatch = 9
 val versionBuild = 4
 val isStable = false
 
-val composeVersion = "1.3.0-alpha01"
+val composeVersion = "1.2.0-rc01"
 val lifecycleVersion = "2.6.0-alpha01"
 val navigationVersion = "2.5.0"
 val roomVersion = "2.4.2"

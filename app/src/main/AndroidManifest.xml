@@ -32,7 +32,7 @@
             android:configChanges="orientation"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.Seal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,11 +46,16 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
+        </activity>
 
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
             <meta-data
                 android:name="autoStoreLocales"
                 android:value="true" />
-        </activity>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

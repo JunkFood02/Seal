@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.NotificationUtil.SERVICE_NOTIFICATION_ID
 
 /**
  * This `Service` does nothing
@@ -22,7 +23,7 @@ class DownloadService : Service() {
                 )
             }
         val notification = NotificationUtil.makeServiceNotification(pendingIntent)
-        startForeground(123, notification)
+        startForeground(SERVICE_NOTIFICATION_ID, notification)
         return DownloadServiceBinder()
     }
 

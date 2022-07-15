@@ -19,7 +19,9 @@ object NotificationUtil {
     private const val CHANNEL_ID = "download_notification"
     private const val SERVICE_CHANNEL_ID = "download_service"
     private const val NOTIFICATION_GROUP_ID = "seal.download.notification"
-    private const val NOTIFICATION_ID = 100
+    private const val DEFAULT_NOTIFICATION_ID = 100
+    const val SERVICE_NOTIFICATION_ID = 123
+    private lateinit var serviceNotification: Notification
 
     private var builder =
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.seal)
@@ -46,11 +48,13 @@ object NotificationUtil {
     }
 
     fun makeNotification(
-        notificationId: Int = NOTIFICATION_ID,
+        notificationId: Int = DEFAULT_NOTIFICATION_ID,
         title: String,
         text: String? = null
     ) {
-        builder.setContentTitle(title)
+        builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.seal)
+            .setContentTitle(title)
             .setContentText(text)
             .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, false)
             .setOngoing(true)
@@ -59,7 +63,11 @@ object NotificationUtil {
         notificationManager.notify(notificationId, builder.build())
     }
 
-    fun updateNotification(notificationId: Int = NOTIFICATION_ID, progress: Int, text: String) {
+    fun updateNotification(
+        notificationId: Int = DEFAULT_NOTIFICATION_ID,
+        progress: Int,
+        text: String
+    ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
         builder.setProgress(PROGRESS_MAX, progress, false)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
@@ -67,7 +75,7 @@ object NotificationUtil {
     }
 
     fun finishNotification(
-        notificationId: Int = NOTIFICATION_ID,
+        notificationId: Int = DEFAULT_NOTIFICATION_ID,
         title: String? = null,
         text: String? = null,
         intent: PendingIntent? = null
@@ -86,12 +94,20 @@ object NotificationUtil {
     }
 
     fun makeServiceNotification(intent: PendingIntent): Notification {
-        return NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
+        serviceNotification = NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
             .setSmallIcon(R.drawable.seal)
             .setContentTitle(context.getString(R.string.service_title))
             .setOngoing(true)
             .setContentIntent(intent)
             .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
             .build()
+        return serviceNotification
+    }
+
+    fun updateServiceNotification(index: Int, itemCount: Int) {
+        serviceNotification = NotificationCompat.Builder(context, serviceNotification)
+            .setContentTitle(context.getString(R.string.service_title) + " ($index/$itemCount)")
+            .build()
+        notificationManager.notify(SERVICE_NOTIFICATION_ID, serviceNotification)
     }
 }

@@ -73,11 +73,11 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         private var sharedUrl = ""
-        private var bound = false
+        var isServiceRunning = false
         private val connection = object : ServiceConnection {
             override fun onServiceConnected(className: ComponentName, service: IBinder) {
                 val binder = service as DownloadService.DownloadServiceBinder
-                bound = true
+                isServiceRunning = true
             }
 
             override fun onServiceDisconnected(arg0: ComponentName) {
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun startService() {
-            if (bound) return
+            if (isServiceRunning) return
             Intent(context, DownloadService::class.java).also { intent ->
                 context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }
@@ -93,13 +93,16 @@ class MainActivity : AppCompatActivity() {
 
         fun stopService() {
             context.unbindService(connection)
-            bound = false
+            isServiceRunning = false
         }
 
         fun setLanguage(locale: String) {
-            if (locale.isEmpty()) return
+            Log.d(TAG, "setLanguage: $locale")
+            val localeListCompat =
+                if (locale.isEmpty()) LocaleListCompat.getEmptyLocaleList()
+                else LocaleListCompat.forLanguageTags(locale)
             BaseApplication.applicationScope.launch(Dispatchers.Main) {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(locale))
+                AppCompatDelegate.setApplicationLocales(localeListCompat)
             }
         }
 

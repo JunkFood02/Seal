@@ -110,7 +110,7 @@
     <string name="channel_name">Download</string>
     <string name="channel_description">Display download progress and finish message</string>
     <string name="video_url">Video link</string>
-    <string name="download_finish_notification">Download finished, clicked to open</string>
+    <string name="download_finish_notification">Download finished, click to open</string>
     <string name="execute_command_notification">Executing custom commands</string>
     <string name="battery_settings_desc">"For downloading in background, please set battery usage of this app to \"Unrestricted\" in system settings."
     </string>
@@ -140,6 +140,6 @@
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
-    <string name="service_title">Seal is executing download task</string>
+    <string name="service_title">Seal is downloading</string>
     <string name="unknown_error">Unknown error occurred</string>
 </resources>
