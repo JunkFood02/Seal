@@ -6,6 +6,7 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -25,6 +26,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
@@ -40,6 +42,7 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CZECH
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
@@ -47,6 +50,7 @@ import com.junkfood.seal.util.PreferenceUtil.ENGLISH
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
 import com.junkfood.seal.util.PreferenceUtil.SIMPLIFIED_CHINESE
 import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
+import com.junkfood.seal.util.PreferenceUtil.getLanguageCode
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,8 +67,14 @@ fun AppearancePreferences(
     var showLanguageDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
-    var language by remember { mutableStateOf(PreferenceUtil.getInt(LANGUAGE, 0)) }
 
+
+    var language by remember { mutableStateOf(PreferenceUtil.getInt(LANGUAGE, 0)) }
+    if (Build.VERSION.SDK_INT >= 33) {
+        LocaleListCompat.getAdjustedDefault()[0]?.let {
+            language = getLanguageCode(it.toLanguageTag())
+        }
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -145,7 +155,7 @@ fun AppearancePreferences(
                     PreferenceItem(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
-                        description = PreferenceUtil.getLanguageDesc()
+                        description = PreferenceUtil.getLanguageDesc(language)
                     ) { showLanguageDialog = true }
             }
         })
@@ -205,19 +215,31 @@ fun AppearancePreferences(
                 }
             },
             title = { Text(stringResource(R.string.language_settings)) }, text = {
-                Column {
-                    SingleChoiceItem(
-                        text = stringResource(R.string.defaults),
-                        selected = language == SYSTEM_DEFAULT
-                    ) { language = SYSTEM_DEFAULT }
-                    SingleChoiceItem(
-                        text = stringResource(R.string.la_en_US),
-                        selected = language == ENGLISH
-                    ) { language = ENGLISH }
-                    SingleChoiceItem(
-                        text = stringResource(R.string.la_zh_CN),
-                        selected = language == SIMPLIFIED_CHINESE
-                    ) { language = SIMPLIFIED_CHINESE }
+                LazyColumn {
+                    item {
+                        SingleChoiceItem(
+                            text = stringResource(R.string.follow_system),
+                            selected = language == SYSTEM_DEFAULT
+                        ) { language = SYSTEM_DEFAULT }
+                    }
+                    item {
+                        SingleChoiceItem(
+                            text = stringResource(R.string.la_en_US),
+                            selected = language == ENGLISH
+                        ) { language = ENGLISH }
+                    }
+                    item {
+                        SingleChoiceItem(
+                            text = stringResource(R.string.la_zh_CN),
+                            selected = language == SIMPLIFIED_CHINESE
+                        ) { language = SIMPLIFIED_CHINESE }
+                    }
+                    item {
+                        SingleChoiceItem(
+                            text = stringResource(R.string.la_cs),
+                            selected = language == CZECH
+                        ) { language = CZECH }
+                    }
                 }
             }
         )

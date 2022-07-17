@@ -88,13 +88,23 @@ object PreferenceUtil {
     const val SYSTEM_DEFAULT = 0
     const val SIMPLIFIED_CHINESE = 1
     const val ENGLISH = 2
+    const val CZECH = 3
 
-    fun getLanguageConfiguration(language: Int = kv.decodeInt(LANGUAGE)): String {
-        return when (language) {
-            SIMPLIFIED_CHINESE -> "zh-CN"
-            ENGLISH -> "en-US"
-            else -> ""
+    private val languageMap: Map<Int, String> = mapOf(
+        Pair(SIMPLIFIED_CHINESE, "zh-CN"),
+        Pair(ENGLISH, "en"),
+        Pair(CZECH, "cs"),
+    )
+
+    fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
+        return if (languageMap.containsKey(languageNumber)) languageMap[languageNumber].toString() else ""
+    }
+
+    fun getLanguageCode(language: String): Int {
+        languageMap.entries.forEach {
+            if (it.value == language) return it.key
         }
+        return SYSTEM_DEFAULT
     }
 
     fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
@@ -112,7 +122,8 @@ object PreferenceUtil {
         return when (language) {
             SIMPLIFIED_CHINESE -> stringResource(R.string.la_zh_CN)
             ENGLISH -> stringResource(R.string.la_en_US)
-            else -> stringResource(R.string.defaults)
+            CZECH -> stringResource(R.string.la_cs)
+            else -> stringResource(R.string.follow_system)
         }
     }
 

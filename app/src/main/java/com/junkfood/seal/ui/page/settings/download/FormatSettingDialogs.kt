@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.download
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -114,20 +115,23 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {})
                 Text(text = stringResource(R.string.confirm))
             }
         }, text = {
-            Column {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    text = stringResource(R.string.video_quality_desc),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+            LazyColumn {
+                item {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        text = stringResource(R.string.video_quality_desc),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
                 for (i in 0..4)
-                    SingleChoiceItem(
-                        text = PreferenceUtil.getVideoQualityDesc(i),
-                        selected = videoQuality == i
-                    ) { videoQuality = i }
-
+                    item {
+                        SingleChoiceItem(
+                            text = PreferenceUtil.getVideoQualityDesc(i),
+                            selected = videoQuality == i
+                        ) { videoQuality = i }
+                    }
             }
         })
 }

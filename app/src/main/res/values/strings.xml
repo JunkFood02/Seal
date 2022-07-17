@@ -106,6 +106,7 @@
     <string name="download_playlist_desc">Download multiple videos from a playlist</string>
     <string name="la_zh_CN" translatable="false">简体中文</string>
     <string name="la_en_US" translatable="false">English</string>
+    <string name="la_cs" translatable="false">Čeština</string>
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
     <string name="channel_description">Display download progress and finish message</string>
