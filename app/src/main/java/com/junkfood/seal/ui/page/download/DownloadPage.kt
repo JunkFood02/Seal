@@ -71,7 +71,7 @@ fun DownloadPage(
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
 
     val checkPermissionOrDownload = {
-        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
+        if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
             downloadViewModel.startDownloadVideo()
         else {
             storagePermission.launchPermissionRequest()

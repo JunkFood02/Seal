@@ -77,7 +77,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         }
 
     fun openDirectoryChooser() {
-        if (Build.VERSION.SDK_INT >= 29 || storagePermission.status == PermissionStatus.Granted)
+        if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
             launcher.launch(null)
         else storagePermission.launchPermissionRequest()
     }
@@ -107,7 +107,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                if (Build.VERSION.SDK_INT >= 29)
+                if (Build.VERSION.SDK_INT > 29)
                     item {
                         PreferencesCaution(
                             title = stringResource(R.string.permission_issue),

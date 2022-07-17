@@ -28,7 +28,6 @@ import com.junkfood.seal.util.TextUtil.isNumberInRange
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
-
     val viewState = downloadViewModel.stateFlow.collectAsState().value
     val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
     val playlistItemCount = viewState.downloadItemCount
