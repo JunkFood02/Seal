@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.util.TextUtil
@@ -106,7 +107,12 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                     }
                 }
             },
-            dismissButton = { DismissButton { onDismissRequest() } },
+            dismissButton = {
+                DismissButton {
+                    onDismissRequest()
+                    MainActivity.stopService()
+                }
+            },
             confirmButton = {
                 TextButton(onClick = {
                     error = !from.isNumberInRange(1, playlistItemCount) or !to.isNumberInRange(

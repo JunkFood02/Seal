@@ -18,35 +18,49 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 </div>
 
 
-
-
-
-
 ## Features
 
 - Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
 - Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
 
-- Download all videos in playlist in one click
+- Download all videos in the playlist with one click.
 
-- Execute custom yt-dlp command with template.
+- Execute custom yt-dlp commands with a template.
 
 - Manage in-app downloads.
 
 - Easy to use and user-friendly.
 
-- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme (~~is this really needed in a video downloader?~~)
+- [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme.
 
-- MAD: UI and logic written with pure Kotlin. Single activity, no fragments but composable destinations.
+- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
+
+
+
+## Download
+
+Download the latest apk from [releases](https://github.com/JunkFood02/Seal/releases/latest)
+
+
+
+## Contributing
+
+Contributions are welcome!
+
+You can help translate Seal on [Weblate](https://hosted.weblate.org/projects/seal/).
+
+[![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
+
+For bug reports, feature requests, or any other ideas to improve, please [submit an issue](https://github.com/JunkFood02/Seal/issues/new).
 
 
 
 ## Credits
 
-Seal is just a simple GUI of [youtubedl-android](https://github.com/yausername/youtubedl-android) and [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-UI design and codes are heavily based on [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
 
