@@ -1,8 +1,10 @@
 package com.junkfood.seal.util
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -92,7 +94,7 @@ object PreferenceUtil {
 
     private val languageMap: Map<Int, String> = mapOf(
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
-        Pair(ENGLISH, "en"),
+        Pair(ENGLISH, "en-US"),
         Pair(CZECH, "cs"),
     )
 
@@ -100,11 +102,19 @@ object PreferenceUtil {
         return if (languageMap.containsKey(languageNumber)) languageMap[languageNumber].toString() else ""
     }
 
-    fun getLanguageCode(language: String): Int {
+    fun getLanguageNumberByCode(languageCode: String): Int {
         languageMap.entries.forEach {
-            if (it.value == language) return it.key
+            if (it.value == languageCode) return it.key
         }
         return SYSTEM_DEFAULT
+    }
+
+    fun getLanguageNumber(): Int {
+        return if (Build.VERSION.SDK_INT >= 33)
+            getLanguageNumberByCode(
+                LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
+            )
+        else getInt(LANGUAGE, 0)
     }
 
     fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
@@ -118,7 +128,7 @@ object PreferenceUtil {
     }
 
     @Composable
-    fun getLanguageDesc(language: Int = kv.decodeInt(LANGUAGE)): String {
+    fun getLanguageDesc(language: Int = getLanguageNumber()): String {
         return when (language) {
             SIMPLIFIED_CHINESE -> stringResource(R.string.la_zh_CN)
             ENGLISH -> stringResource(R.string.la_en_US)
@@ -126,6 +136,7 @@ object PreferenceUtil {
             else -> stringResource(R.string.follow_system)
         }
     }
+
 
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),

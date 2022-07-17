@@ -26,7 +26,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
@@ -50,7 +49,6 @@ import com.junkfood.seal.util.PreferenceUtil.ENGLISH
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
 import com.junkfood.seal.util.PreferenceUtil.SIMPLIFIED_CHINESE
 import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
-import com.junkfood.seal.util.PreferenceUtil.getLanguageCode
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,12 +67,9 @@ fun AppearancePreferences(
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
 
 
-    var language by remember { mutableStateOf(PreferenceUtil.getInt(LANGUAGE, 0)) }
-    if (Build.VERSION.SDK_INT >= 33) {
-        LocaleListCompat.getAdjustedDefault()[0]?.let {
-            language = getLanguageCode(it.toLanguageTag())
-        }
-    }
+    var language by remember { mutableStateOf(PreferenceUtil.getLanguageNumber()) }
+
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -155,7 +150,7 @@ fun AppearancePreferences(
                     PreferenceItem(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
-                        description = PreferenceUtil.getLanguageDesc(language)
+                        description = PreferenceUtil.getLanguageDesc()
                     ) { showLanguageDialog = true }
             }
         })
@@ -182,13 +177,13 @@ fun AppearancePreferences(
                     darkThemeValue = FOLLOW_SYSTEM
                 }
                 SingleChoiceItem(
-                    text = stringResource(androidx.compose.ui.R.string.on),
+                    text = stringResource(R.string.on),
                     selected = darkThemeValue == ON
                 ) {
                     darkThemeValue = ON
                 }
                 SingleChoiceItem(
-                    text = stringResource(androidx.compose.ui.R.string.off),
+                    text = stringResource(R.string.off),
                     selected = darkThemeValue == OFF
                 ) {
                     darkThemeValue = OFF
@@ -200,7 +195,7 @@ fun AppearancePreferences(
         AlertDialog(
             onDismissRequest = {
                 showLanguageDialog = false
-                language = PreferenceUtil.getInt(LANGUAGE, 0)
+                language = PreferenceUtil.getLanguageNumber()
             },
             confirmButton = {
                 ConfirmButton {
@@ -211,7 +206,7 @@ fun AppearancePreferences(
             }, dismissButton = {
                 DismissButton {
                     showLanguageDialog = false
-                    language = PreferenceUtil.getInt(LANGUAGE, 0)
+                    language = PreferenceUtil.getLanguageNumber()
                 }
             },
             title = { Text(stringResource(R.string.language_settings)) }, text = {
