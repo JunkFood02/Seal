@@ -6,15 +6,15 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 ## Screenshots
 
 <div>
-<img src="fastlane/metadata/android/en-US/images/1.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/2.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/3.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/4.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/5.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/6.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/9.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/7.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/8.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
 </div>
 
 
