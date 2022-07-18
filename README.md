@@ -12,9 +12,9 @@ Video/Audio Downloader for Android, written with [Jetpack Compose](https://devel
 <img src="fastlane/metadata/android/en-US/images/4.png" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/5.png" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/6.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/9.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/7.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/8.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/9.jpg" width="30%" />
 </div>
 
 
