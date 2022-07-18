@@ -4,12 +4,12 @@
 ## 屏幕截图
 
 <div>
-<img src="README.assets/1-zh.jpg" width="30%" />
-<img src="README.assets/3-zh.jpg" width="30%" />
-<img src="README.assets/2-zh.jpg"width="30%" />
-<img src="README.assets/6-zh.jpg" width="30%"/>
-<img src="README.assets/5-zh.jpg"  width="30%" />
-<img src="README.assets/4-zh.jpg"  width="30%" />
+<img src="fastlane/metadata/android/zh/images/1-zh.jpg" width="30%" />
+<img src="fastlane/metadata/android/zh/images/3-zh.jpg" width="30%" />
+<img src="fastlane/metadata/android/zh/images/2-zh.jpg"width="30%" />
+<img src="fastlane/metadata/android/zh/images/6-zh.jpg" width="30%"/>
+<img src="fastlane/metadata/android/zh/images/5-zh.jpg"  width="30%" />
+<img src="fastlane/metadata/android/zh/images/4-zh.jpg"  width="30%" />
 </div>
 
 
