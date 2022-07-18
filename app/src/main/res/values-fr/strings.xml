@@ -84,7 +84,7 @@
     <string name="format">Format</string>
     <string name="video_format">Format vidéo</string>
     <string name="convert_audio">Conversion audio</string>
-    <string name="start_download">Démarrer le téléchargement</string>
+    <string name="start_download">Télécharger</string>
     <string name="close">Fermer</string>
     <string name="paste_desc">Cliquez sur le bouton « coller » pour obtenir le lien vidéo depuis votre presse-papiers.</string>
     <string name="download_desc">Cliquez ensuite sur le bouton de téléchargement. Avant de commencer, vous pouvez modifier les configurations pour ce téléchargement.</string>
