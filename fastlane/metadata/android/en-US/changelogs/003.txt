@@ -1,0 +1,3 @@
+- Bump version to v0.0.3, added setting page
+- Parse album metadata, reset default value for Preference
+- Match & paste for url in clipboard

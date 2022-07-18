@@ -1,0 +1,7 @@
+- UI Improvement
+- Filter videos in downloads by websites
+- (Limited) playlist download support
+- Concurrent download configuration
+- In-app language configuration
+- Download notifications
+- Read video link from system share intents
