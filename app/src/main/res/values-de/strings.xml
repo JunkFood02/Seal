@@ -114,4 +114,6 @@
     <string name="download_directory">Download-Verzeichnis</string>
     <string name="unknown_error">Unbekannter Fehler aufgetreten</string>
     <string name="execute_command_notification">Benutzerdefinierte Befehlen ausführen</string>
+    <string name="translate">Übersetzen</string>
+    <string name="translate_desc">Helfen Sie bei der Übersetzung dieser Anwendung auf Weblate</string>
 </resources>
