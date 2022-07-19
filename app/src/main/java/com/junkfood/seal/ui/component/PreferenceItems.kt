@@ -2,13 +2,11 @@ package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -246,7 +244,47 @@ fun PreferencesHint(
             }
         }
     }
+}
 
+@Composable
+fun CreditItem(
+    title: String,
+    license: String? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+) {
+    Surface(
+        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 12.dp)
+            ) {
+                with(MaterialTheme) {
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        style = typography.titleMedium,
+                        color = colorScheme.onSurface.applyOpacity(enabled)
+                    )
+                    Text(
+                        text = license.toString(),
+                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                    )
+                }
+            }
+        }
+    }
 
 }
 
@@ -264,62 +302,5 @@ fun Subtitle(
         color = color,
         style = MaterialTheme.typography.labelLarge
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SingleChoiceItem(
-    modifier: Modifier = Modifier,
-    text: String,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = modifier
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) { onClick() }
-            .fillMaxWidth()
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
-    ) {
-        RadioButton(selected = selected, onClick = null)
-        Text(
-            modifier = Modifier.padding(start = 18.dp),
-            text = text,
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MultiChoiceItem(
-    modifier: Modifier = Modifier,
-    text: String,
-    checked: Boolean,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) { onClick() },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = null
-        )
-        Text(
-            modifier = Modifier.padding(start = 12.dp),
-            text = text,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
 }
 

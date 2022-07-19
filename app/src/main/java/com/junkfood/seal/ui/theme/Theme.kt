@@ -19,13 +19,11 @@ fun SealTheme(
     seedColor: Int,
     content: @Composable () -> Unit
 ) {
-
     rememberSystemUiController().run {
         setStatusBarColor(Color.Transparent, !darkTheme)
         setSystemBarsColor(Color.Transparent, !darkTheme)
         setNavigationBarColor(Color.Transparent, !darkTheme)
     }
-
     val colorScheme =
         when {
             darkTheme -> darkColorSchemeFromColor(seedColor)

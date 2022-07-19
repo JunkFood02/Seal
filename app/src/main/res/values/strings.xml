@@ -145,4 +145,6 @@
     <string name="unknown_error">Unknown error occurred</string>
     <string name="la_fr" translatable="false">Français</string>
     <string name="la_de" translatable="false">Deutsch</string>
+    <string name="translate">Translate</string>
+    <string name="translate_desc">Help translate this application on Weblate</string>
 </resources>

@@ -1,4 +1,4 @@
-<b>Features:</b>
+<b>Features</b>
 <ul>
 	<li>Download videos and audio files from video platforms supported by yt-dlp</li>
 	<li>Embed metadata and video thumbnail into extracted audio files supported by mutagen</li>
@@ -8,5 +8,4 @@
 	<li>Easy to use and user-friendly</li>
 	<li>Material Design 3 style UI, with dynamic color theme</li>
 	<li>Free and open source</li>
-	<li>MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations<li>
 </ul>

@@ -9,5 +9,6 @@ class Route {
         const val DOWNLOAD_PREFERENCES = "download"
         const val ABOUT = "about"
         const val DOWNLOAD_DIRECTORY = "download_directory"
+        const val CREDITS = "credits"
     }
 }

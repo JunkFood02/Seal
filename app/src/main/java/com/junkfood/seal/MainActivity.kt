@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -17,8 +18,12 @@ import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalSeedColor
+import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,20 +37,30 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        runBlocking {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration()))
-        }
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
             v.setPadding(0, 0, 0, 0)
             insets
         }
-
+        runBlocking {
+            if (Build.VERSION.SDK_INT < 33)
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
+                )
+        }
         context = this.baseContext
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
-            HomeEntry(downloadViewModel, windowSizeClass.widthSizeClass)
+            SettingsProvider(windowSizeClass.widthSizeClass) {
+                val darkTheme = LocalDarkTheme.current.isDarkTheme()
+                SealTheme(
+                    darkTheme = darkTheme,
+                    seedColor = LocalSeedColor.current
+                ) {
+                    HomeEntry(downloadViewModel)
+                }
+            }
         }
         handleShareIntent(intent)
     }

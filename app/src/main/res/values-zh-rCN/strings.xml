@@ -128,4 +128,6 @@
     <string name="battery_configuration_desc">允许本应用在后台运行以在后台进行下载</string>
     <string name="service_title">Seal 正在进行下载</string>
     <string name="unknown_error">出现不可预知的错误</string>
+    <string name="translate">翻译</string>
+    <string name="translate_desc">在 Weblate 上帮助我们翻译此应用</string>
 </resources>

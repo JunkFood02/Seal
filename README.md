@@ -1,13 +1,15 @@
 <p align="center"> 
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 ></p>
-
 <h1 align="center">
 	Seal
 </h1>
 <p align="center">
-	Video/Audio Downloader for Android</p>
+	Video/Audio Downloader for Android
+</p>
 
-[简体中文](https://github.com/JunkFood02/Seal/blob/main/README-zh.md)
+<p align="center">
+<a href="(https://github.com/JunkFood02/Seal/blob/main/README-zh.md)">简体中文</a>
+</p>
 
 ## Screenshots
 
