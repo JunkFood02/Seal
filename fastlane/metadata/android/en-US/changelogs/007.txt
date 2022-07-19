@@ -1,8 +1,0 @@
-- UI Improvements & Bug Fixes
-- Very cute Seal App icon
-- User guide in first launches
-- User friendly configuration before download
-- Execute custom yt-dlp command with template
-- Format settings for video & audio downloads
-- Appearance settings
-- About page: Information and Credits

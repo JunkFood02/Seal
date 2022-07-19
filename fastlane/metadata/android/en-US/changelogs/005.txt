@@ -1,8 +1,0 @@
-- Migrate to Jetpack Compose & Kotlin Coroutine
-- Remove redundant codes
-- Remove initialization which blocks main thread
-- Preference: select download directory operation
-- Preference: update yt-dlp operation
-- Add animation for ProgressBar
-- Display video title while downloading
-- Update yt-dlp when initialize app

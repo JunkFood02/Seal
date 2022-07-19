@@ -41,13 +41,10 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CZECH
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
-import com.junkfood.seal.util.PreferenceUtil.ENGLISH
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
-import com.junkfood.seal.util.PreferenceUtil.SIMPLIFIED_CHINESE
 import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
@@ -217,23 +214,13 @@ fun AppearancePreferences(
                             selected = language == SYSTEM_DEFAULT
                         ) { language = SYSTEM_DEFAULT }
                     }
-                    item {
-                        SingleChoiceItem(
-                            text = stringResource(R.string.la_en_US),
-                            selected = language == ENGLISH
-                        ) { language = ENGLISH }
-                    }
-                    item {
-                        SingleChoiceItem(
-                            text = stringResource(R.string.la_zh_CN),
-                            selected = language == SIMPLIFIED_CHINESE
-                        ) { language = SIMPLIFIED_CHINESE }
-                    }
-                    item {
-                        SingleChoiceItem(
-                            text = stringResource(R.string.la_cs),
-                            selected = language == CZECH
-                        ) { language = CZECH }
+                    for (languageData in PreferenceUtil.languageMap) {
+                        item {
+                            SingleChoiceItem(
+                                text = PreferenceUtil.getLanguageDesc(languageData.key),
+                                selected = language == languageData.key
+                            ) { language = languageData.key }
+                        }
                     }
                 }
             }

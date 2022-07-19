@@ -1,3 +1,0 @@
-- Display video card when downloading
-- Display message clearly when error occurs
-- Download history page, with bottom drawer implemented multiple operations

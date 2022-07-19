@@ -143,4 +143,6 @@
     <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
     <string name="service_title">Seal is downloading</string>
     <string name="unknown_error">Unknown error occurred</string>
+    <string name="la_fr" translatable="false">Français</string>
+    <string name="la_de" translatable="false">Deutsch</string>
 </resources>
