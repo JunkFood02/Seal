@@ -1,15 +1,24 @@
-# Seal
-一个简单的 Android 视频/音频下载器, 使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 进行开发
+<p align="center"> 
+	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160>
+  
+</p>
+
+<h1 align="center">
+	Seal
+</h1>
+
+<p align="center">
+	一个简单的 Android 视频/音频下载器, 使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 进行开发
 
 ## 屏幕截图
 
 <div>
-<img src="fastlane/metadata/android/zh/images/1-zh.jpg" width="30%" />
-<img src="fastlane/metadata/android/zh/images/3-zh.jpg" width="30%" />
-<img src="fastlane/metadata/android/zh/images/2-zh.jpg"width="30%" />
-<img src="fastlane/metadata/android/zh/images/6-zh.jpg" width="30%"/>
-<img src="fastlane/metadata/android/zh/images/5-zh.jpg"  width="30%" />
-<img src="fastlane/metadata/android/zh/images/4-zh.jpg"  width="30%" />
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/1-zh.jpg" width="30%" />
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/3-zh.jpg" width="30%" />
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/2-zh.jpg"width="30%" />
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/6-zh.jpg" width="30%"/>
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/5-zh.jpg"  width="30%" />
+<img src="fastlane/metadata/android/zh/images/phoneScreenshots/4-zh.jpg"  width="30%" />
 </div>
 
 
