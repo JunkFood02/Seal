@@ -6,10 +6,10 @@
 <p align="center">
 	Video/Audio Downloader for Android
 </p>
-
 <p align="center">
-<a href="(https://github.com/JunkFood02/Seal/blob/main/README-zh.md)">简体中文</a>
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 </p>
+
 
 ## Screenshots
 
