@@ -182,7 +182,7 @@ fun FilledButtonWithIcon(
             contentDescription = null
         )
         Text(
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier.padding(start = 6.dp),
             text = text
         )
     }

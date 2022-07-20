@@ -53,7 +53,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("dvd", GPL_V3, dvd),
         Credit("Material Icons", APACHE_V2, materialIcon),
         Credit("Material color utilities", APACHE_V2, materialColor),
-        Credit("App Icon", "Universal Multimedia Licensing Agreement for Icons8", icons8)
+        Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
     )
     val uriHandler = LocalUriHandler.current
     fun openUrl(url: String) {

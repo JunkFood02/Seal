@@ -1,5 +1,7 @@
+This release introduces translations from the community via Hosted Weblate and contains some minor UI improvements.
 Bug Fix: App crashes due to storage permission denied in Android 10 (API 29)
 Implement language settings in System Settings for Android 13 (API 33)
 Add Czech translation by @Cobooz
 Add French translation by J. Lavoie
 Add German translation by J. Lavoie
+Add Bokmål translation & English translation reworked by Allan Nordhøy
