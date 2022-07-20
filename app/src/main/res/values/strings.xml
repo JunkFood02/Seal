@@ -1,150 +1,148 @@
 <resources>
     <string name="app_name" translatable="false">Seal</string>
-    <string name="video_directory">Video directory</string>
+    <string name="video_directory">Video folder</string>
     <string name="extract_audio">Save as audio</string>
     <string name="create_thumbnail">Save thumbnail</string>
     <string name="settings">Settings</string>
     <string name="download_settings_desc">General, format, custom command</string>
     <string name="download">Download</string>
-    <string name="url_empty">Link cannot be empty</string>
+    <string name="url_empty">The link cannot be empty</string>
     <string name="extract_audio_summary">Download and save audio, instead of video</string>
     <string name="create_thumbnail_summary">Save video thumbnail as a file</string>
-    <string name="yt_dlp_up_to_date">yt-dlp is up to date</string>
-    <string name="yt_dlp_update_fail">Failed to update yt-dlp, please check your connection with github.com</string>
-    <string name="fetching_info">Fetching video info</string>
+    <string name="yt_dlp_up_to_date">Using the latest version of yt-dlp</string>
+    <string name="yt_dlp_update_fail">Could not install the latest yt-dlp version. Please make sure you are connected to the Internet.</string>
+    <string name="fetching_info">Fetching video info…</string>
     <string name="permission_denied">Permission denied</string>
     <string name="download_success_msg">Download finished</string>
-    <string name="download_error_msg">Error occurred when downloading</string>
-    <string name="download_start_msg">Start downloading \'%1$s\'</string>
-    <string name="fetch_info_error_msg">Error occurred when fetching video info</string>
+    <string name="download_error_msg">Could not download file</string>
+    <string name="download_start_msg">Download \"%1$s\"</string>
+    <string name="fetch_info_error_msg">Could not fetch video info</string>
     <string name="general_settings">General</string>
     <string name="language">Display language</string>
     <string name="language_settings">Set display language</string>
     <string name="task_running">An existing download task is already running</string>
     <string name="paste_msg">Paste URL from clipboard</string>
-    <string name="paste_fail_msg">Unable to match URL in clipboard</string>
+    <string name="paste_fail_msg">Could not match the URL in the clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
-    <string name="ytdlp_update">Click to update yt-dlp</string>
-    <string name="delete_info">Remove from history?</string>
-    <string name="delete_info_msg">Are you sure to remove \"%1$s\" from your download history? This operation cannot be
-        undone.
+    <string name="ytdlp_update">Click to install the latest yt-dlp version</string>
+    <string name="delete_info">Remove?</string>
+    <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?
     </string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Cancel</string>
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Link copied to clipboard</string>
-    <string name="open_url">Open link</string>
+    <string name="open_url">Open</string>
     <string name="remove">Remove</string>
-    <string name="delete_file">Delete file</string>
+    <string name="delete_file">Delete</string>
     <string name="about">About</string>
     <string name="about_page">Version, releases, credits</string>
-    <string name="back">Go Back</string>
+    <string name="back">Back</string>
     <string name="version">Version</string>
-    <string name="release_desc">Check updates and changelogs</string>
+    <string name="release_desc">Look for changelogs and new versions</string>
     <string name="release">Latest release</string>
-    <string name="readme_desc">Check GitHub repository and README</string>
+    <string name="readme_desc">Check the GitHub repository and the README</string>
     <string name="readme" translatable="false">README</string>
     <string name="video">Video</string>
     <string name="checked">Checked</string>
     <string name="credits">Credits</string>
-    <string name="credits_desc">Credits and open source software</string>
+    <string name="credits_desc">Credits and libre software</string>
     <string name="custom_command">Custom command</string>
-    <string name="custom_command_desc">Execute yt-dlp command with custom template</string>
+    <string name="custom_command_desc">Run yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>
-    <string name="edit_custom_command_template">Edit template</string>
+    <string name="edit_custom_command_template">Edit</string>
     <string name="start_execute">Start executing command</string>
     <string name="advanced_settings">Advanced</string>
     <string name="print_details">Detailed output</string>
     <string name="print_details_desc">Print detailed messages when downloading</string>
     <string name="display">Display</string>
     <string name="display_settings">Dark theme, dynamic color, languages</string>
-    <string name="dark_theme">Dark theme</string>
-    <string name="follow_system">Follow system</string>
+    <string name="dark_theme">Dark</string>
+    <string name="follow_system">System</string>
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="cancel">Cancel</string>
-    <string name="settings_before_download">Configure before download</string>
-    <string name="settings_before_download_desc">Configure preferences before download</string>
-    <string name="settings_before_download_text">Configure preferences for this download</string>
-    <string name="error_copied">Error report was copied to the clipboard</string>
+    <string name="settings_before_download">Configure before downloading</string>
+    <string name="settings_before_download_desc">Configure preferences before downloading</string>
+    <string name="settings_before_download_text">Adjust this download</string>
+    <string name="error_copied">Error report copied to clipboard</string>
     <string name="thumbnail">thumbnail</string>
-    <string name="paste">Paste link</string>
+    <string name="paste">Paste</string>
     <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] /
         bv*+ba/b\"
     </string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
-    <string name="edit_template_desc">Output path and URL would be added by the app automatically.</string>
+    <string name="edit_template_desc">Output path and URL will be added by the app.</string>
     <string name="audio_format">Convert audio format</string>
-    <string name="not_convert">Not convert</string>
+    <string name="not_convert">Unconverted</string>
     <string name="convert_to">Convert to %1$s</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">Audio in mp3 or m4a format is compatible with most devices</string>
+    <string name="audio_format_desc">Audio in MP3 or M4A works on most devices</string>
     <string name="video_quality">Video quality</string>
-    <string name="best_quality">Best quality (Default)</string>
-    <string name="video_quality_desc">Download the best video with quality no better than the resolution selected
-    </string>
-    <string name="not_specified">Not specified (Default)</string>
-    <string name="video_format_preference">Video format preference</string>
-    <string name="video_format_desc">Preferred video format when multiple formats being provided</string>
+    <string name="best_quality">Best quality (default)</string>
+    <string name="video_quality_desc">Limit the format quality to this level</string>
+    <string name="not_specified">Not specified (default)</string>
+    <string name="video_format_preference">Preferred video format</string>
+    <string name="video_format_desc">Chosen format when multiple are provided</string>
     <string name="video_format">Video format</string>
-    <string name="convert_audio">Audio convert</string>
-    <string name="start_download">Start download</string>
+    <string name="convert_audio">Convert</string>
+    <string name="start_download">Download</string>
     <string name="close">Close</string>
     <string name="close_never_show_again">Don\'t show up again</string>
     <string name="user_guide">User guide</string>
     <string name="open_settings">Open settings</string>
-    <string name="paste_desc">Click on paste button to get video link from your clipboard.</string>
-    <string name="download_desc">Then click on download button. Before starting, you can modify configurations for this
-        download.
+    <string name="paste_desc">Click \"Paste\" to get video link from your clipboard.</string>
+    <string name="download_desc">Then click \"Download\" after adjusting its settings.
     </string>
     <string name="download_history_desc">Check and manage in-app downloads, including videos and audio files.</string>
-    <string name="check_download_settings_desc">It is recommended to take a glance at download settings and get yt-dlp
-        up to date before starting usage.
+    <string name="check_download_settings_desc">Take a look at the download settings and make sure
+        you have the latest version of yt-dlp before using it.
     </string>
     <string name="download_playlist">Download playlist</string>
     <string name="download_playlist_desc">Download multiple videos from a playlist</string>
+    <string name="la_nb_NO" translatable="false">Bokmål</string>
+    <string name="la_cs" translatable="false">Čeština</string>
+    <string name="la_de" translatable="false">Deutsch</string>
     <string name="la_zh_CN" translatable="false">简体中文</string>
     <string name="la_en_US" translatable="false">English</string>
-    <string name="la_cs" translatable="false">Čeština</string>
+    <string name="la_fr" translatable="false">Français</string>
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
-    <string name="channel_description">Display download progress and finish message</string>
+    <string name="channel_description">Notify of downloaded files and progress</string>
     <string name="video_url">Video link</string>
-    <string name="download_finish_notification">Download finished, click to open</string>
-    <string name="execute_command_notification">Executing custom commands</string>
-    <string name="battery_settings_desc">"For downloading in background, please set battery usage of this app to \"Unrestricted\" in system settings."
+    <string name="download_finish_notification">Download finished. Click to open.</string>
+    <string name="execute_command_notification">Running custom commands…</string>
+    <string name="battery_settings_desc">"Please set battery usage of this app to \"Unrestricted\" in the system settings to download in the background."
     </string>
-    <string name="concurrent_download">Concurrent download</string>
-    <string name="concurrent_download_desc">Download multiple fragments of m3u8/mpd videos in parallel</string>
-    <string name="concurrent_download_num">%d thread(s) would be used to download dash/hlsnative video concurrently.</string>
+    <string name="concurrent_download">Download multiple parts</string>
+    <string name="concurrent_download_desc">Download more parts of M3U8/MPD videos in parallel</string>
+    <string name="concurrent_download_num">%d thread(s) would be used to download DASH/HLS native video concurrently.</string>
     <string name="options">Options</string>
     <string name="additional_settings">Additional settings</string>
     <string name="share_fail_msg">Unable to match URL from shared content</string>
-    <string name="share_success_msg">Reading video link from shared content</string>
+    <string name="share_success_msg">Reading video link from shared content…</string>
     <string name="show_more_actions">Show more actions</string>
     <string name="download_notification">Download notification</string>
-    <string name="download_notification_desc">"Notify download progress and finish messages"</string>
-    <string name="fetching_playlist_info">Fetching playlist info</string>
+    <string name="download_notification_desc">"Notify of downloaded files and progress"</string>
+    <string name="fetching_playlist_info">Fetching playlist info…</string>
     <string name="download_range_selection">Playlist selection</string>
-    <string name="download_range_desc">"Specify the range of video index to be downloaded from the playlist (ranged from %1$d to %2$d). "</string>
-    <string name="from">Start index</string>
-    <string name="to">End index</string>
+    <string name="download_range_desc">"Specify the range of videos to download from the playlist (from %1$d to %2$d)."</string>
+    <string name="from">Start of index</string>
+    <string name="to">End of index</string>
     <string name="invalid_index_range">Invalid index range</string>
-    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), click to stop</string>
-    <string name="audio_directory">Audio directory</string>
-    <string name="download_directory">Download directory</string>
-    <string name="download_directory_desc">Configure download directory for videos and audio files</string>
+    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d)… Click to stop.</string>
+    <string name="audio_directory">Audio folder</string>
+    <string name="download_directory">Download folder</string>
+    <string name="download_directory_desc">Select where to store videos and audio files</string>
     <string name="subdirectory">Save to subdirectory</string>
-    <string name="subdirectory_desc">Save files to subdirectory named with websites</string>
+    <string name="subdirectory_desc">Save files in folders named as respective websites</string>
     <string name="permission_issue">Storage permission issue</string>
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
-    <string name="battery_configuration_desc">Ignore battery optimization for this app to download in background</string>
-    <string name="service_title">Seal is downloading</string>
-    <string name="unknown_error">Unknown error occurred</string>
-    <string name="la_fr" translatable="false">Français</string>
-    <string name="la_de" translatable="false">Deutsch</string>
+    <string name="battery_configuration_desc">Ignore battery optimization for this app to download in the background</string>
+    <string name="service_title">Seal is downloading…</string>
+    <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
-    <string name="translate_desc">Help translate this application on Weblate</string>
+    <string name="translate_desc">Help translate this app on Hosted Weblate</string>
 </resources>
