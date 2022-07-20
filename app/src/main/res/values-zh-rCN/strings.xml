@@ -13,7 +13,7 @@
     <string name="fetching_info">正在获取视频信息</string>
     <string name="permission_denied">未取得相关权限</string>
     <string name="download_error_msg">下载视频时发生错误</string>
-    <string name="download_start_msg">开始下载 "%1$s"</string>
+    <string name="download_start_msg">开始下载 %1$s</string>
     <string name="fetch_info_error_msg">获取视频信息时发生错误</string>
     <string name="download_success_msg">下载完成</string>
     <string name="general_settings">常规</string>
