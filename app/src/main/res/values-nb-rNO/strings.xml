@@ -48,7 +48,7 @@
     <string name="fetching_info">Henter videoinfo …</string>
     <string name="download_success_msg">Nedlastet</string>
     <string name="fetch_info_error_msg">Kunne ikke hente videoinfo</string>
-    <string name="language">Vis språk</string>
+    <string name="language">Visningsspråk</string>
     <string name="language_settings">Sett visningsspråk</string>
     <string name="remove">Fjern</string>
     <string name="delete_file">Slett fil</string>
