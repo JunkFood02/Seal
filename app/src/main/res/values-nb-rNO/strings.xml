@@ -4,7 +4,7 @@
     <string name="delete_info_msg">Fjern «%1$s» fra nedlastningshistorikken for godt\?</string>
     <string name="not_convert">Ikke konverter</string>
     <string name="video_url">Videolenke</string>
-    <string name="download_range_desc">"Angi område av videoindeks å laste ned fra spillelisten (rangert fra %1$d til %2$d)). "</string>
+    <string name="download_range_desc">Angi område av videoer å laste ned fra spillelisten (fra %1$d til %2$d)).</string>
     <string name="from">Indeksstart</string>
     <string name="to">Indeksslutt</string>
     <string name="audio_directory">Lydmappe</string>
@@ -98,7 +98,7 @@
     <string name="settings_before_download">Sett opp før nedlasting</string>
     <string name="battery_configuration">Batterioppsett</string>
     <string name="close_never_show_again">Ikke vis igjen</string>
-    <string name="execute_command_notification">Kjøring av egendefinerte kommandoer</string>
+    <string name="execute_command_notification">Kjører egendefinerte kommandoer …</string>
     <string name="video_quality_desc">Last ned i beste videoformat som ikke har bedre kvalitet enn valgt oppløsning</string>
     <string name="battery_settings_desc">Sett batteribruk for dette programmet til «Ubegrenset» i systeminnstillingene for nedlasting i bakgrunnen.</string>
     <string name="translate">Oversett</string>
@@ -128,6 +128,6 @@
     <string name="playlist_indicator_text">Laster ned spilleliste (%1$d/%2$d). Klikk for å stoppe.</string>
     <string name="edit_template_desc">Utdatasti og nettadresse blir lagt til av programmet.</string>
     <string name="share_fail_msg">Kunne ikke samsvare nettadresse fra delt innhold</string>
-    <string name="share_success_msg">Leser videolenke fra delt innhold</string>
+    <string name="share_success_msg">Leser videolenke fra delt innhold …</string>
     <string name="concurrent_download_num">%d tråd(er) kan bli brukt til å laste ned DASH/HLS native-video samtidig.</string>
 </resources>
