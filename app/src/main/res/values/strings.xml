@@ -58,7 +58,7 @@
     <string name="print_details_desc">Print detailed messages when downloading</string>
     <string name="display">Display</string>
     <string name="display_settings">Dark theme, dynamic color, languages</string>
-    <string name="dark_theme">Dark</string>
+    <string name="dark_theme">Dark theme</string>
     <string name="follow_system">System</string>
     <string name="on">On</string>
     <string name="off">Off</string>
