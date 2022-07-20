@@ -128,4 +128,6 @@
     <string name="best_quality">Meilleure qualité (par défaut)</string>
     <string name="video_quality_desc">Télécharger la meilleure vidéo dont la qualité n\'est pas meilleure que la résolution sélectionnée</string>
     <string name="open_settings">Ouvrir les paramètres</string>
+    <string name="translate">Traduire</string>
+    <string name="translate_desc">Aidez à traduire cette application sur Weblate</string>
 </resources>
