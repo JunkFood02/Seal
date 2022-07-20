@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="create_thumbnail">Lagre som miniaturbilde</string>
+    <string name="settings">Indstillinger</string>
+    <string name="download_settings_desc">Generelt, format, tilpasset kommando</string>
+    <string name="extract_audio_summary">Last ned og gem lyd, i stedet for video</string>
+    <string name="yt_dlp_up_to_date">Bruger nyeste version af yt-dlp</string>
+    <string name="yt_dlp_update_fail">Kunne ikke installere den seneste yt-dlp-version. Kontroller at du har forbindelse til Internet.</string>
+    <string name="fetching_info">Henter videoinfo …</string>
+    <string name="download_success_msg">Nedlastning fuldført</string>
+    <string name="download_error_msg">Kunne ikke laste ned fil</string>
+    <string name="download_start_msg">Last ned «%1$s»</string>
+    <string name="fetch_info_error_msg">Kunne ikke hente videoinfo</string>
+    <string name="general_settings">Generelt</string>
+    <string name="language">Visningssprog</string>
+    <string name="language_settings">Vælg visningssprog</string>
+    <string name="task_running">En eksisterende nedlastningsopgave kører allerede</string>
+    <string name="paste_msg">Lim ind URL fra udklipsholderen</string>
+    <string name="paste_fail_msg">Mangler samsvar med URL i udklipsholderen</string>
+    <string name="ytdlp_version">Yt-dlp-version</string>
+    <string name="video_directory">Videomappe</string>
+    <string name="extract_audio">Lagre som lyd</string>
+    <string name="url_empty">Link til indhold kan ikke være tom</string>
+    <string name="download">Last ned</string>
+    <string name="create_thumbnail_summary">Gem video miniaturbilde som en fil</string>
+    <string name="permission_denied">Tilgang ikke indvilget</string>
+    <string name="ytdlp_update">Klik for at installere den seneste yt-dlp-versionen</string>
+    <string name="delete_info">Fjern\?</string>
+</resources>
