@@ -7,12 +7,10 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 import com.google.android.material.color.DynamicColors
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
@@ -34,9 +32,6 @@ class BaseApplication : Application() {
                 try {
                     YoutubeDL.getInstance().init(this@BaseApplication)
                     FFmpeg.getInstance().init(this@BaseApplication)
-                    if (PreferenceUtil.getString(YT_DLP).isNullOrEmpty()) {
-                        DownloadUtil.updateYtDlp()
-                    }
                 } catch (e: YoutubeDLException) {
                     e.printStackTrace()
                 }

@@ -174,7 +174,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
-            downloadVideo(stateFlow.value.url)
+            try {
+                downloadVideo(stateFlow.value.url)
+            } catch (e: Exception) {
+                manageDownloadError(e)
+            }
             finishProcessing()
         }
     }

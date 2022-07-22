@@ -1,1 +1,1 @@
-Open-source video/audio downloader for Android, designed and themed with Material-You.
+Video/Audio downloader designed and themed with Material You
