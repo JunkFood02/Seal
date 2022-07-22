@@ -145,4 +145,6 @@
     <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
+    <string name="la_da" translatable="false">Dansk</string>
+    <string name="la_es" translatable="false">Español</string>
 </resources>
