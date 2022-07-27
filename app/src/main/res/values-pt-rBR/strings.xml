@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_directory">Pasta de vídeo</string>
+    <string name="create_thumbnail">Salvar miniatura</string>
+    <string name="download_settings_desc">Geral, formato, comando customizado</string>
+    <string name="download">Baixar</string>
+    <string name="url_empty">O link não pode estar vazio</string>
+    <string name="extract_audio_summary">Baixar e salvar o audio ao invés do vídeo</string>
+    <string name="create_thumbnail_summary">Salvar a miniatura do vídeo como um arquivo</string>
+    <string name="yt_dlp_up_to_date">Usando a última versão do yt-dlp</string>
+    <string name="fetching_info">Buscando informações do vídeo…</string>
+    <string name="permission_denied">Permissão negada</string>
+    <string name="download_error_msg">O arquivo não pôde ser baixado</string>
+    <string name="download_start_msg">Baixar \"%1$s\"</string>
+    <string name="fetch_info_error_msg">As informações do video não foram encontradas</string>
+    <string name="general_settings">Geral</string>
+    <string name="extract_audio">Salvar como audio</string>
+    <string name="settings">Configurações</string>
+    <string name="yt_dlp_update_fail">A última versão do yt-dlp não pode ser instalada. Por favor verifique sua conexão com a internet.</string>
+    <string name="download_success_msg">Download finalizado</string>
 </resources>
