@@ -48,7 +48,11 @@
 
 ## Download
 
-Download the latest apk from [releases](https://github.com/JunkFood02/Seal/releases/latest)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.junkfood.seal/)
+
+Or download the latest apk from [releases](https://github.com/JunkFood02/Seal/releases/latest)
 
 
 
