@@ -12,8 +12,8 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 0
 val versionMinor = 0
 val versionPatch = 9
-val versionBuild = 8
-val isStable = false
+val versionBuild = 0
+val isStable = true
 
 val composeVersion = "1.2.0-rc01"
 val lifecycleVersion = "2.6.0-alpha01"
@@ -25,6 +25,8 @@ val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha14"
 val coilVersion = "2.1.0"
 val keystorePropertiesFile = rootProject.file("keystore.properties")
+
+val splitApks = true
 
 android {
     if (keystorePropertiesFile.exists()) {
@@ -40,12 +42,13 @@ android {
             }
         }
     }
+
     compileSdk = 33
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 98
+        versionCode = 900
         versionName = if (isStable) {
             "${versionMajor}.${versionMinor}.${versionPatch}"
         } else {
@@ -57,7 +60,23 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        if (!splitApks)
+            ndk {
+                (properties["ABI_FILTERS"] as String).split(';').forEach {
+                    abiFilters.add(it)
+                }
+            }
     }
+    if (splitApks)
+        splits {
+            abi {
+                isEnable = !project.hasProperty("noSplits")
+                reset()
+                include("arm64-v8a", "x86_64", "armeabi-v7a")
+                isUniversalApk = false
+            }
+        }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -82,14 +101,7 @@ android {
     buildFeatures {
         compose = true
     }
-    splits {
-        abi {
-            isEnable = !project.hasProperty("noSplits")
-            reset()
-            include("x86_64", "arm64-v8a", "armeabi-v7a")
-            isUniversalApk = false
-        }
-    }
+
 
     applicationVariants.all {
         outputs.all {
