@@ -115,7 +115,7 @@
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="execute_command_notification">Benutzerdefinierte Befehlen ausführen…</string>
     <string name="translate">Übersetzen</string>
-    <string name="translate_desc">Hilf bei der Übersetzung dieser App auf Weblate</string>
+    <string name="translate_desc">Helfen Sie bei der Übersetzung dieser Anwendung auf Weblate</string>
     <string name="edit_template_desc">Ausgabepfad und URL werden von der App hinzugefügt.</string>
     <string name="convert_audio">Konvertieren</string>
     <string name="paste_desc">Klicke auf \"Einfügen\", um den Videolink aus der Zwischenablage zu holen.</string>
