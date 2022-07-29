@@ -17,6 +17,7 @@ import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -24,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +49,7 @@ import com.junkfood.seal.util.TextUtil
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class
 )
 @Composable
 fun DownloadPage(
@@ -68,6 +70,7 @@ fun DownloadPage(
     val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
     val hapticFeedback = LocalHapticFeedback.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
 
     val checkPermissionOrDownload = {
@@ -100,6 +103,7 @@ fun DownloadPage(
                             if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
                                 downloadViewModel.showDialog(scope, useDialog)
                             else checkPermissionOrDownload()
+                            keyboardController?.hide()
                         }, pasteCallback = {
                             TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
                                 ?.let { downloadViewModel.updateUrl(it) }

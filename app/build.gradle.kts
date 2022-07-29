@@ -52,7 +52,7 @@ android {
         versionName = if (isStable) {
             "${versionMajor}.${versionMinor}.${versionPatch}"
         } else {
-            "${versionMajor}.${versionMinor}.${versionPatch}-alpha0${versionBuild}"
+            "${versionMajor}.${versionMinor}.${versionPatch}-beta.${versionBuild}"
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
