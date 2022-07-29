@@ -16,7 +16,7 @@
     <string name="paste_msg">Вставить URL-адрес из буфера обмена</string>
     <string name="delete_info_msg">Удалить \"%1$s\" из Вашей истории загрузок навсегда\?</string>
     <string name="confirm">Подтвердить</string>
-    <string name="open_url">Открыть</string>
+    <string name="open_url">Открыть ссылку</string>
     <string name="remove">Удалить</string>
     <string name="delete_file">Удалить</string>
     <string name="back">Назад</string>
@@ -115,7 +115,7 @@
     <string name="options">Параметры</string>
     <string name="show_more_actions">Показать больше действий</string>
     <string name="download_notification">Уведомление о загрузке</string>
-    <string name="playlist_indicator_text">Загрузка плейлиста (%1$d/%2$d)… Нажмите, чтобы остановить.</string>
+    <string name="playlist_indicator_text">Загрузка плейлиста (%1$d/%2$d)…, Нажмите, чтобы остановить.</string>
     <string name="download_directory">Папка загрузки</string>
     <string name="audio_directory">Папка с аудио</string>
     <string name="subdirectory">Сохранить в подкаталог</string>
