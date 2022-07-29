@@ -91,8 +91,8 @@
     <string name="close_never_show_again">Не показувати знову</string>
     <string name="user_guide">Інструкція для користувача</string>
     <string name="open_settings">Вiдкрити параметри</string>
-    <string name="paste_desc">Натисніть "Вставити", щоб вставити посилання з твого буфера обміну.</string>
-    <string name="download_desc">Після чого натисніть "Завантажити", щоб почати завантаження.</string>
+    <string name="paste_desc">Натисніть \"Вставити\", щоб вставити посилання з твого буфера обміну.</string>
+    <string name="download_desc">Після чого натисніть \"Завантажити\", щоб почати завантаження.</string>
     <string name="download_history_desc">Перевірка та керування завантаженнями, включаючи аудіо та відео.</string>
     <string name="check_download_settings_desc">Погляньте на параметри завантаження і переконайтеся,
         що у вас встановлена остання версія перед початком використання
