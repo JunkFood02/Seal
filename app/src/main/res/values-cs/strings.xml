@@ -72,7 +72,7 @@
     <string name="from">Od</string>
     <string name="to">Do</string>
     <string name="invalid_index_range">Neplatný rozsah</string>
-    <string name="playlist_indicator_text">Stahování playlistu (%1$d/%2$d)... Klikněte pro zastavení.</string>
+    <string name="playlist_indicator_text">Stahování playlistu (%1$d/%2$d), Klikněte pro zastavení.</string>
     <string name="audio_directory">Audio složka</string>
     <string name="download_directory">Složka pro stahování</string>
     <string name="download_directory_desc">Zvolte kam ukládat videa a audio soubory</string>
@@ -95,7 +95,7 @@
     <string name="language_settings">Nastavit jazyk</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Odkaz zkopírován do schránky</string>
-    <string name="open_url">Otevřít</string>
+    <string name="open_url">Otevřít odkaz</string>
     <string name="delete_file">Odstranit</string>
     <string name="custom_command_template">Předloha přikazu</string>
     <string name="general_settings">Obecné</string>
