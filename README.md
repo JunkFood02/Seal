@@ -60,11 +60,13 @@ Or download the latest apk from [releases](https://github.com/JunkFood02/Seal/re
 
 Contributions are welcome!
 
-You can help translate Seal on [Weblate](https://hosted.weblate.org/projects/seal/).
+You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-For bug reports, feature requests, or any other ideas to improve, please [submit an issue](https://github.com/JunkFood02/Seal/issues/new).
+For bug reports, feature requests, or any other ideas to improve, please search in issues and discussions first (including the closed ones). If there're no duplicates, feel free to [start a new discussion](https://github.com/JunkFood02/Seal/discussions) or [submit an issue](https://github.com/JunkFood02/Seal/issues/new).
+
+Seal is designed to be a simple GUI wrapper of yt-dlp, so we'll not take requests for features that yt-dlp does not support.
 
 
 
