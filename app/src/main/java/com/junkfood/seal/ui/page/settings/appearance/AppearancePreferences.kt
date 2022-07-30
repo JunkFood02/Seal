@@ -10,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
@@ -33,11 +32,8 @@ import com.junkfood.seal.ui.color.palettes.CorePalette
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
-import com.junkfood.seal.ui.component.ConfirmButton
-import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
@@ -76,14 +72,8 @@ fun AppearancePreferences(
                         text = stringResource(id = R.string.display),
                     )
                 }, navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = { navController.popBackStack() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
+                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                        navController.popBackStack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

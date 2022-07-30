@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferencesHint
@@ -53,14 +53,8 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                         text = stringResource(id = R.string.language),
                     )
                 }, navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
+                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                        onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior
             )
