@@ -74,6 +74,41 @@ fun PreferenceItem(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PreferenceSingleChoiceItem(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier.clickable { onClick() }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(
+                modifier = Modifier.weight(1f).padding(start = 10.dp)
+            ) {
+                Text(
+                    text = text,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    color = MaterialTheme.colorScheme.onSurface, overflow = TextOverflow.Ellipsis
+                )
+            }
+            RadioButton(
+                selected = selected,
+                onClick = onClick,
+                modifier = Modifier.padding(start = 20.dp, end = 6.dp),
+            )
+        }
+    }
+}
+
 @Composable
 fun PreferenceSwitch(
     title: String,

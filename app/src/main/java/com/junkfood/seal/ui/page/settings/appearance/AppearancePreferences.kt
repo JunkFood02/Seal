@@ -6,7 +6,6 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -26,13 +25,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.android.material.color.DynamicColors
-import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.color.hct.Hct
 import com.junkfood.seal.ui.color.palettes.CorePalette
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
+import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
@@ -44,14 +44,11 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
-import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
-import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
-import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppearancePreferences(
-    onBackPressed: () -> Unit
+    navController: NavHostController
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -81,7 +78,7 @@ fun AppearancePreferences(
                 }, navigationIcon = {
                     IconButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed
+                        onClick = { navController.popBackStack() }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
@@ -148,7 +145,7 @@ fun AppearancePreferences(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
                         description = PreferenceUtil.getLanguageDesc()
-                    ) { showLanguageDialog = true }
+                    ) { navController.navigate(Route.LANGUAGES) }
             }
         })
     if (showDarkThemeDialog)
@@ -188,44 +185,44 @@ fun AppearancePreferences(
             }
         })
 
-    if (showLanguageDialog) {
-        AlertDialog(
-            onDismissRequest = {
-                showLanguageDialog = false
-                language = PreferenceUtil.getLanguageNumber()
-            },
-            confirmButton = {
-                ConfirmButton {
-                    showLanguageDialog = false
-                    PreferenceUtil.updateInt(LANGUAGE, language)
-                    MainActivity.setLanguage(getLanguageConfiguration())
-                }
-            }, dismissButton = {
-                DismissButton {
-                    showLanguageDialog = false
-                    language = PreferenceUtil.getLanguageNumber()
-                }
-            },
-            title = { Text(stringResource(R.string.language_settings)) }, text = {
-                LazyColumn {
-                    item {
-                        SingleChoiceItem(
-                            text = stringResource(R.string.follow_system),
-                            selected = language == SYSTEM_DEFAULT
-                        ) { language = SYSTEM_DEFAULT }
-                    }
-                    for (languageData in PreferenceUtil.languageMap) {
-                        item {
-                            SingleChoiceItem(
-                                text = PreferenceUtil.getLanguageDesc(languageData.key),
-                                selected = language == languageData.key
-                            ) { language = languageData.key }
-                        }
-                    }
-                }
-            }
-        )
-    }
+    /*   if (showLanguageDialog) {
+           AlertDialog(
+               onDismissRequest = {
+                   showLanguageDialog = false
+                   language = PreferenceUtil.getLanguageNumber()
+               },
+               confirmButton = {
+                   ConfirmButton {
+                       showLanguageDialog = false
+                       PreferenceUtil.updateInt(LANGUAGE, language)
+                       MainActivity.setLanguage(getLanguageConfiguration())
+                   }
+               }, dismissButton = {
+                   DismissButton {
+                       showLanguageDialog = false
+                       language = PreferenceUtil.getLanguageNumber()
+                   }
+               },
+               title = { Text(stringResource(R.string.language_settings)) }, text = {
+                   LazyColumn {
+                       item {
+                           SingleChoiceItem(
+                               text = stringResource(R.string.follow_system),
+                               selected = language == SYSTEM_DEFAULT
+                           ) { language = SYSTEM_DEFAULT }
+                       }
+                       for (languageData in PreferenceUtil.languageMap) {
+                           item {
+                               SingleChoiceItem(
+                                   text = PreferenceUtil.getLanguageDesc(languageData.key),
+                                   selected = language == languageData.key
+                               ) { language = languageData.key }
+                           }
+                       }
+                   }
+               }
+           )
+       }*/
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

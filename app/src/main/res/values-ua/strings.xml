@@ -2,13 +2,13 @@
     <string name="app_name" translatable="false">Seal</string>
     <string name="video_directory">Тека вiдео</string>
     <string name="extract_audio">Зберегти як аудiо</string>
-    <string name="create_thumbnail">Зберегти прев'ю</string>
+    <string name="create_thumbnail">Зберегти прев\'ю</string>
     <string name="settings">Налаштування</string>
     <string name="download_settings_desc">Основне, формат, своя команда</string>
     <string name="download">Завантажити</string>
     <string name="url_empty">Посилання не може бути порожнім</string>
     <string name="extract_audio_summary">Завантажити й зберегти аудiо замiсть вiдео</string>
-    <string name="create_thumbnail_summary">Зберегти прев'ю як файл</string>
+    <string name="create_thumbnail_summary">Зберегти прев\'ю як файл</string>
     <string name="yt_dlp_up_to_date">Використовується остання версія yt-dlp</string>
     <string name="yt_dlp_update_fail">Не виходить встановити останню весiю yt-dlp. Будь ласка, переконайтеся, що ви підключені до інтернету.</string>
     <string name="fetching_info">Збираємо інформацію про відео...</string>
@@ -66,7 +66,7 @@
     <string name="settings_before_download_desc">Налаштувати параметри перед початком завантаження</string>
     <string name="settings_before_download_text">Параметри завантаження</string>
     <string name="error_copied">Звіт про помилку скопійовано в буфер обміну</string>
-    <string name="thumbnail">Прев'ю</string>
+    <string name="thumbnail">Прев\'ю</string>
     <string name="paste">Вставити</string>
     <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] /
         bv*+ba/b\"
@@ -99,19 +99,12 @@
     </string>
     <string name="download_playlist">Завантажити плейлист</string>
     <string name="download_playlist_desc">Завантажити декілька відео з плейлиста</string>
-    <string name="la_nb_NO" translatable="false">Bokmål</string>
-    <string name="la_cs" translatable="false">Čeština</string>
-    <string name="la_de" translatable="false">Deutsch</string>
-    <string name="la_zh_CN" translatable="false">简体中文</string>
-    <string name="la_en_US" translatable="false">English</string>
-    <string name="la_fr" translatable="false">Français</string>
-    <string name="uk_UA" translatable="false">Українська</string>
     <string name="defaults">За замовчуванням</string>
     <string name="channel_name">Завантаження</string>
     <string name="channel_description">Повідомити про завантаження та файли</string>
     <string name="video_url">Посилання на вiдео</string>
     <string name="download_finish_notification">Коханий, завантаження завершено, натисніть, щоб відкрити.</string>
-    <string name="execute_command_notification">Виконую вашу команду, пане...</string>
+    <string name="execute_command_notification">Виконую вашу команду, пане…</string>
     <string name="battery_settings_desc">"Вимкніть оптимізацію витрат батареї, щоб фонові завантаження працювали. Не бійтеся, на батареї це не позначиться."
     </string>
     <string name="concurrent_download">Завантажити декілька частин</string>
@@ -140,7 +133,7 @@
     <string name="permission_issue_desc">Директорії за межами Documents й Download не пiдтримуються.</string>
     <string name="battery_configuration">Конфiгурацiя батареї</string>
     <string name="battery_configuration_desc">Ігнорувати оптимізацію батареї для фонових завантажень</string>
-    <string name="service_title">Я завантажую вiдео, коханий...</string>
+    <string name="service_title">Я завантажую вiдео, коханий…</string>
     <string name="unknown_error">Невідома помилка</string>
     <string name="translate">Перекласти</string>
     <string name="translate_desc">Допомогти перекласти Seal iншою мовою на Weblate</string>

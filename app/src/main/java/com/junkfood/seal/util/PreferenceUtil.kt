@@ -88,6 +88,7 @@ object PreferenceUtil {
     const val NOTIFICATION = "notification"
     const val THEME_COLOR = "theme_color"
     const val SYSTEM_DEFAULT = 0
+
     private const val SIMPLIFIED_CHINESE = 1
     private const val ENGLISH = 2
     private const val CZECH = 3
@@ -100,6 +101,9 @@ object PreferenceUtil {
     private const val UKRAINIAN = 10
     private const val RUSSIAN = 11
     private const val ARABIC = 12
+    private const val PERSIAN = 13
+    private const val INDONESIAN = 14
+
     val languageMap: Map<Int, String> = mapOf(
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(ENGLISH, "en-US"),
@@ -109,10 +113,12 @@ object PreferenceUtil {
         Pair(NORWEGIAN, "nb-NO"),
         Pair(DANISH, "da"),
         Pair(SPANISH, "es"),
-        Pair(TURKISH,"tr"),
-        Pair(RUSSIAN,"ru"),
-        Pair(ARABIC,"ar"),
-        Pair(UKRAINIAN, "ua")
+        Pair(TURKISH, "tr"),
+        Pair(RUSSIAN, "ru"),
+        Pair(ARABIC, "ar"),
+        Pair(UKRAINIAN, "ua"),
+        Pair(PERSIAN, "fa"),
+        Pair(INDONESIAN, "in"),
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -159,6 +165,8 @@ object PreferenceUtil {
             UKRAINIAN -> stringResource(R.string.la_ua)
             RUSSIAN -> stringResource(R.string.la_ru)
             ARABIC -> stringResource(R.string.la_ar)
+            PERSIAN -> stringResource(R.string.la_fa)
+            INDONESIAN -> stringResource(R.string.la_in)
             else -> stringResource(R.string.follow_system)
         }
     }
