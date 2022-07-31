@@ -103,7 +103,7 @@ object PreferenceUtil {
     private const val ARABIC = 12
     private const val PERSIAN = 13
     private const val INDONESIAN = 14
-
+    private const val FILIPINO = 15
     val languageMap: Map<Int, String> = mapOf(
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(ENGLISH, "en-US"),
@@ -119,6 +119,7 @@ object PreferenceUtil {
         Pair(UKRAINIAN, "ua"),
         Pair(PERSIAN, "fa"),
         Pair(INDONESIAN, "in"),
+        Pair(FILIPINO, "fil")
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -167,6 +168,7 @@ object PreferenceUtil {
             ARABIC -> stringResource(R.string.la_ar)
             PERSIAN -> stringResource(R.string.la_fa)
             INDONESIAN -> stringResource(R.string.la_in)
+            FILIPINO -> stringResource(R.string.la_fil)
             else -> stringResource(R.string.follow_system)
         }
     }

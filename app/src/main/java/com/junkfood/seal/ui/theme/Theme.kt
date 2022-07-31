@@ -4,13 +4,25 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.material.color.MaterialColors
 import com.junkfood.seal.ui.theme.ColorScheme.darkColorSchemeFromColor
 import com.junkfood.seal.ui.theme.ColorScheme.lightColorSchemeFromColor
 
 
 fun Color.applyOpacity(enabled: Boolean): Color {
     return if (enabled) this else this.copy(alpha = 0.62f)
+}
+
+@Composable
+fun Color.harmonizeWithPrimary(): Color {
+    return Color(
+        MaterialColors.harmonize(
+            this.toArgb(),
+            MaterialTheme.colorScheme.primary.toArgb()
+        )
+    )
 }
 
 @Composable

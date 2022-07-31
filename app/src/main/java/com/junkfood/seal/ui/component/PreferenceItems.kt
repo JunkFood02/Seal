@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.ui.theme.applyOpacity
+import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 
 
 @Composable
@@ -91,7 +92,9 @@ fun PreferenceSingleChoiceItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1f).padding(start = 10.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 10.dp)
             ) {
                 Text(
                     text = text,
@@ -172,7 +175,6 @@ fun PreferencesCaution(
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
-    enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
 
@@ -181,7 +183,7 @@ fun PreferencesCaution(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(MaterialTheme.colorScheme.errorContainer)
+            .background(MaterialTheme.colorScheme.errorContainer.harmonizeWithPrimary())
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -193,9 +195,8 @@ fun PreferencesCaution(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = with(MaterialTheme.colorScheme.error) {
-                    if (enabled) this else copy(alpha = 0.68f)
-                }
+                tint = MaterialTheme.colorScheme.error.harmonizeWithPrimary()
+
             )
         }
         Column(
@@ -209,12 +210,12 @@ fun PreferencesCaution(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = colorScheme.onErrorContainer.applyOpacity(enabled)
+                    color = colorScheme.onErrorContainer.harmonizeWithPrimary()
                 )
                 if (description != null)
                     Text(
                         text = description,
-                        color = colorScheme.onErrorContainer.applyOpacity(enabled),
+                        color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )
@@ -230,7 +231,6 @@ fun PreferencesHint(
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
-    enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
 
@@ -251,9 +251,7 @@ fun PreferencesHint(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = with(MaterialTheme.colorScheme.secondary) {
-                    if (enabled) this else copy(alpha = 0.68f)
-                }
+                tint = MaterialTheme.colorScheme.secondary
             )
         }
         Column(
@@ -267,12 +265,12 @@ fun PreferencesHint(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = colorScheme.onSecondaryContainer.applyOpacity(enabled)
+                    color = colorScheme.onSecondaryContainer
                 )
                 if (description != null)
                     Text(
                         text = description,
-                        color = colorScheme.onSecondaryContainer.applyOpacity(enabled),
+                        color = colorScheme.onSecondaryContainer,
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )

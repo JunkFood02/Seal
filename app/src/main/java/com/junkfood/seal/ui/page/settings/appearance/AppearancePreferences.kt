@@ -52,12 +52,9 @@ fun AppearancePreferences(
         rememberTopAppBarScrollState()
     )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
-    var showLanguageDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
 
-
-    var language by remember { mutableStateOf(PreferenceUtil.getLanguageNumber()) }
 
 
     Scaffold(
@@ -88,14 +85,6 @@ fun AppearancePreferences(
                     )
                     .verticalScroll(rememberScrollState())
             ) {
-/*                var showcase by remember { mutableStateOf(false) }
-                PreferenceSwitch(
-                    title = stringResource(R.string.color_theming),
-                    icon = Icons.Outlined.ColorLens,
-                    description = stringResource(R.string.color_theming_desc),
-                    onClick = { showcase = !showcase },
-                    isChecked = showcase
-                )*/
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
                     thumbnailUrl = R.drawable.sample,
@@ -174,45 +163,6 @@ fun AppearancePreferences(
                 }
             }
         })
-
-    /*   if (showLanguageDialog) {
-           AlertDialog(
-               onDismissRequest = {
-                   showLanguageDialog = false
-                   language = PreferenceUtil.getLanguageNumber()
-               },
-               confirmButton = {
-                   ConfirmButton {
-                       showLanguageDialog = false
-                       PreferenceUtil.updateInt(LANGUAGE, language)
-                       MainActivity.setLanguage(getLanguageConfiguration())
-                   }
-               }, dismissButton = {
-                   DismissButton {
-                       showLanguageDialog = false
-                       language = PreferenceUtil.getLanguageNumber()
-                   }
-               },
-               title = { Text(stringResource(R.string.language_settings)) }, text = {
-                   LazyColumn {
-                       item {
-                           SingleChoiceItem(
-                               text = stringResource(R.string.follow_system),
-                               selected = language == SYSTEM_DEFAULT
-                           ) { language = SYSTEM_DEFAULT }
-                       }
-                       for (languageData in PreferenceUtil.languageMap) {
-                           item {
-                               SingleChoiceItem(
-                                   text = PreferenceUtil.getLanguageDesc(languageData.key),
-                                   selected = language == languageData.key
-                               ) { language = languageData.key }
-                           }
-                       }
-                   }
-               }
-           )
-       }*/
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -220,7 +170,7 @@ fun AppearancePreferences(
 fun ColorButton(modifier: Modifier = Modifier, color: Color) {
     val corePalette = CorePalette.of(color.toArgb())
     val lightColor = corePalette.a2.tone(80)
-    val seedColor = corePalette.a2.tone(80)
+    val seedColor = corePalette.a2.tone(60)
     val darkColor = corePalette.a2.tone(60)
 
     val showColor = if (LocalDarkTheme.current.isDarkTheme()) darkColor else lightColor
@@ -246,7 +196,7 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color) {
                         .size(state2.value)
                         .align(Alignment.Center)
                         .clip(CircleShape),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }

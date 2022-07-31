@@ -65,7 +65,6 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                         title = stringResource(R.string.translate),
                         description = stringResource(R.string.translate_desc),
                         icon = Icons.Outlined.Translate,
-                        enabled = true
                     ) { uriHandler.openUri(weblate) }
                 }
                 item {

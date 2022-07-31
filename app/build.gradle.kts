@@ -26,7 +26,7 @@ val composeMd3Version = "1.0.0-alpha14"
 val coilVersion = "2.1.0"
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
-val splitApks = true
+val splitApks = !project.hasProperty("noSplits")
 
 android {
     if (keystorePropertiesFile.exists()) {
