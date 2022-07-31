@@ -20,13 +20,13 @@
     <string name="about_page">Versi, rilis, kredit</string>
     <string name="back">Kembali</string>
     <string name="version">Versi</string>
-    <string name="release">Verai terbaru</string>
+    <string name="release">Versi terbaru</string>
     <string name="readme_desc">Periksa repositori GitHub dan README</string>
     <string name="credits_desc">Kredit dan software libre</string>
     <string name="custom_command_template">Perintah Templat</string>
     <string name="start_execute">Mulai jalankan perintah</string>
     <string name="advanced_settings">Lanjutan</string>
-    <string name="print_details">Cetak terperinci</string>
+    <string name="print_details">Pesan terperinci</string>
     <string name="print_details_desc">Cetak pesan terperinci saat mengunduh</string>
     <string name="on">Nyala</string>
     <string name="settings_before_download_text">Sesuaikan unduhan ini</string>

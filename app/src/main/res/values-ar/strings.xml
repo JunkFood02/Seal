@@ -19,7 +19,7 @@
     <string name="confirm">تأكيد</string>
     <string name="dismiss">إلغاء</string>
     <string name="downloads_history">التحميلات</string>
-    <string name="open_url">فتح</string>
+    <string name="open_url">افتح الرابط</string>
     <string name="remove">إزالة</string>
     <string name="delete_file">حذف</string>
     <string name="about">حول</string>
@@ -122,7 +122,7 @@
     <string name="share_success_msg">جاري قراءة رابط الفيديو من المحتوى المشترك …</string>
     <string name="from">بداية الفهرس</string>
     <string name="to">نهاية الفهرس</string>
-    <string name="playlist_indicator_text">جارٍ تنزيل قائمة التشغيل(%1$d/%2$d)… انقر للإيقاف.</string>
+    <string name="playlist_indicator_text">جارٍ تنزيل قائمة التشغيل (%1$d/%2$d), انقر للإيقاف.</string>
     <string name="download_directory_desc">حدد مكان تخزين ملفات الفيديو والصوت</string>
     <string name="cancel">إلغاء</string>
     <string name="service_title">Seal يقوم بالتحميل…</string>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download">دانلود</string>
+    <string name="download">بارگیری</string>
     <string name="video_directory">پوشه ویدئو</string>
     <string name="yt_dlp_up_to_date">استفاده از آخرین نسخه yt-dlp</string>
     <string name="fetching_info">در حال دریافت اطلاعات ویدئو…</string>
     <string name="permission_denied">دسترسی رد شد</string>
-    <string name="download_success_msg">دانلود به اتمام رسید</string>
-    <string name="download_error_msg">فایل دانلود نشد</string>
+    <string name="download_success_msg">بارگیری به اتمام رسید</string>
+    <string name="download_error_msg">فایل بارگیری نشد</string>
     <string name="language">نمایش زبان</string>
     <string name="language_settings">تنظیم زبان</string>
-    <string name="task_running">یک عملیات دانلود در حال انجام می باشد</string>
+    <string name="task_running">یک عملیات بارگیری در حال انجام می باشد</string>
     <string name="paste_msg">جای‌گذاری پیوند از کلیپ بورد</string>
     <string name="ytdlp_version">نسخه Yt-dlp</string>
     <string name="ytdlp_update">برای نصب آخرین نسخه yt-dlp کلیک کنید</string>
@@ -42,13 +42,13 @@
     <string name="settings">تنظیمات</string>
     <string name="url_empty">پیوند نمی تواند خالی باشد</string>
     <string name="create_thumbnail_summary">دخیره تصویر شاخص ویدئو به عنوان یک فایل</string>
-    <string name="extract_audio_summary">دانلود و ذخیره صدای ویدئو</string>
+    <string name="extract_audio_summary">بارگیری و ذخیره صدای ویدئو</string>
     <string name="yt_dlp_update_fail">آخرین نسخه yt-dlp نصب نشد ، لطفا از اتصال دستگاه خود به اینترنت اطمینان حاصل فرمایید.</string>
-    <string name="download_start_msg">\"%1$s\" دانلود</string>
+    <string name="download_start_msg">\"%1$s\" بارگیری</string>
     <string name="fetch_info_error_msg">اطلاعات ویدئو دریافت نشد</string>
     <string name="general_settings">عمومی</string>
     <string name="paste_fail_msg">با پیوند موجود در کلیپ بورد مطابقت ندارد</string>
-    <string name="downloads_history">دانلود ها</string>
+    <string name="downloads_history">بارگیری‌ها</string>
     <string name="dismiss">انصراف</string>
     <string name="audio">صدا</string>
     <string name="open_url">باز کردن پیوند</string>
@@ -112,11 +112,11 @@
     <string name="video_format">فرمت ویدئو</string>
     <string name="download_notification_desc">اطلاع از فایل های دانلود شده و پیشرفت</string>
     <string name="unknown_error">خطای ناشناخته</string>
-    <string name="start_download">دانلود</string>
+    <string name="start_download">بارگیری</string>
     <string name="user_guide">راهنمای کاربر</string>
     <string name="share_fail_msg">مطابقت پیوند از محتوای مشترک ممکن نیست</string>
     <string name="translate_desc">به ترجمه این برنامه در Weblate میزبانی شده کمک کنید</string>
-    <string name="paste_desc">برای دریافت پیوند ویدیو از کلیپ‌بورد، روی \"جای‌گذاری\" کلیک کنید</string>
+    <string name="paste_desc">برای دریافت پیوند ویدیو از کلیپ‌بورد، روی \"جای‌گذاری\" کلیک کنید.</string>
     <string name="check_download_settings_desc">به تنظیمات دانلود نگاهی بیندازید و قبل از استفاده مطمئن شوید که آخرین نسخه yt-dlp را دارید.</string>
     <string name="channel_description">اطلاع از فایل های دانلود شده و پیشرفت دانلود</string>
     <string name="video_url">پیوند ویدئو</string>
