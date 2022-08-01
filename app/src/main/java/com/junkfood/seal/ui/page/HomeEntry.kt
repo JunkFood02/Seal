@@ -21,6 +21,7 @@ import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
+import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
 import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
@@ -68,7 +69,8 @@ fun HomeEntry(
                 { navController.navigate(Route.CREDITS) }
             }
             animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
-            animatedComposable(Route.APPEARANCE) { AppearancePreferences { onBackPressed() } }
+            animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+            animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
             animatedComposable(Route.DOWNLOAD_DIRECTORY) {
                 DownloadDirectoryPreferences { onBackPressed() }
             }

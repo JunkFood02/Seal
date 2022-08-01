@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
@@ -20,8 +20,8 @@ import com.junkfood.seal.R
 fun BackButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     IconButton(modifier = modifier, onClick = onClick) {
         Icon(
-            imageVector = Icons.Outlined.ArrowBack,
-            contentDescription = stringResource(R.string.back)
+            painter = painterResource(R.drawable.outline_arrow_back_24),
+            contentDescription = stringResource(R.string.back),
         )
     }
 }

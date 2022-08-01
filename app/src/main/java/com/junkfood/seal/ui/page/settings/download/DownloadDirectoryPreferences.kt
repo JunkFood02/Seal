@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.VideoLibrary
@@ -31,6 +30,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -94,14 +94,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         text = stringResource(id = R.string.download_directory),
                     )
                 }, navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
+                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                        onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior
             )

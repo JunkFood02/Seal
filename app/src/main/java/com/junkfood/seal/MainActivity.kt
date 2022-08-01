@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun stopService() {
+            if (!isServiceRunning) return
             context.unbindService(connection)
             isServiceRunning = false
         }

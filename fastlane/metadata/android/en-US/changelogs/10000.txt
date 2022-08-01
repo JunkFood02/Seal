@@ -1,0 +1,13 @@
+The very first stable release! 🎉
+
+This version contains no new features but only some bug fixes, new languages, and UI improvements.
+
+* Bug Fix: Soft keyboard not hiding after clicking the download button
+* Bug Fix: Back arrow icon not mirrored in RTL locales
+* UI Improvement: Separate language setting page
+* Add Turkish translations by @vixpr
+* Add Russian translations by @jintaxi
+* Add Arabic translations by @Marco-9456
+* Add Ukrainian translations by @s4velyeva
+* Add Persian translations by @alirezax5
+* Add Indonesian translations by @yant0

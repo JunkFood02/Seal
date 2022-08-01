@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name" translatable="false">Seal</string>
+    <string name="video_directory">Тека вiдео</string>
+    <string name="extract_audio">Зберегти як аудiо</string>
+    <string name="create_thumbnail">Зберегти прев\'ю</string>
+    <string name="settings">Налаштування</string>
+    <string name="download_settings_desc">Основне, формат, своя команда</string>
+    <string name="download">Завантажити</string>
+    <string name="url_empty">Посилання не може бути порожнім</string>
+    <string name="extract_audio_summary">Завантажити й зберегти аудiо замiсть вiдео</string>
+    <string name="create_thumbnail_summary">Зберегти прев\'ю як файл</string>
+    <string name="yt_dlp_up_to_date">Використовується остання версія yt-dlp</string>
+    <string name="yt_dlp_update_fail">Не виходить встановити останню весiю yt-dlp. Будь ласка, переконайтеся, що ви підключені до інтернету.</string>
+    <string name="fetching_info">Збираємо інформацію про відео...</string>
+    <string name="permission_denied">Недостатньо повноважень</string>
+    <string name="download_success_msg">Завантаження завершено</string>
+    <string name="download_error_msg">Неможливо завантажити файл</string>
+    <string name="download_start_msg">Завантаження \"%1$s\"</string>
+    <string name="fetch_info_error_msg">Неможливо зібрати інформацію про відео</string>
+    <string name="general_settings">Основне</string>
+    <string name="language">Мова</string>
+    <string name="language_settings">Визначити мову</string>
+    <string name="task_running">Поки що ми не маємо багатопоточності :3</string>
+    <string name="paste_msg">Вставити скопійоване посилання</string>
+    <string name="paste_fail_msg">Ми не знайшли посилання у вашому буфері обміну</string>
+    <string name="ytdlp_version">Версiя yt-dlp</string>
+    <string name="ytdlp_update">Натисніть для встановлення останньої версії yt-dlp</string>
+    <string name="delete_info">Видалити?</string>
+    <string name="delete_info_msg">Видалити \"%1$s\" з вашої історії завантажень?</string>
+    <string name="confirm">Підтверджую</string>
+    <string name="dismiss">Скасувати</string>
+    <string name="downloads_history">Завантаження</string>
+    <string name="audio">Аудiо</string>
+    <string name="link_copied">Посилання скопiйовано до буферу обмiну</string>
+    <string name="open_url">Відкрити посилання</string>
+    <string name="remove">Прибрати</string>
+    <string name="delete_file">Видалити</string>
+    <string name="about">Довiдка</string>
+    <string name="about_page">Версія, релізи, автори</string>
+    <string name="back">Назад</string>
+    <string name="version">Версiя</string>
+    <string name="release_desc">Переглянути історію змін та нові серії</string>
+    <string name="release">Останний релiз</string>
+    <string name="readme_desc">Переглянути репозiторiй на GitHub й README</string>
+    <string name="readme" translatable="false">README</string>
+    <string name="video">Вiдео</string>
+    <string name="checked">Перевірено</string>
+    <string name="credits">Автори</string>
+    <string name="credits_desc">Автори та OpenSource ліцензії</string>
+    <string name="custom_command">Своя команда</string>
+    <string name="custom_command_desc">Запустити yt-dlp зі своїм шаблоном</string>
+    <string name="custom_command_template">Шаблон команди</string>
+    <string name="edit_custom_command_template">Редагувати</string>
+    <string name="start_execute">Запустити команду</string>
+    <string name="advanced_settings">Розширені параметри</string>
+    <string name="print_details">Детальний лог</string>
+    <string name="print_details_desc">Виводити докладні повідомлення під час завантаження (відсоток завантаження)</string>
+    <string name="display">Персоналiзацiя</string>
+    <string name="display_settings">Темна тема, тема Monet, мова</string>
+    <string name="dark_theme">Темна тема</string>
+    <string name="follow_system">Система</string>
+    <string name="on">Увiмкнуто</string>
+    <string name="off">Вимкнено</string>
+    <string name="cancel">Скасувати</string>
+    <string name="settings_before_download">Налаштувати перед початком</string>
+    <string name="settings_before_download_desc">Налаштувати параметри перед початком завантаження</string>
+    <string name="settings_before_download_text">Параметри завантаження</string>
+    <string name="error_copied">Звіт про помилку скопійовано в буфер обміну</string>
+    <string name="thumbnail">Прев\'ю</string>
+    <string name="paste">Вставити</string>
+    <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] /
+        bv*+ba/b\"
+    </string>
+    <string name="yt_dlp_docs">Документація yt-dlp</string>
+    <string name="edit_template_desc">Директорія завантажень та посилання будуть додані програмою.</string>
+    <string name="audio_format">Конвертувати формат аудіо</string>
+    <string name="not_convert">Залишити як є</string>
+    <string name="convert_to">Конвертувати в %1$s</string>
+    <string name="format">Формат</string>
+    <string name="audio_format_desc">Аудіо у форматах mp3 та m4a підтримуються більшістю пристроїв.</string>
+    <string name="video_quality">Якiсть вiдео</string>
+    <string name="best_quality">Найкраща якiсть (за замовчуванням)</string>
+    <string name="video_quality_desc">Обрати якість відео</string>
+    <string name="not_specified">За замовчуванням</string>
+    <string name="video_format_preference">Формат вiдео</string>
+    <string name="video_format_desc">Вибраний формат відео якщо декiлька надано</string>
+    <string name="video_format">Формат вiдео</string>
+    <string name="convert_audio">Конвертувати</string>
+    <string name="start_download">Завантажити</string>
+    <string name="close">Закрити</string>
+    <string name="close_never_show_again">Не показувати знову</string>
+    <string name="user_guide">Інструкція для користувача</string>
+    <string name="open_settings">Вiдкрити параметри</string>
+    <string name="paste_desc">Натисніть \"Вставити\", щоб вставити посилання з твого буфера обміну.</string>
+    <string name="download_desc">Після чого натисніть \"Завантажити\", щоб почати завантаження.</string>
+    <string name="download_history_desc">Перевірка та керування завантаженнями, включаючи аудіо та відео.</string>
+    <string name="check_download_settings_desc">Погляньте на параметри завантаження і переконайтеся,
+        що у вас встановлена остання версія перед початком використання
+    </string>
+    <string name="download_playlist">Завантажити плейлист</string>
+    <string name="download_playlist_desc">Завантажити декілька відео з плейлиста</string>
+    <string name="defaults">За замовчуванням</string>
+    <string name="channel_name">Завантаження</string>
+    <string name="channel_description">Повідомити про завантаження та файли</string>
+    <string name="video_url">Посилання на вiдео</string>
+    <string name="download_finish_notification">Коханий, завантаження завершено, натисніть, щоб відкрити.</string>
+    <string name="execute_command_notification">Виконую вашу команду, пане…</string>
+    <string name="battery_settings_desc">"Вимкніть оптимізацію витрат батареї, щоб фонові завантаження працювали. Не бійтеся, на батареї це не позначиться."
+    </string>
+    <string name="concurrent_download">Завантажити декілька частин</string>
+    <string name="concurrent_download_desc">Завантажити більше частин M3U8/MPD відео паралельно</string>
+    <string name="concurrent_download_num">%d потоків буде використано для завантаження DASH/HLS вiдео.</string>
+    <string name="options">Опції</string>
+    <string name="additional_settings">Додаткові налаштування</string>
+    <string name="share_fail_msg">Неможливо знайти посилання</string>
+    <string name="share_success_msg">Читаю посилання...</string>
+    <string name="show_more_actions">Більше дій</string>
+    <string name="download_notification">Повідомлення про завантаження</string>
+    <string name="download_notification_desc">"Повідомляти про завантаження"</string>
+    <string name="fetching_playlist_info">Збираємо інформацію про плейлист...</string>
+    <string name="download_range_selection">Вибір плейлиста</string>
+    <string name="download_range_desc">"Позначити початок та кінець списку завантажень із плейлиста (з %1$d по %2$d)."</string>
+    <string name="from">Початок</string>
+    <string name="to">Кiнець</string>
+    <string name="invalid_index_range">Неіснуючий діапазон індексу</string>
+    <string name="playlist_indicator_text">Завантажується плейлист (з %1$d по %2$d). Натисніть, щоб зупинити.</string>
+    <string name="audio_directory">Тека аудiо</string>
+    <string name="download_directory">Тека завантажень</string>
+    <string name="download_directory_desc">Обрати мiсто зберігання аудiо та вiдео файлiв.</string>
+    <string name="subdirectory">Зберегти до піддиректорії</string>
+    <string name="subdirectory_desc">Зберігайте файли в папках, названих відповідними веб-сайтами</string>
+    <string name="permission_issue">Непідтримувана директорія</string>
+    <string name="permission_issue_desc">Директорії за межами Documents й Download не пiдтримуються.</string>
+    <string name="battery_configuration">Конфiгурацiя батареї</string>
+    <string name="battery_configuration_desc">Ігнорувати оптимізацію батареї для фонових завантажень</string>
+    <string name="service_title">Я завантажую вiдео, коханий…</string>
+    <string name="unknown_error">Невідома помилка</string>
+    <string name="translate">Перекласти</string>
+    <string name="translate_desc">Допомогти перекласти Seal iншою мовою на Weblate</string>
+    <string name="la_da" translatable="false">Dansk</string>
+    <string name="la_es" translatable="false">Español</string>
+    <string name="la_tr" translatable="false">Türkçe</string>
+    <string name="la_ru" translatable="false">Русский язык</string>
+    <string name="la_ar" translatable="false">عربي</string>
+</resources>

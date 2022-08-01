@@ -6,12 +6,10 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
@@ -26,32 +24,27 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.android.material.color.DynamicColors
-import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.color.hct.Hct
 import com.junkfood.seal.ui.color.palettes.CorePalette
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
-import com.junkfood.seal.ui.component.ConfirmButton
-import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.common.Route
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
-import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
-import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
-import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppearancePreferences(
-    onBackPressed: () -> Unit
+    navController: NavHostController
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -59,12 +52,9 @@ fun AppearancePreferences(
         rememberTopAppBarScrollState()
     )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
-    var showLanguageDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
 
-
-    var language by remember { mutableStateOf(PreferenceUtil.getLanguageNumber()) }
 
 
     Scaffold(
@@ -79,14 +69,8 @@ fun AppearancePreferences(
                         text = stringResource(id = R.string.display),
                     )
                 }, navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
+                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                        navController.popBackStack()
                     }
                 }, scrollBehavior = scrollBehavior
             )
@@ -101,14 +85,6 @@ fun AppearancePreferences(
                     )
                     .verticalScroll(rememberScrollState())
             ) {
-/*                var showcase by remember { mutableStateOf(false) }
-                PreferenceSwitch(
-                    title = stringResource(R.string.color_theming),
-                    icon = Icons.Outlined.ColorLens,
-                    description = stringResource(R.string.color_theming_desc),
-                    onClick = { showcase = !showcase },
-                    isChecked = showcase
-                )*/
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
                     thumbnailUrl = R.drawable.sample,
@@ -148,7 +124,7 @@ fun AppearancePreferences(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
                         description = PreferenceUtil.getLanguageDesc()
-                    ) { showLanguageDialog = true }
+                    ) { navController.navigate(Route.LANGUAGES) }
             }
         })
     if (showDarkThemeDialog)
@@ -187,45 +163,6 @@ fun AppearancePreferences(
                 }
             }
         })
-
-    if (showLanguageDialog) {
-        AlertDialog(
-            onDismissRequest = {
-                showLanguageDialog = false
-                language = PreferenceUtil.getLanguageNumber()
-            },
-            confirmButton = {
-                ConfirmButton {
-                    showLanguageDialog = false
-                    PreferenceUtil.updateInt(LANGUAGE, language)
-                    MainActivity.setLanguage(getLanguageConfiguration())
-                }
-            }, dismissButton = {
-                DismissButton {
-                    showLanguageDialog = false
-                    language = PreferenceUtil.getLanguageNumber()
-                }
-            },
-            title = { Text(stringResource(R.string.language_settings)) }, text = {
-                LazyColumn {
-                    item {
-                        SingleChoiceItem(
-                            text = stringResource(R.string.follow_system),
-                            selected = language == SYSTEM_DEFAULT
-                        ) { language = SYSTEM_DEFAULT }
-                    }
-                    for (languageData in PreferenceUtil.languageMap) {
-                        item {
-                            SingleChoiceItem(
-                                text = PreferenceUtil.getLanguageDesc(languageData.key),
-                                selected = language == languageData.key
-                            ) { language = languageData.key }
-                        }
-                    }
-                }
-            }
-        )
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,7 +170,7 @@ fun AppearancePreferences(
 fun ColorButton(modifier: Modifier = Modifier, color: Color) {
     val corePalette = CorePalette.of(color.toArgb())
     val lightColor = corePalette.a2.tone(80)
-    val seedColor = corePalette.a2.tone(80)
+    val seedColor = corePalette.a2.tone(60)
     val darkColor = corePalette.a2.tone(60)
 
     val showColor = if (LocalDarkTheme.current.isDarkTheme()) darkColor else lightColor
@@ -259,7 +196,7 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color) {
                         .size(state2.value)
                         .align(Alignment.Center)
                         .clip(CircleShape),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }

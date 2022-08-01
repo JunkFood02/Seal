@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -160,7 +157,7 @@ fun DownloadSettingDialog(
             }
         })
     else if (dialogState)
-        androidx.compose.material3.AlertDialog(onDismissRequest = hide, confirmButton = {
+        AlertDialog(onDismissRequest = hide, confirmButton = {
             TextButton(onClick = {
                 PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
                 PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)

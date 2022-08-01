@@ -19,6 +19,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.Subtitle
@@ -85,14 +86,8 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                         text = stringResource(id = R.string.download),
                     )
                 }, navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackPressed
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
+                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                        onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior
             )

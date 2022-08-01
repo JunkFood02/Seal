@@ -33,7 +33,7 @@
     <string name="downloads_history">Downloads</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Link copied to clipboard</string>
-    <string name="open_url">Open</string>
+    <string name="open_url">Open link</string>
     <string name="remove">Remove</string>
     <string name="delete_file">Delete</string>
     <string name="about">About</string>
@@ -131,7 +131,7 @@
     <string name="from">Start of index</string>
     <string name="to">End of index</string>
     <string name="invalid_index_range">Invalid index range</string>
-    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d)… Click to stop.</string>
+    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), Click to stop.</string>
     <string name="audio_directory">Audio folder</string>
     <string name="download_directory">Download folder</string>
     <string name="download_directory_desc">Select where to store videos and audio files</string>
@@ -145,4 +145,13 @@
     <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
+    <string name="la_da" translatable="false">Dansk</string>
+    <string name="la_es" translatable="false">Español</string>
+    <string name="la_tr" translatable="false">Türkçe</string>
+    <string name="la_ru" translatable="false">Русский язык</string>
+    <string name="la_ar" translatable="false">عربي</string>
+    <string name="la_ua" translatable="false">Українська мова</string>
+    <string name="la_in" translatable="false">Bahasa Indonesia</string>
+    <string name="la_fa" translatable="false">فارسی</string>
+    <string name="la_fil" translatable="false">Wikang Filipino</string>
 </resources>

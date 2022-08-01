@@ -17,7 +17,7 @@
     <string name="downloads_history">Nedlastninger</string>
     <string name="link_copied">Lenke kopiert til utklippstavlen</string>
     <string name="open_url">Åpne lenke</string>
-    <string name="start_execute">Begynn gjøring av kommando</string>
+    <string name="start_execute">Begynn kjøring av kommando</string>
     <string name="dark_theme">Mørk drakt</string>
     <string name="cancel">Avbryt</string>
     <string name="thumbnail">miniatyrbilde</string>
@@ -48,7 +48,7 @@
     <string name="fetching_info">Henter videoinfo …</string>
     <string name="download_success_msg">Nedlastet</string>
     <string name="fetch_info_error_msg">Kunne ikke hente videoinfo</string>
-    <string name="language">Vis språk</string>
+    <string name="language">Visningsspråk</string>
     <string name="language_settings">Sett visningsspråk</string>
     <string name="remove">Fjern</string>
     <string name="delete_file">Slett fil</string>
