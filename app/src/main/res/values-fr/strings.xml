@@ -50,7 +50,7 @@
     <string name="fetch_info_error_msg">Impossible de récupérer les informations vidéo</string>
     <string name="language_settings">Définir la langue d\'affichage</string>
     <string name="paste_fail_msg">Impossible de faire correspondre l\'URL dans le presse-papiers</string>
-    <string name="open_url">Ouvrir</string>
+    <string name="open_url">Ouvrir le lien</string>
     <string name="task_running">Une tâche de téléchargement est déjà en cours d\'exécution</string>
     <string name="paste_msg">Coller l\'URL depuis le presse-papiers</string>
     <string name="delete_info_msg">Supprimer définitivement « %1$s » de l\'historique de vos téléchargements \?</string>
@@ -74,7 +74,7 @@
     <string name="defaults">Par défaut</string>
     <string name="not_specified">Non spécifié (par défaut)</string>
     <string name="user_guide">Guide de l\'utilisateur</string>
-    <string name="playlist_indicator_text">Téléchargement de la liste de lecture (%1$d/%2$d)… Cliquez pour arrêter.</string>
+    <string name="playlist_indicator_text">Téléchargement de la liste de lecture (%1$d/%2$d). Cliquez pour arrêter.</string>
     <string name="video_format_desc">Format choisi lorsque plusieurs sont fournis</string>
     <string name="close_never_show_again">Ne plus afficher</string>
     <string name="download_history_desc">Vérifiez et gérez les téléchargements dans l\'appli, y compris les vidéos et les fichiers audio.</string>
@@ -100,7 +100,7 @@
     <string name="battery_settings_desc">Veuillez régler l\'utilisation de la batterie de cette application sur « Sans restriction » dans les paramètres du système pour télécharger en arrière-plan.</string>
     <string name="concurrent_download">Télécharger plusieurs parties</string>
     <string name="concurrent_download_desc">Télécharger plusieurs parties de vidéos M3U8/MPD en parallèle</string>
-    <string name="concurrent_download_num">%d Le ou les threads seraient utilisés pour télécharger simultanément des vidéos natives DASH/HLS.</string>
+    <string name="concurrent_download_num">%d fil(s) seraient utilisés pour télécharger simultanément des vidéos natives DASH/HLS.</string>
     <string name="subdirectory">Enregistrer dans un sous-répertoire</string>
     <string name="subdirectory_desc">Enregistrer les fichiers dans des dossiers portant le nom des sites web respectifs</string>
     <string name="audio_directory">Dossier audio</string>
