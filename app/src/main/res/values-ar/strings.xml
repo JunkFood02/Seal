@@ -3,7 +3,7 @@
     <string name="extract_audio">حفظ كصوت</string>
     <string name="create_thumbnail">حفظ الصورة المصغرة</string>
     <string name="download_settings_desc">عام ، صيغة ، أمر مخصص</string>
-    <string name="url_empty">لا يمكن أن يكون الرابط فارغا</string>
+    <string name="url_empty">لا يمكن أن يكون الحقل فارغا</string>
     <string name="extract_audio_summary">قم بتنزيل الصوت وحفظه بدلا من الفيديو</string>
     <string name="create_thumbnail_summary">حفظ الصورة المصغرة للفيديو كملف</string>
     <string name="fetching_info">جارٍ إحضار معلومات الفيديو …</string>
@@ -31,8 +31,8 @@
     <string name="checked">محدد</string>
     <string name="custom_command_template">قالب الأوامر</string>
     <string name="edit_custom_command_template">تحرير</string>
-    <string name="print_details">إخراج مفصل</string>
-    <string name="print_details_desc">اظهر رسائل مفصلة عند التنزيل</string>
+    <string name="print_details">تقرير مفصل</string>
+    <string name="print_details_desc">اظهر تقارير مفصلة عند التنزيل</string>
     <string name="display">شاشة العرض</string>
     <string name="display_settings">مظهر داكن ، لون ديناميكي ، لغات</string>
     <string name="dark_theme">مظهر داكن</string>
@@ -93,7 +93,7 @@
     <string name="link_copied">تم نسخ الرابط إلى الحافظة</string>
     <string name="audio">الصوت</string>
     <string name="back">رجوع</string>
-    <string name="readme_desc">ألق نظرة على ريبو جيت-هوب و ملف التعريف</string>
+    <string name="readme_desc">تحقق من مستودع برمجيات GitHub و إقرأني</string>
     <string name="custom_command_desc">أستخدم Yt-dlp بأوامر مخصصة منك</string>
     <string name="credits">الاعتمادات</string>
     <string name="credits_desc">الاعتمادات والبرمجيات الحرة</string>
