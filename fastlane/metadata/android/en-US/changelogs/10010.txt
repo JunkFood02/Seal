@@ -1,0 +1,4 @@
+Add Portuguese (Brazil) translations by @EddieMattos
+Add Filipino translations by @JohnCarl2234
+Add Italian translations by @NicolaBortoletto
+Add Dutch translations by @AxeldeWater

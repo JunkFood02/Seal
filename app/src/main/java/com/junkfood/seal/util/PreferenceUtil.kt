@@ -89,6 +89,7 @@ object PreferenceUtil {
     const val THEME_COLOR = "theme_color"
     const val SYSTEM_DEFAULT = 0
 
+    // Do not modify
     private const val SIMPLIFIED_CHINESE = 1
     private const val ENGLISH = 2
     private const val CZECH = 3
@@ -106,7 +107,10 @@ object PreferenceUtil {
     private const val FILIPINO = 15
     private const val ITALIAN = 16
     private const val DUTCH = 17
+    private const val PORTUGUESE_BRAZIL = 18
+    private const val JAPANESE = 19
 
+    // Sorted by the date the translation was added
     val languageMap: Map<Int, String> = mapOf(
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(ENGLISH, "en-US"),
@@ -120,6 +124,7 @@ object PreferenceUtil {
         Pair(RUSSIAN, "ru"),
         Pair(ARABIC, "ar"),
         Pair(UKRAINIAN, "ua"),
+        Pair(PORTUGUESE_BRAZIL, "pt-BR"),
         Pair(PERSIAN, "fa"),
         Pair(INDONESIAN, "in"),
         Pair(FILIPINO, "fil"),
@@ -176,6 +181,8 @@ object PreferenceUtil {
             FILIPINO -> stringResource(R.string.la_fil)
             ITALIAN -> stringResource(R.string.la_it)
             DUTCH -> stringResource(R.string.la_nl)
+            PORTUGUESE_BRAZIL -> stringResource(R.string.la_pt_BR)
+            JAPANESE -> stringResource(R.string.la_ja)
             else -> stringResource(R.string.follow_system)
         }
     }

@@ -1,3 +1,0 @@
-Bug Fix: App crashes when download error occurs
-Add Danish translations by @comradekingu
-Add Spanish translations by @BobbyESP
