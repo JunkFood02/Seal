@@ -154,4 +154,8 @@
     <string name="la_in" translatable="false">Bahasa Indonesia</string>
     <string name="la_fa" translatable="false">فارسی</string>
     <string name="la_fil" translatable="false">Wikang Filipino</string>
+    <string name="la_it" translatable="false">Italiano</string>
+    <string name="la_nl" translatable="false">Nederlands</string>
+    <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
+    <string name="la_ja" translatable="false">日本語</string>
 </resources>

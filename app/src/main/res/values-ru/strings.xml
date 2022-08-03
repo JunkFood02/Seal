@@ -58,7 +58,7 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="translate">Перевод</string>
     <string name="translate_desc">Помогите с переводом на Hosted Weblate</string>
-    <string name="download">Загрузить</string>
+    <string name="download">Загрузки</string>
     <string name="url_empty">Ссылка не может быть пустой</string>
     <string name="permission_denied">Доступ запрещён</string>
     <string name="download_success_msg">Загрузка завершена</string>
