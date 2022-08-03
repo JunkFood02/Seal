@@ -194,6 +194,7 @@ fun DownloadPage(
                 useDialog = useDialog,
                 dialogState = showDownloadSettingDialog,
                 drawerState = drawerState,
+                thumbUrl = videoThumbnailUrl,
                 confirm = { checkPermissionOrDownload() }) {
                 downloadViewModel.hideDialog(scope, useDialog)
             }
@@ -331,6 +332,7 @@ fun OutputMessage(
 
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

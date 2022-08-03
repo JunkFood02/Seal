@@ -69,9 +69,24 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 stateFlow.value.drawerState.hide()
         }
     }
+     suspend fun getVideoThumbnailUrl(){
+        with(mutableStateFlow) {
+            lateinit var videoInfo: VideoInfo
+            try {
+                videoInfo = DownloadUtil.fetchVideoInfo(stateFlow.value.url, 1)
+            } catch (e: Exception) {
+                manageDownloadError(e)
+                return
+            }
+            update { it.copy(
+                videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
+            ) }
+        }
+    }
 
-    fun showDialog(scope: CoroutineScope, isDialog: Boolean) {
+     fun showDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
+            getVideoThumbnailUrl()
             if (isDialog)
                 mutableStateFlow.update { it.copy(showDownloadSettingDialog = true) }
             else

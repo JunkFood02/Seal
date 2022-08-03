@@ -12,8 +12,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
@@ -22,12 +26,38 @@ import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+
+fun videoThumbnail(
+    modifier: Modifier = Modifier,
+    thumbnailUrl: String = "",
+){
+    ElevatedCard(
+        modifier = modifier.fillMaxWidth().padding(8.dp),
+        shape = MaterialTheme.shapes.small) {
+            AsyncImage(
+                modifier = Modifier
+                    .padding()
+                    .fillMaxSize()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
+            )
+        }
+    }
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DownloadSettingDialog(
     useDialog: Boolean = false,
     dialogState: Boolean = false,
     drawerState: ModalBottomSheetState,
+    thumbUrl: String = "",
     confirm: () -> Unit,
     hide: () -> Unit
 ) {
@@ -43,6 +73,10 @@ fun DownloadSettingDialog(
 
     if (!useDialog)
         BottomDrawer(drawerState = drawerState, sheetContent = {
+            Column(modifier = Modifier.height(200.dp)) {
+                videoThumbnail(modifier = Modifier, thumbUrl)
+            }
+
             Icon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 imageVector = Icons.Outlined.DoneAll,
