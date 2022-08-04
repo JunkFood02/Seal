@@ -39,11 +39,12 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
 
     data class PlaylistInfo(
-        val size: Int,
-        val title: String
+        val url: String = "",
+        val size: Int = 0,
+        val title: String = ""
     )
 
-    suspend fun getPlaylistSize(playlistURL: String): PlaylistInfo {
+    suspend fun getPlaylistInfo(playlistURL: String): PlaylistInfo {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         var playlistCount = 1
         var playlistTitle = "Unknown"
@@ -66,7 +67,7 @@ object DownloadUtil {
                 playlistTitle = jsonObj.getString("title")
             }
         }
-        return PlaylistInfo(playlistCount, playlistTitle)
+        return PlaylistInfo(playlistURL, playlistCount, playlistTitle)
     }
 
     suspend fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
@@ -86,7 +87,8 @@ object DownloadUtil {
 
     suspend fun downloadVideo(
         videoInfo: VideoInfo,
-        playlistTitle: String = "",
+        playlistInfo: PlaylistInfo,
+        playlistItem: Int = -1,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
@@ -96,8 +98,9 @@ object DownloadUtil {
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY)
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
-
-        val url = videoInfo.webpageUrl ?: return Result.failure()
+        val url = playlistInfo.url.ifEmpty {
+            videoInfo.webpageUrl ?: return Result.failure()
+        }
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
         val pathBuilder = StringBuilder()
@@ -121,8 +124,10 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-                if (playlistTitle.isNotEmpty()) {
-                    addOption("--parse-metadata", "%(album|$playlistTitle)s:%(meta_album)s")
+                if (playlistInfo.title.isNotEmpty()) {
+                    if (playlistItem != -1)
+                        addOption("--playlist-items", playlistItem)
+                    addOption("--parse-metadata", "%(album|${playlistInfo.title})s:%(meta_album)s")
 //                    addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)d")
                 } else
                     addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
@@ -151,8 +156,9 @@ object DownloadUtil {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
             }
-            if (!downloadPlaylist)
+            if (!downloadPlaylist) {
                 addOption("--no-playlist")
+            }
             if (subdirectory) {
                 pathBuilder.append("/${videoInfo.extractorKey}")
             }
@@ -175,7 +181,7 @@ object DownloadUtil {
                         0,
                         videoInfo.title,
                         if (videoInfo.uploader == null) "null" else videoInfo.uploader,
-                        url,
+                        videoInfo.webpageUrl ?: url,
                         TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
                         path,
                         videoInfo.extractorKey

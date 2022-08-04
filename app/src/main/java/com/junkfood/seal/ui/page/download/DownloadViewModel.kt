@@ -56,8 +56,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
-        val playlistTitle: String = "",
-        val currentIndex: Int = 0
+        val currentIndex: Int = 0,
+        val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo()
     )
 
     fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
@@ -117,8 +117,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 }
                 try {
-                    val playlistInfo = DownloadUtil.getPlaylistSize(value.url)
-                    Log.d(TAG, playlistInfo.toString())
+                    val playlistInfo = DownloadUtil.getPlaylistInfo(value.url)
+//                    Log.d(TAG, playlistInfo.toString())
                     if (playlistInfo.size == 1) downloadVideo(value.url)
                     else showPlaylistDialog(playlistInfo)
                 } catch (e: Exception) {
@@ -216,8 +216,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 NotificationUtil.makeNotification(notificationId, videoInfo.title)
                 downloadResultTemp =
                     DownloadUtil.downloadVideo(
-                        videoInfo,
-                        stateFlow.value.playlistTitle
+                        videoInfo = videoInfo,
+                        playlistInfo = stateFlow.value.playlistInfo,
+                        playlistItem = index
                     ) { progress, _, line ->
                         mutableStateFlow.update {
                             it.copy(
@@ -393,7 +394,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 showPlaylistSelectionDialog = true,
                 downloadItemCount = playlistInfo.size,
                 isProcessing = false,
-                playlistTitle = playlistInfo.title
+                playlistInfo = playlistInfo
             )
         }
     }

@@ -1,3 +1,6 @@
+UI Improvement: Minor color scheme changes
+Feature Update: Custom output template
+
 Add Portuguese (Brazil) translations by @EddieMattos
 Add Filipino translations by @JohnCarl2234
 Add Italian translations by @NicolaBortoletto

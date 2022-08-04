@@ -31,7 +31,7 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
     val viewState = downloadViewModel.stateFlow.collectAsState().value
     val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
     val playlistItemCount = viewState.downloadItemCount
-    val playlistTitle = viewState.playlistTitle
+    val playlistInfo = viewState.playlistInfo
     var from by remember { mutableStateOf(1.toString()) }
     var to by remember { mutableStateOf(viewState.downloadItemCount.toString()) }
 
@@ -49,7 +49,7 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                         text = stringResource(R.string.download_range_desc).format(
                             1,
                             playlistItemCount,
-                            playlistTitle,
+                            playlistInfo.title,
                         )
                     )
                     Row(modifier = Modifier.padding(top = 12.dp)) {

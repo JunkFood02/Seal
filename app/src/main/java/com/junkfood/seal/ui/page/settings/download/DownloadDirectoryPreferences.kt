@@ -33,6 +33,7 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
+import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 
 
@@ -142,7 +143,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(id = R.string.subdirectory),
                         description = stringResource(id = R.string.subdirectory_desc),
                         icon = Icons.Outlined.SnippetFolder, isChecked = isSubdirectoryEnabled,
-                        enabled = !isCustomPathEnabled
                     ) {
                         isSubdirectoryEnabled = !isSubdirectoryEnabled
                         PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
@@ -185,7 +185,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             confirmButton = {
                 ConfirmButton {
                     showEditDialog = false
-                    PreferenceUtil.updateString(CUSTOM_PATH, pathTemplateText)
+                    PreferenceUtil.updateString(OUTPUT_PATH_TEMPLATE, pathTemplateText)
                 }
             },
             text = {
