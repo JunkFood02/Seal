@@ -68,11 +68,11 @@
     <string name="download_notification">إشعار التنزيل</string>
     <string name="download_notification_desc">إشعار بالملفات التي تم تنزيلها ومستوى التقدم</string>
     <string name="download_range_selection">اختيار قائمة التشغيل</string>
-    <string name="download_range_desc">حدد نطاق مقاطع الفيديو المراد تنزيلها من قائمة التشغيل (من %1$d إلى %2$d).</string>
+    <string name="download_range_desc">حدد نطاق مقاطع الفيديو المراد تنزيلها من قائمة التشغيل \"%3$s\" (من %1$d إلى %2$d).</string>
     <string name="invalid_index_range">نطاق الفهرس غير صالح</string>
     <string name="audio_directory">مجلد الصوت</string>
     <string name="download_directory">مجلد التحميل</string>
-    <string name="subdirectory">حفظ في دليل فرعي</string>
+    <string name="subdirectory">حفظ في مجلد فرعي</string>
     <string name="permission_issue">مشكلة إذن التخزين</string>
     <string name="permission_issue_desc">المجلدات خارج التنزيل / والمستندات / غير مدعومة</string>
     <string name="battery_configuration">إدارة البطارية</string>
@@ -116,7 +116,7 @@
     <string name="check_download_settings_desc">ألق نظرة على إعدادات التنزيل وتأكد من أن لديك أحدث إصدار من yt-dlp قبل استخدامه.</string>
     <string name="video_url">رابط الفيديو</string>
     <string name="concurrent_download">تنزيل أجزاء متعددة</string>
-    <string name="subdirectory_desc">احفظ الملفات في مجلدات تسمى مواقع انترنت محترمة</string>
+    <string name="subdirectory_desc">احفظ الملفات في مجلدات بأسماء المواقع المعنية</string>
     <string name="unknown_error">خطأ غير معروف</string>
     <string name="share_fail_msg">تعذر مطابقة عنوان URL من المحتوى المشارك</string>
     <string name="share_success_msg">جاري قراءة رابط الفيديو من المحتوى المشترك …</string>
@@ -130,8 +130,8 @@
     <string name="error_copied">تم نسخ تقرير الخطأ إلى الحافظة</string>
     <string name="edit_template_desc">سيضيف التطبيق مسار الإخراج وعنوان URL.</string>
     <string name="fetching_playlist_info">جارٍ إحضار معلومات قائمة التشغيل …</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">قالب المسار</string>
+    <string name="custom_output_path">مجلد فرعي مخصص</string>
+    <string name="custom_output_path_desc">استخدم نموذجًا للمجلد الفرعي</string>
+    <string name="edit_custom_path_template_desc">حدد مجلد فرعي بالحقول المتاحة التي يوفرها yt-dlp</string>
 </resources>
