@@ -31,6 +31,9 @@ object PreferenceUtil {
     fun getTemplate(): String =
         kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
 
+    fun getOutputPathTemplate(): String =
+        kv.decodeString(OUTPUT_PATH_TEMPLATE, "%(uploader)s/%(playlist_title)s/").toString()
+
     fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 0)
 
     @Composable
@@ -87,6 +90,9 @@ object PreferenceUtil {
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
     const val THEME_COLOR = "theme_color"
+    const val CUSTOM_PATH = "custom_path"
+    const val OUTPUT_PATH_TEMPLATE = "path_template"
+
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify

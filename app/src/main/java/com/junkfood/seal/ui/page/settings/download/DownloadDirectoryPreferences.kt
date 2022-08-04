@@ -10,18 +10,16 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material.icons.outlined.LibraryMusic
-import androidx.compose.material.icons.outlined.SnippetFolder
-import androidx.compose.material.icons.outlined.VideoLibrary
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,19 +28,22 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.ui.component.PreferencesCaution
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
+
+
+const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
+
     val uriHandler = LocalUriHandler.current
+    val clipboardManager = LocalClipboardManager.current
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
@@ -50,8 +51,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     )
     var videoDirectoryText by remember { mutableStateOf(BaseApplication.videoDownloadDir) }
     var audioDirectoryText by remember { mutableStateOf(BaseApplication.audioDownloadDir) }
+    var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
     var isSubdirectoryEnabled
             by remember { mutableStateOf(PreferenceUtil.getValue(SUBDIRECTORY, false)) }
+    var isCustomPathEnabled
+            by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_PATH, false)) }
+    var showEditDialog by remember { mutableStateOf(false) }
 
     var isEditingAudioDirectory = false
     val storagePermission =
@@ -110,6 +115,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         ) { uriHandler.openUri("https://github.com/JunkFood02/Seal/issues/34") }
                     }
                 item {
+                    PreferenceSubtitle(text = stringResource(R.string.general_settings))
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_directory),
                         description = videoDirectoryText,
@@ -133,12 +141,85 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.subdirectory),
                         description = stringResource(id = R.string.subdirectory_desc),
-                        icon = Icons.Outlined.SnippetFolder, isChecked = isSubdirectoryEnabled
+                        icon = Icons.Outlined.SnippetFolder, isChecked = isSubdirectoryEnabled,
+                        enabled = !isCustomPathEnabled
                     ) {
                         isSubdirectoryEnabled = !isSubdirectoryEnabled
                         PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
                     }
                 }
+                item {
+                    PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.custom_output_path),
+                        description = stringResource(R.string.custom_output_path_desc),
+                        icon = Icons.Outlined.FolderSpecial,
+                        isChecked = isCustomPathEnabled
+                    ) {
+                        isCustomPathEnabled = !isCustomPathEnabled
+                        PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
+                    }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.download_path_template),
+                        description = pathTemplateText,
+                        enabled = isCustomPathEnabled
+                    ) { showEditDialog = true }
+                }
             }
         })
+
+    val onDismissRequest = {
+        showEditDialog = false
+        pathTemplateText = PreferenceUtil.getOutputPathTemplate()
+    }
+
+    if (showEditDialog) {
+        AlertDialog(
+            onDismissRequest = { onDismissRequest() },
+            title = { Text(stringResource(R.string.edit_custom_command_template)) },
+            dismissButton = { DismissButton { onDismissRequest() } },
+            confirmButton = {
+                ConfirmButton {
+                    showEditDialog = false
+                    PreferenceUtil.updateString(CUSTOM_PATH, pathTemplateText)
+                }
+            },
+            text = {
+                Column {
+                    Text(stringResource(R.string.edit_custom_path_template_desc))
+                    OutlinedTextField(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        value = pathTemplateText,
+                        onValueChange = { pathTemplateText = it },
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                clipboardManager.getText()?.let { pathTemplateText = it.text }
+                            }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+                        },
+                        label = { Text(stringResource(R.string.download_path_template)) },
+                        maxLines = 1
+                    )
+                    TextButton(
+                        onClick = { uriHandler.openUri(ytdlpOutputTemplateReference) },
+                    ) {
+                        Row {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                imageVector = Icons.Outlined.OpenInNew,
+                                contentDescription = null
+                            )
+                            Text(
+                                modifier = Modifier.padding(start = 8.dp),
+                                text = stringResource(R.string.yt_dlp_docs)
+                            )
+                        }
+                    }
+                }
+            }
+        )
+    }
 }

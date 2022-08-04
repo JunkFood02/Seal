@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
@@ -53,7 +54,8 @@ fun DownloadSettingDialog(
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = 16.dp),
+                maxLines = 1, overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = stringResource(R.string.settings_before_download_text),

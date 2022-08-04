@@ -56,6 +56,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
+        val playlistTitle: String = "",
         val currentIndex: Int = 0
     )
 
@@ -116,10 +117,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 }
                 try {
-                    val playlistSize = DownloadUtil.getPlaylistSize(value.url)
-                    Log.d(TAG, playlistSize.toString())
-                    if (playlistSize == 1) downloadVideo(value.url)
-                    else showPlaylistDialog(playlistSize)
+                    val playlistInfo = DownloadUtil.getPlaylistSize(value.url)
+                    Log.d(TAG, playlistInfo.toString())
+                    if (playlistInfo.size == 1) downloadVideo(value.url)
+                    else showPlaylistDialog(playlistInfo)
                 } catch (e: Exception) {
                     manageDownloadError(e)
                 }
@@ -214,7 +215,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
                 NotificationUtil.makeNotification(notificationId, videoInfo.title)
                 downloadResultTemp =
-                    DownloadUtil.downloadVideo(videoInfo) { progress, _, line ->
+                    DownloadUtil.downloadVideo(
+                        videoInfo,
+                        stateFlow.value.playlistTitle
+                    ) { progress, _, line ->
                         mutableStateFlow.update {
                             it.copy(
                                 progress = progress,
@@ -383,11 +387,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             openFile(downloadResultTemp)
     }
 
-    private fun showPlaylistDialog(playlistSize: Int) {
+    private fun showPlaylistDialog(playlistInfo: DownloadUtil.PlaylistInfo) {
         mutableStateFlow.update {
             it.copy(
                 showPlaylistSelectionDialog = true,
-                downloadItemCount = playlistSize, isProcessing = false
+                downloadItemCount = playlistInfo.size,
+                isProcessing = false,
+                playlistTitle = playlistInfo.title
             )
         }
     }

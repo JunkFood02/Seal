@@ -21,8 +21,8 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
+import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.ui.component.Subtitle
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
@@ -112,7 +112,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                     )
             ) {
                 item {
-                    Subtitle(text = stringResource(id = R.string.general_settings))
+                    PreferenceSubtitle(text = stringResource(id = R.string.general_settings))
                 }
                 item {
                     PreferenceItem(
@@ -233,7 +233,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                     )
                 }
                 item {
-                    Subtitle(text = stringResource(id = R.string.format))
+                    PreferenceSubtitle(text = stringResource(id = R.string.format))
                 }
                 item {
                     PreferenceItem(
@@ -261,7 +261,7 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                 }
 
                 item {
-                    Subtitle(text = stringResource(R.string.advanced_settings))
+                    PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
                 }
                 item {
                     PreferenceSwitch(

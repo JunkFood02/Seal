@@ -7,6 +7,7 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -37,12 +38,18 @@ object DownloadUtil {
 
     private const val TAG = "DownloadUtil"
 
-    suspend fun getPlaylistSize(playlistSize: String): Int {
+    data class PlaylistInfo(
+        val size: Int,
+        val title: String
+    )
+
+    suspend fun getPlaylistSize(playlistURL: String): PlaylistInfo {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         var playlistCount = 1
+        var playlistTitle = "Unknown"
         if (downloadPlaylist) {
             TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(playlistSize)
+            val request = YoutubeDLRequest(playlistURL)
             with(request) {
                 addOption("--flat-playlist")
                 addOption("-J")
@@ -56,9 +63,10 @@ object DownloadUtil {
             val tp: String = jsonObj.getString("_type")
             if (tp == "playlist") {
                 playlistCount = jsonObj.getInt("playlist_count")
+                playlistTitle = jsonObj.getString("title")
             }
         }
-        return playlistCount
+        return PlaylistInfo(playlistCount, playlistTitle)
     }
 
     suspend fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
@@ -78,13 +86,17 @@ object DownloadUtil {
 
     suspend fun downloadVideo(
         videoInfo: VideoInfo,
+        playlistTitle: String = "",
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
         val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
+        val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY)
+        val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
+
         val url = videoInfo.webpageUrl ?: return Result.failure()
         val request = YoutubeDLRequest(url)
         val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
@@ -109,7 +121,12 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-                addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+                if (playlistTitle.isNotEmpty()) {
+                    addOption("--parse-metadata", "%(album|$playlistTitle)s:%(meta_album)s")
+//                    addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)d")
+                } else
+                    addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+
             } else {
                 pathBuilder.append(videoDownloadDir)
 
@@ -136,10 +153,14 @@ object DownloadUtil {
             }
             if (!downloadPlaylist)
                 addOption("--no-playlist")
-            if (PreferenceUtil.getValue(SUBDIRECTORY))
-                pathBuilder.append("/${videoInfo.extractorKey}/")
+            if (subdirectory) {
+                pathBuilder.append("/${videoInfo.extractorKey}")
+            }
             addOption("-P", pathBuilder.toString())
-            addOption("-o", "%(title).60s$id.%(ext)s")
+            if (customPath)
+                addOption("-o", PreferenceUtil.getOutputPathTemplate() + "%(title).60s$id.%(ext)s")
+            else
+                addOption("-o", "%(title).60s$id.%(ext)s")
 
             for (s in request.buildCommand())
                 Log.d(TAG, s)

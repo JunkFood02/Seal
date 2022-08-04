@@ -127,7 +127,7 @@
     <string name="download_notification_desc">"Notify of downloaded files and progress"</string>
     <string name="fetching_playlist_info">Fetching playlist info…</string>
     <string name="download_range_selection">Playlist selection</string>
-    <string name="download_range_desc">"Specify the range of videos to download from the playlist (from %1$d to %2$d)."</string>
+    <string name="download_range_desc">"Specify the range of videos to download from the playlist \"%3$s\" (from %1$d to %2$d)."</string>
     <string name="from">Start of index</string>
     <string name="to">End of index</string>
     <string name="invalid_index_range">Invalid index range</string>
@@ -158,4 +158,8 @@
     <string name="la_nl" translatable="false">Nederlands</string>
     <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
     <string name="la_ja" translatable="false">日本語</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>
