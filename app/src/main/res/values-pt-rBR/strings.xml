@@ -26,7 +26,7 @@
     <string name="downloads_history">Transferências</string>
     <string name="audio">Áudio</string>
     <string name="link_copied">Link copiado para a área de transferência</string>
-    <string name="open_url">Abrir</string>
+    <string name="open_url">Abrir link</string>
     <string name="remove">Remover</string>
     <string name="delete_file">Excluir</string>
     <string name="about">Sobre</string>
@@ -113,4 +113,25 @@
     <string name="battery_configuration_desc">Ignore a otimização da bateria para este aplicativo baixar em segundo plano</string>
     <string name="unknown_error">Erro desconhecido</string>
     <string name="translate_desc">Ajude a traduzir este aplicativo no Hosted Weblate</string>
+    <string name="back">Voltar</string>
+    <string name="checked">Verificado</string>
+    <string name="custom_command_desc">Rodar o comando yt-dlp com um modelo customizado</string>
+    <string name="custom_command_template">Modelo de comando</string>
+    <string name="edit_custom_command_template">Editar</string>
+    <string name="start_execute">Iniciar a execução do comando</string>
+    <string name="advanced_settings">Avançado</string>
+    <string name="print_details">Saída detalhada</string>
+    <string name="display">Exibir</string>
+    <string name="on">Ligado</string>
+    <string name="off">Desligado</string>
+    <string name="cancel">Cancelar</string>
+    <string name="thumbnail">miniatura</string>
+    <string name="close">Fechar</string>
+    <string name="download_notification">Notificação de transferência</string>
+    <string name="download_range_selection">Seleção de lista de reprodução</string>
+    <string name="service_title">Seal está baixando…</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>

@@ -130,4 +130,8 @@
     <string name="battery_configuration_desc">Bu uygulamanın arka planda indirilmesi için pil optimizasyonunu yoksay</string>
     <string name="download_range_desc">Oynatma listesinden indirilecek video aralığını belirtin (%1$d ile %2$d arası).</string>
     <string name="translate">Çeviri</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Path template</string>
 </resources>

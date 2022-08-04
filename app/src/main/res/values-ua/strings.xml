@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Seal</string>
     <string name="video_directory">Тека вiдео</string>
@@ -142,4 +143,8 @@
     <string name="la_tr" translatable="false">Türkçe</string>
     <string name="la_ru" translatable="false">Русский язык</string>
     <string name="la_ar" translatable="false">عربي</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>

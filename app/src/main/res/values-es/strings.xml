@@ -125,9 +125,13 @@
     <string name="service_title">Seal está descargando…</string>
     <string name="unknown_error">Ha ocurrido un error desconocido</string>
     <string name="translate">Traducir</string>
-    <string name="translate_desc">Ayuda a traducir esta aplicación en Weblate</string>
+    <string name="translate_desc">Ayuda a traducir esta aplicación en Hosted Weblate</string>
     <string name="execute_command_notification">Ejecutando comandos personalizados…</string>
     <string name="playlist_indicator_text">Descargando lista de reproducción (%1$d/%2$d)… Haz clic para detener la descarga.</string>
     <string name="subdirectory_desc">Guardar archivos en un subdirectorio nombrado con los nombres de las páginas web</string>
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>

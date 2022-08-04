@@ -130,4 +130,8 @@
     <string name="share_fail_msg">Kunne ikke samsvare nettadresse fra delt innhold</string>
     <string name="share_success_msg">Leser videolenke fra delt innhold …</string>
     <string name="concurrent_download_num">%d tråd(er) kan bli brukt til å laste ned DASH/HLS native-video samtidig.</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>

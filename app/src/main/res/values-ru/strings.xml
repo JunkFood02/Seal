@@ -130,4 +130,8 @@
     <string name="language">Доступные языки</string>
     <string name="paste_fail_msg">Не удалось найти подходящий URL-адрес в буфере обмена</string>
     <string name="settings_before_download_text">Настройте эту загрузку</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
 </resources>
