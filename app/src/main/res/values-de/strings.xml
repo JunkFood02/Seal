@@ -97,7 +97,7 @@
     <string name="download_range_selection">Wiedergabeliste-Auswahl</string>
     <string name="download_directory_desc">Wähle den Speicherort für Videos und Audiodateien</string>
     <string name="subdirectory">In Unterordner speichern</string>
-    <string name="subdirectory_desc">Dateien in Ordnern mit den Namen der jeweiligen Websites speichern</string>
+    <string name="subdirectory_desc">Dateien in Ordnern mit den Namen der jeweiligen Webseiten speichern</string>
     <string name="permission_issue">Problem mit der Speicherberechtigung</string>
     <string name="battery_configuration">Akkukonfiguration</string>
     <string name="battery_configuration_desc">Akku-Optimierung für diese App ignorieren, um im Hintergrund herunterzuladen</string>
@@ -124,14 +124,14 @@
     <string name="check_download_settings_desc">Schaue dir die Download-Einstellungen an und stelle sicher, dass du die neueste Version von yt-dlp hast, bevor du es verwendest.</string>
     <string name="concurrent_download_num">%d Thread(s) würden für das gleichzeitige Herunterladen von nativen DASH/HLS-Videos verwendet werden.</string>
     <string name="share_success_msg">Videolink von geteilten Inhalten lesen…</string>
-    <string name="download_range_desc">Gib den Bereich der Videos an, die aus der Wiedergabeliste heruntergeladen werden sollen (von %1$d bis %2$d).</string>
+    <string name="download_range_desc">Gib den Bereich der Videos an, die aus der Wiedergabeliste „%3$s“ heruntergeladen werden sollen (von %1$d bis %2$d).</string>
     <string name="to">Ende des Index</string>
     <string name="invalid_index_range">Ungültiger Indexbereich</string>
     <string name="permission_issue_desc">Ordner außerhalb von Download/ und Dokumente/ werden nicht unterstützt</string>
     <string name="audio_format_desc">Audio in MP3 oder M4A funktioniert auf den meisten Geräten</string>
     <string name="from">Beginn des Index</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Ordnervorlage</string>
+    <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
+    <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
+    <string name="edit_custom_path_template_desc">Unterordner mit den von yt-dlp bereitgestellten Feldern angeben</string>
 </resources>

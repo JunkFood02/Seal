@@ -114,7 +114,7 @@
     <string name="to">Indeks akhir</string>
     <string name="battery_configuration_desc">Abaikan pengoptimalan baterai untuk mengunduh aplikasi ini di latar belakang</string>
     <string name="translate">Terjemah</string>
-    <string name="download_range_desc">Tentukan rentang video yang akan diunduh dari playlist (dari %1$d hingga %2$d).</string>
+    <string name="download_range_desc">Tentukan rentang video yang akan diunduh dari playlist \"%3$s\"(dari %1$d hingga %2$d).</string>
     <string name="extract_audio">Simpan sebagai audio</string>
     <string name="create_thumbnail">Simpan thumbnail</string>
     <string name="settings">Pengaturan</string>
@@ -130,8 +130,8 @@
     <string name="service_title">Seal sedang mengunduh…</string>
     <string name="unknown_error">Kesalahan yang tidak diketahui</string>
     <string name="translate_desc">Bantu terjemahkan aplikasi ini di Hosted Weblate</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Templat penempatan</string>
+    <string name="custom_output_path">Direktori khusus</string>
+    <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
+    <string name="edit_custom_path_template_desc">Tentukan subdirektori dengan opsi yang tersedia menggunakan yt-dlp</string>
 </resources>

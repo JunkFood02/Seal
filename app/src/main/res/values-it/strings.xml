@@ -105,7 +105,7 @@
     <string name="options">Opzioni</string>
     <string name="channel_name">Scarica</string>
     <string name="check_download_settings_desc">Controlla le impostazioni di scaricamento e assicurati di avere l\'ultima versione di yt-dlp prima di utilizzarlo.</string>
-    <string name="download_range_desc">Specifica il range dei video da scaricare dalla playlist (da %1$d a %2$d).</string>
+    <string name="download_range_desc">Specifica l\'intervallo di video da scaricare dalla playlist «%3$s» (da %1$d a %2$d).</string>
     <string name="video_url">Link del video</string>
     <string name="execute_command_notification">Esecuzione del comando personalizzato…</string>
     <string name="download_finish_notification">Scaricamento terminato. Clicca per aprire.</string>
@@ -130,8 +130,8 @@
     <string name="permission_issue_desc">Le directory al di fuori di Download/ e Documenti/ non sono supportate</string>
     <string name="concurrent_download">Scarica più parti</string>
     <string name="concurrent_download_num">I thread %d sarebbero utilizzati per scaricare video nativi DASH/HLS in parallelo.</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Modello di percorso</string>
+    <string name="custom_output_path">Sottodirectory personalizzata</string>
+    <string name="custom_output_path_desc">Usa il modello per la sottodirectory</string>
+    <string name="edit_custom_path_template_desc">Specifica la sottodirectory con i campi disponibili forniti da yt-dlp</string>
 </resources>

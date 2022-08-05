@@ -118,7 +118,7 @@
     <string name="download_notification_desc">Notification des fichiers téléchargés et de leur progression</string>
     <string name="fetching_playlist_info">Recherche d\'informations sur les listes de lecture…</string>
     <string name="download_range_selection">Sélection de la liste de lecture</string>
-    <string name="download_range_desc">Indiquez la plage de vidéos à télécharger à partir de la liste de lecture (de %1$d à %2$d).</string>
+    <string name="download_range_desc">Spécifiez la plage de vidéos à télécharger à partir de la liste de lecture « %3$s » (de %1$d à %2$d).</string>
     <string name="from">Début de l\'index</string>
     <string name="to">Fin de l\'index</string>
     <string name="invalid_index_range">Plage d\'index invalide</string>
@@ -130,8 +130,8 @@
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="translate">Traduire</string>
     <string name="translate_desc">Aidez à traduire cette application sur Hosted Weblate</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Modèle de chemin</string>
+    <string name="custom_output_path">Sous-répertoire personnalisé</string>
+    <string name="custom_output_path_desc">Utiliser le modèle pour le sous-répertoire</string>
+    <string name="edit_custom_path_template_desc">Spécifier le sous-répertoire avec les champs disponibles fournis par yt-dlp</string>
 </resources>
