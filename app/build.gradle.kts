@@ -12,7 +12,7 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 1
 val versionMinor = 0
 val versionPatch = 1
-val versionBuild = 0
+val versionBuild = 1
 val isStable = true
 
 val composeVersion = "1.2.0-rc03"
