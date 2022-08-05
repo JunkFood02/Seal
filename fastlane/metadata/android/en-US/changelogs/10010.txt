@@ -1,4 +1,4 @@
-UI Improvement: Minor color scheme changes
+UI Improvement: Minor changes to color scheme and texts
 Feature Update: Custom output template
 
 Add Portuguese (Brazil) translations by @EddieMattos

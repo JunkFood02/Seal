@@ -43,15 +43,14 @@ fun PreferenceItem(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = with(MaterialTheme.colorScheme.secondary) {
-                        if (enabled) this else copy(alpha = 0.68f)
-                    }
+                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
                 )
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = if (icon == null) 12.dp else 0.dp)
+                    .padding(end = 8.dp)
             ) {
                 with(MaterialTheme) {
 
@@ -148,9 +147,8 @@ fun PreferenceSwitch(
                     text = title,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-                    color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = 0.62f
-                    ), overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled),
+                    overflow = TextOverflow.Ellipsis
                 )
                 if (!description.isNullOrEmpty())
                     Text(

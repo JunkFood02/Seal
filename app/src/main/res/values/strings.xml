@@ -101,12 +101,6 @@
     </string>
     <string name="download_playlist">Download playlist</string>
     <string name="download_playlist_desc">Download multiple videos from a playlist</string>
-    <string name="la_nb_NO" translatable="false">Bokmål</string>
-    <string name="la_cs" translatable="false">Čeština</string>
-    <string name="la_de" translatable="false">Deutsch</string>
-    <string name="la_zh_CN" translatable="false">简体中文</string>
-    <string name="la_en_US" translatable="false">English</string>
-    <string name="la_fr" translatable="false">Français</string>
     <string name="defaults">Default</string>
     <string name="channel_name">Download</string>
     <string name="channel_description">Notify of downloaded files and progress</string>
@@ -145,6 +139,16 @@
     <string name="unknown_error">Unknown error</string>
     <string name="translate">Translate</string>
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
+    <string name="download_path_template">Path template</string>
+    <string name="custom_output_path">Custom subdirectory</string>
+    <string name="custom_output_path_desc">Use template for subdirectory</string>
+    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="la_nb_NO" translatable="false">Bokmål</string>
+    <string name="la_cs" translatable="false">Čeština</string>
+    <string name="la_de" translatable="false">Deutsch</string>
+    <string name="la_zh_CN" translatable="false">简体中文</string>
+    <string name="la_en_US" translatable="false">English</string>
+    <string name="la_fr" translatable="false">Français</string>
     <string name="la_da" translatable="false">Dansk</string>
     <string name="la_es" translatable="false">Español</string>
     <string name="la_tr" translatable="false">Türkçe</string>
@@ -158,8 +162,5 @@
     <string name="la_nl" translatable="false">Nederlands</string>
     <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
     <string name="la_ja" translatable="false">日本語</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="la_pl" translatable="false">Polski</string>
 </resources>

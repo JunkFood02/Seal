@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
@@ -176,7 +177,7 @@ fun DownloadSettingDialog(
                 contentDescription = stringResource(R.string.settings)
             )
         }, title = { Text(stringResource(R.string.settings_before_download)) }, text = {
-            Column() {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(
                     text = stringResource(R.string.settings_before_download_text),
                     style = MaterialTheme.typography.bodyMedium,

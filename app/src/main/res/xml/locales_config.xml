@@ -18,4 +18,5 @@
     <locale android:name="nl" />
     <locale android:name="it" />
     <locale android:name="fil" />
+    <locale android:name="pl" />
 </locale-config>
