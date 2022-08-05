@@ -30,7 +30,8 @@ fun VideoListPage(
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     val scope = rememberCoroutineScope()
     val audioFilter = remember { mutableStateOf(false) }

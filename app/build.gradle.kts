@@ -15,14 +15,14 @@ val versionPatch = 1
 val versionBuild = 0
 val isStable = true
 
-val composeVersion = "1.2.0-rc01"
+val composeVersion = "1.2.0-rc03"
 val lifecycleVersion = "2.6.0-alpha01"
 val navigationVersion = "2.5.0"
 val roomVersion = "2.4.2"
 val accompanistVersion = "0.24.11-rc"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
-val composeMd3Version = "1.0.0-alpha14"
+val composeMd3Version = "1.0.0-alpha15"
 val coilVersion = "2.1.0"
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 

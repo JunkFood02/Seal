@@ -49,7 +49,8 @@ fun AppearancePreferences(
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current

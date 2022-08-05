@@ -34,7 +34,8 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     val context = LocalContext.current
     val info = if (Build.VERSION.SDK_INT >= 33) context.packageManager.getPackageInfo(

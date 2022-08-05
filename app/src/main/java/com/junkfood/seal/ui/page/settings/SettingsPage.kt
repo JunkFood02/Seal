@@ -16,10 +16,7 @@ import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.sharp.Aod
 import androidx.compose.material.icons.sharp.Download
 import androidx.compose.material.icons.sharp.Info
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +29,7 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHint
 import com.junkfood.seal.ui.component.SettingItem
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsPage(navController: NavController) {
     val context = LocalContext.current

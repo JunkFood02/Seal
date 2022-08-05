@@ -32,7 +32,8 @@ fun LanguagePage(onBackPressed: () -> Unit) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     var language by remember { mutableStateOf(PreferenceUtil.getLanguageNumber()) }
     val uriHandler = LocalUriHandler.current

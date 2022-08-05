@@ -72,7 +72,8 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     Scaffold(
         modifier = Modifier

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.junkfood.seal.ui.page.download
 
 import androidx.compose.foundation.focusable

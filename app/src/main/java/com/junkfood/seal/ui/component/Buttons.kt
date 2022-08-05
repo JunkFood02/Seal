@@ -72,13 +72,6 @@ fun FilterChipWithIcons(
                 modifier = Modifier.requiredSize(18.dp)
             )
         },
-        selectedIcon = {
-            Icon(
-                Icons.Outlined.Check,
-                stringResource(R.string.checked),
-                modifier = Modifier.requiredSize(18.dp)
-            )
-        }
     )
 }
 

@@ -48,7 +48,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec,
-        rememberTopAppBarScrollState()
+        rememberTopAppBarState(),
+        canScroll = { true }
     )
     var videoDirectoryText by remember { mutableStateOf(BaseApplication.videoDownloadDir) }
     var audioDirectoryText by remember { mutableStateOf(BaseApplication.audioDownloadDir) }
