@@ -1,5 +1,6 @@
 <p align="center"> 
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 ></p>
+	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
+</p>
 <h1 align="center">
 	Seal
 </h1>
@@ -7,6 +8,8 @@
 	Video/Audio Downloader for Android
 </p>
 <p align="center">
+<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 </p>
 
@@ -24,6 +27,7 @@
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
 </div>
+<br>
 
 
 ## Features
@@ -79,3 +83,9 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 [dvd](https://github.com/yausername/dvd)
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
+
+
+
+## License
+
+[GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
