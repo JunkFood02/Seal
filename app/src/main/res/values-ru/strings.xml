@@ -47,7 +47,7 @@
     <string name="share_success_msg">Чтение ссылки на видео из общего контента…</string>
     <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе загрузки</string>
     <string name="fetching_playlist_info">Получение информации о плейлисте…</string>
-    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста (от %1$d до %2$d).</string>
+    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста \" %3$s\" (от %1$d до %2$d).</string>
     <string name="from">Начать с номера</string>
     <string name="to">Закончить номером</string>
     <string name="invalid_index_range">Недопустимый диапазон номеров</string>
@@ -130,8 +130,8 @@
     <string name="language">Доступные языки</string>
     <string name="paste_fail_msg">Не удалось найти подходящий URL-адрес в буфере обмена</string>
     <string name="settings_before_download_text">Настройте эту загрузку</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Шаблон пути</string>
+    <string name="custom_output_path">Свой подкаталог</string>
+    <string name="custom_output_path_desc">Используйте шаблон для подкаталога</string>
+    <string name="edit_custom_path_template_desc">Укажите подкаталог, используя доступные параметры yt-dlp</string>
 </resources>

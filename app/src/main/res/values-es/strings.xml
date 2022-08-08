@@ -113,7 +113,7 @@
     <string name="download_finish_notification">Descarga finalizada. Haz clic para abrirla.</string>
     <string name="concurrent_download_num">%d subproceso(s) serían usados para descargar vídeos nativos DASH/HSL concurrentemente.</string>
     <string name="fetching_playlist_info">Adquiriendo información de la lista de reproducción…</string>
-    <string name="download_range_desc">Especifica el rango de vídeos que quieres descargar desde la lista de reproducción (desde %1$d hasta %2$d ).</string>
+    <string name="download_range_desc">Especifica el rango de vídeos que quieres descargar desde la lista de reproducción \"%3$s\"(desde %1$d hasta %2$d ).</string>
     <string name="audio_directory">Ubicación de audios</string>
     <string name="download_directory">Ubicación de descargas</string>
     <string name="download_directory_desc">Configurar ubicación de descarga de vídeos y audios</string>
@@ -130,8 +130,8 @@
     <string name="playlist_indicator_text">Descargando lista de reproducción (%1$d/%2$d)… Haz clic para detener la descarga.</string>
     <string name="subdirectory_desc">Guardar archivos en un subdirectorio nombrado con los nombres de las páginas web</string>
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
-    <string name="download_path_template">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="download_path_template">Plantilla de la ruta</string>
+    <string name="custom_output_path">Subdirectorio personalizado</string>
+    <string name="custom_output_path_desc">Utilizar la plantilla para el subdirectorio</string>
+    <string name="edit_custom_path_template_desc">Especifique el subdirectorio con los campos disponibles proporcionados por yt-dlp</string>
 </resources>

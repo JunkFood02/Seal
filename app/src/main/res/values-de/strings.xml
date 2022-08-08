@@ -5,7 +5,7 @@
     <string name="extract_audio_summary">Audio herunterladen und speichern, statt Video</string>
     <string name="create_thumbnail_summary">Video-Miniaturansicht als Datei speichern</string>
     <string name="yt_dlp_up_to_date">Verwendung der neuesten Version von yt-dlp</string>
-    <string name="fetching_info">Videoinformationen werden abgerufen …</string>
+    <string name="fetching_info">Videoinformationen werden abgerufen…</string>
     <string name="permission_denied">Berechtigung verweigert</string>
     <string name="download_success_msg">Download abgeschlossen</string>
     <string name="download_error_msg">Datei konnte nicht heruntergeladen werden</string>
