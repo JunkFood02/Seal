@@ -26,7 +26,6 @@
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
 </div>
-<br>
 
 ## 功能特色
 
@@ -42,9 +41,14 @@
 
 - 使用简单、用户友好
 
+<<<<<<< HEAD
 - 遵循 [Material Design 3](https://m3.material.io/)
   设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
 
+=======
+- 遵循 [Material Design 3](https://m3.material.io/) 设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
+  
+>>>>>>> 23dc6b3 (Fix typo & Update README)
 - MAD：完全使用 Kotlin 构造界面与编写逻辑，单 Activity + Compose Navigation 应用结构
 
 ## 下载
@@ -63,9 +67,7 @@ height="80">](https://f-droid.org/packages/com.junkfood.seal/)
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-对于错误报告、功能请求或其他改进的想法，请先在 Issue 和 Discussion 中进行搜索（包括已关闭的
-Issue）。如果没有出现重复，欢迎[发起讨论](https://github.com/JunkFood02/Seal/discussions)
-或[提交问题](https://github.com/JunkFood02/Seal/issues/new)。
+对于错误报告、功能请求或其他改进的想法，请先在 Issue 和 Discussion 中进行搜索（包括已关闭的 Issue）。如果没有出现重复，欢迎 [发起讨论](https://github.com/JunkFood02/Seal/discussions) 或 [提交问题](https://github.com/JunkFood02/Seal/issues/new)。
 
 Seal 被设计为 yt-dlp 的一个简单的 GUI 封装，所以我们不会接受 yt-dlp 不支持的功能请求。
 
