@@ -9,6 +9,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
@@ -97,6 +98,7 @@ object DownloadUtil {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY)
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH)
+        val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
@@ -161,6 +163,11 @@ object DownloadUtil {
             }
             if (subdirectory) {
                 pathBuilder.append("/${videoInfo.extractorKey}")
+            }
+            if (embedSubtitle) {
+                addOption("--remux-video", "mkv")
+                addOption("--embed-subs")
+                addOption("--sub-lang", "all")
             }
             addOption("-P", pathBuilder.toString())
             if (customPath)

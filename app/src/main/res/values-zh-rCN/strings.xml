@@ -134,4 +134,6 @@
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
     <string name="edit_custom_path_template_desc">使用yt-dlp提供的值指定保存文件的子文件夹</string>
+    <string name="embed_subtitles">内嵌字幕</string>
+    <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
 </resources>

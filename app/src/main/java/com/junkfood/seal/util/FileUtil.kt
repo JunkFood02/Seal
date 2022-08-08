@@ -5,7 +5,6 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -66,14 +65,13 @@ object FileUtil {
     fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String>? {
         val files = ArrayList<File>()
         val paths = ArrayList<String>()
-        if (PreferenceUtil.getValue(CUSTOM_PATH)) {
-            Files.find(
-                Paths.get(downloadDir),
-                Integer.MAX_VALUE,
-                { path: Path, attributes: BasicFileAttributes ->
-                    attributes.isRegularFile && path.toString().contains(title)
-                }).forEach { files.add(it.toFile()) }
-        }
+        Files.find(
+            Paths.get(downloadDir),
+            Integer.MAX_VALUE,
+            { path: Path, attributes: BasicFileAttributes ->
+                attributes.isRegularFile && path.toString().contains(title)
+            }).forEach { files.add(it.toFile()) }
+
         /*val files =
             File(downloadDir).listFiles { _, name ->
                 with(name) {

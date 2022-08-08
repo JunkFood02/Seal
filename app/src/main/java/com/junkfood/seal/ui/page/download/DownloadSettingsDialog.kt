@@ -23,6 +23,7 @@ import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -37,27 +38,25 @@ fun DownloadSettingDialog(
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)) }
     var customCommand by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)) }
     var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) }
+    var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
 
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(false) }
 
-    if (!useDialog)
-        BottomDrawer(drawerState = drawerState, sheetContent = {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                imageVector = Icons.Outlined.DoneAll,
-                contentDescription = stringResource(R.string.settings)
-            )
-            Text(
-                text = stringResource(R.string.settings_before_download),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp),
-                maxLines = 1, overflow = TextOverflow.Ellipsis
-            )
+
+    val downloadButtonCallback = {
+        PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
+        PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
+        PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
+        PreferenceUtil.updateValue(PreferenceUtil.PLAYLIST, playlist)
+        hide()
+        confirm()
+    }
+
+    val sheetContent: @Composable () -> Unit = {
+        Column {
             Text(
                 text = stringResource(R.string.settings_before_download_text),
                 style = MaterialTheme.typography.bodyMedium,
@@ -86,7 +85,12 @@ fun DownloadSettingDialog(
                     onClick = { playlist = !playlist },
                     label = stringResource(R.string.download_playlist)
                 )
-
+                FilterChipWithAnimatedIcon(
+                    selected = subtitle,
+                    enabled = !customCommand && !audio,
+                    onClick = { subtitle = !subtitle },
+                    label = stringResource(id = R.string.embed_subtitles)
+                )
                 FilterChipWithAnimatedIcon(
                     selected = customCommand,
                     onClick = { customCommand = !customCommand },
@@ -129,9 +133,25 @@ fun DownloadSettingDialog(
                     ),
                     icon = Icons.Outlined.Code, enabled = customCommand
                 )
-
             }
-
+        }
+    }
+    if (!useDialog) {
+        BottomDrawer(drawerState = drawerState, sheetContent = {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                imageVector = Icons.Outlined.DoneAll,
+                contentDescription = stringResource(R.string.settings)
+            )
+            Text(
+                text = stringResource(R.string.settings_before_download),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(vertical = 16.dp),
+                maxLines = 1, overflow = TextOverflow.Ellipsis
+            )
+            sheetContent()
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -146,29 +166,14 @@ fun DownloadSettingDialog(
                 )
 
                 FilledButtonWithIcon(
-                    onClick = {
-                        PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
-                        PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
-                        PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
-                        PreferenceUtil.updateValue(PreferenceUtil.PLAYLIST, playlist)
-
-                        hide()
-                        confirm()
-                    }, icon = Icons.Outlined.DownloadDone,
+                    onClick = downloadButtonCallback, icon = Icons.Outlined.DownloadDone,
                     text = stringResource(R.string.start_download)
                 )
             }
         })
-    else if (dialogState)
+    } else if (dialogState) {
         AlertDialog(onDismissRequest = hide, confirmButton = {
-            TextButton(onClick = {
-                PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
-                PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
-                PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
-                PreferenceUtil.updateValue(PreferenceUtil.PLAYLIST, playlist)
-                hide()
-                confirm()
-            }) {
+            TextButton(onClick = downloadButtonCallback) {
                 Text(text = stringResource(R.string.start_download))
             }
         }, dismissButton = { DismissButton { hide() } }, icon = {
@@ -178,83 +183,10 @@ fun DownloadSettingDialog(
             )
         }, title = { Text(stringResource(R.string.settings_before_download)) }, text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
-                Text(
-                    text = stringResource(R.string.settings_before_download_text),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                DrawerSheetSubtitle(text = stringResource(id = R.string.options))
-                Row(
-                    modifier = Modifier.horizontalScroll(rememberScrollState())
-                ) {
-                    FilterChipWithAnimatedIcon(
-                        selected = audio,
-                        enabled = !customCommand,
-                        onClick = { audio = !audio },
-                        label = stringResource(R.string.extract_audio)
-                    )
-                    FilterChipWithAnimatedIcon(
-                        selected = thumbnail, enabled = !customCommand,
-                        onClick = { thumbnail = !thumbnail },
-                        label = stringResource(R.string.create_thumbnail)
-                    )
-
-                    FilterChipWithAnimatedIcon(
-                        selected = playlist,
-                        enabled = !customCommand,
-                        onClick = { playlist = !playlist },
-                        label = stringResource(R.string.download_playlist)
-                    )
-
-                    FilterChipWithAnimatedIcon(
-                        selected = customCommand,
-                        onClick = { customCommand = !customCommand },
-                        label = stringResource(R.string.custom_command)
-                    )
-                }
-
-                DrawerSheetSubtitle(text = stringResource(id = R.string.additional_settings))
-                Row(
-                    modifier = Modifier.horizontalScroll(rememberScrollState())
-                ) {
-                    AnimatedVisibility(visible = !audio) {
-                        Row {
-                            ButtonChip(
-                                onClick = { showVideoFormatDialog = true },
-                                enabled = !customCommand && !audio,
-                                label = stringResource(R.string.video_format),
-                                icon = Icons.Outlined.VideoFile
-                            )
-
-                            ButtonChip(
-                                onClick = { showVideoQualityDialog = true },
-                                enabled = !customCommand && !audio,
-                                label = stringResource(R.string.video_quality),
-                                icon = Icons.Outlined._4k
-                            )
-                        }
-                    }
-                    AnimatedVisibility(visible = audio) {
-                        ButtonChip(
-                            onClick = { showAudioFormatEditDialog = true },
-                            enabled = !customCommand,
-                            label = stringResource(R.string.convert_audio),
-                            icon = Icons.Outlined.AudioFile
-                        )
-                    }
-                    ButtonChip(
-                        onClick = { showCustomCommandDialog = true },
-                        label = stringResource(
-                            R.string.edit_custom_command_template
-                        ),
-                        icon = Icons.Outlined.Code, enabled = customCommand
-                    )
-
-                }
+                sheetContent()
             }
         })
-
+    }
 
 
 

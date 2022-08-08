@@ -30,6 +30,7 @@ import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
+import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
@@ -219,7 +220,6 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                         }
                     )
                 }
-
                 item {
                     PreferenceSwitch(
                         title = stringResource(R.string.print_details),
@@ -278,6 +278,19 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                         description = stringResource(R.string.download_playlist_desc),
                         isChecked = downloadPlaylist
                     )
+                }
+                item {
+                    var embedSubtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.embed_subtitles),
+                        icon = Icons.Outlined.Subtitles,
+                        enabled = !customCommandEnable && !audioSwitch,
+                        description = stringResource(id = R.string.embed_subtitles_desc),
+                        isChecked = embedSubtitle
+                    ) {
+                        embedSubtitle = !embedSubtitle
+                        PreferenceUtil.updateValue(SUBTITLE, embedSubtitle)
+                    }
                 }
                 item {
                     PreferenceItem(

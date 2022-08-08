@@ -163,4 +163,6 @@
     <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
+    <string name="embed_subtitles">Embed subtitles</string>
+    <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
 </resources>

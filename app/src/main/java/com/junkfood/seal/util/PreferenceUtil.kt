@@ -92,6 +92,7 @@ object PreferenceUtil {
     const val THEME_COLOR = "theme_color"
     const val CUSTOM_PATH = "custom_path"
     const val OUTPUT_PATH_TEMPLATE = "path_template"
+    const val SUBTITLE = "subtitle"
 
     const val SYSTEM_DEFAULT = 0
 
