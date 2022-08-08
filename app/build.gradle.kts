@@ -11,8 +11,8 @@ apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
 val versionMinor = 0
-val versionPatch = 1
-val versionBuild = 1
+val versionPatch = 2
+val versionBuild = 0
 val isStable = true
 
 val composeVersion = "1.2.0-rc03"
@@ -48,7 +48,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10010
+        versionCode = 10020
         versionName = if (isStable) {
             "${versionMajor}.${versionMinor}.${versionPatch}"
         } else {

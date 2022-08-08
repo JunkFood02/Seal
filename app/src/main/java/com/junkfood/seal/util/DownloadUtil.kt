@@ -164,7 +164,7 @@ object DownloadUtil {
             if (subdirectory) {
                 pathBuilder.append("/${videoInfo.extractorKey}")
             }
-            if (embedSubtitle) {
+            if (embedSubtitle && !extractAudio) {
                 addOption("--remux-video", "mkv")
                 addOption("--embed-subs")
                 addOption("--sub-lang", "all")

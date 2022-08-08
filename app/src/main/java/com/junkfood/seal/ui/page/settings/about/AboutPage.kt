@@ -24,7 +24,7 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 
-const val releaseURL = "https://github.com/JunkFood02/Seal/releases/latest"
+const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
 const val repoUrl = "https://github.com/JunkFood02/Seal"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 

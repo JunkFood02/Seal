@@ -1,0 +1,4 @@
+This version fix an emerging bug introduced in v1.0.1, please update to this version ASAP.
+
+Bug Fix: New files not showing in downloads page
+Feature Update: Embed subtitles to video files
