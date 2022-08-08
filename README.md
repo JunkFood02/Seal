@@ -8,7 +8,7 @@
 	Video/Audio Downloader for Android
 </p>
 <p align="center">
-<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
+English
 &nbsp;&nbsp;|&nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 </p>
@@ -37,6 +37,8 @@
 - Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
 
 - Download all videos in the playlist with one click.
+
+- Embed subtitles into downloaded videos
 
 - Execute custom yt-dlp commands with a template.
 
