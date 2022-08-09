@@ -51,6 +51,7 @@ fun DownloadSettingDialog(
         PreferenceUtil.updateValue(PreferenceUtil.THUMBNAIL, thumbnail)
         PreferenceUtil.updateValue(PreferenceUtil.CUSTOM_COMMAND, customCommand)
         PreferenceUtil.updateValue(PreferenceUtil.PLAYLIST, playlist)
+        PreferenceUtil.updateValue(PreferenceUtil.SUBTITLE, subtitle)
         hide()
         confirm()
     }
