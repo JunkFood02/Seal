@@ -117,6 +117,7 @@ object PreferenceUtil {
     private const val PORTUGUESE_BRAZIL = 18
     private const val JAPANESE = 19
     private const val POLISH = 20
+    private const val HUNGARIAN = 21
 
     // Sorted by the date the translation was added
     val languageMap: Map<Int, String> = mapOf(
@@ -138,7 +139,8 @@ object PreferenceUtil {
         Pair(FILIPINO, "fil"),
         Pair(ITALIAN, "it"),
         Pair(DUTCH, "nl"),
-        Pair(POLISH, "pl")
+        Pair(POLISH, "pl"),
+        Pair(HUNGARIAN, "hu"),
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -193,6 +195,7 @@ object PreferenceUtil {
             PORTUGUESE_BRAZIL -> stringResource(R.string.la_pt_BR)
             JAPANESE -> stringResource(R.string.la_ja)
             POLISH -> stringResource(R.string.la_pl)
+            HUNGARIAN -> stringResource(R.string.la_hu)
             else -> stringResource(R.string.follow_system)
         }
     }

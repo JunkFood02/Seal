@@ -143,6 +143,8 @@
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="embed_subtitles">Embed subtitles</string>
+    <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
     <string name="la_nb_NO" translatable="false">Bokmål</string>
     <string name="la_cs" translatable="false">Čeština</string>
     <string name="la_de" translatable="false">Deutsch</string>
@@ -163,6 +165,5 @@
     <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
-    <string name="embed_subtitles">Embed subtitles</string>
-    <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
+    <string name="la_hu" translatable="false">"Magyar nyelv"</string>
 </resources>

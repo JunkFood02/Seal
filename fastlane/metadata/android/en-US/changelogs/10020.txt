@@ -2,3 +2,4 @@ This version fix an emerging bug introduced in v1.0.1, please update to this ver
 
 Bug Fix: New files not showing in the downloads page
 Feature Update: Embed subtitles into video files
+Add Hungarian translations by Zoldtukor
