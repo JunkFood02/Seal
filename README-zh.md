@@ -35,20 +35,16 @@
 
 - 播放列表下载支持
 
+- 内嵌字幕于视频文件中
+
 - 执行自定义的 yt-dlp 命令模板
 
 - 管理应用内下载
 
 - 使用简单、用户友好
 
-<<<<<<< HEAD
-- 遵循 [Material Design 3](https://m3.material.io/)
-  设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
-
-=======
 - 遵循 [Material Design 3](https://m3.material.io/) 设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
   
->>>>>>> 23dc6b3 (Fix typo & Update README)
 - MAD：完全使用 Kotlin 构造界面与编写逻辑，单 Activity + Compose Navigation 应用结构
 
 ## 下载
