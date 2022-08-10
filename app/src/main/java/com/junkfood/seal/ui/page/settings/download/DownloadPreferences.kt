@@ -44,7 +44,11 @@ import kotlinx.coroutines.launch
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
-fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: () -> Unit) {
+fun DownloadPreferences(
+    onBackPressed: () -> Unit,
+    navigateToDownloadDirectory: () -> Unit,
+    navigateToTemplate: () -> Unit
+) {
     val context = LocalContext.current
 
     var showTemplateEditDialog by remember { mutableStateOf(false) }
@@ -319,18 +323,21 @@ fun DownloadPreferences(onBackPressed: () -> Unit, navigateToDownloadDirectory: 
                         title = stringResource(R.string.custom_command_template),
                         description = customCommandTemplate,
                         enabled = customCommandEnable
-                    ) { showTemplateEditDialog = true }
+                    ) {
+//                        showTemplateEditDialog = true
+                        navigateToTemplate()
+                    }
                 }
             }
         }
     )
     if (showTemplateEditDialog) {
-        CommandTemplateDialog(
-            onDismissRequest = { showTemplateEditDialog = false },
-            confirmationCallback = {
-                customCommandTemplate = PreferenceUtil.getTemplate()
-            },
-        )
+//        CommandTemplateDialog(
+//            onDismissRequest = { showTemplateEditDialog = false },
+//            confirmationCallback = {
+//                customCommandTemplate = PreferenceUtil.getTemplate()
+//            },
+//        )
     }
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {

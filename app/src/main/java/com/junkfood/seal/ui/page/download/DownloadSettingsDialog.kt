@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
-import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
@@ -201,6 +200,6 @@ fun DownloadSettingDialog(
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
     }
     if (showCustomCommandDialog) {
-        CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = false })
+//        CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = false })
     }
 }

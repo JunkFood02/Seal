@@ -11,5 +11,6 @@ class Route {
         const val DOWNLOAD_DIRECTORY = "download_directory"
         const val CREDITS = "credits"
         const val LANGUAGES = "languages"
+        const val TEMPLATE = "template"
     }
 }

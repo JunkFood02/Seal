@@ -145,6 +145,8 @@
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
     <string name="embed_subtitles">Embed subtitles</string>
     <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
+    <string name="new_template">New template</string>
+    <string name="template_label">Label</string>
     <string name="la_nb_NO" translatable="false">Bokmål</string>
     <string name="la_cs" translatable="false">Čeština</string>
     <string name="la_de" translatable="false">Deutsch</string>

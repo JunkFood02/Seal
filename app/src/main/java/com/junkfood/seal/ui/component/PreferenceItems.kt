@@ -1,7 +1,9 @@
 package com.junkfood.seal.ui.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
@@ -308,6 +310,53 @@ fun CreditItem(
                     )
                     Text(
                         text = license.toString(),
+                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                    )
+                }
+            }
+        }
+    }
+
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TemplateItem(
+    label: String,
+    template: String? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {}
+) {
+    Surface(
+        modifier = if (enabled) Modifier.combinedClickable(
+            onClick = onClick,
+            onLongClick = onLongClick
+        ) else Modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 10.dp)
+            ) {
+                with(MaterialTheme) {
+                    Text(
+                        text = label,
+                        maxLines = 1,
+                        style = typography.titleMedium,
+                        color = colorScheme.onSurface.applyOpacity(enabled)
+                    )
+                    Text(
+                        text = template.toString(),
                         color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,

@@ -24,6 +24,7 @@ import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
 import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
+import com.junkfood.seal.ui.page.settings.download.TemplateListPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -60,8 +61,9 @@ fun HomeEntry(
             animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
             animatedComposable(Route.DOWNLOAD_PREFERENCES) {
                 DownloadPreferences(
-                    onBackPressed = { onBackPressed() }
-                ) { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
+                    onBackPressed = { onBackPressed() },
+                    navigateToDownloadDirectory = { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
+                ) { navController.navigate(Route.TEMPLATE) }
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
             animatedComposable(Route.ABOUT) {
@@ -74,6 +76,7 @@ fun HomeEntry(
             animatedComposable(Route.DOWNLOAD_DIRECTORY) {
                 DownloadDirectoryPreferences { onBackPressed() }
             }
+            animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
         }
 
         WelcomeDialog {

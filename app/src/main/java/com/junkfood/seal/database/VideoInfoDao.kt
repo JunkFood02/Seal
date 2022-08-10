@@ -1,9 +1,6 @@
 package com.junkfood.seal.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -28,4 +25,19 @@ interface VideoInfoDao {
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
     suspend fun deleteByPath(path: String)
+
+    @Query("SELECT * FROM CommandTemplate")
+    fun getTemplates(): Flow<List<CommandTemplate>>
+
+    @Insert
+    suspend fun insertTemplate(template: CommandTemplate)
+
+    @Update
+    suspend fun updateTemplate(template: CommandTemplate)
+
+    @Delete
+    suspend fun deleteTemplate(template: CommandTemplate)
+
+    @Query("SELECT * FROM CommandTemplate where id = :id")
+    suspend fun getTemplateById(id: Int): CommandTemplate
 }

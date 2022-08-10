@@ -136,4 +136,6 @@
     <string name="edit_custom_path_template_desc">使用yt-dlp提供的值指定保存文件的子文件夹</string>
     <string name="embed_subtitles">内嵌字幕</string>
     <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
+    <string name="new_template">新建命令模板</string>
+    <string name="template_label">模板标签</string>
 </resources>

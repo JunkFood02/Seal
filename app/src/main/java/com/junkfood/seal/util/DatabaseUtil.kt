@@ -3,6 +3,7 @@ package com.junkfood.seal.util
 import androidx.room.Room
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.database.AppDatabase
+import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -25,12 +26,24 @@ object DatabaseUtil {
     }
 
     fun getVideoInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllVideos()
-
     fun getAudioInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllAudios()
 
+    fun getTemplates() = dao.getTemplates()
     fun deleteInfoById(id: Int) {
         CoroutineScope(Job()).launch {
             dao.deleteById(id)
         }
+    }
+
+    suspend fun addTemplate() {
+        dao.insertTemplate(CommandTemplate(0, "SoundCloud", "123"))
+    }
+
+    suspend fun insertTemplate(commandTemplate: CommandTemplate) {
+        dao.insertTemplate(commandTemplate)
+    }
+
+    suspend fun updateTemplate(commandTemplate: CommandTemplate) {
+        dao.updateTemplate(commandTemplate)
     }
 }

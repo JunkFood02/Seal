@@ -93,7 +93,8 @@ object DownloadUtil {
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
-        val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
+        val extractAudio: Boolean =
+            PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO) or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY)
@@ -109,8 +110,10 @@ object DownloadUtil {
 
         with(request) {
             addOption("--no-mtime")
+            if (playlistItem != -1)
+                addOption("--playlist-items", playlistItem)
 
-            if (extractAudio or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))) {
+            if (extractAudio) {
                 pathBuilder.append(audioDownloadDir)
 
                 addOption("-x")
@@ -127,8 +130,6 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 if (playlistInfo.url.isNotEmpty()) {
-                    if (playlistItem != -1)
-                        addOption("--playlist-items", playlistItem)
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s")
                 } else

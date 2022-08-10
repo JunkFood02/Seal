@@ -14,28 +14,65 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun CommandTemplateDialog(
-    onDismissRequest: () -> Unit,
+    commandTemplate: CommandTemplate= CommandTemplate(1,"",""),
+    newTemplate: Boolean = false,
+    onDismissRequest: () -> Unit = {},
     confirmationCallback: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
-    var template by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     val clipboardManager = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
+    var templateText by remember { mutableStateOf(commandTemplate.template) }
+    var templateName by remember { mutableStateOf(commandTemplate.name) }
     AlertDialog(
-        title = { Text(stringResource(R.string.edit_custom_command_template)) },
+        title = {
+            Text(
+                stringResource(
+                    if (newTemplate) R.string.new_template
+                    else R.string.edit_custom_command_template
+                )
+            )
+        },
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateString(PreferenceUtil.TEMPLATE, template)
+                if (newTemplate) {
+                    scope.launch {
+                        DatabaseUtil.insertTemplate(
+                            CommandTemplate(
+                                0,
+                                templateName,
+                                templateText
+                            )
+                        )
+                    }
+                } else {
+                    scope.launch {
+                        DatabaseUtil.updateTemplate(
+                            commandTemplate.copy(
+                                name = templateName,
+                                template = templateText
+                            )
+                        )
+                    }
+                }
+
+//                PreferenceUtil.updateString(PreferenceUtil.TEMPLATE, template)
                 confirmationCallback()
                 onDismissRequest()
             }) {
@@ -54,14 +91,20 @@ fun CommandTemplateDialog(
             ) {
                 Text(text = stringResource(R.string.edit_template_desc))
                 OutlinedTextField(
+                    modifier = Modifier.padding(top = 12.dp),
+                    value = templateName,
+                    onValueChange = { templateName = it },
+                    label = { Text(stringResource(R.string.template_label)) }, maxLines = 1
+                )
+                OutlinedTextField(
                     modifier = Modifier.padding(vertical = 12.dp),
-                    value = template,
-                    onValueChange = { template = it }, trailingIcon = {
+                    value = templateText,
+                    onValueChange = { templateText = it }, trailingIcon = {
                         IconButton(onClick = {
-                            clipboardManager.getText()?.let { template = it.text }
+                            clipboardManager.getText()?.let { templateText = it.text }
                         }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
                     },
-                    label = { Text(stringResource(R.string.custom_command_template)) },maxLines = 3
+                    label = { Text(stringResource(R.string.custom_command_template)) }, maxLines = 3
                 )
 
                 TextButton(
