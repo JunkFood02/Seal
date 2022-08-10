@@ -24,6 +24,8 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha15"
 val coilVersion = "2.1.0"
+val youtubedlAndroidVersion = "97327f4d4e"
+
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
@@ -165,8 +167,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    implementation("com.github.yausername.youtubedl-android:library:0.13.2")
-    implementation("com.github.yausername.youtubedl-android:ffmpeg:0.13.2")
+    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 

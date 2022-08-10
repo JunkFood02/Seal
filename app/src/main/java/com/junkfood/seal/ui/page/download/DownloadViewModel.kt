@@ -269,12 +269,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val m =
             Pattern.compile(commandRegex)
                 .matcher(PreferenceUtil.getTemplate())
+        val commands = ArrayList<String>()
         while (m.find()) {
             if (m.group(1) != null) {
-                request.addOption(m.group(1))
+                commands.add(m.group(1).toString())
             } else {
-                request.addOption(m.group(2))
+                commands.add(m.group(2).toString())
             }
+            request.addCommands(commands)
         }
         mutableStateFlow.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {

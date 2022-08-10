@@ -76,9 +76,7 @@ fun VideoListPage(
             Modifier.padding(innerPadding)
         ) {
             LazyColumn(
-                modifier = Modifier.padding(
-                    bottom = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
-                ),
+                modifier = Modifier.navigationBarsPadding(),
             ) {
                 item {
                     Row(

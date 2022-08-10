@@ -126,11 +126,11 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-                if (playlistInfo.title.isNotEmpty()) {
+                if (playlistInfo.url.isNotEmpty()) {
                     if (playlistItem != -1)
                         addOption("--playlist-items", playlistItem)
-                    addOption("--parse-metadata", "%(album|${playlistInfo.title})s:%(meta_album)s")
-//                    addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)d")
+                    addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
+                    addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s")
                 } else
                     addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
 

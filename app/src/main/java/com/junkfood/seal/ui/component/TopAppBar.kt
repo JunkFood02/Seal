@@ -26,7 +26,9 @@ fun LargeTopAppBar(
         colorTransitionFraction = scrollBehavior?.state?.collapsedFraction ?: 0f
     ).value
     Box(
-        modifier = modifier.drawBehind { drawRect(backgroundColor) },
+        modifier = modifier
+            .drawBehind { drawRect(backgroundColor) }
+            .statusBarsPadding(),
     ) {
         androidx.compose.material3.LargeTopAppBar(
             title = title,
@@ -37,7 +39,7 @@ fun LargeTopAppBar(
                 containerColor = Color.Transparent,
                 scrolledContainerColor = Color.Transparent
             ),
-            modifier = Modifier.statusBarsPadding(),
+            modifier = Modifier,
         )
     }
 }
