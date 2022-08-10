@@ -3,7 +3,10 @@ package com.junkfood.seal.ui.page.videolist
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,7 +31,8 @@ fun RemoveItemDialog(
         AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
             title = {
                 Text(text = stringResource(R.string.delete_info))
-            }, text = {
+            }, icon = { Icon(Icons.Outlined.Delete, null) },
+            text = {
                 Column {
                     Text(
                         modifier = Modifier

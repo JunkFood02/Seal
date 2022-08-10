@@ -46,4 +46,8 @@ object DatabaseUtil {
     suspend fun updateTemplate(commandTemplate: CommandTemplate) {
         dao.updateTemplate(commandTemplate)
     }
+
+    suspend fun deleteTemplate(commandTemplate: CommandTemplate) {
+        dao.deleteTemplate(commandTemplate)
+    }
 }
