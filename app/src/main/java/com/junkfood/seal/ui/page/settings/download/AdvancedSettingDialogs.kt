@@ -95,7 +95,7 @@ fun CommandTemplateDialog(
                 onValueChange = { templateText = it },
                 trailingIcon = {
                     IconButton(onClick = {
-                        clipboardManager.getText()?.let { templateText = it.text }
+                        clipboardManager.getText().toString().let { templateText = it }
                     }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
                 },
                 label = { Text(stringResource(R.string.custom_command_template)) },
