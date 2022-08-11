@@ -84,10 +84,7 @@ fun DownloadPage(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                MaterialTheme.colorScheme.background
-            )
-            .systemBarsPadding(),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         with(viewState.value) {
             BackHandler(drawerState.isVisible) {

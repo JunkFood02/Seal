@@ -27,7 +27,10 @@ interface VideoInfoDao {
     suspend fun deleteByPath(path: String)
 
     @Query("SELECT * FROM CommandTemplate")
-    fun getTemplates(): Flow<List<CommandTemplate>>
+    fun getTemplateFlow(): Flow<List<CommandTemplate>>
+
+    @Query("SELECT * FROM CommandTemplate")
+    suspend fun getTemplateList(): List<CommandTemplate>
 
     @Insert
     suspend fun insertTemplate(template: CommandTemplate)

@@ -164,7 +164,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         MainActivity.startService()
         switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
         if (stateFlow.value.isInCustomCommandMode) {
-            downloadWithCustomCommands()
+            viewModelScope.launch { downloadWithCustomCommands() }
             return
         } else if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
             parsePlaylistInfo()
@@ -264,20 +264,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun downloadWithCustomCommands() {
-        val request = YoutubeDLRequest(stateFlow.value.url)
-        request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
-        val m =
-            Pattern.compile(commandRegex)
-                .matcher(PreferenceUtil.getTemplate())
-        val commands = ArrayList<String>()
-        while (m.find()) {
-            if (m.group(1) != null) {
-                commands.add(m.group(1).toString())
-            } else {
-                commands.add(m.group(2).toString())
-            }
-            request.addCommands(commands)
-        }
+
         mutableStateFlow.update { it.copy(isDownloadError = false, progress = 0f) }
         viewModelScope.launch(Dispatchers.IO) {
             downloadResultTemp = DownloadUtil.Result.failure()
@@ -307,6 +294,20 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         )
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                val request = YoutubeDLRequest(stateFlow.value.url)
+                request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
+                val m = Pattern.compile(commandRegex).matcher(PreferenceUtil.getTemplate())
+                val commands = ArrayList<String>()
+                while (m.find()) {
+                    if (m.group(1) != null) {
+                        commands.add(m.group(1).toString())
+                    } else {
+                        commands.add(m.group(2).toString())
+                    }
+                    request.addCommands(commands)
+                }
+                for(command in request.buildCommand())
+                    Log.d(TAG, command)
                 YoutubeDL.getInstance().execute(request) { progress, _, line ->
                     mutableStateFlow.update { it.copy(progress = progress, progressText = line) }
                     NotificationUtil.updateNotification(

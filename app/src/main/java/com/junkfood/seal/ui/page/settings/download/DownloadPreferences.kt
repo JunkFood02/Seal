@@ -51,13 +51,11 @@ fun DownloadPreferences(
 ) {
     val context = LocalContext.current
 
-    var showTemplateEditDialog by remember { mutableStateOf(false) }
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
 
-    var customCommandTemplate by remember { mutableStateOf(PreferenceUtil.getTemplate()) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
 
@@ -324,21 +322,12 @@ fun DownloadPreferences(
                         description = stringResource(R.string.custom_command_template_desc),
                         enabled = customCommandEnable
                     ) {
-//                        showTemplateEditDialog = true
                         navigateToTemplate()
                     }
                 }
             }
         }
     )
-    if (showTemplateEditDialog) {
-//        CommandTemplateDialog(
-//            onDismissRequest = { showTemplateEditDialog = false },
-//            confirmationCallback = {
-//                customCommandTemplate = PreferenceUtil.getTemplate()
-//            },
-//        )
-    }
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
         }

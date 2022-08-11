@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.BaseApplication.Companion.applicationScope
-import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
@@ -26,11 +25,16 @@ object PreferenceUtil {
     fun getValue(key: String): Boolean = kv.decodeBool(key, false)
     fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
     fun getString(key: String): String? = kv.decodeString(key)
+
+    fun getString(key: String, default: String): String = kv.decodeString(key, default).toString()
     fun updateString(key: String, string: String) = kv.encode(key, string)
 
-    fun getTemplate(): String =
-        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
+    fun containsKey(key: String) = kv.containsKey(key)
+    suspend fun getTemplate(): String {
+        return DatabaseUtil.getTemplateList()[kv.decodeInt(TEMPLATE_INDEX, 0)].template
+    }
 
+    //        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
     fun getOutputPathTemplate(): String =
         kv.decodeString(OUTPUT_PATH_TEMPLATE, "%(uploader)s/%(playlist_title)s/").toString()
 

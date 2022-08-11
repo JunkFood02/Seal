@@ -28,15 +28,13 @@ object DatabaseUtil {
     fun getVideoInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllVideos()
     fun getAudioInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllAudios()
 
-    fun getTemplates() = dao.getTemplates()
+    fun getTemplateFlow() = dao.getTemplateFlow()
+
+    suspend fun getTemplateList() = dao.getTemplateList()
     fun deleteInfoById(id: Int) {
         CoroutineScope(Job()).launch {
             dao.deleteById(id)
         }
-    }
-
-    suspend fun addTemplate() {
-        dao.insertTemplate(CommandTemplate(0, "SoundCloud", "123"))
     }
 
     suspend fun insertTemplate(commandTemplate: CommandTemplate) {

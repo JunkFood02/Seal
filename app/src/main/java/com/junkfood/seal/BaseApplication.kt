@@ -7,16 +7,22 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 import com.google.android.material.color.DynamicColors
+import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.io.File
 
 @HiltAndroidApp
@@ -24,29 +30,40 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
+        context = applicationContext
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        applicationScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    YoutubeDL.getInstance().init(this@BaseApplication)
-                    FFmpeg.getInstance().init(this@BaseApplication)
-                } catch (e: YoutubeDLException) {
-                    e.printStackTrace()
-                }
+        applicationScope.launch((Dispatchers.IO)) {
+            if (!PreferenceUtil.containsKey(PreferenceUtil.TEMPLATE_INDEX)) {
+                PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
+                DatabaseUtil.insertTemplate(
+                    CommandTemplate(
+                        0,
+                        context.getString(R.string.custom_command_template),
+                        PreferenceUtil.getString(
+                            PreferenceUtil.TEMPLATE, context.getString(R.string.template_example)
+                        )
+                    )
+                )
             }
+            try {
+                YoutubeDL.getInstance().init(this@BaseApplication)
+                FFmpeg.getInstance().init(this@BaseApplication)
+            } catch (e: YoutubeDLException) {
+                e.printStackTrace()
+            }
+
         }
         ytdlpVersion =
             YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
 
         with(PreferenceUtil.getString(VIDEO_DIRECTORY)) {
-            videoDownloadDir = if (isNullOrEmpty())
-                File(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                    getString(R.string.app_name)
-                ).absolutePath
+            videoDownloadDir = if (isNullOrEmpty()) File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                getString(R.string.app_name)
+            ).absolutePath
             else this
         }
 
@@ -54,9 +71,7 @@ class BaseApplication : Application() {
             audioDownloadDir = if (isNullOrEmpty()) File(videoDownloadDir, "Audio").absolutePath
             else this
         }
-        context = applicationContext
-        if (Build.VERSION.SDK_INT >= 26)
-            NotificationUtil.createNotificationChannel()
+        if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
     }
 
 

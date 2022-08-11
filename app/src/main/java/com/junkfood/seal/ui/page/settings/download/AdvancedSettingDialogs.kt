@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
@@ -28,7 +29,7 @@ import kotlin.math.roundToInt
 @Preview
 @Composable
 fun CommandTemplateDialog(
-    commandTemplate: CommandTemplate= CommandTemplate(1,"",""),
+    commandTemplate: CommandTemplate = CommandTemplate(0, "", ""),
     newTemplate: Boolean = false,
     onDismissRequest: () -> Unit = {},
     confirmationCallback: () -> Unit = {},
@@ -39,96 +40,90 @@ fun CommandTemplateDialog(
     val scope = rememberCoroutineScope()
     var templateText by remember { mutableStateOf(commandTemplate.template) }
     var templateName by remember { mutableStateOf(commandTemplate.name) }
-    AlertDialog(
-        title = {
-            Text(
-                stringResource(
-                    if (newTemplate) R.string.new_template
-                    else R.string.edit_custom_command_template
-                )
-            )
-        },
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(onClick = {
-                if (newTemplate) {
-                    scope.launch {
+    var isError by remember { mutableStateOf(false) }
+    AlertDialog(title = {
+        Text(
+            stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)
+        )
+    }, onDismissRequest = onDismissRequest, confirmButton = {
+        ConfirmButton {
+            if (templateName.isBlank() || templateName.isEmpty()) {
+                isError = true
+            } else {
+                scope.launch {
+                    if (newTemplate) {
                         DatabaseUtil.insertTemplate(
-                            CommandTemplate(
-                                0,
-                                templateName,
-                                templateText
-                            )
+                            CommandTemplate(0, templateName, templateText)
                         )
-                    }
-                } else {
-                    scope.launch {
+                    } else {
                         DatabaseUtil.updateTemplate(
                             commandTemplate.copy(
-                                name = templateName,
-                                template = templateText
+                                name = templateName, template = templateText
                             )
                         )
                     }
                 }
-
-//                PreferenceUtil.updateString(PreferenceUtil.TEMPLATE, template)
                 confirmationCallback()
                 onDismissRequest()
-            }) {
-                Text(stringResource(id = R.string.confirm))
             }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text(stringResource(R.string.dismiss))
-            }
-        }, text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(text = stringResource(R.string.edit_template_desc))
-                OutlinedTextField(
-                    modifier = Modifier.padding(top = 12.dp),
-                    value = templateName,
-                    onValueChange = { templateName = it },
-                    label = { Text(stringResource(R.string.template_label)) }, maxLines = 1
-                )
-                OutlinedTextField(
-                    modifier = Modifier.padding(vertical = 12.dp),
-                    value = templateText,
-                    onValueChange = { templateText = it }, trailingIcon = {
-                        IconButton(onClick = {
-                            clipboardManager.getText()?.let { templateText = it.text }
-                        }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
-                    },
-                    label = { Text(stringResource(R.string.custom_command_template)) }, maxLines = 3
-                )
+        }
+    }, dismissButton = {
+        TextButton(onClick = onDismissRequest) {
+            Text(stringResource(R.string.dismiss))
+        }
+    }, text = {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(text = stringResource(R.string.edit_template_desc))
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 16.dp),
+                value = templateName,
+                onValueChange = {
+                    templateName = it
+                    isError = false
+                },
+                label = { Text(stringResource(R.string.template_label)) },
+                maxLines = 1,
+                isError = isError
+            )
+            OutlinedTextField(
+                modifier = Modifier.padding(vertical = 12.dp),
+                value = templateText,
+                onValueChange = { templateText = it },
+                trailingIcon = {
+                    IconButton(onClick = {
+                        clipboardManager.getText()?.let { templateText = it.text }
+                    }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+                },
+                label = { Text(stringResource(R.string.custom_command_template)) },
+                maxLines = 3
+            )
 
-                TextButton(
-                    onClick = {
-                        context.startActivity(Intent().apply {
-                            action = Intent.ACTION_VIEW
-                            data = Uri.parse(ytdlpReference)
-                        })
-                    },
-                ) {
-                    Row {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Outlined.OpenInNew,
-                            contentDescription = null
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = stringResource(R.string.yt_dlp_docs)
-                        )
-                    }
+            TextButton(
+                onClick = {
+                    context.startActivity(Intent().apply {
+                        action = Intent.ACTION_VIEW
+                        data = Uri.parse(ytdlpReference)
+                    })
+                },
+            ) {
+                Row {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        imageVector = Icons.Outlined.OpenInNew,
+                        contentDescription = null
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = stringResource(R.string.yt_dlp_docs)
+                    )
                 }
             }
-        })
+        }
+    })
 }
 
 @Composable
@@ -138,31 +133,29 @@ fun ConcurrentDownloadDialog(
     var concurrentFragments by remember { mutableStateOf(PreferenceUtil.getConcurrentFragments()) }
     val count by remember {
         derivedStateOf {
-            if (concurrentFragments <= 0.125f) 1 else
-                ((concurrentFragments * 4f).roundToInt()) * 4
+            if (concurrentFragments <= 0.125f) 1 else ((concurrentFragments * 4f).roundToInt()) * 4
         }
     }
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text(stringResource(R.string.dismiss))
-            }
-        }, confirmButton = {
-            TextButton(onClick = {
-                onDismissRequest()
-                PreferenceUtil.updateInt(CONCURRENT, count)
-            }) {
-                Text(stringResource(R.string.confirm))
-            }
-        }, title = { Text(stringResource(R.string.concurrent_download)) }, text = {
-            Column {
-                Text(text = stringResource(R.string.concurrent_download_num, count))
-                Slider(
-                    value = concurrentFragments,
-                    onValueChange = { concurrentFragments = it },
-                    steps = 3, valueRange = 0f..1f
-                )
-            }
-        })
+    AlertDialog(onDismissRequest = onDismissRequest, dismissButton = {
+        TextButton(onClick = onDismissRequest) {
+            Text(stringResource(R.string.dismiss))
+        }
+    }, confirmButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+            PreferenceUtil.updateInt(CONCURRENT, count)
+        }) {
+            Text(stringResource(R.string.confirm))
+        }
+    }, title = { Text(stringResource(R.string.concurrent_download)) }, text = {
+        Column {
+            Text(text = stringResource(R.string.concurrent_download_num, count))
+            Slider(
+                value = concurrentFragments,
+                onValueChange = { concurrentFragments = it },
+                steps = 3,
+                valueRange = 0f..1f
+            )
+        }
+    })
 }

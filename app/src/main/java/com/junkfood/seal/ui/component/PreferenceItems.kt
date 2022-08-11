@@ -76,7 +76,60 @@ fun PreferenceItem(
     }
 
 }
+@Composable
+fun PreferenceItemVariant(
+    title: String,
+    description: String? = null,
+    icon: ImageVector? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+) {
+    Surface(
+        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 16.dp)
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = if (icon == null) 12.dp else 0.dp)
+                    .padding(end = 8.dp)
+            ) {
+                with(MaterialTheme) {
 
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        style = typography.titleMedium,
+                        color = colorScheme.onSurface.applyOpacity(enabled)
+                    )
+                    if (description != null)
+                        Text(
+                            text = description,
+                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            style = typography.bodyMedium,
+                        )
+                }
+            }
+        }
+    }
+
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceSingleChoiceItem(
