@@ -134,4 +134,12 @@
     <string name="custom_output_path">مجلد فرعي مخصص</string>
     <string name="custom_output_path_desc">استخدم نموذجًا للمجلد الفرعي</string>
     <string name="edit_custom_path_template_desc">حدد مجلد فرعي بالحقول المتاحة التي يوفرها yt-dlp</string>
+    <string name="embed_subtitles">دمج الترجمة</string>
+    <string name="embed_subtitles_desc">سيقوم هذا الخيار بدمج الترجمة من المصدر ان توفرت</string>
+    <string name="new_template">قالب جديد</string>
+    <string name="template_label">مسمى</string>
+    <string name="remove_template">حذف ؟</string>
+    <string name="remove_template_desc">هل تريد إزالة \"%1$s\" من قوالب الأوامر للأبد؟</string>
+    <string name="template_selection">اختيار القالب</string>
+    <string name="custom_command_template_desc">تحرير وإدارة قوالب الأوامر</string>
 </resources>

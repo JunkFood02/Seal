@@ -134,4 +134,6 @@
     <string name="custom_output_path">Свой подкаталог</string>
     <string name="custom_output_path_desc">Используйте шаблон для подкаталога</string>
     <string name="edit_custom_path_template_desc">Укажите подкаталог, используя доступные параметры yt-dlp</string>
+    <string name="embed_subtitles">Встраивание субтитров</string>
+    <string name="embed_subtitles_desc">Встраивать субтитры, если они доступны</string>
 </resources>
