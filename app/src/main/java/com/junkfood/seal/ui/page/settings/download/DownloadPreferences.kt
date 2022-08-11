@@ -226,7 +226,6 @@ fun DownloadPreferences(
                     PreferenceSwitch(
                         title = stringResource(R.string.print_details),
                         description = stringResource(R.string.print_details_desc),
-                        enabled = !customCommandEnable,
                         icon = if (displayErrorReport) Icons.Outlined.Print else Icons.Outlined.PrintDisabled,
                         onClick = {
                             displayErrorReport = !displayErrorReport

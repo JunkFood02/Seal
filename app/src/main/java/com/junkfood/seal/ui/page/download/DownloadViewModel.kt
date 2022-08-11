@@ -304,10 +304,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     } else {
                         commands.add(m.group(2).toString())
                     }
-                    request.addCommands(commands)
                 }
-                for (command in request.buildCommand())
-                    Log.d(TAG, command)
+                request.addCommands(commands)
                 YoutubeDL.getInstance().execute(request) { progress, _, line ->
                     mutableStateFlow.update { it.copy(progress = progress, progressText = line) }
                     NotificationUtil.updateNotification(
