@@ -134,4 +134,9 @@
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
     <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
     <string name="edit_custom_path_template_desc">Unterordner mit den von yt-dlp bereitgestellten Feldern angeben</string>
+    <string name="embed_subtitles">Untertitel einbetten</string>
+    <string name="embed_subtitles_desc">Einbetten von Untertiteln in Videos, sofern vorhanden</string>
+    <string name="new_template">Neue Vorlage</string>
+    <string name="template_label">Bezeichnung</string>
+    <string name="remove_template">Entfernen\?</string>
 </resources>

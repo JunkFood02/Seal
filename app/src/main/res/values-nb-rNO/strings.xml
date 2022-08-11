@@ -134,4 +134,10 @@
     <string name="custom_output_path">Egendefinert undermappe</string>
     <string name="custom_output_path_desc">Bruk mal for undermappe</string>
     <string name="edit_custom_path_template_desc">Angi undermappe med tilgjengelige felter angitt av yt-dlp</string>
+    <string name="embed_subtitles">Legg inn undertekster</string>
+    <string name="embed_subtitles_desc">Legg til undertekster hvis de finnes</string>
+    <string name="remove_template">Fjern\?</string>
+    <string name="remove_template_desc">Fjern «%1$s» fra kommandomalene for godt\?</string>
+    <string name="new_template">Ny mal</string>
+    <string name="template_label">Etikett</string>
 </resources>
