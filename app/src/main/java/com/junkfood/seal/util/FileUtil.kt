@@ -6,10 +6,6 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.attribute.BasicFileAttributes
 
 /**
  * Sorry for ugly codes for filename control
@@ -65,21 +61,17 @@ object FileUtil {
     fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String>? {
         val files = ArrayList<File>()
         val paths = ArrayList<String>()
-        Files.find(
+
+        /*Files.find(
             Paths.get(downloadDir),
             Integer.MAX_VALUE,
             { path: Path, attributes: BasicFileAttributes ->
                 attributes.isRegularFile && path.toString().contains(title)
-            }).forEach { files.add(it.toFile()) }
+            }).forEach { files.add(it.toFile()) }*/
 
-        /*val files =
-            File(downloadDir).listFiles { _, name ->
-                with(name) {
-                    Log.d(TAG, "scanFileToMediaLibrary: $name")
-                    contains("$title.") and !contains(Regex("\\.f\\d+?|(\\.jpg)"))
-                }
-            }
-                ?: return null*/
+        File(downloadDir).walkTopDown()
+            .forEach { if (it.isFile && it.path.contains(title)) files.add(it) }
+
         for (file in files) {
             val trimmedFile = File(file.absolutePath.replace("$title.", "."))
             if (file.renameTo(trimmedFile))

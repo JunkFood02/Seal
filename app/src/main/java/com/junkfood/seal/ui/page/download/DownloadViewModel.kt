@@ -265,7 +265,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun downloadWithCustomCommands() {
 
-        mutableStateFlow.update { it.copy(isDownloadError = false, progress = 0f) }
+        mutableStateFlow.update {
+            it.copy(
+                isDownloadError = false,
+                progress = 0f,
+                debugMode = true
+            )
+        }
         viewModelScope.launch(Dispatchers.IO) {
             downloadResultTemp = DownloadUtil.Result.failure()
             try {

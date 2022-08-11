@@ -167,8 +167,11 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation ("com.github.xibr.youtubedl-android:library:set-ffmpeg-location-SNAPSHOT")
+    implementation ("com.github.xibr.youtubedl-android:ffmpeg:set-ffmpeg-location-SNAPSHOT")
+
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 
