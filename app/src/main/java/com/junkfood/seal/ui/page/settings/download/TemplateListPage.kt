@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -57,16 +56,6 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                 }
             }, scrollBehavior = scrollBehavior
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier.padding(horizontal = 6.dp, vertical = 12.dp),
-                onClick = {
-                    currentTemplateIndex = -1
-                    showEditDialog = true
-                }) {
-                Icon(Icons.Outlined.Add, stringResource(R.string.new_template))
-            }
         }
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
@@ -74,15 +63,19 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                 TemplateItem(
                     label = commandTemplate.name,
                     template = commandTemplate.template,
+                    selected = currentTemplateIndex == index,
                     onClick = {
                         currentTemplateIndex = index
                         showEditDialog = true
-                    })
+                    }, onSelect = { currentTemplateIndex = index })
                 {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                     currentTemplateIndex = index
                     showDeleteDialog = true
                 }
+            }
+            item{
+                
             }
         }
     }

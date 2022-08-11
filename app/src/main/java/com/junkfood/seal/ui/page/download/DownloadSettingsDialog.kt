@@ -3,6 +3,8 @@ package com.junkfood.seal.ui.page.download
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -19,10 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -42,8 +47,17 @@ fun DownloadSettingDialog(
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
-    var showCustomCommandDialog by remember { mutableStateOf(false) }
+    var showCustomCommandDialog by remember { mutableStateOf(0) }
+    var currentTemplateIndex by remember {
+        mutableStateOf(
+            PreferenceUtil.getInt(
+                TEMPLATE_INDEX,
+                0
+            )
+        )
+    }
 
+    val templateList = DatabaseUtil.getTemplates().collectAsState(ArrayList()).value
 
     val downloadButtonCallback = {
         PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audio)
@@ -63,76 +77,100 @@ fun DownloadSettingDialog(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            DrawerSheetSubtitle(text = stringResource(id = R.string.options))
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                FilterChipWithAnimatedIcon(
+            DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
+            Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                FilterChip(
                     selected = audio,
                     enabled = !customCommand,
                     onClick = { audio = !audio },
                     label = stringResource(R.string.extract_audio)
                 )
-                FilterChipWithAnimatedIcon(
+                FilterChip(
                     selected = thumbnail, enabled = !customCommand,
                     onClick = { thumbnail = !thumbnail },
                     label = stringResource(R.string.create_thumbnail)
                 )
 
-                FilterChipWithAnimatedIcon(
+                FilterChip(
                     selected = playlist,
                     enabled = !customCommand,
                     onClick = { playlist = !playlist },
                     label = stringResource(R.string.download_playlist)
                 )
-                FilterChipWithAnimatedIcon(
+                FilterChip(
                     selected = subtitle,
                     enabled = !customCommand && !audio,
                     onClick = { subtitle = !subtitle },
                     label = stringResource(id = R.string.embed_subtitles)
                 )
-                FilterChipWithAnimatedIcon(
+            }
+            DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
+            Row(modifier = Modifier.horizontalScroll(rememberScrollState()))
+            {
+                FilterChip(
                     selected = customCommand,
                     onClick = { customCommand = !customCommand },
                     label = stringResource(R.string.custom_command)
                 )
-            }
-
-            DrawerSheetSubtitle(text = stringResource(id = R.string.additional_settings))
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                AnimatedVisibility(visible = !audio) {
-                    Row {
-                        ButtonChip(
-                            onClick = { showVideoFormatDialog = true },
-                            enabled = !customCommand && !audio,
-                            label = stringResource(R.string.video_format),
-                            icon = Icons.Outlined.VideoFile
-                        )
-
-                        ButtonChip(
-                            onClick = { showVideoQualityDialog = true },
-                            enabled = !customCommand && !audio,
-                            label = stringResource(R.string.video_quality),
-                            icon = Icons.Outlined._4k
-                        )
-                    }
-                }
-                AnimatedVisibility(visible = audio) {
-                    ButtonChip(
-                        onClick = { showAudioFormatEditDialog = true }, enabled = !customCommand,
-                        label = stringResource(R.string.convert_audio),
-                        icon = Icons.Outlined.AudioFile
-                    )
-                }
                 ButtonChip(
-                    onClick = { showCustomCommandDialog = true },
+                    onClick = { showCustomCommandDialog = -1 },
+                    label = stringResource(
+                        R.string.new_template
+                    ),
+                    icon = Icons.Outlined.Add, enabled = customCommand
+                )
+                ButtonChip(
+                    onClick = { showCustomCommandDialog = 1 },
                     label = stringResource(
                         R.string.edit_custom_command_template
                     ),
                     icon = Icons.Outlined.Code, enabled = customCommand
                 )
+            }
+
+            DrawerSheetSubtitle(text = stringResource(if (customCommand) R.string.template_selection else R.string.additional_settings))
+
+            AnimatedVisibility(visible = !customCommand) {
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState())
+                ) {
+                    AnimatedVisibility(visible = !audio) {
+                        Row {
+                            ButtonChip(
+                                onClick = { showVideoFormatDialog = true },
+                                enabled = !customCommand && !audio,
+                                label = stringResource(R.string.video_format),
+                                icon = Icons.Outlined.VideoFile
+                            )
+
+                            ButtonChip(
+                                onClick = { showVideoQualityDialog = true },
+                                enabled = !customCommand && !audio,
+                                label = stringResource(R.string.video_quality),
+                                icon = Icons.Outlined._4k
+                            )
+                        }
+                    }
+                    AnimatedVisibility(visible = audio) {
+                        ButtonChip(
+                            onClick = { showAudioFormatEditDialog = true },
+                            enabled = !customCommand,
+                            label = stringResource(R.string.convert_audio),
+                            icon = Icons.Outlined.AudioFile
+                        )
+                    }
+                }
+            }
+            AnimatedVisibility(visible = customCommand) {
+                LazyRow {
+                    itemsIndexed(templateList) { index, item ->
+                        FilterChipWithIcons(
+                            selected = index == currentTemplateIndex,
+                            onClick = { currentTemplateIndex = index },
+                            label = item.name
+                        )
+                    }
+                }
             }
         }
     }
@@ -199,7 +237,15 @@ fun DownloadSettingDialog(
     if (showVideoFormatDialog) {
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
     }
-    if (showCustomCommandDialog) {
-//        CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = false })
+    when (showCustomCommandDialog) {
+        (-1) ->
+            CommandTemplateDialog(
+                newTemplate = true,
+                onDismissRequest = { showCustomCommandDialog = 0 })
+        (1) ->
+            CommandTemplateDialog(
+                commandTemplate = templateList[currentTemplateIndex],
+                newTemplate = false,
+                onDismissRequest = { showCustomCommandDialog = 0 })
     }
 }

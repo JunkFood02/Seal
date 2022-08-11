@@ -321,7 +321,7 @@ fun DownloadPreferences(
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
-                        description = customCommandTemplate,
+                        description = stringResource(R.string.custom_command_template_desc),
                         enabled = customCommandEnable
                     ) {
 //                        showTemplateEditDialog = true

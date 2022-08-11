@@ -85,7 +85,7 @@ fun VideoListPage(
                             .horizontalScroll(rememberScrollState())
                             .padding(8.dp)
                     ) {
-                        FilterChipWithAnimatedIcon(
+                        FilterChip(
                             selected = audioFilter.value,
                             onClick = {
                                 audioFilter.value = !audioFilter.value
@@ -94,7 +94,7 @@ fun VideoListPage(
                             label = stringResource(id = R.string.audio),
                         )
 
-                        FilterChipWithAnimatedIcon(
+                        FilterChip(
                             selected = videoFilter.value,
                             onClick = {
                                 videoFilter.value = !videoFilter.value
@@ -113,7 +113,7 @@ fun VideoListPage(
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
                                 for (i in 0 until filterSet.size) {
-                                    FilterChipWithAnimatedIcon(
+                                    FilterChip(
                                         selected = activeFilter == i,
                                         onClick = {
                                             activeFilter =

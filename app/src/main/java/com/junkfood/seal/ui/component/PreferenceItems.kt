@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.ui.theme.applyOpacity
@@ -323,26 +324,27 @@ fun CreditItem(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
+@Preview
 fun TemplateItem(
-    label: String,
+    label: String = "",
     template: String? = null,
-    enabled: Boolean = true,
+    selected: Boolean = false,
     onClick: () -> Unit = {},
+    onSelect: () -> Unit = {},
     onLongClick: () -> Unit = {}
 ) {
     Surface(
-        modifier = if (enabled) Modifier.combinedClickable(
+        modifier = Modifier.combinedClickable(
             onClick = onClick,
             onLongClick = onLongClick
-        ) else Modifier
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp),
+                .padding(16.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -353,17 +355,28 @@ fun TemplateItem(
                         text = label,
                         maxLines = 1,
                         style = typography.titleMedium,
-                        color = colorScheme.onSurface.applyOpacity(enabled)
+                        color = colorScheme.onSurface
                     )
                     Text(
                         text = template.toString(),
-                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                        color = colorScheme.onSurfaceVariant,
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )
                 }
             }
+            Divider(
+                modifier = Modifier
+                    .height(32.dp)
+                    .padding(horizontal = 12.dp)
+                    .width(1f.dp)
+                    .align(Alignment.CenterVertically),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+            )
+            RadioButton(selected = selected, onClick = onSelect)
         }
+
+
     }
 
 }

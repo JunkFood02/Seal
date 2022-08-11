@@ -147,6 +147,9 @@
     <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
     <string name="new_template">New template</string>
     <string name="template_label">Label</string>
+    <string name="remove_template">Remove?</string>
+    <string name="remove_template_desc">Remove \"%1$s\" from command templates for good?</string>
+    <string name="template_selection">Template selection</string>
     <string name="la_nb_NO" translatable="false">Bokmål</string>
     <string name="la_cs" translatable="false">Čeština</string>
     <string name="la_de" translatable="false">Deutsch</string>
@@ -168,6 +171,5 @@
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
     <string name="la_hu" translatable="false">"Magyar nyelv"</string>
-    <string name="remove_template">Remove?</string>
-    <string name="remove_template_desc">Remove \"%1$s\" from command templates for good?</string>
+    <string name="custom_command_template_desc">Edit and manage command templates</string>
 </resources>

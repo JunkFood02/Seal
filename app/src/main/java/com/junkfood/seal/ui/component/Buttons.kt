@@ -56,21 +56,25 @@ fun FilterChipWithIcons(
     selected: Boolean,
     onClick: () -> Unit,
     label: String,
-    leadingIcon: ImageVector
+    leadingIcon: ImageVector = Icons.Outlined.Check
 ) {
     FilterChip(
-        modifier = modifier.padding(horizontal = 6.dp),
+        modifier = modifier.padding(horizontal = 4.dp),
         selected = selected,
         onClick = onClick,
         label = {
             Text(text = label)
         },
         leadingIcon = {
-            Icon(
-                imageVector = leadingIcon,
-                contentDescription = null,
-                modifier = Modifier.requiredSize(18.dp)
-            )
+            Row {
+                AnimatedVisibility(visible = selected) {
+                    Icon(
+                        imageVector = leadingIcon,
+                        contentDescription = null,
+                        modifier = Modifier.requiredSize(18.dp)
+                    )
+                }
+            }
         },
     )
 }
@@ -78,7 +82,7 @@ fun FilterChipWithIcons(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterChipWithAnimatedIcon(
+fun FilterChip(
     modifier: Modifier = Modifier,
     selected: Boolean,
     enabled: Boolean = true,
