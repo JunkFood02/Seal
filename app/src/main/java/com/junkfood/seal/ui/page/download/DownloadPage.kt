@@ -171,6 +171,7 @@ fun DownloadPage(
                         ) { url -> downloadViewModel.updateUrl(url) }
                         AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
                             Text(
+                                modifier = Modifier.padding(bottom = 12.dp),
                                 text = progressText,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis,
@@ -178,7 +179,7 @@ fun DownloadPage(
                             )
                         }
                         AnimatedVisibility(visible = isDownloadError) {
-                            OutputMessage(
+                            ErrorMessage(
                                 error = isDownloadError,
                                 copyToClipboard = debugMode || isInCustomCommandMode && url.isNotEmpty(),
                                 errorMessage = errorMessage
@@ -306,7 +307,7 @@ fun TitleWithProgressIndicator(
 }
 
 @Composable
-fun OutputMessage(
+fun ErrorMessage(
     modifier: Modifier = Modifier,
     copyToClipboard: Boolean = false,
     error: Boolean = false,

@@ -1,0 +1,6 @@
+This version fixes some bugs in playlist downloading.
+
+With the new template management feature, you can add, edit, manage and select your custom command template in settings and before the download.
+
+Bug Fix: Error occurs when downloading from playlists
+Feature Update & UX Improvement: Custom command template management

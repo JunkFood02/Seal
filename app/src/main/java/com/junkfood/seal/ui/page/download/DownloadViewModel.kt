@@ -306,7 +306,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     }
                     request.addCommands(commands)
                 }
-                for(command in request.buildCommand())
+                for (command in request.buildCommand())
                     Log.d(TAG, command)
                 YoutubeDL.getInstance().execute(request) { progress, _, line ->
                     mutableStateFlow.update { it.copy(progress = progress, progressText = line) }
@@ -353,7 +353,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 progressText = "",
                 downloadItemCount = 0,
                 isDownloadingPlaylist = false,
-                currentIndex = 0
+                currentIndex = 0,
+                playlistInfo = DownloadUtil.PlaylistInfo()
             )
         }
         MainActivity.stopService()
