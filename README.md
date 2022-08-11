@@ -39,11 +39,11 @@ English
 
 - Download all videos in the playlist with one click.
 
-- Embed subtitles into the downloaded videos
+- Embed subtitles into the downloaded videos.
 
 - Execute custom yt-dlp commands with templates.
 
-- Manage in-app downloads.
+- Manage in-app downloads and custom command templates.
 
 - Easy to use and user-friendly.
 
