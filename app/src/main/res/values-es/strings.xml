@@ -107,8 +107,8 @@
     <string name="download_notification">Notificación de descarga</string>
     <string name="download_notification_desc">Notificarme el progreso de las descargas y un mensaje de finalización</string>
     <string name="download_range_selection">Selección de la lista de reproducción</string>
-    <string name="from">Desde (Inicio del rango)</string>
-    <string name="to">Hasta (Fin del rango)</string>
+    <string name="from">Inicio</string>
+    <string name="to">Fin</string>
     <string name="invalid_index_range">Rango de vídeos inválido</string>
     <string name="download_finish_notification">Descarga finalizada. Haz clic para abrirla.</string>
     <string name="concurrent_download_num">%d subproceso(s) serían usados para descargar vídeos nativos DASH/HSL concurrentemente.</string>
@@ -136,4 +136,10 @@
     <string name="edit_custom_path_template_desc">Especifique el subdirectorio con los campos disponibles proporcionados por yt-dlp</string>
     <string name="embed_subtitles">Agregar subtítulos</string>
     <string name="embed_subtitles_desc">Agregar subtítulos proporcionados en videos, si están disponibles</string>
+    <string name="new_template">Nueva plantilla</string>
+    <string name="template_label">Etiqueta</string>
+    <string name="remove_template">¿Eliminar\?</string>
+    <string name="remove_template_desc">¿Eliminar «%1$s» de las plantillas de comandos para siempre\?</string>
+    <string name="template_selection">Selección de plantillas</string>
+    <string name="custom_command_template_desc">Editar y gestionar plantillas de comandos</string>
 </resources>

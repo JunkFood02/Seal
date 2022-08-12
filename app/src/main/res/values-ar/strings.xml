@@ -120,8 +120,8 @@
     <string name="unknown_error">خطأ غير معروف</string>
     <string name="share_fail_msg">تعذر مطابقة عنوان URL من المحتوى المشارك</string>
     <string name="share_success_msg">جاري قراءة رابط الفيديو من المحتوى المشترك …</string>
-    <string name="from">بداية الفهرس</string>
-    <string name="to">نهاية الفهرس</string>
+    <string name="from">بداية</string>
+    <string name="to">نهاية</string>
     <string name="playlist_indicator_text">جارٍ تنزيل قائمة التشغيل (%1$d/%2$d), انقر للإيقاف.</string>
     <string name="download_directory_desc">حدد مكان تخزين ملفات الفيديو والصوت</string>
     <string name="cancel">إلغاء</string>
