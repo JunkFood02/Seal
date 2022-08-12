@@ -104,7 +104,7 @@
     <string name="service_title">Seal lädt herunter …</string>
     <string name="channel_description">Benachrichtigung über heruntergeladene Dateien und den Fortschritt</string>
     <string name="additional_settings">Zusätzliche Einstellungen</string>
-    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d. Zum Anhalten anklicken.</string>
+    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d), zum Anhalten anklicken.</string>
     <string name="format">Format</string>
     <string name="print_details_desc">Detaillierte Meldungen beim Herunterladen drucken</string>
     <string name="not_convert">Nicht konvertieren</string>
@@ -125,11 +125,11 @@
     <string name="concurrent_download_num">%d Thread(s) würden für das gleichzeitige Herunterladen von nativen DASH/HLS-Videos verwendet werden.</string>
     <string name="share_success_msg">Videolink von geteilten Inhalten lesen…</string>
     <string name="download_range_desc">Gib den Bereich der Videos an, die aus der Wiedergabeliste „%3$s“ heruntergeladen werden sollen (von %1$d bis %2$d).</string>
-    <string name="to">Ende des Index</string>
+    <string name="to">Ende</string>
     <string name="invalid_index_range">Ungültiger Indexbereich</string>
     <string name="permission_issue_desc">Ordner außerhalb von Download/ und Dokumente/ werden nicht unterstützt</string>
     <string name="audio_format_desc">Audio in MP3 oder M4A funktioniert auf den meisten Geräten</string>
-    <string name="from">Beginn des Index</string>
+    <string name="from">Start</string>
     <string name="download_path_template">Ordnervorlage</string>
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
     <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
@@ -137,6 +137,9 @@
     <string name="embed_subtitles">Untertitel einbetten</string>
     <string name="embed_subtitles_desc">Einbetten von Untertiteln in Videos, sofern vorhanden</string>
     <string name="new_template">Neue Vorlage</string>
-    <string name="template_label">Bezeichnung</string>
+    <string name="template_label">Label</string>
     <string name="remove_template">Entfernen\?</string>
+    <string name="remove_template_desc">\"%1$s\" endgültig aus den Befehlsvorlagen entfernen\?</string>
+    <string name="template_selection">Vorlagenauswahl</string>
+    <string name="custom_command_template_desc">Befehlsvorlagen bearbeiten und verwalten</string>
 </resources>

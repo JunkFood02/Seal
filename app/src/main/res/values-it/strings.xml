@@ -90,10 +90,10 @@
     <string name="concurrent_download_desc">Scarica più parti di video M3U8/MPD in parallelo</string>
     <string name="download_notification">Avviso di scaricamento</string>
     <string name="download_range_selection">Selezione della playlist</string>
-    <string name="from">Inizio dell\'indice</string>
-    <string name="to">Fine dell\'indice</string>
+    <string name="from">Inizio</string>
+    <string name="to">Fine</string>
     <string name="invalid_index_range">Range dell\'indice invalido</string>
-    <string name="playlist_indicator_text">Scaricamento della playlist (%1$d/%2$d), Clicca per mettere in pausa.</string>
+    <string name="playlist_indicator_text">Scaricamento della playlist (%1$d/%2$d), clicca per mettere in pausa.</string>
     <string name="channel_description">Notifica il processo di scaricamento e i file scaricati</string>
     <string name="close_never_show_again">Non mostrare più</string>
     <string name="convert_audio">Converti</string>
@@ -134,4 +134,12 @@
     <string name="custom_output_path">Sottodirectory personalizzata</string>
     <string name="custom_output_path_desc">Usa il modello per la sottodirectory</string>
     <string name="edit_custom_path_template_desc">Specifica la sottodirectory con i campi disponibili forniti da yt-dlp</string>
+    <string name="embed_subtitles">Incorpora i sottotitoli</string>
+    <string name="embed_subtitles_desc">Se sono disponibili, incorpora i sottotitoli nel video</string>
+    <string name="new_template">Nuovo modello</string>
+    <string name="template_label">Etichetta</string>
+    <string name="remove_template">Rimuovere\?</string>
+    <string name="remove_template_desc">Rimuovere «%1$s» dai modelli dei comandi\?</string>
+    <string name="template_selection">Selezione del modello</string>
+    <string name="custom_command_template_desc">Modifica e gestisci i modelli di comando</string>
 </resources>

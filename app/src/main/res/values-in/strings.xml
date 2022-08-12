@@ -61,9 +61,9 @@
     <string name="show_more_actions">Tampilkan lebih banyak tindakan</string>
     <string name="download_notification_desc">Beri tahu file yang diunduh dan kemajuannya</string>
     <string name="download_range_selection">Seleksi playlist</string>
-    <string name="from">Indeks mulai</string>
+    <string name="from">Mulai</string>
     <string name="invalid_index_range">Rentang indeks tidak valid</string>
-    <string name="playlist_indicator_text">Mengunduh playlist (%1$d/%2$d), Tekan untuk berhenti.</string>
+    <string name="playlist_indicator_text">Mengunduh playlist (%1$d/%2$d), tekan untuk berhenti.</string>
     <string name="download_directory_desc">Pilih tempat menyimpan file video dan audio</string>
     <string name="subdirectory">Simpan ke subdirektori</string>
     <string name="subdirectory_desc">Simpan file dalam folder bernama sebagai situs web masing-masing</string>
@@ -111,7 +111,7 @@
     <string name="share_success_msg">Membaca link video dari konten yang dibagikan…</string>
     <string name="download_notification">Notifikasi unduhan</string>
     <string name="fetching_playlist_info">Mengambil info playlist…</string>
-    <string name="to">Indeks akhir</string>
+    <string name="to">Akhir</string>
     <string name="battery_configuration_desc">Abaikan pengoptimalan baterai untuk mengunduh aplikasi ini di latar belakang</string>
     <string name="translate">Terjemah</string>
     <string name="download_range_desc">Tentukan rentang video yang akan diunduh dari playlist \"%3$s\"(dari %1$d hingga %2$d).</string>
@@ -134,4 +134,12 @@
     <string name="custom_output_path">Direktori khusus</string>
     <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
     <string name="edit_custom_path_template_desc">Tentukan subdirektori dengan opsi yang tersedia menggunakan yt-dlp</string>
+    <string name="embed_subtitles">Sematkan subtitle</string>
+    <string name="embed_subtitles_desc">Sematkan subtitle yang disediakan ke dalam video jika tersedia</string>
+    <string name="new_template">Templat baru</string>
+    <string name="template_label">Label</string>
+    <string name="template_selection">Seleksi templat</string>
+    <string name="remove_template">Hapus\?</string>
+    <string name="remove_template_desc">Hapus \"%1$s\" dari templat perintah untuk selamanya\?</string>
+    <string name="custom_command_template_desc">Edit dan kelola templat perintah</string>
 </resources>
