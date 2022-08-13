@@ -143,5 +143,5 @@
     <string name="template_selection">模板选择</string>
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
     <string name="downloading_indicator_text">正在执行下载任务，点击取消</string>
-    <string name="task_cancelled">下载任务被取消</string>
+    <string name="task_canceled">下载任务被取消</string>
 </resources>

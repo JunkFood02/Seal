@@ -104,6 +104,9 @@ android {
         compose = true
     }
 
+    lint {
+        disable.addAll(listOf("MissingTranslation", "ExtraTranslation"))
+    }
 
     applicationVariants.all {
         outputs.all {
