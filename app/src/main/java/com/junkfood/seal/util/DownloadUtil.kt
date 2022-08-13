@@ -179,7 +179,7 @@ object DownloadUtil {
 
             for (s in request.buildCommand())
                 Log.d(TAG, s)
-            YoutubeDL.getInstance().execute(request, progressCallback)
+            YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
         }
 
         val filePaths = FileUtil.scanFileToMediaLibrary(id, pathBuilder.toString())

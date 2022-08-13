@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Seal</string>
     <string name="video_directory">Тека вiдео</string>
     <string name="extract_audio">Зберегти як аудiо</string>
     <string name="create_thumbnail">Зберегти прев\'ю</string>
@@ -43,7 +42,6 @@
     <string name="release_desc">Переглянути історію змін та нові серії</string>
     <string name="release">Останний релiз</string>
     <string name="readme_desc">Переглянути репозiторiй на GitHub й README</string>
-    <string name="readme" translatable="false">README</string>
     <string name="video">Вiдео</string>
     <string name="checked">Перевірено</string>
     <string name="credits">Автори</string>
@@ -69,9 +67,6 @@
     <string name="error_copied">Звіт про помилку скопійовано в буфер обміну</string>
     <string name="thumbnail">Прев\'ю</string>
     <string name="paste">Вставити</string>
-    <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] /
-        bv*+ba/b\"
-    </string>
     <string name="yt_dlp_docs">Документація yt-dlp</string>
     <string name="edit_template_desc">Директорія завантажень та посилання будуть додані програмою.</string>
     <string name="audio_format">Конвертувати формат аудіо</string>
@@ -138,11 +133,6 @@
     <string name="unknown_error">Невідома помилка</string>
     <string name="translate">Перекласти</string>
     <string name="translate_desc">Допомогти перекласти Seal iншою мовою на Weblate</string>
-    <string name="la_da" translatable="false">Dansk</string>
-    <string name="la_es" translatable="false">Español</string>
-    <string name="la_tr" translatable="false">Türkçe</string>
-    <string name="la_ru" translatable="false">Русский язык</string>
-    <string name="la_ar" translatable="false">عربي</string>
     <string name="download_path_template">Path template</string>
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>

@@ -142,4 +142,6 @@
     <string name="remove_template_desc">确定要移除命令模板 \"%1$s\" 吗？这个操作无法被撤销。</string>
     <string name="template_selection">模板选择</string>
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
+    <string name="downloading_indicator_text">正在执行下载任务，点击取消</string>
+    <string name="task_cancelled">下载任务被取消</string>
 </resources>

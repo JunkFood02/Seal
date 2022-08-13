@@ -100,12 +100,6 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                                 singleLine = true,
                                 isError = error
                             )
-/*                            Text(
-                                stringResource(R.string.max_value).format(playlistItemCount),
-                                modifier = Modifier.padding(top = 4.dp, start = 16.dp),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )*/
                         }
                     }
                 }

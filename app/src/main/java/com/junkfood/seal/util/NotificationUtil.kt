@@ -69,7 +69,7 @@ object NotificationUtil {
         text: String
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        builder.setProgress(PROGRESS_MAX, progress, false)
+        builder.setProgress(PROGRESS_MAX, progress, progress == -1)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
         notificationManager.notify(notificationId, builder.build())
     }
@@ -109,5 +109,15 @@ object NotificationUtil {
             .setContentTitle(context.getString(R.string.service_title) + " ($index/$itemCount)")
             .build()
         notificationManager.notify(SERVICE_NOTIFICATION_ID, serviceNotification)
+    }
+
+    fun cancelNotification(notificationId: Int) {
+        /*builder
+            .setContentText(context.getText(R.string.task_cancelled))
+            .setOngoing(false)
+            .setAutoCancel(true)
+            .setProgress(0, 0, false)
+        notificationManager.notify(notificationId, builder.build())*/
+        notificationManager.cancel(notificationId)
     }
 }

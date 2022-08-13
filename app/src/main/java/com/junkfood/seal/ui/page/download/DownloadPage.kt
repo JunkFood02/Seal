@@ -137,12 +137,13 @@ fun DownloadPage(
 
                         })
                     TitleWithProgressIndicator(
-                        isProcessing = isProcessing,
+                        showProgressIndicator = isProcessRunning || isFetchingInfo,
+                        showCancelOperation = isProcessRunning,
                         isDownloadingPlaylist = isDownloadingPlaylist,
                         currentIndex = currentIndex,
                         downloadItemCount = downloadItemCount,
                         onClick = {
-                            downloadViewModel.stopDownloadPlaylistOnNextItem()
+                            downloadViewModel.cancelDownload()
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         },
                         onLongClick = {
@@ -249,7 +250,8 @@ fun InputUrl(
 @Composable
 @Preview
 fun TitleWithProgressIndicator(
-    isProcessing: Boolean = true,
+    showProgressIndicator: Boolean = true,
+    showCancelOperation: Boolean = true,
     isDownloadingPlaylist: Boolean = true,
     currentIndex: Int = 1,
     downloadItemCount: Int = 4,
@@ -258,7 +260,7 @@ fun TitleWithProgressIndicator(
 ) {
     Column(
         modifier = with(Modifier.padding(start = 12.dp, top = 24.dp)) {
-            if (isDownloadingPlaylist)
+            if (showCancelOperation)
                 this.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
@@ -281,7 +283,7 @@ fun TitleWithProgressIndicator(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.displaySmall
             )
-            AnimatedVisibility(visible = isProcessing) {
+            AnimatedVisibility(visible = showProgressIndicator) {
                 Column(
                     modifier = Modifier
                         .padding(start = 12.dp)
@@ -292,12 +294,13 @@ fun TitleWithProgressIndicator(
                 }
             }
         }
-        AnimatedVisibility(visible = isDownloadingPlaylist) {
+        AnimatedVisibility(visible = showCancelOperation) {
             Text(
-                stringResource(R.string.playlist_indicator_text).format(
-                    currentIndex,
-                    downloadItemCount
-                ),
+                if (isDownloadingPlaylist)
+                    stringResource(R.string.playlist_indicator_text)
+                        .format(currentIndex, downloadItemCount)
+                else
+                    stringResource(R.string.downloading_indicator_text),
                 modifier = Modifier.padding(start = 12.dp, top = 3.dp),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -384,12 +387,15 @@ fun VideoCard(
                 targetValue = progress / 100f,
                 animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
             )
-
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-                progress = progressAnimationValue,
-            )
-
+            if (progress < 0f)
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            else
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    progress = progressAnimationValue,
+                )
         }
     }
 }
