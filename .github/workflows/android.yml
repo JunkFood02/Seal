@@ -18,8 +18,16 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
+        
+    - uses: gradle/gradle-build-action@v2
+    - run: gradle assembleRelease
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+    - uses: actions/upload-artifact@v3
+      with:
+          name: github-${{ github.sha }}
+          path: app/build/outputs/apk/github/release/*.apk
+    - uses: actions/upload-artifact@v3
+      with:
+          name: fdroid-${{ github.sha }}
+          path: app/build/outputs/apk/fdroid/release/*.apk
+      
