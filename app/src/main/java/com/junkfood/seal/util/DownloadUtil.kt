@@ -105,7 +105,7 @@ object DownloadUtil {
             videoInfo.webpageUrl ?: return Result.failure()
         }
         val request = YoutubeDLRequest(url)
-        val id = if (extractAudio) "${url.hashCode()}audio" else url.hashCode().toString()
+        val id = videoInfo.webpageUrl.hashCode().toString()
         val pathBuilder = StringBuilder()
 
         with(request) {
