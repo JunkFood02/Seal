@@ -158,6 +158,7 @@ object DownloadUtil {
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "jpg")
+                addOption("-o", "thumbnail:%(title)s.%(ext)s")
             }
             if (!downloadPlaylist) {
                 addOption("--no-playlist")

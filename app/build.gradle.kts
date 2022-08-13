@@ -24,7 +24,7 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.42"
 val composeMd3Version = "1.0.0-alpha15"
 val coilVersion = "2.1.0"
-val youtubedlAndroidVersion = "97327f4d4e"
+val youtubedlAndroidVersion = "350688f3ae"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -131,9 +131,9 @@ dependencies {
 
 
     implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.0-alpha05")
-    implementation("com.google.android.material:material:1.7.0-alpha02")
-    implementation("androidx.activity:activity-compose:1.6.0-alpha05")
+    implementation("androidx.appcompat:appcompat:1.6.0-beta01")
+    implementation("com.google.android.material:material:1.7.0-beta01")
+    implementation("androidx.activity:activity-compose:1.6.0-beta01")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
@@ -167,10 +167,10 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-    implementation ("com.github.xibr.youtubedl-android:library:set-ffmpeg-location-SNAPSHOT")
-    implementation ("com.github.xibr.youtubedl-android:ffmpeg:set-ffmpeg-location-SNAPSHOT")
+    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation ("com.github.xibr.youtubedl-android:library:set-ffmpeg-location-SNAPSHOT")
+//    implementation ("com.github.xibr.youtubedl-android:ffmpeg:set-ffmpeg-location-SNAPSHOT")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
