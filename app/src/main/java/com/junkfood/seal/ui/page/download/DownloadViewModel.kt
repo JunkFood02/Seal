@@ -193,7 +193,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private suspend fun downloadVideo(url: String, index: Int = 1) {
         with(mutableStateFlow) {
-            update { it.copy(isDownloadError = false, isFetchingInfo = true) }
             lateinit var videoInfo: VideoInfo
             try {
                 videoInfo = DownloadUtil.fetchVideoInfo(url, index)
@@ -202,6 +201,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 manageDownloadError(e)
                 return
             }
+            update { it.copy(isDownloadError = false, isFetchingInfo = true) }
             Log.d(TAG, "downloadVideo: $index" + videoInfo.title)
             if (value.isCancelled) return
             update {
