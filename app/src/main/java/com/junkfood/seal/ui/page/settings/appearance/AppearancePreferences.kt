@@ -142,28 +142,29 @@ fun AppearancePreferences(
                 showDarkThemeDialog = false
                 darkThemeValue = darkTheme.darkThemeValue
             }
-        }, title = { Text(stringResource(R.string.dark_theme)) }, text = {
-            Column() {
-                SingleChoiceItem(
-                    text = stringResource(R.string.follow_system),
-                    selected = darkThemeValue == FOLLOW_SYSTEM
-                ) {
-                    darkThemeValue = FOLLOW_SYSTEM
+        }, icon = { Icon(Icons.Outlined.DarkMode, null) },
+            title = { Text(stringResource(R.string.dark_theme)) }, text = {
+                Column() {
+                    SingleChoiceItem(
+                        text = stringResource(R.string.follow_system),
+                        selected = darkThemeValue == FOLLOW_SYSTEM
+                    ) {
+                        darkThemeValue = FOLLOW_SYSTEM
+                    }
+                    SingleChoiceItem(
+                        text = stringResource(R.string.on),
+                        selected = darkThemeValue == ON
+                    ) {
+                        darkThemeValue = ON
+                    }
+                    SingleChoiceItem(
+                        text = stringResource(R.string.off),
+                        selected = darkThemeValue == OFF
+                    ) {
+                        darkThemeValue = OFF
+                    }
                 }
-                SingleChoiceItem(
-                    text = stringResource(R.string.on),
-                    selected = darkThemeValue == ON
-                ) {
-                    darkThemeValue = ON
-                }
-                SingleChoiceItem(
-                    text = stringResource(R.string.off),
-                    selected = darkThemeValue == OFF
-                ) {
-                    darkThemeValue = OFF
-                }
-            }
-        })
+            })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

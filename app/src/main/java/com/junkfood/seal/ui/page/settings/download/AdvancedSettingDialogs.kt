@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -85,7 +82,10 @@ fun CommandTemplateDialog(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                Text(text = stringResource(R.string.edit_template_desc))
+                Text(
+                    text = stringResource(R.string.edit_template_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
                 OutlinedTextField(
                     modifier = Modifier.padding(top = 16.dp),
                     value = templateName,
@@ -144,26 +144,32 @@ fun ConcurrentDownloadDialog(
             if (concurrentFragments <= 0.125f) 1 else ((concurrentFragments * 4f).roundToInt()) * 4
         }
     }
-    AlertDialog(onDismissRequest = onDismissRequest, dismissButton = {
-        TextButton(onClick = onDismissRequest) {
-            Text(stringResource(R.string.dismiss))
-        }
-    }, confirmButton = {
-        TextButton(onClick = {
-            onDismissRequest()
-            PreferenceUtil.updateInt(CONCURRENT, count)
-        }) {
-            Text(stringResource(R.string.confirm))
-        }
-    }, title = { Text(stringResource(R.string.concurrent_download)) }, text = {
-        Column {
-            Text(text = stringResource(R.string.concurrent_download_num, count))
-            Slider(
-                value = concurrentFragments,
-                onValueChange = { concurrentFragments = it },
-                steps = 3,
-                valueRange = 0f..1f
-            )
-        }
-    })
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(R.string.dismiss))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                onDismissRequest()
+                PreferenceUtil.updateInt(CONCURRENT, count)
+            }) {
+                Text(stringResource(R.string.confirm))
+            }
+        },
+        icon = { Icon(Icons.Outlined.Speed, null) },
+        title = { Text(stringResource(R.string.concurrent_download)) },
+        text = {
+            Column {
+                Text(text = stringResource(R.string.concurrent_download_num, count))
+                Slider(
+                    value = concurrentFragments,
+                    onValueChange = { concurrentFragments = it },
+                    steps = 3,
+                    valueRange = 0f..1f
+                )
+            }
+        })
 }

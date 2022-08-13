@@ -87,13 +87,6 @@ fun DownloadSettingDialog(
                     label = stringResource(R.string.extract_audio)
                 )
                 FilterChip(
-                    selected = thumbnail,
-                    enabled = !customCommand,
-                    onClick = { thumbnail = !thumbnail },
-                    label = stringResource(R.string.create_thumbnail)
-                )
-
-                FilterChip(
                     selected = playlist,
                     enabled = !customCommand,
                     onClick = { playlist = !playlist },
@@ -104,6 +97,12 @@ fun DownloadSettingDialog(
                     enabled = !customCommand && !audio,
                     onClick = { subtitle = !subtitle },
                     label = stringResource(id = R.string.embed_subtitles)
+                )
+                FilterChip(
+                    selected = thumbnail,
+                    enabled = !customCommand,
+                    onClick = { thumbnail = !thumbnail },
+                    label = stringResource(R.string.create_thumbnail)
                 )
             }
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))

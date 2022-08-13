@@ -167,6 +167,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceItem(
                         title = stringResource(R.string.download_path_template),
                         description = pathTemplateText,
+                        icon = Icons.Outlined.Code,
                         enabled = isCustomPathEnabled
                     ) { showEditDialog = true }
                 }
@@ -188,10 +189,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     showEditDialog = false
                     PreferenceUtil.updateString(OUTPUT_PATH_TEMPLATE, pathTemplateText)
                 }
-            },
+            }, icon = { Icon(Icons.Outlined.Edit, null) },
             text = {
                 Column {
-                    Text(stringResource(R.string.edit_custom_path_template_desc))
+                    Text(
+                        stringResource(R.string.edit_custom_path_template_desc),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                     OutlinedTextField(
                         modifier = Modifier.padding(vertical = 12.dp),
                         value = pathTemplateText,

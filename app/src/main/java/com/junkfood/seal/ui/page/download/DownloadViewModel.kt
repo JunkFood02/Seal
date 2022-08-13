@@ -431,8 +431,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun cancelDownload() {
-        TextUtil.makeToast(context.getString(R.string.task_cancelled))
-        currentJob.cancel(CancellationException(context.getString(R.string.task_cancelled)))
+        TextUtil.makeToast(context.getString(R.string.task_canceled))
+        currentJob.cancel(CancellationException(context.getString(R.string.task_canceled)))
         MainActivity.stopService()
         mutableStateFlow.update {
             it.copy(

@@ -152,7 +152,7 @@
     <string name="template_selection">Template selection</string>
     <string name="custom_command_template_desc">Edit and manage command templates</string>
     <string name="downloading_indicator_text">Download in progress, click to cancel.</string>
-    <string name="task_cancelled">Download task cancelled</string>
+    <string name="task_canceled">Download task canceled</string>
     <string name="la_nb_NO" translatable="false">Bokmål</string>
     <string name="la_cs" translatable="false">Čeština</string>
     <string name="la_de" translatable="false">Deutsch</string>

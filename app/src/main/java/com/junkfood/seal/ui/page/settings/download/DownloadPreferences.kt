@@ -173,7 +173,7 @@ fun DownloadPreferences(
                         description = stringResource(
                             id = R.string.settings_before_download_desc
                         ),
-                        icon = Icons.Outlined.DoneAll,
+                        icon = if (configureBeforeDownload) Icons.Outlined.DoneAll else Icons.Outlined.RemoveDone,
                         isChecked = configureBeforeDownload,
                         onClick = {
                             configureBeforeDownload = !configureBeforeDownload
@@ -227,6 +227,7 @@ fun DownloadPreferences(
                         title = stringResource(R.string.print_details),
                         description = stringResource(R.string.print_details_desc),
                         icon = if (displayErrorReport) Icons.Outlined.Print else Icons.Outlined.PrintDisabled,
+                        enabled = !customCommandEnable,
                         onClick = {
                             displayErrorReport = !displayErrorReport
                             PreferenceUtil.updateValue(DEBUG, displayErrorReport)
@@ -307,7 +308,7 @@ fun DownloadPreferences(
                         description = stringResource(
                             id = R.string.custom_command_desc
                         ),
-                        icon = Icons.Outlined.Code,
+                        icon = Icons.Outlined.Terminal,
                         isChecked = customCommandEnable,
                         onClick = {
                             customCommandEnable = !customCommandEnable
@@ -318,8 +319,8 @@ fun DownloadPreferences(
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
+                        icon = Icons.Outlined.Code,
                         description = stringResource(R.string.custom_command_template_desc),
-                        enabled = customCommandEnable
                     ) {
                         navigateToTemplate()
                     }

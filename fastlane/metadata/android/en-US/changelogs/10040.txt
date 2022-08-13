@@ -1,0 +1,5 @@
+Feature Update: Implement the operation of canceling download tasks
+Bug Fix: App crashes under API 26 (Android 8.0)
+Bug Fix: App crashes due to clipboard operation on some occasions
+Bug Fix: Thumbnails mistakenly scanned to Downloads
+UI Improvement: Make ProgressBar indeterminate to indicate the state of download

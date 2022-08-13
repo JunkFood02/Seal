@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AudioFile
+import androidx.compose.material.icons.outlined.VideoFile
+import androidx.compose.material.icons.outlined._4k
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(stringResource(R.string.dismiss))
             }
         },
+        icon = { Icon(Icons.Outlined.AudioFile, null) },
         title = {
             Text(stringResource(R.string.audio_format))
         }, confirmButton = {
@@ -64,7 +66,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
             TextButton(onClick = onDismissRequest) {
                 Text(stringResource(R.string.dismiss))
             }
-        },
+        }, icon = { Icon(Icons.Outlined.VideoFile, null) },
         title = {
             Text(stringResource(R.string.video_format_preference))
         }, confirmButton = {
@@ -104,6 +106,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {})
                 Text(stringResource(R.string.dismiss))
             }
         },
+        icon = { Icon(Icons.Outlined._4k, null) },
         title = {
             Text(stringResource(R.string.video_quality))
         }, confirmButton = {
