@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.settings.download
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -46,6 +47,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     }
     Scaffold(modifier = Modifier
         .fillMaxSize()
+        .navigationBarsPadding()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(title = {

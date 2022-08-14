@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.about
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -62,6 +63,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

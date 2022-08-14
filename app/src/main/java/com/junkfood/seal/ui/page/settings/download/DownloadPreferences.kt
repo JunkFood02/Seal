@@ -3,7 +3,9 @@ package com.junkfood.seal.ui.page.settings.download
 import android.Manifest
 import android.os.Build
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -107,13 +109,7 @@ fun DownloadPreferences(
                 )
             }
             LazyColumn(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(
-                        bottom = WindowInsets.systemBars
-                            .asPaddingValues()
-                            .calculateBottomPadding()
-                    )
+                modifier = Modifier.padding(it).navigationBarsPadding()
             ) {
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.general_settings))

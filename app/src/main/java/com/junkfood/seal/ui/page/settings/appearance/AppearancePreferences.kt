@@ -61,6 +61,7 @@ fun AppearancePreferences(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
@@ -79,11 +80,6 @@ fun AppearancePreferences(
             Column(
                 Modifier
                     .padding(it)
-                    .padding(
-                        bottom = WindowInsets.systemBars
-                            .asPaddingValues()
-                            .calculateBottomPadding()
-                    )
                     .verticalScroll(rememberScrollState())
             ) {
                 VideoCard(

@@ -92,6 +92,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

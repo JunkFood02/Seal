@@ -11,6 +11,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,17 +43,12 @@ fun BottomDrawer(
         sheetBackgroundColor = MaterialTheme.colorScheme.surface,
         sheetElevation = if (drawerState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
         sheetContent = {
-            Surface(
-                modifier = Modifier.padding(
-                    bottom = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
-                        .run { if (this < 30.dp) 0.dp else this }),
-                color = MaterialTheme.colorScheme.surface,
-                tonalElevation = 6.dp,
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 28.dp)
+            Column {
+                Surface(
+                    color = MaterialTheme.colorScheme.surface,
+                    tonalElevation = 6.dp,
                 ) {
-                    Box {
+                    Box(modifier = Modifier.padding(horizontal = 28.dp)) {
                         Row(
                             modifier = modifier
                                 .padding(top = 8.dp)
@@ -75,6 +71,11 @@ fun BottomDrawer(
                         }
                     }
                 }
+                NavigationBarSpacer(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
+                        .fillMaxWidth()
+                )
             }
         },
         content = content,

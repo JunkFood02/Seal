@@ -42,6 +42,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
+import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
@@ -110,8 +111,8 @@ fun DownloadPage(
                 }) {
                 Column(
                     modifier = Modifier
-                        .systemBarsPadding()
                         .padding(it)
+                        .systemBarsPadding()
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
@@ -187,7 +188,7 @@ fun DownloadPage(
                             )
                         }
                     }
-
+                    NavigationBarSpacer()
                 }
             }
             DownloadSettingDialog(

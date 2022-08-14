@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -53,6 +54,7 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
