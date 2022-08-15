@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Please fill out the following fields first before opening this issue for a feature request. Even if you don't know the answer, feel free to leave it blank and provide us with more information about this request.
+Please fill out (replace the blank with an "x", [ ] -> [x]) the following fields first before opening this issue for a feature request. Even if you don't know the answer, feel free to leave it blank and provide us with more information about this request.
 
 - [ ] This feature I'm requesting is already implemented in yt-dlp.
 - [ ] This feature is suitable for primary users with little knowledge about yt-dlp.
