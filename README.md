@@ -71,9 +71,11 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-For bug reports, feature requests, or any other ideas to improve, please search in issues and discussions first (including the closed ones). If there're no duplicates, feel free to [start a new discussion](https://github.com/JunkFood02/Seal/discussions) or [submit an issue](https://github.com/JunkFood02/Seal/issues/new).
+For bug reports and feature requests, please search in issues first (including the closed ones). If there're no duplicates, feel free to [submit an issue](https://github.com/JunkFood02/Seal/issues/new) with an issue template.
 
-Seal is designed to be a simple GUI wrapper of yt-dlp, so we'll not take requests for features that yt-dlp does not support.
+Seal is and will remain a simple GUI wrapper of yt-dlp, so we'll not take requests for features that yt-dlp does not support.
+
+For questions or any other ideas to improve, you can join or [start a new discussion](https://github.com/JunkFood02/Seal/discussions).
 
 
 

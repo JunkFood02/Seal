@@ -32,6 +32,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(ExperimentalMaterialApi::class)
+/**
+ * The codes here is too ugly, refactor planned
+ */
 class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(DownloadViewState())
@@ -279,7 +282,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             it.copy(
                 isDownloadError = false,
                 progress = 0f,
-                debugMode = true
+                debugMode = true,
+                isCancelled = false
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
