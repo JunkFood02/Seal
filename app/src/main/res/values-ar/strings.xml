@@ -16,7 +16,7 @@
     <string name="ytdlp_version">إصدار Yt-dlp</string>
     <string name="delete_info">إزالة من السجل ؟</string>
     <string name="delete_info_msg">هل أنت متأكد من أنك تريد إزالة \"%1$s\" من السجل ؟</string>
-    <string name="confirm">تأكيد</string>
+    <string name="confirm">تم</string>
     <string name="dismiss">إلغاء</string>
     <string name="downloads_history">التحميلات</string>
     <string name="open_url">افتح الرابط</string>
@@ -40,7 +40,7 @@
     <string name="on">تشغيل</string>
     <string name="off">إيقاف</string>
     <string name="settings_before_download">قم بالتخصيص قبل التنزيل</string>
-    <string name="settings_before_download_text">عدل هذا التحميل</string>
+    <string name="settings_before_download_text">خصص هذا التحميل</string>
     <string name="thumbnail">صورة مصغرة للفيديو</string>
     <string name="paste">لصق</string>
     <string name="yt_dlp_docs">مراجع استخدام Yt-dlp</string>
@@ -137,9 +137,14 @@
     <string name="embed_subtitles">دمج الترجمة</string>
     <string name="embed_subtitles_desc">سيقوم هذا الخيار بدمج الترجمة من المصدر ان توفرت</string>
     <string name="new_template">قالب جديد</string>
-    <string name="template_label">مسمى</string>
+    <string name="template_label">إسم القالب</string>
     <string name="remove_template">حذف ؟</string>
     <string name="remove_template_desc">هل تريد إزالة \"%1$s\" من قوالب الأوامر للأبد؟</string>
     <string name="template_selection">اختيار القالب</string>
     <string name="custom_command_template_desc">تحرير وإدارة قوالب الأوامر</string>
+    <string name="downloading_indicator_text">التنزيل قيد التقدم ، انقر للإلغاء.</string>
+    <string name="task_canceled">تم إلغاء مهمة التنزيل</string>
+    <string name="github_issue">تذكرة Github</string>
+    <string name="github_issue_desc">أرسل تذكرة للتبليغ عن خطأ أو طلب ميزة جديدة</string>
+    <string name="info_copied">تم نسخ المعلومات إلى الحافظة</string>
 </resources>
