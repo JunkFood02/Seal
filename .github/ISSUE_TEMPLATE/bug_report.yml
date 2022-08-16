@@ -29,9 +29,10 @@ body:
 
   - type: textarea
     attributes:
-      label: Expected Result
+      label: Error reports & Screenshots
       placeholder: |
-        What did you expect to happen?
+        Please go to Settings - Download - Turn on 'Detailed output', then reproduced the bug and paste the error report below.
+        If applicable, add screenshots or screen recordings to help explain your problem.
     validations:
       required: true
 
