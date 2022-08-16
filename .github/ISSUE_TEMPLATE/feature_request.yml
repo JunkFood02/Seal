@@ -1,0 +1,57 @@
+name: Feature Request
+description: Suggest a new feature for the general download mode
+title: "[Feature Request]"
+labels: [enhancement]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: |
+        Even if you're not sure about the answer, feel free to leave it blank and provide us with more information about this request.
+      options:
+        - label: This feature I'm requesting is already implemented in yt-dlp.
+          required: false
+        - label: This feature is merely a UI/UX update.
+          required: false
+        - label: This feature is suitable for primary users with little knowledge about yt-dlp.
+          required: false
+        - label: This feature is available for most websites, not only the video platform I use.
+          required: false
+        - label: This feature is suitable for a large variety of videos.
+          required: false
+        - label: This feature is not going to conflict with many of the existing options.
+          required: false
+  - type: textarea
+    id: description_1
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description:
+      placeholder: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+    validations:
+      required: false
+  - type: textarea
+    id: description_2
+    attributes:
+      label: Describe the solution you'd like
+      description:
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: false   
+  - type: textarea
+    id: description_3
+    attributes:
+      label: Video link
+      description:
+      placeholder: Please provide us with a link to the video for which this feature might be beneficial.
+    validations:
+      required: false  
+  - type: textarea
+    id: description_4
+    attributes:
+      label: Additional context
+      description:
+      placeholder: Add any other context or screenshots about the feature request here.
+    validations:
+      required: false
+      render: shell

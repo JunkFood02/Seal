@@ -1,0 +1,68 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug Report]"
+labels: [bug]
+body:
+
+
+
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description:
+      placeholder: |
+        A clear and concise description of what the bug is.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      placeholder: |
+        Steps to reproduce the behavior:
+        1.Go to '...'
+        2.Click on '....'
+        3.Scroll down to '....'
+        4.See error
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Error reports & Screenshots
+      placeholder: |
+        Please go to Settings - Download - Turn on 'Detailed output', then reproduced the bug and paste the error report below.
+        If applicable, add screenshots or screen recordings to help explain your problem.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Actual Result
+      placeholder: |
+        What actually happened?
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Device info
+      description: |
+        Please provide some information of the device you are using.
+        You can get the device info by doing these steps:
+        1) Open Seal
+        2) Go to settings
+        3) Click on About
+        4) Click "Version"
+        5) Paste the info below.
+      placeholder: |
+        [e.g. 1.0.4 (API 29)]
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Additional context
+      description:
+      placeholder: |
+        Add any other context about the problem here.      
