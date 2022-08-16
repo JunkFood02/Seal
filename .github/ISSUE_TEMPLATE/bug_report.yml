@@ -18,7 +18,8 @@ body:
   - type: textarea
     attributes:
       label: Reproduction Steps
-      description: What you did to make it happen.
+      placeholder: |
+        What you did to make it happen.
     validations:
       required: true
 
