@@ -1,0 +1,71 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug Report]"
+labels: [Bug Report]
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Describe the bug A clear and concise description of what the bug is.
+
+        Please note that this form is for bug reports only!
+
+  - type: input
+    attributes:
+      label: Summary
+      description: A short summary of the bug report.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Reproduction Steps
+      description: What you did to make it happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Result
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual Result
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Device Information
+      description: |
+        Please provide some information of the device you are using.
+        You can get the device info by doing these steps:
+        1) Open Seal
+        2) Go to settings
+        3) Click on About
+        4) Long press "Version X.X.X"
+      placeholder: |
+        Seal Version: X.X.X
+        Brand: Samsung
+        Architecture: aarch64
+        Android Version: 12
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched the open AND closed issues for any duplicates.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: If there is anything else to say, please do so here.
+
