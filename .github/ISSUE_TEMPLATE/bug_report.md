@@ -17,11 +17,14 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Screenshots**
+**Error reports & Screenshots**
+
+Please go to Settings - Download - Turn on 'Detailed output', then reproduced the bug and paste the error report below.
 If applicable, add screenshots or screen recordings to help explain your problem.
 
 **Device info**
- - OS: [e.g. Android 10 (API 29)]
+Please go to Settings - About - Click 'Version', then paste the info below.
+[e.g. 1.0.4 (API 29)]
 
 **Video link**
 Please provide the link which can reproduce the error.

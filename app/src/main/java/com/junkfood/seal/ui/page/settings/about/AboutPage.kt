@@ -8,26 +8,27 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.NewReleases
-import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
+import com.junkfood.seal.util.TextUtil
 
 const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
 const val repoUrl = "https://github.com/JunkFood02/Seal"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
+const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +40,8 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
         canScroll = { true }
     )
     val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+
     val info = if (Build.VERSION.SDK_INT >= 33) context.packageManager.getPackageInfo(
         context.packageName,
         PackageManager.PackageInfoFlags.of(0)
@@ -87,6 +90,13 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                 }
                 item {
                     PreferenceItem(
+                        title = stringResource(R.string.github_issue),
+                        description = stringResource(R.string.github_issue_desc),
+                        icon = Icons.Outlined.ContactSupport,
+                    ) { openUrl(githubIssueUrl) }
+                }
+                item {
+                    PreferenceItem(
                         title = stringResource(id = R.string.credits),
                         description = stringResource(id = R.string.credits_desc),
                         icon = Icons.Outlined.AutoAwesome,
@@ -103,9 +113,11 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     PreferenceItem(
                         title = stringResource(R.string.version),
                         description = versionName,
-                        icon = null,
-                        enabled = false
-                    )
+                        icon = Icons.Outlined.Info,
+                    ) {
+                        clipboardManager.setText(AnnotatedString(versionName + " (API${Build.VERSION.SDK_INT})"))
+                        TextUtil.makeToast(R.string.info_copied)
+                    }
                 }
             }
         })

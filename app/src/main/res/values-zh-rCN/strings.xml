@@ -144,4 +144,7 @@
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
     <string name="downloading_indicator_text">正在执行下载任务，点击取消</string>
     <string name="task_canceled">下载任务被取消</string>
+    <string name="github_issue">GitHub 议题</string>
+    <string name="github_issue_desc">提交错误报告或改进建议</string>
+    <string name="info_copied">信息已复制到剪贴板</string>
 </resources>
