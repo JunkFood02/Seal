@@ -4,9 +4,6 @@ title: "[Bug Report]"
 labels: [Bug Report]
 body:
 
-  - type: markdown
-    attributes:
-      value: |
 
 
   - type: input
