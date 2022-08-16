@@ -1,7 +1,7 @@
 name: Bug Report
 description: Create a report to help us improve
 title: "[Bug Report]"
-labels: [Bug Report]
+labels: [bug]
 body:
 
 
@@ -17,9 +17,14 @@ body:
 
   - type: textarea
     attributes:
-      label: Reproduction Steps
+      label: To Reproduce
       placeholder: |
-        What you did to make it happen.
+        Steps to reproduce the behavior:
+        
+        1.Go to '...'
+        2.Click on '....'
+        3.Scroll down to '....'
+        4.See error
     validations:
       required: true
 
