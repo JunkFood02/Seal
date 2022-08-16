@@ -46,19 +46,17 @@ body:
 
   - type: textarea
     attributes:
-      label: Device Information
+      label: Device info
       description: |
         Please provide some information of the device you are using.
         You can get the device info by doing these steps:
         1) Open Seal
         2) Go to settings
         3) Click on About
-        4) Long press "Version X.X.X"
+        4) Click "Version"
+        5) Paste the info below.
       placeholder: |
-        Seal Version: X.X.X
-        Brand: Samsung
-        Architecture: aarch64
-        Android Version: 12
+        [e.g. 1.0.4 (API 29)]
     validations:
       required: true
 
