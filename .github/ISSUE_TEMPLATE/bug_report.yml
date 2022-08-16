@@ -11,7 +11,7 @@ body:
       label: Describe the bug
       description:
       placeholder: |
-      A clear and concise description of what the bug is.
+        A clear and concise description of what the bug is.
     validations:
       required: true
 
