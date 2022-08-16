@@ -63,5 +63,6 @@ body:
   - type: textarea
     attributes:
       label: Additional context
-      description: Add any other context about the problem here.
-
+      description:
+      placeholder: |
+        Add any other context about the problem here.      
