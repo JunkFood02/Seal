@@ -6,10 +6,10 @@ body:
 
 
 
-  - type: input
+  - type: texterea
     attributes:
-      label: Summary
-      description: A short summary of the bug report.
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
     validations:
       required: true
 
