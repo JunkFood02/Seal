@@ -4,7 +4,7 @@
     <string name="url_empty">Il link non può essere vuoto</string>
     <string name="extract_audio">Salva come audio</string>
     <string name="create_thumbnail">Salva la miniatura</string>
-    <string name="download">Scarica</string>
+    <string name="download">Download</string>
     <string name="extract_audio_summary">Scarica e salva l\'audio invece del video</string>
     <string name="create_thumbnail_summary">Salva la miniatura del video come un file</string>
     <string name="yt_dlp_update_fail">Non è possible installare l\'ultima versione di yt-dlp. Per favore, verifica di essere connesso ad Internet.</string>
@@ -142,4 +142,6 @@
     <string name="remove_template_desc">Rimuovere «%1$s» dai modelli dei comandi\?</string>
     <string name="template_selection">Selezione del modello</string>
     <string name="custom_command_template_desc">Modifica e gestisci i modelli di comando</string>
+    <string name="downloading_indicator_text">Scaricamento in corso, clicca per annullare.</string>
+    <string name="task_canceled">Scaricamento annullato</string>
 </resources>

@@ -5,8 +5,8 @@
     <string name="not_convert">Ukonvertert</string>
     <string name="video_url">Videolenke</string>
     <string name="download_range_desc">Angi område av videoer å laste ned fra %3$s-spillelisten (fra %1$d til %2$d)).</string>
-    <string name="from">Indeksstart</string>
-    <string name="to">Indeksslutt</string>
+    <string name="from">Start</string>
+    <string name="to">Slutt</string>
     <string name="audio_directory">Lydmappe</string>
     <string name="download_directory">Nedlastningsmappe</string>
     <string name="download_directory_desc">Velg hvor video- og lydfiler skal lagres</string>
@@ -140,4 +140,11 @@
     <string name="remove_template_desc">Fjern «%1$s» fra kommandomalene for godt\?</string>
     <string name="new_template">Ny mal</string>
     <string name="template_label">Etikett</string>
+    <string name="template_selection">Malvalg</string>
+    <string name="custom_command_template_desc">Rediger og håndter kommandomaler</string>
+    <string name="task_canceled">Nedlastingsoppgave avbrutt</string>
+    <string name="downloading_indicator_text">Laster ned … Klikk for å avbryte.</string>
+    <string name="github_issue">GitHub-feilrapport</string>
+    <string name="github_issue_desc">Send inn en feilrapport om problemer eller ønskede funksjoner</string>
+    <string name="info_copied">Info kopiert til utklippstavle</string>
 </resources>

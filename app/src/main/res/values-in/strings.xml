@@ -142,4 +142,9 @@
     <string name="remove_template">Hapus\?</string>
     <string name="remove_template_desc">Hapus \"%1$s\" dari templat perintah untuk selamanya\?</string>
     <string name="custom_command_template_desc">Edit dan kelola templat perintah</string>
+    <string name="downloading_indicator_text">Unduhan sedang berlangsung, tekan untuk membatalkan.</string>
+    <string name="task_canceled">Unduhan dibatalkan</string>
+    <string name="github_issue">Isu Github</string>
+    <string name="github_issue_desc">Kirimkan isu untuk pelaporan masalah atau permintaan fitur</string>
+    <string name="info_copied">Info disalin ke papan klip</string>
 </resources>
