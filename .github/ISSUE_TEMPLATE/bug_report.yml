@@ -13,7 +13,7 @@ body:
       placeholder: |
         A clear and concise description of what the bug is.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
@@ -25,7 +25,7 @@ body:
         3.Scroll down to '....'
         4.See error
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
@@ -34,7 +34,7 @@ body:
         Please go to Settings - Download - Turn on 'Detailed output', then reproduced the bug and paste the error report below.
         If applicable, add screenshots or screen recordings to help explain your problem.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
@@ -42,7 +42,7 @@ body:
       placeholder: |
         What actually happened?
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
@@ -58,17 +58,10 @@ body:
       placeholder: |
         [e.g. 1.0.4 (API 29)]
     validations:
-      required: true
-
-  - type: checkboxes
-    attributes:
-      label: Checklist
-      options:
-        - label: I have searched the open AND closed issues for any duplicates.
-          required: true
+      required: false
 
   - type: textarea
     attributes:
-      label: Additional Information
-      description: If there is anything else to say, please do so here.
+      label: Additional context
+      description: Add any other context about the problem here.
 
