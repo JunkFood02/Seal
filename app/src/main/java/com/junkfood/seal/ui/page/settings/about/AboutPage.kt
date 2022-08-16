@@ -34,17 +34,14 @@ const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose
 @Composable
 fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec,
         rememberTopAppBarState(),
-        canScroll = { true }
-    )
+        canScroll = { true })
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
 
     val info = if (Build.VERSION.SDK_INT >= 33) context.packageManager.getPackageInfo(
-        context.packageName,
-        PackageManager.PackageInfoFlags.of(0)
+        context.packageName, PackageManager.PackageInfoFlags.of(0)
     )
     else context.packageManager.getPackageInfo(context.packageName, 0)
 
@@ -54,72 +51,69 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     fun openUrl(url: String) {
         uriHandler.openUri(url)
     }
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(id = R.string.about),
-                    )
-                }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
-                        onBackPressed()
-                    }
-                }, scrollBehavior = scrollBehavior
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .navigationBarsPadding()
+        .nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+        LargeTopAppBar(title = {
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = stringResource(id = R.string.about),
             )
-        }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.readme),
-                        description = stringResource(R.string.readme_desc),
-                        icon = Icons.Outlined.Description,
-                    ) { openUrl(repoUrl) }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.release),
-                        description = stringResource(R.string.release_desc),
-                        icon = Icons.Outlined.NewReleases,
-                    ) { openUrl(releaseURL) }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.github_issue),
-                        description = stringResource(R.string.github_issue_desc),
-                        icon = Icons.Outlined.ContactSupport,
-                    ) { openUrl(githubIssueUrl) }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.credits),
-                        description = stringResource(id = R.string.credits_desc),
-                        icon = Icons.Outlined.AutoAwesome,
-                    ) { jumpToCreditsPage() }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.translate),
-                        description = stringResource(R.string.translate_desc),
-                        icon = Icons.Outlined.Translate
-                    ) { openUrl(weblate) }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.version),
-                        description = versionName,
-                        icon = Icons.Outlined.Info,
-                    ) {
-                        clipboardManager.setText(AnnotatedString(versionName + " (API${Build.VERSION.SDK_INT})"))
-                        TextUtil.makeToast(R.string.info_copied)
-                    }
+        }, navigationIcon = {
+            BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                onBackPressed()
+            }
+        }, scrollBehavior = scrollBehavior
+        )
+    }, content = {
+        LazyColumn(modifier = Modifier.padding(it)) {
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.readme),
+                    description = stringResource(R.string.readme_desc),
+                    icon = Icons.Outlined.Description,
+                ) { openUrl(repoUrl) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.release),
+                    description = stringResource(R.string.release_desc),
+                    icon = Icons.Outlined.NewReleases,
+                ) { openUrl(releaseURL) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.github_issue),
+                    description = stringResource(R.string.github_issue_desc),
+                    icon = Icons.Outlined.ContactSupport,
+                ) { openUrl(githubIssueUrl) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(id = R.string.credits),
+                    description = stringResource(id = R.string.credits_desc),
+                    icon = Icons.Outlined.AutoAwesome,
+                ) { jumpToCreditsPage() }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.translate),
+                    description = stringResource(R.string.translate_desc),
+                    icon = Icons.Outlined.Translate
+                ) { openUrl(weblate) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.version),
+                    description = versionName,
+                    icon = Icons.Outlined.Info,
+                ) {
+                    clipboardManager.setText(AnnotatedString(versionName + " (API ${Build.VERSION.SDK_INT})" + "\n" + Build.SUPPORTED_ABIS.contentToString()))
+                    TextUtil.makeToast(R.string.info_copied)
                 }
             }
-        })
+        }
+    })
 
 }
