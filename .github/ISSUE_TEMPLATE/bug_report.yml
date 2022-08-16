@@ -36,13 +36,6 @@ body:
     validations:
       required: false
 
-  - type: textarea
-    attributes:
-      label: Actual Result
-      placeholder: |
-        What actually happened?
-    validations:
-      required: false
 
   - type: textarea
     attributes:
