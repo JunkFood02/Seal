@@ -26,14 +26,16 @@ body:
   - type: textarea
     attributes:
       label: Expected Result
-      description: What did you expect to happen?
+      placeholder: |
+        What did you expect to happen?
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Actual Result
-      description: What actually happened?
+      placeholder: |
+        What actually happened?
     validations:
       required: true
 
