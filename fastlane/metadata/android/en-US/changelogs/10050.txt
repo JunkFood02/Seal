@@ -1,0 +1,6 @@
+From v1.0.4 on, we provide only arm64-v8a apk on F-Droid to optimize the size of package, if you're using device that isn't compatible with this version, please file an issue on GitHub.
+
+Update YoutubeDl-Android dependency to v0.13.3
+Bug Fix: Cancel download operation conflicts with custom command
+UI Improvement: Apply proper view padding for 3-Buttons Navigation
+UI Improvement: Add Issue & Info in About page
