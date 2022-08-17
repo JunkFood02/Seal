@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion = "1.6.21"
+    val kotlinVersion = "1.7.10"
     val hiltVersion = "2.42"
 
     repositories {
@@ -11,8 +11,8 @@ buildscript {
     }
 }
 plugins {
-    id("com.android.application") version "7.2.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.6.21" apply false
+    id("com.android.application") version "7.2.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
 }
 
 tasks.register("clean", Delete::class) {

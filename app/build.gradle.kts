@@ -11,20 +11,20 @@ apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
 val versionMinor = 0
-val versionPatch = 4
+val versionPatch = 5
 val versionBuild = 0
 val isStable = true
 
-val composeVersion = "1.2.0-rc03"
+val composeVersion = "1.2.1"
 val lifecycleVersion = "2.6.0-alpha01"
 val navigationVersion = "2.5.0"
 val roomVersion = "2.4.2"
-val accompanistVersion = "0.24.11-rc"
+val accompanistVersion = "0.25.1"
 val kotlinVersion = "1.6.21"
-val hiltVersion = "2.42"
-val composeMd3Version = "1.0.0-alpha15"
-val coilVersion = "2.1.0"
-val youtubedlAndroidVersion = "350688f3ae"
+val hiltVersion = "2.43.2"
+val composeMd3Version = "1.0.0-alpha16"
+val coilVersion = "2.2.0"
+val youtubedlAndroidVersion = "0.13.3"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -50,7 +50,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10040
+        versionCode = 10050
         versionName = if (isStable) {
             "${versionMajor}.${versionMinor}.${versionPatch}"
         } else {
@@ -119,7 +119,7 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-rc01"
+        kotlinCompilerExtensionVersion = "1.3.0"
     }
     packagingOptions {
         resources {
@@ -178,7 +178,7 @@ dependencies {
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 
-    implementation("com.tencent:mmkv:1.2.13")
+    implementation("com.tencent:mmkv:1.2.14")
 
 //    implementation("androidx.palette:palette-ktx:1.0.0")
 

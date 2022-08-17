@@ -3,6 +3,7 @@ package com.junkfood.seal.util
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Environment
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
 import java.io.File
@@ -89,8 +90,11 @@ object FileUtil {
     fun getRealPath(treeUri: Uri): String {
         val path: String = treeUri.path.toString()
         if (!path.contains("primary:")) {
-            TextUtil.makeToast("Download on SD Card is not supported")
-            return "SD Card Not Supported"
+            TextUtil.makeToast("This directory is not supported")
+            return File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                "Seal"
+            ).absolutePath
         }
         val last: String = path.split("primary:").last()
         return "/storage/emulated/0/$last"
