@@ -69,6 +69,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo()
     )
 
+    data class DownloadTaskViewState(
+        val title: String = "",
+        val artist: String = "",
+        val progress: Float = 0f,
+        val thumbnail: String = "",
+        val progressText:String = "",
+    )
+
     fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
 
     fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
