@@ -1,12 +1,11 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandLess
-import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material3.*
@@ -14,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,21 +24,24 @@ import com.junkfood.seal.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 fun DownloadTaskItem(
     modifier: Modifier = Modifier.padding(12.dp),
     imageModel: Any = R.drawable.ic_launcher_foreground,
-    title: String = "sample title sample title sample title ",
-    author: String = "author sample author sample author sample ",
+    title: String = "sample title ".repeat(5),
+    author: String = "author sample ".repeat(5),
+    state: String = "Enqueued",
     isExpanded: Boolean = false,
+    progress: Float = -1f
 ) {
     var isExpanded by remember { mutableStateOf(isExpanded) }
     ElevatedCard(modifier = modifier, onClick = { isExpanded = !isExpanded }) {
         Column() {
-
-
             Box() {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                ) {
                     /*AsyncImage(
                         modifier = Modifier
                             .fillMaxWidth(0.45f)
@@ -51,7 +54,7 @@ fun DownloadTaskItem(
                         painter = painterResource(id = R.drawable.sample),
                         modifier = Modifier
                             .padding(12.dp)
-                            .fillMaxWidth(0.5f)
+                            .weight(1f)
                             .clip(MaterialTheme.shapes.small)
                             .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
                         contentDescription = stringResource(R.string.thumbnail),
@@ -61,8 +64,8 @@ fun DownloadTaskItem(
                         modifier = Modifier
                             .padding(vertical = 12.dp)
                             .padding(end = 12.dp)
-                            .fillMaxWidth()
-                            .height(IntrinsicSize.Max),
+                            .weight(1f)
+                            .fillMaxHeight(),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -76,11 +79,18 @@ fun DownloadTaskItem(
                             text = author,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 2,
+                            maxLines = 1,
                             overflow = TextOverflow.Ellipsis
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = state,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
+                val animatedDegree = animateFloatAsState(targetValue = if (isExpanded) 0f else 180f)
                 FilledTonalIconButton(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -88,18 +98,20 @@ fun DownloadTaskItem(
                         .size(24.dp),
                     onClick = { isExpanded = !isExpanded }) {
                     Icon(
-                        if (isExpanded) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,
+                        Icons.Outlined.ExpandLess,
                         null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.rotate(animatedDegree.value)
                     )
                 }
             }
-            val animatedDp = animateDpAsState(targetValue = if (isExpanded) 12.dp else 0.dp)
             AnimatedVisibility(visible = isExpanded) {
                 Divider(
                     Modifier
                         .fillMaxWidth()
-                        .height(0.5.dp)
+                        .padding(horizontal = 12.dp)
+                        .height(1.dp)
+                        .clip(MaterialTheme.shapes.small)
                 )
                 Row(
                     modifier = Modifier
@@ -112,11 +124,11 @@ fun DownloadTaskItem(
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(4f),
+                        verticalArrangement = Arrangement.Center
                     ) {
                         Text(
                             text =
-                            "this is sample text of a very long progress text." +
-                                    "this is sample text of a very long progress text",
+                            "This is a sample of very long progress text. ".repeat(3),
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodySmall,
@@ -128,7 +140,7 @@ fun DownloadTaskItem(
                     Row(modifier = Modifier.weight(2f), horizontalArrangement = Arrangement.End) {
                         FilledIconButton(
                             onClick = { },
-                            colors = IconButtonDefaults.iconButtonColors(
+                            colors = IconButtonDefaults.filledIconButtonColors(
                                 containerColor = containerColor, contentColor = contentColor
                             )
                         ) {
@@ -150,18 +162,28 @@ fun DownloadTaskItem(
                     }
                 }
             }
-            LinearProgressIndicator(
-                Modifier
-//                    .clip(MaterialTheme.shapes.extraLarge)
-                    .fillMaxWidth()
-                    .padding(),
-            )
+            if (progress < 0)
+                LinearProgressIndicator(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding()
+                )
+            else
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(), progress = progress
+                )
         }
     }
 }
 
 @Composable
 @Preview
-fun ExpandedCard() {
-    DownloadTaskItem(isExpanded = true)
+fun CardPreview() {
+    Column() {
+        DownloadTaskItem()
+        DownloadTaskItem(isExpanded = true, progress = 1f, state = "Completed")
+    }
+
 }
