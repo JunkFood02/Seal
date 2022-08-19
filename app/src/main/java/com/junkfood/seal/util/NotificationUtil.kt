@@ -2,18 +2,18 @@ package com.junkfood.seal.util
 
 import android.annotation.SuppressLint
 import android.app.*
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
-import androidx.core.app.NotificationManagerCompat
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 
 @SuppressLint("StaticFieldLeak")
 object NotificationUtil {
-    private val notificationManager = NotificationManagerCompat.from(context)
+    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     private const val PROGRESS_MAX = 100
     private const val PROGRESS_INITIAL = 0
     private const val CHANNEL_ID = "download_notification"
