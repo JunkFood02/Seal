@@ -1,0 +1,29 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - uses: gradle/gradle-build-action@v2
+    - run: gradle assembleRelease
+    
+    - uses: actions/upload-artifact@v3
+      with:
+          name: github-${{ github.sha }}
+          path: app/build/outputs/apk/release/*.apk
