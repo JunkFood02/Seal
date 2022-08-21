@@ -134,11 +134,11 @@
     <string name="custom_output_path">Vlastní podsložka</string>
     <string name="custom_output_path_desc">Použít předlohu pro podsložku</string>
     <string name="edit_custom_path_template_desc">Specifikujte podsložku s dostupnými poli poskytnutými yt-dlp</string>
-    <string name="enqueued">Ve frontě</string>
-    <string name="completed">Dokončeno</string>
-    <string name="downloading">Stahuje se</string>
-    <string name="canceled">Zrušeno</string>
-    <string name="fetching_video_info">Získávání informací</string>
+    <string name="status_enqueued">Ve frontě</string>
+    <string name="status_completed">Dokončeno</string>
+    <string name="status_downloading">Stahuje se</string>
+    <string name="status_canceled">Zrušeno</string>
+    <string name="status_fetching_video_info">Získávání informací</string>
     <string name="open_file">Otevřit soubor</string>
     <string name="restart">Restartovat</string>
     <string name="embed_subtitles">Vložit titulky</string>

@@ -147,11 +147,11 @@
     <string name="github_issue">Isu Github</string>
     <string name="github_issue_desc">Kirimkan isu untuk pelaporan masalah atau permintaan fitur</string>
     <string name="info_copied">Info disalin ke papan klip</string>
-    <string name="fetching_video_info">Mengambil info</string>
+    <string name="status_fetching_video_info">Mengambil info</string>
     <string name="open_file">Buka file</string>
     <string name="restart">Ulangi</string>
-    <string name="enqueued">Ditambahkan</string>
-    <string name="completed">Selesai</string>
-    <string name="downloading">Mengunduh</string>
-    <string name="canceled">Dibatalkan</string>
+    <string name="status_enqueued">Ditambahkan</string>
+    <string name="status_completed">Selesai</string>
+    <string name="status_downloading">Mengunduh</string>
+    <string name="status_canceled">Dibatalkan</string>
 </resources>

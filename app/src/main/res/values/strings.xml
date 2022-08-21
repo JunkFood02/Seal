@@ -178,11 +178,14 @@
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
     <string name="la_hu" translatable="false">"Magyar nyelv"</string>
-    <string name="enqueued">Enqueued</string>
-    <string name="completed">Completed</string>
-    <string name="downloading">Downloading</string>
-    <string name="canceled">Canceled</string>
-    <string name="fetching_video_info">Fetching info</string>
+    <string name="status_enqueued">Enqueued</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_downloading">Downloading</string>
+    <string name="status_canceled">Canceled</string>
+    <string name="status_fetching_video_info">Fetching info</string>
     <string name="open_file">Open file</string>
     <string name="restart">Restart</string>
+    <string name="status_error">Error</string>
+    <string name="copy_link">Copy link</string>
+    <string name="copy_error_report">Error report</string>
 </resources>

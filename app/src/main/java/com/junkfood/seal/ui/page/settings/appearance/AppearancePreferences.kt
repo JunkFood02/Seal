@@ -82,14 +82,8 @@ fun AppearancePreferences(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                VideoCard(
-                    modifier = Modifier.padding(18.dp),
-                    thumbnailUrl = R.drawable.sample,
-                    onClick = {},
-                    title = "Video title sample text",
-                    author = "Video creator sample text",
-                    progress = 100f
-                )
+                VideoCard(modifier = Modifier.padding(18.dp),)
+//                CardPreview()
                 Column {
                     Row(
                         modifier = Modifier

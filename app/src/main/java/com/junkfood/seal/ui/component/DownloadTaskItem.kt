@@ -5,9 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExpandLess
-import androidx.compose.material.icons.outlined.MoreHoriz
-import androidx.compose.material.icons.outlined.RestartAlt
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Stop
@@ -25,17 +23,37 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 
 enum class DownloadTaskItemStatus(
-    val statusLabelId: Int,
-    val primaryButtonIcon: ImageVector,
-    val primaryOperationDescId: Int
+    val statusLabelId: Int, val primaryButtonIcon: ImageVector, val primaryOperationDescId: Int
 ) {
-    ENQUEUED(R.string.enqueued, Icons.Rounded.Cancel, R.string.cancel),
-    COMPLETED(R.string.completed, Icons.Rounded.PlayArrow, R.string.open_file),
-    DOWNLOADING(R.string.downloading, Icons.Rounded.Stop, R.string.cancel),
-    CANCELED(R.string.canceled, Icons.Outlined.RestartAlt, R.string.restart),
-    FETCHING_INFO(R.string.fetching_video_info, Icons.Rounded.Stop, R.string.cancel),
+    ENQUEUED(
+        R.string.status_enqueued,
+        Icons.Rounded.Cancel,
+        R.string.cancel
+    ),
+    COMPLETED(
+        R.string.status_completed,
+        Icons.Rounded.PlayArrow,
+        R.string.open_file
+    ),
+    DOWNLOADING(
+        R.string.status_downloading,
+        Icons.Rounded.Stop,
+        R.string.cancel
+    ),
+    CANCELED(
+        R.string.status_canceled,
+        Icons.Outlined.RestartAlt,
+        R.string.restart
+    ),
+    FETCHING_INFO(
+        R.string.status_fetching_video_info,
+        Icons.Rounded.Stop,
+        R.string.cancel
+    ),
+    ERROR(R.string.status_error, Icons.Outlined.RestartAlt, R.string.restart)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,11 +63,14 @@ fun DownloadTaskItem(
     imageModel: Any = R.drawable.ic_launcher_foreground,
     title: String = "sample title ".repeat(5),
     author: String = "author sample ".repeat(5),
-    state: DownloadTaskItemStatus = DownloadTaskItemStatus.ENQUEUED,
+    status: DownloadTaskItemStatus = DownloadTaskItemStatus.ENQUEUED,
     expanded: Boolean = false,
-    progress: Float = -1f
+    progress: Float = -1f,
+    progressText: String = "This is a sample of very long progress text. ".repeat(3),
+    errorText: String = "This is a sample of very long error text. ".repeat(3)
 ) {
     var isExpanded by remember { mutableStateOf(expanded) }
+    var isMenuExpanded by remember { mutableStateOf(false) }
     ElevatedCard(modifier = modifier, onClick = { isExpanded = !isExpanded }) {
         Column() {
             Box() {
@@ -100,9 +121,10 @@ fun DownloadTaskItem(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = stringResource(id = state.statusLabelId),
+                            text = stringResource(id = status.statusLabelId),
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            color = with(MaterialTheme.colorScheme)
+                            { if (status != DownloadTaskItemStatus.ERROR) primary else error.harmonizeWithPrimary() }
                         )
                     }
                 }
@@ -143,37 +165,58 @@ fun DownloadTaskItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "This is a sample of very long progress text. ".repeat(3),
+                            text = if (status != DownloadTaskItemStatus.ERROR) progressText else errorText,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = with(MaterialTheme.colorScheme)
+                            { if (status != DownloadTaskItemStatus.ERROR) onSurfaceVariant else error.harmonizeWithPrimary() },
                         )
                     }
                     val containerColor = MaterialTheme.colorScheme.secondaryContainer
 //                    val contentColor = contentColorFor(backgroundColor = containerColor)
                     val contentColor =
                         MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
-                    Row(modifier = Modifier.weight(2f), horizontalArrangement = Arrangement.End) {
-                        FilledIconButton(
-                            onClick = { }, colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = containerColor, contentColor = contentColor
-                            )
-                        ) {
-                            Icon(
-                                state.primaryButtonIcon,
-                                stringResource(id = state.primaryOperationDescId),
-                            )
-                        }
-                        FilledTonalIconButton(
-                            onClick = { }, colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = containerColor, contentColor = contentColor
-                            )
-                        ) {
-                            Icon(
-                                Icons.Outlined.MoreHoriz,
-                                null,
-                            )
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(2f)
+                            .wrapContentSize(Alignment.TopEnd)
+                    ) {
+                        Row(modifier = Modifier, horizontalArrangement = Arrangement.End) {
+                            FilledIconButton(
+                                onClick = { }, colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = containerColor, contentColor = contentColor
+                                )
+                            ) {
+                                Icon(
+                                    status.primaryButtonIcon,
+                                    stringResource(id = status.primaryOperationDescId),
+                                )
+                            }
+                            FilledTonalIconButton(
+                                onClick = { isMenuExpanded = true },
+                                colors = IconButtonDefaults.iconButtonColors(
+                                    containerColor = containerColor, contentColor = contentColor
+                                )
+                            ) { Icon(Icons.Outlined.MoreHoriz, null) }
+                            DropdownMenu(
+                                expanded = isMenuExpanded,
+                                onDismissRequest = { isMenuExpanded = false }) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.copy_link)) },
+                                    onClick = { },
+                                    leadingIcon = { Icon(Icons.Outlined.Link, null) })
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.copy_error_report)) },
+                                    onClick = { },
+                                    leadingIcon = { Icon(Icons.Outlined.BugReport, null) })
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.remove)) },
+                                    onClick = { },
+                                    leadingIcon = { Icon(Icons.Outlined.Delete, null) })
+                            }
                         }
                     }
                 }
@@ -196,10 +239,10 @@ fun DownloadTaskItem(
 @Preview
 fun CardPreview() {
     Column() {
-        DownloadTaskItem(expanded = true, state = DownloadTaskItemStatus.FETCHING_INFO)
-        DownloadTaskItem(expanded = true, progress = 1f, state = DownloadTaskItemStatus.COMPLETED)
-        DownloadTaskItem(expanded = true, progress = 0f, state = DownloadTaskItemStatus.CANCELED)
-
+        DownloadTaskItem(expanded = true, status = DownloadTaskItemStatus.FETCHING_INFO)
+        DownloadTaskItem(expanded = true, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)
+        DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.CANCELED)
+        DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.ERROR)
     }
 
 }

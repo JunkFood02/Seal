@@ -149,9 +149,9 @@
     <string name="github_issue">Проблемы на GitHub\'е</string>
     <string name="open_file">Открыть файл</string>
     <string name="restart">Перезапустить</string>
-    <string name="fetching_video_info">Получение информации</string>
-    <string name="completed">Завершено</string>
-    <string name="downloading">Загрузка</string>
-    <string name="enqueued">В очереди</string>
-    <string name="canceled">Отменено</string>
+    <string name="status_fetching_video_info">Получение информации</string>
+    <string name="status_completed">Завершено</string>
+    <string name="status_downloading">Загрузка</string>
+    <string name="status_enqueued">В очереди</string>
+    <string name="status_canceled">Отменено</string>
 </resources>

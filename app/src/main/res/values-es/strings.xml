@@ -142,11 +142,11 @@
     <string name="remove_template_desc">¿Eliminar «%1$s» de las plantillas de comandos para siempre\?</string>
     <string name="template_selection">Selección de plantillas</string>
     <string name="custom_command_template_desc">Editar y gestionar plantillas de comandos</string>
-    <string name="enqueued">En cola</string>
-    <string name="completed">Completada</string>
-    <string name="downloading">Descargando</string>
-    <string name="canceled">Cancelada</string>
-    <string name="fetching_video_info">Obteniendo información</string>
+    <string name="status_enqueued">En cola</string>
+    <string name="status_completed">Completada</string>
+    <string name="status_downloading">Descargando</string>
+    <string name="status_canceled">Cancelada</string>
+    <string name="status_fetching_video_info">Obteniendo información</string>
     <string name="open_file">Abrir archivo</string>
     <string name="restart">Reinciar</string>
     <string name="downloading_indicator_text">Descarga en progreso, haz click para cancelar.</string>

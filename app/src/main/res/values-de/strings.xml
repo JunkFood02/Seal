@@ -147,11 +147,11 @@
     <string name="github_issue">GitHub-Problem</string>
     <string name="info_copied">Informationen in die Zwischenablage kopiert</string>
     <string name="github_issue_desc">Einreichen eines Fehlerberichts oder einer Funktionsanfrage</string>
-    <string name="enqueued">Eingereiht</string>
-    <string name="completed">Abgeschlossen</string>
-    <string name="downloading">Wird heruntergeladen</string>
-    <string name="canceled">Abgebrochen</string>
-    <string name="fetching_video_info">Informationen abrufen</string>
+    <string name="status_enqueued">Eingereiht</string>
+    <string name="status_completed">Abgeschlossen</string>
+    <string name="status_downloading">Wird heruntergeladen</string>
+    <string name="status_canceled">Abgebrochen</string>
+    <string name="status_fetching_video_info">Informationen abrufen</string>
     <string name="open_file">Datei öffnen</string>
     <string name="restart">Neustarten</string>
 </resources>
