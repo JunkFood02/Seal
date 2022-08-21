@@ -24,6 +24,7 @@ data class Credit(val title: String = "", val license: String? = null, val url: 
 const val GPL_V3 = "GNU General Public License v3.0"
 const val APACHE_V2 = "Apache License, Version 2.0"
 const val UNLICENSE = "The Unlicense"
+const val BSD = "BSD 3-Clause License"
 
 const val youtubedlAndroidUrl = "https://github.com/yausername/youtubedl-android"
 const val ytdlpUrl = "https://github.com/yt-dlp/yt-dlp"
@@ -34,6 +35,9 @@ const val icons8 = "https://icons8.com/"
 const val materialIcon = "https://fonts.google.com/icons"
 const val materialColor = "https://github.com/material-foundation/material-color-utilities"
 const val jetpack = "https://github.com/androidx/androidx"
+const val coil = "https://github.com/coil-kt/coil"
+const val mmkv = "https://github.com/Tencent/MMKV"
+const val dagger = "https://github.com/google/dagger"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,6 +58,9 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("dvd", GPL_V3, dvd),
         Credit("Material Icons", APACHE_V2, materialIcon),
         Credit("Material color utilities", APACHE_V2, materialColor),
+        Credit("MMKV", BSD, mmkv),
+        Credit("Coil", APACHE_V2, coil),
+        Credit("Dagger", APACHE_V2, dagger),
         Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
     )
     val uriHandler = LocalUriHandler.current
