@@ -58,9 +58,9 @@ fun BottomDrawer(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .size(30.dp, 4.dp)
+                                    .size(32.dp, 4.dp)
                                     .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                                    .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
                                     .zIndex(1f)
                             ) {}
                         }

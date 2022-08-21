@@ -14,6 +14,9 @@ interface VideoInfoDao {
     @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath like '%.mp3' or videoPath like '%.m4a' or videoPath like '%.opus'")
     fun getAllAudios(): Flow<List<DownloadedVideoInfo>>
 
+    @Query("select * from DownloadedVideoInfo")
+    fun getAllMedia(): Flow<List<DownloadedVideoInfo>>
+
     @Delete
     suspend fun delete(info: DownloadedVideoInfo)
 

@@ -16,15 +16,47 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
+const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
+private const val TAG = "VideoListViewModel"
+
 @OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
 class VideoListViewModel @Inject constructor() : ViewModel() {
+    private val mediaInfoFlow: Flow<List<DownloadedVideoInfo>> =
+        DatabaseUtil.getMediaInfo()
+    val filterSetFlow = DatabaseUtil.getMediaInfo()
+        .map { infoList -> mutableSetOf<String>().apply { infoList.forEach { this.add(it.extractor) } } }
 
-    data class VideoListViewState constructor(
-        val videoListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getVideoInfo()
-            .distinctUntilChanged(),
-        val audioListFlow: Flow<List<DownloadedVideoInfo>> = DatabaseUtil.getAudioInfo()
-            .distinctUntilChanged(),
+    private val mutableStateFlow = MutableStateFlow(VideoListViewState())
+    val stateFlow = mutableStateFlow.asStateFlow()
+
+    val videoListFlow = mediaInfoFlow
+
+    fun clickVideoFilter() {
+        if (mutableStateFlow.value.videoFilter)
+            mutableStateFlow.update { it.copy(videoFilter = false) }
+        else
+            mutableStateFlow.update { it.copy(videoFilter = true, audioFilter = false) }
+    }
+
+    fun clickAudioFilter() {
+        if (mutableStateFlow.value.audioFilter)
+            mutableStateFlow.update { it.copy(audioFilter = false) }
+        else
+            mutableStateFlow.update { it.copy(audioFilter = true, videoFilter = false) }
+    }
+
+    fun clickExtractorFilter(index: Int) {
+        if (mutableStateFlow.value.activeFilterIndex == index)
+            mutableStateFlow.update { it.copy(activeFilterIndex = -1) }
+        else
+            mutableStateFlow.update { it.copy(activeFilterIndex = index) }
+    }
+
+    data class VideoListViewState(
+        val activeFilterIndex: Int = -1,
+        val videoFilter: Boolean = false,
+        val audioFilter: Boolean = false
     )
 
     data class VideoDetailViewState(
@@ -88,7 +120,5 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     }
 
     private val _detailViewState = MutableStateFlow(VideoDetailViewState())
-    private val _viewState = MutableStateFlow(VideoListViewState())
-    val viewState = _viewState.asStateFlow()
     val detailViewState = _detailViewState.asStateFlow()
 }

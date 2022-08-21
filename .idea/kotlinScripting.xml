@@ -2,5 +2,9 @@
 <project version="4">
   <component name="KotlinScriptingSettings">
     <option name="suppressDefinitionsCheck" value="true" />
+    <scriptDefinition className="org.jetbrains.kotlin.scripting.resolve.KotlinScriptDefinitionFromAnnotatedTemplate" definitionName="KotlinBuildScript">
+      <order>2147483647</order>
+      <autoReloadConfigurations>true</autoReloadConfigurations>
+    </scriptDefinition>
   </component>
 </project>

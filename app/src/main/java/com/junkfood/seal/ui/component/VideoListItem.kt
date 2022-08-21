@@ -24,10 +24,48 @@ import coil.request.ImageRequest
 import coil.request.videoFrameMillis
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalVideoThumbnailLoader
+import com.junkfood.seal.ui.page.videolist.AUDIO_REGEX
+
+
+@Composable
+fun MediaListItem(
+    modifier: Modifier = Modifier,
+    title: String = "",
+    author: String = "",
+    thumbnailUrl: String = "",
+    videoPath: String = "",
+    videoUrl: String = "",
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {}
+) {
+    if (!videoPath.contains(Regex(AUDIO_REGEX)))
+        VideoListItem(
+            modifier = modifier,
+            title = title,
+            author = author,
+            thumbnailUrl = thumbnailUrl,
+            videoPath = videoPath,
+            videoUrl = videoUrl,
+            onClick = onClick,
+            onLongClick = onLongClick
+        )
+    else
+        AudioListItem(
+            modifier = modifier,
+            title = title,
+            author = author,
+            videoPath = videoPath,
+            thumbnailUrl = thumbnailUrl,
+            videoUrl = videoUrl,
+            onClick = onClick,
+            onLongClick = onLongClick
+        )
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VideoListItem(
+private fun VideoListItem(
+    modifier: Modifier = Modifier,
     title: String = "",
     author: String = "",
     thumbnailUrl: String = "",
@@ -46,7 +84,7 @@ fun VideoListItem(
         .crossfade(true)
         .build()
     Box(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 enabled = true,
                 onClick = onClick,
@@ -108,11 +146,12 @@ fun VideoListItem(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AudioListItem(
+private fun AudioListItem(
+    modifier: Modifier = Modifier,
     title: String = "",
     author: String = "",
-    videoPath: String = "",
     thumbnailUrl: String = "",
+    videoPath: String = "",
     videoUrl: String = "",
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {}
@@ -120,7 +159,7 @@ fun AudioListItem(
     val haptic = LocalHapticFeedback.current
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(enabled = true, onClick = onClick, onLongClick = {
                 onLongClick()
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)

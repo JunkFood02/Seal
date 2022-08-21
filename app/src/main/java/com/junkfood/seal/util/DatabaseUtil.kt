@@ -25,6 +25,7 @@ object DatabaseUtil {
         }
     }
 
+    fun getMediaInfo() = dao.getAllMedia()
     fun getVideoInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllVideos()
     fun getAudioInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllAudios()
 
