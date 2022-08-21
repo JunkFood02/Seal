@@ -48,8 +48,8 @@
     <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе загрузки</string>
     <string name="fetching_playlist_info">Получение информации о плейлисте…</string>
     <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста \" %3$s\" (от %1$d до %2$d).</string>
-    <string name="from">Начать с номера</string>
-    <string name="to">Закончить номером</string>
+    <string name="from">Начать</string>
+    <string name="to">Закончить</string>
     <string name="invalid_index_range">Недопустимый диапазон номеров</string>
     <string name="download_directory_desc">Выберите место для хранения видео и аудиофайлов</string>
     <string name="permission_issue">Запрет доступа к хранилищу</string>
@@ -115,7 +115,7 @@
     <string name="options">Параметры</string>
     <string name="show_more_actions">Показать больше действий</string>
     <string name="download_notification">Уведомление о загрузке</string>
-    <string name="playlist_indicator_text">Загрузка плейлиста (%1$d/%2$d)…, Нажмите, чтобы остановить.</string>
+    <string name="playlist_indicator_text">Загрузка плейлиста (%1$d/%2$d), нажмите, чтобы остановить.</string>
     <string name="download_directory">Папка загрузки</string>
     <string name="audio_directory">Папка с аудио</string>
     <string name="subdirectory">Сохранить в подкаталог</string>
@@ -136,4 +136,22 @@
     <string name="edit_custom_path_template_desc">Укажите подкаталог, используя доступные параметры yt-dlp</string>
     <string name="embed_subtitles">Встраивание субтитров</string>
     <string name="embed_subtitles_desc">Встраивать субтитры, если они доступны</string>
+    <string name="new_template">Новый шаблон</string>
+    <string name="template_label">Заголовок</string>
+    <string name="remove_template">Удалить\?</string>
+    <string name="remove_template_desc">Удалить \"%1$s\" из шаблонов команд навсегда\?</string>
+    <string name="template_selection">Выбор шаблона</string>
+    <string name="custom_command_template_desc">Редактирование шаблонов команд и управление ими</string>
+    <string name="downloading_indicator_text">Загрузка загрузка в процессе, нажмите, чтобы отменить.</string>
+    <string name="task_canceled">Эта загрузка отменена</string>
+    <string name="github_issue_desc">Отправьте сообщение о проблеме для сообщения об ошибке или запроса функции</string>
+    <string name="info_copied">Информация, скопированная в буфер обмена</string>
+    <string name="github_issue">Проблемы на GitHub\'е</string>
+    <string name="open_file">Открыть файл</string>
+    <string name="restart">Перезапустить</string>
+    <string name="fetching_video_info">Получение информации</string>
+    <string name="completed">Завершено</string>
+    <string name="downloading">Загрузка</string>
+    <string name="enqueued">В очереди</string>
+    <string name="canceled">Отменено</string>
 </resources>

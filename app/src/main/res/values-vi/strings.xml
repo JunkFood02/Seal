@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">Thư mục video</string>
+    <string name="extract_audio">Lưu dưới dạng âm thanh</string>
+</resources>

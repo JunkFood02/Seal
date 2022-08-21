@@ -147,4 +147,11 @@
     <string name="github_issue">تذكرة Github</string>
     <string name="github_issue_desc">أرسل تذكرة للتبليغ عن خطأ أو طلب ميزة جديدة</string>
     <string name="info_copied">تم نسخ المعلومات إلى الحافظة</string>
+    <string name="enqueued">في قائمة الانتظار</string>
+    <string name="completed">اكتمل</string>
+    <string name="downloading">جارى التحميل</string>
+    <string name="canceled">ألغيت</string>
+    <string name="fetching_video_info">جارٍ إحضار المعلومات</string>
+    <string name="restart">إعادة بدء</string>
+    <string name="open_file">افتح الملف</string>
 </resources>

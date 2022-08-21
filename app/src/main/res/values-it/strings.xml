@@ -144,4 +144,14 @@
     <string name="custom_command_template_desc">Modifica e gestisci i modelli di comando</string>
     <string name="downloading_indicator_text">Scaricamento in corso, clicca per annullare.</string>
     <string name="task_canceled">Scaricamento annullato</string>
+    <string name="enqueued">In coda</string>
+    <string name="completed">Completato</string>
+    <string name="downloading">Scaricamento</string>
+    <string name="canceled">Annullato</string>
+    <string name="fetching_video_info">Recupero delle informazioni</string>
+    <string name="open_file">Apri il file</string>
+    <string name="restart">Riavvia</string>
+    <string name="info_copied">Informazioni copiate negli appunti</string>
+    <string name="github_issue_desc">Invia una segnalazione di bug o una richiesta per nuove funzioni</string>
+    <string name="github_issue">Segnala un problema su GitHub</string>
 </resources>
