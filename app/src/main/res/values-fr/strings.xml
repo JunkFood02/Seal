@@ -134,4 +134,9 @@
     <string name="custom_output_path">Sous-répertoire personnalisé</string>
     <string name="custom_output_path_desc">Utiliser le modèle pour le sous-répertoire</string>
     <string name="edit_custom_path_template_desc">Spécifier le sous-répertoire avec les champs disponibles fournis par yt-dlp</string>
+    <string name="embed_subtitles">Sous-titres intégrés</string>
+    <string name="embed_subtitles_desc">Sous-titres intégrés dans les vidéos, si disponible</string>
+    <string name="template_selection">Sélection du modèle</string>
+    <string name="downloading_indicator_text">Téléchargement en cours, cliquez pour annuler.</string>
+    <string name="github_issue_desc">Soumettre un ticket pour signaler un bug ou suggérer une fonctionnalité</string>
 </resources>

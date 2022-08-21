@@ -142,4 +142,16 @@
     <string name="remove_template_desc">¿Eliminar «%1$s» de las plantillas de comandos para siempre\?</string>
     <string name="template_selection">Selección de plantillas</string>
     <string name="custom_command_template_desc">Editar y gestionar plantillas de comandos</string>
+    <string name="enqueued">En cola</string>
+    <string name="completed">Completada</string>
+    <string name="downloading">Descargando</string>
+    <string name="canceled">Cancelada</string>
+    <string name="fetching_video_info">Obteniendo información</string>
+    <string name="open_file">Abrir archivo</string>
+    <string name="restart">Reinciar</string>
+    <string name="downloading_indicator_text">Descarga en progreso, haz click para cancelar.</string>
+    <string name="task_canceled">Tarea de descarga cancelada</string>
+    <string name="github_issue">Reportar un problema en GitHub</string>
+    <string name="github_issue_desc">Envía un reporte de un problema que te ha ocurrido o haz una petición de alguna funcionalidad que te gustaría que tuviera Seal</string>
+    <string name="info_copied">Información copiada al portapapeles</string>
 </resources>

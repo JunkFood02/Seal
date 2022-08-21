@@ -23,7 +23,7 @@
     <string name="release">Versi terbaru</string>
     <string name="readme_desc">Periksa repositori GitHub dan README</string>
     <string name="credits_desc">Kredit dan software libre</string>
-    <string name="custom_command_template">Perintah Templat</string>
+    <string name="custom_command_template">Templat perintah</string>
     <string name="start_execute">Mulai jalankan perintah</string>
     <string name="advanced_settings">Lanjutan</string>
     <string name="print_details">Pesan terperinci</string>
@@ -130,7 +130,7 @@
     <string name="service_title">Seal sedang mengunduh…</string>
     <string name="unknown_error">Kesalahan yang tidak diketahui</string>
     <string name="translate_desc">Bantu terjemahkan aplikasi ini di Hosted Weblate</string>
-    <string name="download_path_template">Templat penempatan</string>
+    <string name="download_path_template">Jalur templat</string>
     <string name="custom_output_path">Direktori khusus</string>
     <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
     <string name="edit_custom_path_template_desc">Tentukan subdirektori dengan opsi yang tersedia menggunakan yt-dlp</string>
@@ -147,4 +147,11 @@
     <string name="github_issue">Isu Github</string>
     <string name="github_issue_desc">Kirimkan isu untuk pelaporan masalah atau permintaan fitur</string>
     <string name="info_copied">Info disalin ke papan klip</string>
+    <string name="fetching_video_info">Mengambil info</string>
+    <string name="open_file">Buka file</string>
+    <string name="restart">Ulangi</string>
+    <string name="enqueued">Ditambahkan</string>
+    <string name="completed">Selesai</string>
+    <string name="downloading">Mengunduh</string>
+    <string name="canceled">Dibatalkan</string>
 </resources>

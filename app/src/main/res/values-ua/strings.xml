@@ -145,6 +145,9 @@
     <string name="remove_template_desc">Назавжди видалити \"%1$s\" з командних шаблонів\?</string>
     <string name="template_selection">Вибрати шаблони</string>
     <string name="custom_command_template_desc">Відредагувати і керувати командними шаблонами</string>
-    <string name="downloading_indicator_text">Завантаження в процесі, натисніть щоб скасувати</string>
+    <string name="downloading_indicator_text">Завантаження в процесі, натисніть щоб скасувати.</string>
     <string name="task_canceled">Завантаження відмінено</string>
+    <string name="github_issue">Помилка GitHub</string>
+    <string name="github_issue_desc">Надіслати повідомлення про помилку або пропозицію щодо покращення програми</string>
+    <string name="info_copied">Інформація скопійована в буфер обміну</string>
 </resources>
