@@ -36,7 +36,7 @@ import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
-import com.junkfood.seal.util.PreferenceUtil.getVideoQualityDesc
+import com.junkfood.seal.util.PreferenceUtil.getVideoResolutionDesc
 import com.junkfood.seal.util.TextUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -57,13 +57,16 @@ fun DownloadPreferences(
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
-
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
 
     var downloadNotification by remember {
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
     }
+
+    var videoFormat by remember { mutableStateOf(getVideoFormatDesc()) }
+    var videoResolution by remember { mutableStateOf(getVideoResolutionDesc()) }
+    var audioFormat by remember { mutableStateOf(getAudioFormatDesc()) }
 
     val notificationPermission =
         if (Build.VERSION.SDK_INT >= 33)
@@ -109,7 +112,9 @@ fun DownloadPreferences(
                 )
             }
             LazyColumn(
-                modifier = Modifier.padding(it).navigationBarsPadding()
+                modifier = Modifier
+                    .padding(it)
+                    .navigationBarsPadding()
             ) {
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.general_settings))
@@ -237,7 +242,7 @@ fun DownloadPreferences(
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
-                        description = getVideoFormatDesc(),
+                        description = videoFormat,
                         icon = Icons.Outlined.VideoFile,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoFormatDialog = true }
@@ -245,15 +250,15 @@ fun DownloadPreferences(
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_quality),
-                        description = getVideoQualityDesc(),
-                        icon = Icons.Outlined._4k,
+                        description = videoResolution,
+                        icon = Icons.Outlined.HighQuality,
                         enabled = !customCommandEnable and !audioSwitch
                     ) { showVideoQualityDialog = true }
                 }
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.audio_format),
-                        description = getAudioFormatDesc(),
+                        description = audioFormat,
                         icon = Icons.Outlined.AudioFile,
                         enabled = !customCommandEnable and audioSwitch
                     ) { showAudioFormatEditDialog = true }
@@ -326,15 +331,18 @@ fun DownloadPreferences(
     )
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
+            audioFormat = getAudioFormatDesc()
         }
     }
     if (showVideoQualityDialog) {
         VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {
+            videoResolution = getVideoResolutionDesc()
         }
     }
     if (showVideoFormatDialog) {
-        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false }) {
-        }
+        VideoFormatDialog(onDismissRequest = {
+            showVideoFormatDialog = false
+        }) { videoFormat = getVideoFormatDesc() }
     }
     if (showConcurrentDownloadDialog) {
         ConcurrentDownloadDialog {

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.BaseApplication.Companion.applicationScope
+import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
@@ -40,36 +41,35 @@ object PreferenceUtil {
 
     fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 0)
 
-    @Composable
     fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
         return when (audioFormatCode) {
-            0 -> stringResource(R.string.not_convert)
-            1 -> stringResource(R.string.convert_to).format("mp3")
-            else -> stringResource(R.string.convert_to).format("m4a")
+            0 -> context.getString(R.string.not_convert)
+            1 -> context.getString(R.string.convert_to).format("mp3")
+            else -> context.getString(R.string.convert_to).format("m4a")
         }
     }
 
-    fun getVideoQuality(): Int = kv.decodeInt(VIDEO_QUALITY, 0)
+    fun getVideoResolution(): Int = kv.decodeInt(VIDEO_QUALITY, 0)
 
-    @Composable
-    fun getVideoQualityDesc(videoQualityCode: Int = getVideoQuality()): String {
+    fun getVideoResolutionDesc(videoQualityCode: Int = getVideoResolution()): String {
         return when (videoQualityCode) {
-            1 -> "1440p"
-            2 -> "1080p"
-            3 -> "720p"
-            4 -> "480p"
-            else -> stringResource(R.string.best_quality)
+            1 -> "2160p"
+            2 -> "1440p"
+            3 -> "1080p"
+            4 -> "720p"
+            5 -> "480p"
+            6 -> "360p"
+            else -> context.getString(R.string.best_quality)
         }
     }
 
     fun getVideoFormat(): Int = kv.decodeInt(VIDEO_FORMAT, 0)
 
-    @Composable
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
             1 -> "MP4"
             2 -> "WebM"
-            else -> stringResource(R.string.not_specified)
+            else -> context.getString(R.string.not_specified)
         }
     }
 
@@ -98,6 +98,7 @@ object PreferenceUtil {
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
     const val TEMPLATE_INDEX = "template_index"
+    const val MAX_FILE_SIZE = "max_file_size"
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify

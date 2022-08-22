@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.videolist
 
-import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
@@ -30,7 +29,7 @@ fun DownloadedVideoInfo.filterByType(
     videoFilter: Boolean = false,
     audioFilter: Boolean = true
 ): Boolean {
-    Log.d(TAG, "filterByType: ${this.videoPath}")
+//    Log.d(TAG, "filterByType: ${this.videoPath}")
     return if (!(videoFilter || audioFilter))
         true
     else if (audioFilter)

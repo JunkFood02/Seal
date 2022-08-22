@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
+import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined._4k
 import androidx.compose.material3.*
@@ -13,9 +14,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
+import com.junkfood.seal.util.PreferenceUtil.VIDEO_QUALITY
 
 @Composable
 fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
@@ -96,9 +100,11 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
-    var videoQuality by remember { mutableStateOf(PreferenceUtil.getVideoQuality()) }
+fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
+    var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
+    var fileSize by remember { mutableStateOf(PreferenceUtil.getString(MAX_FILE_SIZE, "")) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -106,12 +112,13 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {})
                 Text(stringResource(R.string.dismiss))
             }
         },
-        icon = { Icon(Icons.Outlined._4k, null) },
+        icon = { Icon(Icons.Outlined.HighQuality, null) },
         title = {
             Text(stringResource(R.string.video_quality))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(PreferenceUtil.VIDEO_QUALITY, videoQuality)
+                PreferenceUtil.updateInt(VIDEO_QUALITY, videoResolution)
+                PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -128,13 +135,67 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {})
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
-                for (i in 0..4)
-                    item {
-                        SingleChoiceItem(
-                            text = PreferenceUtil.getVideoQualityDesc(i),
-                            selected = videoQuality == i
-                        ) { videoQuality = i }
+                item {
+                    var expanded by remember { mutableStateOf(false) }
+                    var videoResolutionText by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }) {
+                        OutlinedTextField(
+                            value = videoResolutionText,
+                            onValueChange = {},
+                            readOnly = true,
+                            leadingIcon = { Icon(Icons.Outlined._4k, null) },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                            },
+                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                            label = { Text(stringResource(id = R.string.video_resolution)) }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }) {
+                            for (i in 0..6)
+                                DropdownMenuItem(
+                                    text = { Text(PreferenceUtil.getVideoResolutionDesc(i)) },
+                                    onClick = {
+                                        videoResolutionText = PreferenceUtil.getVideoResolutionDesc(i)
+                                        videoResolution = i
+                                        expanded = false
+                                    })
+                        }
                     }
+                }
+                item {
+                    var expanded by remember { mutableStateOf(false) }
+
+
+                    val notSpecified = stringResource(R.string.not_specified)
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }) {
+                        OutlinedTextField(
+                            modifier = Modifier.padding(top = 12.dp),
+                            value = fileSize,
+                            onValueChange = {
+                                fileSize = if (it.isDigitsOnly() || it == notSpecified) it else ""
+                            },
+                            leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
+                            trailingIcon = { Text("MB") },
+                            label = { Text(stringResource(id = R.string.video_file_size)) }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }) {
+                            DropdownMenuItem(
+                                text = { Text(notSpecified) },
+                                onClick = {
+                                    fileSize = notSpecified
+                                    expanded = false
+                                })
+                        }
+                    }
+                }
             }
         })
 }
