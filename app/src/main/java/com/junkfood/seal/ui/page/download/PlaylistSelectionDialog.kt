@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DismissButton
@@ -66,7 +67,8 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                                 .focusRequester(item1),
                                 value = from,
                                 onValueChange = {
-                                    from = it
+                                    if (it.isDigitsOnly())
+                                        from = it
                                     error = false
                                 },
                                 label = { Text(stringResource(R.string.from)) },
@@ -89,7 +91,8 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                                 .focusRequester(item2),
                                 value = to,
                                 onValueChange = {
-                                    to = it
+                                    if (it.isDigitsOnly())
+                                        to = it
                                     error = false
                                 },
                                 label = { Text(stringResource(R.string.to)) },

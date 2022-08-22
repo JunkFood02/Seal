@@ -75,7 +75,7 @@
     <string name="audio_format_desc">mp3 或 m4a 格式的音频与大多数设备兼容</string>
     <string name="video_quality">视频画质</string>
     <string name="best_quality">最高画质（默认）</string>
-    <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
+    <string name="video_quality_desc">下载画质不大于所选分辨率与文件大小的最清晰视频</string>
     <string name="not_specified">默认</string>
     <string name="video_format_preference">视频格式偏好</string>
     <string name="video_format_desc">当多种视频格式可供下载时的偏好选项</string>
@@ -157,4 +157,6 @@
     <string name="status_error">发生错误</string>
     <string name="copy_link">复制链接</string>
     <string name="copy_error_report">复制错误报告</string>
+    <string name="video_resolution">分辨率</string>
+    <string name="video_file_size">视频文件大小</string>
 </resources>

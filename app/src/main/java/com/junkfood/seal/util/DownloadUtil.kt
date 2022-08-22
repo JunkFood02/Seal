@@ -8,8 +8,10 @@ import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
+import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
+import com.junkfood.seal.util.TextUtil.isNumberInRange
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
@@ -101,6 +103,7 @@ object DownloadUtil {
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH)
         val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
+        val maxFileSize = PreferenceUtil.getString(MAX_FILE_SIZE, "")
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
         }
@@ -139,11 +142,17 @@ object DownloadUtil {
                 pathBuilder.append(videoDownloadDir)
 
                 val sorter = StringBuilder()
-                when (PreferenceUtil.getVideoQuality()) {
-                    1 -> sorter.append("res:1440")
-                    2 -> sorter.append("res:1080")
-                    3 -> sorter.append("res:720")
-                    4 -> sorter.append("res:480")
+                if (maxFileSize.isNumberInRange(1, 1024)) {
+                    sorter.append("size:${maxFileSize}M,")
+                }
+                when (PreferenceUtil.getVideoResolution()) {
+                    1 -> sorter.append("res:2160")
+                    2 -> sorter.append("res:1440")
+                    3 -> sorter.append("res:1080")
+                    4 -> sorter.append("res:720")
+                    5 -> sorter.append("res:480")
+                    6 -> sorter.append("res:360")
+                    else -> sorter.append("res")
                 }
                 when (PreferenceUtil.getVideoFormat()) {
                     1 -> sorter.append(",ext:mp4")

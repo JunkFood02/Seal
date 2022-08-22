@@ -142,7 +142,7 @@ fun DownloadSettingDialog(
                         onClick = { showVideoQualityDialog = true },
                         enabled = !customCommand && !audio,
                         label = stringResource(R.string.video_quality),
-                        icon = Icons.Outlined._4k
+                        icon = Icons.Outlined.HighQuality
                     )
                     ButtonChip(
                         onClick = { showAudioFormatEditDialog = true },
