@@ -7,7 +7,6 @@ import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 object DatabaseUtil {
@@ -26,8 +25,6 @@ object DatabaseUtil {
     }
 
     fun getMediaInfo() = dao.getAllMedia()
-    fun getVideoInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllVideos()
-    fun getAudioInfo(): Flow<List<DownloadedVideoInfo>> = dao.getAllAudios()
 
     fun getTemplateFlow() = dao.getTemplateFlow()
 
