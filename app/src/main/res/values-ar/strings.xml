@@ -47,7 +47,7 @@
     <string name="convert_to">التحويل إلى%1$s</string>
     <string name="format">صيغة</string>
     <string name="audio_format">تحويل صيغة الصوت</string>
-    <string name="video_quality_desc">قصر جودة الصيغة على هذا المستوى</string>
+    <string name="video_quality_desc">قصر جودة الصيغة وحجم الملف</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
     <string name="video_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
     <string name="video_format">صيغة الفيديو</string>
@@ -154,4 +154,9 @@
     <string name="status_fetching_video_info">جارٍ إحضار المعلومات</string>
     <string name="restart">إعادة بدء</string>
     <string name="open_file">افتح الملف</string>
+    <string name="status_error">خطأ</string>
+    <string name="copy_link">انسخ الرابط</string>
+    <string name="copy_error_report">تقرير أخطاء</string>
+    <string name="video_file_size">حجم ملف الفيديو</string>
+    <string name="video_resolution">دقة الفيديو</string>
 </resources>

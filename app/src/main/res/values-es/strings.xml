@@ -77,7 +77,7 @@
     <string name="audio_format_desc">El audio en formato mp3 o m4a son compatibles en la mayoría de dispositivos</string>
     <string name="video_quality">Calidad del vídeo</string>
     <string name="best_quality">Mejor calidad (por defecto)</string>
-    <string name="video_quality_desc">Descarga los videos con una calidad no mejor que la resolución seleccionada</string>
+    <string name="video_quality_desc">Descarga los videos con una calidad no mejor que la resolución seleccionada y un tamaño mayor al escrito</string>
     <string name="not_specified">Sin especificar (por defecto)</string>
     <string name="video_format_preference">Preferencia de formato de vídeo</string>
     <string name="video_format_desc">Formato de vídeo preferido cuando varios formatos sean posibles</string>
@@ -154,4 +154,9 @@
     <string name="github_issue">Reportar un problema en GitHub</string>
     <string name="github_issue_desc">Envía un reporte de un problema que te ha ocurrido o haz una petición de alguna funcionalidad que te gustaría que tuviera Seal</string>
     <string name="info_copied">Información copiada al portapapeles</string>
+    <string name="copy_link">Copiar enlace</string>
+    <string name="copy_error_report">Informe de errores</string>
+    <string name="status_error">Error</string>
+    <string name="video_resolution">Resolución de vídeo</string>
+    <string name="video_file_size">Tamaño del archivo del vídeo</string>
 </resources>

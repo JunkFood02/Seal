@@ -154,4 +154,7 @@
     <string name="status_downloading">Загрузка</string>
     <string name="status_enqueued">В очереди</string>
     <string name="status_canceled">Отменено</string>
+    <string name="copy_error_report">Сообщить об ошибке</string>
+    <string name="status_error">Ошибка</string>
+    <string name="copy_link">Скопировать ссылку</string>
 </resources>
