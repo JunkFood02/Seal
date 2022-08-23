@@ -123,29 +123,33 @@ object PreferenceUtil {
     private const val JAPANESE = 19
     private const val POLISH = 20
     private const val HUNGARIAN = 21
+    private const val MALAY = 22
+    private const val TRADITIONAL_CHINESE = 23
 
-    // Sorted by the date the translation was added
+    // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
+        Pair(ARABIC, "ar"),
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
-        Pair(ENGLISH, "en-US"),
+        Pair(TRADITIONAL_CHINESE, "zh-TW"),
         Pair(CZECH, "cs"),
+        Pair(DANISH, "da"),
+        Pair(DUTCH, "nl"),
+        Pair(ENGLISH, "en-US"),
+        Pair(FILIPINO, "fil"),
         Pair(FRENCH, "fr"),
         Pair(GERMAN, "de"),
+        Pair(HUNGARIAN, "hu"),
+        Pair(INDONESIAN, "in"),
+        Pair(ITALIAN, "it"),
+        Pair(MALAY, "ms"),
         Pair(NORWEGIAN, "nb-NO"),
-        Pair(DANISH, "da"),
+        Pair(PERSIAN, "fa"),
+        Pair(POLISH, "pl"),
+        Pair(PORTUGUESE_BRAZIL, "pt-BR"),
+        Pair(RUSSIAN, "ru"),
         Pair(SPANISH, "es"),
         Pair(TURKISH, "tr"),
-        Pair(RUSSIAN, "ru"),
-        Pair(ARABIC, "ar"),
         Pair(UKRAINIAN, "ua"),
-        Pair(PORTUGUESE_BRAZIL, "pt-BR"),
-        Pair(PERSIAN, "fa"),
-        Pair(INDONESIAN, "in"),
-        Pair(FILIPINO, "fil"),
-        Pair(ITALIAN, "it"),
-        Pair(DUTCH, "nl"),
-        Pair(POLISH, "pl"),
-        Pair(HUNGARIAN, "hu"),
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -201,6 +205,8 @@ object PreferenceUtil {
             JAPANESE -> stringResource(R.string.la_ja)
             POLISH -> stringResource(R.string.la_pl)
             HUNGARIAN -> stringResource(R.string.la_hu)
+            MALAY -> stringResource(R.string.la_ms)
+            TRADITIONAL_CHINESE -> stringResource(R.string.la_zh_TW)
             else -> stringResource(R.string.follow_system)
         }
     }

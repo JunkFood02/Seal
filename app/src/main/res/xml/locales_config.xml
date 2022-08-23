@@ -20,4 +20,6 @@
     <locale android:name="fil" />
     <locale android:name="pl" />
     <locale android:name="hu" />
+    <locale android:name="ms" />
+    <locale android:name="zh-TW" />
 </locale-config>
