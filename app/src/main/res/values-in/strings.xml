@@ -99,7 +99,7 @@
     <string name="video_format_preference">Format video pilihan</string>
     <string name="close">Tutup</string>
     <string name="convert_to">Ubah ke %1$s</string>
-    <string name="video_quality_desc">Batasi kualitas format sampai level ini</string>
+    <string name="video_quality_desc">Batasi kualitas format dan ukuran file</string>
     <string name="not_specified">Tidak terspesifikasi (bawaan)</string>
     <string name="close_never_show_again">Jangan tampikan lagi</string>
     <string name="paste_desc">Tekan \"Tempel\" untuk mendapatkan link video dari papan klip Anda.</string>
@@ -154,4 +154,9 @@
     <string name="status_completed">Selesai</string>
     <string name="status_downloading">Mengunduh</string>
     <string name="status_canceled">Dibatalkan</string>
+    <string name="copy_error_report">Laporan kesalahan</string>
+    <string name="status_error">Kesalahan</string>
+    <string name="copy_link">Salin link</string>
+    <string name="video_file_size">Ukuran file video</string>
+    <string name="video_resolution">Resolusi video</string>
 </resources>

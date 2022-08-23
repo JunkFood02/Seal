@@ -77,7 +77,7 @@
     <string name="convert_to">Converti in %1$s</string>
     <string name="video_quality">Qualità video</string>
     <string name="not_specified">Non specificato (predefinito)</string>
-    <string name="video_quality_desc">Limita la qualità del formato a questo livello</string>
+    <string name="video_quality_desc">Limitare la qualità del formato e le dimensioni del file</string>
     <string name="thumbnail">miniatura</string>
     <string name="video_format_desc">Formato predefinito quando ne sono forniti molteplici</string>
     <string name="video_format">Formato video</string>
@@ -154,4 +154,9 @@
     <string name="info_copied">Informazioni copiate negli appunti</string>
     <string name="github_issue_desc">Invia una segnalazione di bug o una richiesta per nuove funzioni</string>
     <string name="github_issue">Segnala un problema su GitHub</string>
+    <string name="copy_link">Copia il collegamento</string>
+    <string name="status_error">Errore</string>
+    <string name="copy_error_report">Rapporto di errore</string>
+    <string name="video_resolution">Risoluzione video</string>
+    <string name="video_file_size">Dimensione del file video</string>
 </resources>
