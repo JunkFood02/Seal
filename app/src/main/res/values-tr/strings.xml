@@ -134,4 +134,25 @@
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
     <string name="download_path_template">Path template</string>
+    <string name="embed_subtitles">Altyazıları göm</string>
+    <string name="new_template">Yeni şablon</string>
+    <string name="template_label">Etiket</string>
+    <string name="remove_template">Kaldırılsın mı\?</string>
+    <string name="remove_template_desc">\"%1$s\" komut şablonundan temelli kaldırılsın mı\?</string>
+    <string name="template_selection">Şablon seçimi</string>
+    <string name="custom_command_template_desc">Komut şablonlarını düzenle ve yönet</string>
+    <string name="downloading_indicator_text">İndirme işlemi işlemde, iptal etmek için tıklayın.</string>
+    <string name="open_file">Dosyayı aç</string>
+    <string name="restart">Yeniden başlat</string>
+    <string name="status_enqueued">Sıraya alındı</string>
+    <string name="status_completed">Tamamlandı</string>
+    <string name="status_fetching_video_info">Bilgi alınıyor</string>
+    <string name="status_error">Hata</string>
+    <string name="copy_link">Bağlantıyı kopyala</string>
+    <string name="copy_error_report">Haya raporu</string>
+    <string name="status_canceled">İptal edildi</string>
+    <string name="status_downloading">İndiriliyor</string>
+    <string name="task_canceled">İndirme işlemi iptal edildi</string>
+    <string name="github_issue">GitHub issue</string>
+    <string name="info_copied">Bilgi panoya kopyalandı</string>
 </resources>

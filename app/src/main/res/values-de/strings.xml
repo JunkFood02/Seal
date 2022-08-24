@@ -79,7 +79,7 @@
     <string name="close">Schließen</string>
     <string name="video_format_desc">Bevorzugtes Videoformat, wenn mehrere vorhanden sind</string>
     <string name="not_specified">Nicht angegeben (Standard)</string>
-    <string name="video_quality_desc">Beschränke die Qualität auf diese Stufe</string>
+    <string name="video_quality_desc">Begrenzung der Formatqualität und der Dateigröße</string>
     <string name="custom_command_desc">yt-dlp-Befehl mit benutzerdefinierter Vorlage ausführen</string>
     <string name="custom_command_template">Befehlsvorlage</string>
     <string name="start_execute">Ausführung des Befehls anfangen</string>
@@ -154,4 +154,9 @@
     <string name="status_fetching_video_info">Informationen abrufen</string>
     <string name="open_file">Datei öffnen</string>
     <string name="restart">Neustarten</string>
+    <string name="status_error">Fehler</string>
+    <string name="copy_link">Link kopieren</string>
+    <string name="copy_error_report">Fehlerbericht</string>
+    <string name="video_resolution">Videoauflösung</string>
+    <string name="video_file_size">Größe der Videodatei</string>
 </resources>

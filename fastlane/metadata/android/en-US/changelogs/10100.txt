@@ -1,0 +1,5 @@
+Bug Fix: Inappropriate notification updates
+Bug Fix: App crashes when download finishes in some occasions
+Feature Update: Limit the maximum size of video files
+Add Malay translations by Adam Iskandar
+Add Chinese (Traditional) translations by Jason Du

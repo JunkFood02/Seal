@@ -142,7 +142,7 @@ object DownloadUtil {
                 pathBuilder.append(videoDownloadDir)
 
                 val sorter = StringBuilder()
-                if (maxFileSize.isNumberInRange(1, 1024)) {
+                if (maxFileSize.isNumberInRange(1, 4096)) {
                     sorter.append("size:${maxFileSize}M,")
                 }
                 when (PreferenceUtil.getVideoResolution()) {
@@ -166,7 +166,7 @@ object DownloadUtil {
             }
             if (createThumbnail) {
                 addOption("--write-thumbnail")
-                addOption("--convert-thumbnails", "jpg")
+                addOption("--convert-thumbnails", "png")
                 addOption("-o", "thumbnail:%(title)s.%(ext)s")
             }
             if (!downloadPlaylist) {

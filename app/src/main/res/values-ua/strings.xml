@@ -55,7 +55,7 @@
     <string name="print_details">Детальний лог</string>
     <string name="print_details_desc">Виводити докладні повідомлення під час завантаження (відсоток завантаження)</string>
     <string name="display">Персоналiзацiя</string>
-    <string name="display_settings">Темна тема, динамічний колір, мова</string>
+    <string name="display_settings">Темна тема, динамічні кольори, мови</string>
     <string name="dark_theme">Темна тема</string>
     <string name="follow_system">Система</string>
     <string name="on">Увiмкнуто</string>
@@ -73,10 +73,10 @@
     <string name="not_convert">Залишити як є</string>
     <string name="convert_to">Конвертувати в %1$s</string>
     <string name="format">Формат</string>
-    <string name="audio_format_desc">Аудіо у форматах mp3 та m4a підтримуються більшістю пристроїв.</string>
+    <string name="audio_format_desc">Аудіо у форматах MP3 или M4A підтримуються на більшості пристроїв</string>
     <string name="video_quality">Якiсть вiдео</string>
     <string name="best_quality">Найкраща якiсть (за замовчуванням)</string>
-    <string name="video_quality_desc">Обрати якість відео</string>
+    <string name="video_quality_desc">Виберіть ліміт для якості та розміру файлу</string>
     <string name="not_specified">За замовчуванням</string>
     <string name="video_format_preference">Формат вiдео</string>
     <string name="video_format_desc">Вибраний формат відео якщо декiлька надано</string>
@@ -90,9 +90,7 @@
     <string name="paste_desc">Натисніть \"Вставити\", щоб вставити посилання з твого буфера обміну.</string>
     <string name="download_desc">Після чого натисніть \"Завантажити\", щоб почати завантаження.</string>
     <string name="download_history_desc">Перевірка та керування завантаженнями, включаючи аудіо та відео.</string>
-    <string name="check_download_settings_desc">Погляньте на параметри завантаження і переконайтеся,
-        що у вас встановлена остання версія перед початком використання
-    </string>
+    <string name="check_download_settings_desc">Перед початком використання знайомтеся з налаштуваннями завантаження та переконайтеся, що у Вас встановлена остання версія yt-dlp.</string>
     <string name="download_playlist">Завантажити плейлист</string>
     <string name="download_playlist_desc">Завантажити декілька відео з плейлиста</string>
     <string name="defaults">За замовчуванням</string>
@@ -122,11 +120,11 @@
     <string name="playlist_indicator_text">Завантажується плейлист (з %1$d по %2$d), Натисніть щоб зупинити.</string>
     <string name="audio_directory">Тека аудiо</string>
     <string name="download_directory">Тека завантажень</string>
-    <string name="download_directory_desc">Обрати місце для зберігання вiдео та аудіо файлiв.</string>
+    <string name="download_directory_desc">Оберіть місце для збереження вiдео та аудіофайлiв</string>
     <string name="subdirectory">Зберегти до піддиректорії</string>
     <string name="subdirectory_desc">Зберігайте файли в папках, названих відповідними веб-сайтами</string>
     <string name="permission_issue">Непідтримувана директорія</string>
-    <string name="permission_issue_desc">Директорії за межами Documents/ й Download/ не пiдтримуються.</string>
+    <string name="permission_issue_desc">Директорії за межами Documents/ й Download/ не пiдтримуються</string>
     <string name="battery_configuration">Конфiгурацiя батареї</string>
     <string name="battery_configuration_desc">Ігнорувати оптимізацію батареї для фонових завантажень</string>
     <string name="service_title">Я завантажую вiдео, коханий…</string>
@@ -150,4 +148,16 @@
     <string name="github_issue">Помилка GitHub</string>
     <string name="github_issue_desc">Надіслати повідомлення про помилку або пропозицію щодо покращення програми</string>
     <string name="info_copied">Інформація скопійована в буфер обміну</string>
+    <string name="open_file">Відкрити файл</string>
+    <string name="status_enqueued">Поставлено в чергу</string>
+    <string name="status_completed">Виконано</string>
+    <string name="status_downloading">Завантаження</string>
+    <string name="status_canceled">Cкасовано</string>
+    <string name="status_fetching_video_info">Отримання інформації</string>
+    <string name="restart">Перезавантажити</string>
+    <string name="status_error">Помилка</string>
+    <string name="copy_link">Скопіювати посилання</string>
+    <string name="copy_error_report">Повідомити про помилку</string>
+    <string name="video_file_size">Розмір відеофайлу</string>
+    <string name="video_resolution">Роздільна здатність</string>
 </resources>
