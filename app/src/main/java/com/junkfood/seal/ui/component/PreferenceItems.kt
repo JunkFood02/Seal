@@ -7,6 +7,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -281,10 +282,11 @@ fun PreferencesCaution(
 }
 
 @Composable
+@Preview
 fun PreferencesHint(
-    title: String,
-    description: String? = null,
-    icon: ImageVector? = null,
+    title: String="Title ".repeat(2),
+    description: String? = "Description text ".repeat(3),
+    icon: ImageVector? = Icons.Outlined.Translate,
     onClick: () -> Unit = {},
 ) {
 

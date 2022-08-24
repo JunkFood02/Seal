@@ -8,10 +8,13 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 object DatabaseUtil {
+    val format = Json { prettyPrint = true }
     private const val DATABASE_NAME = "app_database"
-
     private val db = Room.databaseBuilder(
         context,
         AppDatabase::class.java, DATABASE_NAME
@@ -46,4 +49,23 @@ object DatabaseUtil {
     suspend fun deleteTemplate(commandTemplate: CommandTemplate) {
         dao.deleteTemplate(commandTemplate)
     }
+
+    suspend fun exportTemplatesToJson(): String {
+        return format.encodeToString(getTemplateList())
+    }
+
+    suspend fun importTemplatesFromJson(json: String): Int {
+        val list = getTemplateList()
+        var cnt = 0
+        format.decodeFromString<List<CommandTemplate>>(json)
+            .forEach {
+                if (!list.contains(it)) {
+                    cnt++
+                    dao.insertTemplate(it.copy(id = 0))
+                }
+            }
+        return cnt
+    }
+
+    private const val TAG = "DatabaseUtil"
 }

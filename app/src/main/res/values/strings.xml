@@ -192,4 +192,9 @@
     <string name="video_file_size">Video file size</string>
     <string name="la_ms" translatable="false">Bahasa Melayu</string>
     <string name="la_zh_TW" translatable="false">繁體中文</string>
+    <string name="export_to_clipboard">Export to clipboard</string>
+    <string name="import_from_clipboard">Import from clipboard</string>
+    <string name="template_exported">Exported %1$d template(s)</string>
+    <string name="template_imported">Imported %1$d template(s)</string>
+>>>>>>> 829ed05 (Feature Update: Export/import command templates)
 </resources>
