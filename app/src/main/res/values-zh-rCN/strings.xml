@@ -101,7 +101,7 @@
     <string name="execute_command_notification">正在执行自定义命令</string>
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”。</string>
     <string name="concurrent_download">并发下载</string>
-    <string name="concurrent_download_desc">使用多线程下载 m3u8/mpd 视频</string>
+    <string name="concurrent_download_desc">使用多线程下载 HLS/DASH 流视频</string>
     <string name="concurrent_download_num">将同时使用 %d 个线程下载 HLS/DASH 流视频</string>
     <string name="options">选项</string>
     <string name="additional_settings">附加设置</string>
@@ -133,7 +133,7 @@
     <string name="download_path_template">输出路径模板</string>
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
-    <string name="edit_custom_path_template_desc">使用yt-dlp提供的值指定保存文件的子文件夹</string>
+    <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>
     <string name="embed_subtitles">内嵌字幕</string>
     <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
     <string name="new_template">新建命令模板</string>

@@ -38,6 +38,7 @@ const val jetpack = "https://github.com/androidx/androidx"
 const val coil = "https://github.com/coil-kt/coil"
 const val mmkv = "https://github.com/Tencent/MMKV"
 const val dagger = "https://github.com/google/dagger"
+const val kotlin = "https://kotlinlang.org/"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +52,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
 
     val creditsList = listOf(
         Credit("Android Jetpack", APACHE_V2, jetpack),
+        Credit("Kotlin", APACHE_V2, kotlin),
         Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),
         Credit("yt-dlp", UNLICENSE, ytdlpUrl),
         Credit("Read You", GPL_V3, readYou),

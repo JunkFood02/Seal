@@ -196,5 +196,6 @@
     <string name="import_from_clipboard">Import from clipboard</string>
     <string name="template_exported">Exported %1$d template(s)</string>
     <string name="template_imported">Imported %1$d template(s)</string>
->>>>>>> 829ed05 (Feature Update: Export/import command templates)
+    <string name="download_task_count">%1$d Download tasks</string>
+    <string name="recently_added">Recently Added</string>
 </resources>
