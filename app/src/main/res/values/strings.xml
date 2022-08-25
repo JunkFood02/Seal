@@ -191,5 +191,5 @@
     <string name="video_resolution">Video resolution</string>
     <string name="video_file_size">Video file size</string>
     <string name="la_ms" translatable="false">Bahasa Melayu</string>
-    <string name="la_zh_TW" translatable="false">繁体中文</string>
+    <string name="la_zh_TW" translatable="false">繁體中文</string>
 </resources>
