@@ -163,4 +163,8 @@
     <string name="import_from_clipboard">从剪贴板导入</string>
     <string name="template_exported">共导出了 %1$d 条模板</string>
     <string name="template_imported">共导入了 %1$d 条模板</string>
+    <string name="download_task_count">%1$d 下载任务</string>
+    <string name="recently_added">最近添加</string>
+    <string name="multiselect_item_count">%1$d 视频，%2$d 音频</string>
+    <string name="delete_multiple_items_msg">确定要移除已选取的 %1$d 条下载记录吗？这个操作无法被撤销。</string>
 </resources>

@@ -5,9 +5,6 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.database.AppDatabase
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -22,7 +19,7 @@ object DatabaseUtil {
     private val dao = db.videoInfoDao()
     suspend fun insertInfo(vararg infoList: DownloadedVideoInfo) {
         for (info in infoList) {
-            dao.deleteByPath(info.videoPath)
+            dao.deleteInfoByPath(info.videoPath)
             dao.insertAll(info)
         }
     }
@@ -32,11 +29,9 @@ object DatabaseUtil {
     fun getTemplateFlow() = dao.getTemplateFlow()
 
     suspend fun getTemplateList() = dao.getTemplateList()
-    fun deleteInfoById(id: Int) {
-        CoroutineScope(Job()).launch {
-            dao.deleteById(id)
-        }
-    }
+
+    suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)
+    suspend fun deleteInfoById(id: Int) = dao.deleteInfoById(id)
 
     suspend fun insertTemplate(commandTemplate: CommandTemplate) {
         dao.insertTemplate(commandTemplate)

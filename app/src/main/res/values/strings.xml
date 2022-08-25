@@ -198,4 +198,6 @@
     <string name="template_imported">Imported %1$d template(s)</string>
     <string name="download_task_count">%1$d Download tasks</string>
     <string name="recently_added">Recently Added</string>
+    <string name="multiselect_item_count">%1$d video(s), %2$d audio file(s)</string>
+    <string name="delete_multiple_items_msg">Remove %1$d item(s) from your download history for good?</string>
 </resources>

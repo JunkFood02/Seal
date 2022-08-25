@@ -31,7 +31,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     val stateFlow = mutableStateFlow.asStateFlow()
 
     val videoListFlow = mediaInfoFlow
-
     fun clickVideoFilter() {
         if (mutableStateFlow.value.videoFilter)
             mutableStateFlow.update { it.copy(videoFilter = false) }
@@ -110,10 +109,10 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     fun removeItem(delete: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                if (delete)
-                    with(File(_detailViewState.value.path)) {
-                        if (exists() and canWrite()) delete()
-                    }
+                if (delete) {
+                    val info = DatabaseUtil.getInfoById(_detailViewState.value.id)
+                    File(info.videoPath).delete()
+                }
                 DatabaseUtil.deleteInfoById(_detailViewState.value.id)
             }
         }

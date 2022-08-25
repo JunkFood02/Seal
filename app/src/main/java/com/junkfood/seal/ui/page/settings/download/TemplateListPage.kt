@@ -69,6 +69,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                 var expanded by remember { mutableStateOf(false) }
                 Box(
                     modifier = Modifier
+                        .padding(horizontal = 8.dp)
                         .wrapContentSize(Alignment.TopEnd)
                 ) {
                     IconButton(onClick = { expanded = true }) {
