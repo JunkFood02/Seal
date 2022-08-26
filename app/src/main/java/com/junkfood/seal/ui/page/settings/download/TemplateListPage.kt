@@ -108,8 +108,8 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                             onClick = {
                                 scope.launch {
                                     expanded = false
-                                    clipboardManager.getText()?.text.let {
-                                        if (!it.isNullOrEmpty()) {
+                                    clipboardManager.getText()?.text?.let {
+                                        if (it.isNotEmpty()) {
                                             val res = DatabaseUtil.importTemplatesFromJson(it)
                                             snackbarHostState.showSnackbar(
                                                 context.getString(R.string.template_imported)

@@ -57,13 +57,17 @@ object DatabaseUtil {
     suspend fun importTemplatesFromJson(json: String): Int {
         val list = getTemplateList()
         var cnt = 0
-        format.decodeFromString<List<CommandTemplate>>(json)
-            .forEach {
-                if (!list.contains(it)) {
-                    cnt++
-                    dao.insertTemplate(it.copy(id = 0))
+        try {
+            format.decodeFromString<List<CommandTemplate>>(json)
+                .forEach {
+                    if (!list.contains(it)) {
+                        cnt++
+                        dao.insertTemplate(it.copy(id = 0))
+                    }
                 }
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         return cnt
     }
 
