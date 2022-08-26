@@ -50,7 +50,7 @@
     <string name="convert_to">Converter para %1$s</string>
     <string name="format">Formato</string>
     <string name="best_quality">Melhor qualidade (padrão)</string>
-    <string name="video_quality_desc">Limitar a qualidade do formato a este nível</string>
+    <string name="video_quality_desc">Limitar a qualidade do formato e o tamanho do arquivo</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
     <string name="start_download">Download</string>
@@ -157,4 +157,14 @@
     <string name="github_issue">GitHub issue</string>
     <string name="github_issue_desc">Enviar um issue para reportar um bug ou pedir uma feature</string>
     <string name="info_copied">Informação copiada para a área de transferênia</string>
+    <string name="video_resolution">Resolução de Vídeo</string>
+    <string name="video_file_size">Tamanho do arquivo de vídeo</string>
+    <string name="import_from_clipboard">Importar da área de transferência</string>
+    <string name="template_imported">%1$d modelo(s) importado(s)</string>
+    <string name="download_task_count">%1$d Tarefa(s) de download(s)</string>
+    <string name="recently_added">Adicionado recentemente</string>
+    <string name="multiselect_item_count">%1$d vídeo(s), %2$d arquivo(s) de áudio</string>
+    <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads para sempre\?</string>
+    <string name="template_exported">Exportado %1$d modelo(s)</string>
+    <string name="export_to_clipboard">Exportar para a área de transferência</string>
 </resources>
