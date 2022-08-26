@@ -1,10 +1,13 @@
 package com.junkfood.seal.util
 
 import androidx.room.Room
+import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.database.AppDatabase
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -17,10 +20,12 @@ object DatabaseUtil {
         AppDatabase::class.java, DATABASE_NAME
     ).build()
     private val dao = db.videoInfoDao()
-    suspend fun insertInfo(vararg infoList: DownloadedVideoInfo) {
-        for (info in infoList) {
-            dao.deleteInfoByPath(info.videoPath)
-            dao.insertAll(info)
+    fun insertInfo(vararg infoList: DownloadedVideoInfo) {
+        applicationScope.launch(Dispatchers.IO) {
+            for (info in infoList) {
+                dao.deleteInfoByPath(info.videoPath)
+                dao.insertAll(info)
+            }
         }
     }
 

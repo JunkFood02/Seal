@@ -131,7 +131,9 @@ fun VideoListPage(
                 enter = expandVertically() + fadeIn(),
                 exit = shrinkVertically() + fadeOut()
             ) {
-                BottomAppBar() {
+                BottomAppBar(
+                    modifier = Modifier.navigationBarsPadding()
+                ) {
                     Checkbox(
                         checked = selectedItemIds.size == visibleItemCount.value && selectedItemIds.isNotEmpty(),
                         onCheckedChange = {
