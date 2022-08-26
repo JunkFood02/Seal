@@ -159,4 +159,12 @@
     <string name="copy_error_report">Fehlerbericht</string>
     <string name="video_resolution">Videoauflösung</string>
     <string name="video_file_size">Größe der Videodatei</string>
+    <string name="export_to_clipboard">In Zwischenablage exportieren</string>
+    <string name="import_from_clipboard">Aus Zwischenablage importieren</string>
+    <string name="template_exported">Exportierte %1$d Vorlage(n)</string>
+    <string name="template_imported">Importierte %1$d Vorlage(n)</string>
+    <string name="recently_added">Kürzlich hinzugefügt</string>
+    <string name="multiselect_item_count">%1$d Video(s), %2$d Audio-Datei(en)</string>
+    <string name="delete_multiple_items_msg">%1$d für immer aus deinem Downloadverlauf entfernen\?</string>
+    <string name="download_task_count">%1$d Download-Aufgaben</string>
 </resources>

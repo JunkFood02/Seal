@@ -32,7 +32,7 @@
     <string name="downloads_history">下載</string>
     <string name="language_settings">設定介面語言</string>
     <string name="ytdlp_version">Yt-dlp 版本</string>
-    <string name="task_running">現有的下載任務已在執行</string>
+    <string name="task_running">現有的下載任務仍在執行</string>
     <string name="delete_info">確定移除？</string>
     <string name="video">視訊</string>
     <string name="checked">已選取</string>
@@ -51,9 +51,9 @@
     <string name="edit_custom_command_template">編輯</string>
     <string name="start_execute">開始執行命令</string>
     <string name="display">顯示</string>
-    <string name="display_settings">深色模式、動態色彩、語言</string>
-    <string name="dark_theme">深色模式</string>
-    <string name="follow_system">系統</string>
+    <string name="display_settings">深色主題、動態色彩、語言</string>
+    <string name="dark_theme">深色主題</string>
+    <string name="follow_system">系統預設</string>
     <string name="on">開啟</string>
     <string name="off">關閉</string>
     <string name="cancel">取消</string>
@@ -113,7 +113,7 @@
     <string name="edit_custom_path_template_desc">以 yt-dlp 提供可用之變數指定子目錄</string>
     <string name="new_template">新增範本</string>
     <string name="embed_subtitles_desc">如有提供可用字幕則將其內嵌至視訊中</string>
-    <string name="permission_issue">儲存權限發生問題</string>
+    <string name="permission_issue">儲存權限有已知問題</string>
     <string name="battery_configuration_desc">忽略此應用程式的電池最佳化設定以利背景下載</string>
     <string name="template_label">標籤</string>
     <string name="remove_template">確定移除？</string>
@@ -121,7 +121,7 @@
     <string name="template_selection">範本選取</string>
     <string name="github_issue_desc">提交錯誤報告或功能請求議題</string>
     <string name="info_copied">已複製資訊到剪貼簿</string>
-    <string name="status_enqueued">工作佇列</string>
+    <string name="status_enqueued">任務佇列</string>
     <string name="status_completed">已完成</string>
     <string name="status_downloading">正在下載</string>
     <string name="status_fetching_video_info">正在擷取資訊</string>
@@ -159,4 +159,12 @@
     <string name="copy_link">複製連結</string>
     <string name="copy_error_report">錯誤報告</string>
     <string name="concurrent_download_desc">以更多執行緒下載 M3U8/MPD 視訊</string>
+    <string name="import_from_clipboard">從剪貼簿匯入</string>
+    <string name="template_exported">已匯出 %1$d 個範本</string>
+    <string name="template_imported">已匯入 %1$d 個範本</string>
+    <string name="download_task_count">%1$d 項下載任務</string>
+    <string name="recently_added">最近新增</string>
+    <string name="multiselect_item_count">%1$d 個視訊，%2$d 個音訊</string>
+    <string name="export_to_clipboard">匯出到剪貼簿</string>
+    <string name="delete_multiple_items_msg">確定要移除 %1$d 項下載記錄嗎？</string>
 </resources>
