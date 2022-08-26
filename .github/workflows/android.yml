@@ -37,4 +37,3 @@ jobs:
         with:
           name: Signed apks
           path: app/build/outputs/apk/release/*-signed.apk
-
