@@ -104,7 +104,8 @@ fun VideoListPage(
 
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .navigationBarsPadding(),
         topBar = {
             LargeTopAppBar(
                 title = {
@@ -132,7 +133,7 @@ fun VideoListPage(
                 exit = shrinkVertically() + fadeOut()
             ) {
                 BottomAppBar(
-                    modifier = Modifier.navigationBarsPadding()
+                    modifier = Modifier
                 ) {
                     Checkbox(
                         checked = selectedItemIds.size == visibleItemCount.value && selectedItemIds.isNotEmpty(),
@@ -170,7 +171,6 @@ fun VideoListPage(
 
         LazyColumn(
             modifier = Modifier
-                .navigationBarsPadding()
                 .padding(innerPadding),
         ) {
             item {
