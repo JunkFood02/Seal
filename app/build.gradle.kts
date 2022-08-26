@@ -6,14 +6,15 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 1
+val versionMinor = 2
 val versionPatch = 0
-val versionBuild = 0
-val isStable = true
+val versionBuild = 3
+val isStable = false
 
 val composeVersion = "1.2.1"
 val lifecycleVersion = "2.6.0-alpha01"
@@ -160,6 +161,8 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:$coilVersion")
     implementation("io.coil-kt:coil-video:$coilVersion")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")

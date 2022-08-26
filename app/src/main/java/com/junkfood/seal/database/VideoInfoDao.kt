@@ -8,26 +8,20 @@ interface VideoInfoDao {
     @Insert
     suspend fun insertAll(vararg info: DownloadedVideoInfo)
 
-    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath not like '%.mp3' and videoPath not like '%.m4a' and videoPath not like '%.opus'")
-    fun getAllVideos(): Flow<List<DownloadedVideoInfo>>
-
-    @Query("SELECT * FROM DownloadedVideoInfo WHERE videoPath like '%.mp3' or videoPath like '%.m4a' or videoPath like '%.opus'")
-    fun getAllAudios(): Flow<List<DownloadedVideoInfo>>
-
     @Query("select * from DownloadedVideoInfo")
     fun getAllMedia(): Flow<List<DownloadedVideoInfo>>
+
+    @Query("select * from DownloadedVideoInfo where id=:id")
+    suspend fun getInfoById(id: Int): DownloadedVideoInfo
 
     @Delete
     suspend fun delete(info: DownloadedVideoInfo)
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE id = :id")
-    suspend fun deleteById(id: Int)
-
-    @Query("DELETE FROM DownloadedVideoInfo WHERE videoTitle = :title")
-    suspend fun deleteByTitle(title: String)
+    suspend fun deleteInfoById(id: Int)
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
-    suspend fun deleteByPath(path: String)
+    suspend fun deleteInfoByPath(path: String)
 
     @Query("SELECT * FROM CommandTemplate")
     fun getTemplateFlow(): Flow<List<CommandTemplate>>

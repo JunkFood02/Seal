@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -17,13 +18,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 
 enum class DownloadTaskItemStatus(
     val statusLabelId: Int, val primaryButtonIcon: ImageVector, val primaryOperationDescId: Int
@@ -59,7 +60,7 @@ enum class DownloadTaskItemStatus(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadTaskItem(
-    modifier: Modifier = Modifier.padding(12.dp),
+    modifier: Modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
     imageModel: Any = R.drawable.ic_launcher_foreground,
     title: String = "sample title ".repeat(5),
     author: String = "author sample ".repeat(5),
@@ -71,7 +72,11 @@ fun DownloadTaskItem(
 ) {
     var isExpanded by remember { mutableStateOf(expanded) }
     var isMenuExpanded by remember { mutableStateOf(false) }
-    ElevatedCard(modifier = modifier, onClick = { isExpanded = !isExpanded }) {
+    ElevatedCard(
+        modifier = modifier,
+        onClick = { isExpanded = !isExpanded },
+        shape = MaterialTheme.shapes.small
+    ) {
         Column() {
             Box() {
                 Row(
@@ -92,9 +97,9 @@ fun DownloadTaskItem(
                         modifier = Modifier
                             .padding(12.dp)
                             .weight(1f)
-                            .clip(MaterialTheme.shapes.small)
+                            .clip(MaterialTheme.shapes.extraSmall)
                             .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
-                        contentDescription = stringResource(R.string.thumbnail),
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                     )
                     Column(
@@ -124,7 +129,7 @@ fun DownloadTaskItem(
                             text = stringResource(id = status.statusLabelId),
                             style = MaterialTheme.typography.labelMedium,
                             color = with(MaterialTheme.colorScheme)
-                            { if (status != DownloadTaskItemStatus.ERROR) primary else error.harmonizeWithPrimary() }
+                            { if (status != DownloadTaskItemStatus.ERROR) primary else error }
                         )
                     }
                 }
@@ -170,7 +175,7 @@ fun DownloadTaskItem(
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodySmall,
                             color = with(MaterialTheme.colorScheme)
-                            { if (status != DownloadTaskItemStatus.ERROR) onSurfaceVariant else error.harmonizeWithPrimary() },
+                            { if (status != DownloadTaskItemStatus.ERROR) onSurfaceVariant else error },
                         )
                     }
                     val containerColor = MaterialTheme.colorScheme.secondaryContainer
@@ -238,10 +243,42 @@ fun DownloadTaskItem(
 @Composable
 @Preview
 fun CardPreview() {
+    val hapticFeedback = LocalHapticFeedback.current
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 20.dp)
+            .padding(top = 12.dp, bottom = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.download_task_count).format(4),
+            style = MaterialTheme.typography.labelLarge,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.medium)
+                .clickable {}
+                .padding(start = 8.dp)
+                .padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                stringResource(R.string.recently_added),
+                style = MaterialTheme.typography.labelLarge,
+            )
+            Icon(
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 4.dp)
+                    .size(18.dp),
+                imageVector = Icons.Outlined.ArrowDropDown,
+                contentDescription = null
+            )
+        }
+    }
     Column() {
-        DownloadTaskItem(expanded = true, status = DownloadTaskItemStatus.FETCHING_INFO)
-        DownloadTaskItem(expanded = true, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)
-        DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.CANCELED)
+        DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.FETCHING_INFO)
+        DownloadTaskItem(expanded = false, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)
+        DownloadTaskItem(expanded = false, progress = 0f, status = DownloadTaskItemStatus.CANCELED)
         DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.ERROR)
     }
 

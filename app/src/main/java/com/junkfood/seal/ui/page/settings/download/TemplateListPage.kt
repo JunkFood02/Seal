@@ -1,21 +1,22 @@
 package com.junkfood.seal.ui.page.settings.download
 
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -38,6 +39,8 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     val templates = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
+    val clipboardManager = LocalClipboardManager.current
+    val context = LocalContext.current
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
@@ -45,10 +48,13 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     var selectedTemplateIndex by remember {
         mutableStateOf(PreferenceUtil.getInt(TEMPLATE_INDEX, 0))
     }
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .navigationBarsPadding()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             LargeTopAppBar(title = {
                 Text(
@@ -58,6 +64,62 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
             }, navigationIcon = {
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
                     onBackPressed()
+                }
+            }, actions = {
+                var expanded by remember { mutableStateOf(false) }
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .wrapContentSize(Alignment.TopEnd)
+                ) {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            Icons.Outlined.MoreVert,
+                            contentDescription = stringResource(
+                                R.string.show_more_actions
+                            )
+                        )
+                    }
+                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                        DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.ContentPasteGo, null) },
+                            text = {
+                                Text(stringResource(R.string.export_to_clipboard))
+                            },
+                            onClick = {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        context.getString(R.string.template_exported)
+                                            .format(templates.size)
+                                    )
+                                }
+                                scope.launch {
+                                    clipboardManager.setText(
+                                        AnnotatedString(DatabaseUtil.exportTemplatesToJson())
+                                    )
+                                    expanded = false
+                                }
+                            })
+                        DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.AssignmentReturn, null) },
+                            text = {
+                                Text(stringResource(R.string.import_from_clipboard))
+                            },
+                            onClick = {
+                                scope.launch {
+                                    expanded = false
+                                    clipboardManager.getText()?.text?.let {
+                                        if (it.isNotEmpty()) {
+                                            val res = DatabaseUtil.importTemplatesFromJson(it)
+                                            snackbarHostState.showSnackbar(
+                                                context.getString(R.string.template_imported)
+                                                    .format(res)
+                                            )
+                                        }
+                                    }
+                                }
+                            })
+                    }
                 }
             }, scrollBehavior = scrollBehavior
             )

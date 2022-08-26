@@ -33,17 +33,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           buildToolsVersion: 33.0.0
 
-      - uses: jungwinter/split@v1
-        id: signed_files
-        with:
-          msg: ${{ steps.sign_app.outputs.signedFiles }}
-          separator: ':'
-
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: Signed apks
-          path: |
-            ${{ steps.signed_files.outputs._0 }}
-            ${{ steps.signed_files.outputs._1 }}
-            ${{ steps.signed_files.outputs._2 }}
-
+          path: app/build/outputs/apk/release/*-signed.apk

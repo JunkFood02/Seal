@@ -41,7 +41,7 @@ fun CommandTemplateDialog(
     var templateName by remember { mutableStateOf(commandTemplate.name) }
     var isError by remember { mutableStateOf(false) }
     AlertDialog(
-        icon = { Icon(if (newTemplate) Icons.Outlined.Add else Icons.Outlined.Edit, null) },
+        icon = { Icon(if (newTemplate) Icons.Outlined.Add else Icons.Outlined.EditNote, null) },
         title = {
             Text(
                 stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)

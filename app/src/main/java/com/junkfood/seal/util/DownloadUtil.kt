@@ -88,7 +88,7 @@ object DownloadUtil {
         return videoInfo
     }
 
-    suspend fun downloadVideo(
+    fun downloadVideo(
         videoInfo: VideoInfo,
         playlistInfo: PlaylistInfo,
         playlistItem: Int = -1,
@@ -113,7 +113,7 @@ object DownloadUtil {
 
         with(request) {
             addOption("--no-mtime")
-            if (playlistItem != -1)
+            if (playlistItem != -1 && downloadPlaylist)
                 addOption("--playlist-items", playlistItem)
 
             if (extractAudio) {
@@ -186,10 +186,10 @@ object DownloadUtil {
             else
                 addOption("-o", "%(title).60s$id.%(ext)s")
 
-            for (s in request.buildCommand())
-                Log.d(TAG, s)
-            YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            /*for (s in request.buildCommand())
+                Log.d(TAG, s)*/
         }
+        YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
 
         val filePaths = FileUtil.scanFileToMediaLibrary(id, pathBuilder.toString())
         if (filePaths != null)
