@@ -25,7 +25,7 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.43.2"
 val composeMd3Version = "1.0.0-alpha16"
 val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "0.13.3"
+val youtubedlAndroidVersion = "42c7dfcee1"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 

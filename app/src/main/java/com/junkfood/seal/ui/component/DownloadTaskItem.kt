@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,11 +18,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.junkfood.seal.R
 
 enum class DownloadTaskItemStatus(
@@ -61,7 +60,7 @@ enum class DownloadTaskItemStatus(
 @Composable
 fun DownloadTaskItem(
     modifier: Modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-    imageModel: Any = R.drawable.ic_launcher_foreground,
+    imageModel: Any = R.drawable.sample,
     title: String = "sample title ".repeat(5),
     author: String = "author sample ".repeat(5),
     status: DownloadTaskItemStatus = DownloadTaskItemStatus.ENQUEUED,
@@ -77,166 +76,181 @@ fun DownloadTaskItem(
         onClick = { isExpanded = !isExpanded },
         shape = MaterialTheme.shapes.small
     ) {
-        Column() {
-            Box() {
-                Row(
+        Box() {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+            ) {
+                AsyncImage(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
+                        .padding(12.dp)
+                        .weight(1f)
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
+                    model = imageModel,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+/*                Image(
+                    painter = painterResource(id = R.drawable.sample),
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .weight(1f)
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )*/
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 12.dp)
+                        .padding(end = 12.dp)
+                        .weight(1f)
+                        .fillMaxHeight(), verticalArrangement = Arrangement.Top
                 ) {
-                    /*AsyncImage(
-                        modifier = Modifier
-                            .fillMaxWidth(0.45f)
-                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                        model = imageModel,
-                        contentDescription = stringResource(R.string.thumbnail),
-                        contentScale = ContentScale.Crop,
-                    )*/
-                    Image(
-                        painter = painterResource(id = R.drawable.sample),
-                        modifier = Modifier
-                            .padding(12.dp)
-                            .weight(1f)
-                            .clip(MaterialTheme.shapes.extraSmall)
-                            .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    Column(
-                        modifier = Modifier
-                            .padding(vertical = 12.dp)
-                            .padding(end = 12.dp)
-                            .weight(1f)
-                            .fillMaxHeight(), verticalArrangement = Arrangement.Top
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.weight(1f, true))
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = title,
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Text(
-                            modifier = Modifier.padding(top = 3.dp),
-                            text = author,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
                         Text(
                             text = stringResource(id = status.statusLabelId),
                             style = MaterialTheme.typography.labelMedium,
                             color = with(MaterialTheme.colorScheme)
                             { if (status != DownloadTaskItemStatus.ERROR) primary else error }
                         )
-                    }
-                }
-                val animatedDegree =
-                    animateFloatAsState(targetValue = if (isExpanded) 0f else -180f)
-                FilledTonalIconButton(modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(12.dp)
-                    .size(24.dp),
-                    onClick = { isExpanded = !isExpanded }) {
-                    Icon(
-                        Icons.Outlined.ExpandLess,
-                        null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.rotate(animatedDegree.value)
-                    )
-                }
-            }
-            AnimatedVisibility(visible = isExpanded) {
-                Divider(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                        .height(1.dp)
-                        .clip(MaterialTheme.shapes.small)
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Max)
-                        .padding(horizontal = 12.dp)
-                        .padding(top = 4.dp, bottom = 4.dp),
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(4f),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = if (status != DownloadTaskItemStatus.ERROR) progressText else errorText,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = with(MaterialTheme.colorScheme)
-                            { if (status != DownloadTaskItemStatus.ERROR) onSurfaceVariant else error },
-                        )
-                    }
-                    val containerColor = MaterialTheme.colorScheme.secondaryContainer
-//                    val contentColor = contentColorFor(backgroundColor = containerColor)
-                    val contentColor =
-                        MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .weight(2f)
-                            .wrapContentSize(Alignment.TopEnd)
-                    ) {
-                        Row(modifier = Modifier, horizontalArrangement = Arrangement.End) {
-                            FilledIconButton(
-                                onClick = { }, colors = IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = containerColor, contentColor = contentColor
-                                )
-                            ) {
-                                Icon(
-                                    status.primaryButtonIcon,
-                                    stringResource(id = status.primaryOperationDescId),
-                                )
-                            }
-                            FilledTonalIconButton(
-                                onClick = { isMenuExpanded = true },
-                                colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = containerColor, contentColor = contentColor
-                                )
-                            ) { Icon(Icons.Outlined.MoreHoriz, null) }
-                            DropdownMenu(
-                                expanded = isMenuExpanded,
-                                onDismissRequest = { isMenuExpanded = false }) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.copy_link)) },
-                                    onClick = { },
-                                    leadingIcon = { Icon(Icons.Outlined.Link, null) })
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.copy_error_report)) },
-                                    onClick = { },
-                                    leadingIcon = { Icon(Icons.Outlined.BugReport, null) })
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.remove)) },
-                                    onClick = { },
-                                    leadingIcon = { Icon(Icons.Outlined.Delete, null) })
-                            }
+                        Spacer(modifier = Modifier.weight(1f))
+                        val animatedDegree =
+                            animateFloatAsState(targetValue = if (isExpanded) 0f else -180f)
+                        FilledTonalIconButton(modifier = Modifier
+                            .padding()
+                            .align(Alignment.Bottom)
+                            .size(24.dp),
+                            onClick = { isExpanded = !isExpanded }) {
+                            Icon(
+                                Icons.Outlined.ExpandLess,
+                                null,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.rotate(animatedDegree.value)
+                            )
                         }
                     }
+
                 }
             }
-            if (progress < 0) LinearProgressIndicator(
+
+
+        }
+        AnimatedVisibility(visible = isExpanded) {
+            Divider(
                 Modifier
                     .fillMaxWidth()
-                    .padding()
+                    .padding(horizontal = 12.dp)
+                    .height(1.dp)
+                    .clip(MaterialTheme.shapes.small)
             )
-            else LinearProgressIndicator(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(), progress = progress
-            )
+                    .height(IntrinsicSize.Max)
+                    .padding(horizontal = 12.dp)
+                    .padding(top = 4.dp, bottom = 4.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(4f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = if (status != DownloadTaskItemStatus.ERROR) progressText else errorText,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = with(MaterialTheme.colorScheme)
+                        { if (status != DownloadTaskItemStatus.ERROR) onSurfaceVariant else error },
+                    )
+                }
+                val containerColor = MaterialTheme.colorScheme.secondaryContainer
+//                    val contentColor = contentColorFor(backgroundColor = containerColor)
+                val contentColor =
+                    MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(2f)
+                        .wrapContentSize(Alignment.TopEnd)
+                ) {
+                    Row(modifier = Modifier, horizontalArrangement = Arrangement.End) {
+                        FilledIconButton(
+                            onClick = { }, colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = containerColor, contentColor = contentColor
+                            )
+                        ) {
+                            Icon(
+                                status.primaryButtonIcon,
+                                stringResource(id = status.primaryOperationDescId),
+                            )
+                        }
+                        FilledTonalIconButton(
+                            onClick = { isMenuExpanded = true },
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = containerColor, contentColor = contentColor
+                            )
+                        ) {
+                            Icon(
+                                Icons.Outlined.MoreHoriz,
+                                stringResource(R.string.show_more_actions)
+                            )
+                        }
+                    }
+                    DropdownMenu(
+                        expanded = isMenuExpanded,
+                        onDismissRequest = { isMenuExpanded = false }) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.copy_link)) },
+                            onClick = { },
+                            leadingIcon = { Icon(Icons.Outlined.Link, null) })
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.copy_error_report)) },
+                            onClick = { },
+                            leadingIcon = { Icon(Icons.Outlined.BugReport, null) })
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.remove)) },
+                            onClick = { },
+                            leadingIcon = { Icon(Icons.Outlined.Delete, null) })
+                    }
+                }
+            }
         }
+        if (progress < 0) LinearProgressIndicator(
+            Modifier
+                .fillMaxWidth()
+                .padding()
+        )
+        else LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(), progress = progress
+        )
+
     }
 }
 
@@ -276,6 +290,7 @@ fun CardPreview() {
         }
     }
     Column() {
+        DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.ENQUEUED)
         DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.FETCHING_INFO)
         DownloadTaskItem(expanded = false, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)
         DownloadTaskItem(expanded = false, progress = 0f, status = DownloadTaskItemStatus.CANCELED)
