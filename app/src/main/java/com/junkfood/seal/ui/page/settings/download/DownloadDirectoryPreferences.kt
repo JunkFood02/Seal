@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -45,9 +44,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
 
     val uriHandler = LocalUriHandler.current
     val clipboardManager = LocalClipboardManager.current
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
@@ -92,7 +89,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

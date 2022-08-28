@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.download
 
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -32,8 +31,7 @@ private const val TAG = "TemplateListPage"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TemplateListPage(onBackPressed: () -> Unit) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec,
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
     val templates = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
@@ -52,9 +50,13 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
-        .navigationBarsPadding()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier.systemBarsPadding(),
+                hostState = snackbarHostState
+            )
+        },
         topBar = {
             LargeTopAppBar(title = {
                 Text(

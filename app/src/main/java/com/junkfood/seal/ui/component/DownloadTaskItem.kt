@@ -265,7 +265,7 @@ fun CardPreview() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            stringResource(R.string.download_task_count).format(4),
+            stringResource(R.string.download_task_count).format(5),
             style = MaterialTheme.typography.labelLarge,
         )
         Spacer(modifier = Modifier.weight(1f))

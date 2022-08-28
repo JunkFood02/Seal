@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.settings.appearance
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -45,9 +44,7 @@ import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 fun AppearancePreferences(
     navController: NavHostController
 ) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
@@ -60,7 +57,6 @@ fun AppearancePreferences(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

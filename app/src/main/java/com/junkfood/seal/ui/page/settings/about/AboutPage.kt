@@ -2,9 +2,7 @@ package com.junkfood.seal.ui.page.settings.about
 
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -35,8 +33,7 @@ const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec,
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
     val context = LocalContext.current
@@ -52,7 +49,12 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     else context.packageManager.getPackageInfo(context.packageName, 0)
 
     val versionName = info.versionName
-    val versionCode = info.longVersionCode
+
+    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        info.longVersionCode
+    } else {
+        info.versionCode.toLong()
+    }
     val infoBuilder = StringBuilder()
     val deviceInformation =
         infoBuilder.append("App version: $versionName")
@@ -66,7 +68,6 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     }
     Scaffold(modifier = Modifier
         .fillMaxSize()
-        .navigationBarsPadding()
         .nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
         LargeTopAppBar(title = {
             Text(

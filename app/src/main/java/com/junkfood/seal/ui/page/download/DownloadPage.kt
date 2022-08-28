@@ -95,27 +95,7 @@ fun DownloadPage(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth(),
-                floatingActionButton = {
-                    FABs(
-                        with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
-                        downloadCallback = {
-                            if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
-                                downloadViewModel.showDialog(scope, useDialog)
-                            else checkPermissionOrDownload()
-                            keyboardController?.hide()
-                        }, pasteCallback = {
-                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                                ?.let { downloadViewModel.updateUrl(it) }
-                        }
-                    )
-                }) {
-                Column(
-                    modifier = Modifier
-                        .padding(it)
-                        .systemBarsPadding()
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                ) {
+                topBar = {
                     SmallTopAppBar(modifier = Modifier.padding(horizontal = 8.dp),
                         title = {},
                         navigationIcon =
@@ -137,6 +117,27 @@ fun DownloadPage(
                             }
 
                         })
+                },
+                floatingActionButton = {
+                    FABs(
+                        with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
+                        downloadCallback = {
+                            if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
+                                downloadViewModel.showDialog(scope, useDialog)
+                            else checkPermissionOrDownload()
+                            keyboardController?.hide()
+                        }, pasteCallback = {
+                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                                ?.let { downloadViewModel.updateUrl(it) }
+                        }
+                    )
+                }) {
+                Column(
+                    modifier = Modifier
+                        .padding(it)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
                     TitleWithProgressIndicator(
                         showProgressIndicator = isProcessRunning || isFetchingInfo,
                         showCancelOperation = isProcessRunning,

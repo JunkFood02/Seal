@@ -1,9 +1,7 @@
 package com.junkfood.seal.ui.page.settings.about
 
 
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -43,9 +41,7 @@ const val kotlin = "https://kotlinlang.org/"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreditsPage(onBackPressed: () -> Unit) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
@@ -72,7 +68,6 @@ fun CreditsPage(onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

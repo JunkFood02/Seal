@@ -33,7 +33,7 @@ English
 
 ## Features
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp).
+- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly [youtube-dl](https://github.com/ytdl-org/youtube-dl)).
 
 - Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
 
