@@ -240,6 +240,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         playlistInfo = stateFlow.value.playlistInfo,
                         playlistItem = index
                     ) { progress, _, line ->
+                        Log.d(TAG, line)
                         mutableStateFlow.update {
                             it.copy(
                                 progress = progress,

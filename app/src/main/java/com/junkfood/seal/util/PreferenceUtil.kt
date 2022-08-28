@@ -99,7 +99,10 @@ object PreferenceUtil {
     const val SUBTITLE = "subtitle"
     const val TEMPLATE_INDEX = "template_index"
     const val MAX_FILE_SIZE = "max_file_size"
+    const val SPONSORBLOCK = "sponsorblock"
+    const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
     const val SYSTEM_DEFAULT = 0
+
 
     // Do not modify
     private const val SIMPLIFIED_CHINESE = 1
@@ -210,6 +213,12 @@ object PreferenceUtil {
             else -> stringResource(R.string.follow_system)
         }
     }
+
+    fun getSponsorBlockCategories(): String =
+        with(getString(SPONSORBLOCK_CATEGORIES)) {
+            if (isNullOrEmpty()) "all"
+            else this
+        }
 
 
     data class AppSettings(

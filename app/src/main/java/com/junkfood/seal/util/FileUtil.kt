@@ -74,10 +74,11 @@ object FileUtil {
             .forEach { if (it.isFile && it.path.contains(title)) files.add(it) }
 
         for (file in files) {
-            val trimmedFile = File(file.absolutePath.replace("$title.", "."))
+/*            val trimmedFile = File(file.absolutePath.replace("$title.", "."))
             if (file.renameTo(trimmedFile))
                 paths.add(trimmedFile.absolutePath)
-            else paths.add(file.absolutePath)
+            else */
+            paths.add(file.absolutePath)
         }
         MediaScannerConnection.scanFile(
             context, paths.toTypedArray(),

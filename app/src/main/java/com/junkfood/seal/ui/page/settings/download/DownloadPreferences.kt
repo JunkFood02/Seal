@@ -21,10 +21,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.PreferenceSubtitle
-import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
@@ -32,6 +29,7 @@ import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
+import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
@@ -57,9 +55,10 @@ fun DownloadPreferences(
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
+    var showSponsorBlockDialog by remember { mutableStateOf(false) }
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
-
+    var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
     var downloadNotification by remember {
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
     }
@@ -300,8 +299,24 @@ fun DownloadPreferences(
                         title = stringResource(id = R.string.concurrent_download),
                         description = stringResource(R.string.concurrent_download_desc),
                         icon = Icons.Outlined.Speed,
-                        enabled = !customCommandEnable
+                        enabled = !customCommandEnable && !audioSwitch,
                     ) { showConcurrentDownloadDialog = true }
+                }
+                item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.sponsorblock),
+                        description = stringResource(
+                            R.string.sponsorblock_desc
+                        ),
+                        icon = Icons.Outlined.MoneyOff,
+                        enabled = !customCommandEnable && !audioSwitch,
+                        isChecked = isSponsorBlockEnabled,
+                        onChecked = {
+                            isSponsorBlockEnabled = !isSponsorBlockEnabled
+                            PreferenceUtil.updateValue(SPONSORBLOCK, isSponsorBlockEnabled)
+                        },
+                        onClick = { showSponsorBlockDialog = true }
+                    )
                 }
                 item {
                     PreferenceSwitch(
@@ -347,6 +362,11 @@ fun DownloadPreferences(
     if (showConcurrentDownloadDialog) {
         ConcurrentDownloadDialog {
             showConcurrentDownloadDialog = false
+        }
+    }
+    if (showSponsorBlockDialog) {
+        SponsorBlockDialog {
+            showSponsorBlockDialog = false
         }
     }
 }
