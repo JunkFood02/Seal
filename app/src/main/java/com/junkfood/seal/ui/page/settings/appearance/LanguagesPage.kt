@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -30,9 +29,7 @@ import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LanguagePage(onBackPressed: () -> Unit) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
@@ -45,7 +42,7 @@ fun LanguagePage(onBackPressed: () -> Unit) {
     }
     Scaffold(
         modifier = Modifier
-            .fillMaxSize().navigationBarsPadding()
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

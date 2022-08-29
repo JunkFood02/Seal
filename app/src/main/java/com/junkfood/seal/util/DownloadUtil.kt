@@ -9,6 +9,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
+import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.TextUtil.isNumberInRange
@@ -104,11 +105,11 @@ object DownloadUtil {
         val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE)
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val maxFileSize = PreferenceUtil.getString(MAX_FILE_SIZE, "")
+        val sponsorBlock = PreferenceUtil.getValue(SPONSORBLOCK)
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
         }
         val request = YoutubeDLRequest(url)
-        val id = videoInfo.webpageUrl.hashCode().toString()
         val pathBuilder = StringBuilder()
 
         with(request) {
@@ -160,10 +161,19 @@ object DownloadUtil {
                 }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
+                if (concurrentFragments > 0f) {
+                    addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
+                }
+                if (embedSubtitle) {
+                    addOption("--remux-video", "mkv")
+                    addOption("--embed-subs")
+                    addOption("--sub-lang", "all")
+                }
+                if (sponsorBlock) {
+                    addOption("--sponsorblock-remove", PreferenceUtil.getSponsorBlockCategories())
+                }
             }
-            if (concurrentFragments > 0f) {
-                addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
-            }
+
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "png")
@@ -175,23 +185,19 @@ object DownloadUtil {
             if (subdirectory) {
                 pathBuilder.append("/${videoInfo.extractorKey}")
             }
-            if (embedSubtitle && !extractAudio) {
-                addOption("--remux-video", "mkv")
-                addOption("--embed-subs")
-                addOption("--sub-lang", "all")
-            }
+
             addOption("-P", pathBuilder.toString())
             if (customPath)
-                addOption("-o", PreferenceUtil.getOutputPathTemplate() + "%(title).60s$id.%(ext)s")
+                addOption("-o", PreferenceUtil.getOutputPathTemplate() + "%(title).60s [%(id)s].%(ext)s")
             else
-                addOption("-o", "%(title).60s$id.%(ext)s")
+                addOption("-o", "%(title).60s [%(id)s].%(ext)s")
 
-            /*for (s in request.buildCommand())
-                Log.d(TAG, s)*/
+            for (s in request.buildCommand())
+                Log.d(TAG, s)
         }
         YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
 
-        val filePaths = FileUtil.scanFileToMediaLibrary(id, pathBuilder.toString())
+        val filePaths = FileUtil.scanFileToMediaLibrary(videoInfo.id, pathBuilder.toString())
         if (filePaths != null)
             for (path in filePaths) {
                 DatabaseUtil.insertInfo(

@@ -53,9 +53,7 @@ fun VideoListPage(
     val videoListFlow = videoListViewModel.videoListFlow
 
     val videoList = videoListFlow.collectAsState(ArrayList())
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )

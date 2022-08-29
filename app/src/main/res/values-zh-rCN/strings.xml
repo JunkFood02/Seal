@@ -167,4 +167,7 @@
     <string name="recently_added">最近添加</string>
     <string name="multiselect_item_count">%1$d 视频，%2$d 音频</string>
     <string name="delete_multiple_items_msg">确定要移除已选取的 %1$d 条下载记录吗？这个操作无法被撤销。</string>
+    <string name="sponsorblock_desc">使用 SponsorBlock API 移除视频中的片段</string>
+    <string name="sponsorblock_categories_desc">指定要从视频中移除的片段类别</string>
+    <string name="sponsorblock_categories">SponsorBlock 分类标记</string>
 </resources>
