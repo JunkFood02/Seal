@@ -1,14 +1,13 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,27 +21,16 @@ fun LargeTopAppBar(
     colors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
-    val backgroundColor = colors.containerColor(
-        colorTransitionFraction = scrollBehavior?.state?.collapsedFraction ?: 0f
-    ).value
-    Box(
-        modifier = modifier
-            .drawBehind { drawRect(backgroundColor) }
-            .statusBarsPadding(),
-    ) {
-        androidx.compose.material3.LargeTopAppBar(
-            title = title,
-            navigationIcon = navigationIcon,
-            actions = actions,
-            scrollBehavior = scrollBehavior,
-            colors = TopAppBarDefaults.largeTopAppBarColors(
-                containerColor = Color.Transparent,
-                scrolledContainerColor = Color.Transparent
-            ),
-            modifier = Modifier,
-        )
-    }
+    androidx.compose.material3.LargeTopAppBar(
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+        scrollBehavior = scrollBehavior,
+        modifier = Modifier,
+    )
+
 }
+/*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,4 +62,4 @@ fun SmallTopAppBar(
             modifier = Modifier.statusBarsPadding(),
         )
     }
-}
+}*/

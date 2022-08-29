@@ -1,8 +1,8 @@
 package com.junkfood.seal.ui.page.settings.download
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,11 +18,17 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
+import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK_CATEGORIES
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+
+const val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
+const val sponsorBlockReference = "https://github.com/yt-dlp/yt-dlp#sponsorblock-options"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -34,14 +40,13 @@ fun CommandTemplateDialog(
     confirmationCallback: () -> Unit = {},
 ) {
     val context = LocalContext.current
-    val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
     var templateText by remember { mutableStateOf(commandTemplate.template) }
     var templateName by remember { mutableStateOf(commandTemplate.name) }
     var isError by remember { mutableStateOf(false) }
     AlertDialog(
-        icon = { Icon(if (newTemplate) Icons.Outlined.Add else Icons.Outlined.Edit, null) },
+        icon = { Icon(if (newTemplate) Icons.Outlined.Add else Icons.Outlined.EditNote, null) },
         title = {
             Text(
                 stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)
@@ -109,27 +114,7 @@ fun CommandTemplateDialog(
                     label = { Text(stringResource(R.string.custom_command_template)) },
                     maxLines = 3
                 )
-
-                TextButton(
-                    onClick = {
-                        context.startActivity(Intent().apply {
-                            action = Intent.ACTION_VIEW
-                            data = Uri.parse(ytdlpReference)
-                        })
-                    },
-                ) {
-                    Row {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Outlined.OpenInNew,
-                            contentDescription = null
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = stringResource(R.string.yt_dlp_docs)
-                        )
-                    }
-                }
+                LinkButton()
             }
         })
 }
@@ -172,4 +157,37 @@ fun ConcurrentDownloadDialog(
                 )
             }
         })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
+    var categories by remember {
+        mutableStateOf(PreferenceUtil.getSponsorBlockCategories())
+    }
+    AlertDialog(onDismissRequest = onDismissRequest, icon = {
+        Icon(Icons.Outlined.MoneyOff, null)
+    }, title = { Text(stringResource(R.string.sponsorblock)) }, text = {
+        Column() {
+            Text(
+                stringResource(R.string.sponsorblock_categories_desc),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                value = categories,
+                label = { Text(stringResource(R.string.sponsorblock_categories)) },
+                onValueChange = { categories = it })
+            LinkButton(link = sponsorBlockReference)
+        }
+    }, dismissButton = {
+        DismissButton {
+            onDismissRequest()
+        }
+    }, confirmButton = {
+        ConfirmButton {
+            onDismissRequest()
+            PreferenceUtil.updateString(SPONSORBLOCK_CATEGORIES, categories)
+        }
+    })
 }

@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.settings.appearance
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -34,7 +33,6 @@ import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
@@ -46,9 +44,7 @@ import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 fun AppearancePreferences(
     navController: NavHostController
 ) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
@@ -61,7 +57,6 @@ fun AppearancePreferences(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
@@ -82,8 +77,8 @@ fun AppearancePreferences(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                VideoCard(modifier = Modifier.padding(18.dp),)
-//                CardPreview()
+//                VideoCard(modifier = Modifier.padding(18.dp))
+                CardPreview()
                 Column {
                     Row(
                         modifier = Modifier

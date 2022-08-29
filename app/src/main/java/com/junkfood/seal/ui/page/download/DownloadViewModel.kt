@@ -19,22 +19,18 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(ExperimentalMaterialApi::class)
-/**
- * The codes here is too ugly, refactor planned
- */
+
+// TODO: Refactoring for introducing multitasking and download queue management
 class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(DownloadViewState())
@@ -74,7 +70,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val artist: String = "",
         val progress: Float = 0f,
         val thumbnail: String = "",
-        val progressText:String = "",
+        val progressText: String = "",
     )
 
     fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
@@ -190,7 +186,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
 
-        currentJob = viewModelScope.launch(Dispatchers.IO) {
+        currentJob = viewModelScope.launch(Dispatchers.Default) {
             if (!checkStateBeforeDownload()) return@launch
             try {
                 downloadVideo(stateFlow.value.url)
@@ -202,12 +198,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private suspend fun downloadVideo(url: String, index: Int = 1) {
+    private fun downloadVideo(url: String, index: Int = 1) {
         with(mutableStateFlow) {
             lateinit var videoInfo: VideoInfo
             try {
                 update { it.copy(isFetchingInfo = true) }
-                videoInfo = DownloadUtil.fetchVideoInfo(url, index)
+                runBlocking { videoInfo = DownloadUtil.fetchVideoInfo(url, index) }
                 update { it.copy(isFetchingInfo = false) }
             } catch (e: Exception) {
                 manageDownloadError(e)
@@ -229,18 +225,22 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             val notificationId = videoInfo.id.hashCode()
             val intent: Intent?
-            try {
-                TextUtil.makeToastSuspend(
+            viewModelScope.launch(Dispatchers.Main) {
+                TextUtil.makeToast(
                     context.getString(R.string.download_start_msg)
                         .format(videoInfo.title)
                 )
-                NotificationUtil.makeNotification(notificationId, videoInfo.title)
+            }
+
+            NotificationUtil.makeNotification(notificationId, videoInfo.title)
+            try {
                 downloadResultTemp =
                     DownloadUtil.downloadVideo(
                         videoInfo = videoInfo,
                         playlistInfo = stateFlow.value.playlistInfo,
                         playlistItem = index
                     ) { progress, _, line ->
+                        Log.d(TAG, line)
                         mutableStateFlow.update {
                             it.copy(
                                 progress = progress,
@@ -254,6 +254,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         )
                     }
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
+
             } catch (e: Exception) {
                 manageDownloadError(e, false, notificationId)
                 return
@@ -270,6 +271,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
+
 
     private fun switchDownloadMode(enabled: Boolean) {
         with(mutableStateFlow) {

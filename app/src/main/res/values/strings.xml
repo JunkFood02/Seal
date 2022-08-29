@@ -191,5 +191,17 @@
     <string name="video_resolution">Video resolution</string>
     <string name="video_file_size">Video file size</string>
     <string name="la_ms" translatable="false">Bahasa Melayu</string>
-    <string name="la_zh_TW" translatable="false">繁体中文</string>
+    <string name="la_zh_TW" translatable="false">繁體中文</string>
+    <string name="export_to_clipboard">Export to clipboard</string>
+    <string name="import_from_clipboard">Import from clipboard</string>
+    <string name="template_exported">Exported %1$d template(s)</string>
+    <string name="template_imported">Imported %1$d template(s)</string>
+    <string name="download_task_count">%1$d Download tasks</string>
+    <string name="recently_added">Recently Added</string>
+    <string name="multiselect_item_count">%1$d video(s), %2$d audio file(s)</string>
+    <string name="delete_multiple_items_msg">Remove %1$d item(s) from your download history for good?</string>
+    <string name="sponsorblock" translatable="false">SponsorBlock</string>
+    <string name="sponsorblock_desc">Remove segments from videos with SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">Specify SponsorBlock categories to be removed from the video file</string>
+    <string name="sponsorblock_categories">SponsorBlock categories</string>
 </resources>

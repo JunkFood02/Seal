@@ -101,7 +101,7 @@
     <string name="execute_command_notification">正在执行自定义命令</string>
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”。</string>
     <string name="concurrent_download">并发下载</string>
-    <string name="concurrent_download_desc">使用多线程下载 m3u8/mpd 视频</string>
+    <string name="concurrent_download_desc">使用多线程下载 HLS/DASH 流视频</string>
     <string name="concurrent_download_num">将同时使用 %d 个线程下载 HLS/DASH 流视频</string>
     <string name="options">选项</string>
     <string name="additional_settings">附加设置</string>
@@ -133,7 +133,7 @@
     <string name="download_path_template">输出路径模板</string>
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
-    <string name="edit_custom_path_template_desc">使用yt-dlp提供的值指定保存文件的子文件夹</string>
+    <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>
     <string name="embed_subtitles">内嵌字幕</string>
     <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
     <string name="new_template">新建命令模板</string>
@@ -159,4 +159,15 @@
     <string name="copy_error_report">复制错误报告</string>
     <string name="video_resolution">分辨率</string>
     <string name="video_file_size">视频文件大小</string>
+    <string name="export_to_clipboard">导出到剪贴板</string>
+    <string name="import_from_clipboard">从剪贴板导入</string>
+    <string name="template_exported">共导出了 %1$d 条模板</string>
+    <string name="template_imported">共导入了 %1$d 条模板</string>
+    <string name="download_task_count">%1$d 下载任务</string>
+    <string name="recently_added">最近添加</string>
+    <string name="multiselect_item_count">%1$d 视频，%2$d 音频</string>
+    <string name="delete_multiple_items_msg">确定要移除已选取的 %1$d 条下载记录吗？这个操作无法被撤销。</string>
+    <string name="sponsorblock_desc">使用 SponsorBlock API 移除视频中的片段</string>
+    <string name="sponsorblock_categories_desc">指定要从视频中移除的片段类别</string>
+    <string name="sponsorblock_categories">SponsorBlock 分类标记</string>
 </resources>

@@ -159,4 +159,12 @@
     <string name="copy_error_report">تقرير أخطاء</string>
     <string name="video_file_size">حجم ملف الفيديو</string>
     <string name="video_resolution">دقة الفيديو</string>
+    <string name="export_to_clipboard">تصدير إلى الحافظة</string>
+    <string name="template_exported">تم تصدير %1$d القالب(القوالب)</string>
+    <string name="template_imported">تم استيراد %1$d قالب(قوالب)</string>
+    <string name="download_task_count">%1$d مهام التنزيل</string>
+    <string name="recently_added">أضيف مؤخرا</string>
+    <string name="import_from_clipboard">الاستيراد من الحافظة</string>
+    <string name="delete_multiple_items_msg">هل تريد إزالة%1$d عنصراً (عناصر) من سجل التنزيل للأبد؟</string>
+    <string name="multiselect_item_count">%1$d ملف(ملفات) فيديو، %2$d ملف(ملفات) صوت</string>
 </resources>

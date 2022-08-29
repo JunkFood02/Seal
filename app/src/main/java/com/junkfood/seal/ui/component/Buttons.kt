@@ -7,14 +7,17 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.page.settings.download.ytdlpReference
 
 @Composable
 fun BackButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
@@ -196,6 +199,34 @@ fun ConfirmButton(text: String = stringResource(R.string.confirm), onClick: () -
 fun DismissButton(text: String = stringResource(R.string.dismiss), onClick: () -> Unit) {
     TextButton(onClick = onClick) {
         Text(text)
+    }
+}
+
+@Composable
+fun LinkButton(
+    modifier: Modifier = Modifier,
+    text: String = stringResource(R.string.yt_dlp_docs),
+    icon: ImageVector = Icons.Outlined.OpenInNew,
+    link: String = ytdlpReference
+) {
+    val uriHandler = LocalUriHandler.current
+    TextButton(
+        modifier = modifier,
+        onClick = {
+            uriHandler.openUri(link)
+        },
+    ) {
+        Row {
+            Icon(
+                modifier = Modifier.size(18.dp),
+                imageVector = icon,
+                contentDescription = null
+            )
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = text
+            )
+        }
     }
 }
 

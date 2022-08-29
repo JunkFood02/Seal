@@ -6,25 +6,26 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 1
+val versionMinor = 2
 val versionPatch = 0
-val versionBuild = 0
-val isStable = true
+val versionBuild = 4
+val isStable = false
 
 val composeVersion = "1.2.1"
 val lifecycleVersion = "2.6.0-alpha01"
-val navigationVersion = "2.5.0"
-val roomVersion = "2.4.2"
+val navigationVersion = "2.5.1"
+val roomVersion = "2.4.3"
 val accompanistVersion = "0.25.1"
 val kotlinVersion = "1.6.21"
 val hiltVersion = "2.43.2"
-val composeMd3Version = "1.0.0-alpha16"
+val composeMd3Version = "1.0.0-beta01"
 val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "0.13.3"
+val youtubedlAndroidVersion = "42c7dfcee1"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -136,7 +137,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.6.0-beta01")
     implementation("com.google.android.material:material:1.7.0-beta01")
-    implementation("androidx.activity:activity-compose:1.6.0-beta01")
+    implementation("androidx.activity:activity-compose:1.6.0-rc01")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
@@ -160,6 +161,8 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:$coilVersion")
     implementation("io.coil-kt:coil-video:$coilVersion")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")

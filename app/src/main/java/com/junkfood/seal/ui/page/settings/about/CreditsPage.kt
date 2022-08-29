@@ -1,9 +1,7 @@
 package com.junkfood.seal.ui.page.settings.about
 
 
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,19 +36,19 @@ const val jetpack = "https://github.com/androidx/androidx"
 const val coil = "https://github.com/coil-kt/coil"
 const val mmkv = "https://github.com/Tencent/MMKV"
 const val dagger = "https://github.com/google/dagger"
+const val kotlin = "https://kotlinlang.org/"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreditsPage(onBackPressed: () -> Unit) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
         rememberTopAppBarState(),
         canScroll = { true }
     )
 
     val creditsList = listOf(
         Credit("Android Jetpack", APACHE_V2, jetpack),
+        Credit("Kotlin", APACHE_V2, kotlin),
         Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),
         Credit("yt-dlp", UNLICENSE, ytdlpUrl),
         Credit("Read You", GPL_V3, readYou),
@@ -70,7 +68,6 @@ fun CreditsPage(onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(

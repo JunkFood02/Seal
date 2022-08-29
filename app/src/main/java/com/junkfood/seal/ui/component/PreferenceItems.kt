@@ -7,6 +7,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -76,6 +77,7 @@ fun PreferenceItem(
     }
 
 }
+
 @Composable
 fun PreferenceItemVariant(
     title: String,
@@ -130,6 +132,7 @@ fun PreferenceItemVariant(
     }
 
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceSingleChoiceItem(
@@ -169,13 +172,13 @@ fun PreferenceSingleChoiceItem(
 
 @Composable
 fun PreferenceSwitch(
-    title: String,
+    title: String = "",
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
-    isChecked: Boolean,
+    isChecked: Boolean = true,
     checkedIcon: ImageVector? = Icons.Outlined.Check,
-    onClick: (() -> Unit),
+    onClick: (() -> Unit) = {},
 ) {
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
@@ -218,6 +221,75 @@ fun PreferenceSwitch(
                 checked = isChecked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = 20.dp, end = 6.dp),
+                enabled = enabled
+            )
+        }
+    }
+}
+
+
+@Composable
+@Preview
+fun PreferenceSwitchWithDivider(
+    title: String = "",
+    description: String? = null,
+    icon: ImageVector? = null,
+    enabled: Boolean = true,
+    isChecked: Boolean = true,
+    checkedIcon: ImageVector? = Icons.Outlined.Check,
+    onClick: (() -> Unit) = {},
+    onChecked: () -> Unit = {}
+) {
+    Surface(
+        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 20.dp)
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 16.dp)
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled),
+                    overflow = TextOverflow.Ellipsis
+                )
+                if (!description.isNullOrEmpty())
+                    Text(
+                        text = description,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                        maxLines = 2,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+            }
+            Divider(
+                modifier = Modifier
+                    .height(32.dp)
+                    .padding(horizontal = 8.dp)
+                    .width(1f.dp)
+                    .align(Alignment.CenterVertically),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+            )
+            Switch(
+                checked = isChecked,
+                onCheckedChange = { onChecked() },
+                modifier = Modifier.padding(start = 12.dp, end = 6.dp),
                 enabled = enabled
             )
         }
@@ -281,10 +353,11 @@ fun PreferencesCaution(
 }
 
 @Composable
+@Preview
 fun PreferencesHint(
-    title: String,
-    description: String? = null,
-    icon: ImageVector? = null,
+    title: String = "Title ".repeat(2),
+    description: String? = "Description text ".repeat(3),
+    icon: ImageVector? = Icons.Outlined.Translate,
     onClick: () -> Unit = {},
 ) {
 
