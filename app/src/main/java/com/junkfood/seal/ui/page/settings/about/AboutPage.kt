@@ -55,11 +55,17 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     } else {
         info.versionCode.toLong()
     }
+    val release = if (Build.VERSION.SDK_INT >= 30) {
+        Build.VERSION.RELEASE_OR_CODENAME
+    } else {
+        Build.VERSION.RELEASE
+    }
+
     val infoBuilder = StringBuilder()
     val deviceInformation =
         infoBuilder.append("App version: $versionName")
             .append(" ($versionCode)\n")
-            .append("Device information: Android ${Build.VERSION.RELEASE_OR_CODENAME} (API ${Build.VERSION.SDK_INT})\n")
+            .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
             .append(Build.SUPPORTED_ABIS.contentToString())
             .append("\nScreen resolution: $screenHeight x $screenWidth").toString()
     val uriHandler = LocalUriHandler.current
