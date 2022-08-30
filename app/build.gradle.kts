@@ -26,6 +26,7 @@ val hiltVersion = "2.43.2"
 val composeMd3Version = "1.0.0-beta01"
 val coilVersion = "2.2.0"
 val youtubedlAndroidVersion = "42c7dfcee1"
+val okhttpVersion = "5.0.0-alpha.10"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -172,6 +173,9 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+    // okhttp
+    implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
 
     implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
     implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
