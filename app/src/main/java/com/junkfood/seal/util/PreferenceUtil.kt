@@ -102,6 +102,7 @@ object PreferenceUtil {
     const val SPONSORBLOCK = "sponsorblock"
     const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
     const val SYSTEM_DEFAULT = 0
+    const val UPDATE_DIALOG = "update_dialog"
 
 
     // Do not modify

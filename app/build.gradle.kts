@@ -47,6 +47,7 @@ android {
     }
 
     compileSdk = 33
+
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 23
@@ -57,6 +58,7 @@ android {
         } else {
             "${versionMajor}.${versionMinor}.${versionPatch}-beta.${versionBuild}"
         }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
             arguments {
@@ -129,7 +131,9 @@ android {
         jniLibs.useLegacyPackaging = true
     }
     namespace = "com.junkfood.seal"
+
 }
+
 
 dependencies {
 
@@ -184,6 +188,9 @@ dependencies {
     implementation("com.tencent:mmkv:1.2.14")
 
 //    implementation("androidx.palette:palette-ktx:1.0.0")
+
+    //Auto updates
+        implementation("com.github.hannesa2:githubAppUpdate:1.5")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

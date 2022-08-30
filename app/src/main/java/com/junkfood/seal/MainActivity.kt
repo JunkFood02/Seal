@@ -1,5 +1,6 @@
 package com.junkfood.seal
 
+import info.hannes.github.AppUpdateHelper
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -27,6 +28,7 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -38,11 +40,17 @@ class MainActivity : AppCompatActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val coroutineScope = CoroutineScope(Dispatchers.IO)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
             v.setPadding(0, 0, 0, 0)
             insets
         }
+        AppUpdateHelper.checkForNewVersion(
+            this,
+            "https://github.com/JunkFood02/Seal",
+            BuildConfig.VERSION_NAME
+        )
         runBlocking {
             if (Build.VERSION.SDK_INT < 33)
                 AppCompatDelegate.setApplicationLocales(
@@ -64,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         }
         handleShareIntent(intent)
     }
+
+
 
     override fun onNewIntent(intent: Intent?) {
         intent?.let { handleShareIntent(it) }
@@ -125,6 +135,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+
 
 
 

@@ -204,4 +204,7 @@
     <string name="sponsorblock_desc">Remove segments from videos with SponsorBlock API</string>
     <string name="sponsorblock_categories_desc">Specify SponsorBlock categories to be removed from the video file</string>
     <string name="sponsorblock_categories">SponsorBlock categories</string>
+    <string name="download_update">Download update</string>
+    <string name="avaliable_update">Avaliable update</string>
+    <string name="description_avaliableUpdate_dialog">A newer version of the app is uploaded in GitHub. Do you want to download it?</string>
 </resources>
