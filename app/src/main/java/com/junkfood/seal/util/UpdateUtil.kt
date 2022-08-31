@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.*
@@ -29,15 +30,15 @@ object UpdateUtil {
 
     private val client = OkHttpClient()
     private val requestForLatestRelease =
-        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases").build()
-
+        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest").build()
+    private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     private suspend fun getLatestRelease(): LatestRelease {
         return suspendCoroutine { continuation ->
             client.newCall(requestForLatestRelease).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body.string()
-                    val latestRelease = Json.decodeFromString<LatestRelease>(responseData)
+                    val latestRelease = jsonFormat.decodeFromString<LatestRelease>(responseData)
                     response.body.close()
                     continuation.resume(latestRelease)
                 }
@@ -50,18 +51,11 @@ object UpdateUtil {
     }
 
     suspend fun checkForUpdate(context: Context = BaseApplication.context): LatestRelease? {
-        kotlin.runCatching {
-            val currentVersion = context.getCurrentVersion()
-            val latestRelease = getLatestRelease()
-            val latestVersion = Version(latestRelease.name ?: "")
-            if (currentVersion < latestVersion) latestRelease
-            else null
-        }.onSuccess { latestRelease ->
-            return latestRelease
-        }.onFailure { throwable ->
-            throwable.printStackTrace()
-        }
-        return null
+        val currentVersion = context.getCurrentVersion()
+        val latestRelease = getLatestRelease()
+        val latestVersion = Version(latestRelease.name ?: "")
+        return if (currentVersion < latestVersion) latestRelease
+        else null
     }
 
     private fun Context.getCurrentVersion() =
@@ -79,9 +73,9 @@ object UpdateUtil {
 
     private fun Context.getLatestApk() = File(cacheDir, "latest.apk")
 
-    private fun Context.getFileProvider() = "${packageName}.fileprovider"
+    private fun Context.getFileProvider() = "${packageName}.provider"
 
-    private fun Context.installLatestApk() {
+    fun installLatestApk(context: Context = BaseApplication.context) = context.apply {
         kotlin.runCatching {
             val contentUri = FileProvider.getUriForFile(this, getFileProvider(), getLatestApk())
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -114,128 +108,126 @@ object UpdateUtil {
             it.name?.contains(if (is64BitsArchSupported) ARM64 else ARM32) ?: false
         }?.browserDownloadUrl ?: return@withContext emptyFlow()
         val request = Request.Builder().url(targetUrl).build()
-        kotlin.runCatching {
+        try {
             val response = client.newCall(request).execute()
             val responseBody = response.body
-            response.close()
-            responseBody.downloadFileWithProgress(context.getLatestApk())
-        }.onSuccess {
-            return@withContext it
-        }.onFailure { throwable ->
-            throwable.printStackTrace()
+            return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
+        } catch(e: Exception) {
+            e.printStackTrace()
         }
         emptyFlow()
     }
-}
 
 
-fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<Download> = flow {
-    emit(Download.Progress(0))
+    private fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<Download> = flow {
+        emit(Download.Progress(0))
 
-    // flag to delete file if download errors or is cancelled
-    var deleteFile = true
+        // flag to delete file if download errors or is cancelled
+        var deleteFile = true
 
-    try {
-        byteStream().use { inputStream ->
-            saveFile.outputStream().use { outputStream ->
-                val totalBytes = contentLength()
-                val data = ByteArray(8_192)
-                var progressBytes = 0L
+        try {
+            byteStream().use { inputStream ->
+                saveFile.outputStream().use { outputStream ->
+                    val totalBytes = contentLength()
+                    val data = ByteArray(8_192)
+                    var progressBytes = 0L
 
-                while (true) {
-                    val bytes = inputStream.read(data)
+                    while (true) {
+                        val bytes = inputStream.read(data)
 
-                    if (bytes == -1) {
-                        break
+                        if (bytes == -1) {
+                            break
+                        }
+
+                        outputStream.channel
+                        outputStream.write(data, 0, bytes)
+                        progressBytes += bytes
+                        emit(Download.Progress(percent = ((progressBytes * 100) / totalBytes).toInt()))
                     }
 
-                    outputStream.channel
-                    outputStream.write(data, 0, bytes)
-                    progressBytes += bytes
-
-                    emit(Download.Progress(percent = ((progressBytes * 100) / totalBytes).toInt()))
+                    when {
+                        progressBytes < totalBytes -> throw Exception("missing bytes")
+                        progressBytes > totalBytes -> throw Exception("too many bytes")
+                        else -> deleteFile = false
+                    }
                 }
+            }
 
-                when {
-                    progressBytes < totalBytes -> throw Exception("missing bytes")
-                    progressBytes > totalBytes -> throw Exception("too many bytes")
-                    else -> deleteFile = false
-                }
+            emit(Download.Finished(saveFile))
+        } finally {
+            // check if download was successful
+
+            if (deleteFile) {
+                saveFile.delete()
+            }
+        }
+    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    @Serializable
+    data class LatestRelease(
+        @SerialName("html_url") val htmlUrl: String? = null,
+        @SerialName("tag_name") val tagName: String? = null,
+        val name: String? = null,
+        val draft: Boolean? = null,
+        @SerialName("prerelease") val preRelease: Boolean? = null,
+        @SerialName("created_at") val createdAt: String? = null,
+        @SerialName("published_at") val publishedAt: String? = null,
+        val assets: List<AssetsItem>? = null,
+        val body: String? = null,
+    )
+
+    @Serializable
+    data class AssetsItem(
+        val name: String? = null,
+        @SerialName("content_type") val contentType: String? = null,
+        val size: Int? = null,
+        @SerialName("download_count") val downloadCount: Int? = null,
+        @SerialName("created_at") val createdAt: String? = null,
+        @SerialName("updated_at") val updatedAt: String? = null,
+        @SerialName("browser_download_url") val browserDownloadUrl: String? = null,
+    )
+
+    sealed class Download {
+        object NotYet : Download()
+        data class Progress(val percent: Int) : Download()
+        data class Finished(val file: File) : Download()
+    }
+
+    class Version(
+        versionName: String,
+    ) {
+        var major: Int = 0
+            private set
+        var minor: Int = 0
+            private set
+        var patch: Int = 0
+            private set
+        var build: Int = 0
+            private set
+
+        private fun toNumber(): Long {
+            return major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
+        }
+
+        companion object {
+            private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-.*?(\d+))*""")
+
+            private const val BUILD = 1L
+            private const val PATCH = 100L
+            private const val MINOR = 10_000L
+            private const val MAJOR = 1_000_000L
+        }
+
+        init {
+            val matcher = pattern.matcher(versionName)
+            if (matcher.find()) {
+                major = matcher.group(1)?.toInt() ?: 0
+                minor = matcher.group(2)?.toInt() ?: 0
+                patch = matcher.group(3)?.toInt() ?: 0
+                build = matcher.group(5)?.toInt() ?: 0
             }
         }
 
-        emit(Download.Finished(saveFile))
-    } finally {
-        // check if download was successful
-
-        if (deleteFile) {
-            saveFile.delete()
-        }
+        operator fun compareTo(other: Version) = toNumber().compareTo(other.toNumber())
     }
-}.flowOn(Dispatchers.IO).distinctUntilChanged()
-
-data class LatestRelease(
-    @SerialName("html_url") val htmlUrl: String? = null,
-    @SerialName("tag_name") val tagName: String? = null,
-    val name: String? = null,
-    val draft: Boolean? = null,
-    @SerialName("prerelease") val preRelease: Boolean? = null,
-    @SerialName("created_at") val createdAt: String? = null,
-    @SerialName("published_at") val publishedAt: String? = null,
-    val assets: List<AssetsItem>? = null,
-    val body: String? = null,
-)
-
-data class AssetsItem(
-    val name: String? = null,
-    @SerialName("content_type") val contentType: String? = null,
-    val size: Int? = null,
-    @SerialName("download_count") val downloadCount: Int? = null,
-    @SerialName("created_at") val createdAt: String? = null,
-    @SerialName("updated_at") val updatedAt: String? = null,
-    @SerialName("browser_download_url") val browserDownloadUrl: String? = null,
-)
-
-sealed class Download {
-    object NotYet : Download()
-    data class Progress(val percent: Int) : Download()
-    data class Finished(val file: File) : Download()
-}
-
-class Version(
-    versionName: String,
-) {
-    var major: Int = 0
-        private set
-    var minor: Int = 0
-        private set
-    var patch: Int = 0
-        private set
-    var build: Int = 0
-        private set
-
-    private fun toNumber(): Long {
-        return major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
-    }
-
-    companion object {
-        private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-.*?(\d+))*""")
-
-        private const val BUILD = 1L
-        private const val PATCH = 100L
-        private const val MINOR = 10_000L
-        private const val MAJOR = 1_000_000L
-    }
-
-    init {
-        val matcher = pattern.matcher(versionName)
-        if (matcher.find()) {
-            major = matcher.group(1)?.toInt() ?: 0
-            minor = matcher.group(2)?.toInt() ?: 0
-            patch = matcher.group(3)?.toInt() ?: 0
-            build = matcher.group(4)?.toInt() ?: 0
-        }
-    }
-
-    operator fun compareTo(other: Version) = toNumber().compareTo(other.toNumber())
 }
