@@ -13,7 +13,7 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 1
 val versionMinor = 2
 val versionPatch = 0
-val versionBuild = 4
+val versionBuild = 5
 val isStable = false
 
 val composeVersion = "1.2.1"
@@ -53,11 +53,10 @@ android {
         minSdk = 23
         targetSdk = 33
         versionCode = 10100
-        versionName = if (isStable) {
-            "${versionMajor}.${versionMinor}.${versionPatch}"
-        } else {
-            "${versionMajor}.${versionMinor}.${versionPatch}-beta.${versionBuild}"
-        }
+        versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
+            if (!isStable) append("-beta.${versionBuild}")
+            if (!splitApks) append(" (F-Droid)")
+        }.toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
             arguments {
@@ -159,7 +158,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
-
     implementation("io.coil-kt:coil-compose:$coilVersion")
     implementation("io.coil-kt:coil-video:$coilVersion")
 

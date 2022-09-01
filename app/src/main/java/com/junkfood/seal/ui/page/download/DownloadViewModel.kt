@@ -20,7 +20,9 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.util.concurrent.CancellationException
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -33,7 +35,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(DownloadViewState())
     val stateFlow = mutableStateFlow.asStateFlow()
-    lateinit var currentJob: Job
+    private var currentJob: Job? = null
 
     data class DownloadViewState(
         val showVideoCard: Boolean = false,
@@ -115,7 +117,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun parsePlaylistInfo() {
-        viewModelScope.launch(Dispatchers.IO) {
+        currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             with(mutableStateFlow) {
                 if (value.url.isBlank()) {
@@ -145,7 +147,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         url: String = stateFlow.value.url,
         indexRange: IntRange
     ) {
-        currentJob = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val itemCount = indexRange.last - indexRange.first + 1
             if (!checkStateBeforeDownload()) return@launch
             mutableStateFlow.update {
@@ -184,7 +186,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
 
-        currentJob = viewModelScope.launch(Dispatchers.Default) {
+        currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
                 downloadVideo(stateFlow.value.url)
@@ -446,7 +448,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun cancelDownload() {
         TextUtil.makeToast(context.getString(R.string.task_canceled))
-        currentJob.cancel(CancellationException(context.getString(R.string.task_canceled)))
+        currentJob?.cancel(CancellationException(context.getString(R.string.task_canceled)))
         MainActivity.stopService()
         mutableStateFlow.update {
             it.copy(

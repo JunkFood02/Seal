@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
@@ -27,10 +29,12 @@ object UpdateUtil {
     private const val REPO = "Seal"
     private const val ARM64 = "arm64-v8a"
     private const val ARM32 = "armeabi-v7a"
+    private const val TAG = "UpdateUtil"
 
     private val client = OkHttpClient()
     private val requestForLatestRelease =
-        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest").build()
+        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest")
+            .build()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     private suspend fun getLatestRelease(): LatestRelease {
@@ -71,7 +75,8 @@ object UpdateUtil {
 
     private fun String.toVersion() = Version(this)
 
-    private fun Context.getLatestApk() = File(cacheDir, "latest.apk")
+    private fun Context.getLatestApk() =
+        File(getExternalFilesDir("apk"), "latest.apk")
 
     private fun Context.getFileProvider() = "${packageName}.provider"
 
@@ -83,26 +88,28 @@ object UpdateUtil {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 setDataAndType(contentUri, "application/vnd.android.package-archive")
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                packageManager.queryIntentActivities(
-                    intent, PackageManager.ResolveInfoFlags.of(0)
-                ).size > 0
-            ) {
-                startActivity(intent)
-            } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2 &&
-                packageManager.queryIntentActivities(intent, 0).size > 0
-            ) {
-                startActivity(intent)
-            }
+            startActivity(intent)
         }.onFailure { throwable: Throwable ->
             throwable.printStackTrace()
+            TextUtil.makeToast(R.string.app_update_failed)
         }
     }
 
     suspend fun downloadApk(
         context: Context = BaseApplication.context,
         latestRelease: LatestRelease
-    ): Flow<Download> = withContext(Dispatchers.IO) {
+    ): Flow<DownloadStatus> = withContext(Dispatchers.IO) {
+        val apkVersion = context.packageManager.getPackageArchiveInfo(
+            context.getLatestApk().absolutePath, 0
+        )?.versionName?.toVersion() ?: Version()
+
+        Log.d(TAG, apkVersion.toString())
+
+        if (apkVersion >= Version(latestRelease.tagName.toString())
+        ) {
+            return@withContext flow<DownloadStatus> { emit(DownloadStatus.Finished(context.getLatestApk())) }
+        }
+
         val is64BitsArchSupported = Build.SUPPORTED_ABIS.contains(ARM64)
         val targetUrl = latestRelease.assets?.find {
             it.name?.contains(if (is64BitsArchSupported) ARM64 else ARM32) ?: false
@@ -112,17 +119,16 @@ object UpdateUtil {
             val response = client.newCall(request).execute()
             val responseBody = response.body
             return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         emptyFlow()
     }
 
 
-    private fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<Download> = flow {
-        emit(Download.Progress(0))
+    private fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<DownloadStatus> = flow {
+        emit(DownloadStatus.Progress(0))
 
-        // flag to delete file if download errors or is cancelled
         var deleteFile = true
 
         try {
@@ -142,7 +148,7 @@ object UpdateUtil {
                         outputStream.channel
                         outputStream.write(data, 0, bytes)
                         progressBytes += bytes
-                        emit(Download.Progress(percent = ((progressBytes * 100) / totalBytes).toInt()))
+                        emit(DownloadStatus.Progress(percent = ((progressBytes * 100) / totalBytes).toInt()))
                     }
 
                     when {
@@ -153,10 +159,8 @@ object UpdateUtil {
                 }
             }
 
-            emit(Download.Finished(saveFile))
+            emit(DownloadStatus.Finished(saveFile))
         } finally {
-            // check if download was successful
-
             if (deleteFile) {
                 saveFile.delete()
             }
@@ -187,14 +191,14 @@ object UpdateUtil {
         @SerialName("browser_download_url") val browserDownloadUrl: String? = null,
     )
 
-    sealed class Download {
-        object NotYet : Download()
-        data class Progress(val percent: Int) : Download()
-        data class Finished(val file: File) : Download()
+    sealed class DownloadStatus {
+        object NotYet : DownloadStatus()
+        data class Progress(val percent: Int) : DownloadStatus()
+        data class Finished(val file: File) : DownloadStatus()
     }
 
     class Version(
-        versionName: String,
+        versionName: String = "v0.0.0",
     ) {
         var major: Int = 0
             private set
@@ -224,7 +228,8 @@ object UpdateUtil {
                 major = matcher.group(1)?.toInt() ?: 0
                 minor = matcher.group(2)?.toInt() ?: 0
                 patch = matcher.group(3)?.toInt() ?: 0
-                build = matcher.group(5)?.toInt() ?: 0
+                build = matcher.group(5)?.toInt() ?: 99
+                // Prioritize stable versions
             }
         }
 

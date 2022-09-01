@@ -170,4 +170,9 @@
     <string name="sponsorblock_desc">使用 SponsorBlock API 移除视频中的片段</string>
     <string name="sponsorblock_categories_desc">指定要从视频中移除的片段类别</string>
     <string name="sponsorblock_categories">SponsorBlock 分类标记</string>
+    <string name="check_for_updates">检查更新</string>
+    <string name="check_for_updates_desc">更新到 GitHub 上的最新版本</string>
+    <string name="app_up_to_date">当前版本已为最新</string>
+    <string name="app_update_failed">更新过程中出现错误</string>
+    <string name="update">更新</string>
 </resources>
