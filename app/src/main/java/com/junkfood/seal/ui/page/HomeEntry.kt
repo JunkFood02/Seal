@@ -26,6 +26,7 @@ import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.settings.download.TemplateListPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
+import com.junkfood.seal.util.UpdateUtil
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -79,8 +80,12 @@ fun HomeEntry(
             animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
         }
 
+
         WelcomeDialog {
             navController.navigate(Route.SETTINGS)
+        }
+        UpdateDialog {
+            //Todo
         }
     }
 }

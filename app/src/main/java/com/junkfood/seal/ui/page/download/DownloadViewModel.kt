@@ -462,6 +462,15 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         NotificationUtil.cancelNotification(stateFlow.value.downloadingTaskId.hashCode())
     }
 
+    suspend fun updateApp() {
+        try {
+            UpdateUtil.downloadApk(latestRelease = UpdateUtil.LatestRelease())
+        } catch (e: Exception){
+            Log.d("Error", e.toString())
+        }
+
+    }
+
     companion object {
         private const val TAG = "DownloadViewModel"
         private const val commandRegex = "\"([^\"]*)\"|(\\S+)"

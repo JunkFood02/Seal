@@ -7,11 +7,14 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.os.LocaleListCompat
@@ -22,11 +25,15 @@ import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
+import com.junkfood.seal.ui.page.UpdateDialog
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.UpdateUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -38,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val coroutineScope = CoroutineScope(Dispatchers.IO)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
             v.setPadding(0, 0, 0, 0)
@@ -63,12 +71,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
         handleShareIntent(intent)
+
+        coroutineScope.launch {
+            val checkUpdate = UpdateUtil.checkForUpdate()
+            if(checkUpdate != null) {
+                PreferenceUtil.updateInt(
+                    PreferenceUtil.UPDATE_DIALOG, 1
+                )
+                UpdateUtil.downloadApk(context, UpdateUtil.LatestRelease())
+            }
+        }
     }
+
+
 
     override fun onNewIntent(intent: Intent?) {
         intent?.let { handleShareIntent(it) }
         super.onNewIntent(intent)
     }
+
 
     private fun handleShareIntent(intent: Intent) {
         Log.d(TAG, "handleShareIntent: $intent")

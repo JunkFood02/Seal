@@ -14,6 +14,7 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
+import com.junkfood.seal.util.UpdateUtil
 import com.tencent.mmkv.MMKV
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL

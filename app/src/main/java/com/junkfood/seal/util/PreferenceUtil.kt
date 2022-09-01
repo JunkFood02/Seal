@@ -101,6 +101,7 @@ object PreferenceUtil {
     const val MAX_FILE_SIZE = "max_file_size"
     const val SPONSORBLOCK = "sponsorblock"
     const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
+    const val UPDATE_DIALOG = "update_dialog"
     const val SYSTEM_DEFAULT = 0
 
 

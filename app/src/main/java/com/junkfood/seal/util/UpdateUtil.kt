@@ -37,9 +37,9 @@ object UpdateUtil {
         return suspendCoroutine { continuation ->
             client.newCall(requestForLatestRelease).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val responseData = response.body.string()
+                    val responseData = response.body!!.string()
                     val latestRelease = jsonFormat.decodeFromString<LatestRelease>(responseData)
-                    response.body.close()
+                    response.body!!.close()
                     continuation.resume(latestRelease)
                 }
 
@@ -111,7 +111,9 @@ object UpdateUtil {
         try {
             val response = client.newCall(request).execute()
             val responseBody = response.body
-            return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
+            if (responseBody != null) {
+                return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
+            }
         } catch(e: Exception) {
             e.printStackTrace()
         }
