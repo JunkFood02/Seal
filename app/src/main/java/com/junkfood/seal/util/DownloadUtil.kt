@@ -7,6 +7,7 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
@@ -106,6 +107,7 @@ object DownloadUtil {
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val maxFileSize = PreferenceUtil.getString(MAX_FILE_SIZE, "")
         val sponsorBlock = PreferenceUtil.getValue(SPONSORBLOCK)
+        val aria2c = PreferenceUtil.getValue(ARIA2C)
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
         }
@@ -161,7 +163,10 @@ object DownloadUtil {
                 }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
-                if (concurrentFragments > 0f) {
+                if (aria2c) {
+                    addOption("--downloader", "libaria2c.so");
+                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"");
+                } else if (concurrentFragments > 0f) {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
                 if (embedSubtitle) {
@@ -188,7 +193,10 @@ object DownloadUtil {
 
             addOption("-P", pathBuilder.toString())
             if (customPath)
-                addOption("-o", PreferenceUtil.getOutputPathTemplate() + "%(title).60s [%(id)s].%(ext)s")
+                addOption(
+                    "-o",
+                    PreferenceUtil.getOutputPathTemplate() + "%(title).60s [%(id)s].%(ext)s"
+                )
             else
                 addOption("-o", "%(title).60s [%(id)s].%(ext)s")
 
