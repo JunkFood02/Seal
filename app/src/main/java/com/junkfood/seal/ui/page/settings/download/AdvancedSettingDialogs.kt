@@ -52,7 +52,7 @@ fun CommandTemplateDialog(
                 stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)
             )
         },
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = {},
         confirmButton = {
             ConfirmButton {
                 if (templateName.isBlank() || templateName.isEmpty()) {

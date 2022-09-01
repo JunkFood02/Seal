@@ -22,6 +22,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
@@ -54,6 +55,8 @@ fun DownloadPreferences(
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
+    var aria2c by remember { mutableStateOf(PreferenceUtil.getValue(ARIA2C)) }
+
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
@@ -66,36 +69,33 @@ fun DownloadPreferences(
     var audioFormat by remember { mutableStateOf(getAudioFormatDesc()) }
 
     val notificationPermission =
-        if (Build.VERSION.SDK_INT >= 33)
-            rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { status ->
-                if (!status) TextUtil.makeToast(context.getString(R.string.permission_denied))
-            } else null
+        if (Build.VERSION.SDK_INT >= 33) rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { status ->
+            if (!status) TextUtil.makeToast(context.getString(R.string.permission_denied))
+        } else null
 
     fun checkNotificationPermission(): Boolean =
         notificationPermission == null || (notificationPermission.status == PermissionStatus.Granted)
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
+            canScroll = { true })
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            com.junkfood.seal.ui.component.LargeTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(id = R.string.download),
-                    )
-                }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
-                        onBackPressed()
-                    }
-                }, scrollBehavior = scrollBehavior
+            com.junkfood.seal.ui.component.LargeTopAppBar(title = {
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = stringResource(id = R.string.download),
+                )
+            }, navigationIcon = {
+                BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                    onBackPressed()
+                }
+            }, scrollBehavior = scrollBehavior
             )
-        }, content = {
+        },
+        content = {
             var customCommandEnable by remember {
                 mutableStateOf(
                     PreferenceUtil.getValue(CUSTOM_COMMAND)
@@ -107,8 +107,7 @@ fun DownloadPreferences(
                 )
             }
             LazyColumn(
-                modifier = Modifier
-                    .padding(it)
+                modifier = Modifier.padding(it)
             ) {
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.general_settings))
@@ -135,14 +134,12 @@ fun DownloadPreferences(
                     }
                 }
                 item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.download_notification),
+                    PreferenceSwitch(title = stringResource(id = R.string.download_notification),
                         description = stringResource(
                             id = if (notificationPermission == null || notificationPermission.status == PermissionStatus.Granted) R.string.download_notification_desc
                             else R.string.permission_denied
                         ),
-                        icon = if (!checkNotificationPermission())
-                            Icons.Outlined.NotificationsOff
+                        icon = if (!checkNotificationPermission()) Icons.Outlined.NotificationsOff
                         else if (!downloadNotification) Icons.Outlined.Notifications
                         else Icons.Outlined.NotificationsActive,
                         isChecked = downloadNotification && checkNotificationPermission(),
@@ -151,20 +148,17 @@ fun DownloadPreferences(
                             if (checkNotificationPermission()) {
                                 downloadNotification = !downloadNotification
                                 PreferenceUtil.updateValue(
-                                    NOTIFICATION,
-                                    downloadNotification
+                                    NOTIFICATION, downloadNotification
                                 )
                             }
-                        }
-                    )
+                        })
                 }
 
                 item {
                     var configureBeforeDownload by remember {
                         mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
                     }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.settings_before_download),
+                    PreferenceSwitch(title = stringResource(id = R.string.settings_before_download),
                         description = stringResource(
                             id = R.string.settings_before_download_desc
                         ),
@@ -173,17 +167,14 @@ fun DownloadPreferences(
                         onClick = {
                             configureBeforeDownload = !configureBeforeDownload
                             PreferenceUtil.updateValue(
-                                PreferenceUtil.CONFIGURE,
-                                configureBeforeDownload
+                                PreferenceUtil.CONFIGURE, configureBeforeDownload
                             )
-                        }
-                    )
+                        })
                 }
 
                 item {
 
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.extract_audio),
+                    PreferenceSwitch(title = stringResource(id = R.string.extract_audio),
                         description = stringResource(
                             id = R.string.extract_audio_summary
                         ),
@@ -193,8 +184,7 @@ fun DownloadPreferences(
                         onClick = {
                             audioSwitch = !audioSwitch
                             PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
-                        }
-                    )
+                        })
                 }
 
                 item {
@@ -203,8 +193,7 @@ fun DownloadPreferences(
                             PreferenceUtil.getValue(THUMBNAIL)
                         )
                     }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.create_thumbnail),
+                    PreferenceSwitch(title = stringResource(id = R.string.create_thumbnail),
                         description = stringResource(
                             id = R.string.create_thumbnail_summary
                         ),
@@ -214,8 +203,7 @@ fun DownloadPreferences(
                         onClick = {
                             thumbnailSwitch = !thumbnailSwitch
                             PreferenceUtil.updateValue(THUMBNAIL, thumbnailSwitch)
-                        }
-                    )
+                        })
                 }
                 item {
                     PreferenceSwitch(
@@ -267,10 +255,10 @@ fun DownloadPreferences(
                         onClick = {
                             downloadPlaylist = !downloadPlaylist
                             PreferenceUtil.updateValue(
-                                PLAYLIST,
-                                downloadPlaylist
+                                PLAYLIST, downloadPlaylist
                             )
-                        }, icon = Icons.Outlined.PlaylistAddCheck,
+                        },
+                        icon = Icons.Outlined.PlaylistAddCheck,
                         enabled = !customCommandEnable,
                         description = stringResource(R.string.download_playlist_desc),
                         isChecked = downloadPlaylist
@@ -290,16 +278,30 @@ fun DownloadPreferences(
                     }
                 }
                 item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.aria2),
+                        icon = Icons.Outlined.Bolt,
+                        description = stringResource(
+                            R.string.aria2_desc
+                        ),
+                        isChecked = aria2c,
+                        onClick = {
+                            aria2c = !aria2c
+                            PreferenceUtil.updateValue(ARIA2C, aria2c)
+                        },
+                        enabled = !customCommandEnable
+                    )
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(id = R.string.concurrent_download),
                         description = stringResource(R.string.concurrent_download_desc),
                         icon = Icons.Outlined.Speed,
-                        enabled = !customCommandEnable && !audioSwitch,
+                        enabled = !customCommandEnable && !audioSwitch && !aria2c,
                     ) { showConcurrentDownloadDialog = true }
                 }
                 item {
-                    PreferenceSwitchWithDivider(
-                        title = stringResource(R.string.sponsorblock),
+                    PreferenceSwitchWithDivider(title = stringResource(R.string.sponsorblock),
                         description = stringResource(
                             R.string.sponsorblock_desc
                         ),
@@ -310,12 +312,10 @@ fun DownloadPreferences(
                             isSponsorBlockEnabled = !isSponsorBlockEnabled
                             PreferenceUtil.updateValue(SPONSORBLOCK, isSponsorBlockEnabled)
                         },
-                        onClick = { showSponsorBlockDialog = true }
-                    )
+                        onClick = { showSponsorBlockDialog = true })
                 }
                 item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.custom_command),
+                    PreferenceSwitch(title = stringResource(id = R.string.custom_command),
                         description = stringResource(
                             id = R.string.custom_command_desc
                         ),
@@ -324,8 +324,7 @@ fun DownloadPreferences(
                         onClick = {
                             customCommandEnable = !customCommandEnable
                             PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
-                        }
-                    )
+                        })
                 }
                 item {
                     PreferenceItem(
@@ -337,8 +336,7 @@ fun DownloadPreferences(
                     }
                 }
             }
-        }
-    )
+        })
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
             audioFormat = getAudioFormatDesc()

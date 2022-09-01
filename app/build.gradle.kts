@@ -25,7 +25,7 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.43.2"
 val composeMd3Version = "1.0.0-beta01"
 val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "42c7dfcee1"
+val youtubedlAndroidVersion = "add_aria2-SNAPSHOT"
 val okhttpVersion = "5.0.0-alpha.10"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -177,6 +177,8 @@ dependencies {
 
     implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
     implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+
 //    implementation ("com.github.xibr.youtubedl-android:library:set-ffmpeg-location-SNAPSHOT")
 //    implementation ("com.github.xibr.youtubedl-android:ffmpeg:set-ffmpeg-location-SNAPSHOT")
 

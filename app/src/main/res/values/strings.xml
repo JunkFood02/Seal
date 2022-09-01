@@ -209,4 +209,6 @@
     <string name="app_up_to_date">The current version is up to date</string>
     <string name="app_update_failed">Failed to update to the latest version</string>
     <string name="update">Update</string>
+    <string name="aria2" translatable="false">Aria2</string>
+    <string name="aria2_desc">Use aria2c as the external downloader</string>
 </resources>
