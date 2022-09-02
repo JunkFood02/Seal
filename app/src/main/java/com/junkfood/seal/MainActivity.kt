@@ -17,6 +17,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
@@ -28,8 +29,10 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.lang.reflect.Method
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -63,6 +66,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
         handleShareIntent(intent)
+
+        //Check if it's MIUI to apply a mini-patch to the Xioami problem https://stackoverflow.com/questions/47610456/how-to-detect-miui-rom-programmatically-in-android
+        val c = Class.forName("android.os.SystemProperties")
+        val get: Method = c.getMethod("get", String::class.java)
+        val miui = get.invoke(c, "ro.miui.ui.version.code") as String
+
+        Log.d("Message", "Miui version: $miui")
+
+        // if string miui is not empty, execute the code
+        if(miui.isNotEmpty()){
+            lifecycleScope.launch {
+                delay(50)
+                window.setBackgroundDrawableResource(android.R.color.transparent)
+            }
+        }
+
     }
 
     override fun onNewIntent(intent: Intent?) {
