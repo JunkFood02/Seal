@@ -152,7 +152,7 @@ object UpdateUtil {
                     }
 
                     when {
-                        progressBytes < totalBytes -> throw Exception("mi   ssing bytes")
+                        progressBytes < totalBytes -> throw Exception("missing bytes")
                         progressBytes > totalBytes -> throw Exception("too many bytes")
                         else -> deleteFile = false
                     }
