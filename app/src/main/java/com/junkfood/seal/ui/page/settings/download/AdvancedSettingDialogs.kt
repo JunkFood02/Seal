@@ -126,7 +126,7 @@ fun ConcurrentDownloadDialog(
     var concurrentFragments by remember { mutableStateOf(PreferenceUtil.getConcurrentFragments()) }
     val count by remember {
         derivedStateOf {
-            if (concurrentFragments <= 0.125f) 1 else ((concurrentFragments * 4f).roundToInt()) * 4
+            if (concurrentFragments <= 0.125f) 1 else (concurrentFragments * 4f).roundToInt() * 4
         }
     }
     AlertDialog(

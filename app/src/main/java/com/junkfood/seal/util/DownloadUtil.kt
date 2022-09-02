@@ -98,7 +98,7 @@ object DownloadUtil {
     ): Result {
 
         val extractAudio: Boolean =
-            PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO) or (videoInfo.ext.matches(Regex("mp3|m4a|opus")))
+            PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO) or videoInfo.ext.matches(Regex("mp3|m4a|opus"))
         val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL)
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY)

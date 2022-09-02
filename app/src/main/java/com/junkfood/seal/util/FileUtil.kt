@@ -46,7 +46,7 @@ object FileUtil {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
         val path = downloadResult.filePath?.first() ?: return null
         return Intent().apply {
-            action = (Intent.ACTION_VIEW)
+            action = Intent.ACTION_VIEW
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
             setDataAndType(
                 FileProvider.getUriForFile(

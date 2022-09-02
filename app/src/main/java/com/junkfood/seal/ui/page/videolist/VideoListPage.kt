@@ -39,7 +39,7 @@ fun DownloadedVideoInfo.filterByType(
 }
 
 fun DownloadedVideoInfo.filterByExtractor(extractor: String?): Boolean {
-    return extractor.isNullOrEmpty() || (this.extractor == extractor)
+    return extractor.isNullOrEmpty() || this.extractor == extractor
 }
 
 private const val TAG = "VideoListPage"

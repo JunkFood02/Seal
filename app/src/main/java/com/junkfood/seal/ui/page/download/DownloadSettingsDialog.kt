@@ -233,9 +233,9 @@ fun DownloadSettingDialog(
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
     }
     when (showCustomCommandDialog) {
-        (-1) -> CommandTemplateDialog(newTemplate = true,
+        -1 -> CommandTemplateDialog(newTemplate = true,
             onDismissRequest = { showCustomCommandDialog = 0 })
-        (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
+        1 -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
             newTemplate = false,
             onDismissRequest = { showCustomCommandDialog = 0 })
     }

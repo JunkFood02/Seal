@@ -70,7 +70,7 @@ fun WelcomeDialog(onClick: () -> Unit) {
                     icon = Icons.Outlined.SettingsSuggest,
                     description = stringResource(R.string.check_download_settings_desc)
                 )
-                if ((showWelcomeDialog > 1))
+                if (showWelcomeDialog > 1)
                     MultiChoiceItem(
                         text = stringResource(id = R.string.close_never_show_again),
                         checked = disableDialog, onClick = { disableDialog = !disableDialog })

@@ -74,7 +74,7 @@ fun DownloadPreferences(
         } else null
 
     fun checkNotificationPermission(): Boolean =
-        notificationPermission == null || (notificationPermission.status == PermissionStatus.Granted)
+        notificationPermission == null || notificationPermission.status == PermissionStatus.Granted
 
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),

@@ -64,7 +64,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val launcher =
         rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
             override fun createIntent(context: Context, input: Uri?): Intent {
-                return (super.createIntent(context, input)).apply {
+                return super.createIntent(context, input).apply {
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
                             Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
