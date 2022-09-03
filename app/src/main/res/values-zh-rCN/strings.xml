@@ -175,5 +175,6 @@
     <string name="app_up_to_date">当前版本已为最新</string>
     <string name="app_update_failed">更新过程中出现错误</string>
     <string name="update">更新</string>
-    <string name="aria2_desc">使用 aria2c 进行下载</string>
+    <string name="aria2_desc">使用 aria2c 下载器进行下载</string>
+    <string name="cookies_desc">使用 Netscape 规范的 Cookies 文件进行下载</string>
 </resources>

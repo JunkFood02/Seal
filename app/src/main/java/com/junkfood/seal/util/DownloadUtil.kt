@@ -7,7 +7,9 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
+import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
@@ -19,6 +21,7 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -107,6 +110,7 @@ object DownloadUtil {
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments()
         val maxFileSize = PreferenceUtil.getString(MAX_FILE_SIZE, "")
         val sponsorBlock = PreferenceUtil.getValue(SPONSORBLOCK)
+        val cookies = PreferenceUtil.getValue(COOKIES)
         val aria2c = PreferenceUtil.getValue(ARIA2C)
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
@@ -116,6 +120,15 @@ object DownloadUtil {
 
         with(request) {
             addOption("--no-mtime")
+            if (cookies) {
+                runBlocking {
+                    FileUtil.writeContentToFile(
+                        PreferenceUtil.getCookies(),
+                        context.getCookiesFile()
+                    )
+                }
+                addOption("--cookies", context.getCookiesFile().absolutePath)
+            }
             if (playlistItem != -1 && downloadPlaylist)
                 addOption("--playlist-items", playlistItem)
 

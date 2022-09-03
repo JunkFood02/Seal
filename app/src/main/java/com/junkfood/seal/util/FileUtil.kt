@@ -1,11 +1,14 @@
 package com.junkfood.seal.util
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
@@ -86,7 +89,18 @@ object FileUtil {
         )
         return paths
     }
+    fun Context.getConfigFile() = File(cacheDir, "config.txt")
 
+    fun Context.getCookiesFile() = File(cacheDir, "cookies.txt")
+
+    suspend fun writeContentToFile(
+        content: String,
+        configFile: File = context.getConfigFile()
+    ) {
+        withContext(Dispatchers.IO) {
+            configFile.writeText(content)
+        }
+    }
 
     fun getRealPath(treeUri: Uri): String {
         val path: String = treeUri.path.toString()

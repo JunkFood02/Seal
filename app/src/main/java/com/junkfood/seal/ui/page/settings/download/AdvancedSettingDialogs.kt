@@ -23,6 +23,7 @@ import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
+import com.junkfood.seal.util.PreferenceUtil.COOKIES_FILE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK_CATEGORIES
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -188,6 +189,46 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
         ConfirmButton {
             onDismissRequest()
             PreferenceUtil.updateString(SPONSORBLOCK_CATEGORIES, categories)
+        }
+    })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CookiesDialog(onDismissRequest: () -> Unit) {
+    var cookies by remember {
+        mutableStateOf(PreferenceUtil.getCookies())
+    }
+    val clipboardManager = LocalClipboardManager.current
+
+    AlertDialog(onDismissRequest = onDismissRequest, icon = {
+        Icon(Icons.Outlined.Cookie, null)
+    }, title = { Text(stringResource(R.string.cookies)) }, text = {
+        Column() {
+            Text(
+                stringResource(R.string.cookies_desc),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                value = cookies,
+                label = { Text(stringResource(R.string.cookies_file_name)) },
+                onValueChange = { cookies = it }, trailingIcon = {
+                    IconButton(onClick = {
+                        clipboardManager.getText().toString().let { cookies = it }
+                    }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+                }, maxLines = 5
+            )
+//            LinkButton(link = sponsorBlockReference)
+        }
+    }, dismissButton = {
+        DismissButton {
+            onDismissRequest()
+        }
+    }, confirmButton = {
+        ConfirmButton {
+            onDismissRequest()
+            PreferenceUtil.updateString(COOKIES_FILE, cookies)
         }
     })
 }
