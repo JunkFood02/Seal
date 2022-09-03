@@ -35,6 +35,8 @@
 
 - 播放列表下载支持
 
+- 使用 [aria2c](https://github.com/aria2/aria2) 进行下载
+
 - 内嵌字幕于视频文件中
 
 - 执行自定义的 yt-dlp 命令模板
@@ -53,7 +55,7 @@
 alt="Get it on F-Droid"
 height="80">](https://f-droid.org/packages/com.junkfood.seal/)
 
-你也可以从 [releases](https://github.com/JunkFood02/Seal/releases/latest) 获取最新的 apk
+你也可以从 [releases](https://github.com/JunkFood02/Seal/releases) 获取最新的 apk
 
 ## 贡献
 

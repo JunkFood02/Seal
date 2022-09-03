@@ -14,7 +14,10 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.util.*
+import com.junkfood.seal.util.FileUtil.getConfigFile
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.openFile
+import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -24,7 +27,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.concurrent.CancellationException
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -128,14 +130,23 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     it.copy(
                         isDownloadError = false,
                         isDownloadingPlaylist = false,
-                        isFetchingInfo = true
+                        isFetchingInfo = true,
                     )
                 }
                 try {
                     val playlistInfo = DownloadUtil.getPlaylistInfo(value.url)
-//                    Log.d(TAG, playlistInfo.toString())
-                    if (playlistInfo.size == 1) downloadVideo(value.url)
-                    else showPlaylistDialog(playlistInfo)
+                    mutableStateFlow.update {
+                        it.copy(
+                            downloadItemCount = playlistInfo.size,
+                            isFetchingInfo = false,
+                            playlistInfo = playlistInfo
+                        )
+                    }
+                    if (playlistInfo.size == 1) {
+                        checkStateBeforeDownload()
+                        downloadVideo(value.url)
+                        finishProcessing()
+                    } else showPlaylistDialog(playlistInfo)
                 } catch (e: Exception) {
                     manageDownloadError(e)
                 }
@@ -327,16 +338,15 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 with(mutableStateFlow) {
                     val request = YoutubeDLRequest(value.url)
                     request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
-                    val m = Pattern.compile(commandRegex).matcher(PreferenceUtil.getTemplate())
-                    val commands = ArrayList<String>()
-                    while (m.find()) {
-                        if (m.group(1) != null) {
-                            commands.add(m.group(1).toString())
-                        } else {
-                            commands.add(m.group(2).toString())
-                        }
+                    FileUtil.writeContentToFile(PreferenceUtil.getTemplate(), context.getConfigFile())
+                    request.addOption("--config-locations", context.getConfigFile().absolutePath)
+                    if (PreferenceUtil.getValue(COOKIES)) {
+                        FileUtil.writeContentToFile(
+                            PreferenceUtil.getCookies(),
+                            context.getCookiesFile()
+                        )
+                        request.addOption("--cookies", context.getCookiesFile().absolutePath)
                     }
-                    request.addCommands(commands)
                     update { it.copy(downloadingTaskId = it.url, isProcessRunning = true) }
                     YoutubeDL.getInstance()
                         .execute(request, value.url) { progress, _, line ->
@@ -435,9 +445,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         mutableStateFlow.update {
             it.copy(
                 showPlaylistSelectionDialog = true,
-                downloadItemCount = playlistInfo.size,
-                isFetchingInfo = false,
-                playlistInfo = playlistInfo
             )
         }
     }
@@ -466,6 +473,5 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         private const val TAG = "DownloadViewModel"
-        private const val commandRegex = "\"([^\"]*)\"|(\\S+)"
     }
 }

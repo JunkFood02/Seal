@@ -211,4 +211,11 @@
     <string name="update">Update</string>
     <string name="aria2" translatable="false">Aria2</string>
     <string name="aria2_desc">Use aria2c as the external downloader</string>
+    <string name="cookies" translatable="false">Cookies</string>
+    <string name="cookies_desc">Use Netscape formatted cookies for downloads</string>
+    <string name="cookies_file_name" translatable="false">cookies.txt</string>
+    <string name="clear_temp_files">Clear temporary files</string>
+    <string name="clear_temp_files_desc">Delete all temporary files from the download directory</string>
+    <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
+    <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
 </resources>

@@ -102,6 +102,8 @@ object PreferenceUtil {
     const val SPONSORBLOCK = "sponsorblock"
     const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
     const val ARIA2C = "aria2c"
+    const val COOKIES = "cookies"
+    const val COOKIES_FILE = "cookies_file"
 
     const val SYSTEM_DEFAULT = 0
 
@@ -221,7 +223,7 @@ object PreferenceUtil {
             else this
         }
 
-
+    fun getCookies(): String = getString(COOKIES_FILE) ?: ""
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val seedColor: Int = DEFAULT_SEED_COLOR

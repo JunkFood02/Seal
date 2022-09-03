@@ -23,6 +23,7 @@ import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
+import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
@@ -55,6 +56,7 @@ fun DownloadPreferences(
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
+    var showCookiesDialog by remember { mutableStateOf(false) }
     var aria2c by remember { mutableStateOf(PreferenceUtil.getValue(ARIA2C)) }
 
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
@@ -76,9 +78,9 @@ fun DownloadPreferences(
     fun checkNotificationPermission(): Boolean =
         notificationPermission == null || (notificationPermission.status == PermissionStatus.Granted)
 
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
-            canScroll = { true })
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberTopAppBarState(),
+        canScroll = { true })
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -315,6 +317,21 @@ fun DownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
                 item {
+                    var isCookiesEnabled by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(COOKIES)
+                        )
+                    }
+                    PreferenceSwitchWithDivider(title = stringResource(R.string.cookies),
+                        description = stringResource(R.string.cookies_desc),
+                        isChecked = isCookiesEnabled,
+                        icon = Icons.Outlined.Cookie,
+                        onChecked = {
+                            isCookiesEnabled = !isCookiesEnabled
+                            PreferenceUtil.updateValue(COOKIES, isCookiesEnabled)
+                        }, onClick = { showCookiesDialog = true })
+                }
+                item {
                     PreferenceSwitch(title = stringResource(id = R.string.custom_command),
                         description = stringResource(
                             id = R.string.custom_command_desc
@@ -360,6 +377,11 @@ fun DownloadPreferences(
     if (showSponsorBlockDialog) {
         SponsorBlockDialog {
             showSponsorBlockDialog = false
+        }
+    }
+    if (showCookiesDialog) {
+        CookiesDialog {
+            showCookiesDialog = false
         }
     }
 }
