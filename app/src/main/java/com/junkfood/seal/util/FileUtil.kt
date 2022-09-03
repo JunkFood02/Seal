@@ -7,8 +7,6 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
@@ -62,25 +60,14 @@ object FileUtil {
         }
     }
 
-    fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String>? {
+    fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String> {
         val files = ArrayList<File>()
         val paths = ArrayList<String>()
-
-        /*Files.find(
-            Paths.get(downloadDir),
-            Integer.MAX_VALUE,
-            { path: Path, attributes: BasicFileAttributes ->
-                attributes.isRegularFile && path.toString().contains(title)
-            }).forEach { files.add(it.toFile()) }*/
 
         File(downloadDir).walkTopDown()
             .forEach { if (it.isFile && it.path.contains(title)) files.add(it) }
 
         for (file in files) {
-/*            val trimmedFile = File(file.absolutePath.replace("$title.", "."))
-            if (file.renameTo(trimmedFile))
-                paths.add(trimmedFile.absolutePath)
-            else */
             paths.add(file.absolutePath)
         }
         MediaScannerConnection.scanFile(
@@ -89,17 +76,25 @@ object FileUtil {
         )
         return paths
     }
+
+    fun clearTempFiles(downloadDir: String): Int {
+        var count = 0
+        File(downloadDir).walkTopDown().forEach {
+            if (it.isFile && Regex(".*\\.part\$").matches(it.absolutePath)) {
+                if (it.delete())
+                    count++
+            }
+        }
+        return count
+    }
+
     fun Context.getConfigFile() = File(cacheDir, "config.txt")
 
     fun Context.getCookiesFile() = File(cacheDir, "cookies.txt")
 
-    suspend fun writeContentToFile(
-        content: String,
-        configFile: File = context.getConfigFile()
-    ) {
-        withContext(Dispatchers.IO) {
-            configFile.writeText(content)
-        }
+    fun writeContentToFile(content: String, file: File): File {
+        file.writeText(content)
+        return file
     }
 
     fun getRealPath(treeUri: Uri): String {

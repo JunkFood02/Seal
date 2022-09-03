@@ -39,6 +39,8 @@ English
 
 - Download all videos in the playlist with one click.
 
+- Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+
 - Embed subtitles into the downloaded videos.
 
 - Execute custom yt-dlp commands with templates.
@@ -59,7 +61,7 @@ English
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.junkfood.seal/)
 
-Or download the latest apk from [releases](https://github.com/JunkFood02/Seal/releases/latest)
+Or download the latest apks from [releases](https://github.com/JunkFood02/Seal/releases/)
 
 
 

@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,9 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
@@ -44,10 +48,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
 
     val uriHandler = LocalUriHandler.current
     val clipboardManager = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
     )
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
     var videoDirectoryText by remember { mutableStateOf(BaseApplication.videoDownloadDir) }
     var audioDirectoryText by remember { mutableStateOf(BaseApplication.audioDownloadDir) }
     var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
@@ -56,6 +63,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var isCustomPathEnabled
             by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_PATH, false)) }
     var showEditDialog by remember { mutableStateOf(false) }
+    var showClearTempDialog by remember { mutableStateOf(false) }
 
     var isEditingAudioDirectory = false
     val storagePermission =
@@ -90,6 +98,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier.systemBarsPadding(),
+                hostState = snackbarHostState
+            )
+        },
         topBar = {
             LargeTopAppBar(
                 title = {
@@ -150,37 +164,67 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
                 }
                 item {
-                    PreferenceSwitch(
-                        title = stringResource(R.string.custom_output_path),
+                    PreferenceSwitchWithDivider(title = stringResource(R.string.custom_output_path),
                         description = stringResource(R.string.custom_output_path_desc),
                         icon = Icons.Outlined.FolderSpecial,
-                        isChecked = isCustomPathEnabled
-                    ) {
-                        isCustomPathEnabled = !isCustomPathEnabled
-                        PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
-                    }
+                        isChecked = isCustomPathEnabled, onChecked = {
+                            isCustomPathEnabled = !isCustomPathEnabled
+                            PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
+                        }, onClick = { showEditDialog = true }
+                    )
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(R.string.download_path_template),
-                        description = pathTemplateText,
-                        icon = Icons.Outlined.Code,
-                        enabled = isCustomPathEnabled
-                    ) { showEditDialog = true }
+                        title = stringResource(R.string.clear_temp_files),
+                        description = stringResource(
+                            R.string.clear_temp_files_desc
+                        ),
+                        icon = Icons.Outlined.FolderDelete,
+                        onClick = { showClearTempDialog = true }
+                    )
                 }
             }
         })
 
-    val onDismissRequest = {
-        showEditDialog = false
-        pathTemplateText = PreferenceUtil.getOutputPathTemplate()
-    }
 
+    if (showClearTempDialog) {
+        AlertDialog(
+            onDismissRequest = { showClearTempDialog = false },
+            icon = { Icon(Icons.Outlined.FolderDelete, null) },
+            title = { Text(stringResource(id = R.string.clear_temp_files)) },
+            dismissButton = {
+                DismissButton { showClearTempDialog = false }
+            },
+            text = {
+                Text(
+                    stringResource(R.string.clear_temp_files_info),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            },
+            confirmButton = {
+                ConfirmButton {
+                    showClearTempDialog = false
+                    scope.launch(Dispatchers.IO) {
+                        val count =
+                            FileUtil.clearTempFiles(audioDirectoryText) + FileUtil.clearTempFiles(
+                                videoDirectoryText
+                            )
+                        withContext(Dispatchers.Main) {
+                            snackbarHostState.showSnackbar(
+                                context.getString(R.string.clear_temp_files_count).format(count)
+                            )
+                        }
+                    }
+                }
+            })
+    }
     if (showEditDialog) {
         AlertDialog(
-            onDismissRequest = { onDismissRequest() },
+            onDismissRequest = { showEditDialog = false },
             title = { Text(stringResource(R.string.edit_custom_command_template)) },
-            dismissButton = { DismissButton { onDismissRequest() } },
+            dismissButton = {
+                DismissButton { showEditDialog = false }
+            },
             confirmButton = {
                 ConfirmButton {
                     showEditDialog = false

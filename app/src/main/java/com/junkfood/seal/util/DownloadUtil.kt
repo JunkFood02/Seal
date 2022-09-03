@@ -219,20 +219,19 @@ object DownloadUtil {
         YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
 
         val filePaths = FileUtil.scanFileToMediaLibrary(videoInfo.id, pathBuilder.toString())
-        if (filePaths != null)
-            for (path in filePaths) {
-                DatabaseUtil.insertInfo(
-                    DownloadedVideoInfo(
-                        0,
-                        videoInfo.title,
-                        if (videoInfo.uploader == null) "null" else videoInfo.uploader,
-                        videoInfo.webpageUrl ?: url,
-                        TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
-                        path,
-                        videoInfo.extractorKey
-                    )
+        for (path in filePaths) {
+            DatabaseUtil.insertInfo(
+                DownloadedVideoInfo(
+                    0,
+                    videoInfo.title,
+                    if (videoInfo.uploader == null) "null" else videoInfo.uploader,
+                    videoInfo.webpageUrl ?: url,
+                    TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                    path,
+                    videoInfo.extractorKey
                 )
-            }
+            )
+        }
         return Result.success(filePaths)
     }
 

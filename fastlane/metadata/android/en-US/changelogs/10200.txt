@@ -1,0 +1,14 @@
+This version comes with many feature updates and UI/UX improvements.
+
+Feature Updates:
+    Add aria2c support
+    Export/import command templates to/from clipboard
+    SponsorBlock integration
+    Add cookies support for downloads
+    Better compatibility for custom commands
+    Clear temp files
+Behavior Changes:
+    The default filename is reset to %(title)s [%(id)s].%(ext)s
+UI/UX Improvements:
+    Add monochrome icon support for Android 13
+    Multi-selecting operation in Downloads page

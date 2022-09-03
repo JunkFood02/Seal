@@ -338,7 +338,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 with(mutableStateFlow) {
                     val request = YoutubeDLRequest(value.url)
                     request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
-                    FileUtil.writeContentToFile(PreferenceUtil.getTemplate())
+                    FileUtil.writeContentToFile(PreferenceUtil.getTemplate(), context.getConfigFile())
                     request.addOption("--config-locations", context.getConfigFile().absolutePath)
                     if (PreferenceUtil.getValue(COOKIES)) {
                         FileUtil.writeContentToFile(
@@ -347,18 +347,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         )
                         request.addOption("--cookies", context.getCookiesFile().absolutePath)
                     }
-                    /*val m = Pattern.compile(commandRegex).matcher(PreferenceUtil.getTemplate())
-                    val commands = ArrayList<String>()
-                    while (m.find()) {
-                        if (m.group(1) != null) {
-                            commands.add(m.group(1).toString())
-                        } else {
-                            commands.add(m.group(2).toString())
-                        }
-                    }
-                    for (c in commands)
-                        Log.d(TAG, c)
-                    request.addCommands(commands)*/
                     update { it.copy(downloadingTaskId = it.url, isProcessRunning = true) }
                     YoutubeDL.getInstance()
                         .execute(request, value.url) { progress, _, line ->
@@ -485,6 +473,5 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         private const val TAG = "DownloadViewModel"
-        private const val commandRegex = "\"(.*)\"|(\\S+)"
     }
 }

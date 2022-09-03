@@ -177,4 +177,8 @@
     <string name="update">更新</string>
     <string name="aria2_desc">使用 aria2c 下载器进行下载</string>
     <string name="cookies_desc">使用 Netscape 规范的 Cookies 文件进行下载</string>
+    <string name="clear_temp_files">清除临时文件</string>
+    <string name="clear_temp_files_desc">删除当前下载目录下的所有临时文件</string>
+    <string name="clear_temp_files_count">共清除了 %1$d 个临时文件</string>
+    <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？</string>
 </resources>
