@@ -159,4 +159,11 @@
     <string name="copy_error_report">Rapporto di errore</string>
     <string name="video_resolution">Risoluzione video</string>
     <string name="video_file_size">Dimensione del file video</string>
+    <string name="export_to_clipboard">Esporta negli appunti</string>
+    <string name="multiselect_item_count">%1$d file video, %2$d file audio</string>
+    <string name="import_from_clipboard">Importa dagli appunti</string>
+    <string name="template_exported">Modello(i) %1$d esportato(i)</string>
+    <string name="template_imported">Modello(i) %1$d importato(i)</string>
+    <string name="recently_added">Aggiunto di recente</string>
+    <string name="delete_multiple_items_msg">Sei sicuro di rimuovere %1$d elemento(i) dalla tua cronologia di download\?</string>
 </resources>
