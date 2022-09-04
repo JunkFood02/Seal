@@ -167,4 +167,18 @@
     <string name="multiselect_item_count">%1$d Video(s), %2$d Audio-Datei(en)</string>
     <string name="delete_multiple_items_msg">%1$d für immer aus deinem Downloadverlauf entfernen\?</string>
     <string name="download_task_count">%1$d Download-Aufgaben</string>
+    <string name="check_for_updates">Nach Aktualisierungen suchen</string>
+    <string name="check_for_updates_desc">Aktualisierung auf die neueste Version von GitHub</string>
+    <string name="app_up_to_date">Die aktuelle Version ist auf dem neuesten Stand</string>
+    <string name="update">Aktualisieren</string>
+    <string name="aria2_desc">Aria2c als externen Downloader verwenden</string>
+    <string name="app_update_failed">Aktualisierung auf die neueste Version fehlgeschlagen</string>
+    <string name="sponsorblock_desc">Segmente aus Videos mit SponsorBlock-API entfernen</string>
+    <string name="sponsorblock_categories_desc">Gib SponsorBlock-Kategorien an, die aus der Videodatei entfernt werden sollen</string>
+    <string name="sponsorblock_categories">SponsorBlock-Kategorien</string>
+    <string name="cookies_desc">Netscape-formatierte Cookies für Downloads verwenden</string>
+    <string name="clear_temp_files">Temporäre Dateien löschen</string>
+    <string name="clear_temp_files_desc">Alle temporären Dateien aus dem Downloadordner löschen</string>
+    <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst\?</string>
+    <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
 </resources>

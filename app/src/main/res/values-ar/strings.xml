@@ -166,5 +166,19 @@
     <string name="recently_added">أضيف مؤخرا</string>
     <string name="import_from_clipboard">الاستيراد من الحافظة</string>
     <string name="delete_multiple_items_msg">هل تريد إزالة%1$d عنصراً (عناصر) من سجل التنزيل للأبد؟</string>
-    <string name="multiselect_item_count">%1$d ملف(ملفات) فيديو، %2$d ملف(ملفات) صوت</string>
+    <string name="multiselect_item_count">%1$d ملف(ات) فيديو، %2$d ملف(ات) صوت</string>
+    <string name="sponsorblock_desc">قم بإزالة جزء من مقطع فيديو باستخدام SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">حدد فئات الSponsorBlock المراد إزالتها من ملف الفيديو</string>
+    <string name="sponsorblock_categories">تصنيفات الSponsorBlock</string>
+    <string name="app_up_to_date">انت على احدث اصدار</string>
+    <string name="app_update_failed">فشل التحديث إلى أحدث إصدار</string>
+    <string name="update">تحديث</string>
+    <string name="check_for_updates">أبحث عن تحديثات</string>
+    <string name="check_for_updates_desc">حدث إلى احدث اصدار متوفر على Github</string>
+    <string name="aria2_desc">استخدم aria2c كمدير تنزيل خارجي</string>
+    <string name="cookies_desc">استخدم ملفات تعريف الارتباط بتنسيق Netscape للتنزيلات</string>
+    <string name="clear_temp_files">امسح الملفات المؤقتة</string>
+    <string name="clear_temp_files_count">تم حذف %1$d ملف(ات) مؤقت(ة)</string>
+    <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
+    <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من مجلد التنزيل</string>
 </resources>

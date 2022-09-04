@@ -36,7 +36,7 @@
     <string name="start_download">Начать загрузку</string>
     <string name="user_guide">Руководство пользователя</string>
     <string name="open_settings">Открыть настройки</string>
-    <string name="video_quality_desc">Ограничьте качество этими настройками</string>
+    <string name="video_quality_desc">Ограничьте качество и размер файла этими настройками</string>
     <string name="video_format_desc">Выбранный формат, если доступны несколько</string>
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
@@ -157,4 +157,17 @@
     <string name="copy_error_report">Сообщить об ошибке</string>
     <string name="status_error">Ошибка</string>
     <string name="copy_link">Скопировать ссылку</string>
+    <string name="video_resolution">Разрешение видео</string>
+    <string name="video_file_size">Размер видеофайла</string>
+    <string name="import_from_clipboard">Импорт из буфера обмена</string>
+    <string name="template_exported">Экспортировано %1$d шаблон(а/ов)</string>
+    <string name="template_imported">Импортировано %1$d шаблон(а/ов)</string>
+    <string name="download_task_count">%1$d Загрузочная задача</string>
+    <string name="recently_added">Недавно добавленные</string>
+    <string name="multiselect_item_count">%1$d видеофайл(а/ов), %2$d аудиофайл(а/ов)</string>
+    <string name="delete_multiple_items_msg">Удалить%1$d элемент(ы) из Вашей истории загрузок навсегда\?</string>
+    <string name="export_to_clipboard">Экспортировать в буфер обмена</string>
+    <string name="sponsorblock_categories">Категории SponsorBlock</string>
+    <string name="sponsorblock_desc">Удаление сегментов из видео с помощью SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">Укажите категории, которые будут удалены из видеофайла</string>
 </resources>

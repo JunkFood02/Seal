@@ -159,4 +159,21 @@
     <string name="status_error">Error</string>
     <string name="video_resolution">Resolución de vídeo</string>
     <string name="video_file_size">Tamaño del archivo del vídeo</string>
+    <string name="export_to_clipboard">Exportar al portapapeles</string>
+    <string name="import_from_clipboard">Importar desde el portapapeles</string>
+    <string name="template_exported">%1$d plantilla(s) exportada(s)</string>
+    <string name="template_imported">%1$d plantilla(s) importada(s)</string>
+    <string name="download_task_count">%1$d tareas de descarga</string>
+    <string name="recently_added">Añadido recientemente</string>
+    <string name="multiselect_item_count">%1$d vídeo(s), %2$d archivo(s) de audio</string>
+    <string name="delete_multiple_items_msg">¿Eliminar %1$d elemento(s) de tu historial de descargas para siempre\?</string>
+    <string name="check_for_updates_desc">Actualiza a la última versión de la app disponible en GitHub</string>
+    <string name="app_up_to_date">Seal ya está puesto al día</string>
+    <string name="update">Actualizar</string>
+    <string name="check_for_updates">Buscar actualizaciones</string>
+    <string name="aria2_desc">Usa aria2c como descargador externo</string>
+    <string name="app_update_failed">Fallo al actualizar a la última versión</string>
+    <string name="sponsorblock_desc">Elimina segmentos de los vídeos con la API de SponsorBlock</string>
+    <string name="sponsorblock_categories_desc">Especifica las categorías de SponsorBlock que quieres eliminar de el archivo de vídeo</string>
+    <string name="sponsorblock_categories">Categorías de SponsorBlock</string>
 </resources>

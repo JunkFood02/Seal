@@ -160,4 +160,26 @@
     <string name="copy_error_report">Повідомити про помилку</string>
     <string name="video_file_size">Розмір відеофайлу</string>
     <string name="video_resolution">Роздільна здатність</string>
+    <string name="clear_temp_files_desc">Видалити всі тимчасові файли з каталогу завантажень</string>
+    <string name="clear_temp_files_count">Видалено %1$d тимчасовий(і/их) файл(и/ів)</string>
+    <string name="sponsorblock_categories_desc">Вкіжіть категорії SponsorBlock, що будуть видалені з відеофайла</string>
+    <string name="check_for_updates">Перевірити наявність оновлень</string>
+    <string name="app_up_to_date">Поточна версія актуальна</string>
+    <string name="update">Оновити</string>
+    <string name="cookies_desc">Використати файли cookie Netscape для завантаження</string>
+    <string name="check_for_updates_desc">Оновіть до останньої версії з GitHub</string>
+    <string name="aria2_desc">Використати aria2c в якості зовнішнього завантажувача</string>
+    <string name="clear_temp_files_info">Тимчасові файли можна використати для відновлення скасованих завантажень. Ви впевнені, що хочете видалити всі ці файли\?</string>
+    <string name="app_update_failed">Не вдалося оновити до останньої версії</string>
+    <string name="clear_temp_files">Видалити тимчасові файли</string>
+    <string name="export_to_clipboard">Експортувати в буфер обміну</string>
+    <string name="import_from_clipboard">Імпортувати з буфера обміну</string>
+    <string name="template_exported">Експортовано %1$d шаблон(и/ів)</string>
+    <string name="template_imported">Імпортовано %1$d шаблон(и/ів)</string>
+    <string name="download_task_count">%1$d Завдання для завантажування</string>
+    <string name="recently_added">Нещодавно додані</string>
+    <string name="multiselect_item_count">%1$d відеофайл(и/ів), %2$d аудіофайл(и/ів)</string>
+    <string name="delete_multiple_items_msg">Видалити %1$d елемент(и/ів) з історії завантажень назавжди\?</string>
+    <string name="sponsorblock_desc">Видалення сегментів з відео за допомогою SponsorBlock API</string>
+    <string name="sponsorblock_categories">Категорії SponsorBlock</string>
 </resources>

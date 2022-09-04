@@ -40,7 +40,7 @@
     <string name="credits_desc">來源與自由軟體</string>
     <string name="video_directory">視訊資料夾</string>
     <string name="extract_audio">儲存為音訊</string>
-    <string name="create_thumbnail_summary">另存視訊封面</string>
+    <string name="create_thumbnail_summary">另存視訊縮圖</string>
     <string name="download_start_msg">下載「%1$s」</string>
     <string name="paste_fail_msg">在剪貼簿中沒有相符的 URL</string>
     <string name="delete_info_msg">確定要從下載記錄中移除「%1$s」嗎？</string>
@@ -76,7 +76,7 @@
     <string name="not_specified">不指定 (預設)</string>
     <string name="video_quality">視訊品質</string>
     <string name="video_format">視訊格式</string>
-    <string name="video_format_desc">當提供多項選擇時選取格式</string>
+    <string name="video_format_desc">當提供多種選項時選擇格式</string>
     <string name="open_settings">開啟設定</string>
     <string name="download_playlist">下載播放清單</string>
     <string name="defaults">預設</string>
@@ -96,12 +96,12 @@
     <string name="download_range_selection">播放清單範圍</string>
     <string name="invalid_index_range">無效的索引範圍</string>
     <string name="playlist_indicator_text">正在下載播放清單 (%1$d/%2$d)，點擊以停止。</string>
-    <string name="download_notification_desc">顯示下載檔案和進度通知</string>
+    <string name="download_notification_desc">通知下載檔案和進度資訊</string>
     <string name="from">起始編號</string>
     <string name="to">結束編號</string>
     <string name="audio_directory">音訊資料夾</string>
     <string name="download_directory">下載資料夾</string>
-    <string name="subdirectory_desc">儲存檔案到以來源網站命名的資料夾</string>
+    <string name="subdirectory_desc">儲存檔案到以相應網站命名的資料夾</string>
     <string name="permission_issue_desc">不支援 Download/ 和 Documents/ 以外的目錄</string>
     <string name="battery_configuration">電池配置</string>
     <string name="service_title">Seal 正在下載…</string>
@@ -142,7 +142,7 @@
     <string name="convert_audio">轉換</string>
     <string name="paste_desc">點選 [貼上] 以從剪貼簿取得影片連結。</string>
     <string name="download_desc">調整此次下載配置，然後點選 [下載]。</string>
-    <string name="channel_description">顯示下載檔案和進度通知</string>
+    <string name="channel_description">通知下載檔案和進度資訊</string>
     <string name="download_finish_notification">下載完成。點擊以開啟。</string>
     <string name="additional_settings">其他設定</string>
     <string name="share_fail_msg">無法比對來自分享內容中的 URL</string>
@@ -167,4 +167,17 @@
     <string name="multiselect_item_count">%1$d 個視訊，%2$d 個音訊</string>
     <string name="export_to_clipboard">匯出到剪貼簿</string>
     <string name="delete_multiple_items_msg">確定要移除 %1$d 項下載記錄嗎？</string>
+    <string name="sponsorblock_categories_desc">指定欲從視訊檔案中移除的 SponsorBlock 類別</string>
+    <string name="sponsorblock_desc">使用 SponsorBlock API 從視訊中移除片段</string>
+    <string name="sponsorblock_categories">SponsorBlock 類別</string>
+    <string name="check_for_updates">检查更新</string>
+    <string name="app_up_to_date">已經是最新版本</string>
+    <string name="app_update_failed">更新過程中出現錯誤</string>
+    <string name="update">更新</string>
+    <string name="clear_temp_files_desc">從下載目錄中清除所有暫存檔案</string>
+    <string name="clear_temp_files_count">刪除了%1$d個暫存檔案</string>
+    <string name="aria2_desc">使用aria2c作為外部下載器</string>
+    <string name="cookies_desc">使用 Netscape 規範的 Cookies 文件進行下載</string>
+    <string name="clear_temp_files">清除暫存檔案</string>
+    <string name="check_for_updates_desc">更新到 GitHub 上的最新版本</string>
 </resources>
