@@ -1,12 +1,10 @@
 <b>Features</b>
-<ul>
-	<li>Download videos and audio files from video platforms supported by yt-dlp</li>
-	<li>Embed metadata and video thumbnail into extracted audio files supported by mutagen</li>
-	<li>Download all videos in the playlist with one click</li>
-	<li>Embed subtitles into downloaded videos</li>
-	<li>Execute custom yt-dlp commands with templates</li>
-	<li>Manage in-app downloads</li>
-	<li>Easy to use and user-friendly</li>
-	<li>Material Design 3 style UI, with dynamic color theme</li>
-	<li>Free and open source</li>
-</ul>
+Download videos and audio files from video platforms supported by yt-dlp
+Embed metadata and video thumbnail into extracted audio files
+Download all videos in the playlist with one click
+Use embedded aria2c as external downloader for all your downloads
+Embed subtitles into downloaded videos
+Execute custom yt-dlp commands with templates
+Manage in-app downloads and custom command templates
+Easy to use and user-friendly
+Material Design 3 style UI, with dynamic color theme

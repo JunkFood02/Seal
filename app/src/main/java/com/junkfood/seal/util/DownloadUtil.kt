@@ -21,7 +21,6 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -121,12 +120,10 @@ object DownloadUtil {
         with(request) {
             addOption("--no-mtime")
             if (cookies) {
-                runBlocking {
-                    FileUtil.writeContentToFile(
-                        PreferenceUtil.getCookies(),
-                        context.getCookiesFile()
-                    )
-                }
+                FileUtil.writeContentToFile(
+                    PreferenceUtil.getCookies(),
+                    context.getCookiesFile()
+                )
                 addOption("--cookies", context.getCookiesFile().absolutePath)
             }
             if (playlistItem != -1 && downloadPlaylist)
@@ -208,10 +205,10 @@ object DownloadUtil {
             if (customPath)
                 addOption(
                     "-o",
-                    PreferenceUtil.getOutputPathTemplate() + "%(title).60s [%(id)s].%(ext)s"
+                    PreferenceUtil.getOutputPathTemplate() + "%(title).100s [%(id)s].%(ext)s"
                 )
             else
-                addOption("-o", "%(title).60s [%(id)s].%(ext)s")
+                addOption("-o", "%(title).100s [%(id)s].%(ext)s")
 
             for (s in request.buildCommand())
                 Log.d(TAG, s)
