@@ -20,6 +20,7 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 data class Credit(val title: String = "", val license: String? = null, val url: String = "")
 
 const val GPL_V3 = "GNU General Public License v3.0"
+const val GPL_V2 = "GNU General Public License v2.0"
 const val APACHE_V2 = "Apache License, Version 2.0"
 const val UNLICENSE = "The Unlicense"
 const val BSD = "BSD 3-Clause License"
@@ -37,6 +38,9 @@ const val coil = "https://github.com/coil-kt/coil"
 const val mmkv = "https://github.com/Tencent/MMKV"
 const val dagger = "https://github.com/google/dagger"
 const val kotlin = "https://kotlinlang.org/"
+const val okhttp = "https://github.com/square/okhttp"
+const val accompanist = "https://github.com/google/accompanist"
+const val aria2 = "https://github.com/aria2/aria2"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,11 +58,14 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("Read You", GPL_V3, readYou),
 //        Credit("Music You"),
         Credit("dvd", GPL_V3, dvd),
+        Credit("Accompanist", APACHE_V2, accompanist),
         Credit("Material Icons", APACHE_V2, materialIcon),
         Credit("Material color utilities", APACHE_V2, materialColor),
         Credit("MMKV", BSD, mmkv),
         Credit("Coil", APACHE_V2, coil),
         Credit("Dagger", APACHE_V2, dagger),
+        Credit("aria2", GPL_V2, aria2),
+        Credit("OkHttp", APACHE_V2, okhttp),
         Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
     )
     val uriHandler = LocalUriHandler.current

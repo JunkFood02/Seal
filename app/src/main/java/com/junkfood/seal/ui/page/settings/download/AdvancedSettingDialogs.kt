@@ -113,7 +113,7 @@ fun CommandTemplateDialog(
                         }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
                     },
                     label = { Text(stringResource(R.string.custom_command_template)) },
-                    maxLines = 3
+                    maxLines = 10
                 )
                 LinkButton()
             }
