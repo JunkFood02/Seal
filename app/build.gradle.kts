@@ -55,7 +55,7 @@ android {
         versionCode = 10200
         versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
             if (!isStable) append("-beta.${versionBuild}")
-            if (!splitApks) append(" (F-Droid)")
+            if (!splitApks) append("-(F-Droid)")
         }.toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
