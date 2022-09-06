@@ -1,0 +1,10 @@
+<b>Funktionen</b>
+Herunterladen von Videos und Audiodateien von Videoplattformen, die von yt-dlp unterstützt werden
+Einbetten von Metadaten und Videovorschaubildern in extrahierte Audiodateien
+Download aller Videos in der Wiedergabeliste mit einem Klick
+Nutzung des eingebetteten Aria2c als externen Downloader für alle Downloads
+Untertitel in heruntergeladene Videos einbetten
+Ausführen von benutzerdefinierten yt-dlp-Befehlen mit Vorlagen
+Verwalten von In-App-Downloads und benutzerdefinierte Befehlsvorlagen
+Einfach zu bedienen und benutzerfreundlich
+Benutzeroberfläche im Material Design 3 Stil mit dynamischem Farbdesigns
