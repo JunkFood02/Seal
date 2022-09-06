@@ -176,4 +176,9 @@
     <string name="sponsorblock_desc">Elimina segmentos de los vídeos con la API de SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Especifica las categorías de SponsorBlock que quieres eliminar de el archivo de vídeo</string>
     <string name="sponsorblock_categories">Categorías de SponsorBlock</string>
+    <string name="cookies_desc">Usar cookies formateadas de Netscape para las descargas</string>
+    <string name="clear_temp_files">Limpiar archivos temporales</string>
+    <string name="clear_temp_files_count">%1$d archivo(s) temporales eliminados</string>
+    <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
+    <string name="clear_temp_files_desc">Elimina todos los archivos temporales de la carpeta de descargas</string>
 </resources>
