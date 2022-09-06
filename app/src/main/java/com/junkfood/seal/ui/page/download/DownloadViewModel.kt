@@ -103,9 +103,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         notificationId: Int? = null
     ) {
         if (stateFlow.value.isCancelled) return
+        if (e.message.isNullOrEmpty()) return
         viewModelScope.launch {
             e.printStackTrace()
-            if (PreferenceUtil.getValue(PreferenceUtil.DEBUG))
+            if (PreferenceUtil.getValue(PreferenceUtil.DEBUG) || stateFlow.value.isInCustomCommandMode)
                 showErrorReport(e.message ?: context.getString(R.string.unknown_error))
             else if (isFetchingInfo) showErrorMessage(context.getString(R.string.fetch_info_error_msg))
             else showErrorMessage(context.getString(R.string.download_error_msg))
@@ -336,9 +337,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             try {
                 with(mutableStateFlow) {
-                    val request = YoutubeDLRequest(value.url)
+                    val request = YoutubeDLRequest(value.url.split(Regex("[\n ]")))
                     request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
-                    FileUtil.writeContentToFile(PreferenceUtil.getTemplate(), context.getConfigFile())
+                    FileUtil.writeContentToFile(
+                        PreferenceUtil.getTemplate(),
+                        context.getConfigFile()
+                    )
                     request.addOption("--config-locations", context.getConfigFile().absolutePath)
                     if (PreferenceUtil.getValue(COOKIES)) {
                         FileUtil.writeContentToFile(

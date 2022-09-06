@@ -147,6 +147,7 @@ object PreferenceUtil {
         Pair(HUNGARIAN, "hu"),
         Pair(INDONESIAN, "in"),
         Pair(ITALIAN, "it"),
+        Pair(JAPANESE, "ja"),
         Pair(MALAY, "ms"),
         Pair(NORWEGIAN, "nb-NO"),
         Pair(PERSIAN, "fa"),

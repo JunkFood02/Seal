@@ -177,9 +177,20 @@ fun PreferenceSwitch(
     icon: ImageVector? = null,
     enabled: Boolean = true,
     isChecked: Boolean = true,
-    checkedIcon: ImageVector? = Icons.Outlined.Check,
+    checkedIcon: ImageVector = Icons.Outlined.Check,
     onClick: (() -> Unit) = {},
 ) {
+    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
+        {
+            Icon(
+                imageVector = checkedIcon,
+                contentDescription = null,
+                modifier = Modifier.size(SwitchDefaults.IconSize),
+            )
+        }
+    } else {
+        null
+    }
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
     ) {
@@ -221,7 +232,7 @@ fun PreferenceSwitch(
                 checked = isChecked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = 20.dp, end = 6.dp),
-                enabled = enabled
+                enabled = enabled, thumbContent = thumbContent
             )
         }
     }
@@ -236,10 +247,21 @@ fun PreferenceSwitchWithDivider(
     icon: ImageVector? = null,
     enabled: Boolean = true,
     isChecked: Boolean = true,
-    checkedIcon: ImageVector? = Icons.Outlined.Check,
+    checkedIcon: ImageVector = Icons.Outlined.Check,
     onClick: (() -> Unit) = {},
     onChecked: () -> Unit = {}
 ) {
+    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
+        {
+            Icon(
+                imageVector = checkedIcon,
+                contentDescription = null,
+                modifier = Modifier.size(SwitchDefaults.IconSize),
+            )
+        }
+    } else {
+        null
+    }
     Surface(
         modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
     ) {
@@ -290,7 +312,7 @@ fun PreferenceSwitchWithDivider(
                 checked = isChecked,
                 onCheckedChange = { onChecked() },
                 modifier = Modifier.padding(start = 12.dp, end = 6.dp),
-                enabled = enabled
+                enabled = enabled, thumbContent = thumbContent
             )
         }
     }
