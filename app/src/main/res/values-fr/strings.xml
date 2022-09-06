@@ -159,4 +159,26 @@
     <string name="info_copied">Information copié dans le presse papiers</string>
     <string name="video_resolution">Résolution vidéo</string>
     <string name="video_file_size">Taille du fichier vidéo</string>
+    <string name="check_for_updates">Rechercher les mises à jour</string>
+    <string name="cookies_desc">Utiliser des cookies au format Netscape pour les téléchargements</string>
+    <string name="clear_temp_files">Effacer les fichiers temporaires</string>
+    <string name="clear_temp_files_desc">Supprimer tous les fichiers temporaires du répertoire de téléchargement</string>
+    <string name="clear_temp_files_count">%1$d fichier(s) temporaire(s) supprimé(s)</string>
+    <string name="clear_temp_files_info">Les fichiers temporaires peuvent être utilisés pour reprendre les téléchargements annulés. Êtes-vous sûr·e de supprimer tous ces fichiers \?</string>
+    <string name="app_up_to_date">La version actuelle est à jour</string>
+    <string name="recently_added">Récemment ajouté</string>
+    <string name="app_update_failed">Échec de la mise à jour vers la dernière version</string>
+    <string name="update">Mettre à jour</string>
+    <string name="aria2_desc">Utilisez aria2c comme téléchargeur externe</string>
+    <string name="multiselect_item_count">%1$d vidéo(s), %2$d fichier(s) audio</string>
+    <string name="check_for_updates_desc">Mise à jour vers la dernière version sur GitHub</string>
+    <string name="export_to_clipboard">Exporter vers le presse-papiers</string>
+    <string name="template_exported">%1$d modèle(s) exporté(s)</string>
+    <string name="download_task_count">%1$d tâches de téléchargement</string>
+    <string name="import_from_clipboard">Importer à partir du Presse-papiers</string>
+    <string name="delete_multiple_items_msg">Supprimer définitivement le(s) élément(s) %1$d de votre historique de téléchargement \?</string>
+    <string name="template_imported">%1$d modèle(s) importé(s)</string>
+    <string name="sponsorblock_desc">Supprimer des segments de vidéos avec l\'API SponsorBlock</string>
+    <string name="sponsorblock_categories_desc">Spécifiez les catégories SponsorBlock à supprimer du fichier vidéo</string>
+    <string name="sponsorblock_categories">Catégories SponsorBlock</string>
 </resources>
