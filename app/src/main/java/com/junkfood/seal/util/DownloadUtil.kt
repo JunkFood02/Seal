@@ -7,6 +7,7 @@ import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
@@ -131,7 +132,10 @@ object DownloadUtil {
 
             if (extractAudio) {
                 pathBuilder.append(audioDownloadDir)
-
+                if (aria2c) {
+                    addOption("--downloader", "libaria2c.so");
+                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"");
+                }
                 addOption("-x")
                 when (PreferenceUtil.getAudioFormat()) {
                     1 -> {
@@ -145,9 +149,9 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-//                FileUtil.writeContentToFile("""--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\""""",
-//                    context.getConfigFile())
-//                addOption("--config", context.getConfigFile().absolutePath)
+                FileUtil.writeContentToFile("""--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\""""",
+                    context.getConfigFile())
+                addOption("--config", context.getConfigFile().absolutePath)
                 if (playlistInfo.url.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s")

@@ -51,6 +51,7 @@ class BaseApplication : Application() {
             try {
                 YoutubeDL.getInstance().init(this@BaseApplication)
                 FFmpeg.getInstance().init(this@BaseApplication)
+//                Aria2c.getInstance().init(this@BaseApplication)
             } catch (e: YoutubeDLException) {
                 e.printStackTrace()
                 Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()
