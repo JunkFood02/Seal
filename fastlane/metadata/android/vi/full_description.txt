@@ -1,0 +1,10 @@
+<b>Tính năng</b>
+Tải video và âm thanh từ các nền tảng được hỗ trợ bởi yt-dlp
+Nhúng metadata và thumbnail video vào tệp âm thanh
+Tải tất cả video từ danh sách phát chỉ với một nhấn
+Sử dụng aria2c làm trình tải về bên ngoài cho tất cả các Tải xuống của bạn
+Nhúng chú thích vào video đã tải
+Thực thi các lệnh yt-dlp tùy chỉnh theo mẫu
+Quản lý các tải xuống trong ứng dụng và mẫu lệnh tùy chỉnh
+Dễ sử dụng và thân thiện với người dùng
+Thiết kế Material Design 3, cùng với chủ đề màu động

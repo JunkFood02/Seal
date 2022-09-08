@@ -1,0 +1,10 @@
+<b>Features</b>
+Download video e file audio da piattaforme video supportate da yt-dlp
+Incorpora metadati e miniature video nei file audio estratti
+Scarica tutti i video nella playlist con un clic
+Usa aria2c incorporato come downloader esterno per tutti i tuoi download
+Incorpora i sottotitoli nei video scaricati
+Esegui comandi yt-dlp personalizzati con templates
+Gestisci i download in-app e templates di comando personalizzati
+Facile da usare e user-friendly
+UI in stile Material Design 3, con tema colori dinamico
