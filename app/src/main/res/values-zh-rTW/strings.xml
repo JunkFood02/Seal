@@ -19,12 +19,12 @@
     <string name="version">版本</string>
     <string name="release_desc">查看更新日誌和最新版本</string>
     <string name="release">最新版本</string>
-    <string name="download_settings_desc">一般、格式、自訂指令</string>
+    <string name="download_settings_desc">一般、格式、自訂命令</string>
     <string name="fetching_info">正在擷取視訊資訊…</string>
     <string name="download_success_msg">下載完成</string>
     <string name="permission_denied">存取遭拒</string>
     <string name="download_error_msg">無法下載檔案</string>
-    <string name="confirm">確定</string>
+    <string name="confirm">確認</string>
     <string name="language">介面語言</string>
     <string name="ytdlp_update">點擊以下載最新版本的 yt-dlp</string>
     <string name="dismiss">取消</string>
@@ -36,7 +36,7 @@
     <string name="delete_info">確定移除？</string>
     <string name="video">視訊</string>
     <string name="checked">已選取</string>
-    <string name="custom_command">自訂指令</string>
+    <string name="custom_command">自訂命令</string>
     <string name="credits_desc">來源與自由軟體</string>
     <string name="video_directory">視訊資料夾</string>
     <string name="extract_audio">儲存為音訊</string>
@@ -46,8 +46,8 @@
     <string name="delete_info_msg">確定要從下載記錄中移除「%1$s」嗎？</string>
     <string name="link_copied">已複製連結到剪貼簿</string>
     <string name="readme_desc">查看 GitHub 存放庫和 README</string>
-    <string name="custom_command_desc">使用自訂的範本來執行 yt-dlp</string>
-    <string name="custom_command_template">指令範本</string>
+    <string name="custom_command_desc">使用自訂的範本來執行 yt-dlp 命令</string>
+    <string name="custom_command_template">命令範本</string>
     <string name="edit_custom_command_template">編輯</string>
     <string name="start_execute">開始執行命令</string>
     <string name="display">顯示</string>
@@ -84,7 +84,7 @@
     <string name="check_download_settings_desc">檢查下載配置並確保在使用前擁有最新版本的 yt-dlp。</string>
     <string name="download_playlist_desc">從播放清單中下載多項視訊</string>
     <string name="channel_name">下載</string>
-    <string name="execute_command_notification">正在執行自訂指令…</string>
+    <string name="execute_command_notification">正在執行自訂命令…</string>
     <string name="concurrent_download">多執行緒下載</string>
     <string name="video_url">視訊連結</string>
     <string name="battery_settings_desc">請將此應用程式的系統電池用量設定設為「無限制」以利背景下載。</string>
@@ -117,7 +117,7 @@
     <string name="battery_configuration_desc">忽略此應用程式的電池最佳化設定以利背景下載</string>
     <string name="template_label">標籤</string>
     <string name="remove_template">確定移除？</string>
-    <string name="remove_template_desc">確定要從指令範例中移除「%1$s」嗎？</string>
+    <string name="remove_template_desc">確定要從命令範例中移除「%1$s」嗎？</string>
     <string name="template_selection">範本選取</string>
     <string name="github_issue_desc">提交錯誤報告或功能請求議題</string>
     <string name="info_copied">已複製資訊到剪貼簿</string>
@@ -152,7 +152,7 @@
     <string name="custom_output_path">自訂子目錄</string>
     <string name="embed_subtitles">內嵌字幕</string>
     <string name="github_issue">GitHub 議題</string>
-    <string name="custom_command_template_desc">編輯和管理指令範本</string>
+    <string name="custom_command_template_desc">編輯和管理命令範本</string>
     <string name="downloading_indicator_text">正在下載，點擊以取消。</string>
     <string name="status_canceled">已取消</string>
     <string name="task_canceled">已取消下載任務</string>
@@ -170,14 +170,15 @@
     <string name="sponsorblock_categories_desc">指定欲從視訊檔案中移除的 SponsorBlock 類別</string>
     <string name="sponsorblock_desc">使用 SponsorBlock API 從視訊中移除片段</string>
     <string name="sponsorblock_categories">SponsorBlock 類別</string>
-    <string name="check_for_updates">检查更新</string>
+    <string name="check_for_updates">檢查更新</string>
     <string name="app_up_to_date">已經是最新版本</string>
-    <string name="app_update_failed">更新過程中出現錯誤</string>
+    <string name="app_update_failed">更新到最新版本失敗</string>
     <string name="update">更新</string>
-    <string name="clear_temp_files_desc">從下載目錄中清除所有暫存檔案</string>
-    <string name="clear_temp_files_count">刪除了%1$d個暫存檔案</string>
-    <string name="aria2_desc">使用aria2c作為外部下載器</string>
-    <string name="cookies_desc">使用 Netscape 規範的 Cookies 文件進行下載</string>
+    <string name="clear_temp_files_desc">從下載目錄中刪除全數暫存檔案</string>
+    <string name="clear_temp_files_count">已刪除 %1$d 個暫存檔案</string>
+    <string name="aria2_desc">使用 aria2c 作為外部下載程式</string>
+    <string name="cookies_desc">使用 Netscape 格式的 Cookies 檔案進行下載</string>
     <string name="clear_temp_files">清除暫存檔案</string>
-    <string name="check_for_updates_desc">更新到 GitHub 上的最新版本</string>
+    <string name="check_for_updates_desc">更新到 GitHub 提供的最新版本</string>
+    <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？</string>
 </resources>
