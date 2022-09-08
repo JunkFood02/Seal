@@ -416,7 +416,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         MainActivity.stopService()
         if (!stateFlow.value.isDownloadError)
-            TextUtil.makeToast(context.getString(R.string.download_success_msg))
+            TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
     }
 
     private suspend fun showErrorReport(s: String) {

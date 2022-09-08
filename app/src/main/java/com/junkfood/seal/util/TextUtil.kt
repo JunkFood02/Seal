@@ -2,10 +2,11 @@ package com.junkfood.seal.util
 
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
+import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 object TextUtil {
@@ -57,8 +58,8 @@ object TextUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    suspend fun makeToastSuspend(text: String) {
-        withContext(Dispatchers.Main) {
+    fun makeToastSuspend(text: String) {
+        applicationScope.launch(Dispatchers.Main) {
             makeToast(text)
         }
     }
