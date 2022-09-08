@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import android.widget.Toast
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.util.DatabaseUtil
@@ -52,6 +53,7 @@ class BaseApplication : Application() {
                 FFmpeg.getInstance().init(this@BaseApplication)
             } catch (e: YoutubeDLException) {
                 e.printStackTrace()
+                Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()
             }
 
         }

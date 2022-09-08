@@ -103,7 +103,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         notificationId: Int? = null
     ) {
         if (stateFlow.value.isCancelled) return
-        if (e.message.isNullOrEmpty()) return
+        if (e.message.isNullOrEmpty()) {
+            finishProcessing()
+            return
+        }
         viewModelScope.launch {
             e.printStackTrace()
             if (PreferenceUtil.getValue(PreferenceUtil.DEBUG) || stateFlow.value.isInCustomCommandMode)
@@ -308,8 +311,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isCancelled = false
             )
         }
+        val urlList = stateFlow.value.url.split(Regex("[\n ]"))
+        downloadResultTemp = DownloadUtil.Result.failure()
+
         viewModelScope.launch(Dispatchers.IO) {
-            downloadResultTemp = DownloadUtil.Result.failure()
+            if (urlList.size > 1) return@launch
             try {
                 if (stateFlow.value.url.isNotEmpty())
                     with(DownloadUtil.fetchVideoInfo(stateFlow.value.url)) {
@@ -337,7 +343,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             try {
                 with(mutableStateFlow) {
-                    val request = YoutubeDLRequest(value.url.split(Regex("[\n ]")))
+                    val request = YoutubeDLRequest(urlList)
                     request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
                     FileUtil.writeContentToFile(
                         PreferenceUtil.getTemplate(),
@@ -394,7 +400,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         return true
     }
 
-    private suspend fun finishProcessing() {
+    private fun finishProcessing() {
         if (stateFlow.value.isCancelled) return
         mutableStateFlow.update {
             it.copy(
@@ -410,7 +416,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         MainActivity.stopService()
         if (!stateFlow.value.isDownloadError)
-            TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
+            TextUtil.makeToast(context.getString(R.string.download_success_msg))
     }
 
     private suspend fun showErrorReport(s: String) {

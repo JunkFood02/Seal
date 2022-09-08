@@ -145,6 +145,9 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
+//                FileUtil.writeContentToFile("""--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\""""",
+//                    context.getConfigFile())
+//                addOption("--config", context.getConfigFile().absolutePath)
                 if (playlistInfo.url.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption("--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s")

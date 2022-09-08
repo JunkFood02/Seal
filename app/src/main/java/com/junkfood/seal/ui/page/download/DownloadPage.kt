@@ -3,7 +3,7 @@ package com.junkfood.seal.ui.page.download
 import android.Manifest
 import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -172,7 +172,11 @@ fun DownloadPage(
                             isInCustomMode = isInCustomCommandMode,
                             error = isDownloadError,
                         ) { url -> downloadViewModel.updateUrl(url) }
-                        AnimatedVisibility(visible = debugMode && progressText.isNotEmpty()) {
+                        AnimatedVisibility(
+                            enter = expandVertically() + fadeIn(),
+                            exit = shrinkVertically() + fadeOut(),
+                            visible = debugMode && progressText.isNotEmpty()
+                        ) {
                             Text(
                                 modifier = Modifier.padding(bottom = 12.dp),
                                 text = progressText,
@@ -234,12 +238,17 @@ fun InputUrl(
                 targetValue = progress / 100f,
                 animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
             )
-            LinearProgressIndicator(
-                progress = progressAnimationValue,
-                modifier = Modifier.fillMaxWidth(0.75f),
-            )
+            if (progressAnimationValue < 0)
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(0.75f),
+                )
+            else
+                LinearProgressIndicator(
+                    progress = progressAnimationValue,
+                    modifier = Modifier.fillMaxWidth(0.75f),
+                )
             Text(
-                text = "$progress%",
+                text = if (progress < 0) "0%" else "$progress%",
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
