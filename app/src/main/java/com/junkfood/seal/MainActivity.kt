@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
         handleShareIntent(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        intent?.let { handleShareIntent(it) }
+    override fun onNewIntent(intent: Intent) {
+        handleShareIntent(intent)
         super.onNewIntent(intent)
     }
 
@@ -74,11 +74,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "handleShareIntent: $intent")
         if (Intent.ACTION_SEND == intent.action)
             intent.getStringExtra(Intent.EXTRA_TEXT)
-                ?.let { it ->
-                    TextUtil.matchUrlFromSharedText(it)
-                        ?.let { it1 ->
-                            if (sharedUrl != it1) {
-                                sharedUrl = it1
+                ?.let { sharedContent ->
+                    intent.removeExtra(Intent.EXTRA_TEXT)
+                    TextUtil.matchUrlFromSharedText(sharedContent)
+                        ?.let { matchedUrl ->
+                            if (sharedUrl != matchedUrl) {
+                                sharedUrl = matchedUrl
                                 downloadViewModel.updateUrl(sharedUrl)
                             }
                         }
