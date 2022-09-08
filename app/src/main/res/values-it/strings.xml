@@ -180,4 +180,5 @@
     <string name="download_task_count">%1$d attività di scaricamento</string>
     <string name="sponsorblock_desc">Rimuovi i segmenti dai video con l\'API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere dal file video</string>
+    <string name="cookies_desc">Utilizzare i cookie formattati Netscape per i download</string>
 </resources>
