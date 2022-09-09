@@ -25,7 +25,7 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.43.2"
 val composeMd3Version = "1.0.0-beta01"
 val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "51ddfa741e"
+val youtubedlAndroidVersion = "aa680fbdd0"
 val okhttpVersion = "5.0.0-alpha.10"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -175,13 +175,13 @@ dependencies {
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
 
-    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-//    implementation ("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation ("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-//    implementation ("com.github.xibr.youtubedl-android:aria2c:fc01d681a8")
+    implementation ("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation ("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation ("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")

@@ -103,10 +103,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         notificationId: Int? = null
     ) {
         if (stateFlow.value.isCancelled) return
-        if (e.message.isNullOrEmpty()) {
-            finishProcessing()
-            return
-        }
         viewModelScope.launch {
             e.printStackTrace()
             if (PreferenceUtil.getValue(PreferenceUtil.DEBUG) || stateFlow.value.isInCustomCommandMode)
@@ -315,23 +311,20 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         downloadResultTemp = DownloadUtil.Result.failure()
 
         viewModelScope.launch(Dispatchers.IO) {
-            if (urlList.size > 1) return@launch
-            try {
-                if (stateFlow.value.url.isNotEmpty())
-                    with(DownloadUtil.fetchVideoInfo(stateFlow.value.url)) {
-                        if (!title.isNullOrEmpty() and !thumbnail.isNullOrEmpty())
-                            mutableStateFlow.update {
-                                it.copy(
-                                    videoTitle = title,
-                                    videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
-                                    videoAuthor = uploader ?: "null",
-                                    showVideoCard = true
-                                )
-                            }
+            if (urlList.size != 1) return@launch
+            kotlin.runCatching {
+                with(DownloadUtil.fetchVideoInfo(urlList[0])) {
+                    mutableStateFlow.update {
+                        it.copy(
+                            videoTitle = title.toString(),
+                            videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
+                            videoAuthor = uploader.toString(),
+                            showVideoCard = true
+                        )
                     }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                }
             }
+
         }
         val notificationId = stateFlow.value.url.hashCode()
 
@@ -370,21 +363,24 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             )
                         }
                     finishProcessing()
-                    NotificationUtil.finishNotification(
-                        notificationId,
-                        title = context.getString(R.string.download_success_msg),
-                        text = null,
-                        intent = null
-                    )
                 }
             } catch (e: Exception) {
-                manageDownloadError(e, false, notificationId)
-                return@launch
+                if (!e.message.isNullOrEmpty()) {
+                    manageDownloadError(e, false, notificationId)
+                    return@launch
+                }
+                finishProcessing()
             }
+            NotificationUtil.finishNotification(
+                notificationId,
+                title = context.getString(R.string.download_success_msg),
+                text = null,
+                intent = null
+            )
         }
     }
 
-    private suspend fun checkStateBeforeDownload(): Boolean {
+    private fun checkStateBeforeDownload(): Boolean {
         with(mutableStateFlow) {
             if (value.isProcessRunning || value.isFetchingInfo) {
                 TextUtil.makeToastSuspend(context.getString(R.string.task_running))
@@ -432,7 +428,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private suspend fun showErrorMessage(s: String) {
+    private fun showErrorMessage(s: String) {
         TextUtil.makeToastSuspend(s)
         mutableStateFlow.update {
             it.copy(
