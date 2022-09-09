@@ -87,7 +87,6 @@ fun AppearancePreferences(
                     ) {
                         if (DynamicColors.isDynamicColorAvailable()) {
                             ColorButton(color = dynamicDarkColorScheme(LocalContext.current).primary)
-                            ColorButton(color = dynamicDarkColorScheme(LocalContext.current).tertiary)
                         }
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
                         ColorButton(color = Color.Yellow)

@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 ?.let { sharedContent ->
                     intent.removeExtra(Intent.EXTRA_TEXT)
                     TextUtil.matchUrlFromSharedText(sharedContent)
-                        ?.let { matchedUrl ->
+                        .let { matchedUrl ->
                             if (sharedUrl != matchedUrl) {
                                 sharedUrl = matchedUrl
                                 downloadViewModel.updateUrl(sharedUrl)
