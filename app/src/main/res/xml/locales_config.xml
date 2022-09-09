@@ -22,4 +22,6 @@
     <locale android:name="hu" />
     <locale android:name="ms" />
     <locale android:name="zh-TW" />
+    <locale android:name="ja" />
+    <locale android:name="vi" />
 </locale-config>

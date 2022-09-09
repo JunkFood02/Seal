@@ -131,6 +131,7 @@ object PreferenceUtil {
     private const val HUNGARIAN = 21
     private const val MALAY = 22
     private const val TRADITIONAL_CHINESE = 23
+    private const val VIETNAMESE = 24
 
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
@@ -157,6 +158,7 @@ object PreferenceUtil {
         Pair(SPANISH, "es"),
         Pair(TURKISH, "tr"),
         Pair(UKRAINIAN, "ua"),
+        Pair(VIETNAMESE, "vi"),
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -214,6 +216,7 @@ object PreferenceUtil {
             HUNGARIAN -> stringResource(R.string.la_hu)
             MALAY -> stringResource(R.string.la_ms)
             TRADITIONAL_CHINESE -> stringResource(R.string.la_zh_TW)
+            VIETNAMESE -> stringResource(R.string.la_vi)
             else -> stringResource(R.string.follow_system)
         }
     }
