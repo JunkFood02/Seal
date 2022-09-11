@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">ভিডিও ফোল্ডার</string>
+    <string name="extract_audio">ভিডিও আকারে সংরক্ষণ করুন</string>
+    <string name="create_thumbnail">থাম্বনেইল সংরক্ষণ করুন</string>
+    <string name="settings">সেটিংস</string>
+    <string name="download_settings_desc">সাধারণ, ফর্ম্যাট, কাস্টম কমান্ড</string>
+    <string name="download">ডাউনলোড</string>
+    <string name="url_empty">লিংক ফাঁকা রাখা যাবে না</string>
+    <string name="extract_audio_summary">ভিডিওর বদলে অডিও ডাইনলোড ও সেভ করুন</string>
+    <string name="create_thumbnail_summary">ভিডিওর থাম্বনেইল ফাইল আকারে সেভ করুন</string>
+    <string name="yt_dlp_up_to_date">yt-dlpর সর্বশেষ ভার্সন ব্যবহার করা হচ্ছে</string>
+    <string name="fetching_info">ভিডিও তথ্য দেখা হচ্ছে…</string>
+    <string name="permission_denied">পারমিশন পাওয়া যায় নি</string>
+    <string name="download_success_msg">ডাউনলোড শেষ হয়েছে</string>
+    <string name="download_error_msg">ফাইল ডাউনলোড করা যায় নি</string>
+    <string name="fetch_info_error_msg">ভিডিওর তথ্য যোগার করা যায় নি</string>
+    <string name="general_settings">সাধারণ</string>
+    <string name="language">ভাষা দেখান</string>
+    <string name="task_running">ইতিমধ্যে একটা ডাউনলোড চলছে</string>
+    <string name="paste_msg">ক্লিপবোর্ড থেকে URL পেস্ট করুন</string>
+    <string name="confirm">কনফার্ম</string>
+    <string name="dismiss">বাতিল</string>
+    <string name="downloads_history">ডাউনলোডগুলো</string>
+    <string name="audio">অডিও</string>
+    <string name="link_copied">লিংক ক্লিপবোর্ডে কপি করা হয়েছে</string>
+    <string name="open_url">লিংক ওপেন করুন</string>
+    <string name="remove">সরান</string>
+    <string name="delete_file">মুছুন</string>
+    <string name="about">সম্পর্কে</string>
+    <string name="about_page">ভার্সন, রিলিজগুলো, ক্রেডিটস</string>
+    <string name="back">পেছনে যান</string>
+    <string name="version">ভার্সন</string>
+    <string name="edit_custom_command_template">সম্পাদনা</string>
+    <string name="yt_dlp_update_fail">yt-dlp\'র সর্বশেষ ভার্সন ইন্সটল করা যাচ্ছে না। দয়া করে ইন্টারনেটের সাথে যুক্ত আছেন কীনা দেখুন।</string>
+</resources>

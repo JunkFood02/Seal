@@ -170,4 +170,15 @@
     <string name="sponsorblock_categories">Категории SponsorBlock</string>
     <string name="sponsorblock_desc">Удаление сегментов из видео с помощью SponsorBlock API</string>
     <string name="sponsorblock_categories_desc">Укажите категории, которые будут удалены из видеофайла</string>
+    <string name="check_for_updates">Проверить обновления</string>
+    <string name="check_for_updates_desc">Обновлено до последней версии с GitHub</string>
+    <string name="app_up_to_date">Уже установлена новейшая версия</string>
+    <string name="app_update_failed">Не удалось обновиться до новейшей версии</string>
+    <string name="update">Обновление</string>
+    <string name="aria2_desc">Используйте aria2c как внешний загрузчик</string>
+    <string name="cookies_desc">Используйте файлы cookie в формате Netscape для загрузки</string>
+    <string name="clear_temp_files">Очистить временные файлы</string>
+    <string name="clear_temp_files_desc">Удалите все временные файлы из каталога загрузки</string>
+    <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
+    <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отмененных загрузок. Вы уверены, что удалили все эти файлы\?</string>
 </resources>
