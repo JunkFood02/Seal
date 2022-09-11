@@ -31,6 +31,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
@@ -206,9 +207,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     showClearTempDialog = false
                     scope.launch(Dispatchers.IO) {
                         val count =
-                            FileUtil.clearTempFiles(audioDirectoryText) + FileUtil.clearTempFiles(
-                                videoDirectoryText
-                            )
+                            FileUtil.clearTempFiles(context.getTempDir())
                         withContext(Dispatchers.Main) {
                             snackbarHostState.showSnackbar(
                                 context.getString(R.string.clear_temp_files_count).format(count)

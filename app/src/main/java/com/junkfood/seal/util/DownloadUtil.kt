@@ -9,6 +9,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
@@ -149,8 +150,11 @@ object DownloadUtil {
                 }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
-                FileUtil.writeContentToFile("""--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\""""",
-                    context.getConfigFile())
+                addOption("--convert-thumbnails", "png")
+                FileUtil.writeContentToFile(
+                    """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\""""",
+                    context.getConfigFile()
+                )
                 addOption("--config", context.getConfigFile().absolutePath)
                 if (playlistInfo.url.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
@@ -209,6 +213,7 @@ object DownloadUtil {
             }
 
             addOption("-P", pathBuilder.toString())
+            addOption("-P", "temp:" + context.getTempDir())
             if (customPath)
                 addOption(
                     "-o",

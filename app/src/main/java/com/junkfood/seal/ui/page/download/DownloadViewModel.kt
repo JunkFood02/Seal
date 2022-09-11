@@ -16,6 +16,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.util.*
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.yausername.youtubedl_android.YoutubeDL
@@ -337,7 +338,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             try {
                 with(mutableStateFlow) {
                     val request = YoutubeDLRequest(urlList)
-                    request.addOption("-P", "${BaseApplication.videoDownloadDir}/")
+                    request.addOption("-P", BaseApplication.videoDownloadDir)
+                    request.addOption("-P", "temp:" + context.getTempDir())
                     FileUtil.writeContentToFile(
                         PreferenceUtil.getTemplate(),
                         context.getConfigFile()
