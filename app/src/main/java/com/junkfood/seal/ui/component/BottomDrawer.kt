@@ -92,7 +92,7 @@ fun DrawerSheetSubtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 6.dp, top = 16.dp, bottom = 8.dp),
+            .padding(start = 4.dp, top = 16.dp, bottom = 8.dp),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )

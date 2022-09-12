@@ -16,6 +16,7 @@ import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
+import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
@@ -51,6 +52,7 @@ class BaseApplication : Application() {
             try {
                 YoutubeDL.getInstance().init(this@BaseApplication)
                 FFmpeg.getInstance().init(this@BaseApplication)
+                Aria2c.getInstance().init(this@BaseApplication)
             } catch (e: YoutubeDLException) {
                 e.printStackTrace()
                 Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()

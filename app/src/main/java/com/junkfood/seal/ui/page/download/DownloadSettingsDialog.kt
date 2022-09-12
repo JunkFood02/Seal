@@ -59,16 +59,22 @@ fun DownloadSettingDialog(
 
     val templateList = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
 
-    val downloadButtonCallback = {
+    val updatePreferences = {
         PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
         PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
         PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
         PreferenceUtil.updateValue(PLAYLIST, playlist)
         PreferenceUtil.updateValue(SUBTITLE, subtitle)
         PreferenceUtil.updateInt(TEMPLATE_INDEX, selectedTemplateIndex)
+    }
+
+    val downloadButtonCallback = {
+        updatePreferences()
         hide()
         confirm()
     }
+
+
 
     val sheetContent: @Composable () -> Unit = {
         Column {
@@ -83,25 +89,37 @@ fun DownloadSettingDialog(
                 FilterChip(
                     selected = audio,
                     enabled = !customCommand,
-                    onClick = { audio = !audio },
+                    onClick = {
+                        audio = !audio
+                        updatePreferences()
+                    },
                     label = stringResource(R.string.extract_audio)
                 )
                 FilterChip(
                     selected = playlist,
                     enabled = !customCommand,
-                    onClick = { playlist = !playlist },
+                    onClick = {
+                        playlist = !playlist
+                        updatePreferences()
+                    },
                     label = stringResource(R.string.download_playlist)
                 )
                 FilterChip(
                     selected = subtitle,
                     enabled = !customCommand && !audio,
-                    onClick = { subtitle = !subtitle },
+                    onClick = {
+                        subtitle = !subtitle
+                        updatePreferences()
+                    },
                     label = stringResource(id = R.string.embed_subtitles)
                 )
                 FilterChip(
                     selected = thumbnail,
                     enabled = !customCommand,
-                    onClick = { thumbnail = !thumbnail },
+                    onClick = {
+                        thumbnail = !thumbnail
+                        updatePreferences()
+                    },
                     label = stringResource(R.string.create_thumbnail)
                 )
             }
@@ -109,7 +127,10 @@ fun DownloadSettingDialog(
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 FilterChip(
                     selected = customCommand,
-                    onClick = { customCommand = !customCommand },
+                    onClick = {
+                        customCommand = !customCommand
+                        updatePreferences()
+                    },
                     label = stringResource(R.string.custom_command)
                 )
                 ButtonChip(
@@ -157,7 +178,10 @@ fun DownloadSettingDialog(
                     itemsIndexed(templateList) { index, item ->
                         FilterChipWithIcons(
                             selected = index == selectedTemplateIndex,
-                            onClick = { selectedTemplateIndex = index },
+                            onClick = {
+                                selectedTemplateIndex = index
+                                updatePreferences()
+                            },
                             label = item.name
                         )
                     }

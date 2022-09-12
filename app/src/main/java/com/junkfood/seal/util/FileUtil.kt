@@ -77,10 +77,10 @@ object FileUtil {
         return paths
     }
 
-    fun clearTempFiles(downloadDir: String): Int {
+    fun clearTempFiles(downloadDir: File): Int {
         var count = 0
-        File(downloadDir).walkTopDown().forEach {
-            if (it.isFile && Regex(".*\\.part\$").matches(it.absolutePath)) {
+        downloadDir.walkTopDown().forEach {
+            if (it.isFile) {
                 if (it.delete())
                     count++
             }
@@ -91,6 +91,8 @@ object FileUtil {
     fun Context.getConfigFile() = File(cacheDir, "config.txt")
 
     fun Context.getCookiesFile() = File(cacheDir, "cookies.txt")
+
+    fun Context.getTempDir() = File(filesDir, "tmp")
 
     fun writeContentToFile(content: String, file: File): File {
         file.writeText(content)

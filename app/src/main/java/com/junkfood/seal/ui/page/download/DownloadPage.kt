@@ -128,7 +128,7 @@ fun DownloadPage(
                             keyboardController?.hide()
                         }, pasteCallback = {
                             TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                                ?.let { downloadViewModel.updateUrl(it) }
+                                .let { downloadViewModel.updateUrl(it) }
                         }
                     )
                 }) {

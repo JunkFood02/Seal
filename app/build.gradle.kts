@@ -11,10 +11,10 @@ plugins {
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 2
-val versionPatch = 1
-val versionBuild = 0
-val isStable = true
+val versionMinor = 3
+val versionPatch = 0
+val versionBuild = 2
+val isStable = false
 
 val composeVersion = "1.2.1"
 val lifecycleVersion = "2.6.0-alpha01"
@@ -25,7 +25,7 @@ val kotlinVersion = "1.6.21"
 val hiltVersion = "2.43.2"
 val composeMd3Version = "1.0.0-beta01"
 val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "add_aria2-SNAPSHOT"
+val youtubedlAndroidVersion = "68e633ff07"
 val okhttpVersion = "5.0.0-alpha.10"
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -179,8 +179,9 @@ dependencies {
     implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
     implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-//    implementation ("com.github.xibr.youtubedl-android:library:set-ffmpeg-location-SNAPSHOT")
-//    implementation ("com.github.xibr.youtubedl-android:ffmpeg:set-ffmpeg-location-SNAPSHOT")
+//    implementation ("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation ("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation ("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")

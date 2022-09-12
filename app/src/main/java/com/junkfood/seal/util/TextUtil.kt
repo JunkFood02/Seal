@@ -15,9 +15,9 @@ object TextUtil {
         return this.isNotEmpty() && this.isDigitsOnly() && this.length < 5 && this.toInt() >= start && this.toInt() <= end
     }
 
-    fun matchUrlFromClipboard(s: String): String? {
+    fun matchUrlFromClipboard(s: String): String {
         matchUrlFromString(s).run {
-            if (isNullOrEmpty())
+            if (isEmpty())
                 makeToast(R.string.paste_fail_msg)
             else
                 makeToast(R.string.paste_msg)
@@ -25,9 +25,9 @@ object TextUtil {
         }
     }
 
-    fun matchUrlFromSharedText(s: String): String? {
+    fun matchUrlFromSharedText(s: String): String {
         matchUrlFromString(s).run {
-            if (isNullOrEmpty())
+            if (isEmpty())
                 makeToast(R.string.share_fail_msg)
             else
                 makeToast(R.string.share_success_msg)
@@ -35,15 +35,21 @@ object TextUtil {
         }
     }
 
-    private fun matchUrlFromString(s: String): String? {
+    private fun matchUrlFromString(s: String): String {
+        val builder = StringBuilder()
         val pattern =
             Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
         with(pattern.matcher(s)) {
-            if (find()) {
-                return group()
-            }
+            if (PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+                while (find()) {
+                    if (builder.isNotEmpty())
+                        builder.append("\n")
+                    builder.append(group())
+                }
+            else if (find())
+                builder.append(group())
         }
-        return null
+        return builder.toString()
     }
 
     fun urlHttpToHttps(url: String?): String {

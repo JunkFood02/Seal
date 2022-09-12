@@ -21,6 +21,7 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
@@ -148,6 +149,8 @@ fun DownloadPreferences(
                         onClick = {
                             notificationPermission?.launchPermissionRequest()
                             if (checkNotificationPermission()) {
+                                if (downloadNotification)
+                                    NotificationUtil.cancelAllNotifications()
                                 downloadNotification = !downloadNotification
                                 PreferenceUtil.updateValue(
                                     NOTIFICATION, downloadNotification
