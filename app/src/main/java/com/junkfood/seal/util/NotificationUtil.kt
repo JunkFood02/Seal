@@ -13,7 +13,8 @@ import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 
 @SuppressLint("StaticFieldLeak")
 object NotificationUtil {
-    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     private const val PROGRESS_MAX = 100
     private const val PROGRESS_INITIAL = 0
     private const val CHANNEL_ID = "download_notification"
@@ -119,5 +120,9 @@ object NotificationUtil {
             .setProgress(0, 0, false)
         notificationManager.notify(notificationId, builder.build())*/
         notificationManager.cancel(notificationId)
+    }
+
+    fun cancelAllNotifications() {
+        notificationManager.cancelAll()
     }
 }
