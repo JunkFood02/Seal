@@ -75,7 +75,7 @@ android {
             abi {
                 isEnable = !project.hasProperty("noSplits")
                 reset()
-                include("arm64-v8a", "x86_64", "armeabi-v7a")
+                include("arm64-v8a", "armeabi-v7a")
                 isUniversalApk = false
             }
         }
@@ -135,8 +135,8 @@ dependencies {
 
 
     implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.0-beta01")
-    implementation("com.google.android.material:material:1.7.0-beta01")
+    implementation("androidx.appcompat:appcompat:1.6.0-rc01")
+    implementation("com.google.android.material:material:1.8.0-alpha01")
     implementation("androidx.activity:activity-compose:1.6.0-rc01")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
@@ -159,7 +159,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("io.coil-kt:coil-compose:$coilVersion")
-    implementation("io.coil-kt:coil-video:$coilVersion")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 

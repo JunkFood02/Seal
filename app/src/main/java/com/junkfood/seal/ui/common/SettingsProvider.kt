@@ -4,7 +4,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
-import coil.decode.VideoFrameDecoder
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
@@ -23,7 +22,7 @@ fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Compo
     CompositionLocalProvider(
         LocalDarkTheme provides appSettingsState.darkTheme,
         LocalVideoThumbnailLoader provides ImageLoader.Builder(LocalContext.current)
-            .components { add(VideoFrameDecoder.Factory()) }.build(),
+            .build(),
         LocalSeedColor provides appSettingsState.seedColor,
         LocalWindowWidthState provides windowWidthSizeClass,
         content = content
