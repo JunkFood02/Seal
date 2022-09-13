@@ -159,4 +159,26 @@
     <string name="copy_link">Salin link</string>
     <string name="video_file_size">Ukuran file video</string>
     <string name="video_resolution">Resolusi video</string>
+    <string name="export_to_clipboard">Ekspor ke papan klip</string>
+    <string name="import_from_clipboard">Impor dari papan klip</string>
+    <string name="download_task_count">%1$d Tugas unduhan</string>
+    <string name="template_imported">%1$d Template yang telah diimpor</string>
+    <string name="template_exported">%1$d Template yang telah diekspor</string>
+    <string name="check_for_updates">Cek pembaruan</string>
+    <string name="check_for_updates_desc">Perbarui ke versi terbaru di GitHub</string>
+    <string name="app_up_to_date">Versi saat ini adalah yang terbaru</string>
+    <string name="app_update_failed">Gagal memperbarui ke versi terbaru</string>
+    <string name="update">Pembaruan</string>
+    <string name="aria2_desc">Gunakan aria2c sebagai pengunduh eksternal</string>
+    <string name="cookies_desc">Gunakan cookie berformat Netscape untuk pengunduhan</string>
+    <string name="clear_temp_files">Hapus file sementara</string>
+    <string name="clear_temp_files_count">%1$d file sementara telah dihapus</string>
+    <string name="clear_temp_files_desc">Hapus semua file sementara dari direktori unduhan</string>
+    <string name="clear_temp_files_info">File sementara dapat digunakan untuk melanjutkan unduhan yang dibatalkan. Apakah Anda yakin akan menghapus semua file sementara\?</string>
+    <string name="recently_added">Baru-baru ini ditambahkan</string>
+    <string name="multiselect_item_count">%1$d video, %2$d file audio</string>
+    <string name="delete_multiple_items_msg">Hapus %1$d item dari riwayat unduhan Anda untuk selamanya\?</string>
+    <string name="sponsorblock_desc">Hapus segmen dari video dengan SponsorBlock API</string>
+    <string name="sponsorblock_categories">Kategori SponsorBlock</string>
+    <string name="sponsorblock_categories_desc">Tentukan kategori SponsorBlock yang akan dihapus dari file video</string>
 </resources>
