@@ -1,0 +1,15 @@
+Bump up FFmpeg version to v5.1
+
+Feature Update:
+Crop album cover to square when saving as audio
+Paste multiple URLs in custom command mode
+
+Bug Fix:
+SponsorBlock "Conversion failed" error
+Aria2c is not usable with "Save as audio"
+
+Behavior Changes:
+Updates preferences on clicks with "Configure before download" dialog
+Move the directory of temporary files to internal storage of the app
+
+Add Vietnamese translations by Nguyễn Hoàng Minh

@@ -13,8 +13,8 @@ apply(plugin = "dagger.hilt.android.plugin")
 val versionMajor = 1
 val versionMinor = 3
 val versionPatch = 0
-val versionBuild = 2
-val isStable = false
+val versionBuild = 0
+val isStable = true
 
 val composeVersion = "1.2.1"
 val lifecycleVersion = "2.6.0-alpha01"
@@ -52,7 +52,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10210
+        versionCode = 10300
         versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
             if (!isStable) append("-beta.${versionBuild}")
             if (!splitApks) append("-(F-Droid)")
