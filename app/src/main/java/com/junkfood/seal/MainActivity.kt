@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity() {
 
         fun startService() {
             if (isServiceRunning) return
-            isServiceRunning = true
             Intent(context.applicationContext, DownloadService::class.java).also { intent ->
                 context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }
@@ -110,8 +109,12 @@ class MainActivity : AppCompatActivity() {
 
         fun stopService() {
             if (!isServiceRunning) return
-            context.applicationContext.unbindService(connection)
-            isServiceRunning = false
+            try {
+                isServiceRunning = false
+                context.applicationContext.unbindService(connection)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         fun setLanguage(locale: String) {
