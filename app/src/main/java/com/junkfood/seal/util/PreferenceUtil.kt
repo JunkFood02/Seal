@@ -104,6 +104,7 @@ object PreferenceUtil {
     const val ARIA2C = "aria2c"
     const val COOKIES = "cookies"
     const val COOKIES_FILE = "cookies_file"
+    const val AUTO_UPDATE = "auto_update"
 
     const val SYSTEM_DEFAULT = 0
 

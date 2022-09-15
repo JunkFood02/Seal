@@ -153,17 +153,21 @@ fun DownloadPage(
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         }
                     )
-                    Column(Modifier.padding(24.dp)) {
+                    Column(
+                        Modifier
+                            .padding(horizontal = 24.dp)
+                            .padding(top = 24.dp)
+                    ) {
                         AnimatedVisibility(visible = showVideoCard) {
                             VideoCard(
-                                Modifier, videoTitle,
-                                videoAuthor,
-                                videoThumbnailUrl,
+                                modifier = Modifier,
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = videoThumbnailUrl,
                                 progress = progress,
                                 onClick = { downloadViewModel.openVideoFile() },
                             )
                         }
-
                         InputUrl(
                             url = url,
                             hint = stringResource(R.string.video_url),
@@ -185,13 +189,13 @@ fun DownloadPage(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
-                        AnimatedVisibility(visible = isDownloadError) {
-                            ErrorMessage(
-                                error = isDownloadError,
-                                copyToClipboard = debugMode || isInCustomCommandMode && url.isNotEmpty(),
-                                errorMessage = errorMessage
-                            )
-                        }
+                    }
+                    AnimatedVisibility(visible = isDownloadError) {
+                        ErrorMessage(
+                            error = isDownloadError,
+                            copyToClipboard = debugMode || isInCustomCommandMode && url.isNotEmpty(),
+                            errorMessage = errorMessage
+                        )
                     }
                     NavigationBarSpacer()
                 }
@@ -328,21 +332,28 @@ fun ErrorMessage(
     errorMessage: String = "",
 ) {
     val clipboardManager = LocalClipboardManager.current
-    if (error && copyToClipboard && clipboardManager.getText() != AnnotatedString(errorMessage))
-        clipboardManager.setText(AnnotatedString(errorMessage))
-    Row {
+    val context = LocalContext.current
+    Row(modifier = with(modifier.padding(horizontal = 16.dp)) {
+        if (error && copyToClipboard) {
+            clip(MaterialTheme.shapes.large).clickable {
+                if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
+                    clipboardManager.setText(AnnotatedString(errorMessage))
+                }
+                TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
+            }
+        } else this
+    }.padding(horizontal = 8.dp, vertical = 8.dp)) {
         Icon(
             Icons.Outlined.Error, contentDescription = null,
             tint = MaterialTheme.colorScheme.error
         )
         Text(
-            maxLines = 6,
+            maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 6.dp),
             text = errorMessage,
             color = MaterialTheme.colorScheme.error
         )
-
     }
 }
 

@@ -417,8 +417,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
     }
 
-    private suspend fun showErrorReport(s: String) {
-        TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
+    private fun showErrorReport(s: String) {
         mutableStateFlow.update {
             it.copy(
                 progress = 0f,
