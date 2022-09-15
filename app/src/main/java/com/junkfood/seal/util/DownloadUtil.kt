@@ -1,7 +1,6 @@
 package com.junkfood.seal.util
 
 import android.util.Log
-import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
@@ -22,8 +21,6 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
@@ -134,8 +131,8 @@ object DownloadUtil {
             if (extractAudio) {
                 pathBuilder.append(audioDownloadDir)
                 if (aria2c) {
-                    addOption("--downloader", "libaria2c.so");
-                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"");
+                    addOption("--downloader", "libaria2c.so")
+                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
                 }
                 addOption("-x")
                 when (PreferenceUtil.getAudioFormat()) {
@@ -185,8 +182,8 @@ object DownloadUtil {
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
                 if (aria2c) {
-                    addOption("--downloader", "libaria2c.so");
-                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"");
+                    addOption("--downloader", "libaria2c.so")
+                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
                 } else if (concurrentFragments > 0f) {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
@@ -244,21 +241,6 @@ object DownloadUtil {
         return Result.success(filePaths)
     }
 
-    suspend fun updateYtDlp(): String {
-        withContext(Dispatchers.IO) {
-            try {
-                YoutubeDL.getInstance().updateYoutubeDL(context)
-                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
-            } catch (e: Exception) {
-                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_update_fail))
-            }
-        }
-        YoutubeDL.getInstance().version(context)?.let {
-            BaseApplication.ytdlpVersion = it
-            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
-        }
-        return BaseApplication.ytdlpVersion
-    }
 
 
 }

@@ -37,7 +37,7 @@ class BaseApplication : Application() {
         DynamicColors.applyToActivitiesIfAvailable(this)
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         applicationScope.launch((Dispatchers.IO)) {
-            if (!PreferenceUtil.containsKey(PreferenceUtil.TEMPLATE_INDEX)) {
+            if (!PreferenceUtil.containsKey(TEMPLATE_INDEX)) {
                 PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
                 DatabaseUtil.insertTemplate(
                     CommandTemplate(

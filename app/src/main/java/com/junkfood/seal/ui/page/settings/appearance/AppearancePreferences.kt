@@ -33,6 +33,7 @@ import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.*
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
@@ -77,8 +78,8 @@ fun AppearancePreferences(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-//                VideoCard(modifier = Modifier.padding(18.dp))
-                CardPreview()
+                VideoCard(modifier = Modifier.padding(18.dp))
+//                CardPreview()
                 Column {
                     Row(
                         modifier = Modifier
@@ -128,7 +129,7 @@ fun AppearancePreferences(
             }
         }, icon = { Icon(Icons.Outlined.DarkMode, null) },
             title = { Text(stringResource(R.string.dark_theme)) }, text = {
-                Column() {
+                Column {
                     SingleChoiceItem(
                         text = stringResource(R.string.follow_system),
                         selected = darkThemeValue == FOLLOW_SYSTEM

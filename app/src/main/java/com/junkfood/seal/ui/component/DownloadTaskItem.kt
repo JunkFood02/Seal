@@ -76,7 +76,7 @@ fun DownloadTaskItem(
         onClick = { isExpanded = !isExpanded },
         shape = MaterialTheme.shapes.small
     ) {
-        Box() {
+        Box {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -289,7 +289,7 @@ fun CardPreview() {
             )
         }
     }
-    Column() {
+    Column {
         DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.ENQUEUED)
         DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.FETCHING_INFO)
         DownloadTaskItem(expanded = false, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)

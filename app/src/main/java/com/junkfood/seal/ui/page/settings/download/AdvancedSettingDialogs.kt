@@ -169,7 +169,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.MoneyOff, null)
     }, title = { Text(stringResource(R.string.sponsorblock)) }, text = {
-        Column() {
+        Column {
             Text(
                 stringResource(R.string.sponsorblock_categories_desc),
                 style = MaterialTheme.typography.bodyLarge
@@ -204,7 +204,7 @@ fun CookiesDialog(onDismissRequest: () -> Unit) {
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
-        Column() {
+        Column {
             Text(
                 stringResource(R.string.cookies_desc),
                 style = MaterialTheme.typography.bodyLarge

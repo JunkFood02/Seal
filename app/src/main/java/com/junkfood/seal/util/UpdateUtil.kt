@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
+import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
@@ -36,6 +37,22 @@ object UpdateUtil {
         Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest")
             .build()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
+
+    suspend fun updateYtDlp(): String {
+        withContext(Dispatchers.IO) {
+            try {
+                YoutubeDL.getInstance().updateYoutubeDL(BaseApplication.context)
+                TextUtil.makeToastSuspend(BaseApplication.context.getString(R.string.yt_dlp_up_to_date))
+            } catch (e: Exception) {
+                TextUtil.makeToastSuspend(BaseApplication.context.getString(R.string.yt_dlp_update_fail))
+            }
+        }
+        YoutubeDL.getInstance().version(BaseApplication.context)?.let {
+            BaseApplication.ytdlpVersion = it
+            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
+        }
+        return BaseApplication.ytdlpVersion
+    }
 
     private suspend fun getLatestRelease(): LatestRelease {
         return suspendCoroutine { continuation ->

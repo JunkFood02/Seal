@@ -137,9 +137,7 @@ fun HomeEntry(
             launch(Dispatchers.IO) {
                 try {
                     val temp = UpdateUtil.checkForUpdate()
-                    if (temp == null) {
-                        TextUtil.makeToastSuspend(context.getString(R.string.app_up_to_date))
-                    } else {
+                    if (temp != null) {
                         latestRelease = temp
                         showUpdateDialog = true
                     }

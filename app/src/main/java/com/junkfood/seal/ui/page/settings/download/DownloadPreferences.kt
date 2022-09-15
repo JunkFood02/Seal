@@ -20,7 +20,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.*
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
@@ -37,8 +36,7 @@ import com.junkfood.seal.util.PreferenceUtil.getAudioFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoFormatDesc
 import com.junkfood.seal.util.PreferenceUtil.getVideoResolutionDesc
 import com.junkfood.seal.util.TextUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import com.junkfood.seal.util.UpdateUtil
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -51,7 +49,7 @@ fun DownloadPreferences(
     navigateToTemplate: () -> Unit
 ) {
     val context = LocalContext.current
-
+    val scope = rememberCoroutineScope()
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
@@ -131,8 +129,8 @@ fun DownloadPreferences(
                         description = ytdlpVersion,
                         icon = Icons.Outlined.Update
                     ) {
-                        CoroutineScope(Job()).launch {
-                            ytdlpVersion = DownloadUtil.updateYtDlp()
+                        scope.launch {
+                            ytdlpVersion = UpdateUtil.updateYtDlp()
                         }
                     }
                 }

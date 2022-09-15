@@ -9,28 +9,10 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
 import java.io.File
 
-/**
- * Sorry for ugly codes for filename control
- */
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
         openFileInURI(downloadResult.filePath?.get(0) ?: return)
-    }
-
-    fun openFile(path: String) {
-        context.startActivity(Intent().apply {
-            action = (Intent.ACTION_VIEW)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
-            setDataAndType(
-                FileProvider.getUriForFile(
-                    context,
-                    context.packageName + ".provider",
-                    File(path)
-                ),
-                if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
-            )
-        })
     }
 
     fun openFileInURI(path: String) {
