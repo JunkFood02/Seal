@@ -25,7 +25,7 @@ object NotificationUtil {
     private lateinit var serviceNotification: Notification
 
     private var builder =
-        NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.seal)
+        NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +54,7 @@ object NotificationUtil {
         text: String? = null
     ) {
         builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.seal)
+            .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
             .setContentText(text)
             .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, false)
@@ -96,7 +96,7 @@ object NotificationUtil {
 
     fun makeServiceNotification(intent: PendingIntent): Notification {
         serviceNotification = NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
-            .setSmallIcon(R.drawable.seal)
+            .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(context.getString(R.string.service_title))
             .setOngoing(true)
             .setContentIntent(intent)
