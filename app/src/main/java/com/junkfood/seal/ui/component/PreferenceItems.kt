@@ -230,7 +230,7 @@ fun PreferenceSwitch(
             }
             Switch(
                 checked = isChecked,
-                onCheckedChange = null,
+                onCheckedChange = { onClick() },
                 modifier = Modifier.padding(start = 20.dp, end = 6.dp),
                 enabled = enabled, thumbContent = thumbContent
             )
