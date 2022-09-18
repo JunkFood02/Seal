@@ -26,7 +26,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
             icon?.let {
                 Icon(
                     imageVector = icon,
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),

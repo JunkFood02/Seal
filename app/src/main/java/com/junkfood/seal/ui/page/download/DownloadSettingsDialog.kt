@@ -195,7 +195,7 @@ fun DownloadSettingDialog(
             Icon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 imageVector = Icons.Outlined.DoneAll,
-                contentDescription = stringResource(R.string.settings)
+                contentDescription = null
             )
             Text(
                 text = stringResource(R.string.settings_before_download),
@@ -236,7 +236,7 @@ fun DownloadSettingDialog(
         }, dismissButton = { DismissButton { hide() } }, icon = {
             Icon(
                 imageVector = Icons.Outlined.DoneAll,
-                contentDescription = stringResource(R.string.settings)
+                contentDescription = null
             )
         }, title = { Text(stringResource(R.string.settings_before_download)) }, text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
