@@ -176,7 +176,7 @@ object DownloadUtil {
                     else -> sorter.append("res")
                 }
                 when (PreferenceUtil.getVideoFormat()) {
-                    1 -> sorter.append(",ext:mp4")
+                    1 -> sorter.append(",ext")
                     2 -> sorter.append(",ext:webm")
                 }
                 if (sorter.isNotEmpty())

@@ -169,7 +169,7 @@ fun PreferenceSingleChoiceItem(
             RadioButton(
                 selected = selected,
                 onClick = null,
-                modifier = Modifier.padding(start = 20.dp, end = 18.dp),
+                modifier = Modifier.padding(start = 20.dp, end = 8.dp),
             )
         }
     }
