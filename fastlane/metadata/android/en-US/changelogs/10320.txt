@@ -1,0 +1,6 @@
+Accessibility Improvements:
+Removing redundant semantics and optimizing components for TalkBack screen reader
+
+Bug Fix:
+App crashes due to the status bar icon
+MP4 format preference sometimes not works as expected
