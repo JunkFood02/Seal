@@ -174,7 +174,7 @@
     <string name="app_update_failed">فشل التحديث إلى أحدث إصدار</string>
     <string name="update">تحديث</string>
     <string name="check_for_updates">أبحث عن تحديثات</string>
-    <string name="check_for_updates_desc">حدث إلى احدث اصدار متوفر على Github</string>
+    <string name="check_for_updates_desc">تحقق تلقائياً من احدث اصدار متوفر على Github</string>
     <string name="aria2_desc">استخدم aria2c كمدير تنزيل خارجي</string>
     <string name="cookies_desc">استخدم ملفات تعريف الارتباط بتنسيق Netscape للتنزيلات</string>
     <string name="clear_temp_files">امسح الملفات المؤقتة</string>
