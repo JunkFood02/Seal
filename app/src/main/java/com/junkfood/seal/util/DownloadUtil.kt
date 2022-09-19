@@ -166,6 +166,10 @@ object DownloadUtil {
                 if (maxFileSize.isNumberInRange(1, 4096)) {
                     sorter.append("size:${maxFileSize}M,")
                 }
+                when (PreferenceUtil.getVideoFormat()) {
+                    1 -> sorter.append("ext,")
+                    2 -> sorter.append("ext:webm,")
+                }
                 when (PreferenceUtil.getVideoResolution()) {
                     1 -> sorter.append("res:2160")
                     2 -> sorter.append("res:1440")
@@ -174,10 +178,6 @@ object DownloadUtil {
                     5 -> sorter.append("res:480")
                     6 -> sorter.append("res:360")
                     else -> sorter.append("res")
-                }
-                when (PreferenceUtil.getVideoFormat()) {
-                    1 -> sorter.append(",ext")
-                    2 -> sorter.append(",ext:webm")
                 }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
