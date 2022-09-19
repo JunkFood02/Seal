@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Translate
@@ -15,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 
@@ -32,7 +36,7 @@ fun PreferenceItem(
     onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+        modifier = Modifier.clickable(onClick = onClick, enabled = enabled)
     ) {
         Row(
             modifier = Modifier
@@ -43,7 +47,7 @@ fun PreferenceItem(
             icon?.let {
                 Icon(
                     imageVector = icon,
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
@@ -57,7 +61,6 @@ fun PreferenceItem(
                     .padding(end = 8.dp)
             ) {
                 with(MaterialTheme) {
-
                     Text(
                         text = title,
                         maxLines = 1,
@@ -87,7 +90,7 @@ fun PreferenceItemVariant(
     onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+        modifier = Modifier.clickable(enabled = enabled, onClick = onClick)
     ) {
         Row(
             modifier = Modifier
@@ -98,7 +101,7 @@ fun PreferenceItemVariant(
             icon?.let {
                 Icon(
                     imageVector = icon,
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
@@ -133,7 +136,6 @@ fun PreferenceItemVariant(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceSingleChoiceItem(
     text: String,
@@ -141,12 +143,15 @@ fun PreferenceSingleChoiceItem(
     onClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier.clickable { onClick() }
+        modifier = Modifier.selectable(
+            selected = selected,
+            onClick = onClick
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 16.dp),
+                .padding(horizontal = 16.dp, vertical = 28.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -163,8 +168,8 @@ fun PreferenceSingleChoiceItem(
             }
             RadioButton(
                 selected = selected,
-                onClick = onClick,
-                modifier = Modifier.padding(start = 20.dp, end = 6.dp),
+                onClick = null,
+                modifier = Modifier.padding(start = 20.dp, end = 8.dp),
             )
         }
     }
@@ -192,7 +197,11 @@ fun PreferenceSwitch(
         null
     }
     Surface(
-        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+        modifier = Modifier.toggleable(
+            value = isChecked,
+            enabled = enabled,
+            onValueChange = { onClick() }
+        )
     ) {
         Row(
             modifier = Modifier
@@ -203,7 +212,7 @@ fun PreferenceSwitch(
             icon?.let {
                 Icon(
                     imageVector = icon,
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
@@ -263,7 +272,10 @@ fun PreferenceSwitchWithDivider(
         null
     }
     Surface(
-        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+        modifier = Modifier
+            .clickable(
+                enabled = enabled, onClick = onClick
+            )
     ) {
         Row(
             modifier = Modifier
@@ -275,7 +287,7 @@ fun PreferenceSwitchWithDivider(
             icon?.let {
                 Icon(
                     imageVector = icon,
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
@@ -339,7 +351,7 @@ fun PreferencesCaution(
         icon?.let {
             Icon(
                 imageVector = icon,
-                contentDescription = title,
+                contentDescription = null,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
@@ -396,7 +408,7 @@ fun PreferencesHint(
         icon?.let {
             Icon(
                 imageVector = icon,
-                contentDescription = title,
+                contentDescription = null,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
@@ -436,7 +448,7 @@ fun CreditItem(
     onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = if (enabled) Modifier.clickable { onClick() } else Modifier
+        modifier = Modifier.clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
@@ -444,7 +456,6 @@ fun CreditItem(
                 .padding(16.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -484,7 +495,9 @@ fun TemplateItem(
     Surface(
         modifier = Modifier.combinedClickable(
             onClick = onClick,
-            onLongClick = onLongClick
+            onClickLabel = stringResource(R.string.edit_custom_command_template),
+            onLongClick = onLongClick,
+            onLongClickLabel = stringResource(R.string.remove_template)
         )
     ) {
         Row(

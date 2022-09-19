@@ -116,10 +116,15 @@ fun VideoListPage(
                         onBackPressed()
                     }
                 }, actions = {
-                    IconButton(
+                    IconToggleButton(
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        onClick = { isSelectEnabled = !isSelectEnabled }) {
-                        Icon(Icons.Outlined.Checklist, null)
+                        onCheckedChange = { isSelectEnabled = !isSelectEnabled },
+                        checked = isSelectEnabled
+                    ) {
+                        Icon(
+                            Icons.Outlined.Checklist,
+                            contentDescription = stringResource(R.string.multiselect_mode)
+                        )
                     }
                 }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
             )
@@ -146,7 +151,8 @@ fun VideoListPage(
                                     }
                                 }
                             }
-                        })
+                        },
+                    )
                     Text(
                         stringResource(R.string.multiselect_item_count).format(
                             selectedVideos.value,
@@ -159,7 +165,10 @@ fun VideoListPage(
                         onClick = { showRemoveMultipleItemsDialog = true },
                         enabled = selectedItemIds.isNotEmpty()
                     ) {
-                        Icon(Icons.Outlined.DeleteSweep, null)
+                        Icon(
+                            imageVector = Icons.Outlined.DeleteSweep,
+                            contentDescription = stringResource(id = R.string.remove)
+                        )
                     }
                 }
             }

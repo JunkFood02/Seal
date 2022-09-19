@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -51,16 +53,21 @@ fun MediaListItem(
         .crossfade(true)
         .build()
     Box(
-        modifier = modifier
-            .combinedClickable(
-                enabled = true,
-                onClick = { if (!isSelectEnabled) onClick() else onSelect() },
-                onLongClick = {
-                    if (!isSelectEnabled) {
+        modifier = with(modifier) {
+            if (!isSelectEnabled)
+                combinedClickable(
+                    enabled = true,
+                    onClick = { onClick() },
+                    onClickLabel = stringResource(R.string.open_file),
+                    onLongClick = {
                         onLongClick()
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    }
-                })
+                    },
+                    onLongClickLabel = stringResource(R.string.show_more_actions)
+                )
+            else
+                selectable(selected = isSelected, onClick = onSelect)
+        }
             .fillMaxWidth(),
     ) {
         Row(
@@ -110,7 +117,8 @@ fun MediaListItem(
             IconButton(
                 modifier = Modifier
                     .padding(12.dp)
-                    .size(18.dp),
+                    .size(18.dp)
+                    .clearAndSetSemantics { },
                 onClick = onLongClick
             ) {
                 Icon(
@@ -130,7 +138,7 @@ fun MediaImage(imageModel: Any, isAudio: Boolean = false) {
             .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = false)
             .clip(MaterialTheme.shapes.extraSmall),
         model = imageModel,
-        contentDescription = stringResource(R.string.thumbnail),
+        contentDescription = null,
         contentScale = ContentScale.Crop,
         imageLoader = LocalVideoThumbnailLoader.current
     )

@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.android.material.color.DynamicColors
@@ -165,6 +166,7 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color) {
     val state = animateDpAsState(targetValue = if (currentColor) 48.dp else 36.dp)
     val state2 = animateDpAsState(targetValue = if (currentColor) 18.dp else 0.dp)
     ElevatedCard(modifier = modifier
+        .clearAndSetSemantics { }
         .padding(4.dp)
         .size(72.dp), onClick = { PreferenceUtil.modifyThemeSeedColor(seedColor) }) {
         Box(Modifier.fillMaxSize()) {
