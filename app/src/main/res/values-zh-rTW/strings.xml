@@ -179,6 +179,6 @@
     <string name="aria2_desc">使用 aria2c 作為外部下載程式</string>
     <string name="cookies_desc">使用 Netscape 格式的 Cookies 檔案進行下載</string>
     <string name="clear_temp_files">清除暫存檔案</string>
-    <string name="check_for_updates_desc">更新到 GitHub 提供的最新版本</string>
+    <string name="check_for_updates_desc">自動檢查 GitHub 提供的更新</string>
     <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？</string>
 </resources>

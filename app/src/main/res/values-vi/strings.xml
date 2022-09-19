@@ -79,7 +79,7 @@
     <string name="close_never_show_again">Không hiển thị lại</string>
     <string name="user_guide">Hướng dẫn người dùng</string>
     <string name="open_settings">Mở cài đặt</string>
-    <string name="paste_desc">Nhấn \"Dán\" để lấy link video từ khay nhớ tạm.</string>
+    <string name="paste_desc">Nhấn \"Dán\" để lấy đường dẫn video từ khay nhớ tạm.</string>
     <string name="download_desc">Sau đó Nhấn \"Tải xuống\" sau khi tùy chỉnh trong cài đặt.</string>
     <string name="download_history_desc">Kiểm tra và quản lý Tải xuống trong ứng dụng, gồm tệp video và âm thanh.</string>
     <string name="check_download_settings_desc">Xem qua cài đặt tải xuống và hãy chắc chắn rằng bạn đã cài đặt phiên bản yt-dlp mới nhất trước khi sử dụng.</string>
@@ -88,7 +88,7 @@
     <string name="defaults">Mặc định</string>
     <string name="channel_name">Tải xuống</string>
     <string name="channel_description">Thông báo về các tệp đã tải xuống và tiến trình</string>
-    <string name="video_url">Link video</string>
+    <string name="video_url">Đường dẫn video</string>
     <string name="download_finish_notification">Đã hoàn thành tải xuống. Nhấn để mở.</string>
     <string name="concurrent_download">Tải xuống nhiều phần</string>
     <string name="concurrent_download_desc">Tải xuống song song các phần khác của các video M3U8/MPD</string>
@@ -119,7 +119,7 @@
     <string name="playlist_indicator_text">Đang tải xuống danh sách (%1$d/%2$d), nhấn để dừng.</string>
     <string name="audio_directory">Thư mục âm thanh</string>
     <string name="check_for_updates">Kiểm tra cập nhật</string>
-    <string name="check_for_updates_desc">Cập nhật phiên bản mới nhất trên Github</string>
+    <string name="check_for_updates_desc">Tự động kiểm tra phiên bản mới nhất trên Github</string>
     <string name="app_up_to_date">Phiên bản hiện tại là mới nhất</string>
     <string name="app_update_failed">Cập nhật phiên bản mới nhất thất bại</string>
     <string name="update">Cập nhật</string>

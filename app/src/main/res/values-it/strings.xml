@@ -169,7 +169,7 @@
     <string name="clear_temp_files_count">%1$d file temporanei eliminati</string>
     <string name="aria2_desc">Usa aria2c come downloader esterno</string>
     <string name="check_for_updates">Controlla gli aggiornamenti</string>
-    <string name="check_for_updates_desc">Aggiorna all\'ultima versione su GitHub</string>
+    <string name="check_for_updates_desc">Verifica automatica la versione più recente su GitHub</string>
     <string name="clear_temp_files_info">I file temporanei possono essere utilizzati per riprendere gli scaricamenti annullati. Sei sicuro/sicura di eliminare tutti questi file\?</string>
     <string name="app_up_to_date">La versione attuale è aggiornata</string>
     <string name="clear_temp_files">Cancella i file temporanei</string>

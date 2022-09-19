@@ -168,7 +168,7 @@
     <string name="delete_multiple_items_msg">%1$d für immer aus deinem Downloadverlauf entfernen\?</string>
     <string name="download_task_count">%1$d Download-Aufgaben</string>
     <string name="check_for_updates">Nach Aktualisierungen suchen</string>
-    <string name="check_for_updates_desc">Aktualisierung auf die neueste Version von GitHub</string>
+    <string name="check_for_updates_desc">Automatisch nach der neuesten Version auf GitHub suchen</string>
     <string name="app_up_to_date">Die aktuelle Version ist auf dem neuesten Stand</string>
     <string name="update">Aktualisieren</string>
     <string name="aria2_desc">Aria2c als externen Downloader verwenden</string>

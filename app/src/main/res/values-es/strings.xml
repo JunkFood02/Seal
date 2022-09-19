@@ -167,7 +167,7 @@
     <string name="recently_added">Añadido recientemente</string>
     <string name="multiselect_item_count">%1$d vídeo(s), %2$d archivo(s) de audio</string>
     <string name="delete_multiple_items_msg">¿Eliminar %1$d elemento(s) de tu historial de descargas para siempre\?</string>
-    <string name="check_for_updates_desc">Actualiza a la última versión de la app disponible en GitHub</string>
+    <string name="check_for_updates_desc">Buscar automáticamente por la última versión disponible en GitHub</string>
     <string name="app_up_to_date">Seal ya está puesto al día</string>
     <string name="update">Actualizar</string>
     <string name="check_for_updates">Buscar actualizaciones</string>

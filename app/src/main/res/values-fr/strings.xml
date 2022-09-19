@@ -171,7 +171,7 @@
     <string name="update">Mettre à jour</string>
     <string name="aria2_desc">Utilisez aria2c comme téléchargeur externe</string>
     <string name="multiselect_item_count">%1$d vidéo(s), %2$d fichier(s) audio</string>
-    <string name="check_for_updates_desc">Mise à jour vers la dernière version sur GitHub</string>
+    <string name="check_for_updates_desc">Vérifier automatiquement la dernière version sur GitHub</string>
     <string name="export_to_clipboard">Exporter vers le presse-papiers</string>
     <string name="template_exported">%1$d modèle(s) exporté(s)</string>
     <string name="download_task_count">%1$d tâches de téléchargement</string>
