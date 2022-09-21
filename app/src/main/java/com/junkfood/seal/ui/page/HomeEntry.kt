@@ -143,7 +143,6 @@ fun HomeEntry(
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    TextUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
                     return@launch
                 }
             }

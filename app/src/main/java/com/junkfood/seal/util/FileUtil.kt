@@ -52,10 +52,12 @@ object FileUtil {
         for (file in files) {
             paths.add(file.absolutePath)
         }
+
         MediaScannerConnection.scanFile(
             context, paths.toTypedArray(),
             null, null
         )
+        paths.removeAll { it.contains(Regex(".png$")) }
         return paths
     }
 

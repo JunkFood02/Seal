@@ -190,7 +190,7 @@ object DownloadUtil {
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
-                    addOption("--sub-lang", "all")
+                    addOption("--sub-lang", "all,-live_chat")
                 }
                 if (sponsorBlock) {
                     addOption("--sponsorblock-remove", PreferenceUtil.getSponsorBlockCategories())
@@ -200,7 +200,6 @@ object DownloadUtil {
             if (createThumbnail) {
                 addOption("--write-thumbnail")
                 addOption("--convert-thumbnails", "png")
-                addOption("-o", "thumbnail:%(title)s.%(ext)s")
             }
             if (!downloadPlaylist) {
                 addOption("--no-playlist")
@@ -240,7 +239,6 @@ object DownloadUtil {
         }
         return Result.success(filePaths)
     }
-
 
 
 }
