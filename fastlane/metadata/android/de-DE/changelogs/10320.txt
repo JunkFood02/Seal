@@ -1,0 +1,6 @@
+Verbesserungen der Zugänglichkeit:
+Entfernung von redundanter Semantik und Optimierung der Komponenten für TalkBack-Screenreader
+
+Fehlerbehebung:
+App stürzt aufgrund des Statusleistensymbols ab
+MP4-Formatpräferenz funktioniert manchmal nicht wie erwartet
