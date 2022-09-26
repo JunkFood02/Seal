@@ -4,13 +4,12 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
-import com.junkfood.seal.ui.color.scheme.Scheme
-import com.junkfood.seal.ui.color.scheme.Scheme.dark
+import material.io.color.scheme.Scheme.dark
 
 object ColorScheme {
     const val DEFAULT_SEED_COLOR = 0xFF415f76.toInt()
     fun lightColorSchemeFromColor(color: Int = DEFAULT_SEED_COLOR): ColorScheme {
-        val lightScheme = Scheme.light(color)!!
+        val lightScheme = material.io.color.scheme.Scheme.light(color)!!
         return lightColorScheme(
             primary = Color(lightScheme.primary),
             onPrimary = Color(lightScheme.onPrimary),

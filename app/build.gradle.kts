@@ -16,17 +16,16 @@ val versionPatch = 2
 val versionBuild = 0
 val isStable = true
 
-val composeVersion = "1.2.1"
-val lifecycleVersion = "2.6.0-alpha01"
-val navigationVersion = "2.5.1"
-val roomVersion = "2.4.3"
-val accompanistVersion = "0.25.1"
-val kotlinVersion = "1.6.21"
-val hiltVersion = "2.43.2"
-val composeMd3Version = "1.0.0-beta01"
-val coilVersion = "2.2.0"
-val youtubedlAndroidVersion = "68e633ff07"
-val okhttpVersion = "5.0.0-alpha.10"
+val composeVersion: String by rootProject.extra
+val lifecycleVersion: String by rootProject.extra
+val navigationVersion: String by rootProject.extra
+val roomVersion: String by rootProject.extra
+val accompanistVersion: String by rootProject.extra
+val composeMd3Version: String by rootProject.extra
+val coilVersion: String by rootProject.extra
+val youtubedlAndroidVersion: String by rootProject.extra
+val okhttpVersion: String by rootProject.extra
+val hiltVersion: String by rootProject.extra
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -133,11 +132,11 @@ android {
 
 dependencies {
 
-
-    implementation("androidx.core:core-ktx:1.8.0")
+    implementation(project(":color"))
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.0-rc01")
     implementation("com.google.android.material:material:1.8.0-alpha01")
-    implementation("androidx.activity:activity-compose:1.6.0-rc01")
+    implementation("androidx.activity:activity-compose:1.6.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")

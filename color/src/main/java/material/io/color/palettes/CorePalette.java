@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.palettes;
+package material.io.color.palettes;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-import com.junkfood.seal.ui.color.hct.Hct;
+import material.io.color.hct.Hct;
 
 /**
  * An intermediate concept between the key color for a UI theme, and a full color scheme. 5 sets of

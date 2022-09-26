@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.palettes;
+package material.io.color.palettes;
 
-import com.junkfood.seal.ui.color.hct.Hct;
+import material.io.color.hct.Hct;
 import java.util.HashMap;
 import java.util.Map;
 

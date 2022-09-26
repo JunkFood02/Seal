@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.utils;
+package material.io.color.utils;
 
 /** Utility methods for string representations of colors. */
 final class StringUtils {

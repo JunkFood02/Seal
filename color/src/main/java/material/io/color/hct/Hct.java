@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.hct;
+package material.io.color.hct;
 
-import com.junkfood.seal.ui.color.utils.ColorUtils;
+import material.io.color.utils.ColorUtils;
 
 /**
  * A color system built using CAM16 hue and chroma, and L* from L*a*b*.

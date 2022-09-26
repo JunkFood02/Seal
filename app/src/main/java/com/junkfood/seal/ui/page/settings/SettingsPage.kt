@@ -15,8 +15,16 @@ import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.sharp.Aod
 import androidx.compose.material.icons.sharp.Download
 import androidx.compose.material.icons.sharp.Info
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -39,11 +47,9 @@ fun SettingsPage(navController: NavController) {
         Column(
             modifier = Modifier
         ) {
-            SmallTopAppBar(
-                title = {},
-                navigationIcon = { BackButton { navController.popBackStack() } },
-                modifier = Modifier.padding(start = 8.dp)
-            )
+            TopAppBar(title = {},
+                modifier = Modifier.padding(start = 8.dp),
+                navigationIcon = { BackButton { navController.popBackStack() } })
             Text(
                 modifier = Modifier.padding(start = 24.dp, top = 48.dp),
                 text = stringResource(id = R.string.settings),

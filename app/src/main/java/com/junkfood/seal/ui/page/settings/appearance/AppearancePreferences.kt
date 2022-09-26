@@ -4,7 +4,12 @@ import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -12,8 +17,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,13 +45,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.color.hct.Hct
-import com.junkfood.seal.ui.color.palettes.CorePalette
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
-import com.junkfood.seal.ui.component.*
+import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.PreferenceItem
+import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.page.download.VideoCard
 import com.junkfood.seal.ui.theme.ColorScheme
 import com.junkfood.seal.util.PreferenceUtil
@@ -92,8 +112,16 @@ fun AppearancePreferences(
                         }
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
                         ColorButton(color = Color.Yellow)
-                        ColorButton(color = Color(Hct.from(60.0, 150.0, 70.0).toInt()))
-                        ColorButton(color = Color(Hct.from(125.0, 50.0, 60.0).toInt()))
+                        ColorButton(
+                            color = Color(
+                                material.io.color.hct.Hct.from(60.0, 150.0, 70.0).toInt()
+                            )
+                        )
+                        ColorButton(
+                            color = Color(
+                                material.io.color.hct.Hct.from(125.0, 50.0, 60.0).toInt()
+                            )
+                        )
                         ColorButton(color = Color.Red)
                         ColorButton(color = Color.Magenta)
                         ColorButton(color = Color.Blue)
@@ -156,7 +184,7 @@ fun AppearancePreferences(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorButton(modifier: Modifier = Modifier, color: Color) {
-    val corePalette = CorePalette.of(color.toArgb())
+    val corePalette = material.io.color.palettes.CorePalette.of(color.toArgb())
     val lightColor = corePalette.a2.tone(80)
     val seedColor = corePalette.a2.tone(60)
     val darkColor = corePalette.a2.tone(60)

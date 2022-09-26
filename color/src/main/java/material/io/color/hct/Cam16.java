@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.hct;
+package material.io.color.hct;
 
 import static java.lang.Math.max;
 
-import com.junkfood.seal.ui.color.utils.ColorUtils;
+import material.io.color.utils.ColorUtils;
 
 /**
  * CAM16, a color appearance model. Colors are not just defined by their hex code, but rather, a hex

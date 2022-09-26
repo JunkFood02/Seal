@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.junkfood.seal.ui.color.hct;
+package material.io.color.hct;
 
-import com.junkfood.seal.ui.color.utils.ColorUtils;
-import com.junkfood.seal.ui.color.utils.MathUtils;
+import material.io.color.utils.ColorUtils;
+import material.io.color.utils.MathUtils;
 
 /**
  * In traditional color spaces, a color can be identified solely by the observer's measurement of

@@ -140,6 +140,7 @@ object DownloadUtil {
                         addOption("--audio-format", "mp3")
                         addOption("--audio-quality", "0")
                     }
+
                     2 -> {
                         addOption("--audio-format", "m4a")
                         addOption("--audio-quality", "0")

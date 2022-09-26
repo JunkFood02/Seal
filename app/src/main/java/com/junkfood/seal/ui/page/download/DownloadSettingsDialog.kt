@@ -3,7 +3,11 @@ package com.junkfood.seal.ui.page.download
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -11,16 +15,39 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AudioFile
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.DoneAll
+import androidx.compose.material.icons.outlined.DownloadDone
+import androidx.compose.material.icons.outlined.EditNote
+import androidx.compose.material.icons.outlined.HighQuality
+import androidx.compose.material.icons.outlined.VideoFile
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.*
+import com.junkfood.seal.ui.component.BottomDrawer
+import com.junkfood.seal.ui.component.ButtonChip
+import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.DrawerSheetSubtitle
+import com.junkfood.seal.ui.component.FilledButtonWithIcon
+import com.junkfood.seal.ui.component.FilterChip
+import com.junkfood.seal.ui.component.FilterChipWithIcons
+import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
@@ -73,7 +100,6 @@ fun DownloadSettingDialog(
         hide()
         confirm()
     }
-
 
 
     val sheetContent: @Composable () -> Unit = {
@@ -259,6 +285,7 @@ fun DownloadSettingDialog(
     when (showCustomCommandDialog) {
         (-1) -> CommandTemplateDialog(newTemplate = true,
             onDismissRequest = { showCustomCommandDialog = 0 })
+
         (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
             newTemplate = false,
             onDismissRequest = { showCustomCommandDialog = 0 })
