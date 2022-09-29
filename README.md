@@ -64,6 +64,11 @@ English
 Or download the latest apks from [releases](https://github.com/JunkFood02/Seal/releases/)
 
 
+## Stargazers over time
+Thank you to all that people that loves this project!
+
+[![Stargazers over time](https://starchart.cc/JunkFood02/Seal.svg)](https://starchart.cc/JunkFood02/Seal)
+
 
 ## Contributing
 
