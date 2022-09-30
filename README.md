@@ -75,6 +75,9 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
 
 ## Credits
