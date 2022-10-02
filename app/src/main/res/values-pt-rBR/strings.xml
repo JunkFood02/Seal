@@ -156,7 +156,7 @@
     <string name="task_canceled">Tarefa de download cancelada</string>
     <string name="github_issue">GitHub issue</string>
     <string name="github_issue_desc">Enviar um issue para reportar um bug ou pedir uma feature</string>
-    <string name="info_copied">Informação copiada para a área de transferênia</string>
+    <string name="info_copied">Informação copiada para a área de transferência</string>
     <string name="video_resolution">Resolução de Vídeo</string>
     <string name="video_file_size">Tamanho do arquivo de vídeo</string>
     <string name="import_from_clipboard">Importar da área de transferência</string>
@@ -167,4 +167,19 @@
     <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads para sempre\?</string>
     <string name="template_exported">Exportado %1$d modelo(s)</string>
     <string name="export_to_clipboard">Exportar para a área de transferência</string>
+    <string name="check_for_updates">Buscar atualizações</string>
+    <string name="check_for_updates_desc">Buscar automaticamente pela versão mais recente no GitHub</string>
+    <string name="app_up_to_date">A versão atual está atualizada</string>
+    <string name="app_update_failed">Falha ao atualizar para a versão mais recente</string>
+    <string name="update">Atualizar</string>
+    <string name="aria2_desc">Usar aria2c como downloader externo</string>
+    <string name="cookies_desc">Usar cookies formatados do Netscape para download</string>
+    <string name="clear_temp_files">Limpar arquivos temporários</string>
+    <string name="clear_temp_files_desc">Apagar todos os arquivos temporários do diretório de downloads</string>
+    <string name="clear_temp_files_count">%1$d arquivo(s) temporário(s) apagado(s)</string>
+    <string name="multiselect_mode">Modo multi-seleção</string>
+    <string name="clear_temp_files_info">Arquivos temporários podem ser usados para retomar downloads cancelados. Você tem certeza que quer apagar estes arquivos\?</string>
+    <string name="sponsorblock_categories_desc">Especifique as categorias SponsorBlock a serem removidas do arquivo de vídeo</string>
+    <string name="sponsorblock_categories">Categorias do SponsorBlock</string>
+    <string name="sponsorblock_desc">Remover segmentos de vídeos com o SponsorBlock API</string>
 </resources>

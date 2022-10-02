@@ -15,7 +15,7 @@
     <string name="dismiss">Batalkan</string>
     <string name="downloads_history">Unduhan</string>
     <string name="audio">Audio</string>
-    <string name="open_url">Buka link</string>
+    <string name="open_url">Buka tautan</string>
     <string name="remove">Hapus</string>
     <string name="about_page">Versi, rilis, kredit</string>
     <string name="back">Kembali</string>
@@ -31,7 +31,7 @@
     <string name="on">Nyala</string>
     <string name="settings_before_download_text">Sesuaikan unduhan ini</string>
     <string name="error_copied">Laporan kesalahan disalin ke papan klip</string>
-    <string name="thumbnail">thumbnail</string>
+    <string name="thumbnail">Gambar mini</string>
     <string name="paste">Tempel</string>
     <string name="edit_template_desc">Jalur keluar dan URL akan ditambahkan oleh aplikasi.</string>
     <string name="audio_format">Ubah format audio</string>
@@ -86,10 +86,10 @@
     <string name="video">Video</string>
     <string name="checked">Terperiksa</string>
     <string name="credits">Kredit</string>
-    <string name="custom_command_desc">Jalankan perintah yt-dlp menggunakan templat khusus</string>
+    <string name="custom_command_desc">Buka yt-dlp menggunakan templat khusus</string>
     <string name="display">Tampilan</string>
     <string name="release_desc">Lihat log perubahan dan versi baru</string>
-    <string name="edit_custom_command_template">Edit</string>
+    <string name="edit_custom_command_template">Sunting</string>
     <string name="settings_before_download">Konfigurasikan sebelum mengunduh</string>
     <string name="format">Format</string>
     <string name="dark_theme">Tema gelap</string>
@@ -121,9 +121,9 @@
     <string name="download_settings_desc">Umum, format, perintah khusus</string>
     <string name="download">Unduhan</string>
     <string name="url_empty">Link tidak boleh kosong</string>
-    <string name="extract_audio_summary">Unduh dan simpan audio, ketimbang video</string>
+    <string name="extract_audio_summary">Unduh dan simpan audio, tidak dengan video</string>
     <string name="create_thumbnail_summary">Simpan thumbnail video sebagai file</string>
-    <string name="link_copied">Link tertempel di papan klip</string>
+    <string name="link_copied">Tempel tautan di papan klip</string>
     <string name="audio_directory">Folder audio</string>
     <string name="download_directory">Folder unduhan</string>
     <string name="permission_issue_desc">Direktori di luar Unduh/ dan Dokumen/ tidak didukung</string>
@@ -181,4 +181,5 @@
     <string name="sponsorblock_desc">Hapus segmen dari video dengan SponsorBlock API</string>
     <string name="sponsorblock_categories">Kategori SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Tentukan kategori SponsorBlock yang akan dihapus dari file video</string>
+    <string name="multiselect_mode">Mode pilih banyak</string>
 </resources>

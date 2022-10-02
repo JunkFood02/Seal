@@ -181,4 +181,5 @@
     <string name="clear_temp_files_desc">Alle temporären Dateien aus dem Downloadordner löschen</string>
     <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst\?</string>
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
+    <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
 </resources>
