@@ -181,4 +181,5 @@
     <string name="sponsorblock_desc">Supprimer des segments de vidéos avec l\'API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Spécifiez les catégories SponsorBlock à supprimer du fichier vidéo</string>
     <string name="sponsorblock_categories">Catégories SponsorBlock</string>
+    <string name="multiselect_mode">Mode multi-sélection</string>
 </resources>

@@ -181,4 +181,5 @@
     <string name="clear_temp_files_count">تم حذف %1$d ملف(ات) مؤقت(ة)</string>
     <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من مجلد التنزيل</string>
+    <string name="multiselect_mode">وضع التحديد المتعدد</string>
 </resources>

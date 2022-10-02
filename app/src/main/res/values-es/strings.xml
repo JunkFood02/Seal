@@ -181,4 +181,5 @@
     <string name="clear_temp_files_count">%1$d archivo(s) temporales eliminados</string>
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
     <string name="clear_temp_files_desc">Elimina todos los archivos temporales de la carpeta de descargas</string>
+    <string name="multiselect_mode">Modo de multiselección</string>
 </resources>
