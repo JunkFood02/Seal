@@ -39,6 +39,8 @@ object UpdateUtil {
     private const val REPO = "Seal"
     private const val ARM64 = "arm64-v8a"
     private const val ARM32 = "armeabi-v7a"
+    private const val X86 = "x86"
+    private const val X64 = "x86-64"
     private const val TAG = "UpdateUtil"
 
     private val client = OkHttpClient()
@@ -136,9 +138,19 @@ object UpdateUtil {
             return@withContext flow<DownloadStatus> { emit(DownloadStatus.Finished(context.getLatestApk())) }
         }
 
-        val is64BitsArchSupported = Build.SUPPORTED_ABIS.contains(ARM64)
+        val isArmArchSupported = Build.SUPPORTED_ABIS.contains(ARM32)
+        val is64BitsArchSupported = with(Build.SUPPORTED_ABIS) {
+            if (isArmArchSupported) contains(ARM64)
+            else contains(X64)
+        }
+        val preferredArch = if (is64BitsArchSupported) {
+            if (isArmArchSupported) ARM64 else X64
+        } else {
+            if (isArmArchSupported) ARM32 else X86
+        }
+
         val targetUrl = latestRelease.assets?.find {
-            it.name?.contains(if (is64BitsArchSupported) ARM64 else ARM32) ?: false
+            return@find it.name?.contains(preferredArch) ?: false
         }?.browserDownloadUrl ?: return@withContext emptyFlow()
         val request = Request.Builder().url(targetUrl).build()
         try {

@@ -1,5 +1,5 @@
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -12,7 +12,7 @@ apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
 val versionMinor = 3
-val versionPatch = 2
+val versionPatch = 3
 val versionBuild = 0
 val isStable = true
 
@@ -74,7 +74,7 @@ android {
             abi {
                 isEnable = !project.hasProperty("noSplits")
                 reset()
-                include("arm64-v8a", "armeabi-v7a")
+                include("arm64-v8a", "armeabi-v7a", "x86", "x86-64")
                 isUniversalApk = false
             }
         }

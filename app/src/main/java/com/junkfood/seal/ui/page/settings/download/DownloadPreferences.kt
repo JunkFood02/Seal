@@ -13,6 +13,8 @@ import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.HighQuality
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.HistoryToggleOff
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.MoneyOff
 import androidx.compose.material.icons.outlined.MusicNote
@@ -190,7 +192,6 @@ fun DownloadPreferences(
                             }
                         })
                 }
-
                 item {
                     var configureBeforeDownload by remember {
                         mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
@@ -256,6 +257,24 @@ fun DownloadPreferences(
                     )
                 }
                 item {
+                    var isPrivateModeEnabled by remember {
+                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PRIVATE_MODE))
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(R.string.private_mode),
+                        description = stringResource(R.string.private_mode_desc),
+                        icon = if (isPrivateModeEnabled) Icons.Outlined.HistoryToggleOff else Icons.Outlined.History,
+                        isChecked = isPrivateModeEnabled,
+                        onClick = {
+                            isPrivateModeEnabled = !isPrivateModeEnabled
+                            PreferenceUtil.updateValue(
+                                PreferenceUtil.PRIVATE_MODE,
+                                isPrivateModeEnabled
+                            )
+                        }
+                    )
+                }
+                item {
                     PreferenceSubtitle(text = stringResource(id = R.string.format))
                 }
                 item {
@@ -282,7 +301,6 @@ fun DownloadPreferences(
                         enabled = !customCommandEnable and audioSwitch
                     ) { showAudioFormatEditDialog = true }
                 }
-
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
                 }

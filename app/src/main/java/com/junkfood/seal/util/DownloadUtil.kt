@@ -13,6 +13,7 @@ import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
+import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
@@ -223,7 +224,9 @@ object DownloadUtil {
                 Log.d(TAG, s)
         }
         YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
-
+        if (PreferenceUtil.getValue(PRIVATE_MODE)) {
+            return Result.success(null)
+        }
         val filePaths = FileUtil.scanFileToMediaLibrary(videoInfo.id, pathBuilder.toString())
         for (path in filePaths) {
             DatabaseUtil.insertInfo(
@@ -239,6 +242,8 @@ object DownloadUtil {
             )
         }
         return Result.success(filePaths)
+
+
     }
 
 

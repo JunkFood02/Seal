@@ -105,6 +105,7 @@ object PreferenceUtil {
     const val COOKIES = "cookies"
     const val COOKIES_FILE = "cookies_file"
     const val AUTO_UPDATE = "auto_update"
+    const val PRIVATE_MODE = "private_mode"
 
     const val SYSTEM_DEFAULT = 0
 

@@ -45,6 +45,7 @@ const val kotlin = "https://kotlinlang.org/"
 const val okhttp = "https://github.com/square/okhttp"
 const val accompanist = "https://github.com/google/accompanist"
 const val aria2 = "https://github.com/aria2/aria2"
+const val material3 = "https://m3.material.io/"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +64,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
 //        Credit("Music You"),
         Credit("dvd", GPL_V3, dvd),
         Credit("Accompanist", APACHE_V2, accompanist),
+        Credit("Material Design 3", APACHE_V2, material3),
         Credit("Material Icons", APACHE_V2, materialIcon),
         Credit("Material color utilities", APACHE_V2, materialColor),
         Credit("MMKV", BSD, mmkv),
