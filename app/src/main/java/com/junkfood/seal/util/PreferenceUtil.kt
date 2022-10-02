@@ -139,6 +139,7 @@ object PreferenceUtil {
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
         Pair(ARABIC, "ar"),
+        Pair(BELARUSIAN, "be"),
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(TRADITIONAL_CHINESE, "zh-TW"),
         Pair(CZECH, "cs"),
@@ -162,7 +163,6 @@ object PreferenceUtil {
         Pair(TURKISH, "tr"),
         Pair(UKRAINIAN, "ua"),
         Pair(VIETNAMESE, "vi"),
-        Pair(BELARUSIAN, "be"),
     )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
@@ -221,6 +221,7 @@ object PreferenceUtil {
             MALAY -> stringResource(R.string.la_ms)
             TRADITIONAL_CHINESE -> stringResource(R.string.la_zh_TW)
             VIETNAMESE -> stringResource(R.string.la_vi)
+            BELARUSIAN -> stringResource(R.string.la_be)
             else -> stringResource(R.string.follow_system)
         }
     }
