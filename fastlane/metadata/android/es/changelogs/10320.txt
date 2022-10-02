@@ -1,0 +1,6 @@
+Mejoras en la accesibilidad:
+Eliminación de la semántica redundante y optimización de los componentes para el lector de pantalla TalkBack
+
+Corrección de errores:
+La aplicación se bloqueaba debido al icono de la barra de estado
+La preferencia de formato MP4 a veces no funcionaba como se esperaba

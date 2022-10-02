@@ -1,0 +1,6 @@
+Cải tiến khả năng tiếp cận:
+Loại bỏ ngữ nghĩa thừa và tối ưu hóa các thành phần cho trình đọc màn hình TalkBack
+
+Vá lỗi:
+Ứng dụng bị treo do biểu tượng trên thanh trạng thái
+Tùy chọn định dạng MP4 đôi khi không hoạt động như mong đợi
