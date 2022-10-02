@@ -178,6 +178,7 @@
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
     <string name="la_hu" translatable="false">"Magyar nyelv"</string>
+    <string name="la_be" translatable="false">беларуская мова</string>
     <string name="status_enqueued">Enqueued</string>
     <string name="status_completed">Completed</string>
     <string name="status_downloading">Downloading</string>

@@ -1,0 +1,4 @@
+Feature Update:
+Private Mode: Disable thumbnail and download history
+
+Add Belarusian translations by @Kekich-dev

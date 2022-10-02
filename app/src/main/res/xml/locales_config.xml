@@ -24,4 +24,5 @@
     <locale android:name="zh-TW" />
     <locale android:name="ja" />
     <locale android:name="vi" />
+    <locale android:name="be" />
 </locale-config>
