@@ -155,6 +155,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                         expanded = expanded,
                         onExpandedChange = { expanded = !expanded }) {
                         OutlinedTextField(
+                            modifier = Modifier.menuAnchor(),
                             value = videoResolutionText,
                             onValueChange = {},
                             readOnly = true,
@@ -189,7 +190,9 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                         expanded = expanded,
                         onExpandedChange = { expanded = !expanded }) {
                         OutlinedTextField(
-                            modifier = Modifier.padding(top = 12.dp),
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                                .menuAnchor(),
                             value = fileSize,
                             onValueChange = {
                                 fileSize = if (it.isDigitsOnly() || it == notSpecified) it else ""
