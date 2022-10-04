@@ -106,8 +106,10 @@ object PreferenceUtil {
     const val COOKIES_FILE = "cookies_file"
     const val AUTO_UPDATE = "auto_update"
     const val PRIVATE_MODE = "private_mode"
+    const val DYNAMIC_COLOR = "dynamic color"
 
     const val SYSTEM_DEFAULT = 0
+    const val EMPTY_SEED_COLOR = 0
 
     // Do not modify
     private const val SIMPLIFIED_CHINESE = 1
@@ -235,6 +237,12 @@ object PreferenceUtil {
     fun getCookies(): String = getString(COOKIES_FILE) ?: ""
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
+        val dynamicPreference: DynamicPreference = DynamicPreference(
+            dynamicColorSwitch = kv.decodeInt(
+                DYNAMIC_COLOR,
+                DarkThemePreference.OFF
+            )
+        ),
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
@@ -245,7 +253,7 @@ object PreferenceUtil {
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
                 )
-            ), kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
+            ), seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
         )
     )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
@@ -268,7 +276,18 @@ object PreferenceUtil {
         }
     }
 
-    class DarkThemePreference(var darkThemeValue: Int = FOLLOW_SYSTEM) {
+    fun switchDynamicColor(mode: Int) {
+        applicationScope.launch(Dispatchers.IO) {
+            mutableAppSettingsStateFlow.update {
+                it.copy(dynamicPreference = DynamicPreference(dynamicColorSwitch = mode))
+            }
+            kv.encode(DYNAMIC_COLOR, mode)
+        }
+    }
+
+    class DarkThemePreference(
+        var darkThemeValue: Int = FOLLOW_SYSTEM,
+    ) {
         companion object {
             const val FOLLOW_SYSTEM = 1
             const val ON = 2
@@ -291,6 +310,15 @@ object PreferenceUtil {
             }
         }
 
+    }
+
+    data class DynamicPreference(
+        val enable: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
+        val dynamicColorSwitch: Int = DarkThemePreference.OFF
+    ){
+        fun getDynamicSwtich():Boolean {
+            return dynamicColorSwitch == DarkThemePreference.ON
+        }
     }
 
     private const val TAG = "PreferenceUtil"

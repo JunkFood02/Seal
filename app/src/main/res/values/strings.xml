@@ -223,4 +223,6 @@
     <string name="multiselect_mode">Multiselect mode</string>
     <string name="private_mode">Private mode</string>
     <string name="private_mode_desc">Disable thumbnail and download history</string>
+    <string name="dynamic_color">Dynamic Color</string>
+    <string name="dynamic_color_des">Requires Android 12 and above</string>
 </resources>
