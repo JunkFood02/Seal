@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
@@ -56,7 +57,9 @@ class MainActivity : AppCompatActivity() {
                 val darkTheme = LocalDarkTheme.current.isDarkTheme()
                 SealTheme(
                     darkTheme = darkTheme,
-                    seedColor = LocalSeedColor.current
+                    seedColor = LocalSeedColor.current,
+                    dynamicColorEnable = LocalDynamicColorSwitch.current.enable,
+                    dynamicColor = LocalDynamicColorSwitch.current.dynamicColorSwitch
                 ) {
                     HomeEntry(downloadViewModel)
                 }

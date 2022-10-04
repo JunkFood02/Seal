@@ -19,6 +19,7 @@ val LocalVideoThumbnailLoader = staticCompositionLocalOf {
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }
 val LocalWindowWidthState = staticCompositionLocalOf { WindowWidthSizeClass.Compact }
 val settingFlow = PreferenceUtil.AppSettingsStateFlow
+val LocalDynamicColorSwitch = compositionLocalOf { PreferenceUtil.DynamicPreference() }
 
 @Composable
 fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Composable () -> Unit) {
@@ -29,6 +30,7 @@ fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Compo
             .build(),
         LocalSeedColor provides appSettingsState.seedColor,
         LocalWindowWidthState provides windowWidthSizeClass,
+        LocalDynamicColorSwitch provides appSettingsState.dynamicPreference,
         content = content
     )
 }
