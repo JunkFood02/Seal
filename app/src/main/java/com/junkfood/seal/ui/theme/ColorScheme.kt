@@ -8,7 +8,15 @@ import material.io.color.scheme.Scheme.dark
 
 object ColorScheme {
     const val DEFAULT_SEED_COLOR = 0xFF415f76.toInt()
-    fun lightColorSchemeFromColor(color: Int = DEFAULT_SEED_COLOR): ColorScheme {
+
+    fun colorSchemeFromColor(
+        color: Int = DEFAULT_SEED_COLOR,
+        isDarkTheme: Boolean = false
+    ): ColorScheme {
+        return if (isDarkTheme) darkColorSchemeFromColor(color) else lightColorSchemeFromColor(color)
+    }
+
+    private fun lightColorSchemeFromColor(color: Int = DEFAULT_SEED_COLOR): ColorScheme {
         val lightScheme = material.io.color.scheme.Scheme.light(color)!!
         return lightColorScheme(
             primary = Color(lightScheme.primary),
@@ -40,7 +48,7 @@ object ColorScheme {
         )
     }
 
-    fun darkColorSchemeFromColor(color: Int = DEFAULT_SEED_COLOR): ColorScheme {
+    private fun darkColorSchemeFromColor(color: Int = DEFAULT_SEED_COLOR): ColorScheme {
         val darkScheme = dark(color)!!
         return darkColorScheme(
             primary = Color(darkScheme.primary),

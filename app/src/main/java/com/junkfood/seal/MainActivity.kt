@@ -58,8 +58,7 @@ class MainActivity : AppCompatActivity() {
                 SealTheme(
                     darkTheme = darkTheme,
                     seedColor = LocalSeedColor.current,
-                    dynamicColorEnable = LocalDynamicColorSwitch.current.enable,
-                    dynamicColor = LocalDynamicColorSwitch.current.dynamicColorSwitch
+                    isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
                     HomeEntry(downloadViewModel)
                 }

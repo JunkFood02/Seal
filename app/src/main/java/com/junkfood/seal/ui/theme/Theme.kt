@@ -9,10 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
-import com.junkfood.seal.ui.theme.ColorScheme.darkColorSchemeFromColor
-import com.junkfood.seal.ui.theme.ColorScheme.lightColorSchemeFromColor
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
+import com.junkfood.seal.ui.theme.ColorScheme.colorSchemeFromColor
 
 
 fun Color.applyOpacity(enabled: Boolean): Color {
@@ -33,8 +32,7 @@ fun Color.harmonizeWithPrimary(): Color {
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     seedColor: Int,
-    dynamicColorEnable: Boolean,
-    dynamicColor: Int,
+    isDynamicColorEnabled: Boolean,
     content: @Composable () -> Unit
 ) {
     rememberSystemUiController().run {
@@ -42,36 +40,18 @@ fun SealTheme(
         setSystemBarsColor(Color.Transparent, !darkTheme)
         setNavigationBarColor(Color.Transparent, !darkTheme)
     }
-    val colorScheme: androidx.compose.material3.ColorScheme
-    when {
-        dynamicColor == ON && dynamicColorEnable -> {
+
+    val colorScheme = when {
+        DynamicColors.isDynamicColorAvailable() && isDynamicColorEnabled -> {
             val context = LocalContext.current
-            colorScheme =
-                if (darkTheme) {
-                    dynamicDarkColorScheme(context)
-                } else {
-                    dynamicLightColorScheme(context)
-                }
+            if (darkTheme) {
+                dynamicDarkColorScheme(context)
+            } else {
+                dynamicLightColorScheme(context)
+            }
         }
-        darkTheme -> {
-            colorScheme = darkColorSchemeFromColor(seedColor)
-        }
-        else -> {
-            colorScheme = lightColorSchemeFromColor(seedColor)
-        }
+        else -> colorSchemeFromColor(seedColor, darkTheme)
     }
-//    val colorScheme =
-//        when {
-//            darkTheme -> {
-//                if(dynamicColorEnable && dynamicColor == ON) {
-//                    darkColorSchemeFromColor(seedColor)
-//                }
-//                else {
-//
-//                }
-//            }
-//            else -> lightColorSchemeFromColor(seedColor)
-//        }
 
     MaterialTheme(
         colorScheme = colorScheme,

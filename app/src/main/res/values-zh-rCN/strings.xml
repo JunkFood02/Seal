@@ -185,5 +185,5 @@
     <string name="private_mode">隐私模式</string>
     <string name="private_mode_desc">停止显示视频缩略图与保存下载记录</string>
     <string name="dynamic_color">动态色彩</string>
-    <string name="dynamic_color_des">要求Android12及以上</string>
+    <string name="dynamic_color_desc">将壁纸颜色应用于应用主题</string>
 </resources>

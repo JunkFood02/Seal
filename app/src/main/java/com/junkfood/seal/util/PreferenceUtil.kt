@@ -237,12 +237,7 @@ object PreferenceUtil {
     fun getCookies(): String = getString(COOKIES_FILE) ?: ""
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
-        val dynamicPreference: DynamicPreference = DynamicPreference(
-            dynamicColorSwitch = kv.decodeInt(
-                DYNAMIC_COLOR,
-                DarkThemePreference.OFF
-            )
-        ),
+        val isDynamicColorEnabled: Boolean = false,
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
@@ -276,12 +271,12 @@ object PreferenceUtil {
         }
     }
 
-    fun switchDynamicColor(mode: Int) {
+    fun switchDynamicColor(enabled: Boolean = !mutableAppSettingsStateFlow.value.isDynamicColorEnabled) {
         applicationScope.launch(Dispatchers.IO) {
             mutableAppSettingsStateFlow.update {
-                it.copy(dynamicPreference = DynamicPreference(dynamicColorSwitch = mode))
+                it.copy(isDynamicColorEnabled = enabled)
             }
-            kv.encode(DYNAMIC_COLOR, mode)
+            kv.encode(DYNAMIC_COLOR, enabled)
         }
     }
 
@@ -310,15 +305,6 @@ object PreferenceUtil {
             }
         }
 
-    }
-
-    data class DynamicPreference(
-        val enable: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
-        val dynamicColorSwitch: Int = DarkThemePreference.OFF
-    ){
-        fun getDynamicSwtich():Boolean {
-            return dynamicColorSwitch == DarkThemePreference.ON
-        }
     }
 
     private const val TAG = "PreferenceUtil"
