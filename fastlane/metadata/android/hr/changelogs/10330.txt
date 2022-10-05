@@ -1,0 +1,4 @@
+Nove Značajke:
+Privatni Način rada: Onemogućite minijature i povijest preuzimanja
+
+Aplikacija prevedena na bjeloruski jezik uz pomoć @Kekich-dev
