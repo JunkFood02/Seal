@@ -9,8 +9,10 @@
 </p>
 <p align="center">
 English
-&nbsp;&nbsp;|&nbsp;&nbsp;
+&nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/Marco-9456/Seal/edit/Marco-Test/README-ar.md">العربية</b>
 </p>
 
 ## لقطات شاشة
