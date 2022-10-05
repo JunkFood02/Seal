@@ -181,4 +181,9 @@
     <string name="delete_multiple_items_msg">Fjern %1$d element(er) fra nedlastingshistorikken din for godt\?</string>
     <string name="sponsorblock_categories">SponsorBlock-kategorier</string>
     <string name="sponsorblock_categories_desc">Angi SponsorBlock-kategorier å fjerne fra videofilen</string>
+    <string name="private_mode">Privat modus</string>
+    <string name="dynamic_color">Dynamisk farge</string>
+    <string name="private_mode_desc">Skru av miniatyrbilde- og nedlastingshistorikk</string>
+    <string name="multiselect_mode">Multivalgsmodus</string>
+    <string name="dynamic_color_desc">Bruk farger fra bakgrunnsbilder i programdrakt</string>
 </resources>

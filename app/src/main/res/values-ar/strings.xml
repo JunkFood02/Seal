@@ -182,4 +182,8 @@
     <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من مجلد التنزيل</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
+    <string name="private_mode">وضع خاص</string>
+    <string name="private_mode_desc">إيقاف الصور المصغّرة وسجل التنزيلات</string>
+    <string name="dynamic_color">لون ديناميكي</string>
+    <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
 </resources>

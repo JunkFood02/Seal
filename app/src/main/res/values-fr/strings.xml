@@ -182,4 +182,6 @@
     <string name="sponsorblock_categories_desc">Spécifiez les catégories SponsorBlock à supprimer du fichier vidéo</string>
     <string name="sponsorblock_categories">Catégories SponsorBlock</string>
     <string name="multiselect_mode">Mode multi-sélection</string>
+    <string name="private_mode_desc">Désactiver l\'historique des vignettes et des téléchargements</string>
+    <string name="private_mode">Mode privé</string>
 </resources>
