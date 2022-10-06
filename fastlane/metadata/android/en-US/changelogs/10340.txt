@@ -1,0 +1,7 @@
+Feature Update:
+Enable dynamic color for Android 12+
+
+Bug Fix:
+DropdownMenu not shown when selecting video resolution
+
+Add Croatian translations by @ElizabethWega

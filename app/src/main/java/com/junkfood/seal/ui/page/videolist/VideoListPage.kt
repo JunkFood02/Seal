@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -162,7 +161,7 @@ fun VideoListPage(
                             contentDescription = stringResource(R.string.multiselect_mode)
                         )
                     }
-                }, scrollBehavior = scrollBehavior, contentPadding = PaddingValues()
+                }, scrollBehavior = scrollBehavior
             )
         }, bottomBar = {
             AnimatedVisibility(

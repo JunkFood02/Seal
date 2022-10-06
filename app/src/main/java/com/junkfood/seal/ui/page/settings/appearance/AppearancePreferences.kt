@@ -14,10 +14,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Brightness6
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -74,7 +74,6 @@ fun AppearancePreferences(
     )
     var showDarkThemeDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
-    val dynamicColor = LocalDynamicColorSwitch.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
 
 
@@ -107,7 +106,8 @@ fun AppearancePreferences(
                     Row(
                         modifier = Modifier
                             .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 14.dp, vertical = 12.dp)
+                            .padding(horizontal = 12.dp)
+                            .padding(bottom = 6.dp)
                     ) {
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
                         ColorButton(color = Color.Yellow)
@@ -121,6 +121,7 @@ fun AppearancePreferences(
                                 Hct.from(125.0, 50.0, 60.0).toInt()
                             )
                         )
+                        ColorButton(color = Color.Cyan)
                         ColorButton(color = Color.Red)
                         ColorButton(color = Color.Magenta)
                         ColorButton(color = Color.Blue)
@@ -132,7 +133,7 @@ fun AppearancePreferences(
                         description = stringResource(
                             id = R.string.dynamic_color_desc
                         ),
-                        icon = Icons.Outlined.Brightness6,
+                        icon = Icons.Outlined.Palette,
                         isChecked = LocalDynamicColorSwitch.current,
                         onClick = {
                             PreferenceUtil.switchDynamicColor()

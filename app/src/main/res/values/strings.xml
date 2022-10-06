@@ -225,4 +225,5 @@
     <string name="private_mode_desc">Disable thumbnail and download history</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
+    <string name="la_hr" translatable="false">Hrvatski</string>
 </resources>

@@ -109,7 +109,6 @@ object PreferenceUtil {
     const val DYNAMIC_COLOR = "dynamic color"
 
     const val SYSTEM_DEFAULT = 0
-    const val EMPTY_SEED_COLOR = 0
 
     // Do not modify
     private const val SIMPLIFIED_CHINESE = 1
@@ -137,6 +136,7 @@ object PreferenceUtil {
     private const val TRADITIONAL_CHINESE = 23
     private const val VIETNAMESE = 24
     private const val BELARUSIAN = 25
+    private const val CROATIAN = 26
 
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
@@ -144,6 +144,7 @@ object PreferenceUtil {
         Pair(BELARUSIAN, "be"),
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(TRADITIONAL_CHINESE, "zh-TW"),
+        Pair(CROATIAN,"hr"),
         Pair(CZECH, "cs"),
         Pair(DANISH, "da"),
         Pair(DUTCH, "nl"),
@@ -224,6 +225,7 @@ object PreferenceUtil {
             TRADITIONAL_CHINESE -> stringResource(R.string.la_zh_TW)
             VIETNAMESE -> stringResource(R.string.la_vi)
             BELARUSIAN -> stringResource(R.string.la_be)
+            CROATIAN -> stringResource(R.string.la_hr)
             else -> stringResource(R.string.follow_system)
         }
     }
@@ -244,11 +246,13 @@ object PreferenceUtil {
     private val mutableAppSettingsStateFlow = MutableStateFlow(
         AppSettings(
             DarkThemePreference(
-                kv.decodeInt(
+                darkThemeValue = kv.decodeInt(
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
                 )
-            ), seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
+            ),
+            isDynamicColorEnabled = kv.decodeBool(DYNAMIC_COLOR),
+            seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
         )
     )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
