@@ -1,0 +1,10 @@
+<b>Značajke</b>
+Preuzimajte video datoteke i zvučne zapise sa bilo koje video platforme koju podržava yt-dlp
+Ugrađeni meta-podaci i minijatura videa izvedeni u audio datoteke
+Sa samo jednim klikom preuzmite sve videe unutar popisa za reprodukciju
+Mogućnost korištenja aria2c kako biste preuzeli ono što želite
+Mogućnost ugrađivanja podnaslova u preuzete videe
+Izvršite razne yt-dlp naredbe pomoću naredbenih predložaka
+Upravljajte svojim preuzimanjima i prilagođenim naredbenim predlošcima
+Lako za korištenje i prilagođeno korisniku
+Material Design 3 stil korisničkog sučelja, s dinamičnom promjenom boje tema

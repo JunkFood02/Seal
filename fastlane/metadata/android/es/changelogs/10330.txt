@@ -1,0 +1,4 @@
+Actualización de características:
+Modo privado: Deasctiva el historial de descargas y el almacenamiento de carátulas/miniaturas
+
+Añadido el idioma Bielorruso por @Kekich-dev

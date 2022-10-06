@@ -1,0 +1,4 @@
+Funktionsupdate:
+Privater Modus: Vorschaubild und Downloadverlauf deaktivieren
+
+Weißrussische Übersetzungen hinzugefügt von @Kekich-dev
