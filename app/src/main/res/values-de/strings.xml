@@ -3,7 +3,7 @@
     <string name="create_thumbnail">Vorschaubild speichern</string>
     <string name="url_empty">Der Link darf nicht leer sein</string>
     <string name="extract_audio_summary">Audio herunterladen und speichern, statt Video</string>
-    <string name="create_thumbnail_summary">Video-Miniaturansicht als Datei speichern</string>
+    <string name="create_thumbnail_summary">Vorschaubild des Videos als Datei speichern</string>
     <string name="yt_dlp_up_to_date">Verwendung der neuesten Version von yt-dlp</string>
     <string name="fetching_info">Videoinformationen werden abgerufen…</string>
     <string name="permission_denied">Berechtigung verweigert</string>
@@ -182,4 +182,8 @@
     <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst\?</string>
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
     <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
+    <string name="private_mode_desc">Vorschaubild- und Downloadverlauf deaktivieren</string>
+    <string name="private_mode">Privater Modus</string>
+    <string name="dynamic_color">Dynamische Farbe</string>
+    <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das App-Design anwenden</string>
 </resources>

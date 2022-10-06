@@ -182,4 +182,6 @@
     <string name="check_for_updates_desc">自動檢查來自 GitHub 提供的更新</string>
     <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？</string>
     <string name="multiselect_mode">多選模式</string>
+    <string name="private_mode_desc">停用縮圖和儲存下載記錄</string>
+    <string name="private_mode">無痕模式</string>
 </resources>

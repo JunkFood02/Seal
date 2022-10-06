@@ -182,4 +182,6 @@
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
     <string name="clear_temp_files_desc">Elimina todos los archivos temporales de la carpeta de descargas</string>
     <string name="multiselect_mode">Modo de multiselección</string>
+    <string name="private_mode">Modo privado</string>
+    <string name="private_mode_desc">Desactiva el historial de descargas y el almacenamiento de carátulas/miniaturas</string>
 </resources>
