@@ -8,11 +8,9 @@
 	تطبيق لتحميل ملفات الفيديو والصوت من الإنترنت لنظام تشغيل اندرويد
 </p>
 <p align="center">
-English
+<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/Marco-9456/Seal/edit/Marco-Test/README-ar.md">العربية</b>
+العربية
 </p>
 
 ## لقطات شاشة
