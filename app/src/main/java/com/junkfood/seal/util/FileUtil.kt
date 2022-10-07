@@ -17,11 +17,12 @@ object FileUtil {
 
     fun openFileInURI(path: String) {
         MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
-            context.startActivity(Intent().apply {
-                action = (Intent.ACTION_VIEW)
-                data = uri
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            })
+            if (uri.toString() != "null")
+                context.startActivity(Intent().apply {
+                    action = (Intent.ACTION_VIEW)
+                    data = uri
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
         }
     }
 
