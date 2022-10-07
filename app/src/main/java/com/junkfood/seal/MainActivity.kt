@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.collectAsState
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -52,15 +53,19 @@ class MainActivity : AppCompatActivity() {
         }
         context = this.baseContext
         setContent {
+            val isUrlSharingTriggered =
+                downloadViewModel.stateFlow.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
             SettingsProvider(windowSizeClass.widthSizeClass) {
-                val darkTheme = LocalDarkTheme.current.isDarkTheme()
                 SealTheme(
-                    darkTheme = darkTheme,
+                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
                     seedColor = LocalSeedColor.current,
                     isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
-                    HomeEntry(downloadViewModel)
+                    HomeEntry(
+                        downloadViewModel,
+                        isUrlSharingTriggered
+                    )
                 }
             }
         }
@@ -82,7 +87,8 @@ class MainActivity : AppCompatActivity() {
                         .let { matchedUrl ->
                             if (sharedUrl != matchedUrl) {
                                 sharedUrl = matchedUrl
-                                downloadViewModel.updateUrl(sharedUrl)
+                                downloadViewModel.updateUrl(sharedUrl, true)
+
                             }
                         }
                 }

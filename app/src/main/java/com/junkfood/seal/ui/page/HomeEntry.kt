@@ -50,10 +50,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+private const val TAG = "HomeEntry"
+
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeEntry(
     downloadViewModel: DownloadViewModel,
+    isUrlShared: Boolean
 ) {
     val navController = rememberAnimatedNavController()
     val context = LocalContext.current
@@ -62,7 +65,6 @@ fun HomeEntry(
     val scope = rememberCoroutineScope()
     var updateJob: Job? = null
     var latestRelease by remember { mutableStateOf(UpdateUtil.LatestRelease()) }
-
     val settings =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             UpdateUtil.installLatestApk()
@@ -89,6 +91,11 @@ fun HomeEntry(
 
     val onBackPressed = { navController.popBackStack() }
 
+    if (isUrlShared) {
+        if (navController.currentDestination?.route != Route.HOME) {
+            navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

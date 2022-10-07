@@ -114,6 +114,20 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
+    val downloadCallback = {
+        if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
+            downloadViewModel.showDialog(scope, useDialog)
+        else checkPermissionOrDownload()
+        keyboardController?.hide()
+    }
+
+
+    if (viewState.value.isUrlSharingTriggered) {
+        downloadViewModel.onShareIntentConsumed()
+        downloadCallback()
+    }
+
+
     PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
     Box(
         modifier = Modifier
@@ -151,13 +165,9 @@ fun DownloadPage(
                 },
                 floatingActionButton = {
                     FABs(
-                        with(Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
-                        downloadCallback = {
-                            if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
-                                downloadViewModel.showDialog(scope, useDialog)
-                            else checkPermissionOrDownload()
-                            keyboardController?.hide()
-                        }, pasteCallback = {
+                        modifier = with(receiver = Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
+                        downloadCallback = { downloadCallback() },
+                        pasteCallback = {
                             TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
                                 .let { downloadViewModel.updateUrl(it) }
                         }

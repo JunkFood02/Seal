@@ -73,7 +73,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val downloadingTaskId: String = "",
         val downloadItemCount: Int = 0,
         val currentIndex: Int = 0,
-        val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo()
+        val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
+        val isUrlSharingTriggered: Boolean = false
     )
 
     data class DownloadTaskViewState(
@@ -84,7 +85,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val progressText: String = "",
     )
 
-    fun updateUrl(url: String) = mutableStateFlow.update { it.copy(url = url) }
+    fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
+        mutableStateFlow.update {
+            it.copy(
+                url = url,
+                isUrlSharingTriggered = isUrlSharingTriggered
+            )
+        }
 
     fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
@@ -484,6 +491,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         YoutubeDL.getInstance().destroyProcessById(stateFlow.value.downloadingTaskId)
         NotificationUtil.cancelNotification(stateFlow.value.downloadingTaskId.hashCode())
+    }
+
+    fun onShareIntentConsumed() {
+        mutableStateFlow.update { it.copy(isUrlSharingTriggered = false) }
     }
 
     companion object {
