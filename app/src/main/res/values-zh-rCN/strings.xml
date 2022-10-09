@@ -186,4 +186,7 @@
     <string name="private_mode_desc">停止显示视频缩略图与保存下载记录</string>
     <string name="dynamic_color">动态色彩</string>
     <string name="dynamic_color_desc">将壁纸颜色应用于应用主题</string>
+    <string name="download_with_cellular">使用移动数据下载</string>
+    <string name="download_with_cellular_desc">允许使用计费网络进行下载</string>
+    <string name="download_disabled_with_cellular">使用移动数据网络下载已在设置中被禁用</string>
 </resources>

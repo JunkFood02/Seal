@@ -25,6 +25,8 @@ import androidx.compose.material.icons.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
+import androidx.compose.material.icons.outlined.SignalCellular4Bar
+import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet4Bar
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Terminal
@@ -270,6 +272,25 @@ fun DownloadPreferences(
                             PreferenceUtil.updateValue(
                                 PreferenceUtil.PRIVATE_MODE,
                                 isPrivateModeEnabled
+                            )
+                        }
+                    )
+                }
+                item {
+                    var isDownloadWithCellularEnabled by remember {
+                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CELLULAR_DOWNLOAD))
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(R.string.download_with_cellular),
+                        description = stringResource(R.string.download_with_cellular_desc),
+                        icon = if (isDownloadWithCellularEnabled) Icons.Outlined.SignalCellular4Bar
+                        else Icons.Outlined.SignalCellularConnectedNoInternet4Bar,
+                        isChecked = isDownloadWithCellularEnabled,
+                        onClick = {
+                            isDownloadWithCellularEnabled = !isDownloadWithCellularEnabled
+                            PreferenceUtil.updateValue(
+                                PreferenceUtil.CELLULAR_DOWNLOAD,
+                                isDownloadWithCellularEnabled
                             )
                         }
                     )

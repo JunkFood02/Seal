@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
 import android.widget.Toast
@@ -35,7 +36,10 @@ class BaseApplication : Application() {
         context = applicationContext
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
-        clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        clipboard = getSystemService(ClipboardManager::class.java)
+        connectivityManager = getSystemService(ConnectivityManager::class.java)
+
         applicationScope.launch((Dispatchers.IO)) {
             if (!PreferenceUtil.containsKey(TEMPLATE_INDEX)) {
                 PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
@@ -86,6 +90,9 @@ class BaseApplication : Application() {
         lateinit var audioDownloadDir: String
         var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
+        lateinit var connectivityManager: ConnectivityManager
+
+
         fun updateDownloadDir(path: String, isAudio: Boolean = false) {
             if (isAudio) {
                 audioDownloadDir = path

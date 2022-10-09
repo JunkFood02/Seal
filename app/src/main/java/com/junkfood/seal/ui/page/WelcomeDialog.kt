@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +34,7 @@ import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 
 @Composable
 fun WelcomeDialog(onClick: () -> Unit) {
-    var showWelcomeDialog by remember {
+    var showWelcomeDialog by rememberSaveable {
         mutableStateOf(PreferenceUtil.getInt(WELCOME_DIALOG, 1))
     }
     var disableDialog by remember { mutableStateOf(false) }

@@ -106,7 +106,9 @@ object PreferenceUtil {
     const val COOKIES_FILE = "cookies_file"
     const val AUTO_UPDATE = "auto_update"
     const val PRIVATE_MODE = "private_mode"
-    const val DYNAMIC_COLOR = "dynamic color"
+    const val DYNAMIC_COLOR = "dynamic_color"
+    const val CELLULAR_DOWNLOAD = "cellular_download"
+
 
     const val SYSTEM_DEFAULT = 0
 
@@ -144,7 +146,7 @@ object PreferenceUtil {
         Pair(BELARUSIAN, "be"),
         Pair(SIMPLIFIED_CHINESE, "zh-CN"),
         Pair(TRADITIONAL_CHINESE, "zh-TW"),
-        Pair(CROATIAN,"hr"),
+        Pair(CROATIAN, "hr"),
         Pair(CZECH, "cs"),
         Pair(DANISH, "da"),
         Pair(DUTCH, "nl"),

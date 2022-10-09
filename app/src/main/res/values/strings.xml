@@ -226,4 +226,7 @@
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
     <string name="la_hr" translatable="false">Hrvatski</string>
+    <string name="download_with_cellular">Download using cellular</string>
+    <string name="download_with_cellular_desc">Allow downloading media when connected to metered networks</string>
+    <string name="download_disabled_with_cellular">Downloading with cellular network is disabled according to your settings</string>
 </resources>

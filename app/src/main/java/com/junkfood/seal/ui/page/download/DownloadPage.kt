@@ -234,7 +234,7 @@ fun DownloadPage(
                     AnimatedVisibility(visible = isDownloadError) {
                         ErrorMessage(
                             error = isDownloadError,
-                            copyToClipboard = debugMode || isInCustomCommandMode && url.isNotEmpty(),
+                            copyToClipboard = isShowingErrorReport,
                             errorMessage = errorMessage
                         )
                     }

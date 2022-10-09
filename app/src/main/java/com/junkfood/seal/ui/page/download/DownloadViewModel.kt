@@ -21,6 +21,7 @@ import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
@@ -74,7 +75,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val downloadItemCount: Int = 0,
         val currentIndex: Int = 0,
         val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
-        val isUrlSharingTriggered: Boolean = false
+        val isUrlSharingTriggered: Boolean = false,
+        val isShowingErrorReport: Boolean = false
     )
 
     data class DownloadTaskViewState(
@@ -201,6 +203,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun startDownloadVideo() {
         if (stateFlow.value.url.isBlank()) {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
+            return
+        }
+        if (!PreferenceUtil.getValue(CELLULAR_DOWNLOAD) && BaseApplication.connectivityManager.isActiveNetworkMetered) {
+            viewModelScope.launch {
+                showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
+            }
             return
         }
         MainActivity.startService()
@@ -439,7 +447,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isDownloadError = true,
                 errorMessage = s,
                 isProcessRunning = false, progressText = "",
-                isFetchingInfo = false
+                isFetchingInfo = false, isShowingErrorReport = true
             )
         }
     }
@@ -452,7 +460,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isDownloadError = true,
                 errorMessage = s,
                 isProcessRunning = false, progressText = "",
-                isFetchingInfo = false
+                isFetchingInfo = false, isShowingErrorReport = false
             )
         }
     }
