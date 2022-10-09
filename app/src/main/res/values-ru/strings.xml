@@ -146,7 +146,7 @@
     <string name="task_canceled">Эта загрузка отменена</string>
     <string name="github_issue_desc">Отправьте сообщение о проблеме для сообщения об ошибке или запроса функции</string>
     <string name="info_copied">Информация, скопированная в буфер обмена</string>
-    <string name="github_issue">Проблемы на GitHub\'е</string>
+    <string name="github_issue">Сообщить о проблеме (GitHub)</string>
     <string name="open_file">Открыть файл</string>
     <string name="restart">Перезапустить</string>
     <string name="status_fetching_video_info">Получение информации</string>
@@ -171,7 +171,7 @@
     <string name="sponsorblock_desc">Удаление сегментов из видео с помощью SponsorBlock API</string>
     <string name="sponsorblock_categories_desc">Укажите категории, которые будут удалены из видеофайла</string>
     <string name="check_for_updates">Проверить обновления</string>
-    <string name="check_for_updates_desc">Обновлено до последней версии с GitHub</string>
+    <string name="check_for_updates_desc">Автоматически проверять наличие новейшей версии с GitHub\'а</string>
     <string name="app_up_to_date">Уже установлена новейшая версия</string>
     <string name="app_update_failed">Не удалось обновиться до новейшей версии</string>
     <string name="update">Обновление</string>
@@ -181,4 +181,9 @@
     <string name="clear_temp_files_desc">Удалите все временные файлы из каталога загрузки</string>
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отмененных загрузок. Вы уверены, что удалили все эти файлы\?</string>
+    <string name="multiselect_mode">Режим мультивыделения</string>
+    <string name="private_mode">Приватный режим</string>
+    <string name="private_mode_desc">Отключить миниатюры и историю загрузок</string>
+    <string name="dynamic_color">Динамические цвета</string>
+    <string name="dynamic_color_desc">Примените цвета из обоев к теме приложения</string>
 </resources>
