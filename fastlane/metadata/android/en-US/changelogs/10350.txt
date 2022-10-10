@@ -1,0 +1,7 @@
+Feature Update:
+Show download dialog instantly after url are shared
+Prevent downloading with metered networks
+
+Bug Fix:
+Unexpected behavior when opening deleted files
+Rotating device causes dialogs to show up again
