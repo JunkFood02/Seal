@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">Bideoen kokapena</string>
+    <string name="extract_audio">Gorde audio bezala</string>
+    <string name="create_thumbnail">Gorde miniatura</string>
+    <string name="settings">Ezarpenak</string>
+    <string name="download">Deskargak</string>
+    <string name="download_settings_desc">Ezarpena orokorrak, formatua eta komando pertsonalizatuak</string>
+    <string name="url_empty">Estekaren hutsuneak ez luke hutsik egon behar</string>
+    <string name="extract_audio_summary">Audioa deskargatu eta gorde, bideoaren ordez</string>
+</resources>
