@@ -1,0 +1,7 @@
+Nove Značajke:
+Mogućnost odabira dinamičnih boja za temu na Android 12+ verzijama
+
+Popravljena greška:
+Padajući prikaz se ne pojavljuje prilikom odabiranja razlučivosti videa
+
+Prijevod na hrvatski dodao/la: @ElizabethWega

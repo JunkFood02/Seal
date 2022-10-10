@@ -1,0 +1,7 @@
+Actualización de características:
+Habilitar el color dinámico para Android 12+
+
+Corrección de errores:
+El menú desplegable no se muestra al seleccionar la resolución de vídeo
+
+Añadir traducciones al croata por @ElizabethWega
