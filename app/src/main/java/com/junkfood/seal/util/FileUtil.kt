@@ -17,7 +17,7 @@ object FileUtil {
 
     fun openFileInURI(path: String) {
         MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
-            if (uri.toString() != "null")
+            if (uri != null)
                 context.startActivity(Intent().apply {
                     action = (Intent.ACTION_VIEW)
                     data = uri
