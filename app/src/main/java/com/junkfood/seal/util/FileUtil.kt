@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.R
 import java.io.File
 
 object FileUtil {
@@ -17,12 +18,15 @@ object FileUtil {
 
     fun openFileInURI(path: String) {
         MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
-            if (uri != null)
+            if (uri == null) {
+                TextUtil.makeToast(R.string.file_unavailable)
+            } else {
                 context.startActivity(Intent().apply {
                     action = (Intent.ACTION_VIEW)
                     data = uri
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 })
+            }
         }
     }
 

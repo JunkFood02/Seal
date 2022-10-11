@@ -229,4 +229,5 @@
     <string name="download_with_cellular">Download using cellular</string>
     <string name="download_with_cellular_desc">Allow downloading media when connected to metered networks</string>
     <string name="download_disabled_with_cellular">Downloading with cellular network is disabled according to your settings</string>
+    <string name="file_unavailable">This file is no longer available</string>
 </resources>
