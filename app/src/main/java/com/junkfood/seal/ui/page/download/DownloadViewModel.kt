@@ -77,7 +77,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val currentIndex: Int = 0,
         val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
         val isUrlSharingTriggered: Boolean = false,
-        val isShowingErrorReport: Boolean = false
+        val isShowingErrorReport: Boolean = false,
+        val connectivityState: ConnectivityObserver.Status = ConnectivityObserver.Status.Unavaliable
     )
 
     data class DownloadTaskViewState(
@@ -87,6 +88,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val thumbnail: String = "",
         val progressText: String = "",
     )
+
+    fun updateConnectivityState(state: ConnectivityObserver.Status){
+        mutableStateFlow.update {
+            it.copy(
+                connectivityState = state
+            )
+        }
+    }
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
         mutableStateFlow.update {

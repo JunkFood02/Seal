@@ -73,6 +73,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
+import com.junkfood.seal.connectivity.ConnectivityObserver
 import com.junkfood.seal.connectivity.NetworkConnectivityObserver
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -103,6 +104,7 @@ fun DownloadPage(
                 TextUtil.makeToast(R.string.permission_denied)
             }
         }
+
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
@@ -182,7 +184,8 @@ fun DownloadPage(
                         exit = shrinkVertically() + fadeOut()
                     ) {
                         BottomAppBar(modifier = Modifier) {
-                            PreferenceUtil.getString(NETWORK_STATUS)?.let { Text(text = it) }
+                            Text(text = downloadViewModel.stateFlow.collectAsState().value.connectivityState.toString())
+
                         }
                     }
                 }

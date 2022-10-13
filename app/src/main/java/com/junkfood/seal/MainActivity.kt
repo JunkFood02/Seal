@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         context = this.baseContext
-        connectivityObserver = NetworkConnectivityObserver(applicationContext)
+        connectivityObserver = NetworkConnectivityObserver(this)
         setContent {
             val isUrlSharingTriggered =
                 downloadViewModel.stateFlow.collectAsState().value.isUrlSharingTriggered
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                         isUrlSharingTriggered
                     )
                     val status by connectivityObserver.observe().collectAsState(initial = ConnectivityObserver.Status.Unavaliable)
-                    PreferenceUtil.updateString(NETWORK_STATUS, status.toString())
+                    downloadViewModel.updateConnectivityState(status)
                 }
             }
         }
