@@ -13,6 +13,7 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
+import com.junkfood.seal.connectivity.ConnectivityObserver
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigFile

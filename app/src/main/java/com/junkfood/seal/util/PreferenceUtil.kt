@@ -108,6 +108,7 @@ object PreferenceUtil {
     const val PRIVATE_MODE = "private_mode"
     const val DYNAMIC_COLOR = "dynamic_color"
     const val CELLULAR_DOWNLOAD = "cellular_download"
+    const val NETWORK_STATUS = "network_status"
 
 
     const val SYSTEM_DEFAULT = 0

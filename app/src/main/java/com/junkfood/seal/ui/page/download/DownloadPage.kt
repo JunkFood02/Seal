@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -72,11 +73,13 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
+import com.junkfood.seal.connectivity.NetworkConnectivityObserver
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.NETWORK_STATUS
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
@@ -172,7 +175,18 @@ fun DownloadPage(
                                 .let { downloadViewModel.updateUrl(it) }
                         }
                     )
-                }) {
+                }, bottomBar = {
+                    AnimatedVisibility(
+                        true,
+                        enter = expandVertically() + fadeIn(),
+                        exit = shrinkVertically() + fadeOut()
+                    ) {
+                        BottomAppBar(modifier = Modifier) {
+                            PreferenceUtil.getString(NETWORK_STATUS)?.let { Text(text = it) }
+                        }
+                    }
+                }
+            ) {
                 Column(
                     modifier = Modifier
                         .padding(it)

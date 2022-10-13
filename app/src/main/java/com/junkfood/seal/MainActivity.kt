@@ -15,10 +15,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.connectivity.ConnectivityObserver
+import com.junkfood.seal.connectivity.NetworkConnectivityObserver
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
@@ -27,6 +30,7 @@ import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.NETWORK_STATUS
 import com.junkfood.seal.util.TextUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +40,7 @@ import kotlinx.coroutines.runBlocking
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val downloadViewModel: DownloadViewModel by viewModels()
+    private lateinit var connectivityObserver: ConnectivityObserver
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         context = this.baseContext
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
         setContent {
             val isUrlSharingTriggered =
                 downloadViewModel.stateFlow.collectAsState().value.isUrlSharingTriggered
@@ -66,6 +72,8 @@ class MainActivity : AppCompatActivity() {
                         downloadViewModel,
                         isUrlSharingTriggered
                     )
+                    val status by connectivityObserver.observe().collectAsState(initial = ConnectivityObserver.Status.Unavaliable)
+                    PreferenceUtil.updateString(NETWORK_STATUS, status.toString())
                 }
             }
         }
