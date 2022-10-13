@@ -230,4 +230,7 @@
     <string name="download_with_cellular_desc">Allow downloading media when connected to metered networks</string>
     <string name="download_disabled_with_cellular">Downloading with cellular network is disabled according to your settings</string>
     <string name="file_unavailable">This file is no longer available</string>
+    <string name="network_available">Now you have access to internet</string>
+    <string name="network_losing">You\'re losing access to internet</string>
+    <string name="network_lost">You\'ve just lost the access to internet</string>
 </resources>

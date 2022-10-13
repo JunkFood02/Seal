@@ -84,7 +84,6 @@ import com.junkfood.seal.util.PreferenceUtil.NETWORK_STATUS
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 
-
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
     ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class
@@ -111,6 +110,7 @@ fun DownloadPage(
     val hapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
+    var networkStatus: String = downloadViewModel.stateFlow.collectAsState().value.connectivityState.toString()
 
     val checkPermissionOrDownload = {
         if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
@@ -183,10 +183,7 @@ fun DownloadPage(
                         enter = expandVertically() + fadeIn(),
                         exit = shrinkVertically() + fadeOut()
                     ) {
-                        BottomAppBar(modifier = Modifier) {
-                            Text(text = downloadViewModel.stateFlow.collectAsState().value.connectivityState.toString())
-
-                        }
+                        NetworkStatusDialog(Modifier, networkStatus)
                     }
                 }
             ) {
@@ -446,5 +443,31 @@ fun FABs(
                 .padding(vertical = 12.dp)
         )
     }
+}
 
+@Composable
+fun NetworkStatusDialog(
+    modifier: Modifier = Modifier,
+    networkStatus: String = ""
+) {
+    if (networkStatus != "") {
+        BottomAppBar(
+            modifier = Modifier
+        ) {
+            Box(modifier = modifier.padding(16.dp)){
+                when(networkStatus){
+                    "Available" -> {
+                        Text(text = stringResource(R.string.network_available))
+                    }
+                    "Losing" -> {
+                        Text(text = stringResource(R.string.network_losing))
+                    }
+                    "Lost" -> {
+                        Text(text = stringResource(R.string.network_lost))
+                    }
+                }
+            }
+
+        }
+    }
 }

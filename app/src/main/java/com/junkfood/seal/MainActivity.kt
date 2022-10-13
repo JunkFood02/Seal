@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                         downloadViewModel,
                         isUrlSharingTriggered
                     )
-                    val status by connectivityObserver.observe().collectAsState(initial = ConnectivityObserver.Status.Unavaliable)
+                    val status by connectivityObserver.observe().collectAsState(initial = ConnectivityObserver.Status.Available)
                     downloadViewModel.updateConnectivityState(status)
                 }
             }

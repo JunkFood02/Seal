@@ -30,14 +30,10 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -79,7 +75,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
         val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false,
-        val connectivityState: ConnectivityObserver.Status = ConnectivityObserver.Status.Unavaliable,
+        val connectivityState: ConnectivityObserver.Status = ConnectivityObserver.Status.Available,
         val showConnectivityStatus: Boolean = false
     )
 

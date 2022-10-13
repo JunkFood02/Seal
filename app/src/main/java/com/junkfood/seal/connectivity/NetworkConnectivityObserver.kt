@@ -23,7 +23,7 @@ class NetworkConnectivityObserver(
             val callback = object : ConnectivityManager.NetworkCallback(){
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
-                    launch { send(ConnectivityObserver.Status.Avaliable) }
+                    launch { send(ConnectivityObserver.Status.Available) }
                 }
 
                 override fun onLosing(network: Network, maxMsToLive: Int) {
@@ -38,7 +38,7 @@ class NetworkConnectivityObserver(
 
                 override fun onUnavailable() {
                     super.onUnavailable()
-                    launch { send(ConnectivityObserver.Status.Unavaliable) }
+                    launch { send(ConnectivityObserver.Status.Unavailable) }
                 }
             }
             connectivityManager.registerDefaultNetworkCallback(callback)
