@@ -179,7 +179,7 @@ fun DownloadPage(
                     )
                 }, bottomBar = {
                     AnimatedVisibility(
-                        true,
+                        showConnectivityStatus,
                         enter = expandVertically() + fadeIn(),
                         exit = shrinkVertically() + fadeOut()
                     ) {

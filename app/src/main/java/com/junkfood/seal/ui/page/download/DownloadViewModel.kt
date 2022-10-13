@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.download
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Intent
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
@@ -78,7 +79,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
         val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false,
-        val connectivityState: ConnectivityObserver.Status = ConnectivityObserver.Status.Unavaliable
+        val connectivityState: ConnectivityObserver.Status = ConnectivityObserver.Status.Unavaliable,
+        val showConnectivityStatus: Boolean = false
     )
 
     data class DownloadTaskViewState(
@@ -92,9 +94,27 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun updateConnectivityState(state: ConnectivityObserver.Status){
         mutableStateFlow.update {
             it.copy(
-                connectivityState = state
+                connectivityState = state,
+                showConnectivityStatus = true,
             )
         }
+        hideConnectivityStatus()
+    }
+
+    private fun hideConnectivityStatus(){
+        val timer = object: CountDownTimer(4000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                //Nothing
+            }
+            override fun onFinish() {
+                mutableStateFlow.update {
+                    it.copy(
+                        showConnectivityStatus = false
+                    )
+                }
+            }
+        }
+        timer.start()
     }
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
