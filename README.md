@@ -75,6 +75,7 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
+> **Note** <br>
 For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
 ## Star History
@@ -95,3 +96,9 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 ## License
 
 [GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+
+<div align="right">
+<table><td>
+<a href="#start-of-content">👆 Scroll to top</a>
+</td></table>
+</div>
