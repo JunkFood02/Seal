@@ -16,24 +16,24 @@ English
 </p>
 
 
-## Screenshots
+## 📱Screenshots
 
 <div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="25%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="25%" />
 </div>
 
 <br>
 
 
-## Features
+## ⭐Features
 
 - Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly [youtube-dl](https://github.com/ytdl-org/youtube-dl)).
 
@@ -84,19 +84,19 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
 
-## Credits
+## 📜️Credits
 
-Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+- Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
 
-[dvd](https://github.com/yausername/dvd)
+- [dvd](https://github.com/yausername/dvd)
 
-[Material color utilities](https://github.com/material-foundation/material-color-utilities)
+- [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
 ## License
 
-[GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+- [GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 <div align="right">
 <table><td>
