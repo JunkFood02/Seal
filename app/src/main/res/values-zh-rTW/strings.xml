@@ -184,4 +184,5 @@
     <string name="multiselect_mode">多選模式</string>
     <string name="private_mode_desc">停用縮圖和儲存下載記錄</string>
     <string name="private_mode">無痕模式</string>
+    <string name="rename">Rename</string>
 </resources>

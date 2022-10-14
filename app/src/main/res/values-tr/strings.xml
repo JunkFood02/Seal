@@ -181,4 +181,5 @@
     <string name="sponsorblock_categories">SponsorBlock kategorileri</string>
     <string name="multiselect_item_count">%1$d video, %2$d ses dosyası</string>
     <string name="app_update_failed">En son sürüme güncellenemedi</string>
+    <string name="rename">Rename</string>
 </resources>

@@ -8,4 +8,5 @@
     <string name="download_settings_desc">Ezarpena orokorrak, formatua eta komando pertsonalizatuak</string>
     <string name="url_empty">Estekaren hutsuneak ez luke hutsik egon behar</string>
     <string name="extract_audio_summary">Audioa deskargatu eta gorde, bideoaren ordez</string>
+    <string name="rename">Rename</string>
 </resources>

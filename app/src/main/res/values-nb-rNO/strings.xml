@@ -186,4 +186,5 @@
     <string name="private_mode_desc">Skru av miniatyrbilde- og nedlastingshistorikk</string>
     <string name="multiselect_mode">Multivalgsmodus</string>
     <string name="dynamic_color_desc">Bruk farger fra bakgrunnsbilder i programdrakt</string>
+    <string name="rename">Rename</string>
 </resources>

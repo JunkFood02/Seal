@@ -186,4 +186,5 @@
     <string name="private_mode_desc">إيقاف الصور المصغّرة وسجل التنزيلات</string>
     <string name="dynamic_color">لون ديناميكي</string>
     <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
+    <string name="rename">Rename</string>
 </resources>

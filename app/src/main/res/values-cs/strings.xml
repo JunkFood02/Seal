@@ -154,4 +154,5 @@
     <string name="github_issue">GitHub problém</string>
     <string name="github_issue_desc">Předložit nový problém pro bug report nebo feature request</string>
     <string name="info_copied">Informace zkopírovány do schránky</string>
+    <string name="rename">Rename</string>
 </resources>

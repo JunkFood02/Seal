@@ -186,4 +186,5 @@
     <string name="private_mode">Privater Modus</string>
     <string name="dynamic_color">Dynamische Farbe</string>
     <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das App-Design anwenden</string>
+    <string name="rename">Rename</string>
 </resources>

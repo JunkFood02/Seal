@@ -106,4 +106,5 @@
     <string name="concurrent_download_num">DASH/HLS ネイティブビデオを同時にダウンロードするために %d 個のスレッドが使用されます。</string>
     <string name="additional_settings">追加の設定</string>
     <string name="share_fail_msg">共有コンテンツからのURLと一致しません</string>
+    <string name="rename">Rename</string>
 </resources>

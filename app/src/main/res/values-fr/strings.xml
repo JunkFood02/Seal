@@ -184,4 +184,5 @@
     <string name="multiselect_mode">Mode multi-sélection</string>
     <string name="private_mode_desc">Désactiver l\'historique des vignettes et des téléchargements</string>
     <string name="private_mode">Mode privé</string>
+    <string name="rename">Rename</string>
 </resources>

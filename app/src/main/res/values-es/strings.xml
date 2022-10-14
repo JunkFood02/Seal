@@ -186,4 +186,5 @@
     <string name="private_mode_desc">Desactiva el historial de descargas y el almacenamiento de carátulas/miniaturas</string>
     <string name="dynamic_color">Color dinámico</string>
     <string name="dynamic_color_desc">Aplicar los colores de los fondos de pantalla al tema de la aplicación</string>
+    <string name="rename">Rename</string>
 </resources>

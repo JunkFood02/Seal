@@ -186,4 +186,5 @@
     <string name="private_mode_desc">Отключить миниатюры и историю загрузок</string>
     <string name="dynamic_color">Динамические цвета</string>
     <string name="dynamic_color_desc">Примените цвета из обоев к теме приложения</string>
+    <string name="rename">Rename</string>
 </resources>

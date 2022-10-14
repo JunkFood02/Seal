@@ -134,4 +134,5 @@
     <string name="custom_output_path">Niestandardowy podfolder</string>
     <string name="custom_output_path_desc">Używaj szablonu dla podfolderu</string>
     <string name="edit_custom_path_template_desc">Określ podkatalog z dostępnymi polami dostarczonymi przez yt-dlp</string>
+    <string name="rename">Rename</string>
 </resources>

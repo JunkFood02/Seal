@@ -149,6 +149,9 @@ fun DownloadSettingDialog(
                     label = stringResource(R.string.create_thumbnail)
                 )
             }
+
+            DrawerSheetSubtitle(text = stringResource(id = R.string.rename))
+
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 FilterChip(

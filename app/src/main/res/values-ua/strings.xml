@@ -182,4 +182,5 @@
     <string name="delete_multiple_items_msg">Видалити %1$d елемент(и/ів) з історії завантажень назавжди\?</string>
     <string name="sponsorblock_desc">Видалення сегментів з відео за допомогою SponsorBlock API</string>
     <string name="sponsorblock_categories">Категорії SponsorBlock</string>
+    <string name="rename">Rename</string>
 </resources>

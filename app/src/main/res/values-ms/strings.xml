@@ -71,4 +71,5 @@
     <string name="error_copied">Laporan ralat disalin ke papan keratan</string>
     <string name="audio_format">Tukar format audio</string>
     <string name="not_convert">Tidak ditukar</string>
+    <string name="rename">Rename</string>
 </resources>

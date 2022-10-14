@@ -182,4 +182,5 @@
     <string name="sponsorblock_categories">Kategori SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Tentukan kategori SponsorBlock yang akan dihapus dari file video</string>
     <string name="multiselect_mode">Mode pilih banyak</string>
+    <string name="rename">Rename</string>
 </resources>

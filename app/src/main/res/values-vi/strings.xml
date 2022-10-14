@@ -182,4 +182,5 @@
     <string name="sponsorblock_categories_desc">Chỉ định các danh mục SponsorBlock sẽ bị xóa khỏi tệp video</string>
     <string name="sponsorblock_categories">Danh mục SponsorBlock</string>
     <string name="multiselect_mode">Chế độ đa lựa chọn</string>
+    <string name="rename">Rename</string>
 </resources>
