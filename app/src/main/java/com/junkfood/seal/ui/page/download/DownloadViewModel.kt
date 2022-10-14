@@ -163,7 +163,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     if (playlistInfo.size == 1) {
                         checkStateBeforeDownload()
                         downloadVideo(value.url)
-                        finishProcessing()
                     } else showPlaylistDialog(playlistInfo)
                 } catch (e: Exception) {
                     manageDownloadError(e)
@@ -196,7 +195,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 downloadVideo(url, index)
             }
-            finishProcessing()
         }
     }
 
@@ -229,7 +227,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 manageDownloadError(e)
                 return@launch
             }
-            finishProcessing()
         }
     }
 
@@ -290,20 +287,22 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     }
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
 
+                finishProcessing()
+                NotificationUtil.finishNotification(
+                    notificationId,
+                    title = videoInfo.title,
+                    text = context.getString(R.string.download_finish_notification),
+                    intent = if (intent != null) PendingIntent.getActivity(
+                        context,
+                        0,
+                        FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
+                    ) else null
+                )
+
             } catch (e: Exception) {
                 manageDownloadError(e, false, notificationId)
                 return
             }
-            NotificationUtil.finishNotification(
-                notificationId,
-                title = videoInfo.title,
-                text = context.getString(R.string.download_finish_notification),
-                intent = if (intent != null) PendingIntent.getActivity(
-                    context,
-                    0,
-                    FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
-                ) else null
-            )
         }
     }
 
@@ -388,20 +387,19 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             )
                         }
                     finishProcessing()
+                    NotificationUtil.finishNotification(
+                        notificationId,
+                        title = context.getString(R.string.download_success_msg),
+                        text = null,
+                        intent = null
+                    )
                 }
             } catch (e: Exception) {
                 if (!e.message.isNullOrEmpty()) {
                     manageDownloadError(e, false, notificationId)
                     return@launch
                 }
-                finishProcessing()
             }
-            NotificationUtil.finishNotification(
-                notificationId,
-                title = context.getString(R.string.download_success_msg),
-                text = null,
-                intent = null
-            )
         }
     }
 
