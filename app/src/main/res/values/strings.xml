@@ -230,4 +230,8 @@
     <string name="download_with_cellular_desc">Allow downloading media when connected to metered networks</string>
     <string name="download_disabled_with_cellular">Downloading with cellular network is disabled according to your settings</string>
     <string name="file_unavailable">This file is no longer available</string>
+    <string name="network">Network</string>
+    <string name="rate_limit">Rate limit</string>
+    <string name="rate_limit_desc">Limit the maximum rate for downloads</string>
+    <string name="max_rate">Maximum rate</string>
 </resources>

@@ -108,6 +108,8 @@ object PreferenceUtil {
     const val PRIVATE_MODE = "private_mode"
     const val DYNAMIC_COLOR = "dynamic_color"
     const val CELLULAR_DOWNLOAD = "cellular_download"
+    const val RATE_LIMIT = "rate_limit"
+    const val MAX_RATE = "max_rate"
 
 
     const val SYSTEM_DEFAULT = 0
@@ -244,6 +246,8 @@ object PreferenceUtil {
         val isDynamicColorEnabled: Boolean = false,
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
+
+    fun getMaxDownloadRate(): Int = getInt(MAX_RATE, 1000)
 
     private val mutableAppSettingsStateFlow = MutableStateFlow(
         AppSettings(

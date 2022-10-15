@@ -14,6 +14,7 @@ import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
+import com.junkfood.seal.util.PreferenceUtil.RATE_LIMIT
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
@@ -51,7 +52,7 @@ object DownloadUtil {
         val title: String = ""
     )
 
-    suspend fun getPlaylistInfo(playlistURL: String): PlaylistInfo {
+    fun getPlaylistInfo(playlistURL: String): PlaylistInfo {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         var playlistCount = 1
         var playlistTitle = "Unknown"
@@ -77,11 +78,12 @@ object DownloadUtil {
         return PlaylistInfo(playlistURL, playlistCount, playlistTitle)
     }
 
-    suspend fun fetchVideoInfo(url: String, playlistItem: Int = 1): VideoInfo {
+    fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
-            addOption("--playlist-items", playlistItem)
+            if (playlistItem != 0)
+                addOption("--playlist-items", playlistItem)
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
@@ -95,7 +97,7 @@ object DownloadUtil {
     fun downloadVideo(
         videoInfo: VideoInfo,
         playlistInfo: PlaylistInfo,
-        playlistItem: Int = -1,
+        playlistItem: Int = 0,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
 
@@ -111,6 +113,8 @@ object DownloadUtil {
         val sponsorBlock = PreferenceUtil.getValue(SPONSORBLOCK)
         val cookies = PreferenceUtil.getValue(COOKIES)
         val aria2c = PreferenceUtil.getValue(ARIA2C)
+        val rateLimit = PreferenceUtil.getValue(RATE_LIMIT)
+        val maxDownloadRate = PreferenceUtil.getMaxDownloadRate()
         val url = playlistInfo.url.ifEmpty {
             videoInfo.webpageUrl ?: return Result.failure()
         }
@@ -126,15 +130,24 @@ object DownloadUtil {
                 )
                 addOption("--cookies", context.getCookiesFile().absolutePath)
             }
-            if (playlistItem != -1 && downloadPlaylist)
+
+            if (rateLimit) {
+                addOption("-r", "${maxDownloadRate}K")
+            }
+
+            if (playlistItem != 0 && downloadPlaylist)
                 addOption("--playlist-items", playlistItem)
+
+            if (aria2c) {
+                addOption("--downloader", "libaria2c.so")
+                addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
+            } else if (concurrentFragments > 0f) {
+                addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
+            }
 
             if (extractAudio) {
                 pathBuilder.append(audioDownloadDir)
-                if (aria2c) {
-                    addOption("--downloader", "libaria2c.so")
-                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
-                }
+
                 addOption("-x")
                 when (PreferenceUtil.getAudioFormat()) {
                     1 -> {
@@ -183,12 +196,7 @@ object DownloadUtil {
                 }
                 if (sorter.isNotEmpty())
                     addOption("-S", sorter.toString())
-                if (aria2c) {
-                    addOption("--downloader", "libaria2c.so")
-                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
-                } else if (concurrentFragments > 0f) {
-                    addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
-                }
+
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
