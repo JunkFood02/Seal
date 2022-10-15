@@ -47,6 +47,7 @@ import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
 import com.junkfood.seal.util.PreferenceUtil.COOKIES_FILE
 import com.junkfood.seal.util.PreferenceUtil.MAX_RATE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK_CATEGORIES
+import com.junkfood.seal.util.TextUtil.isNumberInRange
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -219,7 +220,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
 @Composable
 fun RateLimitDialog(onDismissRequest: () -> Unit) {
     var maxRate by remember {
-        mutableStateOf(PreferenceUtil.getMaxDownloadRate().toString())
+        mutableStateOf(PreferenceUtil.getMaxDownloadRate())
     }
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Speed, null)
@@ -244,7 +245,8 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
     }, confirmButton = {
         ConfirmButton {
             onDismissRequest()
-            PreferenceUtil.updateInt(MAX_RATE, maxRate.toInt())
+            if (maxRate.isNumberInRange(1, 100_0000))
+                PreferenceUtil.updateString(MAX_RATE, maxRate)
         }
     })
 }

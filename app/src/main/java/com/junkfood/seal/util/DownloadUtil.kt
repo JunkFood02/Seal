@@ -131,7 +131,7 @@ object DownloadUtil {
                 addOption("--cookies", context.getCookiesFile().absolutePath)
             }
 
-            if (rateLimit) {
+            if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
                 addOption("-r", "${maxDownloadRate}K")
             }
 

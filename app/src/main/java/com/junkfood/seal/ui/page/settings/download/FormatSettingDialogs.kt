@@ -33,6 +33,7 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_QUALITY
+import com.junkfood.seal.util.TextUtil.isNumberInRange
 
 @Composable
 fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
@@ -131,7 +132,8 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
         }, confirmButton = {
             TextButton(onClick = {
                 PreferenceUtil.updateInt(VIDEO_QUALITY, videoResolution)
-                PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
+                if (fileSize.isNumberInRange(1, 4096))
+                    PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
                 onConfirm()
                 onDismissRequest()
             }) {
