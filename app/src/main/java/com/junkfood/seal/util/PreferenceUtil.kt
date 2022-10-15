@@ -247,7 +247,7 @@ object PreferenceUtil {
         val seedColor: Int = DEFAULT_SEED_COLOR
     )
 
-    fun getMaxDownloadRate(): Int = getInt(MAX_RATE, 1000)
+    fun getMaxDownloadRate(): String = getString(MAX_RATE, "1000")
 
     private val mutableAppSettingsStateFlow = MutableStateFlow(
         AppSettings(
