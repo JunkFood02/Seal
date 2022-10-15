@@ -236,7 +236,6 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
                 onValueChange = {
                     if (it.isDigitsOnly()) maxRate = it
                 }, trailingIcon = { Text("K") })
-            LinkButton(link = sponsorBlockReference)
         }
     }, dismissButton = {
         DismissButton {
