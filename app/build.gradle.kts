@@ -11,10 +11,10 @@ plugins {
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 3
-val versionPatch = 5
-val versionBuild = 0
-val isStable = true
+val versionMinor = 4
+val versionPatch = 0
+val versionBuild = 1
+val isStable = false
 
 val composeVersion: String by rootProject.extra
 val lifecycleVersion: String by rootProject.extra
@@ -134,7 +134,7 @@ dependencies {
 
     implementation(project(":color"))
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.0-rc01")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha01")
     implementation("com.google.android.material:material:1.8.0-alpha01")
     implementation("androidx.activity:activity-compose:1.6.0")
 
@@ -159,7 +159,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("io.coil-kt:coil-compose:$coilVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
@@ -173,13 +173,13 @@ dependencies {
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
 
-    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-//    implementation ("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation ("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-//    implementation ("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
