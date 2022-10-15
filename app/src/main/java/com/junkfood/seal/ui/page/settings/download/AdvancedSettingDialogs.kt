@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.MoneyOff
+import androidx.compose.material.icons.outlined.OfflineBolt
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -43,6 +45,7 @@ import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CONCURRENT
 import com.junkfood.seal.util.PreferenceUtil.COOKIES_FILE
+import com.junkfood.seal.util.PreferenceUtil.MAX_RATE
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK_CATEGORIES
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -164,7 +167,7 @@ fun ConcurrentDownloadDialog(
                 Text(stringResource(R.string.confirm))
             }
         },
-        icon = { Icon(Icons.Outlined.Speed, null) },
+        icon = { Icon(Icons.Outlined.OfflineBolt, null) },
         title = { Text(stringResource(R.string.concurrent_download)) },
         text = {
             Column {
@@ -208,6 +211,41 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
         ConfirmButton {
             onDismissRequest()
             PreferenceUtil.updateString(SPONSORBLOCK_CATEGORIES, categories)
+        }
+    })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RateLimitDialog(onDismissRequest: () -> Unit) {
+    var maxRate by remember {
+        mutableStateOf(PreferenceUtil.getMaxDownloadRate().toString())
+    }
+    AlertDialog(onDismissRequest = onDismissRequest, icon = {
+        Icon(Icons.Outlined.Speed, null)
+    }, title = { Text(stringResource(R.string.rate_limit)) }, text = {
+        Column {
+            Text(
+                stringResource(R.string.rate_limit_desc),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                value = maxRate,
+                label = { Text(stringResource(R.string.max_rate)) },
+                onValueChange = {
+                    if (it.isDigitsOnly()) maxRate = it
+                }, trailingIcon = { Text("K") })
+            LinkButton(link = sponsorBlockReference)
+        }
+    }, dismissButton = {
+        DismissButton {
+            onDismissRequest()
+        }
+    }, confirmButton = {
+        ConfirmButton {
+            onDismissRequest()
+            PreferenceUtil.updateInt(MAX_RATE, maxRate.toInt())
         }
     })
 }
