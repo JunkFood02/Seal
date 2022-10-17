@@ -1,0 +1,7 @@
+Feature Update:
+Toon download dialoog direct na het delen van url's
+Voorkomen van downloaden met netwerken met een meter
+
+Bug Fix:
+Onverwacht gedrag bij het openen van verwijderde bestanden
+Draaien van apparaat zorgt ervoor dat dialogen weer verschijnen
