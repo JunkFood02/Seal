@@ -1,13 +1,14 @@
-<p align="center"> 
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
-</p>
-<h1 align="center">
-	Seal
-</h1>
-<p align="center">
-	Video/Audio Downloader for Android
-</p>
-<p align="center">
+<img align="left" width="85" height="85" src="fastlane/metadata/android/en-US/images/icon.png"
+alt="App icon">
+
+# Seal
+
+[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=for-the-badge)](https://f-droid.org/en/packages/com.junkfood.seal)
+[![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=for-the-badge)](https://github.com/JunkFood02/Seal/releases)
+[![Downloads](https://img.shields.io/github/downloads/JunkFood02/Seal.svg?logo=github&color=171515&style=for-the-badge/total)](https://github.com/JunkFood02/Seal/releases)
+Video/Audio Downloader for Android.
+
+<p align="left">
 English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
@@ -37,14 +38,14 @@ English
 
 |           |     |
 | ----------------- | --- |
-| Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly [youtube-dl](https://github.com/ytdl-org/youtube-dl)).| ✅  |
-| Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen). | ✅  |
-| Download all videos in the playlist with one click. | ✅  |
-| Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads. | ✅  |
-| Embed subtitles into the downloaded videos. | ✅  |
-| Execute custom yt-dlp commands with templates. | ✅  |
-| Manage in-app downloads and custom command templates. | ✅  |
-| Easy to use and user-friendly. | ✅  |
+| Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly [youtube-dl](https://github.com/ytdl-org/youtube-dl)). | ✅ | 
+| Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen). | ✅ |
+| Download all videos in the playlist with one click. | ✅ |
+| Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads. | ✅ |
+| Embed subtitles into the downloaded videos. | ✅ |
+| Execute custom yt-dlp commands with templates. | ✅ |
+| Manage in-app downloads and custom command templates. | ✅ |
+| Easy to use and user-friendly. | ✅ |
 | [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme. | ✅ |
 | MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.| ✅ |
 
