@@ -1,21 +1,28 @@
-<img align="left" width="85" height="85" src="fastlane/metadata/android/en-US/images/icon.png"
-alt="App icon">
+<p align="center"> 
+	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
+</p>
+<h1 align="center">
+Seal
+</h1>
 
-# Seal
+<div align="center">
 
-[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=for-the-badge)](https://f-droid.org/en/packages/com.junkfood.seal)
-[![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=for-the-badge)](https://github.com/JunkFood02/Seal/releases)
-[![Downloads](https://img.shields.io/github/downloads/JunkFood02/Seal.svg?logo=github&color=171515&style=for-the-badge/total)](https://github.com/JunkFood02/Seal/releases)
+[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
+[![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=flat-square)](https://github.com/JunkFood02/Seal/releases)
+[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?style=flat-square)](https://github.com/JunkFood02/Seal/releases)
+[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat-square)](https://github.com/JunkFood02/Seal/stargazers)
+[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+
 Video/Audio Downloader for Android.
 
-<p align="left">
+<p align="center">
 English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
 </p>
-
+</div>
 
 ## 📱Screenshots
 
@@ -90,7 +97,7 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 ## 🪪License
 
-- [GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 <div align="right">
 <table><td>
