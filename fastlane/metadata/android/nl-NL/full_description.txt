@@ -1,0 +1,10 @@
+<b>Kenmerken</b>
+Download video's en audiobestanden van videoplatforms die door yt-dlp worden ondersteund
+Embed metadata en video thumbnail in uitgepakte audiobestanden
+Download alle video's in de afspeellijst met één klik
+Gebruik embedded aria2c als externe downloader voor al uw downloads
+Ondertitels insluiten in gedownloade video's
+Voer aangepaste yt-dlp commando's uit met sjablonen
+Beheer in-app downloads en aangepaste opdrachtsjablonen
+Gebruiksvriendelijk en gebruiksvriendelijk
+Material Design 3 stijl UI, met dynamisch kleurenthema
