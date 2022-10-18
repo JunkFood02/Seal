@@ -191,4 +191,9 @@
     <string name="download_disabled_with_cellular">使用移动数据网络下载已在设置中被禁用</string>
     <string name="file_unavailable">无法打开此文件，其可能已被移动或删除</string>
     <string name="rename">重命名</string>
+    <string name="network">网络</string>
+    <string name="rate_limit">限速下载</string>
+    <string name="rate_limit_desc">限制下载时使用的最大速率</string>
+    <string name="max_rate">最高速率</string>
+    <string name="high_contrast">高对比度深色主题</string>
 </resources>

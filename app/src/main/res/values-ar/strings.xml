@@ -187,4 +187,12 @@
     <string name="dynamic_color">لون ديناميكي</string>
     <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
     <string name="rename">Rename</string>
+    <string name="file_unavailable">هذا الملف لم يعد متوفرا</string>
+    <string name="download_with_cellular_desc">السماح بتنزيل الوسائط عند الاتصال بشبكات محدودة</string>
+    <string name="download_with_cellular">التنزيل باستخدام الشبكة الخلوية</string>
+    <string name="download_disabled_with_cellular">التنزيل باستخدام الشبكة الخلوية معطل وفقًا لإعداداتك</string>
+    <string name="network">شبكة</string>
+    <string name="rate_limit">حدود المعدل</string>
+    <string name="max_rate">أقصى معدل</string>
+    <string name="rate_limit_desc">تحديد الحد الأقصى لمعدل التنزيلات</string>
 </resources>

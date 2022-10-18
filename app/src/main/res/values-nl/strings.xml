@@ -50,7 +50,7 @@
     <string name="not_convert">Niet converteren</string>
     <string name="convert_to">Converteren naar %1$s</string>
     <string name="format">Bestandstype</string>
-    <string name="video_quality_desc">Beperk de kwaliteit van het bestandstype tot dit niveau</string>
+    <string name="video_quality_desc">Beperk de kwaliteit van het formaat en de bestandsgrootte</string>
     <string name="not_specified">Niet gespecificeerd (standaard)</string>
     <string name="video_format_preference">Voorkeur type videobestand</string>
     <string name="video_format_desc">Gekozen bestandstype bij meerdere opties</string>
@@ -124,7 +124,7 @@
     <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), Klik om te stoppen.</string>
     <string name="permission_issue_desc">Mappen buiten Download/ en Documents/ worden niet ondersteund</string>
     <string name="to">Einde van index</string>
-    <string name="download_range_desc">Specificeer de reeks video\'s om te downloaden van de afspeellijst (van %1$d tot %2$d).</string>
+    <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst \"%3$s\" (van %1$d tot %2$d).</string>
     <string name="download_directory_desc">Selecteer waar u video\'s en geluidsbestanden wilt opslaan</string>
     <string name="battery_configuration_desc">Negeer batterijoptimalisatie voor deze app om op de achtergrond te kunnen downloaden</string>
     <string name="unknown_error">Onbekende fout</string>

@@ -1,0 +1,7 @@
+Mise à jour de la fonctionnalité :
+Afficher la boîte de dialogue de téléchargement immédiatement après le partage de l'URL
+Empêcher le téléchargement avec les réseaux à compteur
+
+Correction de bogue :
+Comportement inattendu lors de l'ouverture de fichiers supprimés
+La rotation de l'appareil fait réapparaître les boîtes de dialogue

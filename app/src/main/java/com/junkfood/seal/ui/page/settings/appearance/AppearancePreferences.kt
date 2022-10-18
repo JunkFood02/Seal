@@ -145,7 +145,7 @@ fun AppearancePreferences(
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     icon = Icons.Outlined.DarkMode,
                     enabled = true
-                ) { showDarkThemeDialog = true }
+                ) { navController.navigate(Route.DARK_THEME) }
                 if (Build.VERSION.SDK_INT >= 24)
                     PreferenceItem(
                         title = stringResource(R.string.language),
@@ -161,7 +161,7 @@ fun AppearancePreferences(
         }, confirmButton = {
             ConfirmButton {
                 showDarkThemeDialog = false
-                PreferenceUtil.switchDarkThemeMode(darkThemeValue)
+                PreferenceUtil.modifyDarkThemePreference(darkThemeValue)
             }
         }, dismissButton = {
             DismissButton {

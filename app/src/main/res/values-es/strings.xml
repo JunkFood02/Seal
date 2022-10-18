@@ -187,4 +187,8 @@
     <string name="dynamic_color">Color dinámico</string>
     <string name="dynamic_color_desc">Aplicar los colores de los fondos de pantalla al tema de la aplicación</string>
     <string name="rename">Rename</string>
+    <string name="download_with_cellular">Descargar con datos móviles</string>
+    <string name="download_with_cellular_desc">Permitir la descarga de medios cuando se está conectado a redes de uso medido</string>
+    <string name="download_disabled_with_cellular">La descarga con la red móvil está desactivada según tu configuración</string>
+    <string name="file_unavailable">Este archivo ya no está disponible</string>
 </resources>

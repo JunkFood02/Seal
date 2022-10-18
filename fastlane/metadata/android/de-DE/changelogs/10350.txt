@@ -1,0 +1,7 @@
+Funktions-Update:
+Sofortige Anzeige des Download-Dialogs nach Freigabe der Url
+Verhindern des Herunterladens bei gebührenpflichtigen Netzwerken
+
+Fehlerbehebung:
+Unerwartetes Verhalten beim Öffnen gelöschter Dateien
+Drehen des Geräts führt dazu, dass Dialoge wieder angezeigt werden

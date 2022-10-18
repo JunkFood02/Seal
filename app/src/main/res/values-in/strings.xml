@@ -183,4 +183,16 @@
     <string name="sponsorblock_categories_desc">Tentukan kategori SponsorBlock yang akan dihapus dari file video</string>
     <string name="multiselect_mode">Mode pilih banyak</string>
     <string name="rename">Rename</string>
+    <string name="rate_limit">Batasan</string>
+    <string name="network">Jaringan</string>
+    <string name="max_rate">Kecepatan maksimum</string>
+    <string name="private_mode">Mode pribadi</string>
+    <string name="private_mode_desc">Nonaktifkan riwayat gambar kecil dan unduhan</string>
+    <string name="dynamic_color">Warna dinamis</string>
+    <string name="dynamic_color_desc">Terapkan warna dari wallpaper ke tema aplikasi</string>
+    <string name="download_with_cellular">Unduh menggunakan seluler</string>
+    <string name="download_with_cellular_desc">Perbolehkan mengunduh media saat terhubung ke jaringan terukur</string>
+    <string name="download_disabled_with_cellular">Mengunduh dengan jaringan seluler dinonaktifkan berdasarkan pengaturan Anda</string>
+    <string name="file_unavailable">File ini tidak lagi tersedia</string>
+    <string name="rate_limit_desc">Batasi kecepatan maksimum untuk unduhan</string>
 </resources>

@@ -38,6 +38,7 @@ import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
 import com.junkfood.seal.ui.page.settings.about.kotlin
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
+import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
 import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
@@ -140,6 +141,7 @@ fun HomeEntry(
                 DownloadDirectoryPreferences { onBackPressed() }
             }
             animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
+            animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
         }
 
         WelcomeDialog {
