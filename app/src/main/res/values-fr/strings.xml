@@ -184,4 +184,14 @@
     <string name="multiselect_mode">Mode multi-sélection</string>
     <string name="private_mode_desc">Désactiver l\'historique des vignettes et des téléchargements</string>
     <string name="private_mode">Mode privé</string>
+    <string name="download_with_cellular">Télécharger via le réseau mobile</string>
+    <string name="download_with_cellular_desc">Autoriser le téléchargement de médias lorsqu\'ils sont connectés à des réseaux à compteur</string>
+    <string name="dynamic_color">Couleur dynamique</string>
+    <string name="download_disabled_with_cellular">Le téléchargement avec le réseau mobile est désactivé en fonction de vos paramètres</string>
+    <string name="dynamic_color_desc">Appliquez les couleurs des fonds d\'écran au thème de l\'application</string>
+    <string name="file_unavailable">Ce fichier n\'est plus disponible</string>
+    <string name="network">Réseau</string>
+    <string name="rate_limit">Limite de débit</string>
+    <string name="rate_limit_desc">Limiter le débit maximal des téléchargements</string>
+    <string name="max_rate">Débit maximal</string>
 </resources>

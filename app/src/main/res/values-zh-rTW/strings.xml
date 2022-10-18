@@ -184,4 +184,11 @@
     <string name="multiselect_mode">多選模式</string>
     <string name="private_mode_desc">停用縮圖和儲存下載記錄</string>
     <string name="private_mode">無痕模式</string>
+    <string name="download_with_cellular_desc">允許使用計量付費網路進行媒體下載</string>
+    <string name="download_disabled_with_cellular">「以行動數據進行下載」已設為停用</string>
+    <string name="dynamic_color">動態顏色</string>
+    <string name="dynamic_color_desc">將桌布顏色套用至應用程式主題</string>
+    <string name="download_with_cellular">以行動數據進行下載</string>
+    <string name="file_unavailable">無法開啟檔案</string>
+    <string name="network">網際網路</string>
 </resources>

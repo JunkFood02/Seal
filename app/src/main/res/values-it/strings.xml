@@ -181,4 +181,17 @@
     <string name="sponsorblock_desc">Rimuovi i segmenti dai video con l\'API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere dal file video</string>
     <string name="cookies_desc">Utilizzare i cookie formattati Netscape per i download</string>
+    <string name="private_mode">Modalità privata</string>
+    <string name="private_mode_desc">Disattiva la cronologia delle miniature e degli scaricamenti</string>
+    <string name="multiselect_mode">Modalità multiselezione</string>
+    <string name="dynamic_color">Colore dinamico</string>
+    <string name="dynamic_color_desc">Applica i colori degli sfondi al tema dell\'applicazione</string>
+    <string name="download_with_cellular">Scarica con dati mobili</string>
+    <string name="download_with_cellular_desc">Consenti lo scaricamento di contenuti multimediali quando si è connessi alle reti a pagamento</string>
+    <string name="download_disabled_with_cellular">Lo scaricamento con la rete mobile è disabilitato in base alle impostazioni</string>
+    <string name="file_unavailable">Il file non è più disponibile</string>
+    <string name="network">Rete</string>
+    <string name="rate_limit">Limite di velocità</string>
+    <string name="rate_limit_desc">Limita la velocità massima degli scaricamenti</string>
+    <string name="max_rate">Velocità massima</string>
 </resources>

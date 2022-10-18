@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="extract_audio_summary">ดาวน์โหลดและบันทึกเสียง, แทนการบันทึกเป็นวิดีโอ</string>
+    <string name="video_directory">โฟลเดอร์วิดีโอ</string>
+    <string name="create_thumbnail">บันทึกภาพขนาดย่อ</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="download">ดาวน์โหลด</string>
+    <string name="url_empty">ฟิลด์ลิงก์ไม่สามารถปล่อยว่างได้</string>
+    <string name="create_thumbnail_summary">บันทึกภาพขนาดย่อของวิดีโอเป็นไฟล์</string>
+    <string name="yt_dlp_up_to_date">กำลังใช้ yt-dlp เวอร์ชั่นล่าสุด</string>
+    <string name="extract_audio">บันทึกเป็นเสียง</string>
+    <string name="download_settings_desc">ทั่วไป, รูปแบบ, คำสั่งกำหนดเอง</string>
+</resources>
