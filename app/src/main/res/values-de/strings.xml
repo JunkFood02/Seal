@@ -186,4 +186,13 @@
     <string name="private_mode">Privater Modus</string>
     <string name="dynamic_color">Dynamische Farbe</string>
     <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das App-Design anwenden</string>
+    <string name="download_with_cellular">Herunterladen über Mobilfunk</string>
+    <string name="download_with_cellular_desc">Herunterladen von Medien erlauben, wenn du mit gebührenpflichtigen Netzwerken verbunden bist</string>
+    <string name="download_disabled_with_cellular">Das Herunterladen über das Mobilfunknetz ist gemäß deinen Einstellungen deaktiviert</string>
+    <string name="file_unavailable">Diese Datei ist nicht mehr verfügbar</string>
+    <string name="network">Netzwerk</string>
+    <string name="rate_limit">Geschwindigkeitsbegrenzung</string>
+    <string name="rate_limit_desc">Maximale Downloadgeschwindigkeit festsetzen</string>
+    <string name="max_rate">Maximale Geschwindigkeit</string>
+    <string name="high_contrast">Dunkles Design mit hohem Kontrast</string>
 </resources>
