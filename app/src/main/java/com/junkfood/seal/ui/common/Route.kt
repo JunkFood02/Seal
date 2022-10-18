@@ -12,5 +12,6 @@ class Route {
         const val CREDITS = "credits"
         const val LANGUAGES = "languages"
         const val TEMPLATE = "template"
+        const val DARK_THEME = "dark_theme"
     }
 }

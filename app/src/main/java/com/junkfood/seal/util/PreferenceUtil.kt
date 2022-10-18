@@ -110,6 +110,7 @@ object PreferenceUtil {
     const val CELLULAR_DOWNLOAD = "cellular_download"
     const val RATE_LIMIT = "rate_limit"
     const val MAX_RATE = "max_rate"
+    const val HIGH_CONTRAST = "high_contrast"
 
 
     const val SYSTEM_DEFAULT = 0
@@ -255,7 +256,7 @@ object PreferenceUtil {
                 darkThemeValue = kv.decodeInt(
                     DARK_THEME,
                     DarkThemePreference.FOLLOW_SYSTEM
-                )
+                ), isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)
             ),
             isDynamicColorEnabled = kv.decodeBool(DYNAMIC_COLOR),
             seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
@@ -263,12 +264,21 @@ object PreferenceUtil {
     )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
 
-    fun switchDarkThemeMode(mode: Int) {
+    fun modifyDarkThemePreference(
+        darkThemeValue: Int = AppSettingsStateFlow.value.darkTheme.darkThemeValue,
+        isHighContrastModeEnabled: Boolean = AppSettingsStateFlow.value.darkTheme.isHighContrastModeEnabled
+    ) {
         applicationScope.launch(Dispatchers.IO) {
             mutableAppSettingsStateFlow.update {
-                it.copy(darkTheme = DarkThemePreference(mode))
+                it.copy(
+                    darkTheme = AppSettingsStateFlow.value.darkTheme.copy(
+                        darkThemeValue = darkThemeValue,
+                        isHighContrastModeEnabled = isHighContrastModeEnabled
+                    )
+                )
             }
-            kv.encode(DARK_THEME, mode)
+            kv.encode(DARK_THEME, darkThemeValue)
+            kv.encode(HIGH_CONTRAST, isHighContrastModeEnabled)
         }
     }
 
@@ -290,8 +300,9 @@ object PreferenceUtil {
         }
     }
 
-    class DarkThemePreference(
-        var darkThemeValue: Int = FOLLOW_SYSTEM,
+    data class DarkThemePreference(
+        val darkThemeValue: Int = FOLLOW_SYSTEM,
+        val isHighContrastModeEnabled: Boolean = false
     ) {
         companion object {
             const val FOLLOW_SYSTEM = 1
