@@ -31,6 +31,7 @@ fun Color.harmonizeWithPrimary(): Color {
 @Composable
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    isHighContrastModeEnabled: Boolean = false,
     seedColor: Int,
     isDynamicColorEnabled: Boolean,
     content: @Composable () -> Unit
@@ -50,7 +51,14 @@ fun SealTheme(
                 dynamicLightColorScheme(context)
             }
         }
+
         else -> colorSchemeFromColor(seedColor, darkTheme)
+    }.run {
+        if (isHighContrastModeEnabled && darkTheme) copy(
+            surface = Color.Black,
+            background = Color.Black,
+        )
+        else this
     }
 
     MaterialTheme(
