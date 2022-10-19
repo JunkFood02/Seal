@@ -41,7 +41,7 @@ English
 <br>
 
 
-## ⚙️Features
+## 📖Features
 
 |           |     |
 | ----------------- | --- |
