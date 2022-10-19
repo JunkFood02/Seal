@@ -135,4 +135,5 @@
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
     <string name="rename">Rename</string>
+    <string name="new_name" />
 </resources>

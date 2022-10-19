@@ -72,4 +72,5 @@
     <string name="audio_format">Tukar format audio</string>
     <string name="not_convert">Tidak ditukar</string>
     <string name="rename">Rename</string>
+    <string name="new_name" />
 </resources>

@@ -160,4 +160,5 @@
     <string name="github_issue_desc">Hibajelentés vagy új funkció kérése</string>
     <string name="info_copied">Adatok a vágólapra másolva</string>
     <string name="rename">Rename</string>
+    <string name="new_name" />
 </resources>

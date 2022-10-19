@@ -192,4 +192,5 @@
     <string name="download_with_cellular">以行動數據進行下載</string>
     <string name="file_unavailable">無法開啟檔案</string>
     <string name="network">網際網路</string>
+    <string name="new_name" />
 </resources>

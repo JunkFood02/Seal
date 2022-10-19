@@ -196,4 +196,5 @@
     <string name="rate_limit_desc">Maximale Downloadgeschwindigkeit festsetzen</string>
     <string name="max_rate">Maximale Geschwindigkeit</string>
     <string name="high_contrast">Dunkles Design mit hohem Kontrast</string>
+    <string name="new_name" />
 </resources>

@@ -196,4 +196,5 @@
     <string name="rate_limit_desc">限制下载时使用的最大速率</string>
     <string name="max_rate">最高速率</string>
     <string name="high_contrast">高对比度深色主题</string>
+    <string name="new_name">新文件名</string> />
 </resources>

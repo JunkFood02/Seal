@@ -48,10 +48,7 @@ import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.FilterChip
 import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
-import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
-import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
-import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
+import com.junkfood.seal.ui.page.settings.download.*
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
@@ -83,6 +80,7 @@ fun DownloadSettingDialog(
     var selectedTemplateIndex by remember {
         mutableStateOf(PreferenceUtil.getInt(TEMPLATE_INDEX, 0))
     }
+    var showRenameDialog by remember { mutableStateOf(false) }
 
     val templateList = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
 
@@ -151,6 +149,11 @@ fun DownloadSettingDialog(
             }
 
             DrawerSheetSubtitle(text = stringResource(id = R.string.rename))
+            ButtonChip(
+                onClick = { showRenameDialog = true }, label = stringResource(
+                    R.string.rename
+                ), icon = Icons.Outlined.Add
+            )
 
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
@@ -292,5 +295,8 @@ fun DownloadSettingDialog(
         (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
             newTemplate = false,
             onDismissRequest = { showCustomCommandDialog = 0 })
+    }
+    if (showRenameDialog) {
+        RenameDialog(onDismissRequest = { showRenameDialog = false })
     }
 }

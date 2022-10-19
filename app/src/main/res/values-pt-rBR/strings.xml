@@ -183,4 +183,5 @@
     <string name="sponsorblock_categories">Categorias do SponsorBlock</string>
     <string name="sponsorblock_desc">Remover segmentos de vídeos com o SponsorBlock API</string>
     <string name="rename">Rename</string>
+    <string name="new_name" />
 </resources>
