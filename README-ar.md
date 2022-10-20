@@ -97,3 +97,9 @@
 <p align="right">
 <a href="https://github.com/JunkFood02/Seal/blob/main/LICENSE">GNU GPL v3.0</a>
 </p>
+
+<div align="right">
+<table><td>
+<a href="#start-of-content">👆 انتقل إلى أعلى</a>
+</td></table>
+</div>
