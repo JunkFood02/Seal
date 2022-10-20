@@ -13,7 +13,7 @@ Seal
 [![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat-square)](https://github.com/JunkFood02/Seal/stargazers)
 [![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 
-Video/Audio Downloader for Android.
+Video/Audio Downloader for Android
 
 <p align="center">
 English
@@ -41,24 +41,32 @@ English
 <br>
 
 
-## 📖Features
+## Features
 
-|           |     |
-| ----------------- | --- |
-| Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly [youtube-dl](https://github.com/ytdl-org/youtube-dl)). | ✅ | 
-| Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen). | ✅ |
-| Download all videos in the playlist with one click. | ✅ |
-| Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads. | ✅ |
-| Embed subtitles into the downloaded videos. | ✅ |
-| Execute custom yt-dlp commands with templates. | ✅ |
-| Manage in-app downloads and custom command templates. | ✅ |
-| Easy to use and user-friendly. | ✅ |
-| [Material Design 3](https://m3.material.io/) style UI, with [dynamic color](https://m3.material.io/foundations/customization) theme. | ✅ |
-| MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.| ✅ |
+- Download videos and audio files from video platforms supported by yt-dlp (formerly youtube-dl).
+
+- Embed metadata and video thumbnail into extracted audio files supported by mutagen.
+
+- Download all videos in the playlist with one click.
+
+- Use embedded aria2c as external downloader for all your downloads.
+
+- Embed subtitles into the downloaded videos.
+
+- Execute custom yt-dlp commands with templates.
+
+- Manage in-app downloads and custom command templates.
+
+- Easy to use and user-friendly.
+
+- Material Design 3 style UI, with dynamic color theme.
+
+- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
 
 
 
-## ⬇️Download
+
+## Download
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
@@ -68,7 +76,7 @@ Or download the latest apks from [releases](https://github.com/JunkFood02/Seal/r
 
 
 
-## 🤝Contributing
+## Contributing
 
 Contributions are welcome!
 
@@ -77,13 +85,12 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
 >**Note**
->
->For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
-## ⭐Star History
+For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
+
+## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
-
 
 ## Credits
 
@@ -95,7 +102,7 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
-## 🪪License
+## License
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
