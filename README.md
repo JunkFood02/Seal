@@ -24,7 +24,7 @@ English
 </p>
 </div>
 
-## Screenshots
+## 📱 Screenshots
 
 <div>
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
@@ -40,8 +40,7 @@ English
 
 <br>
 
-
-## Features
+## 📖 Features
 
 - Download videos and audio files from video platforms supported by yt-dlp (formerly youtube-dl).
 
@@ -66,7 +65,7 @@ English
 
 
 
-## Download
+## ⬇️ Download
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
@@ -76,7 +75,7 @@ Or download the latest apks from [releases](https://github.com/JunkFood02/Seal/r
 
 
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome!
 
@@ -88,11 +87,11 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
-## Star History
+## ⭐️ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
-## Credits
+## 🧱 Credits
 
 Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
@@ -102,7 +101,7 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
-## License
+## 📃 License
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
