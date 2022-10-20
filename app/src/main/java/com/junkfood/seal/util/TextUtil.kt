@@ -12,7 +12,7 @@ import java.util.regex.Pattern
 object TextUtil {
 
     fun String.isNumberInRange(start: Int, end: Int): Boolean {
-        return this.isNotEmpty() && this.isDigitsOnly() && this.length < 5 && this.toInt() >= start && this.toInt() <= end
+        return this.isNotEmpty() && this.isDigitsOnly() && this.length < 10 && this.toInt() >= start && this.toInt() <= end
     }
 
     fun matchUrlFromClipboard(s: String): String {

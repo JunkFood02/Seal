@@ -222,7 +222,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                downloadVideo(stateFlow.value.url)
+                downloadVideo(url = stateFlow.value.url)
             } catch (e: Exception) {
                 manageDownloadError(e)
                 return@launch
@@ -230,7 +230,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun downloadVideo(url: String, index: Int = 1) {
+    private fun downloadVideo(url: String, index: Int = 0) {
         with(mutableStateFlow) {
             lateinit var videoInfo: VideoInfo
             try {

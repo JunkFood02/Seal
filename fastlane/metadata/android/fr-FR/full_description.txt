@@ -1,0 +1,10 @@
+<b>Caractéristiques</b>
+Téléchargez des vidéos et des fichiers audio à partir de plateformes vidéo prises en charge par yt-dlp
+Incorporation de métadonnées et de vignettes vidéo dans les fichiers audio extraits
+Téléchargez toutes les vidéos de la liste de lecture en un seul clic
+Utilisez l'aria2c intégré comme téléchargeur externe pour tous vos téléchargements.
+Incorporation de sous-titres dans les vidéos téléchargées
+Exécutez des commandes yt-dlp personnalisées à l'aide de modèles.
+Gérez les téléchargements dans l'application et les modèles de commande personnalisés.
+Facile à utiliser et convivial
+Interface utilisateur de style Material Design 3, avec thème de couleurs dynamique

@@ -21,6 +21,7 @@ import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.NotificationsOff
+import androidx.compose.material.icons.outlined.OfflineBolt
 import androidx.compose.material.icons.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.PrintDisabled
@@ -67,6 +68,7 @@ import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
+import com.junkfood.seal.util.PreferenceUtil.RATE_LIMIT
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
@@ -94,6 +96,7 @@ fun DownloadPreferences(
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
     var showCookiesDialog by remember { mutableStateOf(false) }
+    var showRateLimitDialog by remember { mutableStateOf(false) }
     var aria2c by remember { mutableStateOf(PreferenceUtil.getValue(ARIA2C)) }
 
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
@@ -135,7 +138,7 @@ fun DownloadPreferences(
             )
         },
         content = {
-            var customCommandEnable by remember {
+            var isCustomCommandEnabled by remember {
                 mutableStateOf(
                     PreferenceUtil.getValue(CUSTOM_COMMAND)
                 )
@@ -219,7 +222,7 @@ fun DownloadPreferences(
                             id = R.string.extract_audio_summary
                         ),
                         icon = Icons.Outlined.MusicNote,
-                        enabled = !customCommandEnable,
+                        enabled = !isCustomCommandEnabled,
                         isChecked = audioSwitch,
                         onClick = {
                             audioSwitch = !audioSwitch
@@ -237,7 +240,7 @@ fun DownloadPreferences(
                         description = stringResource(
                             id = R.string.create_thumbnail_summary
                         ),
-                        enabled = !customCommandEnable,
+                        enabled = !isCustomCommandEnabled,
                         icon = Icons.Outlined.Image,
                         isChecked = thumbnailSwitch,
                         onClick = {
@@ -250,7 +253,7 @@ fun DownloadPreferences(
                         title = stringResource(R.string.print_details),
                         description = stringResource(R.string.print_details_desc),
                         icon = if (displayErrorReport) Icons.Outlined.Print else Icons.Outlined.PrintDisabled,
-                        enabled = !customCommandEnable,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             displayErrorReport = !displayErrorReport
                             PreferenceUtil.updateValue(DEBUG, displayErrorReport)
@@ -276,6 +279,57 @@ fun DownloadPreferences(
                         }
                     )
                 }
+
+                item {
+                    PreferenceSubtitle(text = stringResource(id = R.string.format))
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.video_format_preference),
+                        description = videoFormat,
+                        icon = Icons.Outlined.VideoFile,
+                        enabled = !isCustomCommandEnabled and !audioSwitch
+                    ) { showVideoFormatDialog = true }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.video_quality),
+                        description = videoResolution,
+                        icon = Icons.Outlined.HighQuality,
+                        enabled = !isCustomCommandEnabled and !audioSwitch
+                    ) { showVideoQualityDialog = true }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.audio_format),
+                        description = audioFormat,
+                        icon = Icons.Outlined.AudioFile,
+                        enabled = !isCustomCommandEnabled and audioSwitch
+                    ) { showAudioFormatEditDialog = true }
+                }
+
+                item {
+                    PreferenceSubtitle(text = stringResource(R.string.network))
+                }
+                item {
+                    var isRateLimitEnabled by remember {
+                        mutableStateOf(PreferenceUtil.getValue(RATE_LIMIT))
+                    }
+
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.rate_limit),
+                        description = stringResource(R.string.rate_limit_desc),
+                        icon = Icons.Outlined.Speed,
+                        isChecked = isRateLimitEnabled,
+                        onChecked = {
+                            isRateLimitEnabled = !isRateLimitEnabled
+                            PreferenceUtil.updateValue(RATE_LIMIT, isRateLimitEnabled)
+                        },
+                        onClick = {
+                            showRateLimitDialog = true
+                        }, enabled = !isCustomCommandEnabled
+                    )
+                }
                 item {
                     var isDownloadWithCellularEnabled by remember {
                         mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CELLULAR_DOWNLOAD))
@@ -295,33 +349,7 @@ fun DownloadPreferences(
                         }
                     )
                 }
-                item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.format))
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.video_format_preference),
-                        description = videoFormat,
-                        icon = Icons.Outlined.VideoFile,
-                        enabled = !customCommandEnable and !audioSwitch
-                    ) { showVideoFormatDialog = true }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.video_quality),
-                        description = videoResolution,
-                        icon = Icons.Outlined.HighQuality,
-                        enabled = !customCommandEnable and !audioSwitch
-                    ) { showVideoQualityDialog = true }
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.audio_format),
-                        description = audioFormat,
-                        icon = Icons.Outlined.AudioFile,
-                        enabled = !customCommandEnable and audioSwitch
-                    ) { showAudioFormatEditDialog = true }
-                }
+
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
                 }
@@ -335,7 +363,7 @@ fun DownloadPreferences(
                             )
                         },
                         icon = Icons.Outlined.PlaylistAddCheck,
-                        enabled = !customCommandEnable,
+                        enabled = !isCustomCommandEnabled,
                         description = stringResource(R.string.download_playlist_desc),
                         isChecked = downloadPlaylist
                     )
@@ -345,7 +373,7 @@ fun DownloadPreferences(
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         icon = Icons.Outlined.Subtitles,
-                        enabled = !customCommandEnable && !audioSwitch,
+                        enabled = !isCustomCommandEnabled && !audioSwitch,
                         description = stringResource(id = R.string.embed_subtitles_desc),
                         isChecked = embedSubtitle
                     ) {
@@ -365,15 +393,15 @@ fun DownloadPreferences(
                             aria2c = !aria2c
                             PreferenceUtil.updateValue(ARIA2C, aria2c)
                         },
-                        enabled = !customCommandEnable
+                        enabled = !isCustomCommandEnabled
                     )
                 }
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.concurrent_download),
                         description = stringResource(R.string.concurrent_download_desc),
-                        icon = Icons.Outlined.Speed,
-                        enabled = !customCommandEnable && !audioSwitch && !aria2c,
+                        icon = Icons.Outlined.OfflineBolt,
+                        enabled = !isCustomCommandEnabled && !audioSwitch && !aria2c,
                     ) { showConcurrentDownloadDialog = true }
                 }
                 item {
@@ -382,7 +410,7 @@ fun DownloadPreferences(
                             R.string.sponsorblock_desc
                         ),
                         icon = Icons.Outlined.MoneyOff,
-                        enabled = !customCommandEnable && !audioSwitch,
+                        enabled = !isCustomCommandEnabled && !audioSwitch,
                         isChecked = isSponsorBlockEnabled,
                         onChecked = {
                             isSponsorBlockEnabled = !isSponsorBlockEnabled
@@ -411,10 +439,10 @@ fun DownloadPreferences(
                             id = R.string.custom_command_desc
                         ),
                         icon = Icons.Outlined.Terminal,
-                        isChecked = customCommandEnable,
+                        isChecked = isCustomCommandEnabled,
                         onClick = {
-                            customCommandEnable = !customCommandEnable
-                            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommandEnable)
+                            isCustomCommandEnabled = !isCustomCommandEnabled
+                            PreferenceUtil.updateValue(CUSTOM_COMMAND, isCustomCommandEnabled)
                         })
                 }
                 item {
@@ -456,6 +484,11 @@ fun DownloadPreferences(
     if (showCookiesDialog) {
         CookiesDialog {
             showCookiesDialog = false
+        }
+    }
+    if (showRateLimitDialog) {
+        RateLimitDialog {
+            showRateLimitDialog = false
         }
     }
 }
