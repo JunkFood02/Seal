@@ -192,4 +192,5 @@
     <string name="download_disabled_with_cellular">La descarga con la red móvil está desactivada según tu configuración</string>
     <string name="file_unavailable">Este archivo ya no está disponible</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

@@ -156,4 +156,5 @@
     <string name="info_copied">Informace zkopírovány do schránky</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

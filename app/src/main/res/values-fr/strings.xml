@@ -196,4 +196,5 @@
     <string name="rate_limit_desc">Limiter le débit maximal des téléchargements</string>
     <string name="max_rate">Débit maximal</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

@@ -11,4 +11,5 @@
     <string name="extract_audio">บันทึกเป็นเสียง</string>
     <string name="download_settings_desc">ทั่วไป, รูปแบบ, คำสั่งกำหนดเอง</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

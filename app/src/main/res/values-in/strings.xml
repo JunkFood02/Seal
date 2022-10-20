@@ -196,4 +196,5 @@
     <string name="file_unavailable">File ini tidak lagi tersedia</string>
     <string name="rate_limit_desc">Batasi kecepatan maksimum untuk unduhan</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

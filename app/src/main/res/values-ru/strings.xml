@@ -192,4 +192,5 @@
     <string name="download_with_cellular_desc">Допускать загрузку медиа, когда устройство подключено к мобильным сетям с лимитированным трафиком</string>
     <string name="download_disabled_with_cellular">Согласно вашим настройкам, загрузка через мобильную сеть отключена</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

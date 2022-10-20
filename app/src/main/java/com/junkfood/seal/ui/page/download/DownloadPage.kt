@@ -3,54 +3,24 @@ package com.junkfood.seal.ui.page.download
 import android.Manifest
 import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
-import androidx.compose.material.icons.outlined.Error
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Subscriptions
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -71,6 +41,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -79,7 +50,6 @@ import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
-
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
@@ -114,6 +84,7 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
+
     val downloadCallback = {
         if (PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
             downloadViewModel.showDialog(scope, useDialog)
@@ -121,12 +92,19 @@ fun DownloadPage(
         keyboardController?.hide()
     }
 
+    var newTitle = ""
+    val renameCallback ={
+        if (newTitle.isBlank() || newTitle.isEmpty()){
+            TextUtil.makeToast(BaseApplication.context.getString(R.string.invalid_name))
+        }else {
+            downloadViewModel.updateTitle(title = newTitle)
+        }
+    }
 
     if (viewState.value.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
         downloadCallback()
     }
-
 
     PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
     Box(
@@ -167,6 +145,7 @@ fun DownloadPage(
                     FABs(
                         modifier = with(receiver = Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
                         downloadCallback = { downloadCallback() },
+                        renameCallback = { renameCallback() },
                         pasteCallback = {
                             TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
                                 .let { downloadViewModel.updateUrl(it) }
@@ -218,10 +197,7 @@ fun DownloadPage(
                             error = isDownloadError,
                         ) { url -> downloadViewModel.updateUrl(url) }
 
-                        InputTitle(
-                            title = videoTitle,
-                            hint = stringResource(R.string.rename),
-                        ) { title -> downloadViewModel.updateTitle(title) }
+                        newTitle = simpleTextField()
 
                         AnimatedVisibility(
                             enter = expandVertically() + fadeIn(),
@@ -261,20 +237,18 @@ fun DownloadPage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputTitle(title: String,
-               hint: String,
-               onValueChange: (String) -> Unit
-) {
+fun simpleTextField(): String {
+    val textState = remember { mutableStateOf("") }
     OutlinedTextField(
-        value = title,
-        onValueChange = onValueChange,
-        label = { Text(hint) },
+        value = textState.value,
+        label = { Text(stringResource(R.string.rename)) },
+        onValueChange = { textState.value = it },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
     )
+    return textState.value
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -426,6 +400,7 @@ fun FABs(
     modifier: Modifier = Modifier,
     downloadCallback: () -> Unit = {},
     pasteCallback: () -> Unit = {},
+    renameCallback: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
@@ -440,6 +415,18 @@ fun FABs(
             },
             modifier = Modifier.padding(vertical = 12.dp),
         )
+
+        FloatingActionButton(
+            onClick = renameCallback,
+            content = {
+                Icon(
+                    Icons.Outlined.DriveFileRenameOutline,
+                    contentDescription = stringResource(R.string.rename)
+                )
+            },
+            modifier = Modifier.padding(vertical = 12.dp),
+        )
+
         FloatingActionButton(
             onClick = downloadCallback,
             content = {

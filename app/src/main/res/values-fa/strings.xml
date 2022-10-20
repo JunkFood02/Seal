@@ -136,4 +136,5 @@
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

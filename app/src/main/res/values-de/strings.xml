@@ -197,4 +197,5 @@
     <string name="max_rate">Maximale Geschwindigkeit</string>
     <string name="high_contrast">Dunkles Design mit hohem Kontrast</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

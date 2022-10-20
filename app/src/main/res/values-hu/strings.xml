@@ -161,4 +161,5 @@
     <string name="info_copied">Adatok a vágólapra másolva</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

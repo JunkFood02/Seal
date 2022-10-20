@@ -188,4 +188,5 @@
     <string name="app_up_to_date">Trenutna inačica je ažurna</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

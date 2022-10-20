@@ -188,4 +188,5 @@
     <string name="dynamic_color_desc">Bruk farger fra bakgrunnsbilder i programdrakt</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

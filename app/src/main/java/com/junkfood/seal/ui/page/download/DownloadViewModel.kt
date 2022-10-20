@@ -268,7 +268,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     showVideoCard = true,
                     isProcessRunning = true,
                     downloadingTaskId = videoInfo.id,
-                    //videoTitle = videoInfo.title,
                     videoTitle = newVideoTitle,
                     videoAuthor = videoInfo.uploader ?: "null",
                     videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")

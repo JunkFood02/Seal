@@ -193,4 +193,5 @@
     <string name="file_unavailable">無法開啟檔案</string>
     <string name="network">網際網路</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

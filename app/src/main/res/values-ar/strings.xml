@@ -196,4 +196,5 @@
     <string name="max_rate">أقصى معدل</string>
     <string name="rate_limit_desc">تحديد الحد الأقصى لمعدل التنزيلات</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

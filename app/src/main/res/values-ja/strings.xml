@@ -108,4 +108,5 @@
     <string name="share_fail_msg">共有コンテンツからのURLと一致しません</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

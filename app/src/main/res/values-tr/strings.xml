@@ -183,4 +183,5 @@
     <string name="app_update_failed">En son sürüme güncellenemedi</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

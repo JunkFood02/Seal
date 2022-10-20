@@ -158,4 +158,5 @@
     <string name="template_selection">Выбар шаблону</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

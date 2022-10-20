@@ -184,4 +184,5 @@
     <string name="sponsorblock_desc">Remover segmentos de vídeos com o SponsorBlock API</string>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

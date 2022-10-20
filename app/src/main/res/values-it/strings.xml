@@ -196,4 +196,5 @@
     <string name="rate_limit_desc">Limita la velocità massima degli scaricamenti</string>
     <string name="max_rate">Velocità massima</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>

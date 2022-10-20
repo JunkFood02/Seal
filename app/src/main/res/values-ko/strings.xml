@@ -2,4 +2,5 @@
 <resources>
     <string name="rename">Rename</string>
     <string name="new_name" />
+    <string name="invalid_name" />
 </resources>
