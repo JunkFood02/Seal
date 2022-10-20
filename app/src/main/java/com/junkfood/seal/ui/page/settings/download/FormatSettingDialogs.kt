@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
@@ -33,7 +35,6 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_QUALITY
-import com.junkfood.seal.util.TextUtil.isNumberInRange
 
 @Composable
 fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
@@ -57,7 +58,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(text = stringResource(R.string.confirm))
             }
         }, text = {
-            Column {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -96,7 +97,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(text = stringResource(R.string.confirm))
             }
         }, text = {
-            Column {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -104,7 +105,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                     text = stringResource(R.string.video_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in 0..2)
+                for (i in 0..3)
                     SingleChoiceItem(
                         text = PreferenceUtil.getVideoFormatDesc(i),
                         selected = videoFormat == i
@@ -132,8 +133,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
         }, confirmButton = {
             TextButton(onClick = {
                 PreferenceUtil.updateInt(VIDEO_QUALITY, videoResolution)
-                if (fileSize.isNumberInRange(1, 4096))
-                    PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
+                PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -169,9 +169,10 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                             label = { Text(stringResource(id = R.string.video_resolution)) }
                         )
                         ExposedDropdownMenu(
+                            modifier = Modifier.verticalScroll(rememberScrollState()),
                             expanded = expanded,
                             onDismissRequest = { expanded = false }) {
-                            for (i in 0..6)
+                            for (i in 0..7)
                                 DropdownMenuItem(
                                     text = { Text(PreferenceUtil.getVideoResolutionDesc(i)) },
                                     onClick = {
@@ -185,8 +186,6 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                 }
                 item {
                     var expanded by remember { mutableStateOf(false) }
-
-
                     val notSpecified = stringResource(R.string.not_specified)
                     ExposedDropdownMenuBox(
                         expanded = expanded,

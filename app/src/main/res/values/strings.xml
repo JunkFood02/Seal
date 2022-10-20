@@ -236,6 +236,5 @@
     <string name="max_rate">Maximum rate</string>
     <string name="high_contrast">High contrast dark theme</string>
     <string name="invalid_input">Invalid input</string>
-    <string name="prefer_av1">Prefer AV1 codec</string>
     <string name="lowest_quality">Lowest quality</string>
 </resources>

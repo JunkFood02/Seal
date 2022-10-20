@@ -59,6 +59,7 @@ object PreferenceUtil {
             4 -> "720p"
             5 -> "480p"
             6 -> "360p"
+            7 -> context.getString(R.string.lowest_quality)
             else -> context.getString(R.string.best_quality)
         }
     }
@@ -68,7 +69,8 @@ object PreferenceUtil {
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
             1 -> "MP4"
-            2 -> "WebM"
+            2 -> "WebM (VP9)"
+            3 -> "WebM (AV1)"
             else -> context.getString(R.string.not_specified)
         }
     }

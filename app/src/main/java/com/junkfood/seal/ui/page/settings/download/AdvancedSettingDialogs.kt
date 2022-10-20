@@ -219,6 +219,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RateLimitDialog(onDismissRequest: () -> Unit) {
+    var isError by remember { mutableStateOf(false) }
     var maxRate by remember {
         mutableStateOf(PreferenceUtil.getMaxDownloadRate())
     }
@@ -232,10 +233,19 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
             )
             OutlinedTextField(
                 modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                isError = isError,
+                supportingText = {
+                    Text(
+                        text = if (isError) stringResource(R.string.invalid_input) else "",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
                 value = maxRate,
                 label = { Text(stringResource(R.string.max_rate)) },
                 onValueChange = {
                     if (it.isDigitsOnly()) maxRate = it
+                    isError = false
                 }, trailingIcon = { Text("K") })
         }
     }, dismissButton = {
@@ -244,9 +254,12 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
         }
     }, confirmButton = {
         ConfirmButton {
-            onDismissRequest()
-            if (maxRate.isNumberInRange(1, 100_0000))
+            if (maxRate.isNumberInRange(1, 100_0000)) {
                 PreferenceUtil.updateString(MAX_RATE, maxRate)
+                onDismissRequest()
+            } else {
+                isError = true
+            }
         }
     })
 }

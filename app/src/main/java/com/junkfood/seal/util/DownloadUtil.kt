@@ -183,7 +183,8 @@ object DownloadUtil {
                 }
                 when (PreferenceUtil.getVideoFormat()) {
                     1 -> sorter.append("ext,")
-                    2 -> sorter.append("ext:webm,")
+                    2 -> sorter.append("vcodec:vp9.2,")
+                    3 -> sorter.append("vcodec:av01,")
                 }
                 when (PreferenceUtil.getVideoResolution()) {
                     1 -> sorter.append("res:2160")
@@ -192,6 +193,7 @@ object DownloadUtil {
                     4 -> sorter.append("res:720")
                     5 -> sorter.append("res:480")
                     6 -> sorter.append("res:360")
+                    7 -> sorter.append("+size,+br,+res,+fps")
                     else -> sorter.append("res")
                 }
                 if (sorter.isNotEmpty())

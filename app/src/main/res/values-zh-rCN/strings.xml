@@ -196,6 +196,5 @@
     <string name="max_rate">最高速率</string>
     <string name="high_contrast">高对比度深色主题</string>
     <string name="invalid_input">输入不合法</string>
-    <string name="prefer_av1">AV1 编码格式优先</string>
     <string name="lowest_quality">最低画质</string>
 </resources>
