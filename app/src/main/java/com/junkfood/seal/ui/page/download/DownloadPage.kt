@@ -170,7 +170,7 @@ fun DownloadPage(
                         pasteCallback = {
                             TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
                                 .let { downloadViewModel.updateUrl(it) }
-                        }
+                        },
                     )
                 }) {
                 Column(
@@ -217,6 +217,12 @@ fun DownloadPage(
                             isInCustomMode = isInCustomCommandMode,
                             error = isDownloadError,
                         ) { url -> downloadViewModel.updateUrl(url) }
+
+                        InputTitle(
+                            title = videoTitle,
+                            hint = stringResource(R.string.rename),
+                        ) { title -> downloadViewModel.updateTitle(title) }
+
                         AnimatedVisibility(
                             enter = expandVertically() + fadeIn(),
                             exit = shrinkVertically() + fadeOut(),
@@ -251,6 +257,22 @@ fun DownloadPage(
         }
     }
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InputTitle(title: String,
+               hint: String,
+               onValueChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = title,
+        onValueChange = onValueChange,
+        label = { Text(hint) },
+        modifier = Modifier
+            .padding(0f.dp, 16f.dp)
+            .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
+    )
 }
 
 

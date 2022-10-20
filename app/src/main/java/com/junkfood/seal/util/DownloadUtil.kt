@@ -98,7 +98,8 @@ object DownloadUtil {
         videoInfo: VideoInfo,
         playlistInfo: PlaylistInfo,
         playlistItem: Int = 0,
-        progressCallback: ((Float, Long, String) -> Unit)?
+        newTitle: String,
+        progressCallback: ((Float, Long, String) -> Unit)?,
     ): Result {
 
         val extractAudio: Boolean =
@@ -240,7 +241,7 @@ object DownloadUtil {
             DatabaseUtil.insertInfo(
                 DownloadedVideoInfo(
                     0,
-                    videoInfo.title,
+                    newTitle,
                     if (videoInfo.uploader == null) "null" else videoInfo.uploader,
                     videoInfo.webpageUrl ?: url,
                     TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
@@ -250,9 +251,5 @@ object DownloadUtil {
             )
         }
         return Result.success(filePaths)
-
-
     }
-
-
 }

@@ -148,13 +148,6 @@ fun DownloadSettingDialog(
                 )
             }
 
-            DrawerSheetSubtitle(text = stringResource(id = R.string.rename))
-            ButtonChip(
-                onClick = { showRenameDialog = true }, label = stringResource(
-                    R.string.rename
-                ), icon = Icons.Outlined.Add
-            )
-
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 FilterChip(
@@ -277,8 +270,6 @@ fun DownloadSettingDialog(
         })
     }
 
-
-
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false })
     }
@@ -295,8 +286,5 @@ fun DownloadSettingDialog(
         (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
             newTemplate = false,
             onDismissRequest = { showCustomCommandDialog = 0 })
-    }
-    if (showRenameDialog) {
-        RenameDialog(onDismissRequest = { showRenameDialog = false })
     }
 }

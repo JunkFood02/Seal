@@ -236,5 +236,5 @@
     <string name="rate_limit_desc">Limit the maximum rate for downloads</string>
     <string name="max_rate">Maximum rate</string>
     <string name="high_contrast">High contrast dark theme</string>
-    <string name="new_name">New name</string> />
+    <string name="new_name">New file name</string> />
 </resources>

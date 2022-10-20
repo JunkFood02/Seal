@@ -13,17 +13,13 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
-import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.*
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
-import com.junkfood.seal.util.NotificationUtil
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
-import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
@@ -95,6 +91,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
 
+    fun updateTitle(title: String) {
+        mutableStateFlow.update {
+            it.copy(
+                videoTitle = title
+            )
+        }
+    }
+
     fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
             if (isDialog)
@@ -162,7 +166,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     }
                     if (playlistInfo.size == 1) {
                         checkStateBeforeDownload()
-                        downloadVideo(value.url)
+                        downloadVideo(value.url,0,value.videoTitle)
                         finishProcessing()
                     } else showPlaylistDialog(playlistInfo)
                 } catch (e: Exception) {
@@ -174,6 +178,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun downloadVideoInPlaylistByIndexRange(
         url: String = stateFlow.value.url,
+        title: String = stateFlow.value.videoTitle,
         indexRange: IntRange
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -194,17 +199,20 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         index - indexRange.first + 1,
                         itemCount
                     )
-                downloadVideo(url, index)
+                downloadVideo(url,index,title)
             }
             finishProcessing()
         }
     }
 
     fun startDownloadVideo() {
+        val title = stateFlow.value.videoTitle
+
         if (stateFlow.value.url.isBlank()) {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
+
         if (!PreferenceUtil.getValue(CELLULAR_DOWNLOAD) && BaseApplication.connectivityManager.isActiveNetworkMetered) {
             viewModelScope.launch {
                 showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
@@ -214,7 +222,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         MainActivity.startService()
         switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
         if (stateFlow.value.isInCustomCommandMode) {
-            viewModelScope.launch { downloadWithCustomCommands() }
+            viewModelScope.launch { downloadWithCustomCommands(stateFlow.value.videoTitle) }
             return
         } else if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
             parsePlaylistInfo()
@@ -224,7 +232,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                downloadVideo(url = stateFlow.value.url)
+                downloadVideo(url = stateFlow.value.url, newTitle = title)
             } catch (e: Exception) {
                 manageDownloadError(e)
                 return@launch
@@ -233,7 +241,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun downloadVideo(url: String, index: Int = 0) {
+    private fun downloadVideo(url: String, index: Int = 0,newTitle: String) {
+
         with(mutableStateFlow) {
             lateinit var videoInfo: VideoInfo
             try {
@@ -245,6 +254,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 return
             }
             update { it.copy(isDownloadError = false) }
+            val newVideoTitle: String
+            if (newTitle.isBlank()){
+                newVideoTitle = videoInfo.title
+            }else{
+                newVideoTitle = newTitle
+            }
             Log.d(TAG, "downloadVideo: $index" + videoInfo.title)
             if (value.isCancelled) return
             update {
@@ -253,7 +268,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     showVideoCard = true,
                     isProcessRunning = true,
                     downloadingTaskId = videoInfo.id,
-                    videoTitle = videoInfo.title,
+                    //videoTitle = videoInfo.title,
+                    videoTitle = newVideoTitle,
                     videoAuthor = videoInfo.uploader ?: "null",
                     videoThumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                 )
@@ -263,17 +279,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch(Dispatchers.Main) {
                 TextUtil.makeToast(
                     context.getString(R.string.download_start_msg)
-                        .format(videoInfo.title)
+                        .format(newVideoTitle)
                 )
             }
 
-            NotificationUtil.makeNotification(notificationId, videoInfo.title)
+            NotificationUtil.makeNotification(notificationId, newVideoTitle)
             try {
                 downloadResultTemp =
                     DownloadUtil.downloadVideo(
                         videoInfo = videoInfo,
                         playlistInfo = stateFlow.value.playlistInfo,
-                        playlistItem = index
+                        playlistItem = index,
+                        newTitle = newVideoTitle,
                     ) { progress, _, line ->
                         Log.d(TAG, line)
                         mutableStateFlow.update {
@@ -296,7 +313,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             NotificationUtil.finishNotification(
                 notificationId,
-                title = videoInfo.title,
+                title = newVideoTitle,
                 text = context.getString(R.string.download_finish_notification),
                 intent = if (intent != null) PendingIntent.getActivity(
                     context,
@@ -321,8 +338,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun downloadWithCustomCommands() {
-
+    private fun downloadWithCustomCommands(newTitle: String) {
         mutableStateFlow.update {
             it.copy(
                 isDownloadError = false,
@@ -337,10 +353,16 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             if (urlList.size != 1) return@launch
             kotlin.runCatching {
-                with(DownloadUtil.fetchVideoInfo(urlList[0])) {
+                with(DownloadUtil.fetchVideoInfo(urlList[0],0)) {
+                    val newVideoTitle: String
+                    if (newTitle.isBlank()){
+                        newVideoTitle = title
+                    }else{
+                        newVideoTitle = newTitle
+                    }
                     mutableStateFlow.update {
                         it.copy(
-                            videoTitle = title.toString(),
+                            videoTitle = newVideoTitle,
                             videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
                             videoAuthor = uploader.toString(),
                             showVideoCard = true
