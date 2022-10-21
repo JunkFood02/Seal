@@ -194,4 +194,7 @@
     <string name="download_disabled_with_cellular">Mengunduh dengan jaringan seluler dinonaktifkan berdasarkan pengaturan Anda</string>
     <string name="file_unavailable">File ini tidak lagi tersedia</string>
     <string name="rate_limit_desc">Batasi kecepatan maksimum untuk unduhan</string>
+    <string name="high_contrast">Tema gelap kontras tinggi</string>
+    <string name="invalid_input">Masukan tidak absah</string>
+    <string name="lowest_quality">Kualitas rendah</string>
 </resources>

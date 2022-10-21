@@ -186,4 +186,15 @@
     <string name="private_mode_desc">Skru av miniatyrbilde- og nedlastingshistorikk</string>
     <string name="multiselect_mode">Multivalgsmodus</string>
     <string name="dynamic_color_desc">Bruk farger fra bakgrunnsbilder i programdrakt</string>
+    <string name="high_contrast">Mørk høykontrastdrakt</string>
+    <string name="network">Nettverk</string>
+    <string name="download_disabled_with_cellular">Nedlasting ved bruk av mobildata er avskrudd i programinnstillingene</string>
+    <string name="rate_limit_desc">Begrens maksimal hastighet for nedlastinger</string>
+    <string name="rate_limit">Øvre tak for overføringen</string>
+    <string name="max_rate">Maksimal hastighet</string>
+    <string name="download_with_cellular_desc">Tillat nedlasting av media når tilkoblet kvotebaserte nettverk</string>
+    <string name="file_unavailable">Filen er ikke lenger tilgjengelig</string>
+    <string name="download_with_cellular">Last ned med mobildata</string>
+    <string name="lowest_quality">Laveste kvalitet</string>
+    <string name="invalid_input">Ugyldig inndata</string>
 </resources>

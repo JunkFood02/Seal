@@ -194,4 +194,7 @@
     <string name="rate_limit">Limite de débit</string>
     <string name="rate_limit_desc">Limiter le débit maximal des téléchargements</string>
     <string name="max_rate">Débit maximal</string>
+    <string name="high_contrast">Thème sombre à fort contraste</string>
+    <string name="invalid_input">Entrée invalide</string>
+    <string name="lowest_quality">Qualité la plus basse</string>
 </resources>
