@@ -168,10 +168,10 @@
     <string name="export_to_clipboard">匯出到剪貼簿</string>
     <string name="delete_multiple_items_msg">確定要移除 %1$d 項下載記錄嗎？</string>
     <string name="sponsorblock_categories_desc">指定欲從視訊檔案中移除的 SponsorBlock 類別</string>
-    <string name="sponsorblock_desc">使用 SponsorBlock API 從視訊中移除片段</string>
+    <string name="sponsorblock_desc">使用 SponsorBlock API 移除視訊中的片段</string>
     <string name="sponsorblock_categories">SponsorBlock 類別</string>
     <string name="check_for_updates">檢查更新</string>
-    <string name="app_up_to_date">已經是最新版本</string>
+    <string name="app_up_to_date">已是最新版本</string>
     <string name="app_update_failed">更新到最新版本失敗</string>
     <string name="update">更新</string>
     <string name="clear_temp_files_desc">從下載目錄中刪除全數暫存檔案</string>
@@ -182,7 +182,7 @@
     <string name="check_for_updates_desc">自動檢查來自 GitHub 提供的更新</string>
     <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？</string>
     <string name="multiselect_mode">多選模式</string>
-    <string name="private_mode_desc">停用縮圖和儲存下載記錄</string>
+    <string name="private_mode_desc">停用縮圖和下載記錄</string>
     <string name="private_mode">無痕模式</string>
     <string name="download_with_cellular_desc">允許使用計量付費網路進行媒體下載</string>
     <string name="download_disabled_with_cellular">「以行動數據進行下載」已設為停用</string>
@@ -191,4 +191,10 @@
     <string name="download_with_cellular">以行動數據進行下載</string>
     <string name="file_unavailable">無法開啟檔案</string>
     <string name="network">網際網路</string>
+    <string name="max_rate">最高速率</string>
+    <string name="high_contrast">高對比深色主題</string>
+    <string name="rate_limit">限制速率</string>
+    <string name="rate_limit_desc">限制進行下載時的最高速率</string>
+    <string name="invalid_input">輸入無效</string>
+    <string name="lowest_quality">最低畫質</string>
 </resources>
