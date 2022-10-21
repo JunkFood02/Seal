@@ -78,6 +78,11 @@ import kotlinx.coroutines.withContext
 
 
 const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
+const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents)"
+
+private fun String.isValidDirectory(): Boolean {
+    return this.contains(Regex(validDirectoryRegex))
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -156,7 +161,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                if (Build.VERSION.SDK_INT > 29)
+                if (Build.VERSION.SDK_INT >= 30
+                    && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
+                )
                     item {
                         PreferencesCaution(
                             title = stringResource(R.string.permission_issue),

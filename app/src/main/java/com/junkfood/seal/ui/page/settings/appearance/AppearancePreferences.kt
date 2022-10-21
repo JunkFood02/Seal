@@ -75,7 +75,16 @@ fun AppearancePreferences(
     var showDarkThemeDialog by remember { mutableStateOf(false) }
     val darkTheme = LocalDarkTheme.current
     var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
-
+    val image by remember {
+        mutableStateOf(
+            listOf(
+                R.drawable.sample,
+                R.drawable.sample1,
+                R.drawable.sample2,
+                R.drawable.sample3
+            ).random()
+        )
+    }
 
     Scaffold(
         modifier = Modifier
@@ -100,7 +109,11 @@ fun AppearancePreferences(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                VideoCard(modifier = Modifier.padding(18.dp))
+
+                VideoCard(
+                    modifier = Modifier.padding(18.dp),
+                    thumbnailUrl = image
+                )
 //                CardPreview()
                 Column {
                     Row(

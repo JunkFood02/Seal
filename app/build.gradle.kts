@@ -173,13 +173,13 @@ dependencies {
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
 
-    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-//    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-//    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
