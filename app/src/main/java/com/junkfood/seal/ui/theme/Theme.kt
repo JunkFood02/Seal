@@ -1,18 +1,20 @@
 package com.junkfood.seal.ui.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
 import com.junkfood.seal.ui.theme.ColorScheme.colorSchemeFromColor
-
 
 fun Color.applyOpacity(enabled: Boolean): Color {
     return if (enabled) this else this.copy(alpha = 0.62f)
@@ -36,12 +38,6 @@ fun SealTheme(
     isDynamicColorEnabled: Boolean,
     content: @Composable () -> Unit
 ) {
-    rememberSystemUiController().run {
-        setStatusBarColor(Color.Transparent, !darkTheme)
-        setSystemBarsColor(Color.Transparent, !darkTheme)
-        setNavigationBarColor(Color.Transparent, !darkTheme)
-    }
-
     val colorScheme = when {
         DynamicColors.isDynamicColorAvailable() && isDynamicColorEnabled -> {
             val context = LocalContext.current
@@ -51,7 +47,6 @@ fun SealTheme(
                 dynamicLightColorScheme(context)
             }
         }
-
         else -> colorSchemeFromColor(seedColor, darkTheme)
     }.run {
         if (isHighContrastModeEnabled && darkTheme) copy(
@@ -59,6 +54,16 @@ fun SealTheme(
             background = Color.Black,
         )
         else this
+    }
+    val view = LocalView.current
+    if(!view.isInEditMode){
+        val currentWindow = (view.context as? Activity)?.window
+        SideEffect {
+            (view.context as Activity).window.statusBarColor = android.graphics.Color.TRANSPARENT
+            (view.context as Activity).window.navigationBarColor = android.graphics.Color.TRANSPARENT
+            WindowCompat.getInsetsController(currentWindow!!, view).isAppearanceLightStatusBars =
+                darkTheme
+        }
     }
 
     MaterialTheme(
