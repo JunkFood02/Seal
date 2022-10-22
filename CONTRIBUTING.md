@@ -16,10 +16,13 @@ Seal is and will remain a simple GUI for yt-dlp, providing most of the functiona
 
 The app has two download modes: 
 
-- General mode: Save as audio, download Playlist, and many other options that can be used individually or combined for normal download tasks. Once the download is complete, Seal will scan the files into the system media library, and store them in the download history.
+- General mode: Save as audio, download playlist, and many other options that can be used individually or combined for normal download tasks. Once the download is complete, Seal will scan the files into the system media library, and store them in the download history.
 - Custom command mode: For advanced usage of yt-dlp, a user can create and store multiple command templates in the app, then select and use one of them directly to execute the yt-dlp command like in a terminal. In this mode, all of the GUI options and features in the general mode will be disabled.
 
 Since most of the functions can be implemented in custom command mode, the "feature request" would be treated as adding a shortcut to the general mode.
 
-## 
+## Pull Request
 
+If you wish to contribute to the project by directly submitting code, please first leave a comment under the relevant issue or file a new issue, describe the changes you are about to make.
+
+To avoid multiple pull requests resolving the same issue, let others know you are working on it by saying so in a comment, or ask the issue to be assigned to yourself.
