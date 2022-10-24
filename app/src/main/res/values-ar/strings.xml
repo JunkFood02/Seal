@@ -194,4 +194,7 @@
     <string name="rate_limit">حدود المعدل</string>
     <string name="max_rate">أقصى معدل</string>
     <string name="rate_limit_desc">تحديد الحد الأقصى لمعدل التنزيلات</string>
+    <string name="high_contrast">مظهر داكن عالي التباين</string>
+    <string name="invalid_input">إدخال غير صالح</string>
+    <string name="lowest_quality">أدنى جودة</string>
 </resources>

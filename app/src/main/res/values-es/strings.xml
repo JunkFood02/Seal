@@ -195,4 +195,6 @@
     <string name="network">Redes e Internet</string>
     <string name="rate_limit">Límite de uso de datos</string>
     <string name="max_rate">Límite máximo</string>
+    <string name="invalid_input">Entrada inválida</string>
+    <string name="lowest_quality">Calidad más baja</string>
 </resources>
