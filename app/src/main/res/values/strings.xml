@@ -237,4 +237,7 @@
     <string name="high_contrast">High contrast dark theme</string>
     <string name="invalid_input">Invalid input</string>
     <string name="lowest_quality">Lowest quality</string>
+    <string name="la_eu" translatable="false">Euskara</string>
+    <string name="la_hi" translatable="false">हिन्दी</string>
+    <string name="la_ml" translatable="false">മലയാളം</string>
 </resources>
