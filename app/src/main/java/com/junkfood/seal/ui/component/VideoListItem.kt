@@ -38,7 +38,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalVideoThumbnailLoader
-import com.junkfood.seal.ui.page.videolist.AUDIO_REGEX
+
+private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
 
 @OptIn(ExperimentalFoundationApi::class)

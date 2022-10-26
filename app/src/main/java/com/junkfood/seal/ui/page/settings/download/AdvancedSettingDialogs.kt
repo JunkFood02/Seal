@@ -116,7 +116,7 @@ fun CommandTemplateDialog(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 OutlinedTextField(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
                     value = templateName,
                     onValueChange = {
                         templateName = it
@@ -127,7 +127,7 @@ fun CommandTemplateDialog(
                     isError = isError
                 )
                 OutlinedTextField(
-                    modifier = Modifier.padding(vertical = 12.dp),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
                     value = templateText,
                     onValueChange = { templateText = it },
                     trailingIcon = {
@@ -198,7 +198,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
                 value = categories,
                 label = { Text(stringResource(R.string.sponsorblock_categories)) },
                 onValueChange = { categories = it })
@@ -232,7 +232,7 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
                 isError = isError,
                 supportingText = {
                     Text(
@@ -281,7 +281,7 @@ fun CookiesDialog(onDismissRequest: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
                 value = cookies,
                 label = { Text(stringResource(R.string.cookies_file_name)) },
                 onValueChange = { cookies = it }, trailingIcon = {

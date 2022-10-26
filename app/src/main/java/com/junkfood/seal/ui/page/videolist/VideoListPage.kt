@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Checklist
@@ -33,6 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -60,6 +65,8 @@ import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import kotlinx.coroutines.launch
 import java.io.File
+
+private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
 fun DownloadedVideoInfo.filterByType(
     videoFilter: Boolean = false,
@@ -106,6 +113,47 @@ fun VideoListPage(
             filterSet.elementAtOrNull(viewState.activeFilterIndex)
         )
     }
+
+    @Composable
+    fun FilterChips(modifier: Modifier = Modifier) {
+        Row(
+            modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(8.dp)
+        ) {
+            FilterChip(
+                selected = viewState.audioFilter,
+                onClick = { videoListViewModel.clickAudioFilter() },
+                label = stringResource(id = R.string.audio),
+            )
+
+            FilterChip(
+                selected = viewState.videoFilter,
+                onClick = { videoListViewModel.clickVideoFilter() },
+                label = stringResource(id = R.string.video),
+            )
+            if (filterSet.size > 1) {
+                Row {
+                    Divider(
+                        modifier = Modifier
+                            .padding(horizontal = 6.dp)
+                            .height(24.dp)
+                            .width(1f.dp)
+                            .align(Alignment.CenterVertically),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                    )
+                    for (i in 0 until filterSet.size) {
+                        FilterChip(
+                            selected = viewState.activeFilterIndex == i,
+                            onClick = { videoListViewModel.clickExtractorFilter(i) },
+                            label = filterSet.elementAt(i)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 
     val selectedItemIds =
         remember(videoList.value, isSelectEnabled, viewState) { mutableStateListOf<Int>() }
@@ -209,52 +257,20 @@ fun VideoListPage(
             }
         }
     ) { innerPadding ->
-
-        LazyColumn(
+        val cellCount = when (LocalWindowWidthState.current) {
+            WindowWidthSizeClass.Compact -> 1
+            else -> 2
+        }
+        val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
+        LazyVerticalGrid(
             modifier = Modifier
-                .padding(innerPadding),
+                .padding(innerPadding), columns = GridCells.Fixed(cellCount)
         ) {
-            item {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(8.dp)
-                ) {
-                    FilterChip(
-                        selected = viewState.audioFilter,
-                        onClick = { videoListViewModel.clickAudioFilter() },
-                        label = stringResource(id = R.string.audio),
-                    )
-
-                    FilterChip(
-                        selected = viewState.videoFilter,
-                        onClick = { videoListViewModel.clickVideoFilter() },
-                        label = stringResource(id = R.string.video),
-                    )
-                    if (filterSet.size > 1) {
-                        Row {
-                            Divider(
-                                modifier = Modifier
-                                    .padding(horizontal = 6.dp)
-                                    .height(24.dp)
-                                    .width(1f.dp)
-                                    .align(Alignment.CenterVertically),
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                            )
-                            for (i in 0 until filterSet.size) {
-                                FilterChip(
-                                    selected = viewState.activeFilterIndex == i,
-                                    onClick = { videoListViewModel.clickExtractorFilter(i) },
-                                    label = filterSet.elementAt(i)
-                                )
-                            }
-                        }
-                    }
-                }
+            item(span = span) {
+                FilterChips(Modifier.fillMaxWidth())
             }
             items(
-                videoList.value.reversed().sortedBy { it.filterByType() },
+                items = videoList.value.reversed().sortedBy { it.filterByType() },
                 key = { info -> info.id }) {
                 with(it) {
                     AnimatedVisibility(

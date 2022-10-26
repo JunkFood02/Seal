@@ -195,6 +195,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 downloadVideo(url, index)
             }
+            finishProcessing()
         }
     }
 
@@ -286,8 +287,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         )
                     }
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
-
-                finishProcessing()
+                if (!stateFlow.value.isDownloadingPlaylist)
+                    finishProcessing()
                 NotificationUtil.finishNotification(
                     notificationId,
                     title = videoInfo.title,

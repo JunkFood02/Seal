@@ -120,6 +120,75 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
 fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
     var fileSize by remember { mutableStateOf(PreferenceUtil.getString(MAX_FILE_SIZE, "")) }
+
+    @Composable
+    fun videoResolutionSelectField(modifier: Modifier = Modifier) {
+        var expanded by remember { mutableStateOf(false) }
+        var videoResolutionText by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
+
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }) {
+            OutlinedTextField(
+                modifier = modifier.fillMaxWidth().menuAnchor(),
+                value = videoResolutionText,
+                onValueChange = {},
+                readOnly = true,
+                leadingIcon = { Icon(Icons.Outlined._4k, null) },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                label = { Text(stringResource(id = R.string.video_resolution)) }
+            )
+            ExposedDropdownMenu(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }) {
+                for (i in 0..7)
+                    DropdownMenuItem(
+                        text = { Text(PreferenceUtil.getVideoResolutionDesc(i)) },
+                        onClick = {
+                            videoResolutionText =
+                                PreferenceUtil.getVideoResolutionDesc(i)
+                            videoResolution = i
+                            expanded = false
+                        })
+            }
+        }
+    }
+
+    @Composable
+    fun videoSizeTextField(modifier: Modifier = Modifier) {
+        var expanded by remember { mutableStateOf(false) }
+        val notSpecified = stringResource(R.string.not_specified)
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }) {
+            OutlinedTextField(
+                modifier = modifier.fillMaxWidth().menuAnchor(),
+                value = fileSize,
+                onValueChange = {
+                    fileSize =
+                        if (it.isDigitsOnly() || it == notSpecified) it else ""
+                },
+                leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
+                trailingIcon = { Text("MB") },
+                label = { Text(stringResource(id = R.string.video_file_size)) }
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }) {
+                DropdownMenuItem(
+                    text = { Text(notSpecified) },
+                    onClick = {
+                        fileSize = notSpecified
+                        expanded = false
+                    })
+            }
+        }
+    }
+
     AlertDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -140,79 +209,17 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                 Text(text = stringResource(R.string.confirm))
             }
         }, text = {
-            LazyColumn {
-                item {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp),
-                        text = stringResource(R.string.video_quality_desc),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-                item {
-                    var expanded by remember { mutableStateOf(false) }
-                    var videoResolutionText by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }) {
-                        OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth().menuAnchor(),
-                            value = videoResolutionText,
-                            onValueChange = {},
-                            readOnly = true,
-                            leadingIcon = { Icon(Icons.Outlined._4k, null) },
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                            },
-                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                            label = { Text(stringResource(id = R.string.video_resolution)) }
-                        )
-                        ExposedDropdownMenu(
-                            modifier = Modifier.verticalScroll(rememberScrollState()),
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }) {
-                            for (i in 0..7)
-                                DropdownMenuItem(
-                                    text = { Text(PreferenceUtil.getVideoResolutionDesc(i)) },
-                                    onClick = {
-                                        videoResolutionText =
-                                            PreferenceUtil.getVideoResolutionDesc(i)
-                                        videoResolution = i
-                                        expanded = false
-                                    })
-                        }
-                    }
-                }
-                item {
-                    var expanded by remember { mutableStateOf(false) }
-                    val notSpecified = stringResource(R.string.not_specified)
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }) {
-                        OutlinedTextField(
-                            modifier = Modifier
-                                .padding(top = 12.dp)
-                                .menuAnchor(),
-                            value = fileSize,
-                            onValueChange = {
-                                fileSize = if (it.isDigitsOnly() || it == notSpecified) it else ""
-                            },
-                            leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
-                            trailingIcon = { Text("MB") },
-                            label = { Text(stringResource(id = R.string.video_file_size)) }
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }) {
-                            DropdownMenuItem(
-                                text = { Text(notSpecified) },
-                                onClick = {
-                                    fileSize = notSpecified
-                                    expanded = false
-                                })
-                        }
-                    }
+            Column() {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    text = stringResource(R.string.video_quality_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                LazyColumn() {
+                    item { videoResolutionSelectField() }
+                    item { videoSizeTextField(modifier = Modifier.padding(top = 12.dp)) }
                 }
             }
         })

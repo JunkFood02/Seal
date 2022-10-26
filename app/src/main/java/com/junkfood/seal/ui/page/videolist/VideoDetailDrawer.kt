@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Link
@@ -43,7 +44,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     val clipboardManager = LocalClipboardManager.current
     val scope = rememberCoroutineScope()
 
-    BackHandler(detailViewState.drawerState.isVisible) {
+    BackHandler(detailViewState.drawerState.targetValue == ModalBottomSheetValue.Expanded) {
         videoListViewModel.hideDrawer(scope)
     }
 

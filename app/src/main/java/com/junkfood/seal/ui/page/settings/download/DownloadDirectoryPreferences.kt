@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -280,7 +281,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     OutlinedTextField(
-                        modifier = Modifier.padding(vertical = 12.dp),
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
                         value = pathTemplateText,
                         onValueChange = { pathTemplateText = it },
                         trailingIcon = {
