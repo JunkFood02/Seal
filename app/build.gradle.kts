@@ -135,8 +135,8 @@ dependencies {
     implementation(project(":color"))
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha01")
-    implementation("com.google.android.material:material:1.8.0-alpha01")
-    implementation("androidx.activity:activity-compose:1.6.0")
+    implementation("com.google.android.material:material:1.8.0-alpha02")
+    implementation("androidx.activity:activity-compose:1.6.1")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
@@ -173,13 +173,13 @@ dependencies {
     // okhttp
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
 
-//    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-//    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:library:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+    implementation("com.github.yausername.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
-    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
+//    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
+//    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
+//    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")

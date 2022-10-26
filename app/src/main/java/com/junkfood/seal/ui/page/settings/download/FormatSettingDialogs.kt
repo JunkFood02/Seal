@@ -157,7 +157,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                         expanded = expanded,
                         onExpandedChange = { expanded = !expanded }) {
                         OutlinedTextField(
-                            modifier = Modifier.menuAnchor(),
+                            modifier = Modifier.fillMaxWidth().menuAnchor(),
                             value = videoResolutionText,
                             onValueChange = {},
                             readOnly = true,
