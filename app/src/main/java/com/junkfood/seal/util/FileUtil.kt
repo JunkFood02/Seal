@@ -77,9 +77,9 @@ object FileUtil {
         return count
     }
 
-    fun Context.getConfigFile() = File(cacheDir, "config.txt")
+    fun Context.getConfigFile(suffix: String = "") = File(cacheDir, "config$suffix.txt")
 
-    fun Context.getCookiesFile() = File(cacheDir, "cookies.txt")
+    fun Context.getCookiesFile(suffix: String = "") = File(cacheDir, "cookies$suffix.txt")
 
     fun Context.getTempDir() = File(filesDir, "tmp")
 
