@@ -45,7 +45,6 @@ import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
 import com.junkfood.seal.ui.page.settings.download.TemplateListPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
 import kotlinx.coroutines.Dispatchers
@@ -148,19 +147,19 @@ fun HomeEntry(
             navController.navigate(Route.SETTINGS)
         }
         LaunchedEffect(Unit) {
-            if (!PreferenceUtil.getValue(AUTO_UPDATE))
+            if (!PreferenceUtil.isNetworkAvailableForDownload())
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
-                try {
+                kotlin.runCatching {
                     val temp = UpdateUtil.checkForUpdate()
                     if (temp != null) {
                         latestRelease = temp
                         showUpdateDialog = true
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    return@launch
+                }.onFailure {
+                    it.printStackTrace()
                 }
+
             }
         }
 

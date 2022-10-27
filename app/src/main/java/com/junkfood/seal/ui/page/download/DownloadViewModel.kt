@@ -21,7 +21,6 @@ import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
@@ -204,7 +203,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
-        if (!PreferenceUtil.getValue(CELLULAR_DOWNLOAD) && BaseApplication.connectivityManager.isActiveNetworkMetered) {
+        if (PreferenceUtil.isNetworkAvailableForDownload()) {
             viewModelScope.launch {
                 showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
             }

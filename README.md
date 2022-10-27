@@ -21,6 +21,8 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
 </p>
 </div>
 

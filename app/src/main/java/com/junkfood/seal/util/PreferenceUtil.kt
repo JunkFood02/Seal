@@ -5,6 +5,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
+import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -74,6 +75,9 @@ object PreferenceUtil {
             else -> context.getString(R.string.not_specified)
         }
     }
+
+    fun isNetworkAvailableForDownload() =
+        getValue(CELLULAR_DOWNLOAD) || !BaseApplication.connectivityManager.isActiveNetworkMetered
 
     const val CUSTOM_COMMAND = "custom_command"
     const val CONCURRENT = "concurrent_fragments"
@@ -185,7 +189,7 @@ object PreferenceUtil {
         return if (languageMap.containsKey(languageNumber)) languageMap[languageNumber].toString() else ""
     }
 
-    fun getLanguageNumberByCode(languageCode: String): Int {
+    private fun getLanguageNumberByCode(languageCode: String): Int {
         languageMap.entries.forEach {
             if (it.value == languageCode) return it.key
         }
