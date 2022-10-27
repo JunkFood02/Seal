@@ -11,10 +11,10 @@ plugins {
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 4
+val versionMinor = 5
 val versionPatch = 0
-val versionBuild = 4
-val isStable = true
+val versionBuild = 1
+val isStable = false
 
 val composeVersion: String by rootProject.extra
 val lifecycleVersion: String by rootProject.extra
