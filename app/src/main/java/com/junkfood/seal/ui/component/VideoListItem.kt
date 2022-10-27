@@ -97,9 +97,14 @@ fun MediaListItem(
                     onCheckedChange = null
                 )
             }
-            MediaImage(imageModel = imageModel, isAudio = isAudio)
+            MediaImage(
+                modifier = Modifier.weight(if (!isAudio) 0.45f else 0.25f),
+                imageModel = imageModel,
+                isAudio = isAudio
+            )
             Column(
                 modifier = Modifier
+                    .weight(if (!isAudio) 0.55f else 0.75f)
                     .padding(start = 12.dp, end = 12.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top
@@ -143,11 +148,11 @@ fun MediaListItem(
 }
 
 @Composable
-fun MediaImage(imageModel: Any, isAudio: Boolean = false) {
+fun MediaImage(modifier: Modifier = Modifier, imageModel: Any, isAudio: Boolean = false) {
     AsyncImage(
-        modifier = Modifier
-            .fillMaxWidth(if (!isAudio) 0.45f else 0.25f)
-            .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = false)
+        modifier = modifier
+//            .fillMaxWidth(if (!isAudio) 0.45f else 0.25f)
+            .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
             .clip(MaterialTheme.shapes.extraSmall),
         model = imageModel,
         contentDescription = null,

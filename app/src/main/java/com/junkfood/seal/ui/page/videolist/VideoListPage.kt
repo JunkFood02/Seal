@@ -258,8 +258,8 @@ fun VideoListPage(
         }
     ) { innerPadding ->
         val cellCount = when (LocalWindowWidthState.current) {
-            WindowWidthSizeClass.Compact -> 1
-            else -> 2
+            WindowWidthSizeClass.Expanded -> 2
+            else -> 1
         }
         val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
         LazyVerticalGrid(
