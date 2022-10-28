@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalVideoThumbnailLoader
 
 private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
@@ -149,14 +150,12 @@ fun MediaListItem(
 
 @Composable
 fun MediaImage(modifier: Modifier = Modifier, imageModel: Any, isAudio: Boolean = false) {
-    AsyncImage(
+    AsyncImageImpl(
         modifier = modifier
-//            .fillMaxWidth(if (!isAudio) 0.45f else 0.25f)
             .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
             .clip(MaterialTheme.shapes.extraSmall),
         model = imageModel,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        imageLoader = LocalVideoThumbnailLoader.current
     )
 }

@@ -68,6 +68,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesCaution
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getConfigDirectory
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
@@ -250,6 +251,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 ConfirmButton {
                     showClearTempDialog = false
                     scope.launch(Dispatchers.IO) {
+                        FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count =
                             FileUtil.clearTempFiles(context.getTempDir())
                         withContext(Dispatchers.Main) {

@@ -8,13 +8,22 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
+import coil.disk.DiskCache
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
 
 val LocalDarkTheme = compositionLocalOf { PreferenceUtil.DarkThemePreference() }
 val LocalVideoThumbnailLoader = staticCompositionLocalOf {
-    ImageLoader.Builder(context).build()
+    ImageLoader.Builder(context)
+        .diskCache {
+            DiskCache.Builder()
+                .directory(context.cacheDir.resolve("image_cache"))
+                .maxSizePercent(0.02)
+                .build()
+        }
+        .crossfade(false)
+        .build()
 }
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }
 val LocalWindowWidthState = staticCompositionLocalOf { WindowWidthSizeClass.Compact }

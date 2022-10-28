@@ -58,6 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 
 enum class DownloadTaskItemStatus(
     val statusLabelId: Int, val primaryButtonIcon: ImageVector, val primaryOperationDescId: Int
@@ -116,7 +117,7 @@ fun DownloadTaskItem(
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min)
             ) {
-                AsyncImage(
+                AsyncImageImpl(
                     modifier = Modifier
                         .padding(12.dp)
                         .weight(1f)

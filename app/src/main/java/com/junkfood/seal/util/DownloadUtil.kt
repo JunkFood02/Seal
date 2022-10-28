@@ -121,6 +121,7 @@ object DownloadUtil {
         val privateMode: Boolean = PreferenceUtil.getValue(PRIVATE_MODE),
         val rateLimit: Boolean = PreferenceUtil.getValue(RATE_LIMIT),
         val maxDownloadRate: String = PreferenceUtil.getMaxDownloadRate(),
+        val customCommandTemplate: String = ""
     )
 
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
@@ -166,6 +167,7 @@ object DownloadUtil {
     }
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
+        id: String,
         downloadPreferences: DownloadPreferences,
         playlistInfo: PlaylistInfo
     ): YoutubeDLRequest {
@@ -186,11 +188,9 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--convert-thumbnails", "png")
-                FileUtil.writeContentToFile(
-                    CROP_ARTWORK_COMMAND,
-                    context.getConfigFile()
-                )
-                addOption("--config", context.getConfigFile().absolutePath)
+                val configFile = context.getConfigFile(id)
+                FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
+                addOption("--config", configFile.absolutePath)
                 if (playlistInfo.url.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption(
@@ -204,14 +204,18 @@ object DownloadUtil {
     }
 
     fun downloadVideo(
-        videoInfo: VideoInfo,
+        videoInfo: VideoInfo? = null,
         playlistInfo: PlaylistInfo,
         playlistItem: Int = 0,
         downloadPreferences: DownloadPreferences = DownloadPreferences(),
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
-        with(downloadPreferences) {
+        if (videoInfo == null)
+            return Result.failure()
 
+        with(downloadPreferences) {
+            // TODO: Move custom template configurations here
+//            if (customCommandTemplate.isEmpty()) { }
             val url = playlistInfo.url.ifEmpty {
                 videoInfo.webpageUrl ?: return Result.failure()
             }
@@ -221,7 +225,7 @@ object DownloadUtil {
             with(request) {
                 addOption("--no-mtime")
                 if (cookies) {
-                    val cookiesFile = context.getCookiesFile()
+                    val cookiesFile = context.getCookiesFile(videoInfo.id)
                     FileUtil.writeContentToFile(cookiesContent, cookiesFile)
                     addOption("--cookies", cookiesFile.absolutePath)
                 }
@@ -242,7 +246,11 @@ object DownloadUtil {
 
                 if (extractAudio or (videoInfo.ext.matches(Regex(AUDIO_REGEX)))) {
                     pathBuilder.append(audioDownloadDir)
-                    addOptionsForAudioDownloads(downloadPreferences, playlistInfo)
+                    addOptionsForAudioDownloads(
+                        id = videoInfo.id,
+                        downloadPreferences = downloadPreferences,
+                        playlistInfo = playlistInfo
+                    )
                 } else {
                     pathBuilder.append(videoDownloadDir)
                     addOptionsForVideoDownloads(downloadPreferences)

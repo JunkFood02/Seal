@@ -20,9 +20,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
 
@@ -42,7 +42,7 @@ fun VideoCard(
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
         Column {
-            AsyncImage(
+            AsyncImageImpl(
                 modifier = Modifier
                     .padding()
                     .fillMaxWidth()
