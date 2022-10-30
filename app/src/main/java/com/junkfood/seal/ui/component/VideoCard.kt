@@ -1,10 +1,12 @@
 package com.junkfood.seal.ui.component
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -37,8 +40,14 @@ fun VideoCard(
     progress: Float = 100f,
 ) {
     ElevatedCard(
-        modifier = modifier
-            .fillMaxWidth(),
+        // set modifier for different orientation
+        modifier = with(receiver=modifier) {
+            if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                this.fillMaxWidth().padding(end = 64.dp)
+            } else {
+                this.fillMaxWidth()
+            }
+        },
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
         Column {
