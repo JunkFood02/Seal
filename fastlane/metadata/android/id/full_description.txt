@@ -1,0 +1,10 @@
+<b>Fitur</b>
+Unduh video dan file audio dari platform video yang didukung oleh yt-dlp
+Sematkan metadata dan gambar mini video ke dalam file audio yang diekstrak
+Unduh semua video di daftar putar dengan satu klik
+Gunakan aria2c yang disematkan sebagai pengunduh eksternal untuk semua unduhan Anda
+Sematkan subtitle ke dalam video yang diunduh
+Jalankan perintah yt-dlp khusus dengan template
+Kelola unduhan dalam aplikasi dan templat perintah khusus
+Mudah digunakan dan ramah pengguna
+Desain Material 3 gaya UI, dengan tema warna dinamis

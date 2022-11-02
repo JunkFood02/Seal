@@ -1,0 +1,10 @@
+<b>Funksjoner</b>
+Last ned video- og lydfiler fra videoplattformer som støttes av yt-dlp
+Innebygg metadata og videominiatyrbilder inn i utledede lydfiler
+Last ned all video i en spilleliste med ett klikk
+Bruk innebygd aria2c som ekstern nedlaster for alle nedlastinger
+Innebygg undertekster inn i alle nedlastede videoer
+Kjør egendefinerte kommandoer og maler i yt-dlp
+Håndter nedlastinger og egendefinerte kommandomaler i programmet
+Enkelt å bruke og brukervennlig
+Materiell design 3 , med dynamisk fargedrakt
