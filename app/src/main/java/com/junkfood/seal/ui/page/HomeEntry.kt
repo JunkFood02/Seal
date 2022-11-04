@@ -117,8 +117,9 @@ fun HomeEntry(
         ) {
             animatedComposable(Route.HOME) {
                 DownloadPage(
-                    navController,
-                    downloadViewModel
+                    navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
+                    navigateToSettings = { navController.navigate(Route.SETTINGS) },
+                    downloadViewModel = downloadViewModel
                 )
             }
             animatedComposable(Route.SETTINGS) { SettingsPage(navController) }

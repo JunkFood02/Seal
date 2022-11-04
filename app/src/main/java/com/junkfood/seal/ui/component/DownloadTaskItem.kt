@@ -58,7 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.AsyncImageImpl
+import com.junkfood.seal.ui.theme.PreviewThemeDark
 
 enum class DownloadTaskItemStatus(
     val statusLabelId: Int, val primaryButtonIcon: ImageVector, val primaryOperationDescId: Int
@@ -117,7 +117,7 @@ fun DownloadTaskItem(
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min)
             ) {
-                AsyncImageImpl(
+                AsyncImage(
                     modifier = Modifier
                         .padding(12.dp)
                         .weight(1f)
@@ -292,44 +292,53 @@ fun DownloadTaskItem(
 @Composable
 @Preview
 fun CardPreview() {
-    val hapticFeedback = LocalHapticFeedback.current
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 20.dp)
-            .padding(top = 12.dp, bottom = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            stringResource(R.string.download_task_count).format(5),
-            style = MaterialTheme.typography.labelLarge,
-        )
-        Spacer(modifier = Modifier.weight(1f))
+    PreviewThemeDark {
+        val hapticFeedback = LocalHapticFeedback.current
         Row(
             modifier = Modifier
-                .clip(MaterialTheme.shapes.medium)
-                .clickable {}
-                .padding(start = 8.dp)
-                .padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 20.dp)
+                .padding(top = 12.dp, bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                stringResource(R.string.recently_added),
+                stringResource(R.string.download_task_count).format(5),
                 style = MaterialTheme.typography.labelLarge,
             )
-            Icon(
+            Spacer(modifier = Modifier.weight(1f))
+            Row(
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 4.dp)
-                    .size(18.dp),
-                imageVector = Icons.Outlined.ArrowDropDown,
-                contentDescription = null
+                    .clip(MaterialTheme.shapes.medium)
+                    .clickable {}
+                    .padding(start = 8.dp)
+                    .padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(R.string.recently_added),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                Icon(
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 4.dp)
+                        .size(18.dp),
+                    imageVector = Icons.Outlined.ArrowDropDown,
+                    contentDescription = null
+                )
+            }
+        }
+        Column {
+            DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.ENQUEUED)
+            DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.FETCHING_INFO)
+            DownloadTaskItem(
+                expanded = false,
+                progress = 1f,
+                status = DownloadTaskItemStatus.COMPLETED
             )
+            DownloadTaskItem(
+                expanded = false,
+                progress = 0f,
+                status = DownloadTaskItemStatus.CANCELED
+            )
+            DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.ERROR)
         }
     }
-    Column {
-        DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.ENQUEUED)
-        DownloadTaskItem(expanded = false, status = DownloadTaskItemStatus.FETCHING_INFO)
-        DownloadTaskItem(expanded = false, progress = 1f, status = DownloadTaskItemStatus.COMPLETED)
-        DownloadTaskItem(expanded = false, progress = 0f, status = DownloadTaskItemStatus.CANCELED)
-        DownloadTaskItem(expanded = true, progress = 0f, status = DownloadTaskItemStatus.ERROR)
-    }
-
 }

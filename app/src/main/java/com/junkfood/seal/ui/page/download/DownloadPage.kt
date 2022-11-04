@@ -67,13 +67,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
-import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.util.PreferenceUtil
@@ -87,7 +85,8 @@ import com.junkfood.seal.util.TextUtil
 )
 @Composable
 fun DownloadPage(
-    navController: NavController,
+    navigateToSettings: () -> Unit = {},
+    navigateToDownloads: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -147,7 +146,7 @@ fun DownloadPage(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         navigationIcon = {
                             IconButton(
-                                onClick = { navController.navigate(Route.SETTINGS) }) {
+                                onClick = { navigateToSettings() }) {
                                 Icon(
                                     imageVector = Icons.Outlined.Settings,
                                     contentDescription = stringResource(id = R.string.settings)
@@ -155,7 +154,7 @@ fun DownloadPage(
                             }
                         },
                         actions = {
-                            IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
+                            IconButton(onClick = { navigateToDownloads() }) {
                                 Icon(
                                     imageVector = Icons.Outlined.Subscriptions,
                                     contentDescription = stringResource(id = R.string.downloads_history)

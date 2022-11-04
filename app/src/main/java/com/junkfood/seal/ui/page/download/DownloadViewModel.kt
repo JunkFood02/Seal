@@ -80,9 +80,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     data class DownloadTaskViewState(
         val title: String = "",
-        val artist: String = "",
+        val author: String = "",
         val progress: Float = 0f,
-        val thumbnail: String = "",
+        val thumbnailUrl: String = "",
         val progressText: String = "",
     )
 
