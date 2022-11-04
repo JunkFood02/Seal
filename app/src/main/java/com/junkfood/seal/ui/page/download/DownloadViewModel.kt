@@ -203,7 +203,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
-        if (PreferenceUtil.isNetworkAvailableForDownload()) {
+        if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             viewModelScope.launch {
                 showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
             }

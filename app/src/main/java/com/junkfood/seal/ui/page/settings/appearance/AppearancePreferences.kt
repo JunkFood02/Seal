@@ -1,9 +1,7 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
 import android.os.Build
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -42,7 +40,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.android.material.color.DynamicColors
@@ -210,7 +207,6 @@ fun AppearancePreferences(
             })
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorButton(modifier: Modifier = Modifier, color: Color = Color.Green) {
     val corePalette = CorePalette.of(color.toArgb())
@@ -224,13 +220,12 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color = Color.Green) {
         isSelected = !LocalDynamicColorSwitch.current && LocalSeedColor.current == seedColor
     ) {
         PreferenceUtil.switchDynamicColor(enabled = false)
-        PreferenceUtil.modifyThemeSeedColor(it)
+        PreferenceUtil.modifyThemeSeedColor(seedColor)
     }
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun ColorButtonImpl(
     modifier: Modifier = Modifier,
@@ -238,25 +233,19 @@ fun ColorButtonImpl(
     color: Color = Color.Green,
     corePalette: CorePalette = CorePalette.of(color.toArgb()),
     isDarkTheme: Boolean = false,
-    onClick: (Int) -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     val lightColor = corePalette.a2.tone(80)
     val seedColor = corePalette.a2.tone(60)
     val darkColor = corePalette.a2.tone(60)
     val showColor = if (isDarkTheme) darkColor else lightColor
-    val state = animateDpAsState(
-        targetValue = if (isSelected) 48.dp else 36.dp,
-        animationSpec = tween(easing = FastOutSlowInEasing)
-    )
-    val state2 = animateDpAsState(
-        targetValue = if (isSelected) 18.dp else 0.dp,
-        animationSpec = tween(easing = FastOutSlowInEasing)
-    )
+    val state = animateDpAsState(targetValue = if (isSelected) 48.dp else 36.dp)
+    val state2 = animateDpAsState(targetValue = if (isSelected) 18.dp else 0.dp)
 
     ElevatedCard(modifier = modifier
         .clearAndSetSemantics { }
         .padding(4.dp)
-        .size(72.dp), onClick = { onClick(seedColor) }) {
+        .size(72.dp), onClick = { onClick() }) {
         Box(Modifier.fillMaxSize()) {
             Box(
                 modifier = modifier
