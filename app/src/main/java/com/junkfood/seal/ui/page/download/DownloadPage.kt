@@ -75,6 +75,7 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.component.VideoCardPreview
+import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
@@ -88,6 +89,7 @@ import com.junkfood.seal.util.TextUtil
 fun DownloadPage(
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
+    navigateToDownloadQueue: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -103,7 +105,6 @@ fun DownloadPage(
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
-    val hapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
 
@@ -151,7 +152,7 @@ fun DownloadPage(
             },
             onVideoCardClicked = { downloadViewModel.openVideoFile() },
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }
-        )
+        ) { }
         with(viewState.value) {
             DownloadSettingDialog(
                 useDialog = useDialog,
@@ -179,10 +180,10 @@ fun DownloadPageImpl(
     cancelCallback: () -> Unit = {},
     onVideoCardClicked: () -> Unit = {},
     onUrlChanged: (String) -> Unit = {},
-    isPreview: Boolean = false
+    isPreview: Boolean = false,
+    content: @Composable () -> Unit
 ) {
     val hapticFeedback = LocalHapticFeedback.current
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     with(viewState) {
         Scaffold(
@@ -284,6 +285,7 @@ fun DownloadPageImpl(
                         errorMessage = errorMessage
                     )
                 }
+                content()
                 NavigationBarSpacer()
             }
         }
@@ -341,7 +343,6 @@ fun InputUrl(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-@Preview
 fun TitleWithProgressIndicator(
     showProgressIndicator: Boolean = true,
     showCancelOperation: Boolean = true,
@@ -478,5 +479,12 @@ fun FABs(
 @Composable
 @Preview
 fun DownloadPagePreview() {
-    DownloadPageImpl(viewState = DownloadViewModel.DownloadViewState(showVideoCard = true), isPreview = true)
+    PreviewThemeLight {
+        Column() {
+            DownloadPageImpl(
+                viewState = DownloadViewModel.DownloadViewState(showVideoCard = true),
+                isPreview = true
+            ) {}
+        }
+    }
 }

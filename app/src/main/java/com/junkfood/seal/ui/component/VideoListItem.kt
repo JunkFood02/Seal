@@ -34,11 +34,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
-import com.junkfood.seal.ui.common.LocalVideoThumbnailLoader
 
 private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
@@ -52,6 +50,8 @@ fun MediaListItem(
     thumbnailUrl: String = "",
     videoPath: String = "",
     videoUrl: String = "",
+    videoFileSize: Float = 0f,
+    isFileAvailable: Boolean = true,
     isSelectEnabled: Boolean = false,
     isSelected: Boolean = false,
     onSelect: () -> Unit = {},
@@ -122,9 +122,18 @@ fun MediaListItem(
                         text = author,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = if (isFileAvailable) "%.2f M".format(videoFileSize) else stringResource(
+                        R.string.unavailable
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = with(MaterialTheme.colorScheme) { if (isFileAvailable) onSurfaceVariant else error },
+                    maxLines = 1,
+                )
             }
         }
         AnimatedVisibility(

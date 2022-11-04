@@ -240,4 +240,6 @@
     <string name="la_eu" translatable="false">Euskara</string>
     <string name="la_hi" translatable="false">हिन्दी</string>
     <string name="la_ml" translatable="false">മലയാളം</string>
+    <string name="download_queue">Download queue</string>
+    <string name="unavailable">Unavailable</string>
 </resources>

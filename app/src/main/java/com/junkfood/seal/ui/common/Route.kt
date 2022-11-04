@@ -13,5 +13,6 @@ class Route {
         const val LANGUAGES = "languages"
         const val TEMPLATE = "template"
         const val DARK_THEME = "dark_theme"
+        const val DOWNLOAD_QUEUE = "queue"
     }
 }

@@ -77,7 +77,7 @@ object FileUtil {
         return count
     }
 
-    fun Context.getConfigDirectory() = cacheDir.resolve("configs")
+    fun Context.getConfigDirectory(): File = cacheDir
 
     fun Context.getConfigFile(suffix: String = "") =
         File(getConfigDirectory(), "config$suffix.txt")

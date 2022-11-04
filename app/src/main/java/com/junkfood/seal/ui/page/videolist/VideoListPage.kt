@@ -273,6 +273,8 @@ fun VideoListPage(
                 items = videoList.value.reversed().sortedBy { it.filterByType() },
                 key = { info -> info.id }) {
                 with(it) {
+                    val file = File(videoPath)
+                    val videoFileSize = file.length() / (1024f * 1024f)
                     AnimatedVisibility(
                         visible = it.filterSort(viewState),
                         exit = shrinkVertically() + fadeOut(),
@@ -284,6 +286,8 @@ fun VideoListPage(
                             author = videoAuthor,
                             thumbnailUrl = thumbnailUrl,
                             videoPath = videoPath,
+                            isFileAvailable = file.exists(),
+                            videoFileSize = videoFileSize,
                             videoUrl = videoUrl,
                             isSelectEnabled = isSelectEnabled,
                             isSelected = selectedItemIds.contains(id),
