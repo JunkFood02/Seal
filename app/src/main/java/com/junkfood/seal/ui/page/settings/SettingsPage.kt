@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Aod
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.SettingsApplications
+import androidx.compose.material.icons.filled.SignalWifi4Bar
+import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
-import androidx.compose.material.icons.sharp.Aod
-import androidx.compose.material.icons.sharp.Download
-import androidx.compose.material.icons.sharp.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -73,25 +76,63 @@ fun SettingsPage(navController: NavController) {
                 }
                 item {
                     SettingItem(
-                        title = stringResource(id = R.string.download),
+                        title = stringResource(id = R.string.general_settings),
                         description = stringResource(
-                            id = R.string.download_settings_desc
+                            id = R.string.general_settings_desc
                         ),
-                        icon = Icons.Sharp.Download
+                        icon = Icons.Filled.SettingsApplications
                     ) {
-                        navController.navigate(Route.DOWNLOAD_PREFERENCES) {
+                        navController.navigate(Route.GENERAL_DOWNLOAD_PREFERENCES) {
                             launchSingleTop = true
                         }
                     }
                 }
                 item {
-
+                    SettingItem(
+                        title = stringResource(id = R.string.download_directory),
+                        description = stringResource(
+                            id = R.string.download_directory_desc
+                        ),
+                        icon = Icons.Filled.Folder
+                    ) {
+                        navController.navigate(Route.DOWNLOAD_DIRECTORY) {
+                            launchSingleTop = true
+                        }
+                    }
+                }
+                item {
+                    SettingItem(
+                        title = stringResource(id = R.string.format),
+                        description = stringResource(
+                            id = R.string.format_settings_desc
+                        ),
+                        icon = Icons.Filled.VideoFile
+                    ) {
+                        navController.navigate(Route.DOWNLOAD_FORMAT) {
+                            launchSingleTop = true
+                        }
+                    }
+                }
+                item {
+                    SettingItem(
+                        title = stringResource(id = R.string.network),
+                        description = stringResource(
+                            id = R.string.network_settings_desc
+                        ),
+                        icon = Icons.Filled.SignalWifi4Bar
+                    ) {
+                        navController.navigate(Route.NETWORK_PREFERENCES) {
+                            launchSingleTop = true
+                        }
+                    }
+                }
+                item {
                     SettingItem(
                         title = stringResource(id = R.string.display),
                         description = stringResource(
                             id = R.string.display_settings
                         ),
-                        icon = Icons.Sharp.Aod
+                        icon = Icons.Filled.Aod
                     ) {
                         navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
                     }
@@ -103,7 +144,7 @@ fun SettingsPage(navController: NavController) {
                         description = stringResource(
                             id = R.string.about_page
                         ),
-                        icon = Icons.Sharp.Info
+                        icon = Icons.Filled.Info
                     ) {
                         navController.navigate(Route.ABOUT) { launchSingleTop = true }
                     }

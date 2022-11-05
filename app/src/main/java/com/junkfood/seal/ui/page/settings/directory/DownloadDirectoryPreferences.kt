@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPermissionsApi::class)
 
-package com.junkfood.seal.ui.page.settings.download
+package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.content.Context

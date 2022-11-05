@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.page.settings.download.ytdlpReference
+import com.junkfood.seal.ui.page.settings.general.ytdlpReference
 
 @Composable
 fun BackButton(modifier: Modifier = Modifier, onClick: () -> Unit) {

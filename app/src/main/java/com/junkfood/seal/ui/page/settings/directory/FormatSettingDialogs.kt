@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.settings.download
+package com.junkfood.seal.ui.page.settings.general
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

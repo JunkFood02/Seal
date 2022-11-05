@@ -33,15 +33,17 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.AsyncImageImpl
 
 private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
 
 @OptIn(ExperimentalFoundationApi::class)
+@Preview
 @Composable
 fun MediaListItem(
     modifier: Modifier = Modifier,
@@ -106,7 +108,7 @@ fun MediaListItem(
             Column(
                 modifier = Modifier
                     .weight(if (!isAudio) 0.55f else 0.75f)
-                    .padding(start = 12.dp, end = 12.dp)
+                    .padding(horizontal = 12.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top
             ) {
@@ -126,14 +128,16 @@ fun MediaListItem(
                         overflow = TextOverflow.Ellipsis
                     )
                 Text(
-                    modifier = Modifier.padding(top = 3.dp),
+                    modifier = Modifier.padding(top=3.dp),
                     text = if (isFileAvailable) "%.2f M".format(videoFileSize) else stringResource(
                         R.string.unavailable
                     ),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.labelSmall,
                     color = with(MaterialTheme.colorScheme) { if (isFileAvailable) onSurfaceVariant else error },
                     maxLines = 1,
                 )
+
+
             }
         }
         AnimatedVisibility(
@@ -159,7 +163,7 @@ fun MediaListItem(
 
 @Composable
 fun MediaImage(modifier: Modifier = Modifier, imageModel: Any, isAudio: Boolean = false) {
-    AsyncImageImpl(
+    AsyncImage(
         modifier = modifier
             .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
             .clip(MaterialTheme.shapes.extraSmall),

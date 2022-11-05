@@ -127,7 +127,7 @@
     <string name="invalid_index_range">Invalid index range</string>
     <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), click to stop.</string>
     <string name="audio_directory">Audio folder</string>
-    <string name="download_directory">Download folder</string>
+    <string name="download_directory">Directory</string>
     <string name="download_directory_desc">Select where to store videos and audio files</string>
     <string name="subdirectory">Save to subdirectory</string>
     <string name="subdirectory_desc">Save files in folders named as respective websites</string>
@@ -242,4 +242,7 @@
     <string name="la_ml" translatable="false">മലയാളം</string>
     <string name="download_queue">Download queue</string>
     <string name="unavailable">Unavailable</string>
+    <string name="format_settings_desc">File format, video quality, subtitles</string>
+    <string name="general_settings_desc">Yt-dlp version, notification, playlist</string>
+    <string name="network_settings_desc">Rate limit, downloader, cookies</string>
 </resources>
