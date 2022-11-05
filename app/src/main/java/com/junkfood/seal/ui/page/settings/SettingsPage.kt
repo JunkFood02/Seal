@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.SignalCellular4Bar
 import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -127,7 +128,17 @@ fun SettingsPage(navController: NavController) {
                     }
                 }
             }
-
+            item {
+                SettingItem(
+                    title = stringResource(id = R.string.custom_command),
+                    description = stringResource(id = R.string.custom_command_desc),
+                    icon = Icons.Outlined.Terminal
+                ) {
+                    navController.navigate(Route.TEMPLATE) {
+                        launchSingleTop = true
+                    }
+                }
+            }
             item {
                 SettingItem(
                     title = stringResource(id = R.string.display), description = stringResource(

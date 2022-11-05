@@ -49,6 +49,7 @@ import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItemVariant
+import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
@@ -71,6 +72,10 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
+    var isCustomCommandEnabled by remember {
+        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+    }
+
     var editingTemplateIndex by remember { mutableStateOf(-1) }
     var selectedTemplateIndex by remember {
         mutableStateOf(PreferenceUtil.getInt(TEMPLATE_INDEX, 0))
@@ -90,7 +95,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
             LargeTopAppBar(title = {
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(id = R.string.custom_command_template),
+                    text = stringResource(id = R.string.custom_command),
                 )
             }, navigationIcon = {
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
@@ -157,6 +162,20 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
         }
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
+            item {
+                PreferenceSwitchWithContainer(
+                    title = stringResource(R.string.use_custom_command),
+                    description = null,
+                    icon = null,
+                    isChecked = isCustomCommandEnabled,
+                    onClick = {
+                        isCustomCommandEnabled = !isCustomCommandEnabled
+                        PreferenceUtil.updateValue(
+                            PreferenceUtil.CUSTOM_COMMAND,
+                            isCustomCommandEnabled
+                        )
+                    })
+            }
             itemsIndexed(templates) { index, commandTemplate ->
                 TemplateItem(
                     label = commandTemplate.name,

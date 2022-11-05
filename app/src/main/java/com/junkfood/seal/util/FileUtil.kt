@@ -87,6 +87,13 @@ object FileUtil {
 
     fun Context.getTempDir() = File(filesDir, "tmp")
 
+    fun File.createEmptyFile(fileName: String) {
+        kotlin.runCatching {
+            this.mkdir()
+            this.resolve(fileName).createNewFile()
+        }.onFailure { it.printStackTrace() }
+    }
+
     fun writeContentToFile(content: String, file: File): File {
         file.writeText(content)
         return file

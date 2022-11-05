@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 
 private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
@@ -61,6 +63,17 @@ fun MediaListItem(
     onLongClick: () -> Unit = {}
 ) {
     val isAudio = videoPath.contains(Regex(AUDIO_REGEX))
+    val imageWeight = when (LocalWindowWidthState.current) {
+        WindowWidthSizeClass.Expanded -> {
+            if (isAudio) 0.30f else 0.55f
+        }
+        WindowWidthSizeClass.Medium -> {
+            if (isAudio) 0.20f else 0.30f
+        }
+        else -> {
+            if (isAudio) 0.25f else 0.45f
+        }
+    }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
     val imageModel = ImageRequest.Builder(context)
@@ -101,13 +114,13 @@ fun MediaListItem(
                 )
             }
             MediaImage(
-                modifier = Modifier.weight(if (!isAudio) 0.45f else 0.25f),
+                modifier = Modifier.weight(imageWeight),
                 imageModel = imageModel,
                 isAudio = isAudio
             )
             Column(
                 modifier = Modifier
-                    .weight(if (!isAudio) 0.55f else 0.75f)
+                    .weight(1f - imageWeight)
                     .padding(horizontal = 12.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top
@@ -128,7 +141,7 @@ fun MediaListItem(
                         overflow = TextOverflow.Ellipsis
                     )
                 Text(
-                    modifier = Modifier.padding(top=3.dp),
+                    modifier = Modifier.padding(top = 3.dp),
                     text = if (isFileAvailable) "%.2f M".format(videoFileSize) else stringResource(
                         R.string.unavailable
                     ),

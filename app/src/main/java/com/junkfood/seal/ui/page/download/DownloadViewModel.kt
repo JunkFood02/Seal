@@ -22,6 +22,7 @@ import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
+import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -344,7 +345,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             try {
                 with(mutableStateFlow) {
                     val request = YoutubeDLRequest(urlList)
-                    request.addOption("-P", BaseApplication.videoDownloadDir)
+                    request.addOption(
+                        "-P",
+                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else
+                            BaseApplication.videoDownloadDir
+                    )
                     request.addOption("-P", "temp:" + context.getTempDir())
                     FileUtil.writeContentToFile(
                         PreferenceUtil.getTemplate(),

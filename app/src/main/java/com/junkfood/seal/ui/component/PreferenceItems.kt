@@ -26,6 +26,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 
@@ -451,6 +456,90 @@ fun PreferencesHint(
                     )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+private fun PreferenceSwitchWithContainerPreview() {
+    var isChecked by remember { mutableStateOf(false) }
+    PreviewThemeLight {
+        PreferenceSwitchWithContainer(
+            description = null,
+            isChecked = isChecked,
+            onClick = { isChecked = !isChecked })
+    }
+}
+
+@Composable
+fun PreferenceSwitchWithContainer(
+    title: String = "Title ".repeat(2),
+    description: String? = "Description text ".repeat(3),
+    icon: ImageVector? = Icons.Outlined.Translate,
+    isChecked: Boolean = true,
+    onClick: () -> Unit = {},
+) {
+    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
+        {
+            Icon(
+                imageVector = Icons.Outlined.Check,
+                contentDescription = null,
+                modifier = Modifier.size(SwitchDefaults.IconSize),
+            )
+        }
+    } else {
+        null
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
+            .background(with(MaterialTheme.colorScheme) {
+                if (isChecked) primaryContainer else outline }
+            )
+            .selectable(selected = isChecked) { onClick() }
+            .padding(horizontal = 12.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        icon?.let {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 16.dp)
+                    .size(24.dp),
+                tint = with(MaterialTheme.colorScheme) { if (isChecked) secondary else surface }
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
+        ) {
+            with(MaterialTheme) {
+
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    style = typography.titleLarge.copy(fontSize = 20.sp),
+                    color = if (isChecked) colorScheme.onSecondaryContainer else colorScheme.surface
+                )
+                if (description != null)
+                    Text(
+                        text = description,
+                        color = if (isChecked) colorScheme.onSecondaryContainer else colorScheme.surface,
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                    )
+            }
+        }
+        Switch(
+            checked = isChecked,
+            onCheckedChange = null,
+            modifier = Modifier.padding(start = 12.dp, end = 6.dp),
+            thumbContent = thumbContent
+        )
     }
 }
 

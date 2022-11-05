@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material.icons.outlined.UpdateDisabled
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -141,7 +142,7 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(R.string.check_for_updates),
                         description = stringResource(R.string.check_for_updates_desc),
-                        icon = Icons.Outlined.Update,
+                        icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
                         isChecked = isAutoUpdateEnabled
                     ) {
                         isAutoUpdateEnabled = !isAutoUpdateEnabled

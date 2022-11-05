@@ -277,7 +277,7 @@ fun GeneralDownloadPreferences(
                             R.string.sponsorblock_desc
                         ),
                         icon = Icons.Outlined.MoneyOff,
-                        enabled = !isCustomCommandEnabled && !audioSwitch,
+                        enabled = !isCustomCommandEnabled,
                         isChecked = isSponsorBlockEnabled,
                         onChecked = {
                             isSponsorBlockEnabled = !isSponsorBlockEnabled
