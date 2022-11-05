@@ -127,7 +127,7 @@
     <string name="invalid_index_range">Invalid index range</string>
     <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), click to stop.</string>
     <string name="audio_directory">Audio folder</string>
-    <string name="download_directory">Directory</string>
+    <string name="download_directory">Download directory</string>
     <string name="download_directory_desc">Select where to store videos and audio files</string>
     <string name="subdirectory">Save to subdirectory</string>
     <string name="subdirectory_desc">Save files in folders named as respective websites</string>
@@ -222,7 +222,7 @@
     <string name="la_vi" translatable="false">Tiếng Việt</string>
     <string name="multiselect_mode">Multiselect mode</string>
     <string name="private_mode">Private mode</string>
-    <string name="private_mode_desc">Disable thumbnail and download history</string>
+    <string name="private_mode_desc">Disable download history</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
     <string name="la_hr" translatable="false">Hrvatski</string>
@@ -245,4 +245,7 @@
     <string name="format_settings_desc">File format, video quality, subtitles</string>
     <string name="general_settings_desc">Yt-dlp version, notification, playlist</string>
     <string name="network_settings_desc">Rate limit, downloader, cookies</string>
+    <string name="disable_preview">Disable preview</string>
+    <string name="disable_preview_desc">Disable preview on downloads</string>
+    <string name="privacy">Privacy</string>
 </resources>

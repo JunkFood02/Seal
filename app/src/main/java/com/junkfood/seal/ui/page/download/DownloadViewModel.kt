@@ -49,7 +49,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private var currentJob: Job? = null
 
     data class DownloadViewState(
-        val showVideoCard: Boolean = false,
+        val showDownloadProgress: Boolean = false,
         val showPlaylistSelectionDialog: Boolean = false,
         val progress: Float = 0f,
         val url: String = "",
@@ -247,7 +247,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             update {
                 it.copy(
                     progress = 0f,
-                    showVideoCard = true,
+                    showDownloadProgress = true,
                     isProcessRunning = true,
                     downloadingTaskId = videoInfo.id,
                     videoTitle = videoInfo.title,
@@ -312,7 +312,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             if (enabled) {
                 update {
                     it.copy(
-                        showVideoCard = false,
+                        showDownloadProgress = true,
                         isInCustomCommandMode = true,
                     )
                 }
@@ -333,22 +333,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val urlList = stateFlow.value.url.split(Regex("[\n ]"))
         downloadResultTemp = DownloadUtil.Result.failure()
 
-        viewModelScope.launch(Dispatchers.IO) {
-            if (urlList.size != 1) return@launch
-            kotlin.runCatching {
-                with(DownloadUtil.fetchVideoInfo(urlList[0])) {
-                    mutableStateFlow.update {
-                        it.copy(
-                            videoTitle = title.toString(),
-                            videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
-                            videoAuthor = uploader.toString(),
-                            showVideoCard = true
-                        )
-                    }
-                }
-            }
-
-        }
         val notificationId = stateFlow.value.url.hashCode()
 
         TextUtil.makeToast(context.getString(R.string.start_execute))

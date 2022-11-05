@@ -212,7 +212,7 @@ fun DownloadPageImpl(
             },
             floatingActionButton = {
                 FABs(
-                    modifier = with(receiver = Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
+                    modifier = with(receiver = Modifier.systemBarsPadding()) { if (showDownloadProgress) this else this.imePadding() },
                     downloadCallback = downloadCallback,
                     pasteCallback = pasteCallback
                 )
@@ -243,7 +243,11 @@ fun DownloadPageImpl(
                         .padding(horizontal = 24.dp)
                         .padding(top = 24.dp)
                 ) {
-                    AnimatedVisibility(visible = showVideoCard) {
+                    AnimatedVisibility(
+                        visible = showDownloadProgress && !PreferenceUtil.getValue(
+                            PreferenceUtil.DISABLE_PREVIEW
+                        )
+                    ) {
                         if (!isPreview)
                             VideoCard(
                                 modifier = Modifier,
@@ -260,8 +264,7 @@ fun DownloadPageImpl(
                         url = url,
                         hint = stringResource(R.string.video_url),
                         progress = progress,
-                        showVideoCard = showVideoCard,
-                        isInCustomMode = isInCustomCommandMode,
+                        showDownloadProgress = showDownloadProgress,
                         error = isDownloadError,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
@@ -299,8 +302,7 @@ fun InputUrl(
     url: String,
     hint: String,
     error: Boolean,
-    isInCustomMode: Boolean = false,
-    showVideoCard: Boolean = false,
+    showDownloadProgress: Boolean = false,
     progress: Float,
     onValueChange: (String) -> Unit
 ) {
@@ -313,7 +315,7 @@ fun InputUrl(
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
     )
-    AnimatedVisibility(visible = isInCustomMode and !showVideoCard) {
+    AnimatedVisibility(visible = showDownloadProgress && PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) {
         Row(
             Modifier.padding(0.dp, 12.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -324,18 +326,21 @@ fun InputUrl(
             )
             if (progressAnimationValue < 0)
                 LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(0.75f),
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .clip(MaterialTheme.shapes.large),
                 )
             else
                 LinearProgressIndicator(
                     progress = progressAnimationValue,
-                    modifier = Modifier.fillMaxWidth(0.75f),
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .clip(MaterialTheme.shapes.large),
                 )
             Text(
                 text = if (progress < 0) "0%" else "$progress%",
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.weight(0.25f)
             )
         }
     }
@@ -482,7 +487,7 @@ fun DownloadPagePreview() {
     PreviewThemeLight {
         Column() {
             DownloadPageImpl(
-                viewState = DownloadViewModel.DownloadViewState(showVideoCard = true),
+                viewState = DownloadViewModel.DownloadViewState(showDownloadProgress = true),
                 isPreview = true
             ) {}
         }

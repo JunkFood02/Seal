@@ -199,7 +199,6 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
             GeneralDownloadPreferences(
                 onBackPressed = { onBackPressed() },
-                navigateToDownloadDirectory = { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
             ) { navController.navigate(Route.TEMPLATE) }
         }
         animatedComposable(Route.DOWNLOAD_FORMAT) { DownloadFormatPreferences { onBackPressed() } }

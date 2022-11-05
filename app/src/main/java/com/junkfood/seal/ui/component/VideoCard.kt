@@ -26,8 +26,6 @@ import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
-import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,11 +49,10 @@ fun VideoCard(
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
                     .clip(MaterialTheme.shapes.small),
-                model = if (PreferenceUtil.getValue(PRIVATE_MODE)) null else
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(thumbnailUrl)
-                        .crossfade(true)
-                        .build(),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null, contentScale = ContentScale.Crop
             )
             Column(

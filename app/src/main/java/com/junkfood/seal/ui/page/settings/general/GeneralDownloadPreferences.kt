@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DoneAll
-import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.HistoryToggleOff
 import androidx.compose.material.icons.outlined.Image
@@ -22,6 +21,8 @@ import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,13 +67,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun GeneralDownloadPreferences(
     onBackPressed: () -> Unit,
-    navigateToDownloadDirectory: () -> Unit,
     navigateToTemplate: () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
-
 
 
     var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
@@ -81,6 +80,12 @@ fun GeneralDownloadPreferences(
     var downloadNotification by remember {
         mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
     }
+
+    var isPrivateModeEnabled by remember {
+        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PRIVATE_MODE))
+    }
+
+    var isPreviewDisabled by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) }
 
 
     val notificationPermission =
@@ -99,7 +104,7 @@ fun GeneralDownloadPreferences(
             com.junkfood.seal.ui.component.LargeTopAppBar(title = {
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(id = R.string.download),
+                    text = stringResource(id = R.string.general_settings),
                 )
             }, navigationIcon = {
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
@@ -122,16 +127,7 @@ fun GeneralDownloadPreferences(
             LazyColumn(
                 modifier = Modifier.padding(it)
             ) {
-                item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.general_settings))
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.download_directory),
-                        description = stringResource(R.string.download_directory_desc),
-                        icon = Icons.Outlined.FolderOpen
-                    ) { navigateToDownloadDirectory() }
-                }
+
                 item {
                     var ytdlpVersion by remember {
                         mutableStateOf(BaseApplication.ytdlpVersion)
@@ -146,6 +142,8 @@ fun GeneralDownloadPreferences(
                         }
                     }
                 }
+
+
                 item {
                     PreferenceSwitch(title = stringResource(id = R.string.download_notification),
                         description = stringResource(
@@ -218,10 +216,12 @@ fun GeneralDownloadPreferences(
                         isChecked = displayErrorReport
                     )
                 }
+
                 item {
-                    var isPrivateModeEnabled by remember {
-                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PRIVATE_MODE))
-                    }
+                    PreferenceSubtitle(text = stringResource(id = R.string.privacy))
+                }
+
+                item {
                     PreferenceSwitch(
                         title = stringResource(R.string.private_mode),
                         description = stringResource(R.string.private_mode_desc),
@@ -236,9 +236,21 @@ fun GeneralDownloadPreferences(
                         }
                     )
                 }
-
-
-
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.disable_preview),
+                        description = stringResource(R.string.disable_preview_desc),
+                        icon = if (isPreviewDisabled) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                        isChecked = isPreviewDisabled,
+                        onClick = {
+                            isPreviewDisabled = !isPreviewDisabled
+                            PreferenceUtil.updateValue(
+                                PreferenceUtil.DISABLE_PREVIEW,
+                                isPreviewDisabled
+                            )
+                        }
+                    )
+                }
 
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.advanced_settings))

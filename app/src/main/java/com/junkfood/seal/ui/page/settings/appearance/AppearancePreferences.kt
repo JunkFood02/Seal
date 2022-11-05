@@ -124,10 +124,10 @@ fun AppearancePreferences(
                             .padding(bottom = 6.dp)
                     ) {
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
-                        ColorButton(color = Color.Yellow)
+                        ColorButton(color = Color.Blue)
                         ColorButton(
                             color = Color(
-                                Hct.from(60.0, 150.0, 70.0).toInt()
+                                Hct.from(60.0, 100.0, 70.0).toInt()
                             )
                         )
                         ColorButton(
@@ -137,8 +137,8 @@ fun AppearancePreferences(
                         )
                         ColorButton(color = Color.Cyan)
                         ColorButton(color = Color.Red)
+                        ColorButton(color = Color.Yellow)
                         ColorButton(color = Color.Magenta)
-                        ColorButton(color = Color.Blue)
                     }
                 }
                 if (DynamicColors.isDynamicColorAvailable()) {

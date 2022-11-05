@@ -117,7 +117,7 @@ object PreferenceUtil {
     const val RATE_LIMIT = "rate_limit"
     const val MAX_RATE = "max_rate"
     const val HIGH_CONTRAST = "high_contrast"
-
+    const val DISABLE_PREVIEW = "disable_preview"
 
     const val SYSTEM_DEFAULT = 0
 
