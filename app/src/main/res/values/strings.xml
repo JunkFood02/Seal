@@ -240,7 +240,7 @@
     <string name="la_eu" translatable="false">Euskara</string>
     <string name="la_hi" translatable="false">हिन्दी</string>
     <string name="la_ml" translatable="false">മലയാളം</string>
-    <string name="download_queue">Download queue</string>
+    <string name="download_queue" translatable="false">Download queue</string>
     <string name="unavailable">Unavailable</string>
     <string name="format_settings_desc">File format, video quality, subtitles</string>
     <string name="general_settings_desc">Yt-dlp version, notification, playlist</string>
@@ -251,4 +251,6 @@
     <string name="use_custom_command">Use custom command</string>
     <string name="private_directory">Private directory</string>
     <string name="private_directory_desc">Store downloads in a hidden directory</string>
+    <string name="crop_artwork">Crop artwork</string>
+    <string name="crop_artwork_desc">Crop embed image into square</string>
 </resources>

@@ -12,6 +12,7 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
+import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
@@ -124,6 +125,7 @@ object DownloadUtil {
         val rateLimit: Boolean = PreferenceUtil.getValue(RATE_LIMIT),
         val maxDownloadRate: String = PreferenceUtil.getMaxDownloadRate(),
         val privateDirectory: Boolean = PreferenceUtil.getValue(PRIVATE_DIRECTORY),
+        val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
         val customCommandTemplate: String = ""
     )
 
@@ -191,9 +193,13 @@ object DownloadUtil {
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--convert-thumbnails", "png")
-                val configFile = context.getConfigFile(id)
-                FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
-                addOption("--config", configFile.absolutePath)
+
+                if (cropArtwork) {
+                    val configFile = context.getConfigFile(id)
+                    FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
+                    addOption("--config", configFile.absolutePath)
+                }
+
                 if (playlistInfo.url.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption(

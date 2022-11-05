@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
+import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Subtitles
@@ -33,6 +34,8 @@ import com.junkfood.seal.ui.page.settings.general.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.general.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.general.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
+import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,9 +46,10 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
     )
 
     var audioSwitch by remember {
-        mutableStateOf(
-            PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)
-        )
+        mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO))
+    }
+    var isArtworkCroppingEnabled by remember {
+        mutableStateOf(PreferenceUtil.getValue(CROP_ARTWORK))
     }
 
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
@@ -87,7 +91,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         isChecked = audioSwitch,
                         onClick = {
                             audioSwitch = !audioSwitch
-                            PreferenceUtil.updateValue(PreferenceUtil.EXTRACT_AUDIO, audioSwitch)
+                            PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
                         })
                 }
                 item {
@@ -98,7 +102,18 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         enabled = audioSwitch
                     ) { showAudioFormatEditDialog = true }
                 }
-
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.crop_artwork),
+                        description = stringResource(R.string.crop_artwork_desc),
+                        icon = Icons.Outlined.Crop,
+                        enabled = audioSwitch,
+                        isChecked = isArtworkCroppingEnabled
+                    ) {
+                        isArtworkCroppingEnabled = !isArtworkCroppingEnabled
+                        PreferenceUtil.updateValue(CROP_ARTWORK, isArtworkCroppingEnabled)
+                    }
+                }
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.video))
                 }
