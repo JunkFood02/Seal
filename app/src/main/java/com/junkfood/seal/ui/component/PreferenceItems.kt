@@ -465,7 +465,6 @@ private fun PreferenceSwitchWithContainerPreview() {
     var isChecked by remember { mutableStateOf(false) }
     PreviewThemeLight {
         PreferenceSwitchWithContainer(
-            description = null,
             isChecked = isChecked,
             onClick = { isChecked = !isChecked })
     }
@@ -474,7 +473,6 @@ private fun PreferenceSwitchWithContainerPreview() {
 @Composable
 fun PreferenceSwitchWithContainer(
     title: String = "Title ".repeat(2),
-    description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
     isChecked: Boolean = true,
     onClick: () -> Unit = {},
@@ -499,7 +497,7 @@ fun PreferenceSwitchWithContainer(
                 if (isChecked) primaryContainer else outline }
             )
             .selectable(selected = isChecked) { onClick() }
-            .padding(horizontal = 12.dp, vertical = 16.dp),
+            .padding(horizontal = 12.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon?.let {
@@ -518,20 +516,12 @@ fun PreferenceSwitchWithContainer(
                 .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
         ) {
             with(MaterialTheme) {
-
                 Text(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
                     color = if (isChecked) colorScheme.onSecondaryContainer else colorScheme.surface
                 )
-                if (description != null)
-                    Text(
-                        text = description,
-                        color = if (isChecked) colorScheme.onSecondaryContainer else colorScheme.surface,
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
             }
         }
         Switch(

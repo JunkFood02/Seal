@@ -165,7 +165,6 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
             item {
                 PreferenceSwitchWithContainer(
                     title = stringResource(R.string.use_custom_command),
-                    description = null,
                     icon = null,
                     isChecked = isCustomCommandEnabled,
                     onClick = {
