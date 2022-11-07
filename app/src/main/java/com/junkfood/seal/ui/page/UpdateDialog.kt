@@ -27,9 +27,8 @@ fun UpdateDialog(
     AlertDialog(
         onDismissRequest = {},
         title = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                Text(title)
-            }
+            Text(title)
+
         },
         icon = { Icon(Icons.Outlined.NewReleases, null) }, confirmButton = {
             TextButton(onClick = { if (downloadStatus !is UpdateUtil.DownloadStatus.Progress) onConfirmUpdate() }) {
@@ -41,6 +40,8 @@ fun UpdateDialog(
         }, dismissButton = {
             DismissButton { onDismissRequest() }
         }, text = {
-            Text(releaseNote)
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                Text(releaseNote)
+            }
         })
 }

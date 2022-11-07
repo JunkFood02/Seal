@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,13 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.junkfood.seal.R
-import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
+import com.junkfood.seal.ui.common.AsyncImageImpl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,17 +43,80 @@ fun VideoCard(
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
         Column {
-            AsyncImage(
+            AsyncImageImpl(
                 modifier = Modifier
                     .padding()
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
                     .clip(MaterialTheme.shapes.small),
-                model = if (PreferenceUtil.getValue(PRIVATE_MODE)) null else
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(thumbnailUrl)
-                        .crossfade(true)
-                        .build(),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(thumbnailUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null, contentScale = ContentScale.Crop
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = author,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            val progressAnimationValue by animateFloatAsState(
+                targetValue = progress / 100f,
+                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+            )
+            if (progress < 0f)
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            else
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    progress = progressAnimationValue,
+                )
+        }
+    }
+}
+
+@Composable
+@Preview
+@OptIn(ExperimentalMaterial3Api::class)
+fun VideoCardPreview(
+    modifier: Modifier = Modifier,
+    title: String = "Video title sample text",
+    author: String = "Video creator sample text",
+    thumbnailUrl: Any = R.drawable.sample,
+    onClick: () -> Unit = {},
+    progress: Float = 100f,
+) {
+    ElevatedCard(
+        modifier = modifier
+            .fillMaxWidth(),
+        onClick = { onClick() }, shape = MaterialTheme.shapes.small
+    ) {
+        Column {
+            Image(
+                modifier = Modifier
+                    .padding()
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                    .clip(MaterialTheme.shapes.small),
+                painter = painterResource(id = R.drawable.sample),
                 contentDescription = null, contentScale = ContentScale.Crop
             )
             Column(

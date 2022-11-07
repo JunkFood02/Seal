@@ -22,6 +22,7 @@ import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
+import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -49,7 +50,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private var currentJob: Job? = null
 
     data class DownloadViewState(
-        val showVideoCard: Boolean = false,
+        val showDownloadProgress: Boolean = false,
         val showPlaylistSelectionDialog: Boolean = false,
         val progress: Float = 0f,
         val url: String = "",
@@ -80,9 +81,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     data class DownloadTaskViewState(
         val title: String = "",
-        val artist: String = "",
+        val author: String = "",
         val progress: Float = 0f,
-        val thumbnail: String = "",
+        val thumbnailUrl: String = "",
         val progressText: String = "",
     )
 
@@ -203,7 +204,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
-        if (PreferenceUtil.isNetworkAvailableForDownload()) {
+        if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             viewModelScope.launch {
                 showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
             }
@@ -247,7 +248,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             update {
                 it.copy(
                     progress = 0f,
-                    showVideoCard = true,
+                    showDownloadProgress = true,
                     isProcessRunning = true,
                     downloadingTaskId = videoInfo.id,
                     videoTitle = videoInfo.title,
@@ -312,7 +313,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             if (enabled) {
                 update {
                     it.copy(
-                        showVideoCard = false,
+                        showDownloadProgress = true,
                         isInCustomCommandMode = true,
                     )
                 }
@@ -333,22 +334,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val urlList = stateFlow.value.url.split(Regex("[\n ]"))
         downloadResultTemp = DownloadUtil.Result.failure()
 
-        viewModelScope.launch(Dispatchers.IO) {
-            if (urlList.size != 1) return@launch
-            kotlin.runCatching {
-                with(DownloadUtil.fetchVideoInfo(urlList[0])) {
-                    mutableStateFlow.update {
-                        it.copy(
-                            videoTitle = title.toString(),
-                            videoThumbnailUrl = TextUtil.urlHttpToHttps(thumbnail),
-                            videoAuthor = uploader.toString(),
-                            showVideoCard = true
-                        )
-                    }
-                }
-            }
-
-        }
         val notificationId = stateFlow.value.url.hashCode()
 
         TextUtil.makeToast(context.getString(R.string.start_execute))
@@ -360,7 +345,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             try {
                 with(mutableStateFlow) {
                     val request = YoutubeDLRequest(urlList)
-                    request.addOption("-P", BaseApplication.videoDownloadDir)
+                    request.addOption(
+                        "-P",
+                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else
+                            BaseApplication.videoDownloadDir
+                    )
                     request.addOption("-P", "temp:" + context.getTempDir())
                     FileUtil.writeContentToFile(
                         PreferenceUtil.getTemplate(),

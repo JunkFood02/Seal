@@ -67,15 +67,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
-import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.ui.component.VideoCardPreview
+import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
@@ -87,7 +87,9 @@ import com.junkfood.seal.util.TextUtil
 )
 @Composable
 fun DownloadPage(
-    navController: NavController,
+    navigateToSettings: () -> Unit = {},
+    navigateToDownloads: () -> Unit = {},
+    navigateToDownloadQueue: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -103,7 +105,6 @@ fun DownloadPage(
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsState()
     val clipboardManager = LocalClipboardManager.current
-    val hapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
 
@@ -127,120 +128,32 @@ fun DownloadPage(
         downloadCallback()
     }
 
+    BackHandler(viewState.value.drawerState.isVisible) {
+        downloadViewModel.hideDialog(scope, useDialog)
+    }
 
     PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
+        DownloadPageImpl(
+            viewState = viewState.value, downloadCallback = { downloadCallback() },
+            navigateToSettings = navigateToSettings,
+            navigateToDownloads = navigateToDownloads,
+            pasteCallback = {
+                TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
+                    .let { downloadViewModel.updateUrl(it) }
+            },
+            cancelCallback = {
+                downloadViewModel.cancelDownload()
+            },
+            onVideoCardClicked = { downloadViewModel.openVideoFile() },
+            onUrlChanged = { url -> downloadViewModel.updateUrl(url) }
+        ) { }
         with(viewState.value) {
-            BackHandler(drawerState.isVisible) {
-                downloadViewModel.hideDialog(scope, useDialog)
-            }
-            Scaffold(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth(),
-                topBar = {
-                    TopAppBar(title = {},
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        navigationIcon = {
-                            IconButton(
-                                onClick = { navController.navigate(Route.SETTINGS) }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(id = R.string.settings)
-                                )
-                            }
-                        },
-                        actions = {
-                            IconButton(onClick = { navController.navigate(Route.DOWNLOADS) }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Subscriptions,
-                                    contentDescription = stringResource(id = R.string.downloads_history)
-                                )
-                            }
-                        })
-                },
-                floatingActionButton = {
-                    FABs(
-                        modifier = with(receiver = Modifier.systemBarsPadding()) { if (showVideoCard) this else this.imePadding() },
-                        downloadCallback = { downloadCallback() },
-                        pasteCallback = {
-                            TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
-                                .let { downloadViewModel.updateUrl(it) }
-                        }
-                    )
-                }) {
-                Column(
-                    modifier = Modifier
-                        .padding(it)
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    TitleWithProgressIndicator(
-                        showProgressIndicator = isProcessRunning || isFetchingInfo,
-                        showCancelOperation = isProcessRunning,
-                        isDownloadingPlaylist = isDownloadingPlaylist,
-                        currentIndex = currentIndex,
-                        downloadItemCount = downloadItemCount,
-                        onClick = {
-                            downloadViewModel.cancelDownload()
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        },
-                        onLongClick = {
-                            PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        }
-                    )
-                    Column(
-                        Modifier
-                            .padding(horizontal = 24.dp)
-                            .padding(top = 24.dp)
-                    ) {
-                        AnimatedVisibility(visible = showVideoCard) {
-                            VideoCard(
-                                modifier = Modifier,
-                                title = videoTitle,
-                                author = videoAuthor,
-                                thumbnailUrl = videoThumbnailUrl,
-                                progress = progress,
-                                onClick = { downloadViewModel.openVideoFile() },
-                            )
-                        }
-                        InputUrl(
-                            url = url,
-                            hint = stringResource(R.string.video_url),
-                            progress = progress,
-                            showVideoCard = showVideoCard,
-                            isInCustomMode = isInCustomCommandMode,
-                            error = isDownloadError,
-                        ) { url -> downloadViewModel.updateUrl(url) }
-                        AnimatedVisibility(
-                            enter = expandVertically() + fadeIn(),
-                            exit = shrinkVertically() + fadeOut(),
-                            visible = debugMode && progressText.isNotEmpty()
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(bottom = 12.dp),
-                                text = progressText,
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                    AnimatedVisibility(visible = isDownloadError) {
-                        ErrorMessage(
-                            error = isDownloadError,
-                            copyToClipboard = isShowingErrorReport,
-                            errorMessage = errorMessage
-                        )
-                    }
-                    NavigationBarSpacer()
-                }
-            }
             DownloadSettingDialog(
                 useDialog = useDialog,
                 dialogState = showDownloadSettingDialog,
@@ -253,6 +166,135 @@ fun DownloadPage(
 
 }
 
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class
+)
+@Composable
+fun DownloadPageImpl(
+    viewState: DownloadViewModel.DownloadViewState,
+    downloadCallback: () -> Unit = {},
+    navigateToSettings: () -> Unit = {},
+    navigateToDownloads: () -> Unit = {},
+    pasteCallback: () -> Unit = {},
+    cancelCallback: () -> Unit = {},
+    onVideoCardClicked: () -> Unit = {},
+    onUrlChanged: (String) -> Unit = {},
+    isPreview: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val hapticFeedback = LocalHapticFeedback.current
+
+    with(viewState) {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxWidth(),
+            topBar = {
+                TopAppBar(title = {},
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { navigateToSettings() }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = stringResource(id = R.string.settings)
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { navigateToDownloads() }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Subscriptions,
+                                contentDescription = stringResource(id = R.string.downloads_history)
+                            )
+                        }
+                    })
+            },
+            floatingActionButton = {
+                FABs(
+                    modifier = with(receiver = Modifier.systemBarsPadding()) { if (showDownloadProgress) this else this.imePadding() },
+                    downloadCallback = downloadCallback,
+                    pasteCallback = pasteCallback
+                )
+            }) {
+            Column(
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                TitleWithProgressIndicator(
+                    showProgressIndicator = isProcessRunning || isFetchingInfo,
+                    showCancelOperation = isProcessRunning,
+                    isDownloadingPlaylist = isDownloadingPlaylist,
+                    currentIndex = currentIndex,
+                    downloadItemCount = downloadItemCount,
+                    onClick = {
+                        cancelCallback()
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    },
+                    onLongClick = {
+                        PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                )
+                Column(
+                    Modifier
+                        .padding(horizontal = 24.dp)
+                        .padding(top = 24.dp)
+                ) {
+                    AnimatedVisibility(
+                        visible = showDownloadProgress && !PreferenceUtil.getValue(
+                            PreferenceUtil.DISABLE_PREVIEW
+                        )
+                    ) {
+                        if (!isPreview)
+                            VideoCard(
+                                modifier = Modifier,
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = videoThumbnailUrl,
+                                progress = progress,
+                                onClick = onVideoCardClicked,
+                            )
+                        else
+                            VideoCardPreview()
+                    }
+                    InputUrl(
+                        url = url,
+                        hint = stringResource(R.string.video_url),
+                        progress = progress,
+                        showDownloadProgress = showDownloadProgress,
+                        error = isDownloadError,
+                    ) { url -> onUrlChanged(url) }
+                    AnimatedVisibility(
+                        enter = expandVertically() + fadeIn(),
+                        exit = shrinkVertically() + fadeOut(),
+                        visible = debugMode && progressText.isNotEmpty()
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(bottom = 12.dp),
+                            text = progressText,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+                AnimatedVisibility(visible = isDownloadError) {
+                    ErrorMessage(
+                        error = isDownloadError,
+                        copyToClipboard = isShowingErrorReport,
+                        errorMessage = errorMessage
+                    )
+                }
+                content()
+                NavigationBarSpacer()
+            }
+        }
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -260,8 +302,7 @@ fun InputUrl(
     url: String,
     hint: String,
     error: Boolean,
-    isInCustomMode: Boolean = false,
-    showVideoCard: Boolean = false,
+    showDownloadProgress: Boolean = false,
     progress: Float,
     onValueChange: (String) -> Unit
 ) {
@@ -274,7 +315,7 @@ fun InputUrl(
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
     )
-    AnimatedVisibility(visible = isInCustomMode and !showVideoCard) {
+    AnimatedVisibility(visible = showDownloadProgress && PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) {
         Row(
             Modifier.padding(0.dp, 12.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -285,18 +326,21 @@ fun InputUrl(
             )
             if (progressAnimationValue < 0)
                 LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(0.75f),
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .clip(MaterialTheme.shapes.large),
                 )
             else
                 LinearProgressIndicator(
                     progress = progressAnimationValue,
-                    modifier = Modifier.fillMaxWidth(0.75f),
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .clip(MaterialTheme.shapes.large),
                 )
             Text(
                 text = if (progress < 0) "0%" else "$progress%",
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.weight(0.25f)
             )
         }
     }
@@ -304,7 +348,6 @@ fun InputUrl(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-@Preview
 fun TitleWithProgressIndicator(
     showProgressIndicator: Boolean = true,
     showCancelOperation: Boolean = true,
@@ -374,16 +417,22 @@ fun ErrorMessage(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    Row(modifier = with(modifier.padding(horizontal = 16.dp)) {
-        if (error && copyToClipboard) {
-            clip(MaterialTheme.shapes.large).clickable {
-                if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
-                    clipboardManager.setText(AnnotatedString(errorMessage))
+    Row(
+        modifier = with(
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            if (error && copyToClipboard) {
+                clip(MaterialTheme.shapes.large).clickable {
+                    if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
+                        clipboardManager.setText(AnnotatedString(errorMessage))
+                    }
+                    TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
                 }
-                TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
-            }
-        } else this
-    }.padding(horizontal = 8.dp, vertical = 8.dp)) {
+            } else this
+        }.padding(horizontal = 8.dp, vertical = 8.dp)
+    ) {
         Icon(
             Icons.Outlined.Error, contentDescription = null,
             tint = MaterialTheme.colorScheme.error
@@ -430,4 +479,17 @@ fun FABs(
         )
     }
 
+}
+
+@Composable
+@Preview
+fun DownloadPagePreview() {
+    PreviewThemeLight {
+        Column() {
+            DownloadPageImpl(
+                viewState = DownloadViewModel.DownloadViewState(showDownloadProgress = true),
+                isPreview = true
+            ) {}
+        }
+    }
 }

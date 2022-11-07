@@ -129,4 +129,8 @@ object NotificationUtil {
     fun cancelAllNotifications() {
         notificationManager.cancelAll()
     }
+
+    fun areNotificationsEnabled(): Boolean {
+        return if (Build.VERSION.SDK_INT <= 24) true else notificationManager.areNotificationsEnabled()
+    }
 }

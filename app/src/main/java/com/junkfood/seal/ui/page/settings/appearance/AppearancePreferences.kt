@@ -62,6 +62,7 @@ import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLO
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 import material.io.color.hct.Hct
+import material.io.color.palettes.CorePalette
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,10 +124,10 @@ fun AppearancePreferences(
                             .padding(bottom = 6.dp)
                     ) {
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
-                        ColorButton(color = Color.Yellow)
+                        ColorButton(color = Color.Blue)
                         ColorButton(
                             color = Color(
-                                Hct.from(60.0, 150.0, 70.0).toInt()
+                                Hct.from(60.0, 100.0, 70.0).toInt()
                             )
                         )
                         ColorButton(
@@ -136,8 +137,8 @@ fun AppearancePreferences(
                         )
                         ColorButton(color = Color.Cyan)
                         ColorButton(color = Color.Red)
+                        ColorButton(color = Color.Yellow)
                         ColorButton(color = Color.Magenta)
-                        ColorButton(color = Color.Blue)
                     }
                 }
                 if (DynamicColors.isDynamicColorAvailable()) {
@@ -206,26 +207,45 @@ fun AppearancePreferences(
             })
 }
 
+@Composable
+fun ColorButton(modifier: Modifier = Modifier, color: Color = Color.Green) {
+    val corePalette = CorePalette.of(color.toArgb())
+    val seedColor = corePalette.a2.tone(60)
+
+    ColorButtonImpl(
+        modifier = modifier,
+        corePalette = corePalette,
+        color = color,
+        isDarkTheme = LocalDarkTheme.current.isDarkTheme(),
+        isSelected = !LocalDynamicColorSwitch.current && LocalSeedColor.current == seedColor
+    ) {
+        PreferenceUtil.switchDynamicColor(enabled = false)
+        PreferenceUtil.modifyThemeSeedColor(seedColor)
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColorButton(modifier: Modifier = Modifier, color: Color) {
-    val corePalette = material.io.color.palettes.CorePalette.of(color.toArgb())
+fun ColorButtonImpl(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
+    color: Color = Color.Green,
+    corePalette: CorePalette = CorePalette.of(color.toArgb()),
+    isDarkTheme: Boolean = false,
+    onClick: () -> Unit = {}
+) {
     val lightColor = corePalette.a2.tone(80)
     val seedColor = corePalette.a2.tone(60)
     val darkColor = corePalette.a2.tone(60)
+    val showColor = if (isDarkTheme) darkColor else lightColor
+    val state = animateDpAsState(targetValue = if (isSelected) 48.dp else 36.dp)
+    val state2 = animateDpAsState(targetValue = if (isSelected) 18.dp else 0.dp)
 
-    val showColor = if (LocalDarkTheme.current.isDarkTheme()) darkColor else lightColor
-    val currentColor =
-        !LocalDynamicColorSwitch.current && LocalSeedColor.current == seedColor
-    val state = animateDpAsState(targetValue = if (currentColor) 48.dp else 36.dp)
-    val state2 = animateDpAsState(targetValue = if (currentColor) 18.dp else 0.dp)
     ElevatedCard(modifier = modifier
         .clearAndSetSemantics { }
         .padding(4.dp)
-        .size(72.dp), onClick = {
-        PreferenceUtil.switchDynamicColor(enabled = false)
-        PreferenceUtil.modifyThemeSeedColor(seedColor)
-    }) {
+        .size(72.dp), onClick = { onClick() }) {
         Box(Modifier.fillMaxSize()) {
             Box(
                 modifier = modifier
@@ -247,5 +267,4 @@ fun ColorButton(modifier: Modifier = Modifier, color: Color) {
             }
         }
     }
-
 }

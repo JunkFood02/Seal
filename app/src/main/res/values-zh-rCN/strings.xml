@@ -182,8 +182,8 @@
     <string name="clear_temp_files_count">共清除了 %1$d 个临时文件</string>
     <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？</string>
     <string name="multiselect_mode">多选模式</string>
-    <string name="private_mode">隐私模式</string>
-    <string name="private_mode_desc">停止显示视频缩略图与保存下载记录</string>
+    <string name="private_mode">无痕模式</string>
+    <string name="private_mode_desc">停止保存下载记录</string>
     <string name="dynamic_color">动态色彩</string>
     <string name="dynamic_color_desc">将壁纸颜色应用于应用主题</string>
     <string name="download_with_cellular">使用移动数据下载</string>
@@ -197,4 +197,16 @@
     <string name="high_contrast">高对比度深色主题</string>
     <string name="invalid_input">输入不合法</string>
     <string name="lowest_quality">最低画质</string>
+    <string name="unavailable">不可用</string>
+    <string name="format_settings_desc">文件格式、视频画质、字幕</string>
+    <string name="general_settings_desc">Yt-dlp 版本、通知、隐私</string>
+    <string name="network_settings_desc">限速下载、下载工具、cookies</string>
+    <string name="disable_preview">禁用预览</string>
+    <string name="disable_preview_desc">在下载时不显示视频预览图</string>
+    <string name="privacy">隐私</string>
+    <string name="use_custom_command">启用自定义命令</string>
+    <string name="private_directory">隐藏目录</string>
+    <string name="private_directory_desc">将文件下载到隐藏目录中</string>
+    <string name="crop_artwork">裁剪封面</string>
+    <string name="crop_artwork_desc">将音频中内嵌封面裁切为正方形</string>
 </resources>

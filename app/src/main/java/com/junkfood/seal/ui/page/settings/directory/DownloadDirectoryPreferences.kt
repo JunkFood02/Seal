@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPermissionsApi::class)
 
-package com.junkfood.seal.ui.page.settings.download
+package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.content.Context
@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SnippetFolder
+import androidx.compose.material.icons.outlined.TabUnselected
 import androidx.compose.material.icons.outlined.VideoLibrary
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -68,18 +69,20 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesCaution
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getConfigDirectory
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
+import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
-const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents)"
+private const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
+private const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents)"
 
 private fun String.isValidDirectory(): Boolean {
     return this.contains(Regex(validDirectoryRegex))
@@ -98,19 +101,34 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     )
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
-    var videoDirectoryText by remember { mutableStateOf(BaseApplication.videoDownloadDir) }
-    var audioDirectoryText by remember { mutableStateOf(BaseApplication.audioDownloadDir) }
-    var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
+
     var isSubdirectoryEnabled
             by remember { mutableStateOf(PreferenceUtil.getValue(SUBDIRECTORY, false)) }
     var isCustomPathEnabled
             by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_PATH, false)) }
+
+    var isPrivateDirectoryEnabled by remember {
+        mutableStateOf(PreferenceUtil.getValue(PRIVATE_DIRECTORY))
+    }
+
+    var videoDirectoryText by remember(isPrivateDirectoryEnabled) {
+        mutableStateOf(if (!isPrivateDirectoryEnabled) BaseApplication.videoDownloadDir else BaseApplication.getPrivateDownloadDirectory())
+    }
+    var audioDirectoryText by remember(isPrivateDirectoryEnabled) {
+        mutableStateOf(if (!isPrivateDirectoryEnabled) BaseApplication.audioDownloadDir else BaseApplication.getPrivateDownloadDirectory())
+    }
+
+    var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
+
+
     var showEditDialog by remember { mutableStateOf(false) }
     var showClearTempDialog by remember { mutableStateOf(false) }
 
     var isEditingAudioDirectory = false
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val showDirectoryAlert =
+        Build.VERSION.SDK_INT >= 30 && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
 
     val launcher =
         rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
@@ -162,9 +180,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                if (Build.VERSION.SDK_INT >= 30
-                    && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
-                )
+                if (showDirectoryAlert)
                     item {
                         PreferencesCaution(
                             title = stringResource(R.string.permission_issue),
@@ -178,7 +194,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_directory),
-                        description = videoDirectoryText,
+                        description = videoDirectoryText, enabled = !isPrivateDirectoryEnabled,
                         icon = Icons.Outlined.VideoLibrary
                     ) {
                         isEditingAudioDirectory = false
@@ -188,7 +204,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.audio_directory),
-                        description = audioDirectoryText,
+                        description = audioDirectoryText, enabled = !isPrivateDirectoryEnabled,
                         icon = Icons.Outlined.LibraryMusic
                     ) {
                         isEditingAudioDirectory = true
@@ -204,6 +220,24 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         isSubdirectoryEnabled = !isSubdirectoryEnabled
                         PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
                     }
+                }
+                item {
+                    PreferenceSubtitle(text = stringResource(R.string.privacy))
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.private_directory),
+                        description = stringResource(
+                            R.string.private_directory_desc
+                        ),
+                        icon = Icons.Outlined.TabUnselected,
+                        enabled = !showDirectoryAlert,
+                        isChecked = isPrivateDirectoryEnabled,
+                        onClick = {
+                            isPrivateDirectoryEnabled = !isPrivateDirectoryEnabled
+                            PreferenceUtil.updateValue(PRIVATE_DIRECTORY, isPrivateDirectoryEnabled)
+                        }
+                    )
                 }
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
@@ -250,6 +284,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 ConfirmButton {
                     showClearTempDialog = false
                     scope.launch(Dispatchers.IO) {
+                        FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count =
                             FileUtil.clearTempFiles(context.getTempDir())
                         withContext(Dispatchers.Main) {
@@ -281,7 +316,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
                         value = pathTemplateText,
                         onValueChange = { pathTemplateText = it },
                         trailingIcon = {

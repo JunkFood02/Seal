@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
@@ -84,6 +85,7 @@ class BaseApplication : Application() {
 
 
     companion object {
+        private const val PRIVATE_DIRECTORY_SUFFIX = ".Seal"
         private const val TAG = "BaseApplication"
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
@@ -91,6 +93,14 @@ class BaseApplication : Application() {
         var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
         lateinit var connectivityManager: ConnectivityManager
+
+        fun getPrivateDownloadDirectory(): String =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).resolve(
+                PRIVATE_DIRECTORY_SUFFIX
+            ).run {
+                createEmptyFile(".nomedia")
+                absolutePath
+            }
 
 
         fun updateDownloadDir(path: String, isAudio: Boolean = false) {

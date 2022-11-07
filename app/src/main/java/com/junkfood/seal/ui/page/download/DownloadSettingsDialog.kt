@@ -48,10 +48,10 @@ import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.FilterChip
 import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.ui.page.settings.download.AudioFormatDialog
-import com.junkfood.seal.ui.page.settings.download.CommandTemplateDialog
-import com.junkfood.seal.ui.page.settings.download.VideoFormatDialog
-import com.junkfood.seal.ui.page.settings.download.VideoQualityDialog
+import com.junkfood.seal.ui.page.settings.general.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
+import com.junkfood.seal.ui.page.settings.general.VideoFormatDialog
+import com.junkfood.seal.ui.page.settings.general.VideoQualityDialog
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND

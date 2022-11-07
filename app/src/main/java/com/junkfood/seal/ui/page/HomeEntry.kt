@@ -25,7 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
@@ -33,6 +36,7 @@ import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.ui.page.queue.DownloadQueuePage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -40,9 +44,11 @@ import com.junkfood.seal.ui.page.settings.about.kotlin
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
-import com.junkfood.seal.ui.page.settings.download.DownloadDirectoryPreferences
-import com.junkfood.seal.ui.page.settings.download.DownloadPreferences
-import com.junkfood.seal.ui.page.settings.download.TemplateListPage
+import com.junkfood.seal.ui.page.settings.format.DownloadFormatPreferences
+import com.junkfood.seal.ui.page.settings.general.DownloadDirectoryPreferences
+import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
+import com.junkfood.seal.ui.page.settings.general.TemplateListPage
+import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil
@@ -117,30 +123,16 @@ fun HomeEntry(
         ) {
             animatedComposable(Route.HOME) {
                 DownloadPage(
-                    navController,
-                    downloadViewModel
+                    navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
+                    navigateToSettings = { navController.navigate(Route.SETTINGS) },
+                    navigateToDownloadQueue = { navController.navigate(Route.DOWNLOAD_QUEUE) },
+                    downloadViewModel = downloadViewModel
                 )
             }
-            animatedComposable(Route.SETTINGS) { SettingsPage(navController) }
-            animatedComposable(Route.DOWNLOAD_PREFERENCES) {
-                DownloadPreferences(
-                    onBackPressed = { onBackPressed() },
-                    navigateToDownloadDirectory = { navController.navigate(Route.DOWNLOAD_DIRECTORY) }
-                ) { navController.navigate(Route.TEMPLATE) }
-            }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
-            animatedComposable(Route.ABOUT) {
-                AboutPage(onBackPressed = { onBackPressed() })
-                { navController.navigate(Route.CREDITS) }
-            }
-            animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
-            animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
-            animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
-            animatedComposable(Route.DOWNLOAD_DIRECTORY) {
-                DownloadDirectoryPreferences { onBackPressed() }
-            }
-            animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
-            animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
+            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
+            settingsGraph(navController) { onBackPressed() }
+
         }
 
         WelcomeDialog {
@@ -190,6 +182,42 @@ fun HomeEntry(
                 releaseNote = latestRelease.body.toString(),
                 downloadStatus = currentDownloadStatus
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.settingsGraph(
+    navController: NavHostController,
+    onBackPressed: () -> Unit = {}
+) {
+    navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
+        animatedComposable(Route.DOWNLOAD_DIRECTORY) {
+            DownloadDirectoryPreferences { onBackPressed() }
+        }
+        animatedComposable(Route.SETTINGS_PAGE) { SettingsPage(navController) }
+        animatedComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
+            GeneralDownloadPreferences(
+                onBackPressed = { onBackPressed() },
+            ) { navController.navigate(Route.TEMPLATE) }
+        }
+        animatedComposable(Route.DOWNLOAD_FORMAT) { DownloadFormatPreferences { onBackPressed() } }
+        animatedComposable(Route.ABOUT) {
+            AboutPage(onBackPressed = { onBackPressed() })
+            { navController.navigate(Route.CREDITS) }
+        }
+        animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
+        animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+        animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
+        animatedComposable(Route.DOWNLOAD_DIRECTORY) {
+            DownloadDirectoryPreferences { onBackPressed() }
+        }
+        animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
+        animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
+        animatedComposable(Route.NETWORK_PREFERENCES) {
+            NetworkPreferences {
+                onBackPressed()
+            }
         }
     }
 }
