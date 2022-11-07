@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 buildscript {
     val composeVersion by extra("1.4.0-alpha01")
     val lifecycleVersion by extra("2.6.0-alpha03")
@@ -13,16 +15,15 @@ buildscript {
 
     repositories {
         mavenCentral()
+        google()
     }
     dependencies {
-
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.extra["kotlinVersion"]}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${project.extra["hiltVersion"]}")
+        classpath(libs.kotlin.gradlePlugin)
+        classpath(libs.plugins.hilt)
     }
 }
 plugins {
-    id("com.android.application") version "7.3.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.7.20" apply false
+    alias(libs.plugins.android.application) apply false
 }
 
 tasks.register("clean", Delete::class) {
