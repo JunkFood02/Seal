@@ -289,8 +289,8 @@ fun VideoListPage(
                             isFileAvailable = file.exists(),
                             videoFileSize = videoFileSize,
                             videoUrl = videoUrl,
-                            isSelectEnabled = isSelectEnabled,
-                            isSelected = selectedItemIds.contains(id),
+                            isSelectEnabled = { isSelectEnabled },
+                            isSelected = { selectedItemIds.contains(id) },
                             onSelect = {
                                 if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
                                 else selectedItemIds.add(id)

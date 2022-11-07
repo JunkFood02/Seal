@@ -55,13 +55,13 @@ fun SettingsPage(navController: NavController) {
             navigationIcon = { BackButton { navController.popBackStack() } })
     }) {
         LazyColumn(
-            modifier = Modifier
-                .padding(top = 24.dp)
-                .padding(it)
+            modifier = Modifier.padding(it)
         ) {
             item {
                 Text(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .padding(24.dp),
                     text = stringResource(id = R.string.settings),
                     style = MaterialTheme.typography.headlineLarge
                 )

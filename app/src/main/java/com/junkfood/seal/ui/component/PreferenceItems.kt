@@ -507,7 +507,7 @@ fun PreferenceSwitchWithContainer(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = with(MaterialTheme.colorScheme) { if (isChecked) secondary else surface }
+                tint = with(MaterialTheme.colorScheme) { if (isChecked) onPrimaryContainer else surface }
             )
         }
         Column(
@@ -520,7 +520,7 @@ fun PreferenceSwitchWithContainer(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = if (isChecked) colorScheme.onSecondaryContainer else colorScheme.surface
+                    color = if (isChecked) colorScheme.onPrimaryContainer else colorScheme.surface
                 )
             }
         }

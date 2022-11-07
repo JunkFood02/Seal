@@ -56,8 +56,8 @@ fun MediaListItem(
     videoUrl: String = "",
     videoFileSize: Float = 0f,
     isFileAvailable: Boolean = true,
-    isSelectEnabled: Boolean = false,
-    isSelected: Boolean = false,
+    isSelectEnabled: () -> Boolean = { false },
+    isSelected:  () -> Boolean = { false },
     onSelect: () -> Unit = {},
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {}
@@ -67,9 +67,11 @@ fun MediaListItem(
         WindowWidthSizeClass.Expanded -> {
             if (isAudio) 0.30f else 0.55f
         }
+
         WindowWidthSizeClass.Medium -> {
             if (isAudio) 0.20f else 0.30f
         }
+
         else -> {
             if (isAudio) 0.25f else 0.45f
         }
@@ -82,7 +84,7 @@ fun MediaListItem(
         .build()
     Box(
         modifier = with(modifier) {
-            if (!isSelectEnabled)
+            if (!isSelectEnabled())
                 combinedClickable(
                     enabled = true,
                     onClick = { onClick() },
@@ -94,7 +96,7 @@ fun MediaListItem(
                     onLongClickLabel = stringResource(R.string.show_more_actions)
                 )
             else
-                selectable(selected = isSelected, onClick = onSelect)
+                selectable(selected = isSelected(), onClick = onSelect)
         }
             .fillMaxWidth(),
     ) {
@@ -105,11 +107,11 @@ fun MediaListItem(
         ) {
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.CenterVertically),
-                visible = isSelectEnabled,
+                visible = isSelectEnabled(),
             ) {
                 Checkbox(
                     modifier = Modifier.padding(start = 4.dp, end = 16.dp),
-                    checked = isSelected,
+                    checked = isSelected(),
                     onCheckedChange = null
                 )
             }
@@ -154,7 +156,7 @@ fun MediaListItem(
             }
         }
         AnimatedVisibility(
-            modifier = Modifier.align(Alignment.BottomEnd), visible = !isSelectEnabled,
+            modifier = Modifier.align(Alignment.BottomEnd), visible = !isSelectEnabled(),
             enter = fadeIn(tween(100)),
             exit = fadeOut(tween(100))
         ) {
