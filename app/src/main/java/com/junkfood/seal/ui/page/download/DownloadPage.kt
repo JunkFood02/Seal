@@ -47,7 +47,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +68,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -85,7 +86,8 @@ import com.junkfood.seal.util.TextUtil
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class
+    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalLifecycleComposeApi::class
 )
 @Composable
 fun DownloadPage(
@@ -105,7 +107,7 @@ fun DownloadPage(
             }
         }
     val scope = rememberCoroutineScope()
-    val viewState = downloadViewModel.stateFlow.collectAsState()
+    val viewState = downloadViewModel.stateFlow.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact

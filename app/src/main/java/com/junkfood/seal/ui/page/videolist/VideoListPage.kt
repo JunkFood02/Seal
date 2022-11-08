@@ -51,6 +51,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.common.LocalWindowWidthState
@@ -86,12 +88,12 @@ fun DownloadedVideoInfo.filterByExtractor(extractor: String?): Boolean {
 
 private const val TAG = "VideoListPage"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun VideoListPage(
     videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
 ) {
-    val viewState = videoListViewModel.stateFlow.collectAsState().value
+    val viewState = videoListViewModel.stateFlow.collectAsStateWithLifecycle().value
     val videoListFlow = videoListViewModel.videoListFlow
 
     val videoList = videoListFlow.collectAsState(ArrayList())
