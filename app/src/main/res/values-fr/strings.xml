@@ -104,7 +104,7 @@
     <string name="subdirectory">Enregistrer dans un sous-répertoire</string>
     <string name="subdirectory_desc">Enregistrer les fichiers dans des dossiers portant le nom des sites web respectifs</string>
     <string name="audio_directory">Dossier audio</string>
-    <string name="download_directory">Dossier de téléchargement</string>
+    <string name="download_directory">Répertoire de téléchargement</string>
     <string name="download_directory_desc">Sélectionner l\'endroit où stocker les vidéos et les fichiers audio</string>
     <string name="battery_configuration">Configuration de la batterie</string>
     <string name="permission_issue">Problème de permission de stockage</string>
@@ -182,7 +182,7 @@
     <string name="sponsorblock_categories_desc">Spécifiez les catégories SponsorBlock à supprimer du fichier vidéo</string>
     <string name="sponsorblock_categories">Catégories SponsorBlock</string>
     <string name="multiselect_mode">Mode multi-sélection</string>
-    <string name="private_mode_desc">Désactiver l\'historique des vignettes et des téléchargements</string>
+    <string name="private_mode_desc">Désactiver l\'historique des téléchargements</string>
     <string name="private_mode">Mode privé</string>
     <string name="download_with_cellular">Télécharger via le réseau mobile</string>
     <string name="download_with_cellular_desc">Autoriser le téléchargement de médias lorsqu\'ils sont connectés à des réseaux à compteur</string>
@@ -197,4 +197,16 @@
     <string name="high_contrast">Thème sombre à fort contraste</string>
     <string name="invalid_input">Entrée invalide</string>
     <string name="lowest_quality">Qualité la plus basse</string>
+    <string name="network_settings_desc">Limite de débit, téléchargeur, cookies</string>
+    <string name="private_directory">Répertoire privé</string>
+    <string name="unavailable">Indisponible</string>
+    <string name="format_settings_desc">Format de fichier, qualité vidéo, sous-titres</string>
+    <string name="general_settings_desc">Version Yt-dlp, notification, liste de lecture</string>
+    <string name="disable_preview">Désactiver l’aperçu</string>
+    <string name="disable_preview_desc">Désactiver l\'aperçu des téléchargements</string>
+    <string name="use_custom_command">Utiliser une commande personnalisée</string>
+    <string name="privacy">Vie privée</string>
+    <string name="crop_artwork">Rogner l\'image</string>
+    <string name="crop_artwork_desc">Rogner l\'image intégrée dans un carré</string>
+    <string name="private_directory_desc">Stocker les téléchargements dans un répertoire caché</string>
 </resources>

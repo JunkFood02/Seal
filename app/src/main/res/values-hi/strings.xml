@@ -46,7 +46,7 @@
     <string name="cancel">रद्द करें</string>
     <string name="settings_before_download">डाउनलोड करने से पहले कॉन्फ़िगर करें</string>
     <string name="settings_before_download_text">इस डाउनलोड को समायोजित करें</string>
-    <string name="error_copied">त्रुटि रिपोर्ट को क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="error_copied">त्रुटि की जानकारी सूचि मैं उतारा</string>
     <string name="thumbnail">थंबनेल</string>
     <string name="paste">पेस्ट करें</string>
     <string name="edit_template_desc">ऐप द्वारा आउटपुट पथ और URL जोड़ा जाएगा।</string>
@@ -72,4 +72,24 @@
     <string name="custom_command">कस्टम कमांड</string>
     <string name="custom_command_template">कमांड टेम्पलेट</string>
     <string name="settings_before_download_desc">डाउनलोड करने से पहले प्राथमिकताएं कॉन्फ़िगर करें</string>
+    <string name="yt_dlp_docs">Yt-dlp के उपयोग संदर्भ</string>
+    <string name="not_convert">असंशोधित</string>
+    <string name="convert_to">%1$s में बदलें</string>
+    <string name="format">प्रारूप</string>
+    <string name="audio_format_desc">MP3 या M4A में ऑडियो अधिकांश उपकरणों पर चलेगा</string>
+    <string name="video_quality">चलचित्र गुणवत्ता</string>
+    <string name="video_quality_desc">फ़ाइल का प्रारूप गुणवत्ता और आकार सीमित करें</string>
+    <string name="not_specified">अनिर्दिष्ट (default)</string>
+    <string name="video_format_preference">पसंदीदा चलचित्र प्रारूप</string>
+    <string name="video_format_desc">एकाधिक विकल्प दिए जाने पर चुना गया प्रारूप</string>
+    <string name="video_format">चलचित्र प्रारूप</string>
+    <string name="convert_audio">संशोधित</string>
+    <string name="start_download">डाउनलोड</string>
+    <string name="close">बंद करें</string>
+    <string name="close_never_show_again">दोबारा ना दिखाएं</string>
+    <string name="user_guide">उपभोक्ता विवरण</string>
+    <string name="best_quality">श्रेष्ठ गुणवत्ता (default)</string>
+    <string name="open_settings">समायोजन खोलें</string>
+    <string name="paste_desc">सूचि से चलचित्र लिंक प्राप्त करने के लिए \"चिपकाएं\" दबाएं।</string>
+    <string name="download_desc">समायोजन के उपरांत \"डाउनलोड\" दबाएं</string>
 </resources>

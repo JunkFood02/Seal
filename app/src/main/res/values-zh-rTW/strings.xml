@@ -2,7 +2,7 @@
 <resources>
     <string name="paste_msg">從剪貼簿貼上 URL</string>
     <string name="extract_audio_summary">下載並儲存音訊，而非視訊</string>
-    <string name="yt_dlp_up_to_date">使用最新版本的 yt-dlp</string>
+    <string name="yt_dlp_up_to_date">正在使用最新版本的 yt-dlp</string>
     <string name="url_empty">連結不可為空</string>
     <string name="settings">設定</string>
     <string name="download">下載</string>

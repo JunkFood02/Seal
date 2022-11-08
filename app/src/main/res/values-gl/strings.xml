@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">Cartafol dos videos</string>
+    <string name="extract_audio">Gardar como arquivo de sonido</string>
+    <string name="create_thumbnail">Gardar carátula</string>
+    <string name="extract_audio_summary">Descarga e garda como audio en vez de vídeo</string>
+    <string name="create_thumbnail_summary">Gardar a carátula do vídeo como un arquivo</string>
+    <string name="yt_dlp_up_to_date">Estás a usar a última versión de yt-dlp</string>
+    <string name="yt_dlp_update_fail">Non se pudo descargar a última versión de yt-dlp. Por favor, asegúrese de que está conectado ao internet.</string>
+    <string name="fetching_info">Recibindo información do vídeo…</string>
+    <string name="permission_denied">Permiso denegado</string>
+    <string name="settings">Axustes</string>
+    <string name="download">Descargar</string>
+    <string name="download_success_msg">Descarga finalizada</string>
+    <string name="download_settings_desc">Xeral, formatos e comandos personalizados</string>
+    <string name="download_error_msg">Non se pudo descargar o arquivo</string>
+    <string name="url_empty">O enlace non pode estar vacío</string>
+</resources>

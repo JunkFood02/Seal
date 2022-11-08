@@ -13,7 +13,7 @@
     <string name="download">Descargas</string>
     <string name="url_empty">El hueco del enlace no debería estar vacío</string>
     <string name="extract_audio_summary">Descargar y guardar audio en vez de vídeo</string>
-    <string name="create_thumbnail_summary">Guardar la miniatura del vídeo como archivo</string>
+    <string name="create_thumbnail_summary">Guardar la miniatura del vídeo como un archivo aparte</string>
     <string name="yt_dlp_up_to_date">La librería yt-dlp está puesta al día</string>
     <string name="permission_denied">Permiso denegado</string>
     <string name="download_success_msg">Descarga finalizada</string>
@@ -183,7 +183,7 @@
     <string name="clear_temp_files_desc">Elimina todos los archivos temporales de la carpeta de descargas</string>
     <string name="multiselect_mode">Modo de multiselección</string>
     <string name="private_mode">Modo privado</string>
-    <string name="private_mode_desc">Desactiva el historial de descargas y el almacenamiento de carátulas/miniaturas</string>
+    <string name="private_mode_desc">Desactiva el almacenamiento de carátulas/miniaturas</string>
     <string name="dynamic_color">Color dinámico</string>
     <string name="dynamic_color_desc">Aplicar los colores de los fondos de pantalla al tema de la aplicación</string>
     <string name="download_with_cellular">Descargar con datos móviles</string>
@@ -197,4 +197,16 @@
     <string name="max_rate">Límite máximo</string>
     <string name="invalid_input">Entrada inválida</string>
     <string name="lowest_quality">Calidad más baja</string>
+    <string name="unavailable">No disponible</string>
+    <string name="format_settings_desc">Formato de archivo, calidad de vídeo, subtítulos</string>
+    <string name="general_settings_desc">Versión de yt-dlp, notificaciones, listas de reprodución</string>
+    <string name="network_settings_desc">Límite de uso de datos, descargador, cookies</string>
+    <string name="privacy">Privacidad</string>
+    <string name="use_custom_command">Usar comandos personalizados</string>
+    <string name="private_directory_desc">Almacena las descargas en un directorio oculto</string>
+    <string name="crop_artwork">Recortar carátulas</string>
+    <string name="crop_artwork_desc">Recorta las imagenes en cuadrados</string>
+    <string name="disable_preview">Deshabilitar vista previa</string>
+    <string name="disable_preview_desc">Deshabilitar la vista previa en las descargas</string>
+    <string name="private_directory">Directorio privado</string>
 </resources>
