@@ -6,7 +6,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.disk.DiskCache
 import com.junkfood.seal.BaseApplication.Companion.context
@@ -35,8 +34,6 @@ fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Compo
     val appSettingsState = settingFlow.collectAsState().value
     CompositionLocalProvider(
         LocalDarkTheme provides appSettingsState.darkTheme,
-        LocalVideoThumbnailLoader provides ImageLoader.Builder(LocalContext.current)
-            .build(),
         LocalSeedColor provides appSettingsState.seedColor,
         LocalWindowWidthState provides windowWidthSizeClass,
         LocalDynamicColorSwitch provides appSettingsState.isDynamicColorEnabled,

@@ -49,8 +49,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -186,6 +188,11 @@ fun DownloadPageImpl(
     val hapticFeedback = LocalHapticFeedback.current
 
     with(viewState) {
+        var showVideoCard by remember {
+            mutableStateOf(
+                !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW) && !isInCustomCommandMode
+            )
+        }
         Scaffold(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -244,9 +251,7 @@ fun DownloadPageImpl(
                         .padding(top = 24.dp)
                 ) {
                     AnimatedVisibility(
-                        visible = showDownloadProgress && !PreferenceUtil.getValue(
-                            PreferenceUtil.DISABLE_PREVIEW
-                        )
+                        visible = showDownloadProgress && showVideoCard
                     ) {
                         if (!isPreview)
                             VideoCard(
@@ -264,7 +269,7 @@ fun DownloadPageImpl(
                         url = url,
                         hint = stringResource(R.string.video_url),
                         progress = progress,
-                        showDownloadProgress = showDownloadProgress,
+                        showDownloadProgress = showDownloadProgress && !showVideoCard,
                         error = isDownloadError,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
@@ -315,7 +320,7 @@ fun InputUrl(
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(), textStyle = MaterialTheme.typography.bodyLarge, maxLines = 3
     )
-    AnimatedVisibility(visible = showDownloadProgress && PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) {
+    AnimatedVisibility(visible = showDownloadProgress) {
         Row(
             Modifier.padding(0.dp, 12.dp),
             verticalAlignment = Alignment.CenterVertically,
