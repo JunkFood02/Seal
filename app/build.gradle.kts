@@ -6,14 +6,14 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("plugin.serialization")
 }
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
 val versionMinor = 5
 val versionPatch = 0
-val versionBuild = 1
+val versionBuild = 2
 val isStable = false
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -40,7 +40,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10400
+        versionCode = 10500
         versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
             if (!isStable) append("-beta.${versionBuild}")
             if (!splitApks) append("-(F-Droid)")
@@ -109,7 +109,7 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
     packagingOptions {
         resources {
