@@ -16,17 +16,6 @@ val versionPatch = 0
 val versionBuild = 1
 val isStable = false
 
-val composeVersion: String by rootProject.extra
-val lifecycleVersion: String by rootProject.extra
-val navigationVersion: String by rootProject.extra
-val roomVersion: String by rootProject.extra
-val accompanistVersion: String by rootProject.extra
-val composeMd3Version: String by rootProject.extra
-val coilVersion: String by rootProject.extra
-val youtubedlAndroidVersion: String by rootProject.extra
-val okhttpVersion: String by rootProject.extra
-val hiltVersion: String by rootProject.extra
-
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
@@ -186,7 +175,7 @@ dependencies {
 //    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
 //    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
 
-    implementation("com.tencent:mmkv:1.2.14")
+    implementation(libs.mmkv)
 
 
     testImplementation(libs.junit4)
