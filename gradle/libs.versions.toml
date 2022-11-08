@@ -1,0 +1,114 @@
+[versions]
+accompanist = "0.27.0"
+androidDesugarJdkLibs = "1.2.0"
+androidGradlePlugin = "7.3.1"
+androidxComposeBom = "2022.10.00"
+androidxComposeCompiler = "1.3.2"
+androidxComposeIcon = "1.3.0"
+androidxComposeAnimation = "1.3.0"
+androidxCore = "1.9.0"
+androidMaterial = "1.8.0-alpha02"
+androidxAppCompat = "1.7.0-alpha01"
+androidxActivity = "1.6.1"
+
+androidxLifecycle = "2.6.0-alpha03"
+androidxNavigation = "2.5.3"
+androidxComposeMaterial3 = "1.1.0-alpha01"
+
+androidxEspresso = "3.4.0"
+androidxHiltNavigationCompose = "1.0.0"
+
+
+androidxTestExt = "1.1.3"
+
+
+coil = "2.2.2"
+hilt = "2.44"
+hiltExt = "1.0.0"
+
+junit4 = "4.13.2"
+kotlin = "1.7.20"
+kotlinxCoroutines = "1.6.4"
+kotlinxDatetime = "0.4.0"
+kotlinxSerializationJson = "1.4.1"
+okhttp = "5.0.0-alpha.10"
+
+room = "2.5.0-beta01"
+
+youtubedlAndroid = "8bc8e77349"
+
+mmkv = "1.2.14"
+
+[libraries]
+
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+
+accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxComposeIcon" }
+androidx-compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics", version.ref = "androidxComposeAnimation" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+
+androidx-compose-material = { group = "androidx.compose.material", name = "material" }
+
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
+androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "androidxComposeMaterial3" }
+
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+
+
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
+
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+
+
+coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+youtubedl-android-library = { group = "com.github.yausername.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
+youtubedl-android-ffmpeg = { group = "com.github.yausername.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
+youtubedl-android-aria2c = { group = "com.github.yausername.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
+mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
