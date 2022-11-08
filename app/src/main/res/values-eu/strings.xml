@@ -63,4 +63,10 @@
     <string name="cancel">Ezeztatu</string>
     <string name="settings_before_download">Konfiguratu deskargatu aurretik</string>
     <string name="settings_before_download_desc">Ezarpenak konfiguratu deskargatu aurretik</string>
+    <string name="settings_before_download_text">Deskarga honetarako lehentasunak konfiguratu</string>
+    <string name="error_copied">Errorea paperzorroan kopiatu da</string>
+    <string name="thumbnail">miniatura</string>
+    <string name="paste">Esteka itsatsi</string>
+    <string name="yt_dlp_docs">yt-dlp-rako erabilera-erreferentziak</string>
+    <string name="edit_template_desc">Irteera-direktorioa eta URLa automatikoki erantsiko ditu aplikazioak.</string>
 </resources>

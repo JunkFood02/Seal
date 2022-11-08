@@ -168,7 +168,7 @@
     <string name="translate_desc">ഹോസ്റ്റുചെയ്ത വെബ്ലേറ്റിൽ ഈ ആപ്പ് പരിഭാഷപ്പെടുത്താൻ സഹായിക്കുക</string>
     <string name="github_issue_desc">ബഗ് റിപ്പോർട്ടിനോ ഫീച്ചർ അഭ്യർത്ഥനയ്‌ക്കോ ഒരു പ്രശ്നം സമർപ്പിക്കുക</string>
     <string name="playlist_indicator_text">പ്ലേലിസ്റ്റ് ഡൗൺലോഡ് ചെയ്യുന്നു (%1$d/%2$d), നിർത്താൻ ക്ലിക്കുചെയ്യുക.</string>
-    <string name="download_directory">ഫോൾഡർ ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="download_directory">ഡൗൺലോഡിനായുള്ള ഫോൾഡർ</string>
     <string name="subdirectory_desc">ബന്ധപ്പെട്ട വെബ്സൈറ്റുകളായി നാമകരണം ചെയ്തിട്ടുള്ള ഫോൾഡറുകളിൽ ഫയലുകൾ സൂക്ഷിക്കുക</string>
     <string name="download_path_template">പാത്ത് ടെംപ്ലേറ്റ്</string>
     <string name="edit_custom_path_template_desc">yt-dlp നൽകുന്ന ലഭ്യമായ ഫീൽഡുകളുള്ള ഉപഡയറക്‌ടറി വ്യക്തമാക്കുക</string>
@@ -190,7 +190,7 @@
     <string name="private_mode_desc">ലഘുചിത്രവും ഡൗൺലോഡ് ചരിത്രവും പ്രവർത്തനരഹിതമാക്കുക</string>
     <string name="download_with_cellular_desc">മീറ്റർ നെറ്റ്‌വർക്കുകളിലേക്ക് കണക്‌റ്റ് ചെയ്യുമ്പോൾ മീഡിയ ഡൗൺലോഡ് ചെയ്യാൻ അനുവദിക്കുക</string>
     <string name="sponsorblock_categories_desc">വീഡിയോ ഫയലിൽ നിന്ന് നീക്കം ചെയ്യേണ്ട SponsorBlock വിഭാഗങ്ങൾ വ്യക്തമാക്കുക</string>
-    <string name="check_for_updates_desc">GitHub-ലെ ഏറ്റവും പുതിയ പതിപ്പിനായി സ്വയമേവ പരിശോധിക്കുക</string>
+    <string name="check_for_updates_desc">GitHub-ലെ ഏറ്റവും പുതിയ പതിപ്പിനായി തിരയുക</string>
     <string name="cookies_desc">ഡൗൺലോഡുകൾക്കായി Netscape ഫോർമാറ്റ് ചെയ്ത കുക്കികൾ ഉപയോഗിക്കുക</string>
     <string name="clear_temp_files_count">ഇല്ലാതാക്കി %1$d താൽക്കാലിക ഫയൽ(കൾ)</string>
     <string name="clear_temp_files_info">റദ്ദാക്കിയ ഡൗൺലോഡുകൾ പുനരാരംഭിക്കാൻ താൽക്കാലിക ഫയലുകൾ ഉപയോഗിക്കാം. ഈ ഫയലുകളെല്ലാം ഇല്ലാതാക്കുമെന്ന് തീർച്ചയാണോ\?</string>

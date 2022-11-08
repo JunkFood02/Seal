@@ -113,7 +113,7 @@
     <string name="fetching_playlist_info">Recupero delle informazioni della playlist…</string>
     <string name="show_more_actions">Mostra più azioni</string>
     <string name="download_notification_desc">Notifica il processo di scaricamento e di file scaricati</string>
-    <string name="download_directory">Cartella degli scaricamenti</string>
+    <string name="download_directory">Directory degli scaricamenti</string>
     <string name="download_directory_desc">Seleziona dove conservare i file video e audio</string>
     <string name="audio_directory">Cartella audio</string>
     <string name="share_success_msg">Lettura del collegamento video da un contenuto condiviso…</string>
@@ -182,7 +182,7 @@
     <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere dal file video</string>
     <string name="cookies_desc">Utilizzare i cookie formattati Netscape per i download</string>
     <string name="private_mode">Modalità privata</string>
-    <string name="private_mode_desc">Disattiva la cronologia delle miniature e degli scaricamenti</string>
+    <string name="private_mode_desc">Disattiva la cronologia degli scaricamenti</string>
     <string name="multiselect_mode">Modalità multiselezione</string>
     <string name="dynamic_color">Colore dinamico</string>
     <string name="dynamic_color_desc">Applica i colori degli sfondi al tema dell\'applicazione</string>
@@ -194,4 +194,19 @@
     <string name="rate_limit">Limite di velocità</string>
     <string name="rate_limit_desc">Limita la velocità massima degli scaricamenti</string>
     <string name="max_rate">Velocità massima</string>
+    <string name="high_contrast">Tema scuro ad alto contrasto</string>
+    <string name="invalid_input">Inserimento non valido</string>
+    <string name="lowest_quality">Qualità più bassa</string>
+    <string name="unavailable">Non disponibile</string>
+    <string name="format_settings_desc">Formato file, qualità video, sottotitoli</string>
+    <string name="general_settings_desc">Versione Yt-dlp, notifica, playlist</string>
+    <string name="disable_preview">Disattiva l\'anteprima</string>
+    <string name="crop_artwork">Ritaglia l\'immagine</string>
+    <string name="crop_artwork_desc">Ritaglia l\'immagine incorporata in un quadrato</string>
+    <string name="network_settings_desc">Limite di velocità, scaricatore, cookie</string>
+    <string name="disable_preview_desc">Disattiva l\'anteprima degli scaricamenti</string>
+    <string name="privacy">Privacy</string>
+    <string name="use_custom_command">Usa un comando personalizzato</string>
+    <string name="private_directory">Directory privata</string>
+    <string name="private_directory_desc">Memorizza gli scaricamenti in una directory nascosta</string>
 </resources>

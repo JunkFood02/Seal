@@ -5,7 +5,7 @@
     <string name="create_thumbnail">Зберегти прев\'ю</string>
     <string name="settings">Налаштування</string>
     <string name="download_settings_desc">Основне, формат, своя команда</string>
-    <string name="download">Завантажити</string>
+    <string name="download">Завантаження</string>
     <string name="url_empty">Посилання не може бути порожнім</string>
     <string name="extract_audio_summary">Завантажити й зберегти аудiо замiсть вiдео</string>
     <string name="create_thumbnail_summary">Зберегти прев\'ю як файл</string>
@@ -167,7 +167,7 @@
     <string name="app_up_to_date">Поточна версія актуальна</string>
     <string name="update">Оновити</string>
     <string name="cookies_desc">Використати файли cookie Netscape для завантаження</string>
-    <string name="check_for_updates_desc">Оновіть до останньої версії з GitHub</string>
+    <string name="check_for_updates_desc">Автоматично перевіряти нові версії на GitHub</string>
     <string name="aria2_desc">Використати aria2c в якості зовнішнього завантажувача</string>
     <string name="clear_temp_files_info">Тимчасові файли можна використати для відновлення скасованих завантажень. Ви впевнені, що хочете видалити всі ці файли\?</string>
     <string name="app_update_failed">Не вдалося оновити до останньої версії</string>
@@ -182,4 +182,20 @@
     <string name="delete_multiple_items_msg">Видалити %1$d елемент(и/ів) з історії завантажень назавжди\?</string>
     <string name="sponsorblock_desc">Видалення сегментів з відео за допомогою SponsorBlock API</string>
     <string name="sponsorblock_categories">Категорії SponsorBlock</string>
+    <string name="high_contrast">Темна тема з високим контрастом</string>
+    <string name="invalid_input">Неправильні дані</string>
+    <string name="lowest_quality">Найгірша якість</string>
+    <string name="multiselect_mode">Режим множинного вибору</string>
+    <string name="private_mode">Приватний режим</string>
+    <string name="private_mode_desc">Вимкнути мініатюри та історію завантажень</string>
+    <string name="dynamic_color">Динамічний колір</string>
+    <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми програми</string>
+    <string name="file_unavailable">Файл більше недоступний</string>
+    <string name="network">Мережа</string>
+    <string name="rate_limit">Ліміт швидкості</string>
+    <string name="max_rate">Максимальна швидкість</string>
+    <string name="download_with_cellular_desc">Дозволити завантаження під час підключення до мобільних мереж</string>
+    <string name="download_disabled_with_cellular">Завантаження через мобільну мережу вимкнено відповідно до ваших налаштувань</string>
+    <string name="download_with_cellular">Завантажувати через мобільну мережу</string>
+    <string name="rate_limit_desc">Обмежити максимальну швидкість завантаження</string>
 </resources>

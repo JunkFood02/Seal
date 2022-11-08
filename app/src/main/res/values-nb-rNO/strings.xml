@@ -197,4 +197,16 @@
     <string name="download_with_cellular">Last ned med mobildata</string>
     <string name="lowest_quality">Laveste kvalitet</string>
     <string name="invalid_input">Ugyldig inndata</string>
+    <string name="unavailable">Utilgjengelig</string>
+    <string name="format_settings_desc">Filformat, videokvalitet, undertekster</string>
+    <string name="disable_preview">Skru av forhåndsvisning</string>
+    <string name="private_directory">Privat mappe</string>
+    <string name="privacy">Personvern</string>
+    <string name="use_custom_command">Bruk egendefinert kommando</string>
+    <string name="general_settings_desc">Yt-dlp-versjon, merknad, spilleliste</string>
+    <string name="disable_preview_desc">Skru av forhåndsvisning for nedlastinger</string>
+    <string name="private_directory_desc">Lagre nedlastninger i en skjult mappe</string>
+    <string name="crop_artwork">Beskjær illustrasjon</string>
+    <string name="crop_artwork_desc">Beskjær innebygd bilde til kvadrat</string>
+    <string name="network_settings_desc">Overføringsterskler, nedlaster, kaker</string>
 </resources>

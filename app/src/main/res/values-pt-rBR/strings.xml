@@ -182,4 +182,16 @@
     <string name="sponsorblock_categories_desc">Especifique as categorias SponsorBlock a serem removidas do arquivo de vídeo</string>
     <string name="sponsorblock_categories">Categorias do SponsorBlock</string>
     <string name="sponsorblock_desc">Remover segmentos de vídeos com o SponsorBlock API</string>
+    <string name="high_contrast">Tema escuro de alto contraste</string>
+    <string name="invalid_input">Entrada inválida</string>
+    <string name="lowest_quality">Qualidade mais baixa</string>
+    <string name="private_mode">Modo privado</string>
+    <string name="private_mode_desc">Desabilitar miniatura e histórico de download</string>
+    <string name="dynamic_color">Cor dinâmica</string>
+    <string name="dynamic_color_desc">Aplicar cores do papel de parede ao tema do aplicativo</string>
+    <string name="file_unavailable">Esse arquivo não está mais disponível</string>
+    <string name="network">Rede</string>
+    <string name="rate_limit">Limite de taxa</string>
+    <string name="rate_limit_desc">Limitar a taxa máxima de downloads</string>
+    <string name="max_rate">Taxa máxima</string>
 </resources>

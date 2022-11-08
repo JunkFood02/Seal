@@ -35,7 +35,7 @@
     <string name="credits">Credits</string>
     <string name="credits_desc">Credits und freie Software</string>
     <string name="display">Anzeige</string>
-    <string name="dark_theme">Dunkles Design</string>
+    <string name="dark_theme">Dunkles Farbschema</string>
     <string name="settings_before_download">Vor dem Herunterladen konfigurieren</string>
     <string name="settings_before_download_desc">Einstellungen vor dem Herunterladen konfigurieren</string>
     <string name="settings_before_download_text">Diesen Download anpassen</string>
@@ -68,7 +68,7 @@
     <string name="about">Über</string>
     <string name="download">Herunterladen</string>
     <string name="delete_file">Löschen</string>
-    <string name="display_settings">Dunkles Design, dynamische Farben, Sprachen</string>
+    <string name="display_settings">Dunkles Farbschema, dynamische Farben, Sprachen</string>
     <string name="cancel">Abbrechen</string>
     <string name="custom_command">Benutzerdefinierter Befehl</string>
     <string name="close_never_show_again">Nicht mehr anzeigen</string>
@@ -111,7 +111,7 @@
     <string name="audio_directory">Audioordner</string>
     <string name="battery_settings_desc">Bitte setze die Akkunutzung dieser App in den Systemeinstellungen auf „Uneingeschränkt“, um im Hintergrund herunterzuladen.</string>
     <string name="share_fail_msg">URL aus geteilten Inhalt kann nicht zugeordnet werden</string>
-    <string name="download_directory">Downloadordner</string>
+    <string name="download_directory">Download-Verzeichnis</string>
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="execute_command_notification">Benutzerdefinierte Befehlen ausführen …</string>
     <string name="translate">Übersetzen</string>
@@ -182,10 +182,10 @@
     <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst\?</string>
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
     <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
-    <string name="private_mode_desc">Vorschaubild- und Downloadverlauf deaktivieren</string>
+    <string name="private_mode_desc">Download-Verlauf deaktivieren</string>
     <string name="private_mode">Privater Modus</string>
     <string name="dynamic_color">Dynamische Farbe</string>
-    <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das App-Design anwenden</string>
+    <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das Farbschema anwenden</string>
     <string name="download_with_cellular">Herunterladen über Mobilfunk</string>
     <string name="download_with_cellular_desc">Herunterladen von Medien erlauben, wenn du mit gebührenpflichtigen Netzwerken verbunden bist</string>
     <string name="download_disabled_with_cellular">Das Herunterladen über das Mobilfunknetz ist gemäß deinen Einstellungen deaktiviert</string>
@@ -194,7 +194,19 @@
     <string name="rate_limit">Geschwindigkeitsbegrenzung</string>
     <string name="rate_limit_desc">Maximale Downloadgeschwindigkeit festsetzen</string>
     <string name="max_rate">Maximale Geschwindigkeit</string>
-    <string name="high_contrast">Dunkles Design mit hohem Kontrast</string>
+    <string name="high_contrast">Dunkles Farbschema mit hohem Kontrast</string>
     <string name="invalid_input">Ungültige Eingabe</string>
     <string name="lowest_quality">Niedrigste Qualität</string>
+    <string name="format_settings_desc">Dateiformat, Videoqualität, Untertitel</string>
+    <string name="disable_preview">Vorschau deaktivieren</string>
+    <string name="unavailable">Nicht verfügbar</string>
+    <string name="privacy">Datenschutz</string>
+    <string name="use_custom_command">Benutzerdefinierten Befehl verwenden</string>
+    <string name="general_settings_desc">Yt-dlp Version, Benachrichtigung, Wiedergabeliste</string>
+    <string name="network_settings_desc">Ratenbegrenzung, Downloader, Cookies</string>
+    <string name="disable_preview_desc">Vorschau bei Downloads deaktivieren</string>
+    <string name="private_directory">Privates Verzeichnis</string>
+    <string name="private_directory_desc">Downloads in einem versteckten Verzeichnis speichern</string>
+    <string name="crop_artwork">Kunstwerke beschneiden</string>
+    <string name="crop_artwork_desc">Einbettungsbild zum Quadrat zuschneiden</string>
 </resources>

@@ -125,7 +125,7 @@
     <string name="create_thumbnail_summary">Simpan thumbnail video sebagai file</string>
     <string name="link_copied">Tempel tautan di papan klip</string>
     <string name="audio_directory">Folder audio</string>
-    <string name="download_directory">Folder unduhan</string>
+    <string name="download_directory">Direktori unduhan</string>
     <string name="permission_issue_desc">Direktori di luar Unduh/ dan Dokumen/ tidak didukung</string>
     <string name="service_title">Seal sedang mengunduh…</string>
     <string name="unknown_error">Kesalahan tidak diketahui</string>
@@ -186,7 +186,7 @@
     <string name="network">Jaringan</string>
     <string name="max_rate">Kecepatan maksimum</string>
     <string name="private_mode">Mode pribadi</string>
-    <string name="private_mode_desc">Nonaktifkan riwayat gambar kecil dan unduhan</string>
+    <string name="private_mode_desc">Nonaktifkan riwayat unduhan</string>
     <string name="dynamic_color">Warna dinamis</string>
     <string name="dynamic_color_desc">Terapkan warna dari wallpaper ke tema aplikasi</string>
     <string name="download_with_cellular">Unduh menggunakan seluler</string>
@@ -197,4 +197,16 @@
     <string name="high_contrast">Tema gelap kontras tinggi</string>
     <string name="invalid_input">Masukan tidak absah</string>
     <string name="lowest_quality">Kualitas rendah</string>
+    <string name="unavailable">Tidak tersedia</string>
+    <string name="general_settings_desc">Versi yt-dlp, notifikasi, daftar putar</string>
+    <string name="network_settings_desc">Batasan, pengunduh, kuki</string>
+    <string name="disable_preview">Nonaktifkan pratinjau</string>
+    <string name="use_custom_command">Gunakan perintah kustom</string>
+    <string name="private_directory">Direktori pribadi</string>
+    <string name="crop_artwork">Potong gambar</string>
+    <string name="crop_artwork_desc">Potong gambar semat menjadi kotak</string>
+    <string name="format_settings_desc">Format file, kualitas video, subtitel</string>
+    <string name="privacy">Privasi</string>
+    <string name="disable_preview_desc">Nonaktifkan pratinjau di unduhan</string>
+    <string name="private_directory_desc">Menyimpan unduhan di dalam direktori tersembunyi</string>
 </resources>

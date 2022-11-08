@@ -33,4 +33,22 @@
     <string name="version">ভার্সন</string>
     <string name="edit_custom_command_template">সম্পাদনা</string>
     <string name="yt_dlp_update_fail">yt-dlp\'র সর্বশেষ ভার্সন ইন্সটল করা যাচ্ছে না। দয়া করে ইন্টারনেটের সাথে যুক্ত আছেন কীনা দেখুন।</string>
+    <string name="delete_info_msg">\"%1$s\" ডাউনলোড ইতিহাস থেকে মুছে ফেলুন\?</string>
+    <string name="print_details">বিস্তারিত আউটপুট</string>
+    <string name="release_desc">চেঞ্জলগ এবং নতুন সংস্করণের জন্য দেখুন</string>
+    <string name="custom_command">কাস্টম কমান্ড</string>
+    <string name="checked">চেক করা হয়েছে</string>
+    <string name="settings_before_download_text">এই ডাউনলোডটি সামঞ্জস্য করুন</string>
+    <string name="settings_before_download">ডাউনলোড করার আগে কনফিগার করুন</string>
+    <string name="settings_before_download_desc">ডাউনলোড করার আগে পছন্দগুলি কনফিগার করুন</string>
+    <string name="readme_desc">GitHub রিপোজিটরি এবং README চেক করুন</string>
+    <string name="credits">ক্রেডিট</string>
+    <string name="credits_desc">ক্রেডিট এবং libre সফ্টওয়্যার</string>
+    <string name="custom_command_desc">কাস্টম টেমপ্লেট সহ yt-dlp কমান্ড চালান</string>
+    <string name="custom_command_template">কমান্ড টেমপ্লেট</string>
+    <string name="advanced_settings">উন্নত</string>
+    <string name="display_settings">কালো থিম, ডাইনামিক রঙ, ভাষা</string>
+    <string name="error_copied">ত্রুটি প্রতিবেদন ক্লিপবোর্ডে অনুলিপি করা হয়েছে</string>
+    <string name="thumbnail">থাম্বনেইল</string>
+    <string name="paste">পেস্ট করুন</string>
 </resources>
