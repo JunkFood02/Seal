@@ -26,10 +26,17 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
 object DownloadUtil {
+
+    private val jsonFormat = Json { ignoreUnknownKeys = true }
+
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
         companion object {
             fun failure(): Result {
@@ -60,6 +67,54 @@ object DownloadUtil {
         val title: String = ""
     )
 
+    @Serializable
+    data class PlaylistResult(
+        var uploader: String? = null,
+        var uploaderId: String? = null,
+        var uploaderUrl: String? = null,
+        var tags: ArrayList<String> = arrayListOf(),
+        var viewCount: Int? = null,
+        var availability: String? = null,
+        var modifiedDate: String? = null,
+        var playlistCount: Int? = null,
+        var channelFollowerCount: String? = null,
+        var channel: String? = null,
+        var channelId: String? = null,
+        var channelUrl: String? = null,
+        var id: String? = null,
+        var title: String? = null,
+        var description: String? = null,
+        var Type: String? = null,
+        var entries: ArrayList<Entries> = arrayListOf(),
+        var webpageUrl: String? = null,
+        var originalUrl: String? = null,
+        var webpageUrlBasename: String? = null,
+        var webpageUrlDomain: String? = null,
+        var extractor: String? = null,
+        var extractorKey: String? = null,
+        var requestedEntries: ArrayList<Int> = arrayListOf(),
+        var epoch: Int? = null,
+    ) {}
+
+    @Serializable
+    data class Entries(
+        var Type: String? = null,
+        var ieKey: String? = null,
+        var id: String? = null,
+        var url: String? = null,
+        var title: String? = null,
+        var description: String? = null,
+        var duration: Float? = null,
+        var viewCount: String? = null,
+        var uploader: String? = null,
+        var channelId: String? = null,
+        var uploadDate: String? = null,
+        var liveStatus: String? = null,
+        var releaseTimestamp: String? = null,
+        var availability: String? = null,
+        var _xForwardedForIp: String? = null
+    )
+
     fun getPlaylistInfo(playlistURL: String): PlaylistInfo {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
         var playlistCount = 1
@@ -76,6 +131,8 @@ object DownloadUtil {
             for (s in request.buildCommand())
                 Log.d(TAG, s)
             val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
+            val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
+            Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
             val jsonObj = JSONObject(resp.out)
             val tp: String = jsonObj.getString("_type")
             if (tp == "playlist") {
