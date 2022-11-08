@@ -51,6 +51,7 @@ import com.junkfood.seal.ui.page.settings.general.TemplateListPage
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
 import kotlinx.coroutines.Dispatchers
@@ -139,7 +140,9 @@ fun HomeEntry(
             navController.navigate(Route.SETTINGS)
         }
         LaunchedEffect(Unit) {
-            if (!PreferenceUtil.isNetworkAvailableForDownload())
+            if (!PreferenceUtil.isNetworkAvailableForDownload() ||
+                !PreferenceUtil.getValue(AUTO_UPDATE)
+            )
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
                 kotlin.runCatching {
@@ -176,6 +179,7 @@ fun HomeEntry(
                             it.printStackTrace()
                             currentDownloadStatus = UpdateUtil.DownloadStatus.NotYet
                             TextUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
+                            return@launch
                         }
                     }
                 },
