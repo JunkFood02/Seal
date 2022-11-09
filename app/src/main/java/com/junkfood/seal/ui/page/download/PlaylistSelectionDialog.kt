@@ -6,6 +6,8 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PlaylistPlay
@@ -34,6 +36,7 @@ import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.PlaylistItem
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 
@@ -66,52 +69,57 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                         )
                     )
                     Row(modifier = Modifier.padding(top = 12.dp)) {
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 6.dp)
-                        ) {
-                            OutlinedTextField(modifier = Modifier
-                                .focusable()
-                                .focusProperties { next = item2 }
-                                .focusRequester(item1),
-                                value = from,
-                                onValueChange = {
-                                    if (it.isDigitsOnly())
-                                        from = it
-                                    error = false
-                                },
-                                label = { Text(stringResource(R.string.from)) },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.NumberPassword,
-                                    imeAction = ImeAction.Next
-                                ),
-                                singleLine = true,
-                                isError = error
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 6.dp)
-                        ) {
-                            OutlinedTextField(modifier = Modifier
-                                .focusable()
-                                .focusProperties { previous = item1 }
-                                .focusRequester(item2),
-                                value = to,
-                                onValueChange = {
-                                    if (it.isDigitsOnly())
-                                        to = it
-                                    error = false
-                                },
-                                label = { Text(stringResource(R.string.to)) },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.NumberPassword,
-                                    imeAction = ImeAction.Next
-                                ),
-                                singleLine = true,
-                                isError = error
+
+                        OutlinedTextField(modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 6.dp)
+                            .focusable()
+                            .focusProperties { next = item2 }
+                            .focusRequester(item1),
+                            value = from,
+                            onValueChange = {
+                                if (it.isDigitsOnly())
+                                    from = it
+                                error = false
+                            },
+                            label = { Text(stringResource(R.string.from)) },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.NumberPassword,
+                                imeAction = ImeAction.Next
+                            ),
+                            singleLine = true,
+                            isError = error
+                        )
+
+                        OutlinedTextField(modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 6.dp)
+                            .focusable()
+                            .focusProperties { previous = item1 }
+                            .focusRequester(item2),
+                            value = to,
+                            onValueChange = {
+                                if (it.isDigitsOnly())
+                                    to = it
+                                error = false
+                            },
+                            label = { Text(stringResource(R.string.to)) },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.NumberPassword,
+                                imeAction = ImeAction.Next
+                            ),
+                            singleLine = true,
+                            isError = error
+                        )
+                    }
+
+                    LazyColumn {
+                        itemsIndexed(items = playlistInfo.entries) {index,entries->
+                            PlaylistItem(
+                                imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
+                                index = index,
+                                title = entries.title.toString(),
+                                author = entries.uploader.toString()
                             )
                         }
                     }

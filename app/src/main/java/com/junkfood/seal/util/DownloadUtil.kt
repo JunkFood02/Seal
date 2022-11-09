@@ -26,16 +26,18 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import com.yausername.youtubedl_android.mapper.VideoInfo
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.json.JSONObject
 import kotlin.math.roundToInt
 
 object DownloadUtil {
 
-    private val jsonFormat = Json { ignoreUnknownKeys = true }
+    private val jsonFormat = Json {
+        ignoreUnknownKeys = true
+    }
 
     class Result(val resultCode: ResultCode, val filePath: List<String>?) {
         companion object {
@@ -69,78 +71,53 @@ object DownloadUtil {
 
     @Serializable
     data class PlaylistResult(
-        var uploader: String? = null,
-        var uploaderId: String? = null,
-        var uploaderUrl: String? = null,
-        var tags: ArrayList<String> = arrayListOf(),
-        var viewCount: Int? = null,
-        var availability: String? = null,
-        var modifiedDate: String? = null,
-        var playlistCount: Int? = null,
-        var channelFollowerCount: String? = null,
-        var channel: String? = null,
-        var channelId: String? = null,
-        var channelUrl: String? = null,
-        var id: String? = null,
-        var title: String? = null,
-        var description: String? = null,
-        var Type: String? = null,
-        var entries: ArrayList<Entries> = arrayListOf(),
-        var webpageUrl: String? = null,
-        var originalUrl: String? = null,
-        var webpageUrlBasename: String? = null,
-        var webpageUrlDomain: String? = null,
-        var extractor: String? = null,
-        var extractorKey: String? = null,
-        var requestedEntries: ArrayList<Int> = arrayListOf(),
-        var epoch: Int? = null,
+        val uploader: String? = null,
+        val availability: String? = null,
+        @SerialName("playlist_count") val playlistCount: Int = 0,
+        val channel: String? = null,
+        val title: String? = null,
+        val description: String? = null,
+        @SerialName("_type") val type: String? = null,
+        val entries: ArrayList<Entries> = arrayListOf(),
+        @SerialName("webpage_url") val webpageUrl: String? = null,
+        @SerialName("extractor_key") val extractorKey: String? = null,
     ) {}
 
     @Serializable
-    data class Entries(
-        var Type: String? = null,
-        var ieKey: String? = null,
-        var id: String? = null,
-        var url: String? = null,
-        var title: String? = null,
-        var description: String? = null,
-        var duration: Float? = null,
-        var viewCount: String? = null,
-        var uploader: String? = null,
-        var channelId: String? = null,
-        var uploadDate: String? = null,
-        var liveStatus: String? = null,
-        var releaseTimestamp: String? = null,
-        var availability: String? = null,
-        var _xForwardedForIp: String? = null
+    data class Thumbnails(
+        val url: String,
+        val height: Int,
+        val width: Int,
     )
 
-    fun getPlaylistInfo(playlistURL: String): PlaylistInfo {
-        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)
-        var playlistCount = 1
-        var playlistTitle = "Unknown"
-        if (downloadPlaylist) {
-            TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(playlistURL)
-            with(request) {
-                addOption("--flat-playlist")
-                addOption("-J")
-                addOption("-R", "1")
-                addOption("--socket-timeout", "5")
-            }
-            for (s in request.buildCommand())
-                Log.d(TAG, s)
-            val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
-            val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
-            Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
-            val jsonObj = JSONObject(resp.out)
-            val tp: String = jsonObj.getString("_type")
-            if (tp == "playlist") {
-                playlistCount = jsonObj.getInt("playlist_count")
-                playlistTitle = jsonObj.getString("title")
-            }
+    @Serializable
+    data class Entries(
+        @SerialName("_type") val type: String? = null,
+        val ieKey: String? = null,
+        val id: String? = null,
+        val url: String? = null,
+        val title: String? = null,
+        val duration: Float? = 0f,
+        val uploader: String? = null,
+        val thumbnails: ArrayList<Thumbnails> = arrayListOf(),
+    )
+
+
+    fun getPlaylistInfo(playlistURL: String): PlaylistResult {
+        TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
+        val request = YoutubeDLRequest(playlistURL)
+        with(request) {
+            addOption("--flat-playlist")
+            addOption("-J")
+            addOption("-R", "1")
+            addOption("--socket-timeout", "5")
         }
-        return PlaylistInfo(playlistURL, playlistCount, playlistTitle)
+        for (s in request.buildCommand()) Log.d(TAG, s)
+        val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
+        val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
+        Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
+        if (res.type != "playlist") throw Exception("Not a valid playlist")
+        return res
     }
 
     fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
@@ -231,7 +208,7 @@ object DownloadUtil {
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String,
         downloadPreferences: DownloadPreferences,
-        playlistInfo: PlaylistInfo
+        playlistUrl: String
     ): YoutubeDLRequest {
         return this.apply {
             with(downloadPreferences) {
@@ -257,21 +234,22 @@ object DownloadUtil {
                     addOption("--config", configFile.absolutePath)
                 }
 
-                if (playlistInfo.url.isNotEmpty()) {
+                if (playlistUrl.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption(
                         "--parse-metadata",
                         "%(track_number,playlist_index)d:%(meta_track)s"
                     )
-                } else
+                } else {
                     addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
+                }
             }
         }
     }
 
     fun downloadVideo(
         videoInfo: VideoInfo? = null,
-        playlistInfo: PlaylistInfo,
+        playlistUrl: String = "",
         playlistItem: Int = 0,
         downloadPreferences: DownloadPreferences = DownloadPreferences(),
         progressCallback: ((Float, Long, String) -> Unit)?
@@ -282,7 +260,7 @@ object DownloadUtil {
         with(downloadPreferences) {
             // TODO: Move custom template configurations here
 //            if (customCommandTemplate.isEmpty()) { }
-            val url = playlistInfo.url.ifEmpty {
+            val url = playlistUrl.ifEmpty {
                 videoInfo.webpageUrl ?: return Result.failure()
             }
             val request = YoutubeDLRequest(url)
@@ -318,7 +296,7 @@ object DownloadUtil {
                     addOptionsForAudioDownloads(
                         id = videoInfo.id,
                         downloadPreferences = downloadPreferences,
-                        playlistInfo = playlistInfo
+                        playlistUrl = playlistUrl
                     )
                 } else {
                     if (privateDirectory)

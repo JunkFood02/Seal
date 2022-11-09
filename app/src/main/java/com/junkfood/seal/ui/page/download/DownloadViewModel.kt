@@ -74,7 +74,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val downloadingTaskId: String = "",
         val downloadItemCount: Int = 0,
         val currentIndex: Int = 0,
-        val playlistInfo: DownloadUtil.PlaylistInfo = DownloadUtil.PlaylistInfo(),
+        val playlistInfo: DownloadUtil.PlaylistResult = DownloadUtil.PlaylistResult(),
         val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false
     )
@@ -152,18 +152,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 }
                 try {
-                    val playlistInfo = DownloadUtil.getPlaylistInfo(value.url)
+                    val playlistResult = DownloadUtil.getPlaylistInfo(value.url)
                     mutableStateFlow.update {
                         it.copy(
-                            downloadItemCount = playlistInfo.size,
+                            downloadItemCount = playlistResult.playlistCount,
                             isFetchingInfo = false,
-                            playlistInfo = playlistInfo
+                            playlistInfo = playlistResult
                         )
                     }
-                    if (playlistInfo.size == 1) {
+                    if (playlistResult.playlistCount == 1) {
                         checkStateBeforeDownload()
                         downloadVideo(value.url)
-                    } else showPlaylistDialog(playlistInfo)
+                    } else showPlaylistDialog()
                 } catch (e: Exception) {
                     manageDownloadError(e)
                 }
@@ -270,7 +270,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 downloadResultTemp =
                     DownloadUtil.downloadVideo(
                         videoInfo = videoInfo,
-                        playlistInfo = stateFlow.value.playlistInfo,
+                        playlistUrl = stateFlow.value.playlistInfo.webpageUrl ?: "",
                         playlistItem = index
                     ) { progress, _, line ->
                         Log.d(TAG, line)
@@ -419,7 +419,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 downloadItemCount = 0,
                 isDownloadingPlaylist = false,
                 currentIndex = 0,
-                playlistInfo = DownloadUtil.PlaylistInfo()
+                playlistInfo = DownloadUtil.PlaylistResult()
             )
         }
         MainActivity.stopService()
@@ -458,7 +458,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             openFile(downloadResultTemp)
     }
 
-    private fun showPlaylistDialog(playlistInfo: DownloadUtil.PlaylistInfo) {
+    private fun showPlaylistDialog() {
         mutableStateFlow.update {
             it.copy(
                 showPlaylistSelectionDialog = true,
