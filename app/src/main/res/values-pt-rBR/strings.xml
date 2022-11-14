@@ -94,7 +94,7 @@
     <string name="invalid_index_range">Intervalo de índice inválido</string>
     <string name="playlist_indicator_text">Baixando playlist (%1$d/%2$d), clique para parar.</string>
     <string name="audio_directory">Pasta de áudio</string>
-    <string name="download_directory">Pasta de download</string>
+    <string name="download_directory">Diretório de download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
     <string name="subdirectory">Salvar no subdiretório</string>
     <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos sites</string>
@@ -186,7 +186,7 @@
     <string name="invalid_input">Entrada inválida</string>
     <string name="lowest_quality">Qualidade mais baixa</string>
     <string name="private_mode">Modo privado</string>
-    <string name="private_mode_desc">Desabilitar miniatura e histórico de download</string>
+    <string name="private_mode_desc">Desabilitar histórico de download</string>
     <string name="dynamic_color">Cor dinâmica</string>
     <string name="dynamic_color_desc">Aplicar cores do papel de parede ao tema do aplicativo</string>
     <string name="file_unavailable">Esse arquivo não está mais disponível</string>
@@ -194,4 +194,19 @@
     <string name="rate_limit">Limite de taxa</string>
     <string name="rate_limit_desc">Limitar a taxa máxima de downloads</string>
     <string name="max_rate">Taxa máxima</string>
+    <string name="unavailable">Indisponível</string>
+    <string name="format_settings_desc">Formato do arquivo, qualidade do vídeo, legendas</string>
+    <string name="general_settings_desc">Versão do yt-dlp, notificação, playlist</string>
+    <string name="disable_preview">Desabilitar pré-visualização</string>
+    <string name="disable_preview_desc">Desabilitar pré-visualização em downloads</string>
+    <string name="privacy">Privacidade</string>
+    <string name="network_settings_desc">Limite de taxa, baixador, cookies</string>
+    <string name="private_directory">Diretório privado</string>
+    <string name="private_directory_desc">Armazenar downloads em um diretório oculto</string>
+    <string name="crop_artwork_desc">Cortar imagem incorporada em quadrado</string>
+    <string name="crop_artwork">Cortar arte</string>
+    <string name="download_with_cellular_desc">Permitir baixar mídia quando conectado em redes limitadas</string>
+    <string name="download_disabled_with_cellular">O download com a rede móvel está desabilitado de acordo com suas configurações</string>
+    <string name="use_custom_command">Usar comando personalizado</string>
+    <string name="download_with_cellular">Baixar usando rede móvel</string>
 </resources>
