@@ -138,10 +138,10 @@ fun PlaylistItem(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(end = 4.dp)
                     .weight(0.4f)
                     .clip(MaterialTheme.shapes.extraSmall)
-                    .aspectRatio(16f / 10f, matchHeightConstraintsFirst = true),
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
                 model = imageModel,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -149,7 +149,7 @@ fun PlaylistItem(
             Column(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
-                    .padding(end = 8.dp)
+//                    .padding(end = 0.dp)
                     .weight(1f)
                     .fillMaxHeight(), verticalArrangement = Arrangement.Center
             ) {

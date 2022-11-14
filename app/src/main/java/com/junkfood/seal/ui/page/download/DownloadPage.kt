@@ -239,7 +239,7 @@ fun DownloadPageImpl(
                     showProgressIndicator = isProcessRunning || isFetchingInfo,
                     showCancelOperation = isProcessRunning,
                     isDownloadingPlaylist = isDownloadingPlaylist,
-                    currentIndex = currentIndex,
+                    currentIndex = currentItem,
                     downloadItemCount = downloadItemCount,
                     onClick = {
                         cancelCallback()
@@ -251,58 +251,59 @@ fun DownloadPageImpl(
                     }
                 )
 
-            }
-            Column(
-                Modifier
-                    .padding(horizontal = 24.dp)
-                    .padding(top = 24.dp)
-            ) {
-                with(taskState) {
-                    AnimatedVisibility(
-                        visible = showDownloadProgress && showVideoCard
-                    ) {
-                        if (!isPreview)
-                            VideoCard(
-                                modifier = Modifier,
-                                title = title,
-                                author = uploader,
-                                thumbnailUrl = thumbnailUrl,
-                                progress = progress,
-                                onClick = onVideoCardClicked,
+
+                Column(
+                    Modifier
+                        .padding(horizontal = 24.dp)
+                        .padding(top = 24.dp)
+                ) {
+                    with(taskState) {
+                        AnimatedVisibility(
+                            visible = showDownloadProgress && showVideoCard
+                        ) {
+                            if (!isPreview)
+                                VideoCard(
+                                    modifier = Modifier,
+                                    title = title,
+                                    author = uploader,
+                                    thumbnailUrl = thumbnailUrl,
+                                    progress = progress,
+                                    onClick = onVideoCardClicked,
+                                )
+                            else
+                                VideoCardPreview()
+                        }
+                        InputUrl(
+                            url = url,
+                            hint = stringResource(R.string.video_url),
+                            progress = progress,
+                            showDownloadProgress = showDownloadProgress && !showVideoCard,
+                            error = isDownloadError,
+                        ) { url -> onUrlChanged(url) }
+                        AnimatedVisibility(
+                            enter = expandVertically() + fadeIn(),
+                            exit = shrinkVertically() + fadeOut(),
+                            visible = debugMode && progressText.isNotEmpty()
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(bottom = 12.dp),
+                                text = progressText,
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.bodyMedium
                             )
-                        else
-                            VideoCardPreview()
+                        }
                     }
-                    InputUrl(
-                        url = url,
-                        hint = stringResource(R.string.video_url),
-                        progress = progress,
-                        showDownloadProgress = showDownloadProgress && !showVideoCard,
-                        error = isDownloadError,
-                    ) { url -> onUrlChanged(url) }
-                    AnimatedVisibility(
-                        enter = expandVertically() + fadeIn(),
-                        exit = shrinkVertically() + fadeOut(),
-                        visible = debugMode && progressText.isNotEmpty()
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(bottom = 12.dp),
-                            text = progressText,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.bodyMedium
+                    AnimatedVisibility(visible = isDownloadError) {
+                        ErrorMessage(
+                            error = isDownloadError,
+                            copyToClipboard = isShowingErrorReport,
+                            errorMessage = errorMessage
                         )
                     }
+                    content()
+                    NavigationBarSpacer()
                 }
-                AnimatedVisibility(visible = isDownloadError) {
-                    ErrorMessage(
-                        error = isDownloadError,
-                        copyToClipboard = isShowingErrorReport,
-                        errorMessage = errorMessage
-                    )
-                }
-                content()
-                NavigationBarSpacer()
             }
         }
     }

@@ -15,11 +15,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
@@ -34,13 +34,12 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
     val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
     val playlistItemCount = viewState.downloadItemCount
     val playlistInfo = downloadViewModel.playlistResult.collectAsState().value
-
     var error by remember { mutableStateOf(false) }
-    val (item1, item2) = remember { FocusRequester.createRefs() }
-
+    val selectedItems = remember { mutableStateListOf<Int>() }
     if (viewState.showPlaylistSelectionDialog) {
 
-        AlertDialog(onDismissRequest = {}, icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
+        AlertDialog(onDismissRequest = {},
+            icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
             title = { Text(stringResource(R.string.download_range_selection)) },
             text = {
                 Column {
@@ -51,15 +50,16 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
                             playlistInfo.title,
                         )
                     )
-
-
                     LazyColumn {
                         itemsIndexed(items = playlistInfo.entries) { index, entries ->
-                            PlaylistItem(
-                                imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
+                            PlaylistItem(imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
                                 title = entries.title.toString(),
-                                author = entries.uploader.toString()
-                            )
+                                author = entries.uploader.toString(),
+                                selected = selectedItems.contains(index),
+                                onClick = {
+                                    if (selectedItems.contains(index)) selectedItems.remove(index)
+                                    else selectedItems.add(index)
+                                })
                         }
                     }
                 }
@@ -72,10 +72,11 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
             },
             confirmButton = {
                 TextButton(onClick = {
-
-                    downloadViewModel.downloadVideoInPlaylistByIndexList()
+                    if (selectedItems.isEmpty()) {
+                        error = true
+                    }
+                    downloadViewModel.downloadVideoInPlaylistByIndexList(indexList = selectedItems)
                     onDismissRequest()
-
                 }) {
                     Text(text = stringResource(R.string.start_download))
                 }

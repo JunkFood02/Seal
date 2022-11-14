@@ -29,12 +29,15 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -72,14 +75,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
-        val currentIndex: Int = 0,
+        val currentItem: Int = 0,
         val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false
     )
 
     data class DownloadTaskItem(
         var videoInfo: VideoInfo? = null,
-        val url: String = "",
+        val webpageUrl: String = "",
         val title: String = "",
         val uploader: String = "",
         val progress: Float = 0f,
@@ -174,7 +177,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun downloadVideoInPlaylistByIndexList(
-        url: String = playlistResult.value.webpageUrl.toString(),
+        playlistResult: DownloadUtil.PlaylistResult = this.playlistResult.value,
+        url: String = playlistResult.webpageUrl.toString(),
         indexList: List<Int>
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -187,16 +191,30 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     downloadItemCount = itemCount
                 )
             }
-            var currentTask :DownloadTaskItem
-            var nextTask: DownloadTaskItem
+            var videoInfoNext: Deferred<VideoInfo>? = null
             for (i in indexList.indices) {
-                if (i != indexList.size - 1)
-                    nextTask = DownloadTaskItem()
                 if (!stateFlow.value.isDownloadingPlaylist) break
-                mutableStateFlow.update { it.copy(currentIndex = i) }
-                if (MainActivity.isServiceRunning)
-                    NotificationUtil.updateServiceNotification(i, itemCount)
-                downloadVideo(url, indexList[i])
+                with(playlistResult) {
+                    val task = DownloadTaskItem(
+                        webpageUrl = url,
+                        videoInfo = videoInfoNext?.await(),
+                        title = title.toString(),
+                        uploader = uploader.toString(),
+                        playlistIndex = indexList[i] + 1
+                    )
+                    if (i != indexList.size - 1) {
+                        videoInfoNext = supervisorScope {
+                            async(Dispatchers.IO) {
+                                Log.d(TAG, "fetching new!")
+                                DownloadUtil.fetchVideoInfo(url, indexList[i + 1])
+                            }
+                        }
+                    }
+                    mutableStateFlow.update { it.copy(currentItem = i) }
+                    if (MainActivity.isServiceRunning)
+                        NotificationUtil.updateServiceNotification(i, itemCount)
+                    downloadVideo(url, task)
+                }
             }
             finishProcessing()
         }
@@ -238,7 +256,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         url: String,
         task: DownloadTaskItem = DownloadTaskItem(),
     ) {
-        mutableTaskState.update { task }
         with(mutableStateFlow) {
             val videoInfo: VideoInfo = if (task.videoInfo == null) {
                 val _videoInfo: VideoInfo
@@ -263,7 +280,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
             }
             mutableTaskState.update {
-                it.copy(
+                task.copy(
                     progress = 0f,
                     taskId = videoInfo.id,
                     title = videoInfo.title,
@@ -271,6 +288,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
                 )
             }
+
             val notificationId = videoInfo.id.hashCode()
             val intent: Intent?
             viewModelScope.launch(Dispatchers.Main) {
@@ -441,7 +459,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isFetchingInfo = false,
                 downloadItemCount = 0,
                 isDownloadingPlaylist = false,
-                currentIndex = 0,
+                currentItem = 0,
             )
         }
         mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
