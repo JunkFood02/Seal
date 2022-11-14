@@ -116,12 +116,14 @@ object DownloadUtil {
         val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
         val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
         Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
-        if (res.type != "playlist") throw Exception("Not a valid playlist")
+        if (res.type != "playlist") {
+            return PlaylistResult(playlistCount = 1)
+        }
         return res
     }
 
     fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
-        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
+//        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
             if (playlistItem != 0)
@@ -130,7 +132,7 @@ object DownloadUtil {
         })
         with(videoInfo) {
             if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
-                throw Exception("Empty videoinfo")
+                throw Exception(context.getString(R.string.fetch_info_error_msg))
             }
         }
         return videoInfo

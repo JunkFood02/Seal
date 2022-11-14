@@ -6,7 +6,6 @@ import android.content.ContextWrapper
 import android.view.Window
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
@@ -103,7 +102,7 @@ fun PreviewThemeDark(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = darkColorScheme(),
+        colorScheme = colorSchemeFromColor(DEFAULT_SEED_COLOR, true),
         typography = Typography,
         shapes = Shapes,
         content = content

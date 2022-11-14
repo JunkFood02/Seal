@@ -51,7 +51,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -108,6 +107,7 @@ fun DownloadPage(
         }
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsStateWithLifecycle()
+    val taskState = downloadViewModel.taskState.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
@@ -144,7 +144,9 @@ fun DownloadPage(
             .background(MaterialTheme.colorScheme.background),
     ) {
         DownloadPageImpl(
-            viewState = viewState.value, downloadCallback = { downloadCallback() },
+            viewState = viewState.value,
+            taskState = taskState.value,
+            downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             pasteCallback = {
@@ -177,6 +179,7 @@ fun DownloadPage(
 @Composable
 fun DownloadPageImpl(
     viewState: DownloadViewModel.DownloadViewState,
+    taskState: DownloadViewModel.DownloadTaskItem,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
@@ -190,7 +193,7 @@ fun DownloadPageImpl(
     val hapticFeedback = LocalHapticFeedback.current
 
     with(viewState) {
-        var showVideoCard by remember {
+        val showVideoCard by remember {
             mutableStateOf(
                 !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW) && !isInCustomCommandMode
             )
@@ -247,20 +250,23 @@ fun DownloadPageImpl(
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
                 )
-                Column(
-                    Modifier
-                        .padding(horizontal = 24.dp)
-                        .padding(top = 24.dp)
-                ) {
+
+            }
+            Column(
+                Modifier
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp)
+            ) {
+                with(taskState) {
                     AnimatedVisibility(
                         visible = showDownloadProgress && showVideoCard
                     ) {
                         if (!isPreview)
                             VideoCard(
                                 modifier = Modifier,
-                                title = videoTitle,
-                                author = videoAuthor,
-                                thumbnailUrl = videoThumbnailUrl,
+                                title = title,
+                                author = uploader,
+                                thumbnailUrl = thumbnailUrl,
                                 progress = progress,
                                 onClick = onVideoCardClicked,
                             )
@@ -495,6 +501,7 @@ fun DownloadPagePreview() {
         Column() {
             DownloadPageImpl(
                 viewState = DownloadViewModel.DownloadViewState(showDownloadProgress = true),
+                taskState = DownloadViewModel.DownloadTaskItem(),
                 isPreview = true
             ) {}
         }
