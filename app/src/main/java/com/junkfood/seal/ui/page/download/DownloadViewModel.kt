@@ -187,6 +187,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             mutableStateFlow.update {
                 it.copy(
                     isProcessRunning = true,
+
                     isDownloadingPlaylist = true,
                     currentItem = 1,
                     downloadItemCount = itemCount
@@ -261,6 +262,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         task: DownloadTaskItem = DownloadTaskItem(),
     ) {
         with(mutableStateFlow) {
+            if (value.isCancelled) return
+
             val videoInfo: VideoInfo = if (task.videoInfo == null) {
                 val _videoInfo: VideoInfo
                 try {
@@ -275,7 +278,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             } else task.videoInfo!!
             update { it.copy(isDownloadError = false) }
             Log.d(TAG, "downloadVideo: ${videoInfo.id}" + videoInfo.title)
-            if (value.isCancelled) return
             update {
                 it.copy(
                     showDownloadProgress = true,
@@ -537,10 +539,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isProcessRunning = false,
                 isDownloadingPlaylist = false,
                 isFetchingInfo = false,
-
                 isCancelled = true
             )
         }
+        mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
+
         val taskId = taskState.value.taskId
         YoutubeDL.getInstance().destroyProcessById(taskId)
         NotificationUtil.cancelNotification(taskId.hashCode())

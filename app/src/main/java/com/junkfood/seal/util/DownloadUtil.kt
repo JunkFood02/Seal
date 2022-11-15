@@ -198,12 +198,6 @@ object DownloadUtil {
                     addOption("--embed-subs")
                     addOption("--sub-lang", "all,-live_chat")
                 }
-                if (sponsorBlock) {
-                    addOption(
-                        "--sponsorblock-remove",
-                        sponsorBlockCategory
-                    )
-                }
             }
         }
     }
@@ -307,6 +301,9 @@ object DownloadUtil {
                     else
                         pathBuilder.append(videoDownloadDir)
                     addOptionsForVideoDownloads(downloadPreferences)
+                }
+                if (sponsorBlock) {
+                    addOption("--sponsorblock-remove", sponsorBlockCategory)
                 }
 
                 if (createThumbnail) {

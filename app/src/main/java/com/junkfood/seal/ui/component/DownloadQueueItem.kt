@@ -22,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -131,19 +130,19 @@ fun PlaylistItem(
 ) {
 
     val sizeState = animateDpAsState(targetValue = if (selected) 20.dp else 0.dp)
-    Surface(modifier = modifier.fillMaxWidth(), color = with(MaterialTheme.colorScheme) {
-        if (selected) surfaceColorAtElevation(15.dp) else surface
-    }) {
+    Surface(
+        modifier = modifier.fillMaxWidth()
+    ) {
         Row(
             modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .selectable(selected) { onClick() }) {
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .selectable(selected) { onClick() }) {
             Box(
                 modifier = Modifier
-                    .padding(vertical = 4.dp)
+                    .padding(4.dp)
                     .padding(end = 4.dp)
-                    .weight(0.4f)
+                    .weight(2f)
             ) {
                 AsyncImage(
                     modifier = Modifier
@@ -175,8 +174,8 @@ fun PlaylistItem(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
 //                    .padding(end = 0.dp)
-                    .weight(1f)
-                    .fillMaxHeight(), verticalArrangement = Arrangement.Center
+                    .weight(3f)
+                    .fillMaxHeight()
             ) {
                 Text(
                     text = title,
