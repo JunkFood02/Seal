@@ -188,6 +188,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 it.copy(
                     isProcessRunning = true,
                     isDownloadingPlaylist = true,
+                    currentItem = 1,
                     downloadItemCount = itemCount
                 )
             }
@@ -202,15 +203,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         uploader = uploader.toString(),
                         playlistIndex = indexList[i] + 1
                     )
+                    Log.d(TAG, task.toString())
                     if (i != indexList.size - 1) {
                         videoInfoNext = supervisorScope {
                             async(Dispatchers.IO) {
                                 Log.d(TAG, "fetching new!")
-                                DownloadUtil.fetchVideoInfo(url, indexList[i + 1])
+                                val res = DownloadUtil.fetchVideoInfo(url, indexList[i + 1] + 1)
+                                Log.d(TAG, "finish!")
+                                return@async res
                             }
                         }
                     }
-                    mutableStateFlow.update { it.copy(currentItem = i) }
+                    mutableStateFlow.update { it.copy(currentItem = i + 1) }
                     if (MainActivity.isServiceRunning)
                         NotificationUtil.updateServiceNotification(i, itemCount)
                     downloadVideo(url, task)
@@ -269,9 +273,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 }
                 _videoInfo
             } else task.videoInfo!!
-
             update { it.copy(isDownloadError = false) }
-            Log.d(TAG, "downloadVideo: $task.playlistIndex" + videoInfo.title)
+            Log.d(TAG, "downloadVideo: ${videoInfo.id}" + videoInfo.title)
             if (value.isCancelled) return
             update {
                 it.copy(
@@ -281,6 +284,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             mutableTaskState.update {
                 task.copy(
+                    videoInfo = videoInfo,
                     progress = 0f,
                     taskId = videoInfo.id,
                     title = videoInfo.title,
@@ -293,8 +297,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             val intent: Intent?
             viewModelScope.launch(Dispatchers.Main) {
                 TextUtil.makeToast(
-                    context.getString(R.string.download_start_msg)
-                        .format(videoInfo.title)
+                    context.getString(R.string.download_start_msg).format(videoInfo.title)
                 )
             }
 

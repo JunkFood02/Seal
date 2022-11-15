@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -199,8 +198,7 @@ fun DownloadPageImpl(
             )
         }
         Scaffold(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             topBar = {
                 TopAppBar(title = {},
                     modifier = Modifier.padding(horizontal = 8.dp),
@@ -224,7 +222,7 @@ fun DownloadPageImpl(
             },
             floatingActionButton = {
                 FABs(
-                    modifier = with(receiver = Modifier.systemBarsPadding()) { if (showDownloadProgress) this else this.imePadding() },
+                    modifier = with(receiver = Modifier) { if (showDownloadProgress) this else this.imePadding() },
                     downloadCallback = downloadCallback,
                     pasteCallback = pasteCallback
                 )
@@ -435,8 +433,8 @@ fun ErrorMessage(
         modifier = with(
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
         ) {
+
             if (error && copyToClipboard) {
                 clip(MaterialTheme.shapes.large).clickable {
                     if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {

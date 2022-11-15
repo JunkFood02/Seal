@@ -3,6 +3,7 @@
 package com.junkfood.seal.ui.page.download
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -20,7 +21,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DismissButton
@@ -31,29 +35,30 @@ import com.junkfood.seal.ui.component.PlaylistItem
 @Composable
 fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
     val viewState = downloadViewModel.stateFlow.collectAsState().value
-    val onDismissRequest = { downloadViewModel.hidePlaylistDialog() }
-    val playlistItemCount = viewState.downloadItemCount
+    val onDismissRequest = {
+        downloadViewModel.hidePlaylistDialog()
+        MainActivity.stopService()
+    }
     val playlistInfo = downloadViewModel.playlistResult.collectAsState().value
     var error by remember { mutableStateOf(false) }
     val selectedItems = remember { mutableStateListOf<Int>() }
     if (viewState.showPlaylistSelectionDialog) {
-
-        AlertDialog(onDismissRequest = {},
+        val properties = DialogProperties(
+            dismissOnClickOutside = false
+        )
+        AlertDialog(properties = properties, onDismissRequest = { onDismissRequest() },
             icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
             title = { Text(stringResource(R.string.download_range_selection)) },
             text = {
                 Column {
                     Text(
-                        text = stringResource(R.string.download_range_desc).format(
-                            1,
-                            playlistItemCount,
-                            playlistInfo.title,
-                        )
+                        modifier = Modifier.padding(bottom = 12.dp),
+                        text = stringResource(R.string.download_selection_desc).format(playlistInfo.title)
                     )
                     LazyColumn {
                         itemsIndexed(items = playlistInfo.entries) { index, entries ->
                             PlaylistItem(imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
-                                title = entries.title.toString(),
+                                title = entries.title ?: index.toString(),
                                 author = entries.uploader.toString(),
                                 selected = selectedItems.contains(index),
                                 onClick = {
@@ -67,7 +72,6 @@ fun PlaylistSelectionDialog(downloadViewModel: DownloadViewModel) {
             dismissButton = {
                 DismissButton {
                     onDismissRequest()
-                    MainActivity.stopService()
                 }
             },
             confirmButton = {

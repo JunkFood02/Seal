@@ -1,8 +1,10 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -11,7 +13,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -29,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.theme.PreviewThemeDark
+import com.junkfood.seal.ui.theme.PreviewThemeLight
 
 
 @Composable
@@ -56,12 +64,10 @@ fun DownloadQueueItem(
         modifier = modifier.fillMaxWidth(),
 //        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .clickable { }
-        ) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .clickable { }) {
             AsyncImage(
                 modifier = Modifier
                     .padding(8.dp)
@@ -104,7 +110,7 @@ fun DownloadQueueItem(
 fun PlaylistPreview() {
     var selected by remember { mutableStateOf(false) }
     Column() {
-        PreviewThemeDark {
+        PreviewThemeLight {
             PlaylistItem(selected = selected) { selected = !selected }
             PlaylistItem(selected = selected) { selected = !selected }
             PlaylistItem(selected = selected) { selected = !selected }
@@ -123,29 +129,48 @@ fun PlaylistItem(
     author: String = "author sample ".repeat(5),
     onClick: () -> Unit = {},
 ) {
-    val colorState = animateColorAsState(targetValue = with(MaterialTheme.colorScheme) {
+
+    val sizeState = animateDpAsState(targetValue = if (selected) 20.dp else 0.dp)
+    Surface(modifier = modifier.fillMaxWidth(), color = with(MaterialTheme.colorScheme) {
         if (selected) surfaceColorAtElevation(15.dp) else surface
-    })
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        color = colorState.value
-    ) {
+    }) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .selectable(selected) { onClick() }
-        ) {
-            AsyncImage(
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .selectable(selected) { onClick() }) {
+            Box(
                 modifier = Modifier
+                    .padding(vertical = 4.dp)
                     .padding(end = 4.dp)
                     .weight(0.4f)
-                    .clip(MaterialTheme.shapes.extraSmall)
-                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                model = imageModel,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-            )
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                    model = imageModel,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(sizeState.value)
+                            .padding(2.dp),
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+
+            }
             Column(
                 modifier = Modifier
                     .padding(vertical = 8.dp)

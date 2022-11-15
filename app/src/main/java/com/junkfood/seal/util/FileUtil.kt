@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
@@ -13,7 +15,9 @@ import java.io.File
 object FileUtil {
     fun openFile(downloadResult: DownloadUtil.Result) {
         if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
-        openFileInURI(downloadResult.filePath?.get(0) ?: return)
+        if (Build.VERSION.SDK_INT > 23)
+            openFileInURI(downloadResult.filePath?.firstOrNull() ?: "")
+        else context.startActivity(createIntentForOpenFile(downloadResult))
     }
 
     fun openFileInURI(path: String) {
@@ -48,6 +52,7 @@ object FileUtil {
     }
 
     fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String> {
+        Log.d(TAG, "scanFileToMediaLibrary: $title")
         val files = ArrayList<File>()
         val paths = ArrayList<String>()
 

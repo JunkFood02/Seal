@@ -1,5 +1,6 @@
 package com.junkfood.seal.util
 
+import android.os.Build
 import android.util.Log
 import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
@@ -320,7 +321,8 @@ object DownloadUtil {
                 }
 
                 addOption("-P", pathBuilder.toString())
-                addOption("-P", "temp:" + context.getTempDir())
+                if (Build.VERSION.SDK_INT > 23)
+                    addOption("-P", "temp:" + context.getTempDir())
                 if (customPath)
                     addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
                 else
