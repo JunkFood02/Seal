@@ -18,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -110,13 +111,85 @@ fun PlaylistPreview() {
     var selected by remember { mutableStateOf(false) }
     Column() {
         PreviewThemeLight {
-            PlaylistItem(selected = selected) { selected = !selected }
+            PlaylistItemNew(selected = selected) { selected = !selected }
             PlaylistItem(selected = selected) { selected = !selected }
             PlaylistItem(selected = selected) { selected = !selected }
         }
 
     }
 
+}
+
+
+@Composable
+fun PlaylistItemNew(
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    imageModel: Any = R.drawable.sample,
+    title: String = "sample title ".repeat(5),
+    author: String? = "author sample ".repeat(5),
+    onClick: () -> Unit = {},
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .selectable(selected) { onClick() },
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+                .height(IntrinsicSize.Min),
+        ) {
+            Checkbox(
+                modifier = Modifier
+                    .padding(start = 4.dp, end = 12.dp)
+                    .align(Alignment.CenterVertically),
+                checked = selected,
+                onCheckedChange = null
+            )
+            Box(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .padding(end = 4.dp)
+                    .weight(2f)
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                    model = imageModel,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .weight(3f)
+                    .fillMaxHeight()
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                author?.let {
+                    Text(
+                        modifier = Modifier.padding(top = 2.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+            }
+        }
+    }
 }
 
 @Composable
@@ -131,13 +204,16 @@ fun PlaylistItem(
 
     val sizeState = animateDpAsState(targetValue = if (selected) 20.dp else 0.dp)
     Surface(
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .selectable(selected) { onClick() }
     ) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
+                .padding(vertical = 4.dp)
                 .height(IntrinsicSize.Min)
-                .selectable(selected) { onClick() }) {
+        ) {
             Box(
                 modifier = Modifier
                     .padding(4.dp)

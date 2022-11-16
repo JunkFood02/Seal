@@ -4,7 +4,7 @@ class Route {
     companion object {
         const val HOME = "home"
         const val DOWNLOADS = "download_history"
-
+        const val PLAYLIST = "playlist"
         const val SETTINGS = "settings"
 
         const val SETTINGS_PAGE = "settings_page"

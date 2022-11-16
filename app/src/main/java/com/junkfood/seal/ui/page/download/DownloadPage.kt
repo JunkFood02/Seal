@@ -46,6 +46,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -91,7 +92,7 @@ import com.junkfood.seal.util.TextUtil
 fun DownloadPage(
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
-    navigateToDownloadQueue: () -> Unit = {},
+    navigateToPlaylistPage: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -107,6 +108,8 @@ fun DownloadPage(
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsStateWithLifecycle()
     val taskState = downloadViewModel.taskState.collectAsStateWithLifecycle()
+    val playlistInfo = downloadViewModel.playlistResult.collectAsStateWithLifecycle()
+
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
@@ -124,7 +127,11 @@ fun DownloadPage(
         else checkPermissionOrDownload()
         keyboardController?.hide()
     }
-
+    DisposableEffect(viewState.value.showPlaylistSelectionDialog) {
+        if (playlistInfo.value.playlistCount > 1 && viewState.value.showPlaylistSelectionDialog)
+            navigateToPlaylistPage()
+        onDispose { downloadViewModel.hidePlaylistDialog() }
+    }
 
     if (viewState.value.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
@@ -134,8 +141,6 @@ fun DownloadPage(
     BackHandler(viewState.value.drawerState.isVisible) {
         downloadViewModel.hideDialog(scope, useDialog)
     }
-
-    PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
 
     Box(
         modifier = Modifier

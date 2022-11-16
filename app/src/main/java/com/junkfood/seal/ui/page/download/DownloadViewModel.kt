@@ -164,11 +164,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             isFetchingInfo = false,
                         )
                     }
-                    mutablePlaylistResult.update { playlistResult }
                     if (playlistResult.playlistCount == 1) {
                         checkStateBeforeDownload()
                         downloadVideo(value.url)
-                    } else showPlaylistDialog()
+                    } else {
+                        mutablePlaylistResult.update { playlistResult }
+                        showPlaylistDialog()
+                    }
                 } catch (e: Exception) {
                     manageDownloadError(e)
                 }
@@ -202,14 +204,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         videoInfo = videoInfoNext?.await(),
                         title = title.toString(),
                         uploader = uploader.toString(),
-                        playlistIndex = indexList[i] + 1
+                        playlistIndex = indexList[i]
                     )
                     Log.d(TAG, task.toString())
                     if (i != indexList.size - 1) {
                         videoInfoNext = supervisorScope {
                             async(Dispatchers.IO) {
                                 Log.d(TAG, "fetching new!")
-                                val res = DownloadUtil.fetchVideoInfo(url, indexList[i + 1] + 1)
+                                val res = DownloadUtil.fetchVideoInfo(url, indexList[i + 1])
                                 Log.d(TAG, "finish!")
                                 return@async res
                             }
@@ -551,6 +553,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun onShareIntentConsumed() {
         mutableStateFlow.update { it.copy(isUrlSharingTriggered = false) }
+    }
+
+    fun clearPlaylistResult() {
+        mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
     }
 
     companion object {
