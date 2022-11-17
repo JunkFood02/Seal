@@ -153,6 +153,7 @@ object PreferenceUtil {
     private const val BASQUE = 27
     private const val HINDI = 28
     private const val MALAYALAM = 29
+    private const val SINHALA = 30
 
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
@@ -181,6 +182,7 @@ object PreferenceUtil {
         Pair(POLISH, "pl"),
         Pair(PORTUGUESE_BRAZIL, "pt-BR"),
         Pair(RUSSIAN, "ru"),
+        Pair(SINHALA, "si"),
         Pair(SPANISH, "es"),
         Pair(TURKISH, "tr"),
         Pair(UKRAINIAN, "ua"),
@@ -218,38 +220,41 @@ object PreferenceUtil {
 
     @Composable
     fun getLanguageDesc(language: Int = getLanguageNumber()): String {
-        return when (language) {
-            SIMPLIFIED_CHINESE -> stringResource(R.string.la_zh_CN)
-            ENGLISH -> stringResource(R.string.la_en_US)
-            CZECH -> stringResource(R.string.la_cs)
-            FRENCH -> stringResource(R.string.la_fr)
-            GERMAN -> stringResource(R.string.la_de)
-            NORWEGIAN -> stringResource(R.string.la_nb_NO)
-            DANISH -> stringResource(R.string.la_da)
-            SPANISH -> stringResource(R.string.la_es)
-            TURKISH -> stringResource(R.string.la_tr)
-            UKRAINIAN -> stringResource(R.string.la_ua)
-            RUSSIAN -> stringResource(R.string.la_ru)
-            ARABIC -> stringResource(R.string.la_ar)
-            PERSIAN -> stringResource(R.string.la_fa)
-            INDONESIAN -> stringResource(R.string.la_in)
-            FILIPINO -> stringResource(R.string.la_fil)
-            ITALIAN -> stringResource(R.string.la_it)
-            DUTCH -> stringResource(R.string.la_nl)
-            PORTUGUESE_BRAZIL -> stringResource(R.string.la_pt_BR)
-            JAPANESE -> stringResource(R.string.la_ja)
-            POLISH -> stringResource(R.string.la_pl)
-            HUNGARIAN -> stringResource(R.string.la_hu)
-            MALAY -> stringResource(R.string.la_ms)
-            TRADITIONAL_CHINESE -> stringResource(R.string.la_zh_TW)
-            VIETNAMESE -> stringResource(R.string.la_vi)
-            BELARUSIAN -> stringResource(R.string.la_be)
-            CROATIAN -> stringResource(R.string.la_hr)
-            BASQUE -> stringResource(R.string.la_eu)
-            HINDI -> stringResource(R.string.la_hi)
-            MALAYALAM -> stringResource(R.string.la_ml)
-            else -> stringResource(R.string.follow_system)
-        }
+        return stringResource(
+            when (language) {
+                SIMPLIFIED_CHINESE -> R.string.la_zh_CN
+                ENGLISH -> R.string.la_en_US
+                CZECH -> R.string.la_cs
+                FRENCH -> R.string.la_fr
+                GERMAN -> R.string.la_de
+                NORWEGIAN -> R.string.la_nb_NO
+                DANISH -> R.string.la_da
+                SPANISH -> R.string.la_es
+                TURKISH -> R.string.la_tr
+                UKRAINIAN -> R.string.la_ua
+                RUSSIAN -> R.string.la_ru
+                ARABIC -> R.string.la_ar
+                PERSIAN -> R.string.la_fa
+                INDONESIAN -> R.string.la_in
+                FILIPINO -> R.string.la_fil
+                ITALIAN -> R.string.la_it
+                DUTCH -> R.string.la_nl
+                PORTUGUESE_BRAZIL -> R.string.la_pt_BR
+                JAPANESE -> R.string.la_ja
+                POLISH -> R.string.la_pl
+                HUNGARIAN -> R.string.la_hu
+                MALAY -> R.string.la_ms
+                TRADITIONAL_CHINESE -> R.string.la_zh_TW
+                VIETNAMESE -> R.string.la_vi
+                BELARUSIAN -> R.string.la_be
+                CROATIAN -> R.string.la_hr
+                BASQUE -> R.string.la_eu
+                HINDI -> R.string.la_hi
+                MALAYALAM -> R.string.la_ml
+                SINHALA -> R.string.la_si
+                else -> R.string.follow_system
+            }
+        )
     }
 
     fun getSponsorBlockCategories(): String =

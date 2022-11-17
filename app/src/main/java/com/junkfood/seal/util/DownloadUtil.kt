@@ -100,6 +100,7 @@ object DownloadUtil {
         val title: String? = null,
         val duration: Float? = 0f,
         val uploader: String? = null,
+        val channel: String? = null,
         val thumbnails: ArrayList<Thumbnails> = arrayListOf(),
     )
 

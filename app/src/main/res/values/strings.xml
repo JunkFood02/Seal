@@ -256,4 +256,5 @@
     <string name="download_selection_desc">Select videos to download from the playlist \"%1$s\"</string>
     <string name="select_all">Select all</string>
     <string name="selected_item_count">%1$d selected</string>
+    <string name="la_si" translatable="false">සිංහල</string>
 </resources>

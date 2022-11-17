@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.PlaylistItemNew
+import com.junkfood.seal.ui.component.PlaylistItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -150,10 +150,10 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                 }
                 itemsIndexed(items = playlistInfo.entries) { _index, entries ->
                     val index = _index + 1
-                    PlaylistItemNew(modifier = Modifier.padding(horizontal = 12.dp),
+                    PlaylistItem(modifier = Modifier.padding(horizontal = 12.dp),
                         imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
                         title = entries.title ?: index.toString(),
-                        author = entries.uploader,
+                        author = entries.channel ?: entries.uploader,
                         selected = selectedItems.contains(index),
                         onClick = {
                             if (selectedItems.contains(index)) selectedItems.remove(index)

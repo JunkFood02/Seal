@@ -1,7 +1,5 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,16 +11,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 
 
@@ -111,8 +106,6 @@ fun PlaylistPreview() {
     var selected by remember { mutableStateOf(false) }
     Column() {
         PreviewThemeLight {
-            PlaylistItemNew(selected = selected) { selected = !selected }
-            PlaylistItem(selected = selected) { selected = !selected }
             PlaylistItem(selected = selected) { selected = !selected }
         }
 
@@ -122,7 +115,7 @@ fun PlaylistPreview() {
 
 
 @Composable
-fun PlaylistItemNew(
+fun PlaylistItem(
     modifier: Modifier = Modifier,
     selected: Boolean = false,
     imageModel: Any = R.drawable.sample,
@@ -139,20 +132,17 @@ fun PlaylistItemNew(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
-                .height(IntrinsicSize.Min),
         ) {
             Checkbox(
                 modifier = Modifier
                     .padding(start = 4.dp, end = 12.dp)
-                    .align(Alignment.CenterVertically),
-                checked = selected,
-                onCheckedChange = null
+                    .align(Alignment.CenterVertically), checked = selected, onCheckedChange = null
             )
             Box(
                 modifier = Modifier
                     .padding(4.dp)
                     .padding(end = 4.dp)
-                    .weight(2f)
+                    .weight(if (LocalWindowWidthState.current == WindowWidthSizeClass.Compact) 2f else 1f)
             ) {
                 AsyncImage(
                     modifier = Modifier
@@ -165,9 +155,8 @@ fun PlaylistItemNew(
             }
             Column(
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 4.dp)
                     .weight(3f)
-                    .fillMaxHeight()
             ) {
                 Text(
                     text = title,
@@ -187,87 +176,6 @@ fun PlaylistItemNew(
                     )
                 }
 
-            }
-        }
-    }
-}
-
-@Composable
-fun PlaylistItem(
-    modifier: Modifier = Modifier,
-    selected: Boolean = false,
-    imageModel: Any = R.drawable.sample,
-    title: String = "sample title ".repeat(5),
-    author: String = "author sample ".repeat(5),
-    onClick: () -> Unit = {},
-) {
-
-    val sizeState = animateDpAsState(targetValue = if (selected) 20.dp else 0.dp)
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .selectable(selected) { onClick() }
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-                .height(IntrinsicSize.Min)
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .padding(end = 4.dp)
-                    .weight(2f)
-            ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.extraSmall)
-                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                    model = imageModel,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(sizeState.value)
-                            .padding(2.dp),
-                        imageVector = Icons.Outlined.Check,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-
-            }
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-//                    .padding(end = 0.dp)
-                    .weight(3f)
-                    .fillMaxHeight()
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    modifier = Modifier.padding(top = 2.dp),
-                    text = author,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
             }
         }
     }
