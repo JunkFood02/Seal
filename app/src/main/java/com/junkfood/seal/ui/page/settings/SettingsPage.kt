@@ -5,7 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,6 +53,10 @@ fun SettingsPage(navController: NavController) {
     val context = LocalContext.current
     val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
     var showBatteryHint by remember { mutableStateOf(!pm.isIgnoringBatteryOptimizations(context.packageName)) }
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
+        }
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {},
             modifier = Modifier.padding(start = 8.dp),
@@ -67,13 +75,16 @@ fun SettingsPage(navController: NavController) {
                 )
             }
             item {
-                AnimatedVisibility(visible = showBatteryHint) {
+                AnimatedVisibility(
+                    visible = showBatteryHint,
+                    exit = shrinkVertically() + fadeOut()
+                ) {
                     PreferencesHint(
                         title = stringResource(R.string.battery_configuration),
                         icon = Icons.Rounded.EnergySavingsLeaf,
                         description = stringResource(R.string.battery_configuration_desc)
                     ) {
-                        context.startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                        launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
                             data = Uri.parse("package:${context.packageName}")
                         })
                         showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)

@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -47,11 +46,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -93,7 +92,7 @@ import com.junkfood.seal.util.TextUtil
 fun DownloadPage(
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
-    navigateToDownloadQueue: () -> Unit = {},
+    navigateToPlaylistPage: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -108,6 +107,9 @@ fun DownloadPage(
         }
     val scope = rememberCoroutineScope()
     val viewState = downloadViewModel.stateFlow.collectAsStateWithLifecycle()
+    val taskState = downloadViewModel.taskState.collectAsStateWithLifecycle()
+    val playlistInfo = downloadViewModel.playlistResult.collectAsStateWithLifecycle()
+
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
@@ -125,7 +127,11 @@ fun DownloadPage(
         else checkPermissionOrDownload()
         keyboardController?.hide()
     }
-
+    DisposableEffect(viewState.value.showPlaylistSelectionDialog) {
+        if (playlistInfo.value.playlistCount > 1 && viewState.value.showPlaylistSelectionDialog)
+            navigateToPlaylistPage()
+        onDispose { downloadViewModel.hidePlaylistDialog() }
+    }
 
     if (viewState.value.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
@@ -136,15 +142,15 @@ fun DownloadPage(
         downloadViewModel.hideDialog(scope, useDialog)
     }
 
-    PlaylistSelectionDialog(downloadViewModel = downloadViewModel)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
         DownloadPageImpl(
-            viewState = viewState.value, downloadCallback = { downloadCallback() },
+            viewState = viewState.value,
+            taskState = taskState.value,
+            downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             pasteCallback = {
@@ -177,6 +183,7 @@ fun DownloadPage(
 @Composable
 fun DownloadPageImpl(
     viewState: DownloadViewModel.DownloadViewState,
+    taskState: DownloadViewModel.DownloadTaskItem,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
@@ -190,14 +197,13 @@ fun DownloadPageImpl(
     val hapticFeedback = LocalHapticFeedback.current
 
     with(viewState) {
-        var showVideoCard by remember {
+        val showVideoCard by remember {
             mutableStateOf(
                 !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW) && !isInCustomCommandMode
             )
         }
         Scaffold(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             topBar = {
                 TopAppBar(title = {},
                     modifier = Modifier.padding(horizontal = 8.dp),
@@ -221,7 +227,7 @@ fun DownloadPageImpl(
             },
             floatingActionButton = {
                 FABs(
-                    modifier = with(receiver = Modifier.systemBarsPadding()) { if (showDownloadProgress) this else this.imePadding() },
+                    modifier = with(receiver = Modifier) { if (showDownloadProgress) this else this.imePadding() },
                     downloadCallback = downloadCallback,
                     pasteCallback = pasteCallback
                 )
@@ -236,7 +242,7 @@ fun DownloadPageImpl(
                     showProgressIndicator = isProcessRunning || isFetchingInfo,
                     showCancelOperation = isProcessRunning,
                     isDownloadingPlaylist = isDownloadingPlaylist,
-                    currentIndex = currentIndex,
+                    currentIndex = currentItem,
                     downloadItemCount = downloadItemCount,
                     onClick = {
                         cancelCallback()
@@ -247,56 +253,60 @@ fun DownloadPageImpl(
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
                 )
+
+
                 Column(
                     Modifier
                         .padding(horizontal = 24.dp)
                         .padding(top = 24.dp)
                 ) {
-                    AnimatedVisibility(
-                        visible = showDownloadProgress && showVideoCard
-                    ) {
-                        if (!isPreview)
-                            VideoCard(
-                                modifier = Modifier,
-                                title = videoTitle,
-                                author = videoAuthor,
-                                thumbnailUrl = videoThumbnailUrl,
-                                progress = progress,
-                                onClick = onVideoCardClicked,
+                    with(taskState) {
+                        AnimatedVisibility(
+                            visible = showDownloadProgress && showVideoCard
+                        ) {
+                            if (!isPreview)
+                                VideoCard(
+                                    modifier = Modifier,
+                                    title = title,
+                                    author = uploader,
+                                    thumbnailUrl = thumbnailUrl,
+                                    progress = progress,
+                                    onClick = onVideoCardClicked,
+                                )
+                            else
+                                VideoCardPreview()
+                        }
+                        InputUrl(
+                            url = url,
+                            hint = stringResource(R.string.video_url),
+                            progress = progress,
+                            showDownloadProgress = showDownloadProgress && !showVideoCard,
+                            error = isDownloadError,
+                        ) { url -> onUrlChanged(url) }
+                        AnimatedVisibility(
+                            enter = expandVertically() + fadeIn(),
+                            exit = shrinkVertically() + fadeOut(),
+                            visible = debugMode && progressText.isNotEmpty()
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(bottom = 12.dp),
+                                text = progressText,
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.bodyMedium
                             )
-                        else
-                            VideoCardPreview()
+                        }
                     }
-                    InputUrl(
-                        url = url,
-                        hint = stringResource(R.string.video_url),
-                        progress = progress,
-                        showDownloadProgress = showDownloadProgress && !showVideoCard,
-                        error = isDownloadError,
-                    ) { url -> onUrlChanged(url) }
-                    AnimatedVisibility(
-                        enter = expandVertically() + fadeIn(),
-                        exit = shrinkVertically() + fadeOut(),
-                        visible = debugMode && progressText.isNotEmpty()
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(bottom = 12.dp),
-                            text = progressText,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.bodyMedium
+                    AnimatedVisibility(visible = isDownloadError) {
+                        ErrorMessage(
+                            error = isDownloadError,
+                            copyToClipboard = isShowingErrorReport,
+                            errorMessage = errorMessage
                         )
                     }
+                    content()
+                    NavigationBarSpacer()
                 }
-                AnimatedVisibility(visible = isDownloadError) {
-                    ErrorMessage(
-                        error = isDownloadError,
-                        copyToClipboard = isShowingErrorReport,
-                        errorMessage = errorMessage
-                    )
-                }
-                content()
-                NavigationBarSpacer()
             }
         }
     }
@@ -428,8 +438,8 @@ fun ErrorMessage(
         modifier = with(
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
         ) {
+
             if (error && copyToClipboard) {
                 clip(MaterialTheme.shapes.large).clickable {
                     if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
@@ -495,6 +505,7 @@ fun DownloadPagePreview() {
         Column() {
             DownloadPageImpl(
                 viewState = DownloadViewModel.DownloadViewState(showDownloadProgress = true),
+                taskState = DownloadViewModel.DownloadTaskItem(),
                 isPreview = true
             ) {}
         }
