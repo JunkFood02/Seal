@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 @OptIn(ExperimentalMaterialApi::class)
@@ -86,6 +87,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val webpageUrl: String = "",
         val title: String = "",
         val uploader: String = "",
+        val duration: Int = 0,
+        val fileSizeApprox: Int = 0,
         val progress: Float = 0f,
         val progressText: String = "",
         val thumbnailUrl: String = "",
@@ -294,7 +297,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     taskId = videoInfo.id,
                     title = videoInfo.title,
                     uploader = videoInfo.uploader ?: "null",
-                    thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: "")
+                    thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                    duration = videoInfo.duration?.roundToInt() ?: 0,
+                    fileSizeApprox = videoInfo.fileSizeApprox ?: 0
                 )
             }
 

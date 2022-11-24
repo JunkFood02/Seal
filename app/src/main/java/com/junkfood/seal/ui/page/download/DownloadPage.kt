@@ -271,6 +271,8 @@ fun DownloadPageImpl(
                                     author = uploader,
                                     thumbnailUrl = thumbnailUrl,
                                     progress = progress,
+                                    fileSizeApprox = fileSizeApprox,
+                                    duration = duration,
                                     onClick = onVideoCardClicked,
                                 )
                             else

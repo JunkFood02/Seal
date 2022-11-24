@@ -16,7 +16,7 @@ data class VideoInfo(
     @SerialName("uploader_url") val uploaderUrl: String? = null,
     @SerialName("channel_id") val channelId: String? = null,
     @SerialName("channel_url") val channelUrl: String? = null,
-    val duration: Int? = null,
+    val duration: Double? = null,
     @SerialName("view_count") val viewCount: Int? = null,
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("categories") val categories: List<String> = emptyList(),
@@ -59,7 +59,6 @@ data class VideoInfo(
     val acodec: String? = null,
     val abr: Double? = null,
     val asr: Int? = null,
-    @SerialName("audio_channels") val audioChannels: Int? = null,
     val epoch: Int? = null,
     @SerialName("_type") val Type: String? = null,
 )
@@ -82,8 +81,32 @@ data class Format(
     @SerialName("video_ext") val videoExt: String? = null,
     val format: String? = null,
     val resolution: String? = null,
+    @SerialName("filesize_approx") val fileSizeApprox: Int? = null,
+)
 
-    )
+
+@Serializable
+data class RequestedDownload(
+    @SerialName("requested_formats") val requestedFormats: List<Format> = emptyList(),
+    @SerialName("format") val format: String? = null,
+    @SerialName("format_id") val formatId: String? = null,
+    @SerialName("ext") val ext: String? = null,
+    @SerialName("protocol") val protocol: String? = null,
+    @SerialName("format_note") val formatNote: String? = null,
+    @SerialName("filesize_approx") val filesizeApprox: Int? = null,
+    @SerialName("tbr") val tbr: Double? = null,
+    @SerialName("width") val width: Int? = null,
+    @SerialName("height") val height: Int? = null,
+    @SerialName("resolution") val resolution: String? = null,
+    @SerialName("fps") val fps: Int? = null,
+    @SerialName("dynamic_range") val dynamicRange: String? = null,
+    @SerialName("vcodec") val vcodec: String? = null,
+    @SerialName("vbr") val vbr: Int? = null,
+    @SerialName("acodec") val acodec: String? = null,
+    @SerialName("abr") val abr: Double? = null,
+    @SerialName("asr") val asr: Int? = null,
+    @SerialName("epoch") val epoch: Int? = null,
+)
 
 @Serializable
 data class PlaylistResult(
@@ -94,7 +117,7 @@ data class PlaylistResult(
     val title: String? = null,
     val description: String? = null,
     @SerialName("_type") val type: String? = null,
-    val entries: ArrayList<Entries> = arrayListOf(),
+    val entries: List<Entries> = emptyList(),
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("extractor_key") val extractorKey: String? = null,
 )
@@ -116,5 +139,5 @@ data class Entries(
     val duration: Double? = .0,
     val uploader: String? = null,
     val channel: String? = null,
-    val thumbnails: ArrayList<Thumbnail> = arrayListOf(),
+    val thumbnails: List<Thumbnail> = emptyList(),
 )

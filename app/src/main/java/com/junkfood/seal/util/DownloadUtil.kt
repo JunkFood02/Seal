@@ -102,9 +102,36 @@ object DownloadUtil {
 
     }
 
-    fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
+    fun fetchVideoInfo(
+        url: String,
+        playlistItem: Int = 0,
+        preferences: DownloadPreferences = DownloadPreferences()
+    ): VideoInfo {
 //        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
+            preferences.run {
+                val sorter = StringBuilder()
+                if (maxFileSize.isNumberInRange(1, 4096)) {
+                    sorter.append("size:${maxFileSize}M,")
+                }
+                when (videoFormat) {
+                    1 -> sorter.append("ext,")
+                    2 -> sorter.append("vcodec:vp9.2,")
+                    3 -> sorter.append("vcodec:av01,")
+                }
+                when (videoResolution) {
+                    1 -> sorter.append("res:2160")
+                    2 -> sorter.append("res:1440")
+                    3 -> sorter.append("res:1080")
+                    4 -> sorter.append("res:720")
+                    5 -> sorter.append("res:480")
+                    6 -> sorter.append("res:360")
+                    7 -> sorter.append("+size,+br,+res,+fps")
+                    else -> sorter.append("res")
+                }
+                if (sorter.isNotEmpty())
+                    addOption("-S", sorter.toString())
+            }
             addOption("-R", "1")
             if (playlistItem != 0)
                 addOption("--playlist-items", playlistItem)
