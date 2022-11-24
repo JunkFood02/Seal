@@ -24,11 +24,9 @@ import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 import com.yausername.youtubedl_android.YoutubeDL
+import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
-import com.yausername.youtubedl_android.mapper.VideoInfo
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -70,40 +68,6 @@ object DownloadUtil {
         val title: String = ""
     )
 
-    @Serializable
-    data class PlaylistResult(
-        val uploader: String? = null,
-        val availability: String? = null,
-        @SerialName("playlist_count") val playlistCount: Int = 0,
-        val channel: String? = null,
-        val title: String? = null,
-        val description: String? = null,
-        @SerialName("_type") val type: String? = null,
-        val entries: ArrayList<Entries> = arrayListOf(),
-        @SerialName("webpage_url") val webpageUrl: String? = null,
-        @SerialName("extractor_key") val extractorKey: String? = null,
-    ) {}
-
-    @Serializable
-    data class Thumbnails(
-        val url: String,
-        val height: Int,
-        val width: Int,
-    )
-
-    @Serializable
-    data class Entries(
-        @SerialName("_type") val type: String? = null,
-        val ieKey: String? = null,
-        val id: String? = null,
-        val url: String? = null,
-        val title: String? = null,
-        val duration: Float? = 0f,
-        val uploader: String? = null,
-        val channel: String? = null,
-        val thumbnails: ArrayList<Thumbnails> = arrayListOf(),
-    )
-
 
     fun getPlaylistInfo(playlistURL: String): PlaylistResult {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
@@ -124,16 +88,30 @@ object DownloadUtil {
         return res
     }
 
+
+    private fun getVideoInfo(request: YoutubeDLRequest): VideoInfo {
+        request.addOption("--dump-json")
+        val videoInfo: VideoInfo
+        try {
+            val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
+            videoInfo = jsonFormat.decodeFromString(response.out)
+        } catch (e: Exception) {
+            throw YoutubeDLException("Unable to parse video information", e)
+        }
+        return videoInfo
+
+    }
+
     fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
 //        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
-        val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
+        val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
             addOption("-R", "1")
             if (playlistItem != 0)
                 addOption("--playlist-items", playlistItem)
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
-            if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
+            if (title.isEmpty() or ext.isEmpty()) {
                 throw Exception(context.getString(R.string.fetch_info_error_msg))
             }
         }

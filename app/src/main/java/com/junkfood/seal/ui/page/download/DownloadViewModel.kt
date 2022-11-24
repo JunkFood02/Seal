@@ -20,13 +20,14 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
-import com.yausername.youtubedl_android.mapper.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -49,7 +50,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(DownloadViewState())
     private val mutableTaskState = MutableStateFlow(DownloadTaskItem())
-    private val mutablePlaylistResult = MutableStateFlow(DownloadUtil.PlaylistResult())
+    private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
     val taskState = mutableTaskState.asStateFlow()
     val stateFlow = mutableStateFlow.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
@@ -179,7 +180,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun downloadVideoInPlaylistByIndexList(
-        playlistResult: DownloadUtil.PlaylistResult = this.playlistResult.value,
+        playlistResult: PlaylistResult = this.playlistResult.value,
         url: String = playlistResult.webpageUrl.toString(),
         indexList: List<Int>
     ) {
@@ -469,7 +470,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 currentItem = 0,
             )
         }
-        mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
+        mutablePlaylistResult.update { PlaylistResult() }
         MainActivity.stopService()
         if (!stateFlow.value.isDownloadError)
             TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
@@ -544,7 +545,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isCancelled = true
             )
         }
-        mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
+        mutablePlaylistResult.update { PlaylistResult() }
 
         val taskId = taskState.value.taskId
         YoutubeDL.getInstance().destroyProcessById(taskId)
@@ -556,7 +557,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun clearPlaylistResult() {
-        mutablePlaylistResult.update { DownloadUtil.PlaylistResult() }
+        mutablePlaylistResult.update { PlaylistResult() }
     }
 
     companion object {

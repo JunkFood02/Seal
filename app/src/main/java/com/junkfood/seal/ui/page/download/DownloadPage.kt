@@ -435,20 +435,20 @@ fun ErrorMessage(
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     Row(
-        modifier = with(
-            modifier
-                .fillMaxWidth()
-        ) {
-
-            if (error && copyToClipboard) {
-                clip(MaterialTheme.shapes.large).clickable {
-                    if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
-                        clipboardManager.setText(AnnotatedString(errorMessage))
+        modifier =
+        modifier
+            .fillMaxWidth()
+            .run {
+                if (error && copyToClipboard) {
+                    clip(MaterialTheme.shapes.large).clickable {
+                        if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
+                            clipboardManager.setText(AnnotatedString(errorMessage))
+                        }
+                        TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
                     }
-                    TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
-                }
-            } else this
-        }.padding(horizontal = 8.dp, vertical = 8.dp)
+                } else this
+            }
+            .padding(horizontal = 8.dp, vertical = 8.dp)
     ) {
         Icon(
             Icons.Outlined.Error, contentDescription = null,
