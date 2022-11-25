@@ -12,7 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
-import coil.imageLoader
+import coil.request.ImageRequest
 import com.junkfood.seal.R
 
 private const val userAgentHeader =
@@ -20,7 +20,7 @@ private const val userAgentHeader =
 
 @Composable
 fun AsyncImageImpl(
-    model: Any?,
+    model: Any,
     contentDescription: String?,
     modifier: Modifier = Modifier,
     transform: (AsyncImagePainter.State) -> AsyncImagePainter.State = AsyncImagePainter.DefaultTransform,
@@ -42,9 +42,12 @@ fun AsyncImageImpl(
         colorFilter = colorFilter,
     )
     else coil.compose.AsyncImage(
-        model = model,
+        model = ImageRequest.Builder(LocalContext.current)
+            .addHeader("user-agent", userAgentHeader).data(model)
+            .crossfade(true)
+            .build(),
         contentDescription = contentDescription,
-        imageLoader = LocalContext.current.imageLoader,
+        imageLoader = LocalVideoThumbnailLoader.current,
         modifier = modifier,
         transform = transform,
         onState = onState,

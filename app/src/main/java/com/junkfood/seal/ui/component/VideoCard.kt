@@ -20,12 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.request.ImageRequest
-import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.SealTheme
 
@@ -35,7 +32,7 @@ fun VideoCard(
     modifier: Modifier = Modifier,
     title: String = "Video title sample text",
     author: String = "Video creator sample text",
-    thumbnailUrl: Any = R.drawable.sample,
+    thumbnailUrl: Any = "",
     onClick: () -> Unit = {},
     progress: Float = 100f,
     fileSizeApprox: Int = 1024 * 1024 * 69,
@@ -55,10 +52,7 @@ fun VideoCard(
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
                         .clip(MaterialTheme.shapes.small),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(thumbnailUrl)
-                        .crossfade(true)
-                        .build(),
+                    model = thumbnailUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     isPreview = isPreview

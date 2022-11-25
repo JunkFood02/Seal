@@ -52,14 +52,11 @@ object TextUtil {
         return builder.toString()
     }
 
-    fun String?.toHttpsUrl(): String {
+    fun String?.toHttpsUrl(): String =
         this?.run {
-            if (matches(Regex("^http.*"))) {
-                return replaceFirst("http", "https")
-            } else this
-        }
-        return ""
-    }
+            if (matches(Regex("^(http:).*"))) replaceFirst("http", "https") else this
+        } ?: ""
+
 
     fun makeToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
