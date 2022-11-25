@@ -23,7 +23,7 @@ object FileUtil {
     fun openFileInURI(path: String) {
         MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
             if (uri == null) {
-                TextUtil.makeToast(R.string.file_unavailable)
+                TextUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
             } else {
                 context.startActivity(Intent().apply {
                     action = (Intent.ACTION_VIEW)

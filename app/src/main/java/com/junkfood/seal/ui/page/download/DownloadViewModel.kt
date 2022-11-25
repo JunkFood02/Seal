@@ -83,6 +83,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val isShowingErrorReport: Boolean = false
     )
 
+
+
     data class DownloadTaskItem(
         var videoInfo: VideoInfo? = null,
         val webpageUrl: String = "",

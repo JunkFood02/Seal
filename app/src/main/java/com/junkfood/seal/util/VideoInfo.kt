@@ -24,7 +24,7 @@ data class VideoInfo(
     @SerialName("live_status") val liveStatus: String? = null,
     @SerialName("release_timestamp") val releaseTimestamp: Int? = null,
     @SerialName("comment_count") val commentCount: Int? = null,
-    val chapters: String? = null,
+    val chapters: List<Chapter> = emptyList(),
     @SerialName("like_count") val likeCount: Int? = null,
     val channel: String? = null,
     @SerialName("channel_follower_count") val channelFollowerCount: Int? = null,
@@ -82,6 +82,15 @@ data class Format(
     val format: String? = null,
     val resolution: String? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Int? = null,
+)
+
+@Serializable
+data class Chapter(
+    val title: String? = null,
+    @SerialName("start_time")
+    val startTime: Double? = null,
+    @SerialName("end_time")
+    val endTime: Double? = null
 )
 
 
