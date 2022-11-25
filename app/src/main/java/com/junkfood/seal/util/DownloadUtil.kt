@@ -23,8 +23,8 @@ import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.TextUtil.isNumberInRange
+import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
-import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.serialization.decodeFromString
@@ -93,13 +93,16 @@ object DownloadUtil {
         request.addOption("--dump-json")
         val videoInfo: VideoInfo
         try {
+            Log.d(TAG, "getVideoInfo: Start")
             val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
+            Log.d(TAG, "getVideoInfo: Reading response")
             videoInfo = jsonFormat.decodeFromString(response.out)
+            Log.d(TAG, videoInfo.toString())
         } catch (e: Exception) {
-            throw YoutubeDLException("Unable to parse video information", e)
+            e.printStackTrace()
+            throw e
         }
         return videoInfo
-
     }
 
     fun fetchVideoInfo(
@@ -107,30 +110,13 @@ object DownloadUtil {
         playlistItem: Int = 0,
         preferences: DownloadPreferences = DownloadPreferences()
     ): VideoInfo {
-//        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
         val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
             preferences.run {
-                val sorter = StringBuilder()
-                if (maxFileSize.isNumberInRange(1, 4096)) {
-                    sorter.append("size:${maxFileSize}M,")
+                if (extractAudio) {
+                    addOption("-x")
+                } else {
+                    addOption("-S", toVideoFormatSorter())
                 }
-                when (videoFormat) {
-                    1 -> sorter.append("ext,")
-                    2 -> sorter.append("vcodec:vp9.2,")
-                    3 -> sorter.append("vcodec:av01,")
-                }
-                when (videoResolution) {
-                    1 -> sorter.append("res:2160")
-                    2 -> sorter.append("res:1440")
-                    3 -> sorter.append("res:1080")
-                    4 -> sorter.append("res:720")
-                    5 -> sorter.append("res:480")
-                    6 -> sorter.append("res:360")
-                    7 -> sorter.append("+size,+br,+res,+fps")
-                    else -> sorter.append("res")
-                }
-                if (sorter.isNotEmpty())
-                    addOption("-S", sorter.toString())
             }
             addOption("-R", "1")
             if (playlistItem != 0)
@@ -176,29 +162,8 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest {
         return this.apply {
-            with(downloadPreferences) {
-                val sorter = StringBuilder()
-                if (maxFileSize.isNumberInRange(1, 4096)) {
-                    sorter.append("size:${maxFileSize}M,")
-                }
-                when (videoFormat) {
-                    1 -> sorter.append("ext,")
-                    2 -> sorter.append("vcodec:vp9.2,")
-                    3 -> sorter.append("vcodec:av01,")
-                }
-                when (videoResolution) {
-                    1 -> sorter.append("res:2160")
-                    2 -> sorter.append("res:1440")
-                    3 -> sorter.append("res:1080")
-                    4 -> sorter.append("res:720")
-                    5 -> sorter.append("res:480")
-                    6 -> sorter.append("res:360")
-                    7 -> sorter.append("+size,+br,+res,+fps")
-                    else -> sorter.append("res")
-                }
-                if (sorter.isNotEmpty())
-                    addOption("-S", sorter.toString())
-
+            downloadPreferences.run {
+                addOption("-S", toVideoFormatSorter())
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
@@ -206,6 +171,29 @@ object DownloadUtil {
                 }
             }
         }
+    }
+
+    private fun DownloadPreferences.toVideoFormatSorter(): String {
+        val sorter = StringBuilder()
+        if (maxFileSize.isNumberInRange(1, 4096)) {
+            sorter.append("size:${maxFileSize}M,")
+        }
+        when (videoFormat) {
+            1 -> sorter.append("ext,")
+            2 -> sorter.append("vcodec:vp9.2,")
+            3 -> sorter.append("vcodec:av01,")
+        }
+        when (videoResolution) {
+            1 -> sorter.append("res:2160")
+            2 -> sorter.append("res:1440")
+            3 -> sorter.append("res:1080")
+            4 -> sorter.append("res:720")
+            5 -> sorter.append("res:480")
+            6 -> sorter.append("res:360")
+            7 -> sorter.append("+size,+br,+res,+fps")
+            else -> sorter.append("res")
+        }
+        return sorter.toString()
     }
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
@@ -291,7 +279,7 @@ object DownloadUtil {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
 
-                if (extractAudio or (videoInfo.ext.matches(Regex(AUDIO_REGEX)))) {
+                if (extractAudio or (videoInfo.vcodec == "none")) {
                     if (privateDirectory)
                         pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
                     else
@@ -347,9 +335,9 @@ object DownloadUtil {
                     DownloadedVideoInfo(
                         id = 0,
                         videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader ?: "null",
+                        videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
                         videoUrl = videoInfo.webpageUrl ?: url,
-                        thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                        thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
                         videoPath = path,
                         extractor = videoInfo.extractorKey
                     )

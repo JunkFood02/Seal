@@ -48,7 +48,7 @@ fun VideoCard(
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
         Column {
-            Box {
+            Box(Modifier.fillMaxWidth()) {
                 AsyncImageImpl(
                     modifier = Modifier
                         .padding()
@@ -70,8 +70,7 @@ fun VideoCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.68f),
                     shape = MaterialTheme.shapes.extraSmall
                 ) {
-                    val fileSizeText =
-                        if (fileSizeApprox != 0) "%.2fM".format(fileSizeApprox / (1024f * 1024f)) else ""
+                    val fileSizeText = "%.2f M".format(fileSizeApprox / (1024f * 1024f))
                     val durationText = "%02d:%02d".format(duration / 60, duration % 60)
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
@@ -97,7 +96,7 @@ fun VideoCard(
                 Text(
                     modifier = Modifier.padding(top = 3.dp),
                     text = author,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

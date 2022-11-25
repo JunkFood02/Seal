@@ -76,7 +76,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.component.VideoCardPreview
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
@@ -264,19 +263,17 @@ fun DownloadPageImpl(
                         AnimatedVisibility(
                             visible = showDownloadProgress && showVideoCard
                         ) {
-                            if (!isPreview)
-                                VideoCard(
-                                    modifier = Modifier,
-                                    title = title,
-                                    author = uploader,
-                                    thumbnailUrl = thumbnailUrl,
-                                    progress = progress,
-                                    fileSizeApprox = fileSizeApprox,
-                                    duration = duration,
-                                    onClick = onVideoCardClicked,
-                                )
-                            else
-                                VideoCardPreview()
+                            VideoCard(
+                                modifier = Modifier,
+                                title = title,
+                                author = uploader,
+                                thumbnailUrl = thumbnailUrl,
+                                progress = progress,
+                                fileSizeApprox = fileSizeApprox,
+                                duration = duration,
+                                onClick = onVideoCardClicked,
+                                isPreview = isPreview
+                            )
                         }
                         InputUrl(
                             url = url,

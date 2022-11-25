@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class VideoInfo(
     val id: String,
     val title: String,
-    val formats: List<Format> = emptyList(),
-    val thumbnails: List<Thumbnail> = emptyList(),
+//    val formats: List<Format> = emptyList(),
+//    val thumbnails: List<Thumbnail> = emptyList(),
     val thumbnail: String? = null,
     val description: String? = null,
     val uploader: String? = null,
@@ -36,12 +36,11 @@ data class VideoInfo(
     val extractor: String? = null,
     @SerialName("extractor_key") val extractorKey: String,
     val playlist: String? = null,
-    @SerialName("playlist_index") val playlistIndex: String? = null,
+    @SerialName("playlist_index") val playlistIndex: Int? = null,
     @SerialName("display_id") val displayId: String? = null,
     val fulltitle: String? = null,
     @SerialName("duration_string") val durationString: String? = null,
     @SerialName("release_date") val releaseDate: String? = null,
-    @SerialName("_has_drm") val HasDrm: String? = null,
     val format: String? = null,
     @SerialName("format_id") val formatId: String? = null,
     val ext: String,
@@ -52,7 +51,7 @@ data class VideoInfo(
     val width: Int? = null,
     val height: Int? = null,
     val resolution: String? = null,
-    val fps: Int? = null,
+    val fps: Double? = null,
     @SerialName("dynamic_range") val dynamicRange: String? = null,
     val vcodec: String? = null,
     val vbr: Double? = null,
@@ -61,7 +60,8 @@ data class VideoInfo(
     val asr: Int? = null,
     val epoch: Int? = null,
     @SerialName("_type") val Type: String? = null,
-)
+) {
+}
 
 @Serializable
 data class Format(
@@ -98,7 +98,7 @@ data class RequestedDownload(
     @SerialName("width") val width: Int? = null,
     @SerialName("height") val height: Int? = null,
     @SerialName("resolution") val resolution: String? = null,
-    @SerialName("fps") val fps: Int? = null,
+    @SerialName("fps") val fps: Double? = null,
     @SerialName("dynamic_range") val dynamicRange: String? = null,
     @SerialName("vcodec") val vcodec: String? = null,
     @SerialName("vbr") val vbr: Int? = null,

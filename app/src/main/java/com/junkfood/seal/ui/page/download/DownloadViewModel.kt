@@ -25,6 +25,7 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -207,7 +208,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         webpageUrl = url,
                         videoInfo = videoInfoNext?.await(),
                         title = title.toString(),
-                        uploader = uploader.toString(),
+                        uploader = uploader ?: channel ?: "null",
                         playlistIndex = indexList[i]
                     )
                     Log.d(TAG, task.toString())
@@ -297,7 +298,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     taskId = videoInfo.id,
                     title = videoInfo.title,
                     uploader = videoInfo.uploader ?: "null",
-                    thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
+                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
                     duration = videoInfo.duration?.roundToInt() ?: 0,
                     fileSizeApprox = videoInfo.fileSizeApprox ?: 0
                 )
