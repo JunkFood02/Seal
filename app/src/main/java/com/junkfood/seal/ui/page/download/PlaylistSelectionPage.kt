@@ -151,10 +151,10 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                itemsIndexed(items = playlistInfo.entries) { _index, entries ->
+                itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entries ->
                     val index = _index + 1
                     PlaylistItem(modifier = Modifier.padding(horizontal = 12.dp),
-                        imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
+                        imageModel = entries.thumbnails?.lastOrNull()?.url ?: "",
                         title = entries.title ?: index.toString(),
                         author = entries.channel ?: entries.uploader,
                         selected = selectedItems.contains(index),

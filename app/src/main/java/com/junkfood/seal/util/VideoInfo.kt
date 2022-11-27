@@ -20,11 +20,11 @@ data class VideoInfo(
     @SerialName("view_count") val viewCount: Int? = null,
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("categories") val categories: List<String> = emptyList(),
-    val tags: List<String> = emptyList(),
+    val tags: List<String>? = emptyList(),
     @SerialName("live_status") val liveStatus: String? = null,
     @SerialName("release_timestamp") val releaseTimestamp: Int? = null,
     @SerialName("comment_count") val commentCount: Int? = null,
-    val chapters: List<Chapter> = emptyList(),
+    val chapters: List<Chapter>? = emptyList(),
     @SerialName("like_count") val likeCount: Int? = null,
     val channel: String? = null,
     @SerialName("channel_follower_count") val channelFollowerCount: Int? = null,
@@ -96,7 +96,7 @@ data class Chapter(
 
 @Serializable
 data class RequestedDownload(
-    @SerialName("requested_formats") val requestedFormats: List<Format> = emptyList(),
+    @SerialName("requested_formats") val requestedFormats: List<Format>? = emptyList(),
     @SerialName("format") val format: String? = null,
     @SerialName("format_id") val formatId: String? = null,
     @SerialName("ext") val ext: String? = null,
@@ -126,7 +126,7 @@ data class PlaylistResult(
     val title: String? = null,
     val description: String? = null,
     @SerialName("_type") val type: String? = null,
-    val entries: List<Entries> = emptyList(),
+    val entries: List<Entries>? = emptyList(),
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("extractor_key") val extractorKey: String? = null,
 )
@@ -148,5 +148,5 @@ data class Entries(
     val duration: Double? = .0,
     val uploader: String? = null,
     val channel: String? = null,
-    val thumbnails: List<Thumbnail> = emptyList(),
+    val thumbnails: List<Thumbnail>? = emptyList(),
 )
