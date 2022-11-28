@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -45,16 +47,16 @@ import com.junkfood.seal.ui.component.PlaylistItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
-    val viewState = downloadViewModel.stateFlow.collectAsState().value
     val onDismissRequest = {
         onBackPressed()
         MainActivity.stopService()
     }
     val playlistInfo = downloadViewModel.playlistResult.collectAsState().value
-    var error by remember { mutableStateOf(false) }
     val selectedItems = remember { mutableStateListOf<Int>() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
+
+    BackHandler { onDismissRequest() }
 
     Scaffold(
         modifier = Modifier
@@ -72,7 +74,7 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                 navigationIcon = {
                     IconButton(
 //                    modifier = Modifier.padding(start = 8.dp),
-                        onClick = { onBackPressed() }) {
+                        onClick = { onDismissRequest() }) {
                         Icon(Icons.Outlined.Close, stringResource(R.string.close))
                     }
                 }, actions = {
@@ -91,7 +93,8 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp),
+                    .padding(bottom = 4.dp)
+                    .navigationBarsPadding(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Divider(modifier = Modifier.fillMaxWidth())
@@ -148,10 +151,10 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                itemsIndexed(items = playlistInfo.entries) { _index, entries ->
+                itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entries ->
                     val index = _index + 1
                     PlaylistItem(modifier = Modifier.padding(horizontal = 12.dp),
-                        imageModel = entries.thumbnails.lastOrNull()?.url ?: "",
+                        imageModel = entries.thumbnails?.lastOrNull()?.url ?: "",
                         title = entries.title ?: index.toString(),
                         author = entries.channel ?: entries.uploader,
                         selected = selectedItems.contains(index),

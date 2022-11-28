@@ -76,7 +76,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.component.VideoCardPreview
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
@@ -264,17 +263,17 @@ fun DownloadPageImpl(
                         AnimatedVisibility(
                             visible = showDownloadProgress && showVideoCard
                         ) {
-                            if (!isPreview)
-                                VideoCard(
-                                    modifier = Modifier,
-                                    title = title,
-                                    author = uploader,
-                                    thumbnailUrl = thumbnailUrl,
-                                    progress = progress,
-                                    onClick = onVideoCardClicked,
-                                )
-                            else
-                                VideoCardPreview()
+                            VideoCard(
+                                modifier = Modifier,
+                                title = title,
+                                author = uploader,
+                                thumbnailUrl = thumbnailUrl,
+                                progress = progress,
+                                fileSizeApprox = fileSizeApprox,
+                                duration = duration,
+                                onClick = onVideoCardClicked,
+                                isPreview = isPreview
+                            )
                         }
                         InputUrl(
                             url = url,
@@ -435,20 +434,20 @@ fun ErrorMessage(
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     Row(
-        modifier = with(
-            modifier
-                .fillMaxWidth()
-        ) {
-
-            if (error && copyToClipboard) {
-                clip(MaterialTheme.shapes.large).clickable {
-                    if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
-                        clipboardManager.setText(AnnotatedString(errorMessage))
+        modifier =
+        modifier
+            .fillMaxWidth()
+            .run {
+                if (error && copyToClipboard) {
+                    clip(MaterialTheme.shapes.large).clickable {
+                        if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
+                            clipboardManager.setText(AnnotatedString(errorMessage))
+                        }
+                        TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
                     }
-                    TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
-                }
-            } else this
-        }.padding(horizontal = 8.dp, vertical = 8.dp)
+                } else this
+            }
+            .padding(horizontal = 8.dp, vertical = 8.dp)
     ) {
         Icon(
             Icons.Outlined.Error, contentDescription = null,

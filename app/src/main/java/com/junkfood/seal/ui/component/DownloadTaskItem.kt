@@ -58,6 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 
 enum class DownloadTaskItemStatus(
@@ -117,7 +118,7 @@ fun DownloadTaskItem(
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min)
             ) {
-                AsyncImage(
+                AsyncImageImpl(
                     modifier = Modifier
                         .padding(12.dp)
                         .weight(1f)

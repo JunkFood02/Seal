@@ -29,8 +29,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 
@@ -63,7 +63,7 @@ fun DownloadQueueItem(
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .clickable { }) {
-            AsyncImage(
+            AsyncImageImpl(
                 modifier = Modifier
                     .padding(8.dp)
                     .weight(0.4f)
@@ -144,7 +144,7 @@ fun PlaylistItem(
                     .padding(end = 4.dp)
                     .weight(if (LocalWindowWidthState.current == WindowWidthSizeClass.Compact) 2f else 1f)
             ) {
-                AsyncImage(
+                AsyncImageImpl(
                     modifier = Modifier
                         .clip(MaterialTheme.shapes.extraSmall)
                         .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),

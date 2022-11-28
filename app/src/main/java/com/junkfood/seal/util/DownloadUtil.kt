@@ -23,12 +23,10 @@ import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.TextUtil.isNumberInRange
+import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
-import com.yausername.youtubedl_android.mapper.VideoInfo
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -70,40 +68,6 @@ object DownloadUtil {
         val title: String = ""
     )
 
-    @Serializable
-    data class PlaylistResult(
-        val uploader: String? = null,
-        val availability: String? = null,
-        @SerialName("playlist_count") val playlistCount: Int = 0,
-        val channel: String? = null,
-        val title: String? = null,
-        val description: String? = null,
-        @SerialName("_type") val type: String? = null,
-        val entries: ArrayList<Entries> = arrayListOf(),
-        @SerialName("webpage_url") val webpageUrl: String? = null,
-        @SerialName("extractor_key") val extractorKey: String? = null,
-    ) {}
-
-    @Serializable
-    data class Thumbnails(
-        val url: String,
-        val height: Int,
-        val width: Int,
-    )
-
-    @Serializable
-    data class Entries(
-        @SerialName("_type") val type: String? = null,
-        val ieKey: String? = null,
-        val id: String? = null,
-        val url: String? = null,
-        val title: String? = null,
-        val duration: Float? = 0f,
-        val uploader: String? = null,
-        val channel: String? = null,
-        val thumbnails: ArrayList<Thumbnails> = arrayListOf(),
-    )
-
 
     fun getPlaylistInfo(playlistURL: String): PlaylistResult {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
@@ -124,16 +88,43 @@ object DownloadUtil {
         return res
     }
 
-    fun fetchVideoInfo(url: String, playlistItem: Int = 0): VideoInfo {
-//        TextUtil.makeToastSuspend(context.getString(R.string.fetching_info))
-        val videoInfo: VideoInfo = YoutubeDL.getInstance().getInfo(YoutubeDLRequest(url).apply {
+
+    private fun getVideoInfo(request: YoutubeDLRequest): VideoInfo {
+        request.addOption("--dump-json")
+        val videoInfo: VideoInfo
+        try {
+            Log.d(TAG, "getVideoInfo: Start")
+            val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
+            Log.d(TAG, "getVideoInfo: Reading response")
+            videoInfo = jsonFormat.decodeFromString(response.out)
+            Log.d(TAG, videoInfo.toString())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+        return videoInfo
+    }
+
+    fun fetchVideoInfo(
+        url: String,
+        playlistItem: Int = 0,
+        preferences: DownloadPreferences = DownloadPreferences()
+    ): VideoInfo {
+        val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
+            preferences.run {
+                if (extractAudio) {
+                    addOption("-x")
+                } else {
+                    addOption("-S", toVideoFormatSorter())
+                }
+            }
             addOption("-R", "1")
             if (playlistItem != 0)
                 addOption("--playlist-items", playlistItem)
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
-            if (title.isNullOrEmpty() or ext.isNullOrEmpty()) {
+            if (title.isEmpty() or ext.isEmpty()) {
                 throw Exception(context.getString(R.string.fetch_info_error_msg))
             }
         }
@@ -171,29 +162,8 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest {
         return this.apply {
-            with(downloadPreferences) {
-                val sorter = StringBuilder()
-                if (maxFileSize.isNumberInRange(1, 4096)) {
-                    sorter.append("size:${maxFileSize}M,")
-                }
-                when (videoFormat) {
-                    1 -> sorter.append("ext,")
-                    2 -> sorter.append("vcodec:vp9.2,")
-                    3 -> sorter.append("vcodec:av01,")
-                }
-                when (videoResolution) {
-                    1 -> sorter.append("res:2160")
-                    2 -> sorter.append("res:1440")
-                    3 -> sorter.append("res:1080")
-                    4 -> sorter.append("res:720")
-                    5 -> sorter.append("res:480")
-                    6 -> sorter.append("res:360")
-                    7 -> sorter.append("+size,+br,+res,+fps")
-                    else -> sorter.append("res")
-                }
-                if (sorter.isNotEmpty())
-                    addOption("-S", sorter.toString())
-
+            downloadPreferences.run {
+                addOption("-S", toVideoFormatSorter())
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
@@ -201,6 +171,29 @@ object DownloadUtil {
                 }
             }
         }
+    }
+
+    private fun DownloadPreferences.toVideoFormatSorter(): String {
+        val sorter = StringBuilder()
+        if (maxFileSize.isNumberInRange(1, 4096)) {
+            sorter.append("size:${maxFileSize}M,")
+        }
+        when (videoFormat) {
+            1 -> sorter.append("ext,")
+            2 -> sorter.append("vcodec:vp9.2,")
+            3 -> sorter.append("vcodec:av01,")
+        }
+        when (videoResolution) {
+            1 -> sorter.append("res:2160")
+            2 -> sorter.append("res:1440")
+            3 -> sorter.append("res:1080")
+            4 -> sorter.append("res:720")
+            5 -> sorter.append("res:480")
+            6 -> sorter.append("res:360")
+            7 -> sorter.append("+size,+br,+res,+fps")
+            else -> sorter.append("res")
+        }
+        return sorter.toString()
     }
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
@@ -245,6 +238,30 @@ object DownloadUtil {
         }
     }
 
+    private fun scanVideoIntoDownloadHistory(
+        videoInfo: VideoInfo,
+        downloadPath: String,
+    ): List<String> {
+        val filePaths = FileUtil.scanFileToMediaLibrary(
+            title = videoInfo.id,
+            downloadDir = downloadPath
+        )
+        for (path in filePaths) {
+            DatabaseUtil.insertInfo(
+                DownloadedVideoInfo(
+                    id = 0,
+                    videoTitle = videoInfo.title,
+                    videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
+                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl ?: "null",
+                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
+                    videoPath = path,
+                    extractor = videoInfo.extractorKey
+                )
+            )
+        }
+        return filePaths
+    }
+
     fun downloadVideo(
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
@@ -286,7 +303,7 @@ object DownloadUtil {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
 
-                if (extractAudio or (videoInfo.ext.matches(Regex(AUDIO_REGEX)))) {
+                if (extractAudio or (videoInfo.vcodec == "none")) {
                     if (privateDirectory)
                         pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
                     else
@@ -305,6 +322,7 @@ object DownloadUtil {
                 }
                 if (sponsorBlock) {
                     addOption("--sponsorblock-remove", sponsorBlockCategory)
+                    addOption("--sponsorblock-api","http://asdfsdfjhkweh.com")
                 }
 
                 if (createThumbnail) {
@@ -317,7 +335,6 @@ object DownloadUtil {
                 if (subdirectory) {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
-
                 addOption("-P", pathBuilder.toString())
                 if (Build.VERSION.SDK_INT > 23)
                     addOption("-P", "temp:" + context.getTempDir())
@@ -329,27 +346,20 @@ object DownloadUtil {
                 for (s in request.buildCommand())
                     Log.d(TAG, s)
             }
-            YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            kotlin.runCatching {
+                YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            }.onFailure { th ->
+                if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
+                    th.printStackTrace()
+                } else throw th
+            }
             if (privateMode) {
                 return Result.success(null)
             }
-            val filePaths = FileUtil.scanFileToMediaLibrary(
-                title = videoInfo.id,
-                downloadDir = pathBuilder.toString()
+            val filePaths = scanVideoIntoDownloadHistory(
+                videoInfo = videoInfo,
+                downloadPath = pathBuilder.toString(),
             )
-            for (path in filePaths) {
-                DatabaseUtil.insertInfo(
-                    DownloadedVideoInfo(
-                        id = 0,
-                        videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader ?: "null",
-                        videoUrl = videoInfo.webpageUrl ?: url,
-                        thumbnailUrl = TextUtil.urlHttpToHttps(videoInfo.thumbnail ?: ""),
-                        videoPath = path,
-                        extractor = videoInfo.extractorKey
-                    )
-                )
-            }
             return Result.success(filePaths)
         }
     }

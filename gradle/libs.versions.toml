@@ -1,19 +1,19 @@
 [versions]
-accompanist = "0.27.0"
+accompanist = "0.27.1"
 androidDesugarJdkLibs = "1.2.0"
 androidGradlePlugin = "7.3.1"
-androidxComposeBom = "2022.10.00"
+androidxComposeBom = "2022.11.00"
 androidxComposeCompiler = "1.3.2"
 androidxComposeIcon = "1.3.0"
 androidxComposeAnimation = "1.3.0"
 androidxCore = "1.9.0"
-androidMaterial = "1.8.0-alpha02"
+androidMaterial = "1.8.0-alpha03"
 androidxAppCompat = "1.7.0-alpha01"
 androidxActivity = "1.6.1"
 
 androidxLifecycle = "2.6.0-alpha03"
 androidxNavigation = "2.5.3"
-androidxComposeMaterial3 = "1.1.0-alpha01"
+androidxComposeMaterial3 = "1.1.0-alpha02"
 
 androidxEspresso = "3.4.0"
 androidxHiltNavigationCompose = "1.0.0"
@@ -23,7 +23,7 @@ androidxTestExt = "1.1.3"
 
 
 coil = "2.2.2"
-hilt = "2.44"
+hilt = "2.44.2"
 hiltExt = "1.0.0"
 
 junit4 = "4.13.2"
@@ -33,9 +33,9 @@ kotlinxDatetime = "0.4.0"
 kotlinxSerializationJson = "1.4.1"
 okhttp = "5.0.0-alpha.10"
 
-room = "2.5.0-beta01"
+room = "2.5.0-beta02"
 
-youtubedlAndroid = "8bc8e77349"
+youtubedlAndroid = "50ccbb002b"
 
 mmkv = "1.2.14"
 

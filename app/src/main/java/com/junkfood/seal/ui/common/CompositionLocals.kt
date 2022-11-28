@@ -21,7 +21,6 @@ val LocalVideoThumbnailLoader = staticCompositionLocalOf {
                 .maxSizePercent(0.02)
                 .build()
         }
-        .crossfade(false)
         .build()
 }
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }

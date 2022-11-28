@@ -36,9 +36,8 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 
 private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
@@ -78,10 +77,7 @@ fun MediaListItem(
     }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
-    val imageModel = ImageRequest.Builder(context)
-        .data(thumbnailUrl)
-        .crossfade(true)
-        .build()
+
     Box(
         modifier = with(modifier) {
             if (!isSelectEnabled())
@@ -117,7 +113,7 @@ fun MediaListItem(
             }
             MediaImage(
                 modifier = Modifier.weight(imageWeight),
-                imageModel = imageModel,
+                imageModel = thumbnailUrl,
                 isAudio = isAudio
             )
             Column(
@@ -177,8 +173,8 @@ fun MediaListItem(
 }
 
 @Composable
-fun MediaImage(modifier: Modifier = Modifier, imageModel: Any, isAudio: Boolean = false) {
-    AsyncImage(
+fun MediaImage(modifier: Modifier = Modifier, imageModel: String, isAudio: Boolean = false) {
+    AsyncImageImpl(
         modifier = modifier
             .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
             .clip(MaterialTheme.shapes.extraSmall),

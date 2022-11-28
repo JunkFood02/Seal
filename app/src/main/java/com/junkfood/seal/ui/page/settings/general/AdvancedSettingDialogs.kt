@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -65,7 +66,8 @@ fun CommandTemplateDialog(
                 stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)
             )
         },
-        onDismissRequest = {},
+        onDismissRequest = { onDismissRequest() },
+        properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = false),
         confirmButton = {
             ConfirmButton {
                 if (templateName.isBlank() || templateName.isEmpty()) {
@@ -105,7 +107,9 @@ fun CommandTemplateDialog(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     value = templateName,
                     onValueChange = {
                         templateName = it
@@ -116,7 +120,9 @@ fun CommandTemplateDialog(
                     isError = isError
                 )
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp),
                     value = templateText,
                     onValueChange = { templateText = it },
                     trailingIcon = {
@@ -131,7 +137,6 @@ fun CommandTemplateDialog(
             }
         })
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -149,7 +154,9 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 12.dp),
                 value = categories,
                 label = { Text(stringResource(R.string.sponsorblock_categories)) },
                 onValueChange = { categories = it })
