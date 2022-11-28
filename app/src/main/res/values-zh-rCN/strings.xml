@@ -209,4 +209,7 @@
     <string name="private_directory_desc">将文件下载到隐藏目录中</string>
     <string name="crop_artwork">裁剪封面</string>
     <string name="crop_artwork_desc">将音频中内嵌封面裁切为正方形</string>
+    <string name="download_selection_desc">选择要从播放列表 “%1$s” 中下载的视频</string>
+    <string name="select_all">全选</string>
+    <string name="selected_item_count">已选中 %1$d 个视频</string>
 </resources>

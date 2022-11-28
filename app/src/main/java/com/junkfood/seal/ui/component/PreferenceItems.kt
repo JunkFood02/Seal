@@ -44,6 +44,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
+import com.junkfood.seal.ui.theme.preferenceTitle
 
 
 @Composable
@@ -82,8 +83,8 @@ fun PreferenceItem(
                 with(MaterialTheme) {
                     Text(
                         text = title,
-                        maxLines = 1,
-                        style = typography.titleLarge.copy(fontSize = 20.sp),
+                        maxLines = 2,
+                        style = preferenceTitle,
                         color = colorScheme.onSurface.applyOpacity(enabled)
                     )
                     if (description != null)
@@ -195,8 +196,9 @@ fun PreferenceSingleChoiceItem(
 }
 
 @Composable
+@Preview
 fun PreferenceSwitch(
-    title: String = "",
+    title: String = "test title".repeat(10),
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
@@ -243,8 +245,8 @@ fun PreferenceSwitch(
             ) {
                 Text(
                     text = title,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    maxLines = 2,
+                    style = preferenceTitle,
                     color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled),
                     overflow = TextOverflow.Ellipsis
                 )
@@ -494,7 +496,8 @@ fun PreferenceSwitchWithContainer(
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(with(MaterialTheme.colorScheme) {
-                if (isChecked) primaryContainer else outline }
+                if (isChecked) primaryContainer else outline
+            }
             )
             .selectable(selected = isChecked) { onClick() }
             .padding(horizontal = 12.dp, vertical = 20.dp),
