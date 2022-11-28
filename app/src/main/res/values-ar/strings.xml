@@ -71,7 +71,7 @@
     <string name="download_range_desc">حدد نطاق مقاطع الفيديو المراد تنزيلها من قائمة التشغيل \"%3$s\" (من %1$d إلى %2$d).</string>
     <string name="invalid_index_range">نطاق الفهرس غير صالح</string>
     <string name="audio_directory">مجلد الصوت</string>
-    <string name="download_directory">مجلد التحميل</string>
+    <string name="download_directory">مدير التحميل</string>
     <string name="subdirectory">حفظ في مجلد فرعي</string>
     <string name="permission_issue">مشكلة إذن التخزين</string>
     <string name="permission_issue_desc">المجلدات خارج التنزيل / والمستندات / غير مدعومة</string>
@@ -183,7 +183,7 @@
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من مجلد التنزيل</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
     <string name="private_mode">وضع خاص</string>
-    <string name="private_mode_desc">إيقاف الصور المصغّرة وسجل التنزيلات</string>
+    <string name="private_mode_desc">إيقاف سجل التنزيلات</string>
     <string name="dynamic_color">لون ديناميكي</string>
     <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
     <string name="file_unavailable">هذا الملف لم يعد متوفرا</string>
@@ -197,4 +197,19 @@
     <string name="high_contrast">مظهر داكن عالي التباين</string>
     <string name="invalid_input">إدخال غير صالح</string>
     <string name="lowest_quality">أدنى جودة</string>
+    <string name="download_selection_desc">حدد مقاطع الفيديو لتنزيلها من قائمة التشغيل \"%1$s\"</string>
+    <string name="select_all">اختر الكل</string>
+    <string name="selected_item_count">محدد %1$d</string>
+    <string name="unavailable">غير متوفر</string>
+    <string name="format_settings_desc">صيغة الملف، دقة الفيديو، التَرْجمات</string>
+    <string name="general_settings_desc">إصدار Yt-dlp، إشعار، قائمة تشغيل</string>
+    <string name="network_settings_desc">حدود المعدل، مُحَمل، ملفات تعريف الارتباط</string>
+    <string name="disable_preview">تعطيل المعاينة</string>
+    <string name="disable_preview_desc">تعطيل المعاينة على التنزيلات</string>
+    <string name="privacy">الخصوصية</string>
+    <string name="use_custom_command">أستخدم أمر مخصص</string>
+    <string name="private_directory">مجلد خاص</string>
+    <string name="private_directory_desc">خزن التحميلات في مجلد خفي</string>
+    <string name="crop_artwork">قص الغلاف</string>
+    <string name="crop_artwork_desc">قص الصورة المدمجة على شكل مربع</string>
 </resources>
