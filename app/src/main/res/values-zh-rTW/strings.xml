@@ -209,4 +209,7 @@
     <string name="crop_artwork">裁剪封面</string>
     <string name="format_settings_desc">檔案格式、視訊畫質、字幕</string>
     <string name="general_settings_desc">Yt-dlp 版本、通知、播放清單</string>
+    <string name="download_selection_desc">從「%1$s」播放清單中選取視訊以進行下載</string>
+    <string name="selected_item_count">已選取 %1$d 項</string>
+    <string name="select_all">全部選取</string>
 </resources>

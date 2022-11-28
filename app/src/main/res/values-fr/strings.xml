@@ -209,4 +209,7 @@
     <string name="crop_artwork">Rogner l\'image</string>
     <string name="crop_artwork_desc">Rogner l\'image intégrée dans un carré</string>
     <string name="private_directory_desc">Stocker les téléchargements dans un répertoire caché</string>
+    <string name="select_all">Sélectionner tout</string>
+    <string name="download_selection_desc">Sélectionner les vidéos à télécharger à partir de la liste de lecture \"%1$s\"</string>
+    <string name="selected_item_count">%1$d sélectionné</string>
 </resources>

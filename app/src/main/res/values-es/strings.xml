@@ -115,7 +115,7 @@
     <string name="fetching_playlist_info">Adquiriendo información de la lista de reproducción…</string>
     <string name="download_range_desc">Especifica el rango de vídeos que quieres descargar desde la lista de reproducción \"%3$s\"(desde %1$d hasta %2$d ).</string>
     <string name="audio_directory">Ubicación de audios</string>
-    <string name="download_directory">Ubicación de descargas</string>
+    <string name="download_directory">Descargar directorio</string>
     <string name="download_directory_desc">Configurar ubicación de descarga de vídeos y audios</string>
     <string name="subdirectory">Guardar en subdirectorio</string>
     <string name="permission_issue">Problema con permiso de almacenamiento</string>
@@ -209,4 +209,7 @@
     <string name="disable_preview">Deshabilitar vista previa</string>
     <string name="disable_preview_desc">Deshabilitar la vista previa en las descargas</string>
     <string name="private_directory">Directorio privado</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="download_selection_desc">Seleccione los vídeos que desea descargar de la lista de reproducción \"%1$s\"</string>
+    <string name="selected_item_count">%1$d seleccionado</string>
 </resources>
