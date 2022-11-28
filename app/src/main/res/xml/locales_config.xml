@@ -28,5 +28,7 @@
     <locale android:name="hr" />
     <locale android:name="eu" />
     <locale android:name="hi" />
-    <locale android:name="hl" />
+    <locale android:name="ml" />
+    <locale android:name="si" />
+    <locale android:name="sr" />
 </locale-config>

@@ -154,6 +154,7 @@ object PreferenceUtil {
     private const val HINDI = 28
     private const val MALAYALAM = 29
     private const val SINHALA = 30
+    private const val SERBIAN = 31
 
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
@@ -182,6 +183,7 @@ object PreferenceUtil {
         Pair(POLISH, "pl"),
         Pair(PORTUGUESE_BRAZIL, "pt-BR"),
         Pair(RUSSIAN, "ru"),
+        Pair(SERBIAN, "sr"),
         Pair(SINHALA, "si"),
         Pair(SPANISH, "es"),
         Pair(TURKISH, "tr"),
@@ -252,6 +254,7 @@ object PreferenceUtil {
                 HINDI -> R.string.la_hi
                 MALAYALAM -> R.string.la_ml
                 SINHALA -> R.string.la_si
+                SERBIAN -> R.string.la_sr
                 else -> R.string.follow_system
             }
         )

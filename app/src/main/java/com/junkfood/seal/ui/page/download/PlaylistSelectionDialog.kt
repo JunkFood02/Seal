@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PlaylistPlay
+import androidx.compose.material.icons.outlined.PlaylistAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -47,7 +47,7 @@ fun PlaylistSelectionDialog(
     from = "1"
     to = playlistInfo.playlistCount.toString()
     AlertDialog(onDismissRequest = { onDismissRequest() },
-        icon = { Icon(Icons.Outlined.PlaylistPlay, null) },
+        icon = { Icon(Icons.Outlined.PlaylistAdd, null) },
         title = { Text(stringResource(R.string.download_range_selection)) },
         text = {
             Column {
