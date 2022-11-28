@@ -322,7 +322,6 @@ object DownloadUtil {
                 }
                 if (sponsorBlock) {
                     addOption("--sponsorblock-remove", sponsorBlockCategory)
-                    addOption("--sponsorblock-api","http://asdfsdfjhkweh.com")
                 }
 
                 if (createThumbnail) {

@@ -89,6 +89,7 @@ fun PreferenceItem(
                     )
                     if (description != null)
                         Text(
+                            modifier = Modifier.padding(top = 2.dp),
                             text = description,
                             color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
                             maxLines = 2, overflow = TextOverflow.Ellipsis,
@@ -252,6 +253,7 @@ fun PreferenceSwitch(
                 )
                 if (!description.isNullOrEmpty())
                     Text(
+                        modifier = Modifier.padding(top = 2.dp),
                         text = description,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
                         maxLines = 2,

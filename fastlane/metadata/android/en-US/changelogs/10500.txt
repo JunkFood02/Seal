@@ -1,8 +1,0 @@
-App settings are overhauled with a clearer hierarchy
-
-Feature Update:
-
-Private directory: Store downloaded files in a hidden directory
-Disable preview: Disable thumbnail preview on downloads
-Crop artwork: Crop embed image in audio files into square (now optional)
-Display file size on every item in download history
