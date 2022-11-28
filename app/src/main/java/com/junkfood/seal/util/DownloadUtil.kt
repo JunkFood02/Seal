@@ -238,6 +238,30 @@ object DownloadUtil {
         }
     }
 
+    private fun scanVideoIntoDownloadHistory(
+        videoInfo: VideoInfo,
+        downloadPath: String,
+    ): List<String> {
+        val filePaths = FileUtil.scanFileToMediaLibrary(
+            title = videoInfo.id,
+            downloadDir = downloadPath
+        )
+        for (path in filePaths) {
+            DatabaseUtil.insertInfo(
+                DownloadedVideoInfo(
+                    id = 0,
+                    videoTitle = videoInfo.title,
+                    videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
+                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl ?: "null",
+                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
+                    videoPath = path,
+                    extractor = videoInfo.extractorKey
+                )
+            )
+        }
+        return filePaths
+    }
+
     fun downloadVideo(
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
@@ -298,6 +322,7 @@ object DownloadUtil {
                 }
                 if (sponsorBlock) {
                     addOption("--sponsorblock-remove", sponsorBlockCategory)
+                    addOption("--sponsorblock-api","http://asdfsdfjhkweh.com")
                 }
 
                 if (createThumbnail) {
@@ -310,7 +335,6 @@ object DownloadUtil {
                 if (subdirectory) {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
-
                 addOption("-P", pathBuilder.toString())
                 if (Build.VERSION.SDK_INT > 23)
                     addOption("-P", "temp:" + context.getTempDir())
@@ -322,27 +346,20 @@ object DownloadUtil {
                 for (s in request.buildCommand())
                     Log.d(TAG, s)
             }
-            YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            kotlin.runCatching {
+                YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            }.onFailure { th ->
+                if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
+                    th.printStackTrace()
+                } else throw th
+            }
             if (privateMode) {
                 return Result.success(null)
             }
-            val filePaths = FileUtil.scanFileToMediaLibrary(
-                title = videoInfo.id,
-                downloadDir = pathBuilder.toString()
+            val filePaths = scanVideoIntoDownloadHistory(
+                videoInfo = videoInfo,
+                downloadPath = pathBuilder.toString(),
             )
-            for (path in filePaths) {
-                DatabaseUtil.insertInfo(
-                    DownloadedVideoInfo(
-                        id = 0,
-                        videoTitle = videoInfo.title,
-                        videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
-                        videoUrl = videoInfo.webpageUrl ?: url,
-                        thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
-                        videoPath = path,
-                        extractor = videoInfo.extractorKey
-                    )
-                )
-            }
             return Result.success(filePaths)
         }
     }
