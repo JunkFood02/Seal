@@ -8,6 +8,7 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,12 +30,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,11 +60,23 @@ fun SettingsPage(navController: NavController) {
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
         }
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        TopAppBar(title = {},
-            modifier = Modifier.padding(start = 8.dp),
-            navigationIcon = { BackButton { navController.popBackStack() } })
-    }) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val fraction = CubicBezierEasing(1f,0f,.8f,.4f).transform(scrollBehavior.state.overlappedFraction)
+
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(title = {
+                Text(
+                    stringResource(R.string.settings),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction)
+                )
+            },
+                navigationIcon = { BackButton(modifier = Modifier.padding(start = 8.dp)) { navController.popBackStack() } },
+                scrollBehavior = scrollBehavior
+            )
+        }) {
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
@@ -76,8 +91,7 @@ fun SettingsPage(navController: NavController) {
             }
             item {
                 AnimatedVisibility(
-                    visible = showBatteryHint,
-                    exit = shrinkVertically() + fadeOut()
+                    visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
                 ) {
                     PreferencesHint(
                         title = stringResource(R.string.battery_configuration),

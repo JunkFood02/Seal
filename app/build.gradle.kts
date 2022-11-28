@@ -11,10 +11,10 @@ plugins {
 apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 1
-val versionMinor = 6
+val versionMinor = 7
 val versionPatch = 0
-val versionBuild = 3
-val isStable = true
+val versionBuild = 1
+val isStable = false
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
