@@ -301,7 +301,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     uploader = videoInfo.uploader ?: "null",
                     thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
                     duration = videoInfo.duration?.roundToInt() ?: 0,
-                    fileSizeApprox = videoInfo.fileSizeApprox ?: 0
+                    fileSizeApprox = videoInfo.fileSize ?: videoInfo.fileSizeApprox ?: 0
                 )
             }
 

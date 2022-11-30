@@ -46,6 +46,7 @@ data class VideoInfo(
     val ext: String,
     val protocol: String? = null,
     @SerialName("format_note") val formatNote: String? = null,
+    @SerialName("filesize") val fileSize: Int? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Int? = null,
     val tbr: Double? = null,
     val width: Int? = null,

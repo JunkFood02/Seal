@@ -78,7 +78,7 @@
     <string name="not_convert">Unconverted</string>
     <string name="convert_to">Convert to %1$s</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">Audio in MP3 or M4A works on most devices</string>
+    <string name="audio_format_desc">Re-encoding audio files will cause loss in audio quality and increase in file size.</string>
     <string name="video_quality">Video quality</string>
     <string name="best_quality">Best quality (default)</string>
     <string name="video_quality_desc">Limit the format quality and the file size</string>
