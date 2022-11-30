@@ -6,6 +6,7 @@ import com.junkfood.seal.BaseApplication
 import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
@@ -63,9 +64,7 @@ object DownloadUtil {
 
 
     data class PlaylistInfo(
-        val url: String = "",
-        val size: Int = 0,
-        val title: String = ""
+        val url: String = "", val size: Int = 0, val title: String = ""
     )
 
 
@@ -106,9 +105,7 @@ object DownloadUtil {
     }
 
     fun fetchVideoInfo(
-        url: String,
-        playlistItem: Int = 0,
-        preferences: DownloadPreferences = DownloadPreferences()
+        url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
     ): VideoInfo {
         val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
             preferences.run {
@@ -119,8 +116,7 @@ object DownloadUtil {
                 }
             }
             addOption("-R", "1")
-            if (playlistItem != 0)
-                addOption("--playlist-items", playlistItem)
+            if (playlistItem != 0) addOption("--playlist-items", playlistItem)
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
@@ -197,9 +193,7 @@ object DownloadUtil {
     }
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
-        id: String,
-        downloadPreferences: DownloadPreferences,
-        playlistUrl: String
+        id: String, downloadPreferences: DownloadPreferences, playlistUrl: String
     ): YoutubeDLRequest {
         return this.apply {
             with(downloadPreferences) {
@@ -228,8 +222,7 @@ object DownloadUtil {
                 if (playlistUrl.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption(
-                        "--parse-metadata",
-                        "%(track_number,playlist_index)d:%(meta_track)s"
+                        "--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s"
                     )
                 } else {
                     addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
@@ -243,8 +236,7 @@ object DownloadUtil {
         downloadPath: String,
     ): List<String> {
         val filePaths = FileUtil.scanFileToMediaLibrary(
-            title = videoInfo.id,
-            downloadDir = downloadPath
+            title = videoInfo.id, downloadDir = downloadPath
         )
         for (path in filePaths) {
             DatabaseUtil.insertInfo(
@@ -269,8 +261,7 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences = DownloadPreferences(),
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
-        if (videoInfo == null)
-            return Result.failure()
+        if (videoInfo == null) return Result.failure()
 
         with(downloadPreferences) {
             // TODO: Move custom template configurations here
@@ -293,8 +284,10 @@ object DownloadUtil {
                     addOption("-r", "${maxDownloadRate}K")
                 }
 
-                if (playlistItem != 0 && downloadPlaylist)
-                    addOption("--playlist-items", playlistItem)
+                if (playlistItem != 0 && downloadPlaylist) addOption(
+                    "--playlist-items",
+                    playlistItem
+                )
 
                 if (aria2c) {
                     addOption("--downloader", "libaria2c.so")
@@ -304,20 +297,16 @@ object DownloadUtil {
                 }
 
                 if (extractAudio or (videoInfo.vcodec == "none")) {
-                    if (privateDirectory)
-                        pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
-                    else
-                        pathBuilder.append(audioDownloadDir)
+                    if (privateDirectory) pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
+                    else pathBuilder.append(audioDownloadDir)
                     addOptionsForAudioDownloads(
                         id = videoInfo.id,
                         downloadPreferences = downloadPreferences,
                         playlistUrl = playlistUrl
                     )
                 } else {
-                    if (privateDirectory)
-                        pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
-                    else
-                        pathBuilder.append(videoDownloadDir)
+                    if (privateDirectory) pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
+                    else pathBuilder.append(videoDownloadDir)
                     addOptionsForVideoDownloads(downloadPreferences)
                 }
                 if (sponsorBlock) {
@@ -335,15 +324,11 @@ object DownloadUtil {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
                 addOption("-P", pathBuilder.toString())
-                if (Build.VERSION.SDK_INT > 23)
-                    addOption("-P", "temp:" + context.getTempDir())
-                if (customPath)
-                    addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
-                else
-                    addOption("-o", OUTPUT_TEMPLATE)
+                if (Build.VERSION.SDK_INT > 23) addOption("-P", "temp:" + context.getTempDir())
+                if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
+                else addOption("-o", OUTPUT_TEMPLATE)
 
-                for (s in request.buildCommand())
-                    Log.d(TAG, s)
+                for (s in request.buildCommand()) Log.d(TAG, s)
             }
             kotlin.runCatching {
                 YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
@@ -361,6 +346,56 @@ object DownloadUtil {
             )
             return Result.success(filePaths)
         }
+    }
+
+    suspend fun executeCommandInBackground(url: String) {
+        val notificationId = url.hashCode()
+        val urlList = url.split(Regex("[\n ]"))
+        val template = PreferenceUtil.getTemplate()
+        TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
+        val request = YoutubeDLRequest(urlList)
+        request.addOption(
+            "-P",
+            if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else videoDownloadDir
+        )
+        FileUtil.writeContentToFile(
+            template.template, context.getConfigFile()
+        )
+        request.addOption("--config-locations", context.getConfigFile().absolutePath)
+        if (PreferenceUtil.getValue(COOKIES)) {
+            FileUtil.writeContentToFile(
+                PreferenceUtil.getCookies(), context.getCookiesFile()
+            )
+            request.addOption("--cookies", context.getCookiesFile().absolutePath)
+        }
+        MainActivity.startService()
+        kotlin.runCatching {
+            YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
+                NotificationUtil.makeNotificationForCustomCommand(
+                    notificationId = notificationId,
+                    taskId = url,
+                    progress = progress.toInt(),
+                    templateName = template.name,
+                    text = text
+                )
+            }
+        }.onFailure {
+            if (it.message.isNullOrEmpty())
+                it.printStackTrace()
+            else NotificationUtil.makeErrorReportNotificationForCustomCommand(
+                notificationId,
+                null,
+                it.message!!
+            )
+        }.onSuccess {
+            NotificationUtil.makeNotification(
+                notificationId = notificationId,
+                title = context.getString(R.string.download_finish_notification)
+            )
+        }
+
+        MainActivity.stopService()
+
     }
 
 

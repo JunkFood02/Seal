@@ -10,6 +10,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.BaseApplication.Companion.applicationScope
 import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
@@ -17,12 +18,12 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
-import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.openFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
+import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
@@ -72,8 +73,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val isCancelled: Boolean = false,
         val debugMode: Boolean = false,
         val drawerState: ModalBottomSheetState = ModalBottomSheetState(
-            ModalBottomSheetValue.Hidden,
-            isSkipHalfExpanded = true
+            ModalBottomSheetValue.Hidden, isSkipHalfExpanded = true
         ),
         val showDownloadSettingDialog: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
@@ -82,7 +82,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false
     )
-
 
 
     data class DownloadTaskItem(
@@ -99,44 +98,37 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val playlistIndex: Int = 0,
     )
 
-    fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
-        mutableStateFlow.update {
-            it.copy(
-                url = url,
-                isUrlSharingTriggered = isUrlSharingTriggered
-            )
-        }
+    fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) = mutableStateFlow.update {
+        it.copy(
+            url = url, isUrlSharingTriggered = isUrlSharingTriggered
+        )
+    }
 
     fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
-            if (isDialog)
-                mutableStateFlow.update { it.copy(showDownloadSettingDialog = false) }
-            else
-                stateFlow.value.drawerState.hide()
+            if (isDialog) mutableStateFlow.update { it.copy(showDownloadSettingDialog = false) }
+            else stateFlow.value.drawerState.hide()
         }
     }
 
     fun showDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
-            if (isDialog)
-                mutableStateFlow.update { it.copy(showDownloadSettingDialog = true) }
-            else
-                stateFlow.value.drawerState.show()
+            if (isDialog) mutableStateFlow.update { it.copy(showDownloadSettingDialog = true) }
+            else stateFlow.value.drawerState.show()
         }
     }
 
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
     private fun manageDownloadError(
-        e: Exception,
-        isFetchingInfo: Boolean = true,
-        notificationId: Int? = null
+        e: Exception, isFetchingInfo: Boolean = true, notificationId: Int? = null
     ) {
         if (stateFlow.value.isCancelled) return
         viewModelScope.launch {
             e.printStackTrace()
-            if (PreferenceUtil.getValue(PreferenceUtil.DEBUG) || stateFlow.value.isInCustomCommandMode)
-                showErrorReport(e.message ?: context.getString(R.string.unknown_error))
+            if (PreferenceUtil.getValue(PreferenceUtil.DEBUG) || stateFlow.value.isInCustomCommandMode) showErrorReport(
+                e.message ?: context.getString(R.string.unknown_error)
+            )
             else if (isFetchingInfo) showErrorMessage(context.getString(R.string.fetch_info_error_msg))
             else showErrorMessage(context.getString(R.string.download_error_msg))
             notificationId?.let {
@@ -197,9 +189,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 it.copy(
                     isProcessRunning = true,
 
-                    isDownloadingPlaylist = true,
-                    currentItem = 1,
-                    downloadItemCount = itemCount
+                    isDownloadingPlaylist = true, currentItem = 1, downloadItemCount = itemCount
                 )
             }
             var videoInfoNext: Deferred<VideoInfo>? = null
@@ -225,8 +215,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         }
                     }
                     mutableStateFlow.update { it.copy(currentItem = i + 1) }
-                    if (MainActivity.isServiceRunning)
-                        NotificationUtil.updateServiceNotification(i, itemCount)
+                    if (MainActivity.isServiceRunning) NotificationUtil.updateServiceNotification(
+                        i,
+                        itemCount
+                    )
                     downloadVideo(url, task)
                 }
             }
@@ -245,12 +237,15 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             return
         }
-        MainActivity.startService()
-        switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
-        if (stateFlow.value.isInCustomCommandMode) {
-            viewModelScope.launch { downloadWithCustomCommands() }
+        if (PreferenceUtil.getValue(CUSTOM_COMMAND)) {
+            applicationScope.launch(Dispatchers.IO) { executeCustomCommand() }
             return
-        } else if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
+        }
+
+        MainActivity.startService()
+
+//        switchDownloadMode(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+        if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
             parsePlaylistInfo()
             return
         }
@@ -264,6 +259,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 return@launch
             }
         }
+    }
+
+    private suspend fun executeCustomCommand() {
+        DownloadUtil.executeCommandInBackground(stateFlow.value.url)
     }
 
     private fun downloadVideo(
@@ -316,28 +315,23 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
             NotificationUtil.makeNotification(notificationId, videoInfo.title)
             try {
-                downloadResultTemp =
-                    DownloadUtil.downloadVideo(
-                        videoInfo = videoInfo,
-                        playlistUrl = playlistResult.value.webpageUrl ?: "",
-                        playlistItem = task.playlistIndex
-                    ) { progress, _, line ->
-                        Log.d(TAG, line)
-                        mutableTaskState.update {
-                            it.copy(
-                                progress = progress,
-                                progressText = line
-                            )
-                        }
-                        NotificationUtil.updateNotification(
-                            notificationId,
-                            progress = progress.toInt(),
-                            text = line
+                downloadResultTemp = DownloadUtil.downloadVideo(
+                    videoInfo = videoInfo,
+                    playlistUrl = playlistResult.value.webpageUrl ?: "",
+                    playlistItem = task.playlistIndex
+                ) { progress, _, line ->
+                    Log.d(TAG, line)
+                    mutableTaskState.update {
+                        it.copy(
+                            progress = progress, progressText = line
                         )
                     }
+                    NotificationUtil.updateNotification(
+                        notificationId, progress = progress.toInt(), text = line
+                    )
+                }
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
-                if (!stateFlow.value.isDownloadingPlaylist)
-                    finishProcessing()
+                if (!stateFlow.value.isDownloadingPlaylist) finishProcessing()
                 NotificationUtil.finishNotification(
                     notificationId,
                     title = videoInfo.title,
@@ -345,7 +339,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     intent = if (intent != null) PendingIntent.getActivity(
                         context,
                         0,
-                        FileUtil.createIntentForOpenFile(downloadResultTemp), FLAG_IMMUTABLE
+                        FileUtil.createIntentForOpenFile(downloadResultTemp),
+                        FLAG_IMMUTABLE
                     ) else null
                 )
 
@@ -371,14 +366,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+
     private fun downloadWithCustomCommands() {
         with(mutableStateFlow) {
 
             update {
                 it.copy(
-                    isDownloadError = false,
-                    debugMode = true,
-                    isCancelled = false
+                    isDownloadError = false, debugMode = true, isCancelled = false
                 )
             }
 
@@ -392,43 +386,38 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             TextUtil.makeToast(context.getString(R.string.start_execute))
             NotificationUtil.makeNotification(
                 notificationId,
-                title = context.getString(R.string.execute_command_notification), text = ""
+                title = context.getString(R.string.execute_command_notification),
+                text = ""
             )
             currentJob = viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val request = YoutubeDLRequest(urlList)
                     request.addOption(
                         "-P",
-                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else
-                            BaseApplication.videoDownloadDir
+                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else BaseApplication.videoDownloadDir
                     )
-                    request.addOption("-P", "temp:" + context.getTempDir())
+//                    request.addOption("-P", "temp:" + context.getTempDir())
                     FileUtil.writeContentToFile(
-                        PreferenceUtil.getTemplate(),
-                        context.getConfigFile()
+                        PreferenceUtil.getTemplate().template, context.getConfigFile()
                     )
                     request.addOption("--config-locations", context.getConfigFile().absolutePath)
                     if (PreferenceUtil.getValue(COOKIES)) {
                         FileUtil.writeContentToFile(
-                            PreferenceUtil.getCookies(),
-                            context.getCookiesFile()
+                            PreferenceUtil.getCookies(), context.getCookiesFile()
                         )
                         request.addOption("--cookies", context.getCookiesFile().absolutePath)
                     }
                     mutableTaskState.update { it.copy(taskId = value.url) }
                     update { it.copy(isProcessRunning = true) }
 
-                    YoutubeDL.getInstance()
-                        .execute(request, value.url) { progress, _, line ->
-                            mutableTaskState.update {
-                                it.copy(progress = progress, progressText = line)
-                            }
-                            NotificationUtil.updateNotification(
-                                notificationId,
-                                progress = progress.toInt(),
-                                text = line
-                            )
+                    YoutubeDL.getInstance().execute(request, value.url) { progress, _, line ->
+                        mutableTaskState.update {
+                            it.copy(progress = progress, progressText = line)
                         }
+                        NotificationUtil.updateNotification(
+                            notificationId, progress = progress.toInt(), text = line
+                        )
+                    }
                     finishProcessing()
                     NotificationUtil.finishNotification(
                         notificationId,
@@ -454,8 +443,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             update {
                 it.copy(
-                    debugMode = PreferenceUtil.getValue(PreferenceUtil.DEBUG),
-                    isCancelled = false
+                    debugMode = PreferenceUtil.getValue(PreferenceUtil.DEBUG), isCancelled = false
                 )
             }
         }
@@ -480,8 +468,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
         mutablePlaylistResult.update { PlaylistResult() }
         MainActivity.stopService()
-        if (!stateFlow.value.isDownloadError)
-            TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
+        if (!stateFlow.value.isDownloadError) TextUtil.makeToastSuspend(context.getString(R.string.download_success_msg))
     }
 
     private fun showErrorReport(s: String) {
@@ -495,7 +482,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isDownloadError = true,
                 errorMessage = s,
                 isProcessRunning = false,
-                isFetchingInfo = false, isShowingErrorReport = true
+                isFetchingInfo = false,
+                isShowingErrorReport = true
             )
         }
     }
@@ -512,15 +500,15 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 isDownloadError = true,
                 errorMessage = s,
                 isProcessRunning = false,
-                isFetchingInfo = false, isShowingErrorReport = false
+                isFetchingInfo = false,
+                isShowingErrorReport = false
             )
         }
     }
 
 
     fun openVideoFile() {
-        if (taskState.value.progress == 100f)
-            openFile(downloadResultTemp)
+        if (taskState.value.progress == 100f) openFile(downloadResultTemp)
     }
 
     private fun showPlaylistDialog() {
