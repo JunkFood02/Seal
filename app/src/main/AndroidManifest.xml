@@ -18,6 +18,7 @@
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +26,6 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.Seal"
         tools:targetApi="tiramisu">
         <service
@@ -72,6 +72,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <receiver android:name=".NotificationActionReceiver"></receiver>
     </application>
 
 </manifest>
