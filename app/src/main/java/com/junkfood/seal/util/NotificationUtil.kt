@@ -167,7 +167,8 @@ object NotificationUtil {
         taskId: String,
         progress: Int,
         text: String? = null,
-        templateName: String
+        templateName: String,
+        taskUrl: String
     ) {
         val intent = Intent(context.applicationContext, NotificationActionReceiver::class.java)
             .putExtra(TASK_ID_KEY, taskId)
@@ -183,7 +184,7 @@ object NotificationUtil {
         )
 
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
-            .setContentTitle("[$templateName]" + context.getString(R.string.execute_command_notification))
+            .setContentTitle("[${templateName}_${taskUrl}] " + context.getString(R.string.execute_command_notification))
             .setContentText(text)
             .setOngoing(true)
             .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, progress == -1)

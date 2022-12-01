@@ -376,6 +376,7 @@ object DownloadUtil {
                     taskId = url,
                     progress = progress.toInt(),
                     templateName = template.name,
+                    taskUrl = url,
                     text = text
                 )
             }
