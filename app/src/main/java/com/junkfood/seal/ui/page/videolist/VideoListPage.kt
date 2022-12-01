@@ -10,7 +10,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +18,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Checklist
@@ -99,12 +97,16 @@ fun VideoListPage(
     val viewState = videoListViewModel.stateFlow.collectAsStateWithLifecycle().value
     val videoListFlow = videoListViewModel.videoListFlow
 
-    val videoList = videoListFlow.collectAsState(ArrayList())
+    val videoList = videoListFlow.collectAsState(ArrayList()).value
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
     )
     val scope = rememberCoroutineScope()
+
+    val fileSizeList = remember(videoList.isNotEmpty()) {
+        videoList.map { File(it.videoPath).length() }
+    }
 
     var isSelectEnabled by remember { mutableStateOf(false) }
     var showRemoveMultipleItemsDialog by remember { mutableStateOf(false) }
@@ -159,12 +161,11 @@ fun VideoListPage(
         }
     }
 
-
     val selectedItemIds =
-        remember(videoList.value, isSelectEnabled, viewState) { mutableStateListOf<Int>() }
+        remember(videoList, isSelectEnabled, viewState) { mutableStateListOf<Int>() }
     val selectedVideos = remember(selectedItemIds.size) {
         mutableStateOf(
-            videoList.value.count { info ->
+            videoList.count { info ->
                 selectedItemIds.contains(info.id) && info.filterByType(
                     videoFilter = true,
                     audioFilter = false
@@ -173,7 +174,7 @@ fun VideoListPage(
     }
     val selectedAudioFiles = remember(selectedItemIds.size) {
         mutableStateOf(
-            videoList.value.count { info ->
+            videoList.count { info ->
                 selectedItemIds.contains(info.id) && info.filterByType(
                     videoFilter = false,
                     audioFilter = true
@@ -181,8 +182,8 @@ fun VideoListPage(
             })
     }
     val visibleItemCount = remember(
-        videoList.value, viewState
-    ) { mutableStateOf(videoList.value.count { it.filterSort(viewState) }) }
+        videoList, viewState
+    ) { mutableStateOf(videoList.count { it.filterSort(viewState) }) }
 
     BackHandler(isSelectEnabled) {
         isSelectEnabled = false
@@ -235,7 +236,7 @@ fun VideoListPage(
                             if (selectedItemIds.size == visibleItemCount.value) {
                                 selectedItemIds.clear()
                             } else {
-                                for (item in videoList.value) {
+                                for (item in videoList) {
                                     if (!selectedItemIds.contains(item.id)
                                         && item.filterSort(viewState)
                                     ) {
@@ -273,44 +274,47 @@ fun VideoListPage(
         val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
         LazyVerticalGrid(
             modifier = Modifier
-                .fillMaxHeight()
                 .padding(innerPadding), columns = GridCells.Fixed(cellCount)
         ) {
             item(span = span) {
                 FilterChips(Modifier.fillMaxWidth())
             }
-            items(
-                items = videoList.value.reversed().sortedBy { it.filterByType() },
-                key = { info -> info.id }) {
-                with(it) {
-                    val file = File(videoPath)
-                    val videoFileSize = file.length() / (1024f * 1024f)
-                    AnimatedVisibility(
-                        visible = it.filterSort(viewState),
-                        exit = shrinkVertically() + fadeOut(),
-                        enter = expandVertically() + fadeIn()
-                    ) {
-                        MediaListItem(
-                            modifier = Modifier,
-                            title = videoTitle,
-                            author = videoAuthor,
-                            thumbnailUrl = thumbnailUrl,
-                            videoPath = videoPath,
-                            isFileAvailable = file.exists(),
-                            videoFileSize = videoFileSize,
-                            videoUrl = videoUrl,
-                            isSelectEnabled = { isSelectEnabled },
-                            isSelected = { selectedItemIds.contains(id) },
-                            onSelect = {
-                                if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
-                                else selectedItemIds.add(id)
-                            },
-                            onClick = { FileUtil.openFileInURI(videoPath) }
-                        ) { videoListViewModel.showDrawer(scope, it) }
+            for (info in videoList) {
+                val fileSize =
+                    fileSizeList.getOrElse(videoList.indexOf(info)) { File(info.videoPath).length() }
+
+                item(
+                    key = info.id,
+                    contentType = { info.videoPath.contains(AUDIO_REGEX) }) {
+                    with(info) {
+                        AnimatedVisibility(
+                            visible = info.filterSort(viewState),
+                            exit = shrinkVertically() + fadeOut(),
+                            enter = expandVertically() + fadeIn()
+                        ) {
+                            MediaListItem(
+                                modifier = Modifier,
+                                title = videoTitle,
+                                author = videoAuthor,
+                                thumbnailUrl = thumbnailUrl,
+                                videoPath = videoPath,
+                                videoFileSize = fileSize / (1024f * 1024f),
+                                videoUrl = videoUrl,
+                                isSelectEnabled = { isSelectEnabled },
+                                isSelected = { selectedItemIds.contains(id) },
+                                onSelect = {
+                                    if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
+                                    else selectedItemIds.add(id)
+                                },
+                                onClick = { FileUtil.openFileInURI(videoPath) }
+                            ) { videoListViewModel.showDrawer(scope, info) }
+                        }
                     }
                 }
             }
+
         }
+
 
     }
     VideoDetailDrawer()

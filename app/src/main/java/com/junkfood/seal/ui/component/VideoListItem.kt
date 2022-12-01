@@ -54,9 +54,8 @@ fun MediaListItem(
     videoPath: String = "",
     videoUrl: String = "",
     videoFileSize: Float = 0f,
-    isFileAvailable: Boolean = true,
     isSelectEnabled: () -> Boolean = { false },
-    isSelected:  () -> Boolean = { false },
+    isSelected: () -> Boolean = { false },
     onSelect: () -> Unit = {},
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {}
@@ -77,7 +76,7 @@ fun MediaListItem(
     }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
-
+    val isFileAvailable = videoFileSize != 0f
     Box(
         modifier = with(modifier) {
             if (!isSelectEnabled())
@@ -157,13 +156,11 @@ fun MediaListItem(
             exit = fadeOut(tween(100))
         ) {
             IconButton(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(18.dp)
-                    .clearAndSetSemantics { },
+                modifier = Modifier.clearAndSetSemantics { },
                 onClick = onLongClick
             ) {
                 Icon(
+                    modifier = Modifier.size(18.dp),
                     imageVector = Icons.Outlined.MoreVert,
                     contentDescription = stringResource(id = R.string.show_more_actions)
                 )

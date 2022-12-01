@@ -25,34 +25,42 @@ private const val TAG = "VideoListViewModel"
 @OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
 class VideoListViewModel @Inject constructor() : ViewModel() {
+
+    private val _mediaInfoFlow = DatabaseUtil.getMediaInfo()
+
     private val mediaInfoFlow: Flow<List<DownloadedVideoInfo>> =
-        DatabaseUtil.getMediaInfo()
-    val filterSetFlow = DatabaseUtil.getMediaInfo()
-        .map { infoList -> mutableSetOf<String>().apply { infoList.forEach { this.add(it.extractor) } } }
+        _mediaInfoFlow.map { it.reversed().sortedBy { info -> info.filterByType() } }
+
+
+    val filterSetFlow = _mediaInfoFlow.map { infoList ->
+        mutableSetOf<String>().apply {
+            infoList.forEach {
+                this.add(it.extractor)
+            }
+        }
+    }
 
     private val mutableStateFlow = MutableStateFlow(VideoListViewState())
     val stateFlow = mutableStateFlow.asStateFlow()
 
     val videoListFlow = mediaInfoFlow
     fun clickVideoFilter() {
-        if (mutableStateFlow.value.videoFilter)
-            mutableStateFlow.update { it.copy(videoFilter = false) }
-        else
-            mutableStateFlow.update { it.copy(videoFilter = true, audioFilter = false) }
+        if (mutableStateFlow.value.videoFilter) mutableStateFlow.update { it.copy(videoFilter = false) }
+        else mutableStateFlow.update { it.copy(videoFilter = true, audioFilter = false) }
     }
 
     fun clickAudioFilter() {
-        if (mutableStateFlow.value.audioFilter)
-            mutableStateFlow.update { it.copy(audioFilter = false) }
-        else
-            mutableStateFlow.update { it.copy(audioFilter = true, videoFilter = false) }
+        if (mutableStateFlow.value.audioFilter) mutableStateFlow.update { it.copy(audioFilter = false) }
+        else mutableStateFlow.update { it.copy(audioFilter = true, videoFilter = false) }
     }
 
     fun clickExtractorFilter(index: Int) {
-        if (mutableStateFlow.value.activeFilterIndex == index)
-            mutableStateFlow.update { it.copy(activeFilterIndex = -1) }
-        else
-            mutableStateFlow.update { it.copy(activeFilterIndex = index) }
+        if (mutableStateFlow.value.activeFilterIndex == index) mutableStateFlow.update {
+            it.copy(
+                activeFilterIndex = -1
+            )
+        }
+        else mutableStateFlow.update { it.copy(activeFilterIndex = index) }
     }
 
     data class VideoListViewState(
@@ -68,17 +76,12 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         val url: String = "",
         val path: String = "",
         val drawerState: ModalBottomSheetState = ModalBottomSheetState(
-            ModalBottomSheetValue.Hidden,
-            isSkipHalfExpanded = true
+            ModalBottomSheetValue.Hidden, isSkipHalfExpanded = true
         ),
         val showDialog: Boolean = false,
     ) {
         constructor(info: DownloadedVideoInfo) : this(
-            info.id,
-            info.videoTitle,
-            info.videoAuthor,
-            info.videoUrl,
-            info.videoPath
+            info.id, info.videoTitle, info.videoAuthor, info.videoUrl, info.videoPath
         )
     }
 
