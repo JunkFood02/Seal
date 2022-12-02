@@ -1,0 +1,5 @@
+This release fixes emerging bugs in v1.6.0
+
+Bug Fix:
+Video info parsing error
+UI glitch when filtering videos in download history

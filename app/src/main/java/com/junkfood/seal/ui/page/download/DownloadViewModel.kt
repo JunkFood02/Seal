@@ -91,7 +91,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val title: String = "",
         val uploader: String = "",
         val duration: Int = 0,
-        val fileSizeApprox: Int = 0,
+        val fileSizeApprox: Long = 0,
         val progress: Float = 0f,
         val progressText: String = "",
         val thumbnailUrl: String = "",
@@ -302,7 +302,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     uploader = videoInfo.uploader ?: "null",
                     thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
                     duration = videoInfo.duration?.roundToInt() ?: 0,
-                    fileSizeApprox = videoInfo.fileSizeApprox ?: 0
+                    fileSizeApprox = videoInfo.fileSizeApprox ?: 0L
                 )
             }
 

@@ -35,7 +35,7 @@ fun VideoCard(
     thumbnailUrl: Any = "",
     onClick: () -> Unit = {},
     progress: Float = 100f,
-    fileSizeApprox: Int = 1024 * 1024 * 69,
+    fileSizeApprox: Long = 1024 * 1024 * 69,
     duration: Int = 359,
     isPreview: Boolean = false
 ) {
