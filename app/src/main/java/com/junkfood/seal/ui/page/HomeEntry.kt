@@ -54,6 +54,7 @@ import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
+import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
 import kotlinx.coroutines.Dispatchers
@@ -149,6 +150,11 @@ fun HomeEntry(
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
                 kotlin.runCatching {
+                    val ytdlpVersion = PreferenceUtil.getString(YT_DLP)
+                    val latestYtdlpVersion = UpdateUtil.updateYtDlp()
+                    if (ytdlpVersion != latestYtdlpVersion) {
+                        TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " ($latestYtdlpVersion)")
+                    }
                     val temp = UpdateUtil.checkForUpdate()
                     if (temp != null) {
                         latestRelease = temp

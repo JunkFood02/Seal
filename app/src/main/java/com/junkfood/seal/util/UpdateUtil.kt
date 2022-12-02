@@ -7,7 +7,9 @@ import android.os.Build
 import android.util.Log
 import androidx.core.content.FileProvider
 import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.BaseApplication.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -51,18 +53,12 @@ object UpdateUtil {
 
     suspend fun updateYtDlp(): String {
         withContext(Dispatchers.IO) {
-            try {
-                YoutubeDL.getInstance().updateYoutubeDL(BaseApplication.context)
-                TextUtil.makeToastSuspend(BaseApplication.context.getString(R.string.yt_dlp_up_to_date))
-            } catch (e: Exception) {
-                TextUtil.makeToastSuspend(BaseApplication.context.getString(R.string.yt_dlp_update_fail))
+            YoutubeDL.getInstance().updateYoutubeDL(context)
+            YoutubeDL.getInstance().version(context)?.let {
+                PreferenceUtil.updateString(YT_DLP, it)
             }
         }
-        YoutubeDL.getInstance().version(BaseApplication.context)?.let {
-            BaseApplication.ytdlpVersion = it
-            PreferenceUtil.updateString(PreferenceUtil.YT_DLP, it)
-        }
-        return BaseApplication.ytdlpVersion
+        return PreferenceUtil.getString(YT_DLP) ?: context.getString(R.string.ytdlp_update)
     }
 
     private suspend fun getLatestRelease(): LatestRelease {

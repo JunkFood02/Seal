@@ -62,10 +62,7 @@ class BaseApplication : Application() {
                 e.printStackTrace()
                 Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()
             }
-
         }
-        ytdlpVersion =
-            YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
 
         with(PreferenceUtil.getString(VIDEO_DIRECTORY)) {
@@ -90,7 +87,6 @@ class BaseApplication : Application() {
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
-        var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
         lateinit var connectivityManager: ConnectivityManager
 

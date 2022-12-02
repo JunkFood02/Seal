@@ -274,6 +274,7 @@ object DownloadUtil {
 
             with(request) {
                 addOption("--no-mtime")
+                addOption("-v")
                 if (cookies) {
                     val cookiesFile = context.getCookiesFile(videoInfo.id)
                     FileUtil.writeContentToFile(cookiesContent, cookiesFile)
@@ -353,21 +354,26 @@ object DownloadUtil {
         val urlList = url.split(Regex("[\n ]"))
         val template = PreferenceUtil.getTemplate()
         TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
-        val request = YoutubeDLRequest(urlList)
-        request.addOption(
-            "-P",
-            if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else videoDownloadDir
-        )
-        FileUtil.writeContentToFile(
-            template.template, context.getConfigFile()
-        )
-        request.addOption("--config-locations", context.getConfigFile().absolutePath)
-        if (PreferenceUtil.getValue(COOKIES)) {
-            FileUtil.writeContentToFile(
-                PreferenceUtil.getCookies(), context.getCookiesFile()
+        val request = YoutubeDLRequest(urlList).apply {
+            addOption(
+                "-P",
+                if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else videoDownloadDir
             )
-            request.addOption("--cookies", context.getCookiesFile().absolutePath)
+            addOption(
+                "--config-locations", FileUtil.writeContentToFile(
+                    template.template, context.getConfigFile()
+                ).absolutePath
+            )
+            addOption("-v")
+            if (PreferenceUtil.getValue(COOKIES)) {
+                addOption(
+                    "--cookies", FileUtil.writeContentToFile(
+                        PreferenceUtil.getCookies(), context.getCookiesFile()
+                    ).absolutePath
+                )
+            }
         }
+
         MainActivity.startService()
         kotlin.runCatching {
             YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
