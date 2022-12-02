@@ -67,9 +67,9 @@ Seal
 - واجهة المستخدم والمنطق مكتوبة باستخدام لغة Kotlin. نشاط فردي ، بدون أجزاء ، وجهات قابلة للتكوين فقط.
 
 ## ⬇️ تحميل
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="70">](https://f-droid.org/packages/com.junkfood.seal/)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-ar.png"
+    alt="Get it on F-Droid"
+    height="70">](https://f-droid.org/packages/com.junkfood.seal/)
 
 أو قم بتنزيل أحدث ملفات apk من صفحة [الإصدارات](https://github.com/JunkFood02/Seal/releases/)
 
