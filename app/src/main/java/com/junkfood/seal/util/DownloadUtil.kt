@@ -244,7 +244,7 @@ object DownloadUtil {
                     id = 0,
                     videoTitle = videoInfo.title,
                     videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
-                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl ?: "null",
+                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
                     thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
                     videoPath = path,
                     extractor = videoInfo.extractorKey
@@ -381,12 +381,13 @@ object DownloadUtil {
                 )
             }
         }.onFailure {
-            if (it.message.isNullOrEmpty())
+            val msg = it.message
+            if (msg.isNullOrEmpty())
                 it.printStackTrace()
             else NotificationUtil.makeErrorReportNotificationForCustomCommand(
-                notificationId,
-                null,
-                it.message!!
+                notificationId = notificationId,
+                text = null,
+                error = msg
             )
         }.onSuccess {
             NotificationUtil.makeNotification(
