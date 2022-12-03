@@ -78,6 +78,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
@@ -107,9 +108,9 @@ fun DownloadPage(
             }
         }
     val scope = rememberCoroutineScope()
-    val viewState = downloadViewModel.stateFlow.collectAsStateWithLifecycle()
-    val taskState = downloadViewModel.taskState.collectAsStateWithLifecycle()
-    val playlistInfo = downloadViewModel.playlistResult.collectAsStateWithLifecycle()
+    val viewState = StateHolder.stateFlow.collectAsStateWithLifecycle()
+    val taskState = StateHolder.taskState.collectAsStateWithLifecycle()
+    val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle()
 
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -183,8 +184,8 @@ fun DownloadPage(
 )
 @Composable
 fun DownloadPageImpl(
-    viewState: DownloadViewModel.DownloadViewState,
-    taskState: DownloadViewModel.DownloadTaskItem,
+    viewState: StateHolder.DownloadViewState,
+    taskState: StateHolder.DownloadTaskItem,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
@@ -506,8 +507,8 @@ fun DownloadPagePreview() {
     PreviewThemeLight {
         Column() {
             DownloadPageImpl(
-                viewState = DownloadViewModel.DownloadViewState(showDownloadProgress = true),
-                taskState = DownloadViewModel.DownloadTaskItem(),
+                viewState = StateHolder.DownloadViewState(showDownloadProgress = true),
+                taskState = StateHolder.DownloadTaskItem(),
                 isPreview = true
             ) {}
         }

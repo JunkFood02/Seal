@@ -2,8 +2,8 @@ package com.junkfood.seal.util
 
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
-import com.junkfood.seal.BaseApplication.Companion.applicationScope
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.applicationScope
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

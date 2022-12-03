@@ -2,10 +2,10 @@ package com.junkfood.seal.util
 
 import android.os.Build
 import android.util.Log
-import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.audioDownloadDir
-import com.junkfood.seal.BaseApplication.Companion.context
-import com.junkfood.seal.BaseApplication.Companion.videoDownloadDir
+import com.junkfood.seal.App
+import com.junkfood.seal.App.Companion.audioDownloadDir
+import com.junkfood.seal.App.Companion.context
+import com.junkfood.seal.App.Companion.videoDownloadDir
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -298,7 +298,7 @@ object DownloadUtil {
                 }
 
                 if (extractAudio or (videoInfo.vcodec == "none")) {
-                    if (privateDirectory) pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
+                    if (privateDirectory) pathBuilder.append(App.getPrivateDownloadDirectory())
                     else pathBuilder.append(audioDownloadDir)
                     addOptionsForAudioDownloads(
                         id = videoInfo.id,
@@ -306,7 +306,7 @@ object DownloadUtil {
                         playlistUrl = playlistUrl
                     )
                 } else {
-                    if (privateDirectory) pathBuilder.append(BaseApplication.getPrivateDownloadDirectory())
+                    if (privateDirectory) pathBuilder.append(App.getPrivateDownloadDirectory())
                     else pathBuilder.append(videoDownloadDir)
                     addOptionsForVideoDownloads(downloadPreferences)
                 }
@@ -357,7 +357,7 @@ object DownloadUtil {
         val request = YoutubeDLRequest(urlList).apply {
             addOption(
                 "-P",
-                if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else videoDownloadDir
+                if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
             )
             addOption(
                 "--config-locations", FileUtil.writeContentToFile(

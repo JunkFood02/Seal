@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -112,10 +112,10 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     }
 
     var videoDirectoryText by remember(isPrivateDirectoryEnabled) {
-        mutableStateOf(if (!isPrivateDirectoryEnabled) BaseApplication.videoDownloadDir else BaseApplication.getPrivateDownloadDirectory())
+        mutableStateOf(if (!isPrivateDirectoryEnabled) App.videoDownloadDir else App.getPrivateDownloadDirectory())
     }
     var audioDirectoryText by remember(isPrivateDirectoryEnabled) {
-        mutableStateOf(if (!isPrivateDirectoryEnabled) BaseApplication.audioDownloadDir else BaseApplication.getPrivateDownloadDirectory())
+        mutableStateOf(if (!isPrivateDirectoryEnabled) App.audioDownloadDir else App.getPrivateDownloadDirectory())
     }
 
     var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
@@ -142,7 +142,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         }) {
             it?.let {
                 val path = FileUtil.getRealPath(it)
-                BaseApplication.updateDownloadDir(path, isAudio = isEditingAudioDirectory)
+                App.updateDownloadDir(path, isAudio = isEditingAudioDirectory)
                 if (isEditingAudioDirectory)
                     audioDirectoryText = path
                 else videoDirectoryText = path

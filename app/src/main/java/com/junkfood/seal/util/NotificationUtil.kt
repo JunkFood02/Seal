@@ -12,7 +12,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.NotificationActionReceiver
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_CANCEL_TASK
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_ERROR_REPORT

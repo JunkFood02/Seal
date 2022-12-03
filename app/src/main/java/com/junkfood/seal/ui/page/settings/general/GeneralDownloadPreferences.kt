@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
@@ -145,7 +145,7 @@ fun GeneralDownloadPreferences(
                             kotlin.runCatching {
                                 ytdlpVersion = UpdateUtil.updateYtDlp()
                             }.onFailure {
-                                TextUtil.makeToastSuspend(BaseApplication.context.getString(R.string.yt_dlp_update_fail))
+                                TextUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                             }.onSuccess {
                                 TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
                             }

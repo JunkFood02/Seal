@@ -9,11 +9,18 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.applicationScope
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App
+import com.junkfood.seal.App.Companion.applicationScope
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.page.StateHolder
+import com.junkfood.seal.ui.page.StateHolder.mutablePlaylistResult
+import com.junkfood.seal.ui.page.StateHolder.mutableStateFlow
+import com.junkfood.seal.ui.page.StateHolder.mutableTaskState
+import com.junkfood.seal.ui.page.StateHolder.playlistResult
+import com.junkfood.seal.ui.page.StateHolder.stateFlow
+import com.junkfood.seal.ui.page.StateHolder.taskState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigFile
@@ -36,8 +43,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -51,52 +56,18 @@ import kotlin.math.roundToInt
 // TODO: Refactoring for introducing multitasking and download queue management
 class DownloadViewModel @Inject constructor() : ViewModel() {
 
-    private val mutableStateFlow = MutableStateFlow(DownloadViewState())
-    private val mutableTaskState = MutableStateFlow(DownloadTaskItem())
-    private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
-    val taskState = mutableTaskState.asStateFlow()
-    val stateFlow = mutableStateFlow.asStateFlow()
-    val playlistResult = mutablePlaylistResult.asStateFlow()
+
     private var currentJob: Job? = null
 
-    data class DownloadViewState(
-        val showDownloadProgress: Boolean = false,
+    data class ViewState(
         val showPlaylistSelectionDialog: Boolean = false,
         val url: String = "",
-        val currentDownloadTask: DownloadTaskItem = DownloadTaskItem(),
-
-        val isDownloadError: Boolean = false,
-        val errorMessage: String = "",
-        val isInCustomCommandMode: Boolean = false,
-        val isFetchingInfo: Boolean = false,
-        val isProcessRunning: Boolean = false,
-        val isCancelled: Boolean = false,
-        val debugMode: Boolean = false,
         val drawerState: ModalBottomSheetState = ModalBottomSheetState(
             ModalBottomSheetValue.Hidden, isSkipHalfExpanded = true
         ),
         val showDownloadSettingDialog: Boolean = false,
-        val isDownloadingPlaylist: Boolean = false,
-        val downloadItemCount: Int = 0,
-        val currentItem: Int = 0,
-        val isUrlSharingTriggered: Boolean = false,
-        val isShowingErrorReport: Boolean = false
-    )
 
-
-    data class DownloadTaskItem(
-        var videoInfo: VideoInfo? = null,
-        val webpageUrl: String = "",
-        val title: String = "",
-        val uploader: String = "",
-        val duration: Int = 0,
-        val fileSizeApprox: Long = 0,
-        val progress: Float = 0f,
-        val progressText: String = "",
-        val thumbnailUrl: String = "",
-        val taskId: String = "",
-        val playlistIndex: Int = 0,
-    )
+        )
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) = mutableStateFlow.update {
         it.copy(
@@ -178,7 +149,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun downloadVideoInPlaylistByIndexList(
-        playlistResult: PlaylistResult = this.playlistResult.value,
+        playlistResult: PlaylistResult = StateHolder.playlistResult.value,
         url: String = playlistResult.webpageUrl.toString(),
         indexList: List<Int>
     ) {
@@ -196,7 +167,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             for (i in indexList.indices) {
                 if (!stateFlow.value.isDownloadingPlaylist) break
                 with(playlistResult) {
-                    val task = DownloadTaskItem(
+                    val task = StateHolder.DownloadTaskItem(
                         webpageUrl = url,
                         videoInfo = videoInfoNext?.await(),
                         title = title.toString(),
@@ -267,7 +238,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     private fun downloadVideo(
         url: String,
-        task: DownloadTaskItem = DownloadTaskItem(),
+        task: StateHolder.DownloadTaskItem = StateHolder.DownloadTaskItem(),
     ) {
         with(mutableStateFlow) {
             if (value.isCancelled) return
@@ -394,7 +365,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     val request = YoutubeDLRequest(urlList)
                     request.addOption(
                         "-P",
-                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) BaseApplication.getPrivateDownloadDirectory() else BaseApplication.videoDownloadDir
+                        if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else App.videoDownloadDir
                     )
 //                    request.addOption("-P", "temp:" + context.getTempDir())
                     FileUtil.writeContentToFile(

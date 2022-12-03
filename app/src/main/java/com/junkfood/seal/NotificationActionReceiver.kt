@@ -6,7 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL

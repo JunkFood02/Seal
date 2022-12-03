@@ -18,12 +18,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
+import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         context = this.baseContext
         setContent {
             val isUrlSharingTriggered =
-                downloadViewModel.stateFlow.collectAsState().value.isUrlSharingTriggered
+                StateHolder.stateFlow.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
             SettingsProvider(windowSizeClass.widthSizeClass) {
                 SealTheme(
@@ -131,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             val localeListCompat =
                 if (locale.isEmpty()) LocaleListCompat.getEmptyLocaleList()
                 else LocaleListCompat.forLanguageTags(locale)
-            BaseApplication.applicationScope.launch(Dispatchers.Main) {
+            App.applicationScope.launch(Dispatchers.Main) {
                 AppCompatDelegate.setApplicationLocales(localeListCompat)
             }
         }

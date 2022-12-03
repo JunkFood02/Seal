@@ -8,7 +8,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import coil.ImageLoader
 import coil.disk.DiskCache
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
 

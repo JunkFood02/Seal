@@ -16,7 +16,7 @@
 
 
     <application
-        android:name=".BaseApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="true"
@@ -26,7 +26,6 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Seal"
         tools:targetApi="tiramisu">
         <service
             android:name=".DownloadService"
@@ -38,8 +37,9 @@
             android:configChanges="orientation"
             android:exported="true"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.Seal"
             android:screenOrientation="unspecified"
-            android:theme="@style/Theme.Seal">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

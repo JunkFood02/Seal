@@ -6,8 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.content.FileProvider
-import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.yausername.youtubedl_android.YoutubeDL
@@ -78,7 +78,7 @@ object UpdateUtil {
         }
     }
 
-    suspend fun checkForUpdate(context: Context = BaseApplication.context): LatestRelease? {
+    suspend fun checkForUpdate(context: Context = App.context): LatestRelease? {
         val currentVersion = context.getCurrentVersion()
         val latestRelease = getLatestRelease()
         val latestVersion = Version(latestRelease.name ?: "")
@@ -104,7 +104,7 @@ object UpdateUtil {
 
     private fun Context.getFileProvider() = "${packageName}.provider"
 
-    fun installLatestApk(context: Context = BaseApplication.context) = context.apply {
+    fun installLatestApk(context: Context = App.context) = context.apply {
         kotlin.runCatching {
             val contentUri = FileProvider.getUriForFile(this, getFileProvider(), getLatestApk())
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -120,7 +120,7 @@ object UpdateUtil {
     }
 
     suspend fun downloadApk(
-        context: Context = BaseApplication.context,
+        context: Context = App.context,
         latestRelease: LatestRelease
     ): Flow<DownloadStatus> = withContext(Dispatchers.IO) {
         val apkVersion = context.packageManager.getPackageArchiveInfo(

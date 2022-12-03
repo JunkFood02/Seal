@@ -42,7 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
@@ -146,7 +146,7 @@ fun SettingsPage(navController: NavController) {
                 SettingItem(
                     title = stringResource(id = R.string.network),
                     description = stringResource(id = R.string.network_settings_desc),
-                    icon = if (BaseApplication.connectivityManager.isActiveNetworkMetered) Icons.Filled.SignalCellular4Bar else Icons.Filled.SignalWifi4Bar
+                    icon = if (App.connectivityManager.isActiveNetworkMetered) Icons.Filled.SignalCellular4Bar else Icons.Filled.SignalWifi4Bar
                 ) {
                     navController.navigate(Route.NETWORK_PREFERENCES) {
                         launchSingleTop = true

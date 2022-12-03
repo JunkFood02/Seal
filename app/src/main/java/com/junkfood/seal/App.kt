@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 @HiltAndroidApp
-class BaseApplication : Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
@@ -55,12 +55,12 @@ class BaseApplication : Application() {
                 )
             }
             try {
-                YoutubeDL.getInstance().init(this@BaseApplication)
-                FFmpeg.getInstance().init(this@BaseApplication)
-                Aria2c.getInstance().init(this@BaseApplication)
+                YoutubeDL.getInstance().init(this@App)
+                FFmpeg.getInstance().init(this@App)
+                Aria2c.getInstance().init(this@App)
             } catch (e: YoutubeDLException) {
                 e.printStackTrace()
-                Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@App, e.message, Toast.LENGTH_LONG).show()
             }
         }
 
