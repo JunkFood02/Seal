@@ -108,9 +108,11 @@ fun DownloadPage(
             }
         }
     val scope = rememberCoroutineScope()
-    val viewState = StateHolder.stateFlow.collectAsStateWithLifecycle()
+    val downloaderState = StateHolder.downloaderState.collectAsStateWithLifecycle()
     val taskState = StateHolder.taskState.collectAsStateWithLifecycle()
+    val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle()
     val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle()
+
 
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -135,7 +137,7 @@ fun DownloadPage(
         onDispose { downloadViewModel.hidePlaylistDialog() }
     }
 
-    if (viewState.value.isUrlSharingTriggered) {
+    if (downloaderState.value.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
         downloadCallback()
     }
@@ -150,7 +152,7 @@ fun DownloadPage(
             .background(MaterialTheme.colorScheme.background),
     ) {
         DownloadPageImpl(
-            viewState = viewState.value,
+            viewState = downloaderState.value,
             taskState = taskState.value,
             downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
@@ -184,7 +186,7 @@ fun DownloadPage(
 )
 @Composable
 fun DownloadPageImpl(
-    viewState: StateHolder.DownloadViewState,
+    viewState: StateHolder.DownloaderState,
     taskState: StateHolder.DownloadTaskItem,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
@@ -199,9 +201,10 @@ fun DownloadPageImpl(
     val hapticFeedback = LocalHapticFeedback.current
 
     with(viewState) {
+        val showDownloadProgress = taskState.taskId.isNotEmpty()
         val showVideoCard by remember {
             mutableStateOf(
-                !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW) && !isInCustomCommandMode
+                !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
             )
         }
         Scaffold(
@@ -507,7 +510,7 @@ fun DownloadPagePreview() {
     PreviewThemeLight {
         Column() {
             DownloadPageImpl(
-                viewState = StateHolder.DownloadViewState(showDownloadProgress = true),
+                viewState = StateHolder.DownloaderState(),
                 taskState = StateHolder.DownloadTaskItem(),
                 isPreview = true
             ) {}

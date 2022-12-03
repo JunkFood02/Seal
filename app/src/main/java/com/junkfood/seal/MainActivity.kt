@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         context = this.baseContext
         setContent {
             val isUrlSharingTriggered =
-                StateHolder.stateFlow.collectAsState().value.isUrlSharingTriggered
+                StateHolder.downloaderState.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
             SettingsProvider(windowSizeClass.widthSizeClass) {
                 SealTheme(
