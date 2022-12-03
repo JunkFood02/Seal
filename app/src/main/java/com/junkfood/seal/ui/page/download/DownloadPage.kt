@@ -49,10 +49,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -77,6 +79,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
+import com.junkfood.seal.ui.component.PreviewFormat
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.theme.PreviewThemeLight
@@ -108,10 +111,10 @@ fun DownloadPage(
             }
         }
     val scope = rememberCoroutineScope()
-    val downloaderState = StateHolder.downloaderState.collectAsStateWithLifecycle()
-    val taskState = StateHolder.taskState.collectAsStateWithLifecycle()
-    val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle()
-    val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle()
+    val downloaderState = StateHolder.downloaderState.collectAsStateWithLifecycle().value
+    val taskState = StateHolder.taskState.collectAsStateWithLifecycle().value
+    val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle().value
+    val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle().value
 
 
     val clipboardManager = LocalClipboardManager.current
@@ -131,19 +134,27 @@ fun DownloadPage(
         else checkPermissionOrDownload()
         keyboardController?.hide()
     }
-    DisposableEffect(viewState.value.showPlaylistSelectionDialog) {
-        if (playlistInfo.value.playlistCount > 1 && viewState.value.showPlaylistSelectionDialog)
+    DisposableEffect(viewState.showPlaylistSelectionDialog) {
+        if (playlistInfo.playlistCount > 1 && viewState.showPlaylistSelectionDialog)
             navigateToPlaylistPage()
         onDispose { downloadViewModel.hidePlaylistDialog() }
     }
 
-    if (downloaderState.value.isUrlSharingTriggered) {
+    if (downloaderState.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
         downloadCallback()
     }
 
-    BackHandler(viewState.value.drawerState.isVisible) {
+    BackHandler(viewState.drawerState.isVisible) {
         downloadViewModel.hideDialog(scope, useDialog)
+    }
+    var showVideoCard by remember {
+        mutableStateOf(
+            !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
+        )
+    }
+    LaunchedEffect(Unit) {
+        showVideoCard = !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
     }
 
     Box(
@@ -152,11 +163,13 @@ fun DownloadPage(
             .background(MaterialTheme.colorScheme.background),
     ) {
         DownloadPageImpl(
-            viewState = downloaderState.value,
-            taskState = taskState.value,
+            viewState = downloaderState,
+            taskState = taskState,
             downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
+            showVideoCard = showVideoCard,
+            showDownloadProgress = taskState.taskId.isNotEmpty(),
             pasteCallback = {
                 TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
                     .let { downloadViewModel.updateUrl(it) }
@@ -167,7 +180,7 @@ fun DownloadPage(
             onVideoCardClicked = { downloadViewModel.openVideoFile() },
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }
         ) { }
-        with(viewState.value) {
+        with(viewState) {
             DownloadSettingDialog(
                 useDialog = useDialog,
                 dialogState = showDownloadSettingDialog,
@@ -188,6 +201,8 @@ fun DownloadPage(
 fun DownloadPageImpl(
     viewState: StateHolder.DownloaderState,
     taskState: StateHolder.DownloadTaskItem,
+    showVideoCard: Boolean = false,
+    showDownloadProgress: Boolean = false,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
@@ -201,12 +216,7 @@ fun DownloadPageImpl(
     val hapticFeedback = LocalHapticFeedback.current
 
     with(viewState) {
-        val showDownloadProgress = taskState.taskId.isNotEmpty()
-        val showVideoCard by remember {
-            mutableStateOf(
-                !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
-            )
-        }
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -310,8 +320,9 @@ fun DownloadPageImpl(
                         )
                     }
                     content()
+                    PreviewFormat()
                     NavigationBarSpacer()
-                    Spacer(modifier = Modifier.height(56.dp))
+                    Spacer(modifier = Modifier.height(160.dp))
                 }
             }
         }
@@ -512,7 +523,9 @@ fun DownloadPagePreview() {
             DownloadPageImpl(
                 viewState = StateHolder.DownloaderState(),
                 taskState = StateHolder.DownloadTaskItem(),
-                isPreview = true
+                isPreview = true,
+                showDownloadProgress = true,
+                showVideoCard = true
             ) {}
         }
     }
