@@ -396,12 +396,11 @@ object DownloadUtil {
                 error = msg
             )
         }.onSuccess {
-            NotificationUtil.makeNotification(
+            NotificationUtil.finishNotification(
                 notificationId = notificationId,
-                title = context.getString(R.string.download_finish_notification)
+                title = context.getString(R.string.status_completed),
             )
         }
-
         MainActivity.stopService()
 
     }

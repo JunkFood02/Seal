@@ -19,7 +19,7 @@ data class VideoInfo(
     val duration: Double? = null,
     @SerialName("view_count") val viewCount: Long? = null,
     @SerialName("webpage_url") val webpageUrl: String? = null,
-    @SerialName("categories") val categories: List<String> = emptyList(),
+//    @SerialName("categories") val categories: List<String> = emptyList(),
     val tags: List<String>? = emptyList(),
     @SerialName("live_status") val liveStatus: String? = null,
 //    @SerialName("release_timestamp") val releaseTimestamp: Int? = null,

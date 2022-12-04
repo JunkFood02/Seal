@@ -102,7 +102,6 @@ object NotificationUtil {
             .setOngoing(false)
             .setStyle(null)
         intent?.let { builder.setContentIntent(it) }
-        notificationManager.cancel(notificationId)
         notificationManager.notify(notificationId, builder.build())
     }
 
