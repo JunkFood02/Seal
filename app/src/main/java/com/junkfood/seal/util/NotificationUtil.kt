@@ -135,7 +135,6 @@ object NotificationUtil {
 
     fun makeErrorReportNotificationForCustomCommand(
         notificationId: Int,
-        text: String? = null,
         error: String,
     ) {
         val intent = Intent(context.applicationContext, NotificationActionReceiver::class.java)
@@ -151,6 +150,7 @@ object NotificationUtil {
 
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(context.getString(R.string.download_error_msg))
+            .setContentText(error)
             .setOngoing(false)
             .addAction(
                 R.drawable.outline_content_copy_24,

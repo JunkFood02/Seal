@@ -388,17 +388,18 @@ object DownloadUtil {
             }
         }.onFailure {
             val msg = it.message
-            if (msg.isNullOrEmpty())
+            if (!msg.isNullOrEmpty()) {
                 it.printStackTrace()
-            else NotificationUtil.makeErrorReportNotificationForCustomCommand(
-                notificationId = notificationId,
-                text = null,
-                error = msg
-            )
+                NotificationUtil.makeErrorReportNotificationForCustomCommand(
+                    notificationId = notificationId,
+                    error = msg
+                )
+            }
         }.onSuccess {
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
-                title = context.getString(R.string.status_completed),
+                title = template.name + url,
+                text = context.getString(R.string.status_completed),
             )
         }
         MainActivity.stopService()

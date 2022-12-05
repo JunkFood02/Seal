@@ -79,7 +79,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
-import com.junkfood.seal.ui.component.PreviewFormat
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.theme.PreviewThemeLight
@@ -320,7 +319,7 @@ fun DownloadPageImpl(
                         )
                     }
                     content()
-                    PreviewFormat()
+//                    PreviewFormat()
                     NavigationBarSpacer()
                     Spacer(modifier = Modifier.height(160.dp))
                 }

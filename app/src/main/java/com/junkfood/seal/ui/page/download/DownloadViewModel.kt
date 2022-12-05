@@ -14,11 +14,11 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.page.StateHolder
-import com.junkfood.seal.ui.page.StateHolder.mutablePlaylistResult
+import com.junkfood.seal.ui.page.StateHolder.downloaderState
 import com.junkfood.seal.ui.page.StateHolder.mutableDownloaderState
+import com.junkfood.seal.ui.page.StateHolder.mutablePlaylistResult
 import com.junkfood.seal.ui.page.StateHolder.mutableTaskState
 import com.junkfood.seal.ui.page.StateHolder.playlistResult
-import com.junkfood.seal.ui.page.StateHolder.downloaderState
 import com.junkfood.seal.ui.page.StateHolder.taskState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
@@ -195,10 +195,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun startDownloadVideo() {
-        if (downloaderState.value.url.isBlank()) {
-            viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
-            return
-        }
+
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             viewModelScope.launch {
                 showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
@@ -209,7 +206,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             applicationScope.launch(Dispatchers.IO) { executeCustomCommand() }
             return
         }
-
+        if (downloaderState.value.url.isBlank()) {
+            viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
+            return
+        }
         MainActivity.startService()
         if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
             parsePlaylistInfo()
@@ -295,6 +295,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         notificationId, progress = progress.toInt(), text = line
                     )
                 }
+                if(downloaderState.value.isCancelled) return
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
                 if (!downloaderState.value.isDownloadingPlaylist) finishProcessing()
                 NotificationUtil.finishNotification(
