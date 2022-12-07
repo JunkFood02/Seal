@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
+import coil.imageLoader
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 
@@ -47,7 +48,7 @@ fun AsyncImageImpl(
             .crossfade(true)
             .build(),
         contentDescription = contentDescription,
-        imageLoader = LocalVideoThumbnailLoader.current,
+        imageLoader = LocalContext.current.imageLoader,
         modifier = modifier,
         transform = transform,
         onState = onState,

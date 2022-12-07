@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -82,9 +83,14 @@ import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.theme.PreviewThemeLight
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @OptIn(
@@ -97,6 +103,7 @@ fun DownloadPage(
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
     navigateToPlaylistPage: () -> Unit = {},
+    navigateToFormatPage: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission =
@@ -155,6 +162,7 @@ fun DownloadPage(
     LaunchedEffect(Unit) {
         showVideoCard = !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
     }
+    val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -178,7 +186,23 @@ fun DownloadPage(
             },
             onVideoCardClicked = { downloadViewModel.openVideoFile() },
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }
-        ) { }
+        ) {
+            Button(onClick = {
+                scope.launch {
+                    kotlin.runCatching {
+                        withContext(Dispatchers.IO) {
+                            downloadViewModel.videoInfoFlow.update {
+                                DownloadUtil.fetchVideoInfo(
+                                    downloaderState.url
+                                )
+                            }
+                        }
+                        navigateToFormatPage()
+                    }
+                }
+            }) { Text(text = "Fetch!") }
+        }
+
         with(viewState) {
             DownloadSettingDialog(
                 useDialog = useDialog,

@@ -6,31 +6,17 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
-import coil.ImageLoader
-import coil.disk.DiskCache
-import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil
 
 val LocalDarkTheme = compositionLocalOf { PreferenceUtil.DarkThemePreference() }
-val LocalVideoThumbnailLoader = staticCompositionLocalOf {
-    ImageLoader.Builder(context)
-        .diskCache {
-            DiskCache.Builder()
-                .directory(context.cacheDir.resolve("image_cache"))
-                .maxSizePercent(0.02)
-                .build()
-        }
-        .build()
-}
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }
 val LocalWindowWidthState = staticCompositionLocalOf { WindowWidthSizeClass.Compact }
-val settingFlow = PreferenceUtil.AppSettingsStateFlow
 val LocalDynamicColorSwitch = compositionLocalOf { false }
 
 @Composable
 fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Composable () -> Unit) {
-    val appSettingsState = settingFlow.collectAsState().value
+    val appSettingsState = PreferenceUtil.AppSettingsStateFlow.collectAsState().value
     CompositionLocalProvider(
         LocalDarkTheme provides appSettingsState.darkTheme,
         LocalSeedColor provides appSettingsState.seedColor,

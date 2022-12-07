@@ -57,6 +57,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private val mutableViewStateFlow = MutableStateFlow(ViewState())
     val viewStateFlow = mutableViewStateFlow.asStateFlow()
 
+    val videoInfoFlow = MutableStateFlow(VideoInfo())
+
     data class ViewState(
         val showPlaylistSelectionDialog: Boolean = false,
         val url: String = "",

@@ -37,6 +37,7 @@ import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.common.slideInComposable
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.ui.page.download.FormatPage
 import com.junkfood.seal.ui.page.download.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.queue.DownloadQueuePage
 import com.junkfood.seal.ui.page.settings.SettingsPage
@@ -130,12 +131,14 @@ fun HomeEntry(
                     navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
                     navigateToSettings = { navController.navigate(Route.SETTINGS) },
                     navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
+                    navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
                     downloadViewModel = downloadViewModel
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
             animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInComposable(Route.PLAYLIST) { PlaylistSelectionPage(downloadViewModel) { onBackPressed() } }
+            slideInComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
             settingsGraph(navController) { onBackPressed() }
 
         }
