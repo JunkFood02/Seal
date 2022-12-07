@@ -36,8 +36,8 @@ object NotificationUtil {
     const val SERVICE_NOTIFICATION_ID = 123
     private lateinit var serviceNotification: Notification
 
-    private var builder =
-        NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
+    //    private var builder =
+//        NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
     private val commandNotificationBuilder =
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
 
@@ -61,30 +61,20 @@ object NotificationUtil {
         notificationManager.createNotificationChannel(serviceChannel)
     }
 
-    fun makeNotification(
-        notificationId: Int = DEFAULT_NOTIFICATION_ID,
+    fun notifyProgress(
         title: String,
-        text: String? = null
+        notificationId: Int = DEFAULT_NOTIFICATION_ID,
+        progress: Int = PROGRESS_INITIAL,
+        text: String?=null
     ) {
-        builder = builder
+        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
-            .setContentText(text)
-            .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, false)
+            .setProgress(PROGRESS_MAX, progress, progress <= 0)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        notificationManager.notify(notificationId, builder.build())
-    }
-
-    fun updateNotification(
-        notificationId: Int = DEFAULT_NOTIFICATION_ID,
-        progress: Int,
-        text: String
-    ) {
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        builder.setProgress(PROGRESS_MAX, progress, progress <= 0)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-        notificationManager.notify(notificationId, builder.build())
+            .run { notificationManager.notify(notificationId, build()) }
     }
 
     fun finishNotification(
@@ -94,13 +84,13 @@ object NotificationUtil {
         intent: PendingIntent? = null
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        title?.let { builder.setContentTitle(title) }
-        builder
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
             .setContentText(text)
             .setProgress(0, 0, false)
             .setAutoCancel(true)
             .setOngoing(false)
             .setStyle(null)
+        title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(it) }
         notificationManager.notify(notificationId, builder.build())
     }
@@ -124,12 +114,6 @@ object NotificationUtil {
     }
 
     fun cancelNotification(notificationId: Int) {
-        /*builder
-            .setContentText(context.getText(R.string.task_cancelled))
-            .setOngoing(false)
-            .setAutoCancel(true)
-            .setProgress(0, 0, false)
-        notificationManager.notify(notificationId, builder.build())*/
         notificationManager.cancel(notificationId)
     }
 

@@ -1,20 +1,20 @@
 package com.junkfood.seal.ui.component
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.theme.PreviewThemeLight
 
 @Composable
 fun FormatListItem(
@@ -54,21 +53,29 @@ fun FormatItem(
     formatDesc: String = "247 - 1280x720 (720p)",
     note: String = "1080p",
     resolution: String = "1920x1080",
-    vcodec: String = "h264",
-    acodec: String = "aac",
+    codec: String = "h264 aac",
     ext: String = "mp4",
     bitRate: Float = 745.67f,
     fileSize: Long = 1024 * 1024 * 69,
     selected: Boolean = false,
+    outlineColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     onClick: () -> Unit = {}
 ) {
-    val outlineColor by animateColorAsState(
+    val animatedOutlineColor by animateColorAsState(
         targetValue = MaterialTheme.colorScheme.run {
-            if (selected) primary else outlineVariant
-        })
-
-    val elevation by animateDpAsState(if (selected) 15.dp else 0.dp)
-    val animateDp by animateDpAsState(if (selected) 2.dp else 1.dp)
+            if (selected) outlineColor else outlineVariant
+        }, animationSpec = tween(100)
+    )
+    val animatedTitleColor by animateColorAsState(
+        targetValue = MaterialTheme.colorScheme.run {
+            if (selected) outlineColor else onSurface
+        }, animationSpec = tween(100)
+    )
+    val animatedContainerColor by animateColorAsState(
+        if (selected) containerColor else MaterialTheme.colorScheme.surface,
+        animationSpec = tween(100)
+    )
 
     Column(
         modifier = modifier
@@ -76,21 +83,22 @@ fun FormatItem(
             .selectable(selected = selected) { onClick() }
             .border(
                 width = 1.dp,
-                color = outlineColor,
+                color = animatedOutlineColor,
                 shape = MaterialTheme.shapes.medium
             )
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation))
+            .background(animatedContainerColor)
     ) {
         Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.Start) {
             Text(
                 text = formatDesc,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 3,
-                color = MaterialTheme.colorScheme.run { if (selected) primary else onSurface })
+                color = animatedTitleColor
+            )
 
             val bitRateText = "%.1f Kbps".format(bitRate)
             val fileSizeText = "%.2f M".format(fileSize.toFloat() / 1024 / 1024)
-            val codecText = "$ext ($vcodec $acodec)"
+            val codecText = "%S (%S)".format(ext, codec)
             Text(
                 text = connectWithDots(fileSizeText, bitRateText),
                 style = MaterialTheme.typography.bodyMedium,
@@ -101,8 +109,8 @@ fun FormatItem(
             Text(
                 text = codecText,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 2.dp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                modifier = Modifier.padding(top = 4.dp),
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -110,21 +118,60 @@ fun FormatItem(
 }
 
 @Composable
-@Preview
+@Preview(name = "Dark",
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
+@Preview(name = "Light")
 fun PreviewFormat() {
-    PreviewThemeLight {
+    MaterialTheme {
         var selected by remember { mutableStateOf(-1) }
         Surface {
             Column() {
-                FormatSubtitle(text = stringResource(R.string.video_only))
+//                FormatSubtitle(text = stringResource(R.string.video_only))
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(150.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    item(span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        FormatSubtitle(text = stringResource(R.string.video_only))
+                    }
                     for (i in 0..4) {
                         item {
                             FormatItem(selected = selected == i) { selected = i }
+                        }
+                    }
+                    item(span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.video),
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    for (i in 0..5) {
+                        item {
+                            FormatItem(
+                                selected = selected == i,
+                                outlineColor = MaterialTheme.colorScheme.secondary,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            ) { selected = i }
+                        }
+                    }
+                    item(span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.audio),
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
+                    for (i in 0..5) {
+                        item {
+                            FormatItem(
+                                selected = selected == i,
+                                outlineColor = MaterialTheme.colorScheme.tertiary,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) { selected = i }
                         }
                     }
                 }
@@ -142,8 +189,8 @@ fun FormatSubtitle(
     Text(
         text = text,
         modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 28.dp, bottom = 12.dp),
+            .padding(top = 12.dp, bottom = 8.dp)
+            .padding(horizontal = 12.dp),
         color = color,
         style = MaterialTheme.typography.titleMedium
     )

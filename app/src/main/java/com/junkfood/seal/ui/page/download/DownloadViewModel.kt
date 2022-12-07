@@ -66,11 +66,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
     )
 
-    fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) = mutableDownloaderState.update {
-        it.copy(
-            url = url, isUrlSharingTriggered = isUrlSharingTriggered
-        )
-    }
+    fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
+        mutableDownloaderState.update {
+            it.copy(
+                url = url, isUrlSharingTriggered = isUrlSharingTriggered
+            )
+        }
 
     fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
         scope.launch {
@@ -278,7 +279,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
             }
 
-            NotificationUtil.makeNotification(notificationId, videoInfo.title)
+            NotificationUtil.notifyProgress(
+                notificationId = notificationId,
+                title = videoInfo.title
+            )
             try {
                 downloadResultTemp = DownloadUtil.downloadVideo(
                     videoInfo = videoInfo,
@@ -291,11 +295,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                             progress = progress, progressText = line
                         )
                     }
-                    NotificationUtil.updateNotification(
-                        notificationId, progress = progress.toInt(), text = line
+                    NotificationUtil.notifyProgress(
+                        notificationId = notificationId,
+                        progress = progress.toInt(),
+                        text = line,
+                        title = videoInfo.title
                     )
                 }
-                if(downloaderState.value.isCancelled) return
+                if (downloaderState.value.isCancelled) return
                 intent = FileUtil.createIntentForOpenFile(downloadResultTemp)
                 if (!downloaderState.value.isDownloadingPlaylist) finishProcessing()
                 NotificationUtil.finishNotification(
