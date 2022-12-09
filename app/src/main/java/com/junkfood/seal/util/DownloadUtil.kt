@@ -145,6 +145,7 @@ object DownloadUtil {
         val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
         val audioFormat: Int = PreferenceUtil.getAudioFormat(),
         val videoFormat: Int = PreferenceUtil.getVideoFormat(),
+        val formatId: String = "",
         val videoResolution: Int = PreferenceUtil.getVideoResolution(),
         val privateMode: Boolean = PreferenceUtil.getValue(PRIVATE_MODE),
         val rateLimit: Boolean = PreferenceUtil.getValue(RATE_LIMIT),
@@ -159,7 +160,10 @@ object DownloadUtil {
     ): YoutubeDLRequest {
         return this.apply {
             downloadPreferences.run {
-                addOption("-S", toVideoFormatSorter())
+                if (formatId.isNotEmpty())
+                    addOption("-f", formatId)
+                else
+                    addOption("-S", toVideoFormatSorter())
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
@@ -198,17 +202,20 @@ object DownloadUtil {
         return this.apply {
             with(downloadPreferences) {
                 addOption("-x")
-                when (audioFormat) {
-                    1 -> {
-                        addOption("--audio-format", "mp3")
-                        addOption("--audio-quality", "0")
-                    }
+                if (formatId.isNotEmpty())
+                    addOption("-f", formatId)
+                else
+                    when (audioFormat) {
+                        1 -> {
+                            addOption("--audio-format", "mp3")
+                            addOption("--audio-quality", "0")
+                        }
 
-                    2 -> {
-                        addOption("--audio-format", "m4a")
-                        addOption("--audio-quality", "0")
+                        2 -> {
+                            addOption("--audio-format", "m4a")
+                            addOption("--audio-quality", "0")
+                        }
                     }
-                }
                 addOption("--embed-metadata")
                 addOption("--embed-thumbnail")
                 addOption("--convert-thumbnails", "png")
@@ -258,7 +265,7 @@ object DownloadUtil {
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
         playlistItem: Int = 0,
-        downloadPreferences: DownloadPreferences = DownloadPreferences(),
+        downloadPreferences: DownloadPreferences,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result {
         if (videoInfo == null) return Result.failure()

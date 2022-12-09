@@ -1,8 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
 import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -205,15 +203,7 @@ fun DownloadPage(
                     }
                 }
             }) { Text(text = "Fetch!") }
-            val context = LocalContext.current
-            Button(onClick = {
 
-                context.startActivity(Intent.createChooser(Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("https://youtu.be")
-                }, "1123"))
-            }) {
-                Text("URL")
-            }
         }
 
         with(viewState) {

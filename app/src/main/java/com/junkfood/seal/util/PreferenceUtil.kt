@@ -121,6 +121,7 @@ object PreferenceUtil {
     const val DISABLE_PREVIEW = "disable_preview"
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
+    const val FORMAT_SELECTION = "format_selection"
 
     const val SYSTEM_DEFAULT = 0
 

@@ -91,7 +91,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
     private fun manageDownloadError(
-        e: Exception, isFetchingInfo: Boolean = true, notificationId: Int? = null
+        e: Throwable, isFetchingInfo: Boolean = true, notificationId: Int? = null
     ) {
         viewModelScope.launch {
             e.printStackTrace()
@@ -155,7 +155,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             mutableDownloaderState.update {
                 it.copy(
                     isProcessRunning = true,
-                    isDownloadingPlaylist = true, currentItem = 1, downloadItemCount = itemCount
+                    isDownloadingPlaylist = true,
+                    currentItem = 1,
+                    downloadItemCount = itemCount
                 )
             }
             var videoInfoNext: Deferred<VideoInfo>? = null
@@ -181,11 +183,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         }
                     }
                     mutableDownloaderState.update { it.copy(currentItem = i + 1) }
-                    if (MainActivity.isServiceRunning)
-                        NotificationUtil.updateServiceNotification(
-                            index = i + 1,
-                            itemCount = itemCount
-                        )
+                    if (MainActivity.isServiceRunning) NotificationUtil.updateServiceNotification(
+                        index = i + 1, itemCount = itemCount
+                    )
                     fetchVideoInfo(url, task)?.let {
                         downloadVideo(
                             playlistIndex = task.playlistIndex,
@@ -221,6 +221,17 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
 
+        if (PreferenceUtil.getValue(PreferenceUtil.FORMAT_SELECTION)) {
+            viewModelScope.launch(Dispatchers.IO) {
+                kotlin.runCatching {
+                    mutableDownloaderState.update { it.copy(isFetchingInfo = true) }
+                    videoInfoFlow.update { DownloadUtil.fetchVideoInfoFromUrl(viewStateFlow.value.url) }
+                }.onFailure { manageDownloadError(it) }
+                    .onSuccess { mutableDownloaderState.update { it.copy(isFetchingInfo = false) } }
+            }
+            return
+        }
+
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
@@ -240,15 +251,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
 
     private fun fetchVideoInfo(
-        url: String,
-        task: StateHolder.DownloadTaskItem = StateHolder.DownloadTaskItem()
+        url: String, task: StateHolder.DownloadTaskItem = StateHolder.DownloadTaskItem()
     ): VideoInfo? {
         val videoInfo = task.videoInfo ?: with(mutableDownloaderState) {
             update { it.copy(isFetchingInfo = true) }
             try {
                 return@with DownloadUtil.fetchVideoInfoFromUrl(
-                    url = url,
-                    playlistItem = task.playlistIndex
+                    url = url, playlistItem = task.playlistIndex
                 )
             } catch (e: Exception) {
                 manageDownloadError(e)
@@ -275,6 +284,22 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
 
+    fun downloadVideoWithFormatId(videoInfo: VideoInfo, formatId: String, fileSize: Long? = null) {
+        currentJob = viewModelScope.launch(Dispatchers.IO) {
+            if (!checkStateBeforeDownload()) return@launch
+            updateDownloadTask(
+                fileSize?.let { videoInfo.copy(fileSize = fileSize) } ?: videoInfo,
+                StateHolder.DownloadTaskItem()
+            )
+            kotlin.runCatching {
+                downloadVideo(
+                    videoInfo = videoInfo,
+                    downloadPreferences = DownloadUtil.DownloadPreferences(formatId = formatId)
+                )
+            }.onFailure { manageDownloadError(it) }
+        }
+    }
+
     private fun downloadVideo(
         playlistIndex: Int = 1,
         playlistUrl: String = "",
@@ -297,8 +322,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
 
             NotificationUtil.notifyProgress(
-                notificationId = notificationId,
-                title = videoInfo.title
+                notificationId = notificationId, title = videoInfo.title
             )
             try {
                 downloadResultTemp = DownloadUtil.downloadVideo(
