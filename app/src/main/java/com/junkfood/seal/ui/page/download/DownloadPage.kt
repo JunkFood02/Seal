@@ -1,6 +1,8 @@
 package com.junkfood.seal.ui.page.download
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -65,6 +67,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -163,7 +166,7 @@ fun DownloadPage(
         showVideoCard = !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
     }
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
-
+    val uriHandler = LocalUriHandler.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -201,6 +204,15 @@ fun DownloadPage(
                     }
                 }
             }) { Text(text = "Fetch!") }
+            val context = LocalContext.current
+            Button(onClick = {
+
+                context.startActivity(Intent.createChooser(Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse("https://youtu.be")
+                }, "1123"))
+            }) {
+                Text("URL")
+            }
         }
 
         with(viewState) {

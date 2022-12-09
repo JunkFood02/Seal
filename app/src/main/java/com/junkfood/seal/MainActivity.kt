@@ -81,19 +81,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleShareIntent(intent: Intent) {
         Log.d(TAG, "handleShareIntent: $intent")
-        if (Intent.ACTION_SEND == intent.action)
-            intent.getStringExtra(Intent.EXTRA_TEXT)
-                ?.let { sharedContent ->
-                    intent.removeExtra(Intent.EXTRA_TEXT)
-                    TextUtil.matchUrlFromSharedText(sharedContent)
-                        .let { matchedUrl ->
-                            if (sharedUrl != matchedUrl) {
-                                sharedUrl = matchedUrl
-                                downloadViewModel.updateUrl(sharedUrl, true)
 
-                            }
-                        }
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                intent.dataString?.let {
+                    sharedUrl = it
+                    downloadViewModel.updateUrl(sharedUrl, true)
                 }
+            }
+
+            Intent.ACTION_SEND -> {
+                intent.getStringExtra(Intent.EXTRA_TEXT)
+                    ?.let { sharedContent ->
+                        intent.removeExtra(Intent.EXTRA_TEXT)
+                        TextUtil.matchUrlFromSharedText(sharedContent)
+                            .let { matchedUrl ->
+                                if (sharedUrl != matchedUrl) {
+                                    sharedUrl = matchedUrl
+                                    downloadViewModel.updateUrl(sharedUrl, true)
+                                }
+                            }
+                    }
+            }
+        }
+
     }
 
     companion object {
