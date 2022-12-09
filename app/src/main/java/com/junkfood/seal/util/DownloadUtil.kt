@@ -104,7 +104,7 @@ object DownloadUtil {
         return videoInfo
     }
 
-    fun fetchVideoInfo(
+    fun fetchVideoInfoFromUrl(
         url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
     ): VideoInfo {
         val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {

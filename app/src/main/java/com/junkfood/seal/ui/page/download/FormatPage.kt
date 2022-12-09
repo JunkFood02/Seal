@@ -90,8 +90,10 @@ fun FormatPageImpl(videoInfo: VideoInfo = VideoInfo(), onBackPressed: () -> Unit
                         thumbnailUrl = thumbnail.toString()
                     )
                 }
+
+
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatSubtitle(text = "Suggested")
+                    FormatSubtitle(text = stringResource(R.string.suggested))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatItem(
@@ -105,34 +107,51 @@ fun FormatPageImpl(videoInfo: VideoInfo = VideoInfo(), onBackPressed: () -> Unit
                     ) { selected = 1 }
                 }
             }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(text = stringResource(R.string.video_only))
-            }
-            itemsIndexed(videoOnlyFormats) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
-                    selected = selected == index
-                ) { selected = index }
-            }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(text = stringResource(R.string.audio))
-            }
-            itemsIndexed(audioOnlyFormats) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
-                    selected = selected == index
-                ) { selected = index }
 
-            }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(text = stringResource(R.string.video))
-            }
+            if (videoAudioFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatSubtitle(text = stringResource(R.string.video))
+                }
             itemsIndexed(videoAudioFormats) { index, formatInfo ->
                 FormatItem(
                     formatInfo = formatInfo,
                     selected = selected == index
                 ) { selected = index }
             }
+
+            if (audioOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatSubtitle(
+                        text = stringResource(R.string.audio),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            itemsIndexed(audioOnlyFormats) { index, formatInfo ->
+                FormatItem(
+                    formatInfo = formatInfo,
+                    selected = selected == index,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    outlineColor = MaterialTheme.colorScheme.secondary
+                ) { selected = index }
+
+            }
+
+            if (videoOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatSubtitle(
+                        text = stringResource(R.string.video_only),
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            itemsIndexed(videoOnlyFormats) { index, formatInfo ->
+                FormatItem(
+                    formatInfo = formatInfo,
+                    selected = selected == index,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    outlineColor = MaterialTheme.colorScheme.tertiary
+                ) { selected = index }
+            }
+
 
         }
     }

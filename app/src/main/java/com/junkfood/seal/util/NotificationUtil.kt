@@ -9,6 +9,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
@@ -22,6 +23,8 @@ import com.junkfood.seal.NotificationActionReceiver.Companion.NOTIFICATION_ID_KE
 import com.junkfood.seal.NotificationActionReceiver.Companion.TASK_ID_KEY
 import com.junkfood.seal.R
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
+
+private const val TAG = "NotificationUtil"
 
 @SuppressLint("StaticFieldLeak")
 object NotificationUtil {
@@ -65,7 +68,7 @@ object NotificationUtil {
         title: String,
         notificationId: Int = DEFAULT_NOTIFICATION_ID,
         progress: Int = PROGRESS_INITIAL,
-        text: String?=null
+        text: String? = null
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
@@ -84,15 +87,26 @@ object NotificationUtil {
         intent: PendingIntent? = null
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
-            .setContentText(text)
-            .setProgress(0, 0, false)
-            .setAutoCancel(true)
-            .setOngoing(false)
-            .setStyle(null)
-        title?.let { builder.setContentTitle(title) }
-        intent?.let { builder.setContentIntent(it) }
-        notificationManager.notify(notificationId, builder.build())
+        // Return if the notification is already canceled
+        notificationManager.activeNotifications.forEach {
+            Log.d(TAG, it.id.toString())
+            if (it.id == notificationId) {
+                notificationManager.cancel(notificationId)
+                val builder =
+                    NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_stat_seal)
+                        .setContentText(text)
+                        .setProgress(0, 0, false)
+                        .setAutoCancel(true)
+                        .setOngoing(false)
+                        .setStyle(null)
+                title?.let { builder.setContentTitle(title) }
+                intent?.let { builder.setContentIntent(intent) }
+                notificationManager.notify(notificationId, builder.build())
+                return
+            }
+        }
+
     }
 
     fun makeServiceNotification(intent: PendingIntent): Notification {

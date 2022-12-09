@@ -132,7 +132,9 @@ class MainActivity : AppCompatActivity() {
             if (!isServiceRunning) return
             try {
                 isServiceRunning = false
-                context.applicationContext.unbindService(connection)
+                context.applicationContext.run {
+                    unbindService(connection)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

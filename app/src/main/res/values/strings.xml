@@ -259,4 +259,5 @@
     <string name="la_si" translatable="false">සිංහල</string>
     <string name="la_sr" translatable="false">Српски језик</string>
     <string name="video_only">Video (no audio)</string>
+    <string name="suggested">Suggested</string>
 </resources>

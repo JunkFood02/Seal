@@ -162,9 +162,10 @@ fun DownloadPage(
             !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
         )
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(downloaderState.isProcessRunning) {
         showVideoCard = !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
     }
+
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     val uriHandler = LocalUriHandler.current
     Box(
@@ -195,7 +196,7 @@ fun DownloadPage(
                     kotlin.runCatching {
                         withContext(Dispatchers.IO) {
                             downloadViewModel.videoInfoFlow.update {
-                                DownloadUtil.fetchVideoInfo(
+                                DownloadUtil.fetchVideoInfoFromUrl(
                                     downloaderState.url
                                 )
                             }

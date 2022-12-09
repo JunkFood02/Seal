@@ -39,7 +39,6 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun FormatVideoPreview(
@@ -49,7 +48,7 @@ fun FormatVideoPreview(
     thumbnailUrl: String = "",
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
-        WindowWidthSizeClass.Expanded -> 0.55f
+        WindowWidthSizeClass.Expanded -> 0.25f
         WindowWidthSizeClass.Medium -> 0.30f
         else -> 0.45f
     }
@@ -60,7 +59,7 @@ fun FormatVideoPreview(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(8.dp)
         ) {
             MediaImage(
                 modifier = Modifier.weight(imageWeight), imageModel = thumbnailUrl, isAudio = false
@@ -75,7 +74,7 @@ fun FormatVideoPreview(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
                 if (author != "playlist" && author != "null") Text(
@@ -83,7 +82,7 @@ fun FormatVideoPreview(
                     text = author,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -152,27 +151,29 @@ fun FormatItem(
         .background(animatedContainerColor)) {
         Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.Start) {
             Text(
-                text = formatDesc + "\n",
+                text = formatDesc,
                 style = MaterialTheme.typography.titleSmall,
+                minLines = 2,
                 maxLines = 2,
-                color = animatedTitleColor
+                color = animatedTitleColor, overflow = TextOverflow.Clip
             )
 
-            val bitRateText = "%.1f Kbps".format(bitRate)
+            val bitRateText =
+                if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
             val fileSizeText = "%.2f M".format(fileSize.toFloat() / 1024 / 1024)
-            val codecText = "$ext ($codec)".uppercase()
+            val codecText = "$ext (${codec.substringBefore(".")})".uppercase()
             Text(
-                text = connectWithDelimiter(fileSizeText, bitRateText),
+                text = connectWithDelimiter(fileSizeText, bitRateText, delimiter = " "),
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 2.dp),
-                color = MaterialTheme.colorScheme.onSurface
+                modifier = Modifier.padding(top = 6.dp),
+                color = MaterialTheme.colorScheme.onSurface, maxLines = 1
             )
 
             Text(
                 text = codecText,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = 2.dp),
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface, maxLines = 1
             )
         }
     }

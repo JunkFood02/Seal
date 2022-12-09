@@ -22,7 +22,6 @@ object StateHolder {
         val errorMessage: String = "",
         val isFetchingInfo: Boolean = false,
         val isProcessRunning: Boolean = false,
-        val isCancelled: Boolean = false,
         val debugMode: Boolean = false,
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
