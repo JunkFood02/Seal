@@ -22,6 +22,7 @@ import com.junkfood.seal.ui.page.StateHolder.taskState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.openFile
+import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
@@ -284,17 +285,28 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
 
-    fun downloadVideoWithFormatId(videoInfo: VideoInfo, formatId: String, fileSize: Long? = null) {
+    fun downloadVideoWithFormatId(videoInfo: VideoInfo, formatList: List<Format>) {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
+            val info = videoInfo.copy(fileSize = formatList.fold(0L) { acc, format ->
+                acc + (format.fileSize ?: format.fileSizeApprox ?: 0L)
+            })
+            val audioOnly =
+                formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
+                    acc && (format.vcodec == "none" && format.acodec != "none")
+                }
             updateDownloadTask(
-                fileSize?.let { videoInfo.copy(fileSize = fileSize) } ?: videoInfo,
+                info,
                 StateHolder.DownloadTaskItem()
             )
             kotlin.runCatching {
                 downloadVideo(
-                    videoInfo = videoInfo,
-                    downloadPreferences = DownloadUtil.DownloadPreferences(formatId = formatId)
+                    videoInfo = info,
+                    downloadPreferences = DownloadUtil.DownloadPreferences(
+                        formatId = formatList.fold("") { s, format ->
+                            s + "+" + format.formatId
+                        }.removePrefix("+"), extractAudio = audioOnly
+                    )
                 )
             }.onFailure { manageDownloadError(it) }
         }

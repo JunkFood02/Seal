@@ -38,6 +38,7 @@ import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.connectWithBlank
+import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 
 private const val TAG = "FormatPage"
@@ -46,9 +47,10 @@ private const val TAG = "FormatPage"
 @Composable
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
-    FormatPageImpl(videoInfo, onBackPressed) { formatId, audioOnly, fileSize ->
-        Log.d(TAG, formatId + audioOnly)
-        downloadViewModel.downloadVideoWithFormatId(videoInfo, formatId, fileSize)
+    FormatPageImpl(videoInfo, onBackPressed) { formatList ->
+        Log.d(TAG, formatList.toString())
+        downloadViewModel.downloadVideoWithFormatId(videoInfo, formatList)
+        onBackPressed()
     }
 }
 
@@ -59,7 +61,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (String, Boolean, Long) -> Unit = { _, _ -> }
+    onDownloadPressed: (List<Format>) -> Unit = { _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -76,23 +78,15 @@ fun FormatPageImpl(
     var selectedAudioOnlyFormat by remember { mutableStateOf(-1) }
 
 
-    val audioOnly by remember(selectedAudioOnlyFormat) {
+    val formatList: List<Format> by remember {
         derivedStateOf {
-            selectedAudioOnlyFormat != -1 && selectedVideoAudioFormat == -1 && selectedVideoOnlyFormat == -1
+            mutableListOf<Format>().apply {
+                audioOnlyFormats.getOrNull(selectedAudioOnlyFormat)?.let { add(it) }
+                videoAudioFormats.getOrNull(selectedVideoAudioFormat)?.let { add(it) }
+                videoOnlyFormats.getOrNull(selectedVideoOnlyFormat)?.let { add(it) }
+            }
         }
-    }
 
-    val formatId by remember {
-        derivedStateOf {
-            if (isSuggestedFormatSelected) ""
-            else if (selectedVideoAudioFormat != -1) videoAudioFormats[selectedVideoAudioFormat].formatId!!
-            else if (audioOnly) {
-                audioOnlyFormats[selectedAudioOnlyFormat].formatId!!
-            } else if (selectedVideoOnlyFormat != -1) {
-                videoOnlyFormats[selectedVideoOnlyFormat].formatId!! +
-                        if (selectedAudioOnlyFormat != -1) "+" + audioOnlyFormats[selectedAudioOnlyFormat].formatId!! else ""
-            } else ""
-        }
     }
 
 
@@ -111,7 +105,9 @@ fun FormatPageImpl(
                     Icon(Icons.Outlined.Close, stringResource(R.string.close))
                 }
             }, actions = {
-                TextButton(onClick = { onDownloadPressed(formatId, audioOnly) }) {
+                TextButton(onClick = {
+                    onDownloadPressed(formatList)
+                }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
                 }
             })
