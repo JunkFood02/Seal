@@ -82,7 +82,7 @@
     <string name="video_quality_desc">Begrenzung der Formatqualität und der Dateigröße</string>
     <string name="custom_command_desc">yt-dlp-Befehl mit benutzerdefinierter Vorlage ausführen</string>
     <string name="custom_command_template">Befehlsvorlage</string>
-    <string name="start_execute">Ausführung des Befehls anfangen</string>
+    <string name="start_execute">Befehl ausführen</string>
     <string name="advanced_settings">Erweiterte</string>
     <string name="print_details">Detaillierte Ausgabe</string>
     <string name="yt_dlp_docs">Yt-dlp-Verwendungshinweise</string>
@@ -139,7 +139,7 @@
     <string name="new_template">Neue Vorlage</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Entfernen\?</string>
-    <string name="remove_template_desc">\"%1$s\" endgültig aus den Befehlsvorlagen entfernen\?</string>
+    <string name="remove_template_desc">„%1$s“ endgültig aus den Befehlsvorlagen entfernen\?</string>
     <string name="template_selection">Vorlagenauswahl</string>
     <string name="custom_command_template_desc">Befehlsvorlagen bearbeiten und verwalten</string>
     <string name="downloading_indicator_text">Download läuft, zum Abbrechen klicken.</string>
@@ -207,6 +207,9 @@
     <string name="disable_preview_desc">Vorschau bei Downloads deaktivieren</string>
     <string name="private_directory">Privates Verzeichnis</string>
     <string name="private_directory_desc">Downloads in einem versteckten Verzeichnis speichern</string>
-    <string name="crop_artwork">Kunstwerke beschneiden</string>
+    <string name="crop_artwork">Bild zuschneiden</string>
     <string name="crop_artwork_desc">Einbettungsbild zum Quadrat zuschneiden</string>
+    <string name="select_all">Alle auswählen</string>
+    <string name="selected_item_count">%1$d ausgewählt</string>
+    <string name="download_selection_desc">Wähle die Videos zum Herunterladen aus der Wiedergabeliste „%1$s“</string>
 </resources>

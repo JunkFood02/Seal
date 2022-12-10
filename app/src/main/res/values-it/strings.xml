@@ -209,4 +209,7 @@
     <string name="use_custom_command">Usa un comando personalizzato</string>
     <string name="private_directory">Directory privata</string>
     <string name="private_directory_desc">Memorizza gli scaricamenti in una directory nascosta</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="selected_item_count">%1$d selezionato/i</string>
+    <string name="download_selection_desc">Seleziona i video da scaricare dalla playlist «%1$s»</string>
 </resources>

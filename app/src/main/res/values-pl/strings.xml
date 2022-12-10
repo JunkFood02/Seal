@@ -9,7 +9,7 @@
     <string name="extract_audio_summary">Pobierz i zapisz audio zamiast wideo</string>
     <string name="yt_dlp_up_to_date">Używasz najnowszej wersji yt-dlp</string>
     <string name="permission_denied">Nie przyznano uprawnień</string>
-    <string name="download_start_msg">Pobieranie \"%1$s\"</string>
+    <string name="download_start_msg">Pobieranie „%1$s”</string>
     <string name="fetch_info_error_msg">Nie można zebrać informacji o filmie</string>
     <string name="download_error_msg">Nie można pobrać pliku</string>
     <string name="general_settings">Ogólne</string>
@@ -97,8 +97,8 @@
     <string name="translate_desc">Pomóż tłumaczyć tę aplikację na Hosted Weblate</string>
     <string name="unknown_error">Nieznany błąd</string>
     <string name="invalid_index_range">Nieprawidłowy zakres</string>
-    <string name="download_desc">Następnie, po dostosowaniu opcji pobierania, naciśnij \"Pobierz\".</string>
-    <string name="paste_desc">Naciśnij \"Wklej\", aby dodać link do filmu ze schowka.</string>
+    <string name="download_desc">Następnie, po dostosowaniu opcji pobierania, naciśnij „Pobierz”.</string>
+    <string name="paste_desc">Naciśnij „Wklej”, aby dodać link do filmu ze schowka.</string>
     <string name="download_history_desc">Sprawdź i zarządzaj pobraniami w aplikacji, w tym plikami wideo i audio.</string>
     <string name="check_download_settings_desc">Przed użyciem upewnij się, że korzystasz z najnowszej wersji yt-dlp sprawdzając ustawienia aplikacji.</string>
     <string name="checked">Sprawdzono</string>
@@ -118,8 +118,8 @@
     <string name="share_success_msg">Odczytywanie udostępnionego linku do filmu…</string>
     <string name="download_range_selection">Zakres playlisty</string>
     <string name="download_directory">Folder pobierania</string>
-    <string name="delete_info_msg">Czy chcesz na zawsze usunąć \"%1$s\" z historii pobierania\?</string>
-    <string name="battery_settings_desc">W ustawieniach systemowych dla tej aplikacji ustaw \"Wykorzystanie baterii\" na \"Bez ograniczeń\", aby pobierać w tle.</string>
+    <string name="delete_info_msg">Czy chcesz na zawsze usunąć „%1$s” z historii pobierania\?</string>
+    <string name="battery_settings_desc">W ustawieniach systemowych dla tej aplikacji ustaw „Wykorzystanie baterii” na „Bez ograniczeń”, aby pobierać w tle.</string>
     <string name="show_more_actions">Pokaż więcej akcji</string>
     <string name="download_notification">Powiadomienie o pobieraniu</string>
     <string name="subdirectory">Zapisz w podfolderze</string>
@@ -129,7 +129,7 @@
     <string name="battery_configuration">Ustawienia baterii</string>
     <string name="battery_configuration_desc">Ignoruj optymalizację baterii dla tej aplikacji, aby pobierać w tle</string>
     <string name="service_title">Seal pobiera…</string>
-    <string name="download_range_desc">Określ zakres filmów z playlisty \"%3$s\", które chcesz pobrać (od %1$d do %2$d).</string>
+    <string name="download_range_desc">Określ zakres filmów z playlisty „%3$s”, które chcesz pobrać (od %1$d do %2$d).</string>
     <string name="download_path_template">Szablon folderu wyjściowego</string>
     <string name="custom_output_path">Niestandardowy podfolder</string>
     <string name="custom_output_path_desc">Używaj szablonu dla podfolderu</string>

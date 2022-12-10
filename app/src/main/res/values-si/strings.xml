@@ -109,7 +109,7 @@
     <string name="follow_system">පද්ධතිය</string>
     <string name="off">අක්‍රීයයි</string>
     <string name="cancel">අවලංගු කරන්න</string>
-    <string name="settings_before_download">බාගත කිරීමට පෙර සකසන්න</string>
+    <string name="settings_before_download">බාගැනීමට පෙර සකසන්න</string>
     <string name="audio_format">ඕඩියෝ ආකෘතිය පරිවර්තනය කරන්න</string>
     <string name="settings_before_download_text">මෙම බාගැනීම සකසන්න</string>
     <string name="error_copied">දෝෂ වාර්තාව ක්ලිප්බෝඩයට පිටපත් විය</string>
@@ -209,4 +209,7 @@
     <string name="credits">ස්තූතීන්</string>
     <string name="template_imported">ටෙම්ප්ලේට %1$d ක් ආයාත කරන ලදී</string>
     <string name="template_exported">ටෙම්ප්ලේට %1$d ක් නිර්යාත කරන ලදී</string>
+    <string name="select_all">සියල්ල තෝරන්න</string>
+    <string name="selected_item_count">%1$d තෝරාගන්නා ලදී</string>
+    <string name="download_selection_desc">\"%1$s\" ධාවන ලැයිස්තුවෙන් වීඩියෝ බාගැනීම සදහා තෝරන්න</string>
 </resources>

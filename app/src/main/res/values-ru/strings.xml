@@ -14,7 +14,7 @@
     <string name="language_settings">Установить язык</string>
     <string name="task_running">Существующая загрузка уже запущена</string>
     <string name="paste_msg">Вставлен URL-адрес из буфера обмена</string>
-    <string name="delete_info_msg">Удалить \"%1$s\" из Вашей истории загрузок навсегда\?</string>
+    <string name="delete_info_msg">Удалить «%1$s» из Вашей истории загрузок навсегда\?</string>
     <string name="confirm">Подтвердить</string>
     <string name="open_url">Открыть ссылку</string>
     <string name="remove">Удалить</string>
@@ -27,7 +27,7 @@
     <string name="print_details">Подробный отчет</string>
     <string name="dark_theme">Темная тема</string>
     <string name="cancel">Отменить</string>
-    <string name="settings_before_download">Параметры перед запуском</string>
+    <string name="settings_before_download">Параметры перед загрузкой</string>
     <string name="settings_before_download_desc">Настройте параметры перед загрузкой</string>
     <string name="edit_template_desc">Выходной путь и URL-адрес будут добавлены приложением.</string>
     <string name="video_quality">Качество видео</string>
@@ -41,13 +41,13 @@
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
     <string name="channel_description">Уведомлять о загруженных файлах и прогрессе</string>
-    <string name="battery_settings_desc">Пожалуйста, установите в настройках системы значение \"Неограниченное использование батареи\" для загрузки в фоновом режиме.</string>
+    <string name="battery_settings_desc">Пожалуйста, установите в настройках системы значение «Неограниченное использование батареи» для загрузки в фоновом режиме.</string>
     <string name="concurrent_download">Количество одновременно загружаемых частей</string>
     <string name="share_fail_msg">Невозможно сопоставить URL-адрес из общего содержимого</string>
     <string name="share_success_msg">Чтение ссылки на видео из общего контента…</string>
     <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе загрузки</string>
     <string name="fetching_playlist_info">Получение информации о плейлисте…</string>
-    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста \" %3$s\" (от %1$d до %2$d).</string>
+    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста «%3$s» (от %1$d до %2$d).</string>
     <string name="from">Начать</string>
     <string name="to">Закончить</string>
     <string name="invalid_index_range">Недопустимый диапазон номеров</string>
@@ -62,7 +62,7 @@
     <string name="url_empty">Ссылка не может быть пустой</string>
     <string name="permission_denied">Доступ запрещён</string>
     <string name="download_success_msg">Загрузка завершена</string>
-    <string name="download_start_msg">Загружаю \"%1$s\"</string>
+    <string name="download_start_msg">Загружаю «%1$s»</string>
     <string name="general_settings">Основные</string>
     <string name="download_error_msg">Не удалось загрузить файл</string>
     <string name="ytdlp_version">Версия yt-dlp</string>
@@ -103,7 +103,7 @@
     <string name="convert_audio">Преобразовать</string>
     <string name="close">Закрыть</string>
     <string name="close_never_show_again">Не показывать снова</string>
-    <string name="download_desc">Затем нажмите \"Загрузить\" после настройки параметров загрузки.</string>
+    <string name="download_desc">Затем нажмите «Загрузить» после настройки параметров загрузки.</string>
     <string name="format">Формат</string>
     <string name="video_url">Ссылка на видео</string>
     <string name="download_finish_notification">Загрузка завершена. Нажмите для открытия.</string>
@@ -122,7 +122,7 @@
     <string name="subdirectory_desc">Сохраняйте файлы в папках, названных сайтами, откуда был скачан материал</string>
     <string name="permission_issue_desc">Каталоги за пределами Download/ и Documents/ не поддерживаются</string>
     <string name="battery_configuration_desc">Игнорируйте оптимизацию батареи, чтобы приложение загружало также и в фоне</string>
-    <string name="paste_desc">Нажмите \"Вставить\", чтобы вставить ссылку на видео из буфера обмена.</string>
+    <string name="paste_desc">Нажмите «Вставить», чтобы вставить ссылку на видео из буфера обмена.</string>
     <string name="download_history_desc">Проверяйте и управляйте загрузками в приложении, включая видео и аудиофайлы.</string>
     <string name="download_playlist">Загрузка плейлиста</string>
     <string name="defaults">По умолчанию</string>
@@ -139,7 +139,7 @@
     <string name="new_template">Новый шаблон</string>
     <string name="template_label">Заголовок</string>
     <string name="remove_template">Удалить\?</string>
-    <string name="remove_template_desc">Удалить \"%1$s\" из шаблонов команд навсегда\?</string>
+    <string name="remove_template_desc">Удалить «%1$s» из шаблонов команд навсегда\?</string>
     <string name="template_selection">Выбор шаблона</string>
     <string name="custom_command_template_desc">Редактирование шаблонов команд и управление ими</string>
     <string name="downloading_indicator_text">Загрузка загрузка в процессе, нажмите, чтобы отменить.</string>
@@ -209,4 +209,7 @@
     <string name="private_directory_desc">Сохранять загрузки в скрытый каталог</string>
     <string name="max_rate">Максимальная скорость</string>
     <string name="rate_limit">Скоростной лимит</string>
+    <string name="selected_item_count">Выбрано %1$d видео</string>
+    <string name="download_selection_desc">Выберите видео для загрузки из плейлиста \"%1$s\"</string>
+    <string name="select_all">Выбрать все</string>
 </resources>

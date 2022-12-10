@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">ਵੀਡੀਓ ਫੋਲਡਰ</string>
+    <string name="extract_audio">ਆਡੀਓ ਦੇ ਰੂਪ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="create_thumbnail">ਥੰਮਨੇਲ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="settings">ਸੈਟਿੰਗਾਂ</string>
+    <string name="download">ਡਾਊਨਲੋਡ ਕਰੋ</string>
+</resources>
