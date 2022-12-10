@@ -31,4 +31,5 @@
     <locale android:name="ml" />
     <locale android:name="si" />
     <locale android:name="sr" />
+    <locale android:name="az" />
 </locale-config>
