@@ -122,6 +122,7 @@ fun AppearancePreferences(
                             .horizontalScroll(rememberScrollState())
                             .padding(horizontal = 12.dp)
                             .padding(bottom = 6.dp)
+                            .clearAndSetSemantics {  }
                     ) {
                         ColorButton(color = Color(ColorScheme.DEFAULT_SEED_COLOR))
                         ColorButton(color = Color.Blue)
@@ -243,7 +244,6 @@ fun ColorButtonImpl(
     val state2 = animateDpAsState(targetValue = if (isSelected) 18.dp else 0.dp)
 
     ElevatedCard(modifier = modifier
-        .clearAndSetSemantics { }
         .padding(4.dp)
         .size(72.dp), onClick = { onClick() }) {
         Box(Modifier.fillMaxSize()) {

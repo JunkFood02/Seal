@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.DeleteSweep
@@ -129,6 +130,7 @@ fun VideoListPage(
             modifier
                 .horizontalScroll(rememberScrollState())
                 .padding(8.dp)
+                .selectableGroup()
         ) {
             FilterChip(
                 selected = viewState.audioFilter,
