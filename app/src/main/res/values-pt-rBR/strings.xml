@@ -11,7 +11,7 @@
     <string name="fetching_info">Buscando informações do vídeo…</string>
     <string name="permission_denied">Permissão negada</string>
     <string name="download_error_msg">O arquivo não pôde ser baixado</string>
-    <string name="download_start_msg">Baixar \"%1$s\"</string>
+    <string name="download_start_msg">Baixar “%1$s”</string>
     <string name="fetch_info_error_msg">As informações do video não foram encontradas</string>
     <string name="general_settings">Geral</string>
     <string name="extract_audio">Salvar como audio</string>
@@ -21,7 +21,7 @@
     <string name="paste_msg">Colar URL da área de transferência</string>
     <string name="ytdlp_version">Versão do Yt-dlp</string>
     <string name="delete_info">Remover\?</string>
-    <string name="delete_info_msg">Remover \"%1$s\" do seu histórico de downloads definitivamente\?</string>
+    <string name="delete_info_msg">Remover “%1$s” do seu histórico de downloads definitivamente\?</string>
     <string name="confirm">Confirme</string>
     <string name="downloads_history">Transferências</string>
     <string name="audio">Áudio</string>
@@ -73,7 +73,7 @@
     <string name="close_never_show_again">Não apareça novamente</string>
     <string name="user_guide">Guia de usuario</string>
     <string name="open_settings">Abrir configurações</string>
-    <string name="paste_desc">Clique em \"Colar\" para obter o link do vídeo da sua área de transferência.</string>
+    <string name="paste_desc">Clique em “Colar” para obter o link do vídeo da sua área de transferência.</string>
     <string name="download_playlist">Baixar lista de reprodução</string>
     <string name="download_playlist_desc">Baixe vários vídeos de uma lista de reprodução</string>
     <string name="defaults">Padrão</string>
@@ -88,7 +88,7 @@
     <string name="show_more_actions">Mostrar mais ações</string>
     <string name="download_notification_desc">Notificar sobre arquivos baixados e progresso</string>
     <string name="fetching_playlist_info">Buscando informações da playlist…</string>
-    <string name="download_range_desc">Especifique o intervalo de vídeos para download da lista de reprodução \"%3$s\" (de %1$d a %2$d).</string>
+    <string name="download_range_desc">Especifique o intervalo de vídeos para download da lista de reprodução “%3$s” (de %1$d a %2$d).</string>
     <string name="from">Início</string>
     <string name="to">Fim</string>
     <string name="invalid_index_range">Intervalo de índice inválido</string>
@@ -100,11 +100,11 @@
     <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos sites</string>
     <string name="battery_configuration">Configuração da bateria</string>
     <string name="download_history_desc">Verifique e gerencie downloads no aplicativo, incluindo vídeos e arquivos de áudio.</string>
-    <string name="download_desc">Em seguida, clique em \"Download\" depois de ajustar suas configurações.</string>
+    <string name="download_desc">Em seguida, clique em “Baixar” depois de ajustar suas configurações.</string>
     <string name="check_download_settings_desc">Dê uma olhada nas configurações de download e verifique se você tem a versão mais recente do yt-dlp antes de usá-lo.</string>
     <string name="concurrent_download_desc">Baixe mais partes de vídeos M3U8/MPD em paralelo</string>
     <string name="permission_issue_desc">Diretórios fora de Download/ e Documentos/ não são suportados</string>
-    <string name="battery_settings_desc">Por favor, defina o uso da bateria deste aplicativo para \"Irrestrito\" nas configurações do sistema para fazer o download em segundo plano.</string>
+    <string name="battery_settings_desc">Por favor, defina o uso da bateria deste aplicativo para “Irrestrito” nas configurações do sistema para fazer o download em segundo plano.</string>
     <string name="additional_settings">Configurações adicionais</string>
     <string name="share_fail_msg">Não foi possível corresponder o URL do conteúdo compartilhado</string>
     <string name="concurrent_download_num">%d thread(s) seriam usados para baixar vídeo nativo DASH/HLS simultaneamente.</string>
@@ -209,4 +209,7 @@
     <string name="download_disabled_with_cellular">O download com a rede móvel está desabilitado de acordo com suas configurações</string>
     <string name="use_custom_command">Usar comando personalizado</string>
     <string name="download_with_cellular">Baixar usando rede móvel</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="download_selection_desc">Selecione vídeos para baixar da lista de reprodução “%1$s”</string>
+    <string name="selected_item_count">%1$d selecionado(s)</string>
 </resources>

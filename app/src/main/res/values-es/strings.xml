@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paste_desc">Haz clic en el botón de “Pegar” para obtener el enlace desde tu portapapeles.</string>
-    <string name="battery_settings_desc">Para descargar en segundo plano, por favor cambia el ajuste de uso de batería en los ajustes del teléfono a “No restringir”.</string>
+    <string name="paste_desc">Haz clic en el botón de «Pegar» para obtener el enlace desde tu portapapeles.</string>
+    <string name="battery_settings_desc">Para descargar en segundo plano, por favor cambia el ajuste de uso de batería en los ajustes del teléfono a «No restringir».</string>
     <string name="yt_dlp_update_fail">No se pudo actualizar yt-dlp. Por favor revisa tu conexión a internet.</string>
     <string name="task_running">Ya se está realizando una descarga. Espera a que acabe</string>
     <string name="edit_template_desc">El directorio de salida y la URL serán añadidas por la app automáticamente.</string>
@@ -18,7 +18,7 @@
     <string name="permission_denied">Permiso denegado</string>
     <string name="download_success_msg">Descarga finalizada</string>
     <string name="download_error_msg">Ocurrió un error al descargar</string>
-    <string name="download_start_msg">Descargando “%1$s”</string>
+    <string name="download_start_msg">Descargando «%1$s»</string>
     <string name="fetch_info_error_msg">Ocurrió un error al intentar obtener la información del vídeo</string>
     <string name="general_settings">General</string>
     <string name="language">Idioma</string>
@@ -46,7 +46,7 @@
     <string name="checked">Seleccionado</string>
     <string name="credits">Créditos</string>
     <string name="paste_fail_msg">No se ha podido pegar la URL desde el portapapeles</string>
-    <string name="delete_info_msg">¿Estás seguro de eliminar “%1$s” de tu historial de descargas\?</string>
+    <string name="delete_info_msg">¿Estás seguro/a de eliminar «%1$s» de tu historial de descargas\?</string>
     <string name="credits_desc">Créditos y software de código abierto</string>
     <string name="custom_command">Comandos personalizados</string>
     <string name="custom_command_desc">Ejecutar un comando de yt-dlp con un modelo personalizado</string>
@@ -88,7 +88,7 @@
     <string name="close_never_show_again">No mostrarlo otra vez</string>
     <string name="user_guide">Guía del usuario</string>
     <string name="open_settings">Abrir ajustes</string>
-    <string name="download_desc">Después de realizar los ajustes pertinentes, haz clic en el botón “Descargar”.</string>
+    <string name="download_desc">Después de realizar los ajustes pertinentes, haz clic en el botón «Descargar».</string>
     <string name="download_history_desc">Verifica y administra las descargas dentro de la aplicación, incluyendo videos y archivos de audio.</string>
     <string name="check_download_settings_desc">Se recomienda echar un vistazo rápido a los ajustes y asegurarse de tener yt-dlp antes de empezar a usar la aplicación.</string>
     <string name="download_playlist">Descargar lista de reproducción</string>
@@ -115,11 +115,11 @@
     <string name="fetching_playlist_info">Adquiriendo información de la lista de reproducción…</string>
     <string name="download_range_desc">Especifica el rango de vídeos que quieres descargar desde la lista de reproducción \"%3$s\"(desde %1$d hasta %2$d ).</string>
     <string name="audio_directory">Ubicación de audios</string>
-    <string name="download_directory">Descargar directorio</string>
+    <string name="download_directory">Directorios de descargas</string>
     <string name="download_directory_desc">Configurar ubicación de descarga de vídeos y audios</string>
     <string name="subdirectory">Guardar en subdirectorio</string>
     <string name="permission_issue">Problema con permiso de almacenamiento</string>
-    <string name="permission_issue_desc">Directorios fuera de las carpetas “Download/” y “Documents/” no están soportados</string>
+    <string name="permission_issue_desc">Directorios fuera de las carpetas «Download/» y «Documents/» no están soportados</string>
     <string name="battery_configuration">Configuración de la batería</string>
     <string name="battery_configuration_desc">Ignorar la optimización de la batería para esta aplicación en segundo plano</string>
     <string name="service_title">Seal está descargando…</string>

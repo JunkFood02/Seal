@@ -90,7 +90,7 @@
     <string name="display">Tampilan</string>
     <string name="release_desc">Lihat log perubahan dan versi baru</string>
     <string name="edit_custom_command_template">Sunting</string>
-    <string name="settings_before_download">Konfigurasikan sebelum mengunduh</string>
+    <string name="settings_before_download">Konfigurasikan sebelum unduh</string>
     <string name="format">Format</string>
     <string name="dark_theme">Tema gelap</string>
     <string name="follow_system">Sistem</string>

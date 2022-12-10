@@ -37,7 +37,7 @@
     <string name="on">Activé</string>
     <string name="off">Désactivé</string>
     <string name="cancel">Annuler</string>
-    <string name="settings_before_download">Configurer avant de télécharger</string>
+    <string name="settings_before_download">Configurer avant le téléchargement</string>
     <string name="settings_before_download_desc">Configurer les préférences avant le téléchargement</string>
     <string name="settings_before_download_text">Ajuster ce téléchargement</string>
     <string name="download_settings_desc">Général, format, commande personnalisée</string>
@@ -209,7 +209,7 @@
     <string name="crop_artwork">Rogner l\'image</string>
     <string name="crop_artwork_desc">Rogner l\'image intégrée dans un carré</string>
     <string name="private_directory_desc">Stocker les téléchargements dans un répertoire caché</string>
-    <string name="select_all">Sélectionner tout</string>
-    <string name="download_selection_desc">Sélectionner les vidéos à télécharger à partir de la liste de lecture \"%1$s\"</string>
-    <string name="selected_item_count">%1$d sélectionné</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="download_selection_desc">Sélectionner les vidéos à télécharger à partir de la liste de lecture « %1$s »</string>
+    <string name="selected_item_count">%1$d sélectionné(s)</string>
 </resources>

@@ -20,7 +20,7 @@
     <string name="paste_fail_msg">Plakken URL vanuit klembord mislukt</string>
     <string name="ytdlp_update">Klik om de nieuwste versie van yt-dlp te installeren</string>
     <string name="delete_info">Verwijderen\?</string>
-    <string name="delete_info_msg">\"%1$s\" definitief uit uw downloadgeschiedenis verwijderen\?</string>
+    <string name="delete_info_msg">‘%1$s’ definitief uit uw downloadgeschiedenis verwijderen\?</string>
     <string name="confirm">Bevestigen</string>
     <string name="audio">Geluidsbestand</string>
     <string name="link_copied">Link gekopieerd naar klembord</string>
@@ -58,12 +58,12 @@
     <string name="convert_audio">Converteren</string>
     <string name="start_download">Downloaden</string>
     <string name="open_settings">Instellingen openen</string>
-    <string name="download_desc">Klik daarna op \"Downloaden\" na het aanpassen van de instellingen.</string>
+    <string name="download_desc">Klik daarna op ‘Downloaden’ na het aanpassen van de instellingen.</string>
     <string name="download_history_desc">Controleer en beheer in-app downloads, inclusief video\'s en geluidsbestanden.</string>
     <string name="download_playlist">Afspeellijst downloaden</string>
     <string name="channel_name">Downloaden</string>
     <string name="video_url">Videolink</string>
-    <string name="battery_settings_desc">Stel het batterijgebruik van deze app in op \"Onbeperkt\" in de systeeminstellingen om op de achtergrond te kunnen downloaden.</string>
+    <string name="battery_settings_desc">Stel het batterijgebruik van deze app in op ‘Onbeperkt’ in de systeeminstellingen om op de achtergrond te kunnen downloaden.</string>
     <string name="concurrent_download">Meerdere delen downloaden</string>
     <string name="options">Opties</string>
     <string name="additional_settings">Extra instellingen</string>
@@ -85,7 +85,7 @@
     <string name="checked">Gecheckt</string>
     <string name="url_empty">Dit vak moet ingevuld worden</string>
     <string name="extract_audio_summary">Download en sla geluidsbestand op, in plaats van videobestand</string>
-    <string name="download_start_msg">Download \"%1$s\"</string>
+    <string name="download_start_msg">Download ‘%1$s’</string>
     <string name="create_thumbnail_summary">Sla voorvertoning van video op als een bestand</string>
     <string name="general_settings">Algemeen</string>
     <string name="dismiss">Annuleren</string>
@@ -113,7 +113,7 @@
     <string name="download_notification_desc">Gedownloade bestanden en voortgang melden</string>
     <string name="user_guide">Gebruikershandleiding</string>
     <string name="close">Sluiten</string>
-    <string name="paste_desc">Klik op \"Plakken\" om de videolink uit uw klembord te halen.</string>
+    <string name="paste_desc">Klik op ‘Plakken’ om de videolink uit uw klembord te halen.</string>
     <string name="check_download_settings_desc">Bekijk de downloadinstellingen en zorg ervoor dat u de nieuwste versie van yt-dlp hebt voordat u deze app gebruikt.</string>
     <string name="download_playlist_desc">Download meerdere video\'s van een afspeellijst</string>
     <string name="defaults">Standaard</string>
@@ -124,7 +124,7 @@
     <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), Klik om te stoppen.</string>
     <string name="permission_issue_desc">Mappen buiten Download/ en Documents/ worden niet ondersteund</string>
     <string name="to">Einde van index</string>
-    <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst \"%3$s\" (van %1$d tot %2$d).</string>
+    <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst ‘%3$s’ (van %1$d tot %2$d).</string>
     <string name="download_directory_desc">Selecteer waar u video\'s en geluidsbestanden wilt opslaan</string>
     <string name="battery_configuration_desc">Negeer batterijoptimalisatie voor deze app om op de achtergrond te kunnen downloaden</string>
     <string name="unknown_error">Onbekende fout</string>
