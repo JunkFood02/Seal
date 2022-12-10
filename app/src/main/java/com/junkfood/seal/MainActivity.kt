@@ -18,7 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         context = this.baseContext
         setContent {
             val isUrlSharingTriggered =
-                downloadViewModel.stateFlow.collectAsState().value.isUrlSharingTriggered
+                downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
             SettingsProvider(windowSizeClass.widthSizeClass) {
                 SealTheme(
@@ -80,19 +80,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleShareIntent(intent: Intent) {
         Log.d(TAG, "handleShareIntent: $intent")
-        if (Intent.ACTION_SEND == intent.action)
-            intent.getStringExtra(Intent.EXTRA_TEXT)
-                ?.let { sharedContent ->
-                    intent.removeExtra(Intent.EXTRA_TEXT)
-                    TextUtil.matchUrlFromSharedText(sharedContent)
-                        .let { matchedUrl ->
-                            if (sharedUrl != matchedUrl) {
-                                sharedUrl = matchedUrl
-                                downloadViewModel.updateUrl(sharedUrl, true)
 
-                            }
-                        }
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                intent.dataString?.let {
+                    sharedUrl = it
+                    downloadViewModel.updateUrl(sharedUrl, true)
                 }
+            }
+
+            Intent.ACTION_SEND -> {
+                intent.getStringExtra(Intent.EXTRA_TEXT)
+                    ?.let { sharedContent ->
+                        intent.removeExtra(Intent.EXTRA_TEXT)
+                        TextUtil.matchUrlFromSharedText(sharedContent)
+                            .let { matchedUrl ->
+                                if (sharedUrl != matchedUrl) {
+                                    sharedUrl = matchedUrl
+                                    downloadViewModel.updateUrl(sharedUrl, true)
+                                }
+                            }
+                    }
+            }
+        }
+
     }
 
     companion object {
@@ -120,7 +131,9 @@ class MainActivity : AppCompatActivity() {
             if (!isServiceRunning) return
             try {
                 isServiceRunning = false
-                context.applicationContext.unbindService(connection)
+                context.applicationContext.run {
+                    unbindService(connection)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -131,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             val localeListCompat =
                 if (locale.isEmpty()) LocaleListCompat.getEmptyLocaleList()
                 else LocaleListCompat.forLanguageTags(locale)
-            BaseApplication.applicationScope.launch(Dispatchers.Main) {
+            App.applicationScope.launch(Dispatchers.Main) {
                 AppCompatDelegate.setApplicationLocales(localeListCompat)
             }
         }

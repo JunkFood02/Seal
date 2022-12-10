@@ -104,9 +104,11 @@ fun VideoListPage(
     )
     val scope = rememberCoroutineScope()
 
-    val fileSizeList = remember(videoList.isNotEmpty()) {
+    val fileSizeList = remember(videoList.size) {
         videoList.map { File(it.videoPath).length() }
     }
+
+
 
     var isSelectEnabled by remember { mutableStateOf(false) }
     var showRemoveMultipleItemsDialog by remember { mutableStateOf(false) }

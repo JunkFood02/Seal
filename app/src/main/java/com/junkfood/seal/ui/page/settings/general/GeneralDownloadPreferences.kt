@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-import com.junkfood.seal.BaseApplication
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
@@ -59,6 +59,7 @@ import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
+import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -130,7 +131,10 @@ fun GeneralDownloadPreferences(
 
                 item {
                     var ytdlpVersion by remember {
-                        mutableStateOf(BaseApplication.ytdlpVersion)
+                        mutableStateOf(
+                            YoutubeDL.getInstance().version(context.applicationContext)
+                                ?: context.getString(R.string.ytdlp_update)
+                        )
                     }
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
@@ -138,7 +142,13 @@ fun GeneralDownloadPreferences(
                         icon = Icons.Outlined.Update
                     ) {
                         scope.launch {
-                            ytdlpVersion = UpdateUtil.updateYtDlp()
+                            kotlin.runCatching {
+                                ytdlpVersion = UpdateUtil.updateYtDlp()
+                            }.onFailure {
+                                TextUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
+                            }.onSuccess {
+                                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
+                            }
                         }
                     }
                 }

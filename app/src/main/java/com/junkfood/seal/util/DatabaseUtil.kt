@@ -1,8 +1,8 @@
 package com.junkfood.seal.util
 
 import androidx.room.Room
-import com.junkfood.seal.BaseApplication.Companion.applicationScope
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App.Companion.applicationScope
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.database.AppDatabase
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo

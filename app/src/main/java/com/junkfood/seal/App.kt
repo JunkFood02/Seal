@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 @HiltAndroidApp
-class BaseApplication : Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
@@ -55,17 +55,14 @@ class BaseApplication : Application() {
                 )
             }
             try {
-                YoutubeDL.getInstance().init(this@BaseApplication)
-                FFmpeg.getInstance().init(this@BaseApplication)
-                Aria2c.getInstance().init(this@BaseApplication)
+                YoutubeDL.getInstance().init(this@App)
+                FFmpeg.getInstance().init(this@App)
+                Aria2c.getInstance().init(this@App)
             } catch (e: YoutubeDLException) {
                 e.printStackTrace()
-                Toast.makeText(this@BaseApplication, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@App, e.message, Toast.LENGTH_LONG).show()
             }
-
         }
-        ytdlpVersion =
-            YoutubeDL.getInstance().version(this) ?: resources.getString(R.string.ytdlp_update)
 
 
         with(PreferenceUtil.getString(VIDEO_DIRECTORY)) {
@@ -90,7 +87,6 @@ class BaseApplication : Application() {
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
-        var ytdlpVersion = ""
         lateinit var applicationScope: CoroutineScope
         lateinit var connectivityManager: ConnectivityManager
 

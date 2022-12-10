@@ -6,6 +6,7 @@ class Route {
         const val DOWNLOADS = "download_history"
         const val PLAYLIST = "playlist"
         const val SETTINGS = "settings"
+        const val FORMAT_SELECTION = "format"
 
         const val SETTINGS_PAGE = "settings_page"
 

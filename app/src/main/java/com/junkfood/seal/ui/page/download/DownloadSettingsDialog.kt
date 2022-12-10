@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -29,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,7 +87,12 @@ fun DownloadSettingDialog(
     }
 
     val templateList = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
+    val scrollState = rememberLazyListState()
 
+    LaunchedEffect(customCommand) {
+        if (customCommand)
+            scrollState.scrollToItem(selectedTemplateIndex)
+    }
     val updatePreferences = {
         PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
         PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
@@ -200,7 +207,7 @@ fun DownloadSettingDialog(
                 }
             }
             AnimatedVisibility(visible = customCommand) {
-                LazyRow {
+                LazyRow(state = scrollState) {
                     itemsIndexed(templateList) { index, item ->
                         FilterChipWithIcons(
                             selected = index == selectedTemplateIndex,

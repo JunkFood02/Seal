@@ -5,10 +5,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
-import com.junkfood.seal.BaseApplication
-import com.junkfood.seal.BaseApplication.Companion.applicationScope
-import com.junkfood.seal.BaseApplication.Companion.context
+import com.junkfood.seal.App
+import com.junkfood.seal.App.Companion.applicationScope
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +33,8 @@ object PreferenceUtil {
     fun updateString(key: String, string: String) = kv.encode(key, string)
 
     fun containsKey(key: String) = kv.containsKey(key)
-    suspend fun getTemplate(): String {
-        return DatabaseUtil.getTemplateList()[kv.decodeInt(TEMPLATE_INDEX, 0)].template
+    suspend fun getTemplate(): CommandTemplate {
+        return DatabaseUtil.getTemplateList()[kv.decodeInt(TEMPLATE_INDEX, 0)]
     }
 
     //        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
@@ -77,7 +78,7 @@ object PreferenceUtil {
     }
 
     fun isNetworkAvailableForDownload() =
-        getValue(CELLULAR_DOWNLOAD) || !BaseApplication.connectivityManager.isActiveNetworkMetered
+        getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
     const val CUSTOM_COMMAND = "custom_command"
     const val CONCURRENT = "concurrent_fragments"
@@ -120,6 +121,7 @@ object PreferenceUtil {
     const val DISABLE_PREVIEW = "disable_preview"
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
+    const val FORMAT_SELECTION = "format_selection"
 
     const val SYSTEM_DEFAULT = 0
 

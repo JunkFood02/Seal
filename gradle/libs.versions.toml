@@ -11,7 +11,7 @@ androidxActivity = "1.6.1"
 
 androidxLifecycle = "2.6.0-alpha03"
 androidxNavigation = "2.5.3"
-androidxComposeMaterial3 = "1.1.0-alpha01"
+androidxComposeMaterial3 = "1.1.0-alpha03"
 
 androidxEspresso = "3.4.0"
 androidxHiltNavigationCompose = "1.0.0"
@@ -33,7 +33,7 @@ okhttp = "5.0.0-alpha.10"
 
 room = "2.5.0-beta02"
 
-youtubedlAndroid = "50ccbb002b"
+youtubedlAndroid = "a5c7ff837f"
 
 mmkv = "1.2.14"
 

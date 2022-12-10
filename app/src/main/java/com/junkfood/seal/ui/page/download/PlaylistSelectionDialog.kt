@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 
@@ -38,7 +39,7 @@ fun PlaylistSelectionDialog(
     onDismissRequest: () -> Unit = {},
     onConfirm: (IntRange) -> Unit = {}
 ) {
-    val playlistInfo = downloadViewModel.playlistResult.collectAsStateWithLifecycle().value
+    val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle().value
     var from by remember { mutableStateOf(1.toString()) }
     var to by remember { mutableStateOf(playlistInfo.playlistCount.toString()) }
     var error by remember { mutableStateOf(false) }
