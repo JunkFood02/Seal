@@ -260,4 +260,6 @@
     <string name="la_sr" translatable="false">Српски језик</string>
     <string name="video_only">Video (no audio)</string>
     <string name="suggested">Suggested</string>
+    <string name="format_selection">Format selection</string>
+    <string name="format_selection_desc">Select the format to download before starting the download</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.VideoFile
+import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import com.junkfood.seal.ui.page.settings.general.VideoQualityDialog
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
+import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,7 +155,30 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         PreferenceUtil.updateValue(PreferenceUtil.SUBTITLE, embedSubtitle)
                     }
                 }
+                item {
+                    PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
+                }
 
+                item {
+                    var isFormatSelectionEnabled by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(
+                                FORMAT_SELECTION, true
+                            )
+                        )
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.format_selection),
+                        icon = Icons.Outlined.VideoSettings,
+                        enabled = !isFormatSelectionEnabled,
+                        description = stringResource(id = R.string.format_selection_desc),
+                        isChecked = isFormatSelectionEnabled
+                    ) {
+                        isFormatSelectionEnabled = !isFormatSelectionEnabled
+                        PreferenceUtil.updateValue(FORMAT_SELECTION, isFormatSelectionEnabled)
+                    }
+
+                }
             }
         })
     if (showAudioFormatEditDialog) {

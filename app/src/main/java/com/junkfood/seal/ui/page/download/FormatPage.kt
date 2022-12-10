@@ -98,7 +98,7 @@ fun FormatPageImpl(
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = "Format selection",
+                    text = stringResource(R.string.format_selection),
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             }, scrollBehavior = scrollBehavior, navigationIcon = {
