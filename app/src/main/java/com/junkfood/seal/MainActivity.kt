@@ -24,7 +24,6 @@ import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
-import com.junkfood.seal.ui.page.StateHolder
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         context = this.baseContext
         setContent {
             val isUrlSharingTriggered =
-                StateHolder.downloaderState.collectAsState().value.isUrlSharingTriggered
+                downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
             SettingsProvider(windowSizeClass.widthSizeClass) {
                 SealTheme(

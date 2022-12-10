@@ -39,6 +39,7 @@ import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.connectWithBlank
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
 
 private const val TAG = "FormatPage"
@@ -126,7 +127,7 @@ fun FormatPageImpl(
                     FormatVideoPreview(
                         title = title,
                         author = uploader ?: channel.toString(),
-                        thumbnailUrl = thumbnail.toString()
+                        thumbnailUrl = thumbnail.toHttpsUrl()
                     )
                 }
 

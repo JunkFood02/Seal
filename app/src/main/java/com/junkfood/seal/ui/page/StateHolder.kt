@@ -17,7 +17,8 @@ object StateHolder {
 
 
     data class DownloaderState constructor(
-        val url: String = "",
+
+
         val isDownloadError: Boolean = false,
         val errorMessage: String = "",
         val isFetchingInfo: Boolean = false,
@@ -26,7 +27,6 @@ object StateHolder {
         val isDownloadingPlaylist: Boolean = false,
         val downloadItemCount: Int = 0,
         val currentItem: Int = 0,
-        val isUrlSharingTriggered: Boolean = false,
         val isShowingErrorReport: Boolean = false
     )
 
