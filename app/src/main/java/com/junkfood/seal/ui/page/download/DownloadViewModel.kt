@@ -221,15 +221,20 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
         if (PreferenceUtil.getValue(PreferenceUtil.FORMAT_SELECTION, true)) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (url.contains("https://open.spotify.com/track")) {
-                    val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
-                    Log.d(TAG, "spotify url: $url")
-                    Log.d(TAG, "youtube url: $youtubeLink")
-                    fetchVideoInfo(url = youtubeLink.url, isFormatSelectionEnabled = true)
-                    mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
-                } else {
-                    fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
-                    mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                try {
+                    if (url.contains("https://open.spotify.com/track")) {
+                        val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                        Log.d(TAG, "spotify url: $url")
+                        Log.d(TAG, "youtube url: $youtubeLink")
+                        if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
+                        fetchVideoInfo(url = youtubeLink.url, isFormatSelectionEnabled = true)
+                        mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                    } else {
+                        fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
+                        mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                    }
+                }catch (e: Exception) {
+                    manageDownloadError(e)
                 }
             }
             return
@@ -238,12 +243,14 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                if(url.contains("https://open.spotify.com/track")){
+                if (url.contains("https://open.spotify.com/track")) {
                     val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                    //if the url is null, throw an exception
+                    if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
                     fetchVideoInfo(url = youtubeLink.url)?.let {
                         downloadVideo(videoInfo = it)
                     }
-                }else {
+                } else {
                     fetchVideoInfo(url = url)?.let {
                         downloadVideo(videoInfo = it)
                     }
