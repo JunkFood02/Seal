@@ -19,17 +19,10 @@ import com.junkfood.seal.ui.page.StateHolder.mutableDownloaderState
 import com.junkfood.seal.ui.page.StateHolder.mutablePlaylistResult
 import com.junkfood.seal.ui.page.StateHolder.mutableTaskState
 import com.junkfood.seal.ui.page.StateHolder.taskState
-import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.*
 import com.junkfood.seal.util.FileUtil.openFile
-import com.junkfood.seal.util.Format
-import com.junkfood.seal.util.NotificationUtil
-import com.junkfood.seal.util.PlaylistResult
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
-import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
-import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -228,8 +221,16 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
         if (PreferenceUtil.getValue(PreferenceUtil.FORMAT_SELECTION, true)) {
             viewModelScope.launch(Dispatchers.IO) {
-                fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
-                mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                if (url.contains("https://open.spotify.com/track")) {
+                    val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                    Log.d(TAG, "spotify url: $url")
+                    Log.d(TAG, "youtube url: $youtubeLink")
+                    fetchVideoInfo(url = youtubeLink.url, isFormatSelectionEnabled = true)
+                    mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                } else {
+                    fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
+                    mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                }
             }
             return
         }
@@ -237,8 +238,15 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                fetchVideoInfo(url = url)?.let {
-                    downloadVideo(videoInfo = it)
+                if(url.contains("https://open.spotify.com/track")){
+                    val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                    fetchVideoInfo(url = youtubeLink.url)?.let {
+                        downloadVideo(videoInfo = it)
+                    }
+                }else {
+                    fetchVideoInfo(url = url)?.let {
+                        downloadVideo(videoInfo = it)
+                    }
                 }
             } catch (e: Exception) {
                 manageDownloadError(e)
