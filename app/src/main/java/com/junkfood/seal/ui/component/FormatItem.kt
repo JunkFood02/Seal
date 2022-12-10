@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,7 @@ fun FormatVideoPreview(
     title: String = "",
     author: String = "",
     thumbnailUrl: String = "",
+    duration: Int = 0
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
         WindowWidthSizeClass.Expanded -> 0.25f
@@ -61,9 +63,27 @@ fun FormatVideoPreview(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            MediaImage(
-                modifier = Modifier.weight(imageWeight), imageModel = thumbnailUrl, isAudio = false
-            )
+            Box(modifier = Modifier.weight(imageWeight)) {
+                MediaImage(
+                    modifier = Modifier, imageModel = thumbnailUrl, isAudio = false
+                )
+                Surface(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .align(Alignment.BottomEnd),
+                    color = Color.Black.copy(alpha = 0.68f),
+                    shape = MaterialTheme.shapes.extraSmall
+                ) {
+                    val durationText = "%02d:%02d".format(duration / 60, duration % 60)
+                    Text(
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        text = durationText,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.White
+                    )
+                }
+            }
+
             Column(
                 modifier = Modifier
                     .weight(1f - imageWeight)
@@ -82,11 +102,12 @@ fun FormatVideoPreview(
                     text = author,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
         }
+
     }
 }
 
@@ -95,7 +116,8 @@ fun FormatItem(
     formatInfo: Format, selected: Boolean = false,
     outlineColor: Color = MaterialTheme.colorScheme.primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    onClick: () -> Unit = {}
+    onLongClick: () -> Unit = {},
+    onClick: () -> Unit = {},
 ) {
     with(formatInfo) {
         FormatItem(
@@ -108,11 +130,13 @@ fun FormatItem(
             outlineColor = outlineColor,
             containerColor = containerColor,
             selected = selected,
+            onLongClick = onLongClick,
             onClick = onClick
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FormatItem(
     modifier: Modifier = Modifier,
@@ -125,6 +149,7 @@ fun FormatItem(
     selected: Boolean = false,
     outlineColor: Color = MaterialTheme.colorScheme.primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    onLongClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) {
     val animatedOutlineColor by animateColorAsState(
@@ -145,10 +170,16 @@ fun FormatItem(
     Column(modifier = modifier
         .clip(MaterialTheme.shapes.medium)
         .selectable(selected = selected) { onClick() }
+        .combinedClickable(
+            onClick = { onClick() },
+            onLongClick = onLongClick,
+            onLongClickLabel = stringResource(R.string.copy_link)
+        )
         .border(
             width = 1.dp, color = animatedOutlineColor, shape = MaterialTheme.shapes.medium
         )
-        .background(animatedContainerColor)) {
+        .background(animatedContainerColor)
+    ) {
         Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.Start) {
             Text(
                 text = formatDesc,

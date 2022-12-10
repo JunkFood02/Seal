@@ -170,7 +170,6 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.format_selection),
                         icon = Icons.Outlined.VideoSettings,
-                        enabled = !isFormatSelectionEnabled,
                         description = stringResource(id = R.string.format_selection_desc),
                         isChecked = isFormatSelectionEnabled
                     ) {

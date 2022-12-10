@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.page.settings.general
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -87,7 +86,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.systemBarsPadding(),
+                modifier = Modifier,
                 hostState = snackbarHostState
             )
         },

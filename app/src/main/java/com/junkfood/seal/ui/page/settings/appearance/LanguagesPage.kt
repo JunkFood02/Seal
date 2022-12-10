@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.appearance
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,7 +66,9 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
+            LazyColumn(modifier = Modifier
+                .padding(it)
+                .selectableGroup()) {
                 item {
                     PreferencesHint(
                         title = stringResource(R.string.translate),

@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
@@ -118,7 +119,9 @@ fun DownloadSettingDialog(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
-            Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+            Row(modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .selectableGroup()) {
                 FilterChip(
                     selected = audio,
                     enabled = !customCommand,
@@ -207,7 +210,7 @@ fun DownloadSettingDialog(
                 }
             }
             AnimatedVisibility(visible = customCommand) {
-                LazyRow(state = scrollState) {
+                LazyRow(state = scrollState, modifier = Modifier.selectableGroup()) {
                     itemsIndexed(templateList) { index, item ->
                         FilterChipWithIcons(
                             selected = index == selectedTemplateIndex,
