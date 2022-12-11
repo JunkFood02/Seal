@@ -32,11 +32,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
+import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 
 @HiltViewModel
@@ -222,18 +224,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         if (PreferenceUtil.getValue(PreferenceUtil.FORMAT_SELECTION, true)) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    if (url.contains("https://open.spotify.com/track")) {
-                        val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
-                        Log.d(TAG, "spotify url: $url")
-                        Log.d(TAG, "youtube url: $youtubeLink")
-                        if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
-                        fetchVideoInfo(url = youtubeLink.url, isFormatSelectionEnabled = true)
-                        mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
-                    } else {
                         fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
                         mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
-                    }
-                }catch (e: Exception) {
+
+                } catch (e: Exception) {
                     manageDownloadError(e)
                 }
             }
@@ -243,18 +237,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                if (url.contains("https://open.spotify.com/track")) {
-                    val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
-                    //if the url is null, throw an exception
-                    if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
-                    fetchVideoInfo(url = youtubeLink.url)?.let {
-                        downloadVideo(videoInfo = it)
-                    }
-                } else {
                     fetchVideoInfo(url = url)?.let {
                         downloadVideo(videoInfo = it)
                     }
-                }
+                    fetchVideoInfo(url = url)?.let {
+                        downloadVideo(videoInfo = it)
+                    }
             } catch (e: Exception) {
                 manageDownloadError(e)
                 return@launch
@@ -267,7 +255,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
 
-    private fun fetchVideoInfo(
+    private suspend fun fetchVideoInfo(
         url: String,
         task: StateHolder.DownloadTaskItem = StateHolder.DownloadTaskItem(),
         isFormatSelectionEnabled: Boolean = false
@@ -275,9 +263,20 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val videoInfo = task.videoInfo ?: mutableDownloaderState.run {
             try {
                 update { it.copy(isFetchingInfo = true) }
-                return@run DownloadUtil.fetchVideoInfoFromUrl(
-                    url = url, playlistItem = task.playlistIndex
-                )
+                if (url.contains("https://open.spotify.com/track")) {
+                        //launch a corrountine to get the youtube url
+                        val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                        //if the url is null, throw an exception
+                        if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
+                        return@run DownloadUtil.fetchVideoInfoFromUrl(
+                            url = youtubeLink.url,
+                            playlistItem = task.playlistIndex
+                        )
+                } else {
+                    return@run DownloadUtil.fetchVideoInfoFromUrl(
+                        url = url, playlistItem = task.playlistIndex
+                    )
+                }
             } catch (e: Exception) {
                 manageDownloadError(e)
                 return null
