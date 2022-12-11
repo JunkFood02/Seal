@@ -22,9 +22,8 @@ object SpotifyToYouTubeUtil {
         //create a request with the url parameter
         val request =
             Request.Builder()
-                .url("https://spowlo-js-api.onrender.com/api/v1/spottoyt?song=$url")
+                .url("https://spotifytoyoutube-js-api.azurewebsites.net/api/v1/spottoyt?song=$url")
                 .build()
-
 
 
         return suspendCoroutine { continuation ->
@@ -37,9 +36,9 @@ object SpotifyToYouTubeUtil {
 
                     override fun onResponse(call: Call, response: okhttp3.Response) {
                         val responseData = response.body.string()
-                        val latestRelease = jsonFormat.decodeFromString<Response>(responseData)
+                        val finalResponse = jsonFormat.decodeFromString<Response>(responseData)
                         response.body.close()
-                        continuation.resume(latestRelease)
+                        continuation.resume(finalResponse)
 
                     }
                 //https://open.spotify.com/track/79X7BhWIBGSjChXPjkJcvQ?si=2bc74070c5b1464a
