@@ -14,9 +14,6 @@ import kotlin.coroutines.suspendCoroutine
 object SpotifyToYouTubeUtil {
 
     private val client = OkHttpClient()
-    private val requestForLatestRelease =
-        Request.Builder().url("https://spowlo-js-api.onrender.com/api/v1/spottoyt")
-            .build()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     //create a function that have the url parameter that will be passed to the api
@@ -24,8 +21,11 @@ object SpotifyToYouTubeUtil {
 
         //create a request with the url parameter
         val request =
-            Request.Builder().url("https://spowlo-js-api.onrender.com/api/v1/spottoyt?song=$url")
+            Request.Builder()
+                .url("https://spowlo-js-api.onrender.com/api/v1/spottoyt?song=$url")
                 .build()
+
+
 
         return suspendCoroutine { continuation ->
             try {
@@ -42,7 +42,7 @@ object SpotifyToYouTubeUtil {
                         continuation.resume(latestRelease)
 
                     }
-//https://open.spotify.com/track/79X7BhWIBGSjChXPjkJcvQ?si=2bc74070c5b1464a
+                //https://open.spotify.com/track/79X7BhWIBGSjChXPjkJcvQ?si=2bc74070c5b1464a
                 })
             } catch (e: Exception) {
                 Log.e("SpotifyToYouTubeUtil", "Error: ${e.message}")
