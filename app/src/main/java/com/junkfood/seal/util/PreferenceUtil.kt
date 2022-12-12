@@ -5,6 +5,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
+import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
@@ -80,16 +81,17 @@ object PreferenceUtil {
     fun isNetworkAvailableForDownload() =
         getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
+
+    const val TEMPLATE_EXAMPLE = """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
+
     const val CUSTOM_COMMAND = "custom_command"
     const val CONCURRENT = "concurrent_fragments"
     const val EXTRACT_AUDIO = "extract_audio"
     const val THUMBNAIL = "create_thumbnail"
-    const val TEMPLATE = "template"
-    const val OPEN_IMMEDIATELY = "open_when_finish"
     const val YT_DLP = "yt-dlp_init"
     const val DEBUG = "debug"
     const val CONFIGURE = "configure"
-    const val DARK_THEME = "dark_theme_value"
+    private const val DARK_THEME = "dark_theme_value"
     const val AUDIO_FORMAT = "audio_format"
     const val VIDEO_FORMAT = "video_format"
     const val VIDEO_QUALITY = "quality"
@@ -100,7 +102,7 @@ object PreferenceUtil {
     const val PLAYLIST = "playlist"
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
-    const val THEME_COLOR = "theme_color"
+    private const val THEME_COLOR = "theme_color"
     const val CUSTOM_PATH = "custom_path"
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
@@ -113,11 +115,11 @@ object PreferenceUtil {
     const val COOKIES_FILE = "cookies_file"
     const val AUTO_UPDATE = "auto_update"
     const val PRIVATE_MODE = "private_mode"
-    const val DYNAMIC_COLOR = "dynamic_color"
+    private const val DYNAMIC_COLOR = "dynamic_color"
     const val CELLULAR_DOWNLOAD = "cellular_download"
     const val RATE_LIMIT = "rate_limit"
     const val MAX_RATE = "max_rate"
-    const val HIGH_CONTRAST = "high_contrast"
+    private const val HIGH_CONTRAST = "high_contrast"
     const val DISABLE_PREVIEW = "disable_preview"
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
@@ -131,7 +133,7 @@ object PreferenceUtil {
     private const val CZECH = 3
     private const val FRENCH = 4
     private const val GERMAN = 5
-    private const val NORWEGIAN = 6
+    private const val NORWEGIAN_BOKMAL = 6
     private const val DANISH = 7
     private const val SPANISH = 8
     private const val TURKISH = 9
@@ -158,60 +160,59 @@ object PreferenceUtil {
     private const val SINHALA = 30
     private const val SERBIAN = 31
     private const val AZERBAIJANI = 32
+    private const val NORWEGIAN_NYNORSK = 33
 
     // Sorted alphabetically
     val languageMap: Map<Int, String> = mapOf(
-        Pair(ARABIC, "ar"),
-        Pair(AZERBAIJANI, "az"),
-        Pair(BASQUE, "eu"),
-        Pair(BELARUSIAN, "be"),
-        Pair(SIMPLIFIED_CHINESE, "zh-CN"),
-        Pair(TRADITIONAL_CHINESE, "zh-TW"),
-        Pair(CROATIAN, "hr"),
-        Pair(CZECH, "cs"),
-        Pair(DANISH, "da"),
-        Pair(DUTCH, "nl"),
-        Pair(ENGLISH, "en-US"),
-        Pair(FILIPINO, "fil"),
-        Pair(FRENCH, "fr"),
-        Pair(GERMAN, "de"),
-        Pair(HINDI, "hi"),
-        Pair(HUNGARIAN, "hu"),
-        Pair(INDONESIAN, "in"),
-        Pair(ITALIAN, "it"),
-        Pair(JAPANESE, "ja"),
-        Pair(MALAY, "ms"),
-        Pair(MALAYALAM, "ml"),
-        Pair(NORWEGIAN, "nb-NO"),
-        Pair(PERSIAN, "fa"),
-        Pair(POLISH, "pl"),
-        Pair(PORTUGUESE_BRAZIL, "pt-BR"),
-        Pair(RUSSIAN, "ru"),
-        Pair(SERBIAN, "sr"),
-        Pair(SINHALA, "si"),
-        Pair(SPANISH, "es"),
-        Pair(TURKISH, "tr"),
-        Pair(UKRAINIAN, "ua"),
-        Pair(VIETNAMESE, "vi"),
+        ARABIC to "ar",
+        AZERBAIJANI to "az",
+        BASQUE to "eu",
+        BELARUSIAN to "be",
+        SIMPLIFIED_CHINESE to "zh-CN",
+        TRADITIONAL_CHINESE to "zh-TW",
+        CROATIAN to "hr",
+        CZECH to "cs",
+        DANISH to "da",
+        DUTCH to "nl",
+        ENGLISH to "en-US",
+        FILIPINO to "fil",
+        FRENCH to "fr",
+        GERMAN to "de",
+        HINDI to "hi",
+        HUNGARIAN to "hu",
+        INDONESIAN to "in",
+        ITALIAN to "it",
+        JAPANESE to "ja",
+        MALAY to "ms",
+        MALAYALAM to "ml",
+        NORWEGIAN_BOKMAL to "nb-NO",
+        NORWEGIAN_NYNORSK to "nn",
+        PERSIAN to "fa",
+        POLISH to "pl",
+        PORTUGUESE_BRAZIL to "pt-BR",
+        RUSSIAN to "ru",
+        SERBIAN to "sr",
+        SINHALA to "si",
+        SPANISH to "es",
+        TURKISH to "tr",
+        UKRAINIAN to "ua",
+        VIETNAMESE to "vi",
     )
 
-    fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)): String {
-        return if (languageMap.containsKey(languageNumber)) languageMap[languageNumber].toString() else ""
-    }
+    fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =
+        languageMap.getOrElse(languageNumber) { "" }
 
-    private fun getLanguageNumberByCode(languageCode: String): Int {
-        languageMap.entries.forEach {
-            if (it.value == languageCode) return it.key
-        }
-        return SYSTEM_DEFAULT
-    }
+
+    private fun getLanguageNumberByCode(languageCode: String): Int =
+        languageMap.entries.find { it.value == languageCode }?.key ?: SYSTEM_DEFAULT
+
 
     fun getLanguageNumber(): Int {
         return if (Build.VERSION.SDK_INT >= 33)
             getLanguageNumberByCode(
                 LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
             )
-        else getInt(LANGUAGE, 0)
+        else getInt(LANGUAGE, SYSTEM_DEFAULT)
     }
 
     fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
@@ -233,7 +234,7 @@ object PreferenceUtil {
                 CZECH -> R.string.la_cs
                 FRENCH -> R.string.la_fr
                 GERMAN -> R.string.la_de
-                NORWEGIAN -> R.string.la_nb_NO
+                NORWEGIAN_BOKMAL -> R.string.la_nb_NO
                 DANISH -> R.string.la_da
                 SPANISH -> R.string.la_es
                 TURKISH -> R.string.la_tr
@@ -260,6 +261,7 @@ object PreferenceUtil {
                 SINHALA -> R.string.la_si
                 SERBIAN -> R.string.la_sr
                 AZERBAIJANI -> R.string.la_az
+                NORWEGIAN_NYNORSK -> R.string.la_nn
                 else -> R.string.follow_system
             }
         )
@@ -271,7 +273,7 @@ object PreferenceUtil {
             else this
         }
 
-    fun getCookies(): String = getString(COOKIES_FILE) ?: ""
+    fun getCookies(): String = getString(COOKIES_FILE, "")
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
@@ -288,7 +290,10 @@ object PreferenceUtil {
                     DarkThemePreference.FOLLOW_SYSTEM
                 ), isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)
             ),
-            isDynamicColorEnabled = kv.decodeBool(DYNAMIC_COLOR),
+            isDynamicColorEnabled = kv.decodeBool(
+                DYNAMIC_COLOR,
+                DynamicColors.isDynamicColorAvailable()
+            ),
             seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
         )
     )

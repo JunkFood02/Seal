@@ -15,6 +15,7 @@ import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
@@ -46,11 +47,9 @@ class App : Application() {
                 PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
                 DatabaseUtil.insertTemplate(
                     CommandTemplate(
-                        0,
-                        context.getString(R.string.custom_command_template),
-                        PreferenceUtil.getString(
-                            PreferenceUtil.TEMPLATE, context.getString(R.string.template_example)
-                        )
+                        id = 0,
+                        name = context.getString(R.string.custom_command_template),
+                        template = TEMPLATE_EXAMPLE
                     )
                 )
             }
