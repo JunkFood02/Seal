@@ -17,8 +17,6 @@ object StateHolder {
 
 
     data class DownloaderState constructor(
-
-
         val isDownloadError: Boolean = false,
         val errorMessage: String = "",
         val isFetchingInfo: Boolean = false,

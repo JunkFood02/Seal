@@ -224,8 +224,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         if (PreferenceUtil.getValue(PreferenceUtil.FORMAT_SELECTION, true)) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                        fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
-                        mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                    fetchVideoInfo(url = url, isFormatSelectionEnabled = true)
+                    mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
 
                 } catch (e: Exception) {
                     manageDownloadError(e)
@@ -237,12 +237,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
             try {
-                    fetchVideoInfo(url = url)?.let {
-                        downloadVideo(videoInfo = it)
-                    }
-                    fetchVideoInfo(url = url)?.let {
-                        downloadVideo(videoInfo = it)
-                    }
+                fetchVideoInfo(url = url)?.let {
+                    downloadVideo(videoInfo = it)
+                }
+                fetchVideoInfo(url = url)?.let {
+                    downloadVideo(videoInfo = it)
+                }
             } catch (e: Exception) {
                 manageDownloadError(e)
                 return@launch
@@ -264,14 +264,16 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             try {
                 update { it.copy(isFetchingInfo = true) }
                 if (url.contains("https://open.spotify.com/track")) {
-                        //launch a corrountine to get the youtube url
-                        val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
-                        //if the url is null, throw an exception
-                        if (youtubeLink.url == null) throw Exception("SpotifyToYouTubeUtil.getYouTubeUrl(url) returned null")
-                        return@run DownloadUtil.fetchVideoInfoFromUrl(
-                            url = youtubeLink.url,
-                            playlistItem = task.playlistIndex
-                        )
+                    //launch a corrountine to get the youtube url
+                    TextUtil.makeToastSuspend("Calling API to get Youtube Music URL")
+                    val youtubeLink = SpotifyToYouTubeUtil.getYouTubeUrl(url)
+                    TextUtil.makeToastSuspend("Got Youtube Music URL: ${youtubeLink.url}. Fetching song info...")
+                    //if the url is null, throw an exception
+                    if (youtubeLink.url == null) throw Exception("The API's response were null")
+                    return@run DownloadUtil.fetchVideoInfoFromUrl(
+                        url = youtubeLink.url,
+                        playlistItem = task.playlistIndex
+                    )
                 } else {
                     return@run DownloadUtil.fetchVideoInfoFromUrl(
                         url = url, playlistItem = task.playlistIndex
@@ -279,6 +281,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 }
             } catch (e: Exception) {
                 manageDownloadError(e)
+                //if the exception were caused because response were null, make a toast
+                if (e.message != "The API's response were null") {
+                    TextUtil.makeToastSuspend("The API is probably off. Try again in a few minutes while it is being started...")
+                }
                 return null
             }
         }
