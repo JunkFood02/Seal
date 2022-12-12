@@ -60,7 +60,7 @@ object DownloadUtil {
     private const val OUTPUT_TEMPLATE = "%(title).100s [%(id)s].%(ext)s"
     private const val AUDIO_REGEX = "(mp3)|(aac)|(opus)|(m4a)"
     private const val CROP_ARTWORK_COMMAND =
-        """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
+        """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\",scale=300:300""""
 
 
     data class PlaylistInfo(
