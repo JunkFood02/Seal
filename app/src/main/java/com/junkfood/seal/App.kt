@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
@@ -36,6 +38,12 @@ class App : Application() {
         super.onCreate()
         MMKV.initialize(this)
         context = applicationContext
+        packageInfo = packageManager.run {
+            if (Build.VERSION.SDK_INT >= 33) getPackageInfo(
+                packageName, PackageManager.PackageInfoFlags.of(0)
+            ) else
+                getPackageInfo(packageName, 0)
+        }
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
 
@@ -88,6 +96,7 @@ class App : Application() {
         lateinit var audioDownloadDir: String
         lateinit var applicationScope: CoroutineScope
         lateinit var connectivityManager: ConnectivityManager
+        lateinit var packageInfo: PackageInfo
 
         fun getPrivateDownloadDirectory(): String =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).resolve(

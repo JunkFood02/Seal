@@ -231,6 +231,7 @@ fun GeneralDownloadPreferences(
                         description = stringResource(R.string.private_mode_desc),
                         icon = if (isPrivateModeEnabled) Icons.Outlined.HistoryToggleOff else Icons.Outlined.History,
                         isChecked = isPrivateModeEnabled,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             isPrivateModeEnabled = !isPrivateModeEnabled
                             PreferenceUtil.updateValue(
@@ -246,6 +247,7 @@ fun GeneralDownloadPreferences(
                         description = stringResource(R.string.disable_preview_desc),
                         icon = if (isPreviewDisabled) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                         isChecked = isPreviewDisabled,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             isPreviewDisabled = !isPreviewDisabled
                             PreferenceUtil.updateValue(

@@ -9,6 +9,7 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
+import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
@@ -81,8 +82,10 @@ object PreferenceUtil {
     fun isNetworkAvailableForDownload() =
         getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
+    fun isAutoUpdateEnabled() = getValue(AUTO_UPDATE, !packageInfo.versionName.contains("F-Droid"))
 
-    const val TEMPLATE_EXAMPLE = """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
+    const val TEMPLATE_EXAMPLE =
+        """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
 
     const val CUSTOM_COMMAND = "custom_command"
     const val CONCURRENT = "concurrent_fragments"
@@ -163,7 +166,7 @@ object PreferenceUtil {
     private const val NORWEGIAN_NYNORSK = 33
 
     // Sorted alphabetically
-    val languageMap: Map<Int, String> = mapOf(
+    private val languageMap: Map<Int, String> = mapOf(
         ARABIC to "ar",
         AZERBAIJANI to "az",
         BASQUE to "eu",
