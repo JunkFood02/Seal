@@ -262,5 +262,5 @@
     <string name="suggested">Suggested</string>
     <string name="format_selection">Format selection</string>
     <string name="format_selection_desc">Select the format to download before starting the download</string>
-    <string name="la_az" translatable="false">Azərbaycan dili</string>
+    <string name="la_az" translatable="false">Azərbaycanca</string>
 </resources>
