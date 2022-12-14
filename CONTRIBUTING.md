@@ -2,7 +2,9 @@
 
 Before reading, you may know what [yt-dlp](https://github.com/yt-dlp/yt-dlp) is and what it does. In short, it's a CLI (Command Line Interface) program written in python, which lets you download videos from [1000+ websites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 
-For bug reports and feature requests, please search in issues first (including the closed ones). If there're no duplicates, feel free to [submit an issue](https://github.com/JunkFood02/Seal/issues/new) with an issue template. **We'll probably ignore and close your issue if it's not using the existing templates or doesn't contain sufficient description.**
+For bug reports and feature requests, please search in issues first (including the closed ones). If there're no duplicates, feel free to [submit an issue](https://github.com/JunkFood02/Seal/issues/new) with an issue template.
+
+**We'll probably ignore and close your issue if it's not using the existing templates or doesn't contain sufficient description.**
 
 For questions or any other ideas to improve, you can join or [start a new discussion](https://github.com/JunkFood02/Seal/discussions). 
 
@@ -12,7 +14,7 @@ When submitting a bug report, please make sure your issue contains **enough** in
 
 ## Feature Request
 
-Seal is and will remain a simple GUI for yt-dlp, providing most of the functionality of yt-dlp as is, without modifications. Thus, we'll not take requests for features that yt-dlp does not support.
+Seal is and will remain a simple GUI for yt-dlp, providing most of the functionality of yt-dlp as is, without modifications. Thus, **we'll not take requests for features that yt-dlp does not support.**
 
 The app has two download modes: 
 
@@ -23,7 +25,7 @@ Since most of the functions can be implemented in custom command mode, the "feat
 
 ## Pull Request
 
-If you wish to contribute to the project by directly submitting code, please first leave a comment under the relevant issue or file a new issue, describe the changes you are about to make.
+If you wish to contribute to the project by submitting code directly, please first leave a comment under the relevant issue or file a new issue, describe the changes you are about to make.
 
 To avoid multiple pull requests resolving the same issue, let others know you are working on it by saying so in a comment, or ask the issue to be assigned to yourself.
 
