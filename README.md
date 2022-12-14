@@ -5,6 +5,7 @@
 Seal
 </h1>
 <div align="center">
+
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=flat-square)](https://github.com/JunkFood02/Seal/releases/latest)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=preview&logo=github)](https://github.com/JunkFood02/Seal/releases)
