@@ -9,7 +9,7 @@ body:
   - type: markdown
     attributes:
       value: |
-      If this is a generic question, please consider asking in the [Yt-dlp repository](https://github.com/yt-dlp/yt-dlp/issues/new?assignees=&labels=question&template=6_question.yml) instead.
+      If this is a generic question, please consider asking in the "[Yt-dlp repository](https://github.com/yt-dlp/yt-dlp/issues/new?assignees=&labels=question&template=6_question.yml)" instead.
 
   - type: checkboxes
     attributes:
