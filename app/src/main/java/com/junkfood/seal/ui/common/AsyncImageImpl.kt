@@ -14,10 +14,9 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.junkfood.seal.App.Companion.userAgentHeader
 import com.junkfood.seal.R
 
-private const val userAgentHeader =
-    "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36 Edg/105.0.1343.53"
 
 @Composable
 fun AsyncImageImpl(

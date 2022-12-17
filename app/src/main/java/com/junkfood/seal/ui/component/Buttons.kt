@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
@@ -23,6 +24,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -152,6 +154,30 @@ fun OutlinedButtonWithIcon(
 }
 
 @Composable
+fun TextButtonWithIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    icon: ImageVector,
+    text: String
+) {
+    TextButton(
+        modifier = modifier,
+        onClick = onClick
+    )
+    {
+        Icon(
+            modifier = Modifier.size(18.dp),
+            imageVector = icon,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = text
+        )
+    }
+}
+
+@Composable
 fun FilledTonalButtonWithIcon(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -221,24 +247,20 @@ fun LinkButton(
     link: String = ytdlpReference
 ) {
     val uriHandler = LocalUriHandler.current
-    TextButton(
+    TextButtonWithIcon(
         modifier = modifier,
-        onClick = {
-            uriHandler.openUri(link)
-        },
-    ) {
-        Row {
-            Icon(
-                modifier = Modifier.size(18.dp),
-                imageVector = icon,
-                contentDescription = null
-            )
-            Text(
-                modifier = Modifier.padding(start = 8.dp),
-                text = text
-            )
-        }
-    }
+        onClick = { uriHandler.openUri(link) },
+        icon = icon,
+        text = text
+    )
 }
 
+@Composable
+fun PasteButton(onPaste: (String) -> Unit = {}) {
+    val clipboardManager = LocalClipboardManager.current
+    IconButton(onClick = {
+        clipboardManager.getText().toString().let { onPaste(it) }
+    }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+
+}
 

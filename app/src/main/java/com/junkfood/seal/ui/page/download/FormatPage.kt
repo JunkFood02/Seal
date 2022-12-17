@@ -60,6 +60,7 @@ private const val TAG = "FormatPage"
 @Composable
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
+    if (videoInfo.formats.isNullOrEmpty()) onBackPressed()
     FormatPageImpl(videoInfo, onBackPressed) { formatList ->
         Log.d(TAG, formatList.toString())
         downloadViewModel.downloadVideoWithFormatId(videoInfo, formatList)

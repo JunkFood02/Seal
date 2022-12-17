@@ -127,6 +127,7 @@ object PreferenceUtil {
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
     const val FORMAT_SELECTION = "format_selection"
+    const val COOKIES_DOMAIN = "cookies_domain"
 
     const val SYSTEM_DEFAULT = 0
 
@@ -166,7 +167,7 @@ object PreferenceUtil {
     private const val NORWEGIAN_NYNORSK = 33
 
     // Sorted alphabetically
-    private val languageMap: Map<Int, String> = mapOf(
+    val languageMap: Map<Int, String> = mapOf(
         ARABIC to "ar",
         AZERBAIJANI to "az",
         BASQUE to "eu",

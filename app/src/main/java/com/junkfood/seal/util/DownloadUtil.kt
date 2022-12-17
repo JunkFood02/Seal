@@ -114,6 +114,15 @@ object DownloadUtil {
                 } else {
                     addOption("-S", toVideoFormatSorter())
                 }
+                if (cookies) {
+                    addOption(
+                        "--cookies",
+                        FileUtil.writeContentToFile(
+                            cookiesContent,
+                            context.getCookiesFile()
+                        ).absolutePath
+                    )
+                }
             }
             addOption("-R", "1")
             if (playlistItem != 0) addOption("--playlist-items", playlistItem)
@@ -283,9 +292,13 @@ object DownloadUtil {
                 addOption("--no-mtime")
                 addOption("-v")
                 if (cookies) {
-                    val cookiesFile = context.getCookiesFile(videoInfo.id)
-                    FileUtil.writeContentToFile(cookiesContent, cookiesFile)
-                    addOption("--cookies", cookiesFile.absolutePath)
+                    addOption(
+                        "--cookies",
+                        FileUtil.writeContentToFile(
+                            cookiesContent,
+                            context.getCookiesFile()
+                        ).absolutePath
+                    )
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
