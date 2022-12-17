@@ -4,9 +4,9 @@ description: How do I do X or Y with the Devilbox?
 title: "[Howto]: "
 labels: ["question", "Community help wanted"]
 assignees: []
-body:
-
-
+  
+  
+  body:
   - type: markdown
     attributes:
       value: |
