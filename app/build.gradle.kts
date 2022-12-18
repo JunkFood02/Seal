@@ -147,6 +147,7 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.permissions)
     implementation(libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.webview)
 
     implementation(libs.coil.kt.compose)
 

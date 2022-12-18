@@ -3,6 +3,8 @@ package com.junkfood.seal.ui.page.settings.network
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.GeneratingTokens
@@ -23,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
@@ -97,11 +98,10 @@ fun CookiesDialog(
         mutableStateOf(PreferenceUtil.getCookies())
     }
     var url by remember { mutableStateOf(PreferenceUtil.getString(COOKIES_DOMAIN, "")) }
-    val context = LocalContext.current
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
-        Column {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             Text(
                 stringResource(R.string.cookies_desc),
                 style = MaterialTheme.typography.bodyLarge
@@ -113,7 +113,7 @@ fun CookiesDialog(
                 value = url, label = { Text("URL") },
                 onValueChange = { url = it }, trailingIcon = {
                     PasteButton { url = matchUrlFromClipboard(it) }
-                }
+                }, maxLines = 1
             )
 
             OutlinedTextField(
