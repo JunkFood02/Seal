@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="video_directory">Video mapa</string>
+    <string name="create_thumbnail">Shrani sličico</string>
+    <string name="settings">Nastavite</string>
+    <string name="extract_audio">Shrani kot avdio</string>
+</resources>

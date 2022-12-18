@@ -128,7 +128,7 @@
     <string name="to">Ende</string>
     <string name="invalid_index_range">Ungültiger Indexbereich</string>
     <string name="permission_issue_desc">Ordner außerhalb von Download/ und Dokumente/ werden nicht unterstützt</string>
-    <string name="audio_format_desc">Audio in MP3 oder M4A funktioniert auf den meisten Geräten</string>
+    <string name="audio_format_desc">Die Neukodierung von Audiodateien führt zu einem Verlust an Audioqualität und einer Vergrößerung der Datei.</string>
     <string name="from">Start</string>
     <string name="download_path_template">Ordnervorlage</string>
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
@@ -212,4 +212,8 @@
     <string name="select_all">Alle auswählen</string>
     <string name="selected_item_count">%1$d ausgewählt</string>
     <string name="download_selection_desc">Wähle die Videos zum Herunterladen aus der Wiedergabeliste „%1$s“</string>
+    <string name="video_only">Video (kein Audio)</string>
+    <string name="suggested">Vorgeschlagen</string>
+    <string name="format_selection">Auswahl des Formats</string>
+    <string name="format_selection_desc">Wähle das herunterzuladende Format, bevor du den Download startest</string>
 </resources>

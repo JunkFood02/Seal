@@ -70,7 +70,7 @@
     <string name="not_convert">不轉換</string>
     <string name="convert_to">轉換成 %1$s</string>
     <string name="format">格式</string>
-    <string name="audio_format_desc">大多數裝置皆支援 MP3 或 M4A 音訊格式</string>
+    <string name="audio_format_desc">音訊重新編碼將造成品質下降和檔案大小增加。</string>
     <string name="best_quality">最佳品質 (預設)</string>
     <string name="video_quality_desc">限制格式品質和檔案大小</string>
     <string name="not_specified">不指定 (預設)</string>
@@ -212,4 +212,8 @@
     <string name="download_selection_desc">從「%1$s」播放清單中選取視訊以進行下載</string>
     <string name="selected_item_count">已選取 %1$d 項</string>
     <string name="select_all">全部選取</string>
+    <string name="format_selection">格式選取</string>
+    <string name="format_selection_desc">在開始下載前選取下載格式</string>
+    <string name="suggested">建議</string>
+    <string name="video_only">視訊 (無音訊)</string>
 </resources>
