@@ -36,7 +36,7 @@
     <string name="edit_template_desc">Jalur keluar dan URL akan ditambahkan oleh aplikasi.</string>
     <string name="audio_format">Ubah format audio</string>
     <string name="not_convert">Tidak diubah</string>
-    <string name="audio_format_desc">Audio dalam MP3 atau M4A berfungsi di sebagian besar perangkat</string>
+    <string name="audio_format_desc">Mengenkode ulang berkas audio akan menyebabkan kehilangan kualitas audio dan perbesaran ukuran berkas.</string>
     <string name="video_quality">Kualitas video</string>
     <string name="best_quality">Kualitas terbaik (bawaan)</string>
     <string name="video_format_desc">Format yang dipilih ketika beberapa disediakan</string>
@@ -212,4 +212,8 @@
     <string name="select_all">Pilih semua</string>
     <string name="download_selection_desc">Pilih video untuk diunduh dari daftar putar \"%1$s\"</string>
     <string name="selected_item_count">%1$d dipilih</string>
+    <string name="suggested">Disarankan</string>
+    <string name="format_selection">Pilihan format</string>
+    <string name="video_only">Video (tanpa audio)</string>
+    <string name="format_selection_desc">Pilih format untuk diunduh sebelum memulai unduhan</string>
 </resources>

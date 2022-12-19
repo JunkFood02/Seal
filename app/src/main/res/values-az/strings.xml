@@ -65,7 +65,7 @@
     <string name="not_convert">Dəyişdirilməmiş</string>
     <string name="convert_to">%1$s-a dəyiş</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">MP3 və ya M4A-da səs əksər cihazlarda işləyir</string>
+    <string name="audio_format_desc">Səs fayllarını yenidən kodlaşdırmaq səs keyfiyyətində itgiyə və fayl ölçüsündə artmaya səbəb olacaq.</string>
     <string name="video_quality">Video keyfiyyəti</string>
     <string name="best_quality">Ən yaxşı keyfiyyət (defolt)</string>
     <string name="video_quality_desc">Format keyfiyyətini və fayl həcmini məhdudlaşdır</string>
@@ -212,4 +212,8 @@
     <string name="invalid_input">Etibarsız daxiletmə</string>
     <string name="format_settings_desc">Fayl formatı, video keyfiyyəti, altyazılar</string>
     <string name="download_selection_desc">\"%1$s\" pleylistindən endirmək üçün videoları seç</string>
+    <string name="video_only">Video (səs yoxdur)</string>
+    <string name="format_selection">Format seçimi</string>
+    <string name="suggested">Məsləhət görülən</string>
+    <string name="format_selection_desc">Endirməyə başlamazdan əvvəl endirmək üçün format seç</string>
 </resources>

@@ -105,7 +105,7 @@
     <string name="subdirectory_desc">Enregistrer les fichiers dans des dossiers portant le nom des sites web respectifs</string>
     <string name="audio_directory">Dossier audio</string>
     <string name="download_directory">Répertoire de téléchargement</string>
-    <string name="download_directory_desc">Sélectionner l\'endroit où stocker les vidéos et les fichiers audio</string>
+    <string name="download_directory_desc">Sélectionner où stocker les vidéos et les fichiers audio</string>
     <string name="battery_configuration">Configuration de la batterie</string>
     <string name="permission_issue">Problème de permission de stockage</string>
     <string name="permission_issue_desc">Les répertoires autres que Download/ et Documents/ ne sont pas pris en charge</string>
@@ -124,7 +124,7 @@
     <string name="invalid_index_range">Plage d\'index invalide</string>
     <string name="channel_description">Notification des fichiers téléchargés et de leur progression</string>
     <string name="audio_format">Convertir le format audio</string>
-    <string name="audio_format_desc">L\'audio en MP3 ou M4A fonctionne sur la plupart des appareils</string>
+    <string name="audio_format_desc">Le réencodage des fichiers audio entraîne une perte de qualité audio et une augmentation de la taille du fichier.</string>
     <string name="best_quality">Meilleure qualité (par défaut)</string>
     <string name="video_quality_desc">Limiter la qualité du format et la taille du fichier</string>
     <string name="open_settings">Ouvrir les paramètres</string>
@@ -212,4 +212,8 @@
     <string name="select_all">Tout sélectionner</string>
     <string name="download_selection_desc">Sélectionner les vidéos à télécharger à partir de la liste de lecture « %1$s »</string>
     <string name="selected_item_count">%1$d sélectionné(s)</string>
+    <string name="suggested">Suggéré</string>
+    <string name="video_only">Vidéo (sans audio)</string>
+    <string name="format_selection">Sélection du format</string>
+    <string name="format_selection_desc">Sélectionnez le format à télécharger avant de commencer le téléchargement</string>
 </resources>

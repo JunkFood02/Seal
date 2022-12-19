@@ -41,7 +41,7 @@
     <string name="edit_template_desc">Il percorso di output e l\'URL verrano aggiunti dall\'applicazione.</string>
     <string name="not_convert">Non convertito</string>
     <string name="format">Formato</string>
-    <string name="audio_format_desc">Gli audio in MP3 o M4A funzionano nella maggior parte dei dispositivi</string>
+    <string name="audio_format_desc">La ri-codifica dei file audio comporta una perdita di qualità audio e un aumento delle dimensioni del file.</string>
     <string name="best_quality">Qualità migliore (predefinito)</string>
     <string name="video_format_preference">Formato video preferito</string>
     <string name="video_directory">Cartella video</string>
@@ -212,4 +212,8 @@
     <string name="select_all">Seleziona tutto</string>
     <string name="selected_item_count">%1$d selezionato/i</string>
     <string name="download_selection_desc">Seleziona i video da scaricare dalla playlist «%1$s»</string>
+    <string name="video_only">Video (senza audio)</string>
+    <string name="format_selection_desc">Seleziona il formato da scaricare prima di avviare lo scaricamento</string>
+    <string name="suggested">Suggerito</string>
+    <string name="format_selection">Selezione del formato</string>
 </resources>

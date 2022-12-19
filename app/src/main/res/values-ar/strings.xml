@@ -25,7 +25,7 @@
     <string name="about">حول</string>
     <string name="about_page">الإصدار ، الإصدارات ، الاعتمادات</string>
     <string name="version">الإصدار</string>
-    <string name="release_desc">ابحث عن سجل التغييرات والإصدارات الجديدة</string>
+    <string name="release_desc">إلق نظرة على الإصدارات الجديدة و سجل التغييرات</string>
     <string name="release">أحدث إصدار</string>
     <string name="video">فيديو</string>
     <string name="checked">محدد</string>
@@ -47,7 +47,7 @@
     <string name="convert_to">التحويل إلى%1$s</string>
     <string name="format">صيغة</string>
     <string name="audio_format">تحويل صيغة الصوت</string>
-    <string name="video_quality_desc">قصر جودة الصيغة وحجم الملف</string>
+    <string name="video_quality_desc">حد جودة الفيديو وحجم الملف</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
     <string name="video_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
     <string name="video_format">صيغة الفيديو</string>
@@ -103,7 +103,7 @@
     <string name="close_never_show_again">لا تظهر مرة أخرى</string>
     <string name="not_convert">غير محول</string>
     <string name="additional_settings">إعدادات إضافية</string>
-    <string name="audio_format_desc">الصوت بصيغة MP3 و M4A يعمل على اغلب الاجهزة</string>
+    <string name="audio_format_desc">إعادة صياغة ملفات الصوت يسبب انخفاض بجودة الصوت وازدياد حجم الملف.</string>
     <string name="video_quality">جودة الفيديو</string>
     <string name="best_quality">أفضل جودة (افتراضي)</string>
     <string name="not_specified">غير محدد (افتراضي)</string>
@@ -203,13 +203,17 @@
     <string name="unavailable">غير متوفر</string>
     <string name="format_settings_desc">صيغة الملف، دقة الفيديو، التَرْجمات</string>
     <string name="general_settings_desc">إصدار Yt-dlp، إشعار، قائمة تشغيل</string>
-    <string name="network_settings_desc">حدود المعدل، مُحَمل، ملفات تعريف الارتباط</string>
+    <string name="network_settings_desc">حدود المعدل، مدير التنزيلات، ملفات تعريف الارتباط</string>
     <string name="disable_preview">تعطيل المعاينة</string>
     <string name="disable_preview_desc">تعطيل المعاينة على التنزيلات</string>
     <string name="privacy">الخصوصية</string>
     <string name="use_custom_command">أستخدم أمر مخصص</string>
     <string name="private_directory">مجلد خاص</string>
-    <string name="private_directory_desc">خزن التحميلات في مجلد خفي</string>
+    <string name="private_directory_desc">احفظ التحميلات في مجلد خفي</string>
     <string name="crop_artwork">قص الغلاف</string>
     <string name="crop_artwork_desc">قص الصورة المدمجة على شكل مربع</string>
+    <string name="suggested">موصى به</string>
+    <string name="format_selection">اختيار الصيغة</string>
+    <string name="format_selection_desc">حدد الصيغة المراد تنزيلها قبل بدء العملية</string>
+    <string name="video_only">فيديو (بدون صوت)</string>
 </resources>

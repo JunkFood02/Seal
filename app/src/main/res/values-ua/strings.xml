@@ -68,7 +68,7 @@
     <string name="thumbnail">Прев\'ю</string>
     <string name="paste">Вставити</string>
     <string name="yt_dlp_docs">Документація yt-dlp</string>
-    <string name="edit_template_desc">Директорія завантажень та посилання будуть додані програмою.</string>
+    <string name="edit_template_desc">Директорія завантажень та посилання будуть додані застосунком.</string>
     <string name="audio_format">Конвертувати формат аудіо</string>
     <string name="not_convert">Залишити як є</string>
     <string name="convert_to">Конвертувати в %1$s</string>
@@ -146,7 +146,7 @@
     <string name="downloading_indicator_text">Завантаження в процесі, натисніть щоб скасувати.</string>
     <string name="task_canceled">Завантаження відмінено</string>
     <string name="github_issue">Помилка GitHub</string>
-    <string name="github_issue_desc">Надіслати повідомлення про помилку або пропозицію щодо покращення програми</string>
+    <string name="github_issue_desc">Надішліть звіт про помилку або запит на функцію</string>
     <string name="info_copied">Інформація скопійована в буфер обміну</string>
     <string name="open_file">Відкрити файл</string>
     <string name="status_enqueued">Поставлено в чергу</string>
@@ -189,7 +189,7 @@
     <string name="private_mode">Приватний режим</string>
     <string name="private_mode_desc">Вимкнути мініатюри та історію завантажень</string>
     <string name="dynamic_color">Динамічний колір</string>
-    <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми програми</string>
+    <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми застосунку</string>
     <string name="file_unavailable">Файл більше недоступний</string>
     <string name="network">Мережа</string>
     <string name="rate_limit">Ліміт швидкості</string>

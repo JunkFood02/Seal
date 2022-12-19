@@ -74,7 +74,7 @@
     <string name="not_convert">No convertir</string>
     <string name="convert_to">Convertir a %1$s</string>
     <string name="format">Formato</string>
-    <string name="audio_format_desc">El audio en formato mp3 o m4a son compatibles en la mayoría de dispositivos</string>
+    <string name="audio_format_desc">La recodificación de archivos de audio conlleva una pérdida de calidad de sonido y un aumento en el tamaño del archivo final.</string>
     <string name="video_quality">Calidad del vídeo</string>
     <string name="best_quality">Mejor calidad (por defecto)</string>
     <string name="video_quality_desc">Descarga los videos con una calidad no mejor que la resolución seleccionada y un tamaño mayor al escrito</string>
@@ -212,4 +212,8 @@
     <string name="select_all">Seleccionar todo</string>
     <string name="download_selection_desc">Seleccione los vídeos que desea descargar de la lista de reproducción \"%1$s\"</string>
     <string name="selected_item_count">%1$d seleccionado</string>
+    <string name="suggested">Sugerido</string>
+    <string name="format_selection_desc">Selecciona el formato de vídeo que quieres antes de comenzar la descarga</string>
+    <string name="video_only">Vídeo (sin audio)</string>
+    <string name="format_selection">Selección de formato</string>
 </resources>

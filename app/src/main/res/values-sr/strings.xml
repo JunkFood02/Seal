@@ -75,7 +75,7 @@
     <string name="settings_before_download_text">Прилагодите ово преузимање</string>
     <string name="error_copied">Извештај о грешци је копиран у привремену меморију</string>
     <string name="thumbnail">сличица</string>
-    <string name="audio_format_desc">Аудио у MP3 или M4A ради на већини уређаја</string>
+    <string name="audio_format_desc">Поновно кодирање аудио датотека узроковаће губитак квалитета звука и повећање величине датотеке.</string>
     <string name="video_quality">Квалитет видеа</string>
     <string name="video_quality_desc">Ограничите квалитет формата и величину датотеке</string>
     <string name="convert_audio">Претворите</string>
@@ -175,7 +175,7 @@
     <string name="back">Назад</string>
     <string name="release_desc">Потражите евиденције промена и нове верзије</string>
     <string name="release">Најновије издање</string>
-    <string name="format">Форматирајте</string>
+    <string name="format">Формат</string>
     <string name="checked">Проверено</string>
     <string name="credits">Кредити</string>
     <string name="status_fetching_video_info">Преузимање информација</string>
@@ -189,15 +189,15 @@
     <string name="display_settings">Тамни режим, динамична боја, језици</string>
     <string name="paste">Налепите</string>
     <string name="dark_theme">Тамни режим</string>
-    <string name="follow_system">Систем</string>
+    <string name="follow_system">Системски</string>
     <string name="on">Укључено</string>
     <string name="audio_format">Претворите аудио формат</string>
     <string name="yt_dlp_docs">Yt-dlp референце о употреби</string>
     <string name="edit_template_desc">Апликација ће додати излазну путању и URL.</string>
     <string name="convert_to">Претворите у %1$s</string>
-    <string name="video_format_preference">Жељени видео формат</string>
-    <string name="not_convert">Непретворен</string>
-    <string name="video_format">Видео формат</string>
+    <string name="video_format_preference">Жељени формат видеа</string>
+    <string name="not_convert">Непретворено</string>
+    <string name="video_format">Формат видеа</string>
     <string name="best_quality">Најбољи квалитет (подразумевано)</string>
     <string name="export_to_clipboard">Извезите у привремену меморију</string>
     <string name="import_from_clipboard">Увезите из привремене меморије</string>
@@ -212,4 +212,8 @@
     <string name="network_settings_desc">Ограничење брзине, програм за преузимање, колачићи</string>
     <string name="disable_preview_desc">Онемогућите преглед преузимања</string>
     <string name="private_directory_desc">Чувајте преузимања у скривеном директоријуму</string>
+    <string name="suggested">Предложено</string>
+    <string name="format_selection_desc">Изаберите формат за преузимање пре него што започнете преузимање</string>
+    <string name="video_only">Видео (без звука)</string>
+    <string name="format_selection">Избор формата</string>
 </resources>
