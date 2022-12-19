@@ -298,9 +298,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun downloadVideoWithFormatId(videoInfo: VideoInfo, formatList: List<Format>) {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
-            val info = videoInfo.copy(fileSize = formatList.fold(0L) { acc, format ->
+            val fileSize = formatList.fold(0L) { acc, format ->
                 acc + (format.fileSize ?: format.fileSizeApprox ?: 0L)
-            })
+            }
+
+            val info = videoInfo.run { if (fileSize != 0L) copy(fileSize = fileSize) else this }
+
             val audioOnly =
                 formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
                     acc && (format.vcodec == "none" && format.acodec != "none")
@@ -398,7 +401,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             update {
                 it.copy(
-                    debugMode = PreferenceUtil.getValue(PreferenceUtil.DEBUG)
+                    debugMode = PreferenceUtil.getValue(PreferenceUtil.DEBUG, true)
                 )
             }
         }

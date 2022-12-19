@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
@@ -15,6 +17,7 @@ import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
@@ -35,6 +38,12 @@ class App : Application() {
         super.onCreate()
         MMKV.initialize(this)
         context = applicationContext
+        packageInfo = packageManager.run {
+            if (Build.VERSION.SDK_INT >= 33) getPackageInfo(
+                packageName, PackageManager.PackageInfoFlags.of(0)
+            ) else
+                getPackageInfo(packageName, 0)
+        }
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
 
@@ -46,11 +55,9 @@ class App : Application() {
                 PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
                 DatabaseUtil.insertTemplate(
                     CommandTemplate(
-                        0,
-                        context.getString(R.string.custom_command_template),
-                        PreferenceUtil.getString(
-                            PreferenceUtil.TEMPLATE, context.getString(R.string.template_example)
-                        )
+                        id = 0,
+                        name = context.getString(R.string.custom_command_template),
+                        template = TEMPLATE_EXAMPLE
                     )
                 )
             }
@@ -89,6 +96,9 @@ class App : Application() {
         lateinit var audioDownloadDir: String
         lateinit var applicationScope: CoroutineScope
         lateinit var connectivityManager: ConnectivityManager
+        lateinit var packageInfo: PackageInfo
+        const val userAgentHeader =
+            "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36 Edg/105.0.1343.53"
 
         fun getPrivateDownloadDirectory(): String =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).resolve(

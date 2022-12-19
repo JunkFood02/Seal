@@ -2,12 +2,15 @@ package com.junkfood.seal.ui.page.download
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -24,10 +29,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +51,8 @@ import com.junkfood.seal.ui.component.connectWithBlank
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
 
@@ -48,6 +60,7 @@ private const val TAG = "FormatPage"
 @Composable
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
+    if (videoInfo.formats.isNullOrEmpty()) onBackPressed()
     FormatPageImpl(videoInfo, onBackPressed) { formatList ->
         Log.d(TAG, formatList.toString())
         downloadViewModel.downloadVideoWithFormatId(videoInfo, formatList)
@@ -78,6 +91,12 @@ fun FormatPageImpl(
     var selectedVideoOnlyFormat by remember { mutableStateOf(-1) }
     var selectedAudioOnlyFormat by remember { mutableStateOf(-1) }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val scope = rememberCoroutineScope()
+    val msg = stringResource(id = R.string.link_copied)
+
+    val showSnackbar = { scope.launch { snackbarHostState.showSnackbar(message = msg) } }
 
     val formatList: List<Format> by remember {
         derivedStateOf {
@@ -91,6 +110,8 @@ fun FormatPageImpl(
     }
 
 
+    val clipboardManager = LocalClipboardManager.current
+    val hapticFeedback = LocalHapticFeedback.current
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -112,12 +133,18 @@ fun FormatPageImpl(
                     Text(text = stringResource(R.string.download))
                 }
             })
+        }, snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier,
+                hostState = snackbarHostState
+            )
         }) { paddingValues ->
 
         LazyVerticalGrid(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = 8.dp)
+                .selectableGroup(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             columns = GridCells.Adaptive(150.dp)
@@ -127,7 +154,8 @@ fun FormatPageImpl(
                     FormatVideoPreview(
                         title = title,
                         author = uploader ?: channel.toString(),
-                        thumbnailUrl = thumbnail.toHttpsUrl()
+                        thumbnailUrl = thumbnail.toHttpsUrl(),
+                        duration = (duration ?: .0).roundToInt()
                     )
                 }
 
@@ -143,7 +171,8 @@ fun FormatPageImpl(
                         ext = ext,
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: 0,
-                        selected = isSuggestedFormatSelected
+                        selected = isSuggestedFormatSelected,
+                        onLongClick = {}
                     ) {
                         isSuggestedFormatSelected = true
                         selectedAudioOnlyFormat = -1
@@ -158,7 +187,15 @@ fun FormatPageImpl(
             }
             itemsIndexed(videoAudioFormats) { index, formatInfo ->
                 FormatItem(
-                    formatInfo = formatInfo, selected = selectedVideoAudioFormat == index
+                    formatInfo = formatInfo,
+                    selected = selectedVideoAudioFormat == index,
+                    onLongClick = {
+                        formatInfo.url?.let {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            clipboardManager.setText(AnnotatedString(it))
+                            showSnackbar()
+                        }
+                    }
                 ) {
                     selectedVideoAudioFormat = if (selectedVideoAudioFormat == index) -1 else {
                         selectedAudioOnlyFormat = -1
@@ -180,7 +217,14 @@ fun FormatPageImpl(
                     formatInfo = formatInfo,
                     selected = selectedAudioOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    outlineColor = MaterialTheme.colorScheme.secondary
+                    outlineColor = MaterialTheme.colorScheme.secondary,
+                    onLongClick = {
+                        formatInfo.url?.let {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            clipboardManager.setText(AnnotatedString(it))
+                            showSnackbar()
+                        }
+                    }
                 ) {
                     selectedAudioOnlyFormat = if (selectedAudioOnlyFormat == index) -1 else {
                         selectedVideoAudioFormat = -1
@@ -202,7 +246,13 @@ fun FormatPageImpl(
                     formatInfo = formatInfo,
                     selected = selectedVideoOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    outlineColor = MaterialTheme.colorScheme.tertiary
+                    outlineColor = MaterialTheme.colorScheme.tertiary, onLongClick = {
+                        formatInfo.url?.let {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            clipboardManager.setText(AnnotatedString(it))
+                            showSnackbar()
+                        }
+                    }
                 ) {
                     selectedVideoOnlyFormat = if (selectedVideoOnlyFormat == index) -1 else {
                         selectedVideoAudioFormat = -1
@@ -211,7 +261,9 @@ fun FormatPageImpl(
                     }
                 }
             }
-
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+            }
 
         }
     }

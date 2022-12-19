@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,7 +62,7 @@ fun VideoCard(
                     modifier = Modifier
                         .padding(4.dp)
                         .align(Alignment.BottomEnd),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.68f),
+                    color = Color.Black.copy(alpha = 0.68f),
                     shape = MaterialTheme.shapes.extraSmall
                 ) {
                     val fileSizeText = "%.2f M".format(fileSizeApprox / (1024f * 1024f))
@@ -70,7 +71,7 @@ fun VideoCard(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = "$fileSizeText · $durationText",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.surface
+                        color = Color.White
                     )
                 }
             }

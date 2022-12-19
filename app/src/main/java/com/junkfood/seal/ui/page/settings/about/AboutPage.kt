@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.about
 
-import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,6 +31,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
@@ -61,20 +61,15 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
     val screenDensity = configuration.densityDpi / 160f
     val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
     val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
-    var isAutoUpdateEnabled by remember { mutableStateOf(PreferenceUtil.getValue(AUTO_UPDATE)) }
+    var isAutoUpdateEnabled by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
 
 
-    val info = if (Build.VERSION.SDK_INT >= 33) context.packageManager.getPackageInfo(
-        context.packageName, PackageManager.PackageInfoFlags.of(0)
-    )
-    else context.packageManager.getPackageInfo(context.packageName, 0)
-
-    val versionName = info.versionName
+    val versionName = packageInfo.versionName
 
     val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        info.longVersionCode
+        packageInfo.longVersionCode
     } else {
-        info.versionCode.toLong()
+        packageInfo.versionCode.toLong()
     }
     val release = if (Build.VERSION.SDK_INT >= 30) {
         Build.VERSION.RELEASE_OR_CODENAME

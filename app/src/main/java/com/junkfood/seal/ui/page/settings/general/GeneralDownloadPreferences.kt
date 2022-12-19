@@ -52,7 +52,6 @@ import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.DEBUG
-import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
@@ -75,7 +74,7 @@ fun GeneralDownloadPreferences(
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
 
 
-    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG)) }
+    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG,true)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
     var downloadNotification by remember {
@@ -118,11 +117,6 @@ fun GeneralDownloadPreferences(
             var isCustomCommandEnabled by remember {
                 mutableStateOf(
                     PreferenceUtil.getValue(CUSTOM_COMMAND)
-                )
-            }
-            val audioSwitch by remember {
-                mutableStateOf(
-                    PreferenceUtil.getValue(EXTRACT_AUDIO)
                 )
             }
             LazyColumn(
@@ -237,6 +231,7 @@ fun GeneralDownloadPreferences(
                         description = stringResource(R.string.private_mode_desc),
                         icon = if (isPrivateModeEnabled) Icons.Outlined.HistoryToggleOff else Icons.Outlined.History,
                         isChecked = isPrivateModeEnabled,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             isPrivateModeEnabled = !isPrivateModeEnabled
                             PreferenceUtil.updateValue(
@@ -252,6 +247,7 @@ fun GeneralDownloadPreferences(
                         description = stringResource(R.string.disable_preview_desc),
                         icon = if (isPreviewDisabled) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                         isChecked = isPreviewDisabled,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             isPreviewDisabled = !isPreviewDisabled
                             PreferenceUtil.updateValue(

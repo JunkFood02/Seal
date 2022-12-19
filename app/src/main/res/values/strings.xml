@@ -69,9 +69,6 @@
     <string name="error_copied">Error report copied to clipboard</string>
     <string name="thumbnail">thumbnail</string>
     <string name="paste">Paste</string>
-    <string name="template_example" translatable="false">--no-mtime -f \"bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] /
-        bv*+ba/b\"
-    </string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL will be added by the app.</string>
     <string name="audio_format">Convert audio format</string>
@@ -262,5 +259,8 @@
     <string name="suggested">Suggested</string>
     <string name="format_selection">Format selection</string>
     <string name="format_selection_desc">Select the format to download before starting the download</string>
-    <string name="la_az" translatable="false">Azərbaycan dili</string>
+    <string name="la_az" translatable="false">Azərbaycanca</string>
+    <string name="la_nn" translatable="false">Nynorsk</string>
+    <string name="generate_new_cookies">Generate new cookies</string>
+    <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
 </resources>

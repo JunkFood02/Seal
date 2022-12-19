@@ -32,4 +32,6 @@
     <locale android:name="si" />
     <locale android:name="sr" />
     <locale android:name="az" />
+    <locale android:name="nn" />
+    <locale android:name="pa" />
 </locale-config>

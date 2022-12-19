@@ -52,9 +52,9 @@ import com.junkfood.seal.ui.page.settings.general.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
 import com.junkfood.seal.ui.page.settings.general.TemplateListPage
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
+import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
 import com.junkfood.seal.util.PreferenceUtil.YT_DLP
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
@@ -147,8 +147,7 @@ fun HomeEntry(
             navController.navigate(Route.SETTINGS)
         }
         LaunchedEffect(Unit) {
-            if (!PreferenceUtil.isNetworkAvailableForDownload() ||
-                !PreferenceUtil.getValue(AUTO_UPDATE)
+            if (!PreferenceUtil.isNetworkAvailableForDownload() || !PreferenceUtil.isAutoUpdateEnabled()
             )
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
@@ -231,9 +230,16 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
         animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
         animatedComposable(Route.NETWORK_PREFERENCES) {
-            NetworkPreferences {
+            NetworkPreferences(navigateToCookieGeneratorPage = {
+                navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
+            }) {
                 onBackPressed()
             }
+        }
+        animatedComposable(
+            Route.COOKIE_GENERATOR_WEBVIEW
+        ) {
+            WebViewPage { onBackPressed() }
         }
     }
 }

@@ -60,7 +60,7 @@ object DownloadUtil {
     private const val OUTPUT_TEMPLATE = "%(title).100s [%(id)s].%(ext)s"
     private const val AUDIO_REGEX = "(mp3)|(aac)|(opus)|(m4a)"
     private const val CROP_ARTWORK_COMMAND =
-        """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
+        """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\",scale=300:300""""
 
 
     data class PlaylistInfo(
@@ -113,6 +113,15 @@ object DownloadUtil {
                     addOption("-x")
                 } else {
                     addOption("-S", toVideoFormatSorter())
+                }
+                if (cookies) {
+                    addOption(
+                        "--cookies",
+                        FileUtil.writeContentToFile(
+                            cookiesContent,
+                            context.getCookiesFile()
+                        ).absolutePath
+                    )
                 }
             }
             addOption("-R", "1")
@@ -283,9 +292,13 @@ object DownloadUtil {
                 addOption("--no-mtime")
                 addOption("-v")
                 if (cookies) {
-                    val cookiesFile = context.getCookiesFile(videoInfo.id)
-                    FileUtil.writeContentToFile(cookiesContent, cookiesFile)
-                    addOption("--cookies", cookiesFile.absolutePath)
+                    addOption(
+                        "--cookies",
+                        FileUtil.writeContentToFile(
+                            cookiesContent,
+                            context.getCookiesFile()
+                        ).absolutePath
+                    )
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {

@@ -3,15 +3,16 @@ package com.junkfood.seal.ui.page.settings.network
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.OfflineBolt
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
@@ -24,15 +25,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.PasteButton
+import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.COOKIES_DOMAIN
 import com.junkfood.seal.util.TextUtil.isNumberInRange
+import com.junkfood.seal.util.TextUtil.matchUrlFromClipboard
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +55,9 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 12.dp),
                 isError = isError,
                 supportingText = {
                     Text(
@@ -85,31 +91,48 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CookiesDialog(onDismissRequest: () -> Unit) {
+fun CookiesDialog(
+    navigateToCookieGeneratorPage: () -> Unit = {}, onDismissRequest: () -> Unit
+) {
     var cookies by remember {
         mutableStateOf(PreferenceUtil.getCookies())
     }
-    val clipboardManager = LocalClipboardManager.current
-
+    var url by remember { mutableStateOf(PreferenceUtil.getString(COOKIES_DOMAIN, "")) }
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
-        Column {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             Text(
                 stringResource(R.string.cookies_desc),
                 style = MaterialTheme.typography.bodyLarge
             )
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                value = url, label = { Text("URL") },
+                onValueChange = { url = it }, trailingIcon = {
+                    PasteButton { url = matchUrlFromClipboard(it) }
+                }, maxLines = 1
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 12.dp),
                 value = cookies,
                 label = { Text(stringResource(R.string.cookies_file_name)) },
-                onValueChange = { cookies = it }, trailingIcon = {
-                    IconButton(onClick = {
-                        clipboardManager.getText().toString().let { cookies = it }
-                    }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
-                }, maxLines = 5
+                onValueChange = { cookies = it }, minLines = 8, maxLines = 8
             )
-//            LinkButton(link = sponsorBlockReference)
+            TextButtonWithIcon(
+                onClick = {
+                    PreferenceUtil.updateString(COOKIES_DOMAIN, url)
+                    navigateToCookieGeneratorPage()
+                },
+                icon = Icons.Outlined.GeneratingTokens,
+                text = stringResource(id = R.string.generate_new_cookies)
+            )
+
         }
     }, dismissButton = {
         DismissButton {
@@ -119,6 +142,7 @@ fun CookiesDialog(onDismissRequest: () -> Unit) {
         ConfirmButton {
             onDismissRequest()
             PreferenceUtil.updateString(PreferenceUtil.COOKIES_FILE, cookies)
+            PreferenceUtil.updateString(COOKIES_DOMAIN, url)
         }
     })
 }

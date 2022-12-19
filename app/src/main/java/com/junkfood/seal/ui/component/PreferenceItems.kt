@@ -25,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -418,12 +419,13 @@ fun PreferencesHint(
     onClick: () -> Unit = {},
 ) {
 
+    val backgroundColor = MaterialTheme.colorScheme.secondaryContainer
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .background(backgroundColor)
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -435,7 +437,7 @@ fun PreferencesHint(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.contentColorFor(backgroundColor)
             )
         }
         Column(
@@ -449,12 +451,12 @@ fun PreferencesHint(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = colorScheme.onSecondaryContainer
+                    color = colorScheme.contentColorFor(backgroundColor)
                 )
                 if (description != null)
                     Text(
                         text = description,
-                        color = colorScheme.onSecondaryContainer,
+                        color = colorScheme.contentColorFor(backgroundColor),
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )
