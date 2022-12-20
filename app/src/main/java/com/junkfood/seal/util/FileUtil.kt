@@ -106,6 +106,7 @@ object FileUtil {
 
     fun getRealPath(treeUri: Uri): String {
         val path: String = treeUri.path.toString()
+        Log.d(TAG, path)
         if (!path.contains("primary:")) {
             TextUtil.makeToast("This directory is not supported")
             return File(

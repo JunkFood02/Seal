@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.TextUtil.connectWithBlank
 import com.junkfood.seal.util.TextUtil.connectWithDelimiter
 
 
@@ -124,7 +125,10 @@ fun FormatItem(
         FormatItem(
             formatDesc = format.toString(),
             resolution = resolution.toString(),
-            codec = connectWithBlank(vcodec.toString(), acodec.toString()),
+            codec = connectWithBlank(
+                vcodec.toString().substringBefore("."),
+                acodec.toString().substringBefore(".")
+            ),
             ext = ext.toString(),
             bitRate = tbr?.toFloat() ?: 0f,
             fileSize = fileSize ?: fileSizeApprox ?: 0,
@@ -193,7 +197,7 @@ fun FormatItem(
             val bitRateText =
                 if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
             val fileSizeText = "%.2f M".format(fileSize.toFloat() / 1024 / 1024)
-            val codecText = "$ext (${codec.substringBefore(".")})".uppercase()
+            val codecText = "$ext ($codec)".uppercase()
             Text(
                 text = connectWithDelimiter(fileSizeText, bitRateText, delimiter = " "),
                 style = MaterialTheme.typography.labelMedium,
@@ -298,12 +302,5 @@ fun FormatSubtitle(
     )
 }
 
-
-private fun connectWithBlank(s1: String, s2: String): String {
-    val f1 = s1.toEmpty()
-    val f2 = s2.toEmpty()
-    val blank = if (f1.isEmpty() || f2.isEmpty()) "" else " "
-    return f1 + blank + f2
-}
 
 fun String.toEmpty() = if (equals("none") || equals("null")) "" else this

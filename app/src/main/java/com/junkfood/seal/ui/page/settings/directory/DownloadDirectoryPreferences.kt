@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -67,7 +69,7 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
-import com.junkfood.seal.ui.component.PreferencesCaution
+import com.junkfood.seal.ui.component.PreferencesHint
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
 import com.junkfood.seal.util.FileUtil.getTempDir
@@ -128,7 +130,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val showDirectoryAlert =
-        Build.VERSION.SDK_INT >= 30 && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
+        if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                data = Uri.parse("package:" + context.packageName)
+            }.resolveActivity(context.packageManager) != null
+        } else false
+//                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
 
     val launcher =
         rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
@@ -182,11 +190,20 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             LazyColumn(modifier = Modifier.padding(it)) {
                 if (showDirectoryAlert)
                     item {
-                        PreferencesCaution(
+                        PreferencesHint(
                             title = stringResource(R.string.permission_issue),
                             description = stringResource(R.string.permission_issue_desc),
                             icon = Icons.Filled.SdCardAlert
-                        ) { uriHandler.openUri("https://github.com/JunkFood02/Seal/issues/34") }
+                        ) {
+                            if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+                                context.startActivity(
+                                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                        data = Uri.parse("package:" + context.packageName)
+                                    }
+                                )
+                            }
+                        }
                     }
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.general_settings))

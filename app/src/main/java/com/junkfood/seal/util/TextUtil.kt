@@ -5,6 +5,7 @@ import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.toEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
@@ -60,6 +61,13 @@ object TextUtil {
             builder.append(s)
         }
         return builder.toString()
+    }
+
+    fun connectWithBlank(s1: String, s2: String): String {
+        val f1 = s1.toEmpty()
+        val f2 = s2.toEmpty()
+        val blank = if (f1.isEmpty() || f2.isEmpty()) "" else " "
+        return f1 + blank + f2
     }
 
     fun String?.toHttpsUrl(): String =

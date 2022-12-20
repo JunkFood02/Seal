@@ -47,8 +47,8 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
-import com.junkfood.seal.ui.component.connectWithBlank
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.TextUtil.connectWithBlank
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
 import kotlinx.coroutines.launch
@@ -167,7 +167,10 @@ fun FormatPageImpl(
                     FormatItem(
                         formatDesc = format.toString(),
                         resolution = resolution.toString(),
-                        codec = connectWithBlank(vcodec.toString(), acodec.toString()),
+                        codec = connectWithBlank(
+                            vcodec.toString().substringBefore("."),
+                            acodec.toString().substringBefore(".")
+                        ),
                         ext = ext,
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: 0,
