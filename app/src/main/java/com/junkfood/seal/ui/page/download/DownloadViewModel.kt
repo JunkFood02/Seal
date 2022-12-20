@@ -270,8 +270,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
 
         if (isFormatSelectionEnabled) {
-            videoInfoFlow.update { videoInfo }
-            MainActivity.stopService()
+            runCatching {
+                if (videoInfo.formats?.isEmpty() == true) {
+                    throw Exception(context.getString(R.string.fetch_info_error_msg))
+                }
+                videoInfoFlow.update { videoInfo }
+                MainActivity.stopService()
+            }.onFailure { manageDownloadError(it) }
         } else {
             updateDownloadTask(videoInfo, task)
         }

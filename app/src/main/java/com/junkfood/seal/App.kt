@@ -90,7 +90,6 @@ class App : Application() {
 
     companion object {
         private const val PRIVATE_DIRECTORY_SUFFIX = ".Seal"
-        private const val TAG = "BaseApplication"
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String

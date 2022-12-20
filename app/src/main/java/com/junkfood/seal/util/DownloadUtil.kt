@@ -384,7 +384,7 @@ object DownloadUtil {
                     template.template, context.getConfigFile()
                 ).absolutePath
             )
-            addOption("-v")
+//            addOption("-v")
             if (PreferenceUtil.getValue(COOKIES)) {
                 addOption(
                     "--cookies", FileUtil.writeContentToFile(

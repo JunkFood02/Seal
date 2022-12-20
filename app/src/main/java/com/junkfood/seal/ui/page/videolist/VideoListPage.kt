@@ -205,12 +205,12 @@ fun VideoListPage(
                     )
                 },
                 navigationIcon = {
-                    BackButton(Modifier.padding(horizontal = 8.dp)) {
+                    BackButton(Modifier.padding(start = 8.dp)) {
                         onBackPressed()
                     }
                 }, actions = {
                     IconToggleButton(
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier.padding(end = 8.dp),
                         onCheckedChange = { isSelectEnabled = !isSelectEnabled },
                         checked = isSelectEnabled
                     ) {

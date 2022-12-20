@@ -135,15 +135,17 @@ object NotificationUtil {
         notificationId: Int,
         error: String,
     ) {
-        val intent = Intent(context.applicationContext, NotificationActionReceiver::class.java)
+        val intent = Intent()
+            .setClass(context, NotificationActionReceiver::class.java)
             .putExtra(NOTIFICATION_ID_KEY, notificationId)
             .putExtra(ERROR_REPORT_KEY, error)
             .putExtra(ACTION_KEY, ACTION_ERROR_REPORT)
+
         val pendingIntent = PendingIntent.getBroadcast(
-            context.applicationContext,
+            context,
             0,
             intent,
-            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)

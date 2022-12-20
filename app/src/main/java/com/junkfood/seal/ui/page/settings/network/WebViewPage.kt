@@ -50,13 +50,13 @@ data class Cookie(
 fun Cookie.toNetscapeCookieString(): String {
     return connectWithDelimiter(
         domain,
-        includeSubdomains.toString(),
+        includeSubdomains.toString().uppercase(),
         path,
-        secure.toString(),
+        secure.toString().uppercase(),
         expiry.toString(),
         name,
         value,
-        delimiter = "\t\t\t"
+        delimiter = "\u0009"
     )
 }
 

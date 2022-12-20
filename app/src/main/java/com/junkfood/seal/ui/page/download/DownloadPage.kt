@@ -114,6 +114,7 @@ fun DownloadPage(
     val taskState = StateHolder.taskState.collectAsStateWithLifecycle().value
     val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle().value
     val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle().value
+    val videoInfo = downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle().value
 
 
     val clipboardManager = LocalClipboardManager.current
@@ -140,7 +141,9 @@ fun DownloadPage(
     }
 
     DisposableEffect(viewState.showFormatSelectionPage) {
-        if (viewState.showFormatSelectionPage) navigateToFormatPage()
+        if (viewState.showFormatSelectionPage) {
+            if (!videoInfo.formats.isNullOrEmpty()) navigateToFormatPage()
+        }
         onDispose { downloadViewModel.hideFormatPage() }
     }
 
@@ -419,9 +422,9 @@ fun TitleWithProgressIndicator(
         AnimatedVisibility(visible = showCancelOperation) {
             Text(
                 if (isDownloadingPlaylist) stringResource(R.string.playlist_indicator_text).format(
-                        currentIndex,
-                        downloadItemCount
-                    )
+                    currentIndex,
+                    downloadItemCount
+                )
                 else stringResource(R.string.downloading_indicator_text),
                 modifier = Modifier.padding(start = 12.dp, top = 3.dp),
                 style = MaterialTheme.typography.bodySmall,

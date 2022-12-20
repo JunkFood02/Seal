@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.TextUtil.connectWithDelimiter
 
 
 @Preview
@@ -298,15 +299,7 @@ fun FormatSubtitle(
 }
 
 
-fun connectWithDelimiter(vararg strings: String, delimiter: String = " · "): String {
-    val builder = StringBuilder(strings.first())
-    for (s in strings.asList().subList(1, strings.size)) {
-        builder.append(delimiter + s)
-    }
-    return builder.toString()
-}
-
-fun connectWithBlank(s1: String, s2: String): String {
+private fun connectWithBlank(s1: String, s2: String): String {
     val f1 = s1.toEmpty()
     val f2 = s2.toEmpty()
     val blank = if (f1.isEmpty() || f2.isEmpty()) "" else " "
