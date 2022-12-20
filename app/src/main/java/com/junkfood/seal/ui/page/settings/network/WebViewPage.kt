@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -74,13 +74,19 @@ private fun makeCookie(url: String, cookieString: String): Cookie {
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WebViewPage(onDismissRequest: () -> Unit) {
+fun WebViewPage(
+    url: String,
+    onConfirmationCallback: (String) -> Unit = {},
+    onDismissRequest: () -> Unit
+) {
+    // TODO: use a ViewModel to hold states between two pages
     val cookieManager = CookieManager.getInstance()
     val cookieSet = mutableSetOf<Cookie>()
+    // TODO: url here
     val state = rememberWebViewState(PreferenceUtil.getString(COOKIES_DOMAIN, ""))
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CenterAlignedTopAppBar(title = {}, navigationIcon = {
+        TopAppBar(title = { Text(state.pageTitle.toString()) }, navigationIcon = {
             IconButton(
                 onClick = { onDismissRequest() }) {
                 Icon(
@@ -90,6 +96,7 @@ fun WebViewPage(onDismissRequest: () -> Unit) {
             }
         }, actions = {
             TextButton(onClick = {
+                // TODO: onConfirmationCallback here
                 val builder =
                     StringBuilder(
                         "# Netscape HTTP Cookie File\n" +

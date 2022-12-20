@@ -50,7 +50,7 @@ import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
 import com.junkfood.seal.ui.page.settings.format.DownloadFormatPreferences
 import com.junkfood.seal.ui.page.settings.general.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
-import com.junkfood.seal.ui.page.settings.general.TemplateListPage
+import com.junkfood.seal.ui.page.settings.command.TemplateListPage
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage

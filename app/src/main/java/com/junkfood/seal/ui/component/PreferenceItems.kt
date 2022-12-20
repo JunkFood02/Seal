@@ -618,12 +618,14 @@ fun TemplateItem(
                         style = typography.titleMedium,
                         color = colorScheme.onSurface
                     )
-                    Text(
-                        text = template.toString(),
-                        color = colorScheme.onSurfaceVariant,
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                    template?.let {
+                        Text(
+                            text = it,
+                            color = colorScheme.onSurfaceVariant,
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            style = typography.bodyMedium,
+                        )
+                    }
                 }
             }
             Divider(

@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.settings.general
+package com.junkfood.seal.ui.page.settings.command
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,6 +50,7 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
+import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX

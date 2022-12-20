@@ -263,4 +263,5 @@
     <string name="la_nn" translatable="false">Nynorsk</string>
     <string name="generate_new_cookies">Generate new cookies</string>
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
+    <string name="use_cookies">Use Cookies</string>
 </resources>

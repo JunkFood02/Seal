@@ -128,7 +128,7 @@ object PreferenceUtil {
     const val CROP_ARTWORK = "crop_artwork"
     const val FORMAT_SELECTION = "format_selection"
     const val COOKIES_DOMAIN = "cookies_domain"
-
+    const val COOKIES_PROFILE_INDEX= "cookies_index"
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify

@@ -5,6 +5,7 @@ import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.database.AppDatabase
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.database.DownloadedVideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,13 @@ object DatabaseUtil {
 
     fun getTemplateFlow() = dao.getTemplateFlow()
 
+    fun getCookiesFlow() = dao.getCookieProfileFlow()
+
+    suspend fun deleteCookieProfile(profile: CookieProfile) = dao.deleteCookieProfile(profile)
+
+    suspend fun insertCookieProfile(profile: CookieProfile) = dao.insertCookieProfile(profile)
+
+    suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
     suspend fun getTemplateList() = dao.getTemplateList()
 
     suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)

@@ -130,12 +130,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val showDirectoryAlert =
-        if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
-            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                data = Uri.parse("package:" + context.packageName)
-            }.resolveActivity(context.packageManager) != null
-        } else false
+        Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()
 //                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
 
     val launcher =
@@ -196,12 +191,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             icon = Icons.Filled.SdCardAlert
                         ) {
                             if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
-                                context.startActivity(
-                                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                        data = Uri.parse("package:" + context.packageName)
-                                    }
-                                )
+                                Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    data = Uri.parse("package:" + context.packageName)
+                                    if (resolveActivity(context.packageManager) != null)
+                                        context.startActivity(this)
+                                }
                             }
                         }
                     }

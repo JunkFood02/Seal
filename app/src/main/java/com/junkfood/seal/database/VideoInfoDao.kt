@@ -18,9 +18,6 @@ interface VideoInfoDao {
     @Query("select * from DownloadedVideoInfo where id=:id")
     suspend fun getInfoById(id: Int): DownloadedVideoInfo
 
-    @Delete
-    suspend fun delete(info: DownloadedVideoInfo)
-
     @Query("DELETE FROM DownloadedVideoInfo WHERE id = :id")
     suspend fun deleteInfoById(id: Int)
 
@@ -33,6 +30,9 @@ interface VideoInfoDao {
     @Query("SELECT * FROM CommandTemplate")
     suspend fun getTemplateList(): List<CommandTemplate>
 
+    @Query("select * from CookieProfile")
+    fun getCookieProfileFlow(): Flow<List<CookieProfile>>
+
     @Insert
     suspend fun insertTemplate(template: CommandTemplate)
 
@@ -44,4 +44,16 @@ interface VideoInfoDao {
 
     @Query("SELECT * FROM CommandTemplate where id = :id")
     suspend fun getTemplateById(id: Int): CommandTemplate
+
+    @Query("select * from CookieProfile where id=:id")
+    suspend fun getCookieById(id: Int): CookieProfile
+
+    @Update
+    suspend fun updateCookieProfile(cookieProfile: CookieProfile)
+
+    @Delete
+    suspend fun deleteCookieProfile(cookieProfile: CookieProfile)
+
+    @Insert
+    suspend fun insertCookieProfile(cookieProfile: CookieProfile)
 }
