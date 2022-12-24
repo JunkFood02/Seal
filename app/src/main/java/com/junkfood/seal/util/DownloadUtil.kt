@@ -76,9 +76,19 @@ object DownloadUtil {
             addOption("-J")
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
+            if(PreferenceUtil.getValue(COOKIES)){
+                PreferenceUtil.getCookies().run {
+                    if (isNotEmpty())
+                        addOption(
+                            "--cookies", FileUtil.writeContentToFile(
+                                this, context.getCookiesFile()
+                            ).absolutePath
+                        )
+                }
+            }
         }
         for (s in request.buildCommand()) Log.d(TAG, s)
-        val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null)
+        val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, playlistURL)
         val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
         Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
         if (res.type != "playlist") {
@@ -115,13 +125,14 @@ object DownloadUtil {
                     addOption("-S", toVideoFormatSorter())
                 }
                 if (cookies) {
-                    addOption(
-                        "--cookies",
-                        FileUtil.writeContentToFile(
-                            cookiesContent,
-                            context.getCookiesFile()
-                        ).absolutePath
-                    )
+                    PreferenceUtil.getCookies().run {
+                        if (isNotEmpty())
+                            addOption(
+                                "--cookies", FileUtil.writeContentToFile(
+                                    this, context.getCookiesFile()
+                                ).absolutePath
+                            )
+                    }
                 }
             }
             addOption("-R", "1")
@@ -292,13 +303,14 @@ object DownloadUtil {
                 addOption("--no-mtime")
                 addOption("-v")
                 if (cookies) {
-                    addOption(
-                        "--cookies",
-                        FileUtil.writeContentToFile(
-                            cookiesContent,
-                            context.getCookiesFile()
-                        ).absolutePath
-                    )
+                    PreferenceUtil.getCookies().run {
+                        if (isNotEmpty())
+                            addOption(
+                                "--cookies", FileUtil.writeContentToFile(
+                                    this, context.getCookiesFile()
+                                ).absolutePath
+                            )
+                    }
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
@@ -386,11 +398,14 @@ object DownloadUtil {
             )
 //            addOption("-v")
             if (PreferenceUtil.getValue(COOKIES)) {
-                addOption(
-                    "--cookies", FileUtil.writeContentToFile(
-                        PreferenceUtil.getCookies(), context.getCookiesFile()
-                    ).absolutePath
-                )
+                PreferenceUtil.getCookies().run {
+                    if (isNotEmpty())
+                        addOption(
+                            "--cookies", FileUtil.writeContentToFile(
+                                this, context.getCookiesFile()
+                            ).absolutePath
+                        )
+                }
             }
         }
 

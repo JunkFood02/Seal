@@ -46,7 +46,10 @@ interface VideoInfoDao {
     suspend fun getTemplateById(id: Int): CommandTemplate
 
     @Query("select * from CookieProfile where id=:id")
-    suspend fun getCookieById(id: Int): CookieProfile
+    suspend fun getCookieById(id: Int): CookieProfile?
+
+    @Query("select * from CookieProfile")
+    suspend fun getCookieList(): List<CookieProfile>
 
     @Update
     suspend fun updateCookieProfile(cookieProfile: CookieProfile)

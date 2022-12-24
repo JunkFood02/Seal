@@ -12,6 +12,7 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +116,6 @@ object PreferenceUtil {
     const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
     const val ARIA2C = "aria2c"
     const val COOKIES = "cookies"
-    const val COOKIES_FILE = "cookies_file"
     const val AUTO_UPDATE = "auto_update"
     const val PRIVATE_MODE = "private_mode"
     private const val DYNAMIC_COLOR = "dynamic_color"
@@ -127,8 +127,7 @@ object PreferenceUtil {
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
     const val FORMAT_SELECTION = "format_selection"
-    const val COOKIES_DOMAIN = "cookies_domain"
-    const val COOKIES_PROFILE_INDEX= "cookies_index"
+    const val COOKIES_PROFILE_ID = "cookies_profile_id"
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify
@@ -280,7 +279,9 @@ object PreferenceUtil {
             else this
         }
 
-    fun getCookies(): String = getString(COOKIES_FILE, "")
+    private var cacheCookie: CookieProfile = CookieProfile(0, "", "")
+    fun getCookies(): String = cacheCookie.content
+
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
@@ -288,7 +289,6 @@ object PreferenceUtil {
     )
 
     fun getMaxDownloadRate(): String = getString(MAX_RATE, "1000")
-
     private val mutableAppSettingsStateFlow = MutableStateFlow(
         AppSettings(
             DarkThemePreference(
@@ -339,6 +339,15 @@ object PreferenceUtil {
                 it.copy(isDynamicColorEnabled = enabled)
             }
             kv.encode(DYNAMIC_COLOR, enabled)
+        }
+    }
+
+    fun selectCookieProfile(id: Int) {
+        applicationScope.launch(Dispatchers.IO) {
+            DatabaseUtil.getCookieById(id)?.let {
+                cacheCookie=it
+                updateInt(COOKIES_PROFILE_ID,id)
+            }
         }
     }
 

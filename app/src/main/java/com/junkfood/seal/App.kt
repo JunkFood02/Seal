@@ -17,6 +17,7 @@ import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.COOKIES_PROFILE_ID
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
@@ -61,6 +62,7 @@ class App : Application() {
                     )
                 )
             }
+            PreferenceUtil.selectCookieProfile(PreferenceUtil.getInt(COOKIES_PROFILE_ID, 0))
             try {
                 YoutubeDL.getInstance().init(this@App)
                 FFmpeg.getInstance().init(this@App)

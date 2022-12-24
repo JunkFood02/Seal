@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -37,7 +36,7 @@ import com.junkfood.seal.util.PreferenceUtil
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NetworkPreferences(
-    navigateToCookieGeneratorPage: () -> Unit = {},
+    navigateToCookieProfilePage: () -> Unit = {},
     onBackPressed: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -46,7 +45,6 @@ fun NetworkPreferences(
     )
 
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
-    var showCookiesDialog by rememberSaveable { mutableStateOf(false) }
     var showRateLimitDialog by remember { mutableStateOf(false) }
     var aria2c by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.ARIA2C)) }
     var isCookiesEnabled by remember {
@@ -149,7 +147,8 @@ fun NetworkPreferences(
                         onChecked = {
                             isCookiesEnabled = !isCookiesEnabled
                             PreferenceUtil.updateValue(PreferenceUtil.COOKIES, isCookiesEnabled)
-                        }, onClick = { showCookiesDialog = true })
+                        },
+                        onClick = { navigateToCookieProfilePage() })
                 }
 
             }
@@ -161,11 +160,6 @@ fun NetworkPreferences(
         }
     }
 
-    if (showCookiesDialog) {
-        CookiesDialog(navigateToCookieGeneratorPage = navigateToCookieGeneratorPage) {
-            showCookiesDialog = false
-        }
-    }
     if (showRateLimitDialog) {
         RateLimitDialog {
             showRateLimitDialog = false

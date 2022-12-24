@@ -36,6 +36,7 @@ object DatabaseUtil {
 
     fun getCookiesFlow() = dao.getCookieProfileFlow()
 
+    suspend fun getCookieById(id: Int) = dao.getCookieById(id)
     suspend fun deleteCookieProfile(profile: CookieProfile) = dao.deleteCookieProfile(profile)
 
     suspend fun insertCookieProfile(profile: CookieProfile) = dao.insertCookieProfile(profile)

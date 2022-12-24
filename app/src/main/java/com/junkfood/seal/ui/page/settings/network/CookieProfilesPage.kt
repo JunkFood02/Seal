@@ -35,8 +35,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -46,30 +48,32 @@ import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.TextUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun CookieProfilePage(onBackPressed: () -> Unit = {}) {
+fun CookieProfilePage(
+    cookiesViewModel: CookiesViewModel = viewModel(),
+    navigateToCookieGeneratorPage: () -> Unit = {},
+    onBackPressed: () -> Unit = {}
+) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
-    val cookies = DatabaseUtil.getCookiesFlow().collectAsState(emptyList()).value
+    val cookies = cookiesViewModel.cookiesFlow.collectAsState(emptyList()).value
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
-    var showEditDialog by remember { mutableStateOf(false) }
-    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
+
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
-    var editingCookieProfile by remember { mutableStateOf(-1) }
     var selectedCookieProfile by remember {
-        mutableStateOf(PreferenceUtil.getInt(PreferenceUtil.COOKIES_PROFILE_INDEX, -1))
+        mutableStateOf(PreferenceUtil.getInt(PreferenceUtil.COOKIES_PROFILE_ID, -1))
     }
+
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -97,24 +101,18 @@ fun CookieProfilePage(onBackPressed: () -> Unit = {}) {
                         PreferenceUtil.updateValue(COOKIES, isCookieEnabled)
                     })
             }
-            itemsIndexed(cookies) { index, item ->
+            itemsIndexed(cookies) { _, item ->
                 TemplateItem(
                     label = item.url,
                     template = null,
-                    selected = selectedCookieProfile == index,
-                    onClick = {
-                        editingCookieProfile = index
-                        showEditDialog = true
-                    }, onSelect = {
-                        selectedCookieProfile = index
-                        PreferenceUtil.updateInt(
-                            PreferenceUtil.COOKIES_PROFILE_INDEX,
-                            selectedCookieProfile
-                        )
+                    selected = selectedCookieProfile == item.id,
+                    onClick = { cookiesViewModel.showEditCookieDialog(item) },
+                    onSelect = {
+                        selectedCookieProfile = item.id
+                        PreferenceUtil.selectCookieProfile(item.id)
                     }, onLongClick = {
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        editingCookieProfile = index
-                        showDeleteDialog = true
+                        cookiesViewModel.showDeleteCookieDialog(item)
                     })
             }
             item {
@@ -122,31 +120,37 @@ fun CookieProfilePage(onBackPressed: () -> Unit = {}) {
                     title = stringResource(id = R.string.generate_new_cookies),
                     icon = Icons.Outlined.Add
                 ) {
-                    editingCookieProfile = -1
-                    showEditDialog = true
+                    cookiesViewModel.showEditCookieDialog()
                 }
             }
         }
 
     }
-    if (showEditDialog) {
-        if (editingCookieProfile == --1) {
-
+    if (state.showEditDialog) {
+        CookieGeneratorDialog(
+            cookiesViewModel,
+            navigateToCookieGeneratorPage = navigateToCookieGeneratorPage
+        ) {
+            cookiesViewModel.hideDialog()
         }
     }
+
+
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun CookieGeneratorDialog(
-    scope: CoroutineScope = rememberCoroutineScope(),
-    newProfile: Boolean = false,
-    cookieProfile: CookieProfile = CookieProfile(id = 0, url = "", content = ""),
-    navigateToCookieGeneratorPage: (Int) -> Unit = {},
+    cookiesViewModel: CookiesViewModel = viewModel(),
+    navigateToCookieGeneratorPage: () -> Unit = {},
     onDismissRequest: () -> Unit
 ) {
-    var url by remember { mutableStateOf(cookieProfile.url) }
-    var cookies by remember { mutableStateOf(cookieProfile.content) }
+
+    val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
+    val profile = state.editingCookieProfile
+    val url = profile.url
+    val content = profile.content
+
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
@@ -160,8 +164,8 @@ fun CookieGeneratorDialog(
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 value = url, label = { Text("URL") },
-                onValueChange = { url = it }, trailingIcon = {
-                    PasteButton { url = TextUtil.matchUrlFromClipboard(it) }
+                onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
+                    PasteButton { cookiesViewModel.updateUrl(TextUtil.matchUrlFromClipboard(it)) }
                 }, maxLines = 1
             )
 
@@ -169,19 +173,12 @@ fun CookieGeneratorDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 12.dp),
-                value = cookies,
+                value = content,
                 label = { Text(stringResource(R.string.cookies_file_name)) },
-                onValueChange = { cookies = it }, minLines = 8, maxLines = 8
+                onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8
             )
             TextButtonWithIcon(
-                onClick = {
-                    scope.launch {
-                        DatabaseUtil.updateCookieProfile(
-                            cookieProfile.copy(url = url)
-                        )
-                        navigateToCookieGeneratorPage(cookieProfile.id)
-                    }
-                },
+                onClick = { navigateToCookieGeneratorPage() },
                 icon = Icons.Outlined.GeneratingTokens,
                 text = stringResource(id = R.string.generate_new_cookies)
             )
@@ -193,10 +190,8 @@ fun CookieGeneratorDialog(
         }
     }, confirmButton = {
         ConfirmButton {
-            scope.launch {
-                DatabaseUtil.updateCookieProfile(cookieProfile.copy(url = url, content = cookies))
-                onDismissRequest()
-            }
+            cookiesViewModel.updateCookieProfile()
+            onDismissRequest()
         }
     })
 

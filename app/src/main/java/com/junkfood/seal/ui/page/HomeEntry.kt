@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -47,10 +48,12 @@ import com.junkfood.seal.ui.page.settings.about.kotlin
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
+import com.junkfood.seal.ui.page.settings.command.TemplateListPage
 import com.junkfood.seal.ui.page.settings.format.DownloadFormatPreferences
 import com.junkfood.seal.ui.page.settings.general.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
-import com.junkfood.seal.ui.page.settings.command.TemplateListPage
+import com.junkfood.seal.ui.page.settings.network.CookieProfilePage
+import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
@@ -113,6 +116,7 @@ fun HomeEntry(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        val cookiesViewModel: CookiesViewModel = viewModel()
         AnimatedNavHost(
             modifier = Modifier
                 .fillMaxWidth(
@@ -139,7 +143,7 @@ fun HomeEntry(
             animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInComposable(Route.PLAYLIST) { PlaylistSelectionPage(downloadViewModel) { onBackPressed() } }
             slideInComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
-            settingsGraph(navController) { onBackPressed() }
+            settingsGraph(navController, cookiesViewModel)
 
         }
 
@@ -204,7 +208,8 @@ fun HomeEntry(
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.settingsGraph(
     navController: NavHostController,
-    onBackPressed: () -> Unit = {}
+    cookiesViewModel: CookiesViewModel,
+    onBackPressed: () -> Unit = { navController.popBackStack() }
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
@@ -230,16 +235,20 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
         animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
         animatedComposable(Route.NETWORK_PREFERENCES) {
-            NetworkPreferences(navigateToCookieGeneratorPage = {
-                navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
-            }) {
-                onBackPressed()
-            }
+            NetworkPreferences(navigateToCookieProfilePage = {
+                navController.navigate(Route.COOKIE_PROFILE)
+            }) { onBackPressed() }
+        }
+        animatedComposable(Route.COOKIE_PROFILE) {
+            CookieProfilePage(
+                cookiesViewModel = cookiesViewModel,
+                navigateToCookieGeneratorPage = { navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW) },
+            ) { onBackPressed() }
         }
         animatedComposable(
             Route.COOKIE_GENERATOR_WEBVIEW
         ) {
-            WebViewPage { onBackPressed() }
+            WebViewPage(cookiesViewModel){ onBackPressed() }
         }
     }
 }
