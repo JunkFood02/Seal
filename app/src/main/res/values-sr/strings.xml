@@ -201,7 +201,7 @@
     <string name="best_quality">Најбољи квалитет (подразумевано)</string>
     <string name="export_to_clipboard">Извезите у привремену меморију</string>
     <string name="import_from_clipboard">Увезите из привремене меморије</string>
-    <string name="video_format_desc">Одабрани формат када је наведено више</string>
+    <string name="video_format_desc">Изабрани формат када их је доступно више</string>
     <string name="close">Затворите</string>
     <string name="close_never_show_again">Не приказуј поново</string>
     <string name="start_download">Преузмите</string>
@@ -216,4 +216,5 @@
     <string name="format_selection_desc">Изаберите формат за преузимање пре него што започнете преузимање</string>
     <string name="video_only">Видео (без звука)</string>
     <string name="format_selection">Избор формата</string>
+    <string name="generate_new_cookies">Генеришите нове колачиће</string>
 </resources>

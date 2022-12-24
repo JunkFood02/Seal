@@ -216,4 +216,5 @@
     <string name="format_selection_desc">Seleziona il formato da scaricare prima di avviare lo scaricamento</string>
     <string name="suggested">Suggerito</string>
     <string name="format_selection">Selezione del formato</string>
+    <string name="generate_new_cookies">Genera nuovi cookie</string>
 </resources>

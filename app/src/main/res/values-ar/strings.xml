@@ -216,4 +216,5 @@
     <string name="format_selection">اختيار الصيغة</string>
     <string name="format_selection_desc">حدد الصيغة المراد تنزيلها قبل بدء العملية</string>
     <string name="video_only">فيديو (بدون صوت)</string>
+    <string name="generate_new_cookies">إنشاء ملفات تعريف ارتباط جديدة</string>
 </resources>
