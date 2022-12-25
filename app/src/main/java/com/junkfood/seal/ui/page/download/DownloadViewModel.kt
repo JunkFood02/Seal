@@ -27,6 +27,7 @@ import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
@@ -125,28 +126,45 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     )
                 }
                 try {
-                    val playlistResult = DownloadUtil.getPlaylistInfo(url)
-                    mutableDownloaderState.update {
-                        it.copy(
-                            downloadItemCount = playlistResult.playlistCount,
-                            isFetchingInfo = false,
-                        )
-                    }
-                    if (playlistResult.playlistCount == 1) {
-                        checkStateBeforeDownload()
-                        fetchVideoInfo(url)?.let {
-                            downloadVideo(videoInfo = it)
+                    when (val info = DownloadUtil.getPlaylistOrVideoInfo(url).apply {
+                        mutableDownloaderState.update {
+                            it.copy(isFetchingInfo = false)
                         }
-                    } else {
-                        mutablePlaylistResult.update { playlistResult }
-                        showPlaylistDialog()
+                    }) {
+                        is PlaylistResult -> {
+                            mutableDownloaderState.update {
+                                it.copy(downloadItemCount = info.playlistCount)
+                            }
+                            if (info.playlistCount == 1) {
+                                checkStateBeforeDownload()
+                                fetchVideoInfo(url)?.let {
+                                    downloadVideo(videoInfo = it)
+                                }
+                            } else {
+                                mutablePlaylistResult.update { info }
+                                showPlaylistDialog()
+                            }
+                        }
+
+                        is VideoInfo -> {
+                            if (PreferenceUtil.getValue(FORMAT_SELECTION, true)){
+                                videoInfoFlow.update { info }
+                                mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
+                            }
+                            else {
+                                checkStateBeforeDownload()
+                                downloadVideo(videoInfo = info)
+                            }
+                        }
                     }
+
                 } catch (e: Exception) {
                     manageDownloadError(e)
                 }
             }
         }
     }
+
 
     fun downloadVideoInPlaylistByIndexList(
         playlistResult: PlaylistResult = StateHolder.playlistResult.value,

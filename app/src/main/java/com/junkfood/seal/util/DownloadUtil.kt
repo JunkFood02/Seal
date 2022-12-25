@@ -63,12 +63,9 @@ object DownloadUtil {
         """--ppa "ffmpeg: -c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\",scale=300:300""""
 
 
-    data class PlaylistInfo(
-        val url: String = "", val size: Int = 0, val title: String = ""
-    )
 
 
-    fun getPlaylistInfo(playlistURL: String): PlaylistResult {
+    fun getPlaylistOrVideoInfo(playlistURL: String): YoutubeDLInfo {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
         with(request) {
@@ -76,7 +73,7 @@ object DownloadUtil {
             addOption("-J")
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
-            if(PreferenceUtil.getValue(COOKIES)){
+            if (PreferenceUtil.getValue(COOKIES)) {
                 PreferenceUtil.getCookies().run {
                     if (isNotEmpty())
                         addOption(
@@ -88,11 +85,11 @@ object DownloadUtil {
             }
         }
         for (s in request.buildCommand()) Log.d(TAG, s)
-        val resp: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, playlistURL)
-        val res = jsonFormat.decodeFromString<PlaylistResult>(resp.out)
+        val resp = YoutubeDL.getInstance().execute(request, playlistURL).out
+        val res = jsonFormat.decodeFromString<PlaylistResult>(resp)
         Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
         if (res.type != "playlist") {
-            return PlaylistResult(playlistCount = 1)
+            return jsonFormat.decodeFromString<VideoInfo>(resp)
         }
         return res
     }

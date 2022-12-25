@@ -3,10 +3,12 @@ package com.junkfood.seal.util
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+sealed interface YoutubeDLInfo
+
 @Serializable
 data class VideoInfo(
-    val id: String="",
-    val title: String="",
+    val id: String = "",
+    val title: String = "",
     val formats: List<Format>? = emptyList(),
 //    val thumbnails: List<Thumbnail> = emptyList(),
     val thumbnail: String? = null,
@@ -34,7 +36,7 @@ data class VideoInfo(
     @SerialName("webpage_url_basename") val webpageUrlBasename: String? = null,
     @SerialName("webpage_url_domain") val webpageUrlDomain: String? = null,
     val extractor: String? = null,
-    @SerialName("extractor_key") val extractorKey: String="",
+    @SerialName("extractor_key") val extractorKey: String = "",
     val playlist: String? = null,
     @SerialName("playlist_index") val playlistIndex: Int? = null,
     @SerialName("display_id") val displayId: String? = null,
@@ -43,7 +45,7 @@ data class VideoInfo(
     @SerialName("release_date") val releaseDate: String? = null,
     val format: String? = null,
     @SerialName("format_id") val formatId: String? = null,
-    val ext: String="",
+    val ext: String = "",
     val protocol: String? = null,
     @SerialName("format_note") val formatNote: String? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Long? = null,
@@ -61,8 +63,7 @@ data class VideoInfo(
     val asr: Int? = null,
     val epoch: Int? = null,
     @SerialName("_type") val Type: String? = null,
-) {
-}
+) : YoutubeDLInfo
 
 @Serializable
 data class Format(
@@ -131,7 +132,7 @@ data class PlaylistResult(
     val entries: List<Entries>? = emptyList(),
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("extractor_key") val extractorKey: String? = null,
-)
+) : YoutubeDLInfo
 
 @Serializable
 data class Thumbnail(
