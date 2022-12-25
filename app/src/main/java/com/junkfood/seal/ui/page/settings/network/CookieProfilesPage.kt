@@ -88,8 +88,8 @@ fun CookieProfilePage(
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
                     onBackPressed()
                 }
-            })
-        })
+            }, scrollBehavior = scrollBehavior)
+        },)
     { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             item {
@@ -104,6 +104,7 @@ fun CookieProfilePage(
             }
             itemsIndexed(cookies) { _, item ->
                 PreferenceItemVariant(
+                    modifier=Modifier.padding(vertical = 4.dp),
                     title = item.url,
                     onClick = { cookiesViewModel.showEditCookieDialog(item) },
                     onClickLabel = stringResource(

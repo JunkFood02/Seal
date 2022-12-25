@@ -92,7 +92,7 @@ Contributions are welcome!
 
 You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 
-[![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
+[![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
 >**Note**
 

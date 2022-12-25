@@ -40,7 +40,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10610
+        versionCode = 10700
         versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
             if (!isStable) append("-beta.${versionBuild}")
             if (!splitApks) append("-(F-Droid)")

@@ -96,6 +96,7 @@ fun PreferenceItem(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItemVariant(
+    modifier: Modifier=Modifier,
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
@@ -115,7 +116,7 @@ fun PreferenceItemVariant(
         )
     ) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(16.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
