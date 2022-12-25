@@ -216,4 +216,5 @@
     <string name="video_only">Video (ses yok)</string>
     <string name="suggested">Önerilen</string>
     <string name="format_selection">Biçim seçimi</string>
+    <string name="generate_new_cookies">Yeni çerezler oluştur</string>
 </resources>

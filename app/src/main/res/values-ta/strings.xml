@@ -1,2 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="url_empty">லிங்க் காலியாக இருக்கக்கூடாது</string>
+    <string name="extract_audio_summary">வீடியோவிற்குப் பதிலாக ஆடியோவைப் பதிவிறக்கிச் சேமிக்கவும்</string>
+    <string name="task_running">ஏற்கனவே ஒரு பதிவிறக்கம் செயல்பாட்டில் உள்ளது</string>
+    <string name="delete_info_msg">உங்கள் பதிவிறக்க வரலாற்றிலிருந்து \"%1$s\" ஐ அகற்றவா\?</string>
+    <string name="paste_fail_msg">கிளிப்போர்டில் உள்ள URLஐப் பொருத்த முடியவில்லை</string>
+    <string name="yt_dlp_update_fail">சமீபத்திய yt-dlp பதிப்பை நிறுவ முடியவில்லை. நீங்கள் இணையத்துடன் இணைக்கப்பட்டுள்ளீர்களா என்பதை உறுதிப்படுத்தவும்.</string>
+    <string name="video_directory">வீடியோ கோப்பு</string>
+    <string name="extract_audio">ஆடியோவாக சேமிக்கவும்</string>
+    <string name="create_thumbnail">சிறுபடத்தை சேமிக்கவும்</string>
+    <string name="settings">அமைப்புகள்</string>
+    <string name="download_settings_desc">பொது, வடிவம், தனிப்பயன் கட்டளை</string>
+    <string name="download">பதிவிறக்கு</string>
+    <string name="create_thumbnail_summary">வீடியோ சிறுபடத்தை ஃபைலாக சேமிக்கவும்</string>
+    <string name="yt_dlp_up_to_date">yt-dlp இன் சமீபத்திய பதிப்பைப் பயன்படுத்துகிறது</string>
+    <string name="fetching_info">வீடியோவின் தகவலைப் பெறுகிறது…</string>
+    <string name="permission_denied">அனுமதி மறுக்கப்பட்டது</string>
+    <string name="download_success_msg">பதிவிறக்கம் முடிந்தது</string>
+    <string name="download_error_msg">ஃபைலை பதிவிறக்க முடியவில்லை</string>
+    <string name="download_start_msg">\"%1$s\" ஐ பதிவிறக்கு</string>
+    <string name="fetch_info_error_msg">வீடியோ தகவலைப் பெற முடியவில்லை</string>
+    <string name="general_settings">பொது</string>
+    <string name="language">ஆப் மொழி</string>
+    <string name="language_settings">ஆப் மொழியை அமைக்கவும்</string>
+    <string name="paste_msg">கிளிப்போர்டிலிருந்து URL ஐ ஒட்டவும்</string>
+    <string name="ytdlp_version">Yt-dlpன் பதிப்பு</string>
+    <string name="ytdlp_update">சமீபத்திய yt-dlp பதிப்பை நிறுவ கிளிக் செய்யவும்</string>
+    <string name="delete_info">நீக்கவா\?</string>
+    <string name="confirm">உறுதிப்படுத்தவும்</string>
+    <string name="dismiss">ரத்து செய்</string>
+    <string name="downloads_history">பதிவிறக்கங்கள்</string>
+    <string name="audio">ஆடியோ</string>
+    <string name="link_copied">லிங்க் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
+    <string name="open_url">லிங்க்கை திற</string>
+    <string name="remove">நீக்கு</string>
+    <string name="delete_file">அழி</string>
+    <string name="about">ஆப்பை பற்றி</string>
+</resources>

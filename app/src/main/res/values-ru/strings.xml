@@ -97,7 +97,7 @@
     <string name="not_convert">Не преобразовывать</string>
     <string name="on">Включено</string>
     <string name="off">Отключено</string>
-    <string name="audio_format_desc">Аудио в MP3 или M4A работает на большинстве устройств</string>
+    <string name="audio_format_desc">Перекодирование аудиофайлов создаст потерю качества и увеличит размер файла.</string>
     <string name="video_format">Формат видео</string>
     <string name="best_quality">Наилучшее качество (по умолчанию)</string>
     <string name="convert_audio">Преобразовать</string>
@@ -212,4 +212,9 @@
     <string name="selected_item_count">Выбрано %1$d видео</string>
     <string name="download_selection_desc">Выберите видео для загрузки из плейлиста \"%1$s\"</string>
     <string name="select_all">Выбрать все</string>
+    <string name="format_selection_desc">Выбор формата для загрузки перед ее началом</string>
+    <string name="generate_new_cookies">Сгенерировать новые cookies</string>
+    <string name="video_only">Видео (без аудио)</string>
+    <string name="format_selection">Выбор формата</string>
+    <string name="suggested">Предложенный</string>
 </resources>
