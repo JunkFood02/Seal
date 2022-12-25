@@ -54,6 +54,10 @@ class CookiesViewModel : ViewModel() {
         }
     }
 
+    fun deleteCookieProfile(cookieProfile: CookieProfile = stateFlow.value.editingCookieProfile) {
+        viewModelScope.launch(Dispatchers.IO) { DatabaseUtil.deleteCookieProfile(cookieProfile) }
+    }
+
     fun generateNewCookies(content: String) {
         viewModelScope.launch(Dispatchers.IO) {
             mutableStateFlow.update {
@@ -89,9 +93,10 @@ class CookiesViewModel : ViewModel() {
         }
     }
 
-    fun hideDialog(isEditing: Boolean = true) {
+    fun hideDialog() {
         mutableStateFlow.update {
-            if (isEditing) it.copy(showEditDialog = false) else it.copy(
+            it.copy(
+                showEditDialog = false,
                 showDeleteDialog = false
             )
         }

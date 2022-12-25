@@ -264,4 +264,5 @@
     <string name="generate_new_cookies">Generate new cookies</string>
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
     <string name="use_cookies">Use Cookies</string>
+    <string name="remove_cookie_profile_desc">Remove cookies for \"%1$s\"?</string>
 </resources>

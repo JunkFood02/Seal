@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -165,15 +166,18 @@ fun TextButtonWithIcon(
         onClick = onClick
     )
     {
-        Icon(
-            modifier = Modifier.size(18.dp),
-            imageVector = icon,
-            contentDescription = null
-        )
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = text
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                modifier = Modifier.size(18.dp),
+                imageVector = icon,
+                contentDescription = null
+            )
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = text
+            )
+        }
+
     }
 }
 

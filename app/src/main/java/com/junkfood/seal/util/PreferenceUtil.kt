@@ -132,7 +132,6 @@ object PreferenceUtil {
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
     const val FORMAT_SELECTION = "format_selection"
-    const val COOKIES_PROFILE_ID = "cookies_profile_id"
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify

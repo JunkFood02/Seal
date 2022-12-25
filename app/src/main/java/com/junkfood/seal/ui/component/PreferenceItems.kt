@@ -548,8 +548,8 @@ fun PreferenceSwitchWithContainer(
             with(MaterialTheme) {
                 Text(
                     text = title,
-                    maxLines = 1,
-                    style = typography.titleLarge.copy(fontSize = 20.sp),
+                    maxLines = 2,
+                    style = preferenceTitle,
                     color = if (isChecked) colorScheme.onSurfaceVariant else colorScheme.surface
                 )
             }

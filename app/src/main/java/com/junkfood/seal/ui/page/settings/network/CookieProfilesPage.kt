@@ -11,10 +11,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,6 +36,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -69,9 +73,7 @@ fun CookieProfilePage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
 
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
-    var selectedCookieProfile by remember {
-        mutableStateOf(PreferenceUtil.getInt(PreferenceUtil.COOKIES_PROFILE_ID, -1))
-    }
+
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -128,6 +130,10 @@ fun CookieProfilePage(
         ) {
             cookiesViewModel.hideDialog()
         }
+    }
+
+    if (state.showDeleteDialog) {
+        DeleteCookieDialog(cookiesViewModel) { cookiesViewModel.hideDialog() }
     }
 
 
@@ -190,4 +196,31 @@ fun CookieGeneratorDialog(
         }
     })
 
+}
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun DeleteCookieDialog(
+    cookiesViewModel: CookiesViewModel = viewModel(),
+    onDismissRequest: () -> Unit = {}
+) {
+    val state by cookiesViewModel.stateFlow.collectAsState()
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text(stringResource(R.string.remove)) },
+        text = {
+            Text(
+                stringResource(R.string.remove_cookie_profile_desc).format(state.editingCookieProfile.url),
+                style = LocalTextStyle.current.copy(lineBreak = LineBreak.Paragraph)
+            )
+        },
+        dismissButton = {
+            DismissButton {
+                onDismissRequest()
+            }
+        }, confirmButton = {
+            ConfirmButton {
+                cookiesViewModel.deleteCookieProfile()
+            }
+        }, icon = { Icon(Icons.Outlined.Delete, null) })
 }

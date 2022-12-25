@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -96,6 +97,8 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
                     text = stringResource(id = R.string.custom_command),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }, navigationIcon = {
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
