@@ -86,27 +86,19 @@ object NotificationUtil {
         text: String? = null,
         intent: PendingIntent? = null
     ) {
+        Log.d(TAG, "finishNotification: ")
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
-        // Return if the notification is already canceled
-        notificationManager.activeNotifications.forEach {
-            Log.d(TAG, it.id.toString())
-            if (it.id == notificationId) {
-                notificationManager.cancel(notificationId)
-                val builder =
-                    NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_stat_seal)
-                        .setContentText(text)
-                        .setProgress(0, 0, false)
-                        .setAutoCancel(true)
-                        .setOngoing(false)
-                        .setStyle(null)
-                title?.let { builder.setContentTitle(title) }
-                intent?.let { builder.setContentIntent(intent) }
-                notificationManager.notify(notificationId, builder.build())
-                return
-            }
-        }
-
+        val builder =
+            NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_seal)
+                .setContentText(text)
+                .setProgress(0, 0, false)
+                .setAutoCancel(true)
+                .setOngoing(false)
+                .setStyle(null)
+        title?.let { builder.setContentTitle(title) }
+        intent?.let { builder.setContentIntent(intent) }
+        notificationManager.notify(notificationId, builder.build())
     }
 
     fun makeServiceNotification(intent: PendingIntent): Notification {

@@ -409,22 +409,29 @@ object DownloadUtil {
                     text = text
                 )
             }
+            NotificationUtil.finishNotification(
+                notificationId = notificationId,
+                title = template.name + "_" + url,
+                text = context.getString(R.string.status_completed),
+            )
         }.onFailure {
+            it.printStackTrace()
+            if (it is YoutubeDL.CanceledException) return
             val msg = it.message
-            if (!msg.isNullOrEmpty()) {
-                it.printStackTrace()
+            if (msg.isNullOrEmpty())
+                NotificationUtil.finishNotification(
+                    notificationId = notificationId,
+                    title = template.name + "_" + url,
+                    text = context.getString(R.string.status_completed),
+                )
+            else {
                 NotificationUtil.makeErrorReportNotificationForCustomCommand(
                     notificationId = notificationId,
                     error = msg
                 )
             }
-        }.onSuccess {
-            NotificationUtil.finishNotification(
-                notificationId = notificationId,
-                title = template.name + url,
-                text = context.getString(R.string.status_completed),
-            )
         }
+
         MainActivity.stopService()
 
     }

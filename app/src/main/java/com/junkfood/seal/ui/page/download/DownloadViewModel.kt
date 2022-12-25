@@ -95,12 +95,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
     private fun manageDownloadError(
-        e: Throwable, isFetchingInfo: Boolean = true, notificationId: Int? = null
+        th: Throwable, isFetchingInfo: Boolean = true, notificationId: Int? = null
     ) {
         viewModelScope.launch {
-            e.printStackTrace()
+            if (th is YoutubeDL.CanceledException) return@launch
+            th.printStackTrace()
             if (PreferenceUtil.getValue(PreferenceUtil.DEBUG)) showErrorReport(
-                e.message ?: context.getString(R.string.unknown_error)
+                th.message ?: context.getString(R.string.unknown_error)
             )
             else if (isFetchingInfo) showErrorMessage(context.getString(R.string.fetch_info_error_msg))
             else showErrorMessage(context.getString(R.string.download_error_msg))
@@ -147,11 +148,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                         }
 
                         is VideoInfo -> {
-                            if (PreferenceUtil.getValue(FORMAT_SELECTION, true)){
+                            if (PreferenceUtil.getValue(FORMAT_SELECTION, true)) {
                                 videoInfoFlow.update { info }
                                 mutableViewStateFlow.update { it.copy(showFormatSelectionPage = true) }
-                            }
-                            else {
+                            } else {
                                 checkStateBeforeDownload()
                                 downloadVideo(videoInfo = info)
                             }
