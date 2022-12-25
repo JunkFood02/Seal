@@ -216,4 +216,5 @@
     <string name="format_selection">Pilihan format</string>
     <string name="video_only">Video (tanpa audio)</string>
     <string name="format_selection_desc">Pilih format untuk diunduh sebelum memulai unduhan</string>
+    <string name="generate_new_cookies">Buat kuki baru</string>
 </resources>

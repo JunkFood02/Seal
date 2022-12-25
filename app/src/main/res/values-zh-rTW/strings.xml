@@ -216,4 +216,5 @@
     <string name="format_selection_desc">在開始下載前選取下載格式</string>
     <string name="suggested">建議</string>
     <string name="video_only">視訊 (無音訊)</string>
+    <string name="generate_new_cookies">產生新 cookies</string>
 </resources>

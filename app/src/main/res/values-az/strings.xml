@@ -216,4 +216,5 @@
     <string name="format_selection">Format seçimi</string>
     <string name="suggested">Məsləhət görülən</string>
     <string name="format_selection_desc">Endirməyə başlamazdan əvvəl endirmək üçün format seç</string>
+    <string name="generate_new_cookies">Yeni kukilər yarat</string>
 </resources>

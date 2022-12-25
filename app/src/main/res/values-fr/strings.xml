@@ -216,4 +216,5 @@
     <string name="video_only">Vidéo (sans audio)</string>
     <string name="format_selection">Sélection du format</string>
     <string name="format_selection_desc">Sélectionnez le format à télécharger avant de commencer le téléchargement</string>
+    <string name="generate_new_cookies">Générer de nouveaux cookies</string>
 </resources>

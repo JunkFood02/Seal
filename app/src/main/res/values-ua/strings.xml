@@ -61,7 +61,7 @@
     <string name="on">Увiмкнуто</string>
     <string name="off">Вимкнено</string>
     <string name="cancel">Скасувати</string>
-    <string name="settings_before_download">Налаштувати перед початком</string>
+    <string name="settings_before_download">Налаштувати перед початком завантаження</string>
     <string name="settings_before_download_desc">Налаштувати параметри перед початком завантаження</string>
     <string name="settings_before_download_text">Параметри завантаження</string>
     <string name="error_copied">Звіт про помилку скопійовано в буфер обміну</string>
@@ -73,7 +73,7 @@
     <string name="not_convert">Залишити як є</string>
     <string name="convert_to">Конвертувати в %1$s</string>
     <string name="format">Формат</string>
-    <string name="audio_format_desc">Аудіо у форматах MP3 или M4A підтримуються на більшості пристроїв</string>
+    <string name="audio_format_desc">Перекодування аудіофайлів може погіршити якість звуку та збільшити розмір файлу.</string>
     <string name="video_quality">Якiсть вiдео</string>
     <string name="best_quality">Найкраща якiсть (за замовчуванням)</string>
     <string name="video_quality_desc">Виберіть ліміт для якості та розміру файлу</string>
@@ -187,7 +187,7 @@
     <string name="lowest_quality">Найгірша якість</string>
     <string name="multiselect_mode">Режим множинного вибору</string>
     <string name="private_mode">Приватний режим</string>
-    <string name="private_mode_desc">Вимкнути мініатюри та історію завантажень</string>
+    <string name="private_mode_desc">Вимкнути історію завантажень</string>
     <string name="dynamic_color">Динамічний колір</string>
     <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми застосунку</string>
     <string name="file_unavailable">Файл більше недоступний</string>
@@ -198,4 +198,24 @@
     <string name="download_disabled_with_cellular">Завантаження через мобільну мережу вимкнено відповідно до ваших налаштувань</string>
     <string name="download_with_cellular">Завантажувати через мобільну мережу</string>
     <string name="rate_limit_desc">Обмежити максимальну швидкість завантаження</string>
+    <string name="selected_item_count">Вибрано %1$d</string>
+    <string name="general_settings_desc">Версія Yt-dlp, повідомлення, плейлисти</string>
+    <string name="network_settings_desc">Ліміт швидкості, завантажувач, файли cookie</string>
+    <string name="disable_preview_desc">Вимкнути прев\'ю при завантаженні</string>
+    <string name="privacy">Приватність</string>
+    <string name="use_custom_command">Використовувати кастомні команди</string>
+    <string name="private_directory">Приватна тека</string>
+    <string name="private_directory_desc">Зберігати завантаження у схованій теці</string>
+    <string name="crop_artwork">Обрізати обкладинку</string>
+    <string name="crop_artwork_desc">Обрізати вкладену картинку під квадрат</string>
+    <string name="select_all">Вибрати усі</string>
+    <string name="format_selection">Вибір формату</string>
+    <string name="download_selection_desc">Виберіть відео для завантаження з плейлисту \"%1$s\"</string>
+    <string name="generate_new_cookies">Згенерувати нові cookie</string>
+    <string name="suggested">Запропоноване</string>
+    <string name="video_only">Відео (без аудіо)</string>
+    <string name="format_selection_desc">Виберіть формат перед початком завантаження</string>
+    <string name="unavailable">Недоступно</string>
+    <string name="format_settings_desc">Формат файлу, якість відео, субтитри</string>
+    <string name="disable_preview">Вимкнути прев\'ю</string>
 </resources>

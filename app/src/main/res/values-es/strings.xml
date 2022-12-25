@@ -216,4 +216,5 @@
     <string name="format_selection_desc">Selecciona el formato de vídeo que quieres antes de comenzar la descarga</string>
     <string name="video_only">Vídeo (sin audio)</string>
     <string name="format_selection">Selección de formato</string>
+    <string name="generate_new_cookies">Crear nuevas cookies</string>
 </resources>

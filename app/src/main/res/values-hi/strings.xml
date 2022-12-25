@@ -16,7 +16,7 @@
     <string name="paste_msg">क्लिपबोर्ड से URL पेस्ट करें</string>
     <string name="paste_fail_msg">क्लिपबोर्ड में URL से मेल नहीं खा सका</string>
     <string name="ytdlp_version">Yt-dlp संस्करण</string>
-    <string name="delete_info">हटाएं</string>
+    <string name="delete_info">हटाएं\?</string>
     <string name="delete_info_msg">अपने डाउनलोड इतिहास से \"%1$s\" को हमेशा के लिए हटा दें\?</string>
     <string name="dismiss">रद्द करें</string>
     <string name="downloads_history">डाउनलोड</string>
@@ -37,7 +37,7 @@
     <string name="advanced_settings">विकसित</string>
     <string name="print_details">विस्तृत आउटपुट</string>
     <string name="print_details_desc">डाउनलोड करते समय विस्तृत संदेश प्रिंट करें</string>
-    <string name="display">Display</string>
+    <string name="display">दिखाएँ</string>
     <string name="display_settings">डार्क थीम, गतिशील रंग, भाषाएं</string>
     <string name="dark_theme">डार्क थीम</string>
     <string name="follow_system">सिस्टम</string>
@@ -76,7 +76,7 @@
     <string name="not_convert">असंशोधित</string>
     <string name="convert_to">%1$s में बदलें</string>
     <string name="format">प्रारूप</string>
-    <string name="audio_format_desc">MP3 या M4A में ऑडियो अधिकांश उपकरणों पर चलेगा</string>
+    <string name="audio_format_desc">ऑडियो फ़ाइलों को पुनः इनकोड करने से ऑडियो गुणवत्ता में कमी आएगी और फ़ाइल आकार में वृद्धि होगी।</string>
     <string name="video_quality">चलचित्र गुणवत्ता</string>
     <string name="video_quality_desc">फ़ाइल का प्रारूप गुणवत्ता और आकार सीमित करें</string>
     <string name="not_specified">अनिर्दिष्ट (default)</string>
@@ -91,7 +91,7 @@
     <string name="best_quality">श्रेष्ठ गुणवत्ता (default)</string>
     <string name="open_settings">समायोजन खोलें</string>
     <string name="paste_desc">सूचि से चलचित्र लिंक प्राप्त करने के लिए \"चिपकाएं\" दबाएं।</string>
-    <string name="download_desc">समायोजन के उपरांत \"डाउनलोड\" दबाएं</string>
+    <string name="download_desc">समायोजन के उपरांत \"डाउनलोड\" दबाएं।</string>
     <string name="select_all">सभी का चयन करे</string>
     <string name="selected_item_count">%1$d चुने</string>
     <string name="download_history_desc">वीडियो और ऑडियो फाइलों सहित इन-ऐप डाउनलोड की जांच और प्रबंधन करें।</string>
@@ -212,4 +212,9 @@
     <string name="general_settings_desc">Yt-dlp वर्शन, सूचना, प्लेलिस्ट</string>
     <string name="disable_preview_desc">डाउनलोड पर पूर्वावलोकन अक्षम करें</string>
     <string name="download_selection_desc">प्लेलिस्ट \"%1$s\" से डाउनलोड करने के लिए वीडियो चुनें</string>
+    <string name="video_only">वीडियो (कोई ऑडियो नहीं)</string>
+    <string name="suggested">सुझावित</string>
+    <string name="generate_new_cookies">नई कुकीज़ उत्पन्न करें</string>
+    <string name="format_selection_desc">डाउनलोड शुरू करने से पहले डाउनलोड करने के लिए प्रारूप का चयन करें</string>
+    <string name="format_selection">प्रारूप चयन</string>
 </resources>
