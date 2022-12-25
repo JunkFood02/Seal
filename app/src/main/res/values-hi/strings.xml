@@ -32,7 +32,7 @@
     <string name="release">नवीनतम रिलीज़</string>
     <string name="readme_desc">GitHub रिपॉजिटरी और README की जाँच करें</string>
     <string name="video">वीडियो</string>
-    <string name="edit_custom_command_template">संपादित करें</string>
+    <string name="edit">संपादित करें</string>
     <string name="start_execute">कमांड निष्पादित करना शुरू करें</string>
     <string name="advanced_settings">विकसित</string>
     <string name="print_details">विस्तृत आउटपुट</string>

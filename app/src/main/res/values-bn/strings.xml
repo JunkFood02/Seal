@@ -31,7 +31,7 @@
     <string name="about_page">ভার্সন, রিলিজগুলো, ক্রেডিটস</string>
     <string name="back">পেছনে যান</string>
     <string name="version">ভার্সন</string>
-    <string name="edit_custom_command_template">সম্পাদনা</string>
+    <string name="edit">সম্পাদনা</string>
     <string name="yt_dlp_update_fail">yt-dlp\'র সর্বশেষ ভার্সন ইন্সটল করা যাচ্ছে না। দয়া করে ইন্টারনেটের সাথে যুক্ত আছেন কীনা দেখুন।</string>
     <string name="delete_info_msg">\"%1$s\" ডাউনলোড ইতিহাস থেকে মুছে ফেলুন\?</string>
     <string name="print_details">বিস্তারিত আউটপুট</string>

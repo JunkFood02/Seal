@@ -103,7 +103,7 @@
     <string name="custom_command">අභිරුචි විධානයන්</string>
     <string name="custom_command_desc">අභිරුචි ටෙම්ප්ලේට සමඟ yt-dlp විධානය ක්‍රියාත්මක කරන්න</string>
     <string name="custom_command_template">විධාන ටෙම්ප්ලේට</string>
-    <string name="edit_custom_command_template">සංස්කරණය</string>
+    <string name="edit">සංස්කරණය</string>
     <string name="display_settings">අඳුරු තේමාව, ගතික වර්ණය, භාෂා</string>
     <string name="dark_theme">අඳුරු තේමාව</string>
     <string name="follow_system">පද්ධතිය</string>

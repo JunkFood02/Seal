@@ -70,7 +70,7 @@
     <string name="custom_command_desc">Uruchom polecenie yt-dlp z niestandardowym szablonem</string>
     <string name="print_details_desc">Wyświetlaj szczegółowe informacje podczas pobierania</string>
     <string name="thumbnail">Miniaturka</string>
-    <string name="edit_custom_command_template">Edytuj</string>
+    <string name="edit">Edytuj</string>
     <string name="off">Wyłączono</string>
     <string name="print_details">Szczegółowe informacje</string>
     <string name="dark_theme">Ciemny motyw</string>

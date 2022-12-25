@@ -66,7 +66,7 @@
     <string name="credits_desc">Crediti e software liberi</string>
     <string name="custom_command">Comando personalizzato</string>
     <string name="custom_command_template">Template di comando</string>
-    <string name="edit_custom_command_template">Modifica</string>
+    <string name="edit">Modifica</string>
     <string name="start_execute">Inizia l\'esecuzione del comando</string>
     <string name="print_details_desc">Stampa messaggi dettagliati durante lo scaricamento</string>
     <string name="display">Visualizzazione</string>

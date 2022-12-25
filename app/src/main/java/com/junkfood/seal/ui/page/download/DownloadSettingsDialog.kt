@@ -176,7 +176,7 @@ fun DownloadSettingDialog(
                 )
                 ButtonChip(
                     onClick = { showCustomCommandDialog = 1 }, label = stringResource(
-                        R.string.edit_custom_command_template
+                        R.string.edit
                     ), icon = Icons.Outlined.EditNote, enabled = customCommand
                 )
             }

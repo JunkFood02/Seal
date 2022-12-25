@@ -48,7 +48,7 @@
     <string name="readme_desc">查看 GitHub 存放庫和 README</string>
     <string name="custom_command_desc">使用自訂的範本來執行 yt-dlp 命令</string>
     <string name="custom_command_template">命令範本</string>
-    <string name="edit_custom_command_template">編輯</string>
+    <string name="edit">編輯</string>
     <string name="start_execute">開始執行命令</string>
     <string name="display">顯示</string>
     <string name="display_settings">深色主題、動態色彩、語言</string>

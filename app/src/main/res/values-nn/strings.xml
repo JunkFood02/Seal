@@ -22,7 +22,7 @@
     <string name="delete_file">Slett</string>
     <string name="custom_command_desc">Køyr yt-dlp påbod med eigne malar</string>
     <string name="custom_command_template">Påbodmal</string>
-    <string name="edit_custom_command_template">Brigde</string>
+    <string name="edit">Brigde</string>
     <string name="advanced_settings">Avansert</string>
     <string name="display">Vising</string>
     <string name="off">Av</string>

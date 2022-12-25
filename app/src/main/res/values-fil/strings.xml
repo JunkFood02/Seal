@@ -70,7 +70,7 @@
     <string name="close">cerrar</string>
     <string name="custom_command">Pasadyang utos</string>
     <string name="custom_command_desc">I-run ang yt-dlp command gamit ang custom template</string>
-    <string name="edit_custom_command_template">Baguhin</string>
+    <string name="edit">Baguhin</string>
     <string name="start_execute">I-start ang pagpapatupad ng utos</string>
     <string name="print_details">Detalyadong awtput</string>
     <string name="print_details_desc">Maglabas ng detalyadong mensahe kapag nag da-download</string>

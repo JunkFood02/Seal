@@ -63,7 +63,7 @@ fun CommandTemplateDialog(
         icon = { Icon(if (newTemplate) Icons.Outlined.Add else Icons.Outlined.EditNote, null) },
         title = {
             Text(
-                stringResource(if (newTemplate) R.string.new_template else R.string.edit_custom_command_template)
+                stringResource(if (newTemplate) R.string.new_template else R.string.edit)
             )
         },
         onDismissRequest = { onDismissRequest() },

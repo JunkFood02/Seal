@@ -51,7 +51,7 @@
     <string name="custom_command">Comandos personalizados</string>
     <string name="custom_command_desc">Ejecutar un comando de yt-dlp con un modelo personalizado</string>
     <string name="custom_command_template">Modelo de comando</string>
-    <string name="edit_custom_command_template">Editar modelo</string>
+    <string name="edit">Editar modelo</string>
     <string name="start_execute">Iniciar la ejecución del comando</string>
     <string name="advanced_settings">Avanzado</string>
     <string name="print_details">Salida detallada</string>

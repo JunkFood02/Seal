@@ -59,7 +59,7 @@
     <string name="release">Keluaran terkini</string>
     <string name="print_details_desc">Tunjukkan mesej terperinci ketika memuat turun</string>
     <string name="display">Paparan</string>
-    <string name="edit_custom_command_template">Sunting</string>
+    <string name="edit">Sunting</string>
     <string name="custom_command_desc">Jalankan yt-dlp dengan templat tersuai</string>
     <string name="print_details">Output terperinci</string>
     <string name="edit_template_desc">Laluan output dan URL akan ditambah oleh aplikasi.</string>

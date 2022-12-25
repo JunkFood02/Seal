@@ -62,7 +62,7 @@
     <string name="custom_command">Прилагођена команда</string>
     <string name="custom_command_desc">Покрените команду yt-dlp са прилагођеним шаблоном</string>
     <string name="custom_command_template">Командни шаблон</string>
-    <string name="edit_custom_command_template">Уредите</string>
+    <string name="edit">Уредите</string>
     <string name="start_execute">Започните извршавање команде</string>
     <string name="advanced_settings">Напредно</string>
     <string name="print_details">Детаљан излаз информација</string>

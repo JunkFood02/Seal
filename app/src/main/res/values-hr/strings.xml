@@ -141,7 +141,7 @@
     <string name="settings_before_download">Konfiguriraj prije preuzimanja</string>
     <string name="checked">Provjereno</string>
     <string name="credits_desc">Zasluge i softver otvorenog koda</string>
-    <string name="edit_custom_command_template">Uredi</string>
+    <string name="edit">Uredi</string>
     <string name="paste">Zalijepi</string>
     <string name="audio_format">Promijeni audio oblik</string>
     <string name="convert_to">Promijeni u %1$s</string>

@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -82,20 +83,9 @@ fun PreferenceItem(
                     .padding(end = 8.dp)
             ) {
                 with(MaterialTheme) {
-                    Text(
-                        text = title,
-                        maxLines = 2,
-                        style = preferenceTitle,
-                        color = colorScheme.onSurface.applyOpacity(enabled)
-                    )
+                    PreferenceItemTitle(text = title, enabled = enabled)
                     if (description != null)
-                        Text(
-                            modifier = Modifier.padding(top = 2.dp),
-                            text = description,
-                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                            maxLines = 2, overflow = TextOverflow.Ellipsis,
-                            style = typography.bodyMedium,
-                        )
+                        PreferenceItemDescription(text = description, enabled = enabled)
                 }
             }
         }
@@ -103,16 +93,26 @@ fun PreferenceItem(
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItemVariant(
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
+    onLongClickLabel: String? = null,
+    onLongClick: () -> Unit = {},
+    onClickLabel: String? = null,
     onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier.clickable(enabled = enabled, onClick = onClick)
+        modifier = Modifier.combinedClickable(
+            enabled = enabled,
+            onClick = onClick,
+            onClickLabel = onClickLabel,
+            onLongClick = onLongClick,
+            onLongClickLabel = onLongClickLabel
+        )
     ) {
         Row(
             modifier = Modifier
@@ -137,7 +137,6 @@ fun PreferenceItemVariant(
                     .padding(end = 8.dp)
             ) {
                 with(MaterialTheme) {
-
                     Text(
                         text = title,
                         maxLines = 1,
@@ -198,6 +197,47 @@ fun PreferenceSingleChoiceItem(
 }
 
 @Composable
+internal fun PreferenceItemTitle(
+    modifier: Modifier = Modifier,
+    text: String,
+    maxLines: Int = 2,
+    style: TextStyle = preferenceTitle,
+    enabled: Boolean,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+    overflow: TextOverflow = TextOverflow.Ellipsis
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        maxLines = maxLines,
+        style = style,
+        color = color.applyOpacity(enabled),
+        overflow = overflow
+    )
+}
+
+@Composable
+internal fun PreferenceItemDescription(
+    modifier: Modifier = Modifier,
+    text: String,
+    maxLines: Int = 2,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    enabled: Boolean,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+    overflow: TextOverflow = TextOverflow.Ellipsis
+) {
+    Text(
+        modifier = modifier.padding(top = 2.dp),
+        text = text,
+        maxLines = maxLines,
+        style = style,
+        color = color.applyOpacity(enabled),
+        overflow = overflow
+    )
+}
+
+
+@Composable
 @Preview
 fun PreferenceSwitch(
     title: String = "test title".repeat(10),
@@ -245,20 +285,14 @@ fun PreferenceSwitch(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(
+                PreferenceItemTitle(
                     text = title,
-                    maxLines = 2,
-                    style = preferenceTitle,
-                    color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled),
-                    overflow = TextOverflow.Ellipsis
+                    enabled = enabled
                 )
                 if (!description.isNullOrEmpty())
-                    Text(
-                        modifier = Modifier.padding(top = 2.dp),
+                    PreferenceItemDescription(
                         text = description,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                        maxLines = 2,
-                        style = MaterialTheme.typography.bodyMedium,
+                        enabled = enabled
                     )
             }
             Switch(
@@ -321,20 +355,9 @@ fun PreferenceSwitchWithDivider(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-                    color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled),
-                    overflow = TextOverflow.Ellipsis
-                )
+                PreferenceItemTitle(text = title, enabled = enabled)
                 if (!description.isNullOrEmpty())
-                    Text(
-                        text = description,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                        maxLines = 2,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
+                    PreferenceItemDescription(text = description, enabled = enabled)
             }
             Divider(
                 modifier = Modifier
@@ -595,7 +618,7 @@ fun TemplateItem(
     Surface(
         modifier = Modifier.combinedClickable(
             onClick = onClick,
-            onClickLabel = stringResource(R.string.edit_custom_command_template),
+            onClickLabel = stringResource(R.string.edit),
             onLongClick = onLongClick,
             onLongClickLabel = stringResource(R.string.remove_template)
         )

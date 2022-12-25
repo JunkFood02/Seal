@@ -51,7 +51,7 @@
     <string name="custom_command">Custom command</string>
     <string name="custom_command_desc">Run yt-dlp command with custom template</string>
     <string name="custom_command_template">Command template</string>
-    <string name="edit_custom_command_template">Edit</string>
+    <string name="edit">Edit</string>
     <string name="start_execute">Start executing command</string>
     <string name="advanced_settings">Advanced</string>
     <string name="print_details">Detailed output</string>

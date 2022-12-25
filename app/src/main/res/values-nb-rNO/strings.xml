@@ -85,7 +85,7 @@
     <string name="about">Om</string>
     <string name="back">Tilbake</string>
     <string name="custom_command">Egendefinert kommando</string>
-    <string name="edit_custom_command_template">Rediger</string>
+    <string name="edit">Rediger</string>
     <string name="print_details">Detaljert utdata</string>
     <string name="on">På</string>
     <string name="off">Av</string>

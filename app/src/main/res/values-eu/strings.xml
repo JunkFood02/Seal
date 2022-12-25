@@ -49,7 +49,7 @@
     <string name="custom_command">Komando pertsonalizatuak</string>
     <string name="custom_command_template">Komando-txantiloia</string>
     <string name="custom_command_desc">Exekutatu yt-dlp komando bat txantiloi pertsonalizatu batekin</string>
-    <string name="edit_custom_command_template">Eredua editatu</string>
+    <string name="edit">Eredua editatu</string>
     <string name="start_execute">Komandoa hasi exekutatzen</string>
     <string name="advanced_settings">Aurreratua</string>
     <string name="print_details">Irteera zehatza</string>

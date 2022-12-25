@@ -43,7 +43,7 @@
     <string name="custom_command">Fərdi komandanlıq</string>
     <string name="custom_command_desc">Fərdi şablon ilə yt-dlp əmrini işə sal</string>
     <string name="custom_command_template">Komandanlıq şablonu</string>
-    <string name="edit_custom_command_template">Redaktə et</string>
+    <string name="edit">Redaktə et</string>
     <string name="start_execute">Əmri icra etməyə başla</string>
     <string name="advanced_settings">Qabaqcıl</string>
     <string name="print_details">Ətraflı hasilat</string>

@@ -39,7 +39,7 @@
     <string name="yt_dlp_update_fail">Немагчыма ўсталяваць апошнюю версію yt-dlp. Калі ласка, упэўніцеся што вы падключаны да Інтэрнэту.</string>
     <string name="link_copied">Спасылка скапіявана ў буфер абмену</string>
     <string name="start_execute">Пачаць выкананне каманды</string>
-    <string name="edit_custom_command_template">Рэдагаваць</string>
+    <string name="edit">Рэдагаваць</string>
     <string name="custom_command_template">Шаблон каманды</string>
     <string name="version">Версія</string>
     <string name="release_desc">Азнаёмцеся са спісам змен і новых версій</string>

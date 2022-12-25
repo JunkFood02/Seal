@@ -49,7 +49,7 @@
     <string name="custom_command">Своя команда</string>
     <string name="custom_command_desc">Запустити yt-dlp зі своїм шаблоном</string>
     <string name="custom_command_template">Шаблон команди</string>
-    <string name="edit_custom_command_template">Редагувати</string>
+    <string name="edit">Редагувати</string>
     <string name="start_execute">Запустити команду</string>
     <string name="advanced_settings">Розширені параметри</string>
     <string name="print_details">Детальний лог</string>

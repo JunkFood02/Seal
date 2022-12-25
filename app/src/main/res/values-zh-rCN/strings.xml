@@ -50,7 +50,7 @@
     <string name="custom_command">自定义命令</string>
     <string name="custom_command_desc">使用自定义的命令模板运行 yt-dlp</string>
     <string name="custom_command_template">命令模板</string>
-    <string name="edit_custom_command_template">编辑模板</string>
+    <string name="edit">编辑模板</string>
     <string name="start_execute">开始执行命令</string>
     <string name="advanced_settings">高级</string>
     <string name="print_details">显示详细信息</string>

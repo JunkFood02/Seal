@@ -84,7 +84,7 @@
     <string name="print_details_desc">Выводить подробный отчет во время загрузки</string>
     <string name="custom_command_desc">Запустить yt-dlp со своими настройками</string>
     <string name="display">Внешний вид</string>
-    <string name="edit_custom_command_template">Править</string>
+    <string name="edit">Править</string>
     <string name="error_copied">Сообщение об ошибке скопировано в буфер обмена</string>
     <string name="yt_dlp_docs">Рекомендации по использованию yt-dlp</string>
     <string name="custom_command_template">Шаблон настроек</string>

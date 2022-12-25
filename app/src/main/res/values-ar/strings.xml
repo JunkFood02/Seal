@@ -30,7 +30,7 @@
     <string name="video">فيديو</string>
     <string name="checked">محدد</string>
     <string name="custom_command_template">قالب الأوامر</string>
-    <string name="edit_custom_command_template">تحرير</string>
+    <string name="edit">تحرير</string>
     <string name="print_details">تقرير مفصل</string>
     <string name="print_details_desc">اظهر تقارير مفصلة عند التنزيل</string>
     <string name="display">شاشة العرض</string>

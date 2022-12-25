@@ -56,7 +56,7 @@
     <string name="credits">سازندگان</string>
     <string name="custom_command_desc">دستور yt-dlp را با قالب سفارشی اجرا کنید</string>
     <string name="credits_desc">سازندگان و کتابخانه نرم افزار</string>
-    <string name="edit_custom_command_template">ویرایش</string>
+    <string name="edit">ویرایش</string>
     <string name="off">خاموش</string>
     <string name="download_settings_desc">عمومی، فرمت، دستور سفارشی</string>
     <string name="release_desc">مشاهده تغییرات و نسخه جدید</string>

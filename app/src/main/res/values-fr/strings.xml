@@ -28,7 +28,7 @@
     <string name="credits_desc">Crédits et logiciels libres</string>
     <string name="custom_command">Commande personnalisée</string>
     <string name="custom_command_template">Modèle de commande</string>
-    <string name="edit_custom_command_template">Modifier</string>
+    <string name="edit">Modifier</string>
     <string name="start_execute">Commencer à exécuter la commande</string>
     <string name="display">Affichage</string>
     <string name="display_settings">Thème sombre, couleur dynamique, langues</string>

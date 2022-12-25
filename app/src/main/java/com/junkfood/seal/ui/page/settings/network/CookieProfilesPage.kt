@@ -46,7 +46,6 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
-import com.junkfood.seal.ui.component.TemplateItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
@@ -102,26 +101,22 @@ fun CookieProfilePage(
                     })
             }
             itemsIndexed(cookies) { _, item ->
-                TemplateItem(
-                    label = item.url,
-                    template = null,
-                    selected = selectedCookieProfile == item.id,
+                PreferenceItemVariant(
+                    title = item.url,
                     onClick = { cookiesViewModel.showEditCookieDialog(item) },
-                    onSelect = {
-                        selectedCookieProfile = item.id
-                        PreferenceUtil.selectCookieProfile(item.id)
-                    }, onLongClick = {
+                    onClickLabel = stringResource(
+                        id = R.string.edit
+                    ), onLongClick = {
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         cookiesViewModel.showDeleteCookieDialog(item)
-                    })
+                    }, onLongClickLabel = stringResource(R.string.remove)
+                )
             }
             item {
                 PreferenceItemVariant(
                     title = stringResource(id = R.string.generate_new_cookies),
                     icon = Icons.Outlined.Add
-                ) {
-                    cookiesViewModel.showEditCookieDialog()
-                }
+                ) { cookiesViewModel.showEditCookieDialog() }
             }
         }
 

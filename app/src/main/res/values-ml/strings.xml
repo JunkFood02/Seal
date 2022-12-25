@@ -70,7 +70,7 @@
     <string name="error_copied">പിശക് റിപ്പോർട്ട് ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി</string>
     <string name="credits_desc">ക്രെഡിറ്റുകളും ലിബ്രെ സോഫ്റ്റ് വെയറുകളും</string>
     <string name="custom_command_desc">ഇഷ്‌ടാനുസൃത ടെംപ്ലേറ്റ് ഉപയോഗിച്ച് yt-dlp കമാൻഡ് പ്രവർത്തിപ്പിക്കുക</string>
-    <string name="edit_custom_command_template">എഡിറ്റ് ചെയ്യുക</string>
+    <string name="edit">എഡിറ്റ് ചെയ്യുക</string>
     <string name="custom_command_template">കമാൻഡ് ടെംപ്ലേറ്റ്</string>
     <string name="off">ഓഫ് ചെയ്യുക</string>
     <string name="on">ഓൺ</string>

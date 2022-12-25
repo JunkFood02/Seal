@@ -98,7 +98,7 @@
     <string name="version">Versie</string>
     <string name="custom_command">Aangepaste command</string>
     <string name="follow_system">Systeem</string>
-    <string name="edit_custom_command_template">Bewerken</string>
+    <string name="edit">Bewerken</string>
     <string name="off">Uit</string>
     <string name="custom_command_template">Command sjabloon</string>
     <string name="start_execute">Start command uit te voeren</string>

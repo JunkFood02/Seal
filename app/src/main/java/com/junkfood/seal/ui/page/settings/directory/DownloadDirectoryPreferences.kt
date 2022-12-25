@@ -311,7 +311,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     if (showEditDialog) {
         AlertDialog(
             onDismissRequest = { showEditDialog = false },
-            title = { Text(stringResource(R.string.edit_custom_command_template)) },
+            title = { Text(stringResource(R.string.edit)) },
             dismissButton = {
                 DismissButton { showEditDialog = false }
             },

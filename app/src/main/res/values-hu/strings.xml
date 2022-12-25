@@ -88,7 +88,7 @@
     <string name="ytdlp_version">Yt-dlp verzió</string>
     <string name="downloads_history">Letöltések</string>
     <string name="confirm">Megerősít</string>
-    <string name="edit_custom_command_template">Szerkesztés</string>
+    <string name="edit">Szerkesztés</string>
     <string name="dismiss">Mégsem</string>
     <string name="delete_file">Törlés</string>
     <string name="video_url">Videó link</string>

@@ -63,8 +63,6 @@ object DownloadUtil {
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=in_h""""
 
 
-
-
     fun getPlaylistOrVideoInfo(playlistURL: String): YoutubeDLInfo {
         TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
@@ -74,14 +72,12 @@ object DownloadUtil {
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
             if (PreferenceUtil.getValue(COOKIES)) {
-                PreferenceUtil.getCookies().run {
-                    if (isNotEmpty())
-                        addOption(
-                            "--cookies", FileUtil.writeContentToFile(
-                                this, context.getCookiesFile()
-                            ).absolutePath
-                        )
-                }
+                addOption(
+                    "--cookies", FileUtil.writeContentToFile(
+                        PreferenceUtil.getCookies(), context.getCookiesFile()
+                    ).absolutePath
+                )
+
             }
         }
         for (s in request.buildCommand()) Log.d(TAG, s)
@@ -298,16 +294,13 @@ object DownloadUtil {
 
             with(request) {
                 addOption("--no-mtime")
-                addOption("-v")
+//                addOption("-v")
                 if (cookies) {
-                    PreferenceUtil.getCookies().run {
-                        if (isNotEmpty())
-                            addOption(
-                                "--cookies", FileUtil.writeContentToFile(
-                                    this, context.getCookiesFile()
-                                ).absolutePath
-                            )
-                    }
+                    addOption(
+                        "--cookies", FileUtil.writeContentToFile(
+                            cookiesContent, context.getCookiesFile()
+                        ).absolutePath
+                    )
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
@@ -395,14 +388,12 @@ object DownloadUtil {
             )
 //            addOption("-v")
             if (PreferenceUtil.getValue(COOKIES)) {
-                PreferenceUtil.getCookies().run {
-                    if (isNotEmpty())
-                        addOption(
-                            "--cookies", FileUtil.writeContentToFile(
-                                this, context.getCookiesFile()
-                            ).absolutePath
-                        )
-                }
+                addOption(
+                    "--cookies", FileUtil.writeContentToFile(
+                        PreferenceUtil.getCookies(), context.getCookiesFile()
+                    ).absolutePath
+                )
+
             }
         }
 

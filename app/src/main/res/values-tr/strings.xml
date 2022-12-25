@@ -94,7 +94,7 @@
     <string name="audio_format">Ses formatını dönüştür</string>
     <string name="release_desc">Güncelleme günlüklerine ve yeni sürümlere bakın</string>
     <string name="custom_command">Özel komut</string>
-    <string name="edit_custom_command_template">Düzenle</string>
+    <string name="edit">Düzenle</string>
     <string name="advanced_settings">Gelişmiş</string>
     <string name="follow_system">Sistem</string>
     <string name="cancel">İptal et</string>

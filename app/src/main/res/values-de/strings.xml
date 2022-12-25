@@ -72,7 +72,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="custom_command">Benutzerdefinierter Befehl</string>
     <string name="close_never_show_again">Nicht mehr anzeigen</string>
-    <string name="edit_custom_command_template">Bearbeiten</string>
+    <string name="edit">Bearbeiten</string>
     <string name="follow_system">System</string>
     <string name="on">Ein</string>
     <string name="off">Aus</string>

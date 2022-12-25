@@ -26,7 +26,7 @@
     <string name="credits">Poděkování</string>
     <string name="custom_command">Vlastní příkaz</string>
     <string name="custom_command_desc">Spustit yt-dlp příkaz s vlastní předlohou</string>
-    <string name="edit_custom_command_template">Upravit</string>
+    <string name="edit">Upravit</string>
     <string name="start_execute">Zahájeno provádění příkazu</string>
     <string name="display">Zobrazení</string>
     <string name="display_settings">Tmavý režim, dynamické barvy, jazyk</string>

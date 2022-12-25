@@ -63,7 +63,7 @@
     <string name="custom_command">Tilpasset kommando</string>
     <string name="custom_command_desc">Kør yt-dlp-kommando med tilpasset mal</string>
     <string name="custom_command_template">Kommandomal</string>
-    <string name="edit_custom_command_template">Rediger</string>
+    <string name="edit">Rediger</string>
     <string name="delete_info_msg">Fjern «%1$s» fra din nedlastningshistorik for godt\?</string>
     <string name="link_copied">Lænke kopieret til udklipsholderen</string>
     <string name="delete_file">Slet</string>

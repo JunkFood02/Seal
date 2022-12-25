@@ -26,7 +26,7 @@
     <string name="about">概要</string>
     <string name="custom_command">カスタムコマンド</string>
     <string name="custom_command_template">コマンドテンプレート</string>
-    <string name="edit_custom_command_template">編集</string>
+    <string name="edit">編集</string>
     <string name="start_execute">コマンドの実行を開始</string>
     <string name="advanced_settings">高度な設定</string>
     <string name="print_details">詳細な出力</string>

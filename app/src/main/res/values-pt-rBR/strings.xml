@@ -117,7 +117,7 @@
     <string name="checked">Verificado</string>
     <string name="custom_command_desc">Rodar o comando yt-dlp com um modelo customizado</string>
     <string name="custom_command_template">Modelo de comando</string>
-    <string name="edit_custom_command_template">Editar</string>
+    <string name="edit">Editar</string>
     <string name="start_execute">Iniciar a execução do comando</string>
     <string name="advanced_settings">Avançado</string>
     <string name="print_details">Saída detalhada</string>
