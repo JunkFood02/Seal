@@ -265,4 +265,8 @@
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
     <string name="use_cookies">Use Cookies</string>
     <string name="remove_cookie_profile_desc">Remove cookies for \"%1$s\"?</string>
+    <string name="custom_command_enabled_hint">Some options are unavailable when custom command enabled</string>
+    <string name="how_does_it_work">How does it work?</string>
+    <string name="cookies_usage_msg" translatable="false"></string>
+    <string name="custom_command_usage_msg" translatable="false"></string>
 </resources>

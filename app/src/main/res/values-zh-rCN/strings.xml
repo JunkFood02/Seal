@@ -217,4 +217,6 @@
     <string name="format_selection">格式选择</string>
     <string name="format_selection_desc">在开始下载前选择要下载的格式</string>
     <string name="generate_new_cookies">生成新的 Cookies</string>
+    <string name="use_cookies">启用 Cookies</string>
+    <string name="remove_cookie_profile_desc">确定要移除为 \"%1$s\" 储存的 Cookies 吗?</string>
 </resources>
