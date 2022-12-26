@@ -10,11 +10,45 @@ plugins {
 }
 apply(plugin = "dagger.hilt.android.plugin")
 
-val versionMajor = 1
-val versionMinor = 7
-val versionPatch = 0
-val versionBuild = 5
-val isStable = false
+enum class VersionVariants {
+    STABLE, BETA, RELEASE_CANDIDATE
+}
+
+sealed class Version(
+    open val versionMajor: Int,
+    val versionMinor: Int,
+    val versionPatch: Int,
+    val versionBuild: Int = 0
+) {
+    abstract fun toVersionName(): String
+    class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
+        Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+        override fun toVersionName(): String =
+            "${versionMajor}.${versionMinor}.${versionPatch}-beta.$versionBuild"
+    }
+    class Stable(versionMajor: Int, versionMinor: Int, versionPatch: Int) :
+        Version(versionMajor, versionMinor, versionPatch) {
+        override fun toVersionName(): String =
+            "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+    class ReleaseCandidate(
+        versionMajor: Int,
+        versionMinor: Int,
+        versionPatch: Int,
+        versionBuild: Int
+    ) :
+        Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+        override fun toVersionName(): String =
+            "${versionMajor}.${versionMinor}.${versionPatch}-rc.$versionBuild"
+    }
+}
+
+val currentVersion:Version = Version.ReleaseCandidate(
+    versionMajor = 1,
+    versionMinor = 7,
+    versionPatch = 0,
+    versionBuild = 1
+)
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -41,10 +75,10 @@ android {
         minSdk = 23
         targetSdk = 33
         versionCode = 10700
-        versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
-            if (!isStable) append("-beta.${versionBuild}")
-            if (!splitApks) append("-(F-Droid)")
-        }.toString()
+        versionName = currentVersion.toVersionName().run {
+            if (!splitApks) "$this-(F-Droid)"
+            else this
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         kapt {
             arguments {
