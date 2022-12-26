@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,7 @@ private const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
 private const val repoUrl = "https://github.com/JunkFood02/Seal"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 private const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose"
-
+private const val telegramChannelUrl = "https://t.me/seal_app"
 private const val TAG = "AboutPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,6 +125,13 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     description = stringResource(R.string.github_issue_desc),
                     icon = Icons.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.telegram_channel),
+                    description = telegramChannelUrl,
+                    icon = painterResource(id = R.drawable.icons8_telegram_app)
+                ) { openUrl(telegramChannelUrl) }
             }
             item {
                 PreferenceItem(

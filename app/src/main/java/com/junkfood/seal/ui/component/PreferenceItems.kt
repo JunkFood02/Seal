@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -49,12 +50,11 @@ import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
 
-
 @Composable
 fun PreferenceItem(
     title: String,
     description: String? = null,
-    icon: ImageVector? = null,
+    icon: Any? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -67,16 +67,29 @@ fun PreferenceItem(
                 .padding(16.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            icon?.let {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(start = 8.dp, end = 16.dp)
-                        .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
-                )
+            when (icon) {
+                is ImageVector -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 16.dp)
+                            .size(24.dp),
+                        tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                    )
+                }
+                is Painter -> {
+                    Icon(
+                        painter = icon,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 16.dp)
+                            .size(24.dp),
+                        tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                    )
+                }
             }
+
             Column(
                 modifier = Modifier
                     .weight(1f)

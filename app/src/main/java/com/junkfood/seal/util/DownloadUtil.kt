@@ -57,7 +57,7 @@ object DownloadUtil {
     }
 
     private const val TAG = "DownloadUtil"
-    private const val OUTPUT_TEMPLATE = "%(title).100s [%(id)s].%(ext)s"
+    private const val OUTPUT_TEMPLATE = "%(title).70s [%(id)s].%(ext)s"
     private const val AUDIO_REGEX = "(mp3)|(aac)|(opus)|(m4a)"
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=in_h""""
