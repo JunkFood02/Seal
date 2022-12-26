@@ -26,7 +26,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
-import com.junkfood.seal.ui.component.PreferencesHint
+import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.page.settings.about.weblate
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
@@ -70,7 +70,7 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 .padding(it)
                 .selectableGroup()) {
                 item {
-                    PreferencesHint(
+                    PreferencesHintCard(
                         title = stringResource(R.string.translate),
                         description = stringResource(R.string.translate_desc),
                         icon = Icons.Outlined.Translate,

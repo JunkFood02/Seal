@@ -16,6 +16,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -96,7 +97,7 @@ fun PreferenceItem(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItemVariant(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
@@ -379,7 +380,7 @@ fun PreferenceSwitchWithDivider(
 }
 
 @Composable
-fun PreferencesCaution(
+fun PreferencesCautionCard(
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
@@ -436,7 +437,7 @@ fun PreferencesCaution(
 
 @Composable
 @Preview
-fun PreferencesHint(
+fun PreferencesHintCard(
     title: String = "Title ".repeat(2),
     description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
@@ -684,3 +685,28 @@ fun PreferenceSubtitle(
     )
 }
 
+@Composable
+fun PreferenceInfo(
+    modifier: Modifier = Modifier,
+    text: String,
+    icon: ImageVector = Icons.Outlined.Info
+) {
+    Column(modifier = modifier.padding(horizontal = 24.dp)) {
+        Icon(
+            modifier = Modifier.padding(vertical = 12.dp),
+            imageVector = icon,
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.padding(bottom = 12.dp),
+            text = text,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun PreferenceInfoPreview() {
+    PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+}

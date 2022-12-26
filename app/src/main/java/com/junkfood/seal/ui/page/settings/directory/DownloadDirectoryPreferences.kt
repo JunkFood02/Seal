@@ -65,11 +65,12 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
-import com.junkfood.seal.ui.component.PreferencesHint
+import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
 import com.junkfood.seal.util.FileUtil.getTempDir
@@ -126,12 +127,19 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var showEditDialog by remember { mutableStateOf(false) }
     var showClearTempDialog by remember { mutableStateOf(false) }
 
-    var isEditingAudioDirectory = false
+    var isEditingAudioDirectory by remember { mutableStateOf(false) }
+
+    val isCustomCommandEnabled by remember {
+        mutableStateOf(
+            PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
+        )
+    }
+
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val showDirectoryAlert =
         Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()
-//                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
+                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
 
     val launcher =
         rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
@@ -183,9 +191,15 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
+
+                if (isCustomCommandEnabled)
+                    item {
+                        PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+                    }
+
                 if (showDirectoryAlert)
                     item {
-                        PreferencesHint(
+                        PreferencesHintCard(
                             title = stringResource(R.string.permission_issue),
                             description = stringResource(R.string.permission_issue_desc),
                             icon = Icons.Filled.SdCardAlert
@@ -216,7 +230,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.audio_directory),
-                        description = audioDirectoryText, enabled = !isPrivateDirectoryEnabled,
+                        description = audioDirectoryText,
+                        enabled = !isPrivateDirectoryEnabled && !isCustomCommandEnabled,
                         icon = Icons.Outlined.LibraryMusic
                     ) {
                         isEditingAudioDirectory = true
@@ -227,7 +242,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.subdirectory),
                         description = stringResource(id = R.string.subdirectory_desc),
-                        icon = Icons.Outlined.SnippetFolder, isChecked = isSubdirectoryEnabled,
+                        icon = Icons.Outlined.SnippetFolder,
+                        isChecked = isSubdirectoryEnabled,
+                        enabled = !isCustomCommandEnabled,
                     ) {
                         isSubdirectoryEnabled = !isSubdirectoryEnabled
                         PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
@@ -258,10 +275,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitchWithDivider(title = stringResource(R.string.custom_output_path),
                         description = stringResource(R.string.custom_output_path_desc),
                         icon = Icons.Outlined.FolderSpecial,
-                        isChecked = isCustomPathEnabled, onChecked = {
+                        enabled = !isCustomCommandEnabled,
+                        isChecked = isCustomPathEnabled,
+                        onChecked = {
                             isCustomPathEnabled = !isCustomPathEnabled
                             PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
-                        }, onClick = { showEditDialog = true }
+                        },
+                        onClick = { showEditDialog = true }
                     )
                 }
                 item {

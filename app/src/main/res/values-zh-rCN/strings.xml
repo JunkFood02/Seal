@@ -219,4 +219,7 @@
     <string name="generate_new_cookies">生成新的 Cookies</string>
     <string name="use_cookies">启用 Cookies</string>
     <string name="remove_cookie_profile_desc">确定要移除为 \"%1$s\" 储存的 Cookies 吗?</string>
+    <string name="custom_command_enabled_hint">一些选项在自定义命令模式下不可用</string>
+    <string name="how_does_it_work">使用说明</string>
+    <string name="cookies_usage_msg">从某些站点下载需要帐户验证信息。 点击“生成新的 Cookies”，输入网站的 URL，然后在浏览器页面使用你的账户登录，应用将会自动生成并在下载时输入认证信息。</string>
 </resources>

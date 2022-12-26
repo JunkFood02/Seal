@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -69,7 +70,16 @@ fun NetworkPreferences(
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
+            val isCustomCommandEnabled by remember {
+                mutableStateOf(
+                    PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
+                )
+            }
             LazyColumn(Modifier.padding(it)) {
+                if (isCustomCommandEnabled)
+                    item {
+                        PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+                    }
                 item {
                     PreferenceSubtitle(text = stringResource(R.string.general_settings))
                 }
@@ -82,6 +92,7 @@ fun NetworkPreferences(
                         title = stringResource(R.string.rate_limit),
                         description = stringResource(R.string.rate_limit_desc),
                         icon = Icons.Outlined.Speed,
+                        enabled = !isCustomCommandEnabled,
                         isChecked = isRateLimitEnabled,
                         onChecked = {
                             isRateLimitEnabled = !isRateLimitEnabled
@@ -125,6 +136,7 @@ fun NetworkPreferences(
                             R.string.aria2_desc
                         ),
                         isChecked = aria2c,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             aria2c = !aria2c
                             PreferenceUtil.updateValue(PreferenceUtil.ARIA2C, aria2c)
@@ -136,7 +148,7 @@ fun NetworkPreferences(
                         title = stringResource(id = R.string.concurrent_download),
                         description = stringResource(R.string.concurrent_download_desc),
                         icon = Icons.Outlined.OfflineBolt,
-                        enabled = !aria2c,
+                        enabled = !aria2c && !isCustomCommandEnabled,
                     ) { showConcurrentDownloadDialog = true }
                 }
                 item {

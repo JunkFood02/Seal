@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -77,7 +78,16 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
+            val isCustomCommandEnabled by remember {
+                mutableStateOf(
+                    PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
+                )
+            }
             LazyColumn(Modifier.padding(it)) {
+                if (isCustomCommandEnabled)
+                    item {
+                        PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+                    }
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.audio))
                 }
@@ -88,6 +98,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         ),
                         icon = Icons.Outlined.MusicNote,
                         isChecked = audioSwitch,
+                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             audioSwitch = !audioSwitch
                             PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
@@ -98,7 +109,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(R.string.audio_format),
                         description = audioFormat,
                         icon = Icons.Outlined.AudioFile,
-                        enabled = audioSwitch
+                        enabled = audioSwitch && !isCustomCommandEnabled
                     ) { showAudioFormatEditDialog = true }
                 }
                 item {
@@ -106,7 +117,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(R.string.crop_artwork),
                         description = stringResource(R.string.crop_artwork_desc),
                         icon = Icons.Outlined.Crop,
-                        enabled = audioSwitch,
+                        enabled = audioSwitch && !isCustomCommandEnabled,
                         isChecked = isArtworkCroppingEnabled
                     ) {
                         isArtworkCroppingEnabled = !isArtworkCroppingEnabled
@@ -121,7 +132,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(R.string.video_format_preference),
                         description = videoFormat,
                         icon = Icons.Outlined.VideoFile,
-                        enabled = !audioSwitch
+                        enabled = !audioSwitch && !isCustomCommandEnabled
                     ) { showVideoFormatDialog = true }
                 }
                 item {
@@ -129,7 +140,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         title = stringResource(id = R.string.video_quality),
                         description = videoResolution,
                         icon = Icons.Outlined.HighQuality,
-                        enabled = !audioSwitch
+                        enabled = !audioSwitch && !isCustomCommandEnabled
                     ) { showVideoQualityDialog = true }
                 }
 
@@ -144,7 +155,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         icon = Icons.Outlined.Subtitles,
-                        enabled = !audioSwitch,
+                        enabled = !audioSwitch && !isCustomCommandEnabled,
                         description = stringResource(id = R.string.embed_subtitles_desc),
                         isChecked = embedSubtitle
                     ) {
@@ -167,6 +178,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.format_selection),
                         icon = Icons.Outlined.VideoSettings,
+                        enabled = !isCustomCommandEnabled,
                         description = stringResource(id = R.string.format_selection_desc),
                         isChecked = isFormatSelectionEnabled
                     ) {

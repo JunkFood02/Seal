@@ -13,9 +13,11 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.GeneratingTokens
+import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -46,6 +48,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.HelpDialog
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
@@ -74,10 +77,12 @@ fun CookieProfilePage(
 
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
 
+    var showHelpDialog by remember { mutableStateOf(false) }
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(title = {
                 Text(
@@ -88,8 +93,16 @@ fun CookieProfilePage(
                 BackButton(modifier = Modifier.padding(start = 8.dp)) {
                     onBackPressed()
                 }
+            }, actions = {
+                IconButton(onClick = { showHelpDialog = true }) {
+                    Icon(
+                        imageVector = Icons.Outlined.HelpOutline,
+                        contentDescription = stringResource(R.string.how_does_it_work)
+                    )
+                }
             }, scrollBehavior = scrollBehavior)
-        },)
+        },
+    )
     { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             item {
@@ -104,7 +117,7 @@ fun CookieProfilePage(
             }
             itemsIndexed(cookies) { _, item ->
                 PreferenceItemVariant(
-                    modifier=Modifier.padding(vertical = 4.dp),
+                    modifier = Modifier.padding(vertical = 4.dp),
                     title = item.url,
                     onClick = { cookiesViewModel.showEditCookieDialog(item) },
                     onClickLabel = stringResource(
@@ -137,7 +150,11 @@ fun CookieProfilePage(
         DeleteCookieDialog(cookiesViewModel) { cookiesViewModel.hideDialog() }
     }
 
-
+    if (showHelpDialog) {
+        HelpDialog(text = stringResource(id = R.string.cookies_usage_msg)) {
+            showHelpDialog = false
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)

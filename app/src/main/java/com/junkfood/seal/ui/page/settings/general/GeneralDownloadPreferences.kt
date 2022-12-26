@@ -19,7 +19,6 @@ import androidx.compose.material.icons.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
-import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -44,6 +43,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -114,7 +114,7 @@ fun GeneralDownloadPreferences(
             )
         },
         content = {
-            var isCustomCommandEnabled by remember {
+            val isCustomCommandEnabled by remember {
                 mutableStateOf(
                     PreferenceUtil.getValue(CUSTOM_COMMAND)
                 )
@@ -122,7 +122,10 @@ fun GeneralDownloadPreferences(
             LazyColumn(
                 modifier = Modifier.padding(it)
             ) {
-
+                if (isCustomCommandEnabled)
+                    item {
+                        PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+                    }
                 item {
                     var ytdlpVersion by remember {
                         mutableStateOf(
@@ -292,7 +295,7 @@ fun GeneralDownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
 
-                item {
+/*                item {
                     PreferenceSwitch(title = stringResource(id = R.string.custom_command),
                         description = stringResource(
                             id = R.string.custom_command_desc
@@ -303,7 +306,7 @@ fun GeneralDownloadPreferences(
                             isCustomCommandEnabled = !isCustomCommandEnabled
                             PreferenceUtil.updateValue(CUSTOM_COMMAND, isCustomCommandEnabled)
                         })
-                }
+                }*/
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
