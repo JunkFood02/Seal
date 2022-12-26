@@ -279,7 +279,7 @@ object PreferenceUtil {
 
     fun getSponsorBlockCategories(): String =
         with(getString(SPONSORBLOCK_CATEGORIES)) {
-            if (isNullOrEmpty()) "all"
+            if (isNullOrEmpty()) "default"
             else this
         }
 
