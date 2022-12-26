@@ -136,7 +136,6 @@ fun NetworkPreferences(
                             R.string.aria2_desc
                         ),
                         isChecked = aria2c,
-                        enabled = !isCustomCommandEnabled,
                         onClick = {
                             aria2c = !aria2c
                             PreferenceUtil.updateValue(PreferenceUtil.ARIA2C, aria2c)

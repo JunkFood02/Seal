@@ -381,6 +381,11 @@ object DownloadUtil {
                 "-P",
                 if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
             )
+            if(PreferenceUtil.getValue(ARIA2C))
+            {
+                addOption("--downloader", "libaria2c.so")
+                addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
+            }
             addOption(
                 "--config-locations", FileUtil.writeContentToFile(
                     template.template, context.getConfigFile()
