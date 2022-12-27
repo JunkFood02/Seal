@@ -25,7 +25,6 @@ import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -35,10 +34,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +52,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -108,7 +110,6 @@ fun VideoListPage(
     val fileSizeList = remember(videoList.size) {
         videoList.map { File(it.videoPath).length() }
     }
-
 
 
     var isSelectEnabled by remember { mutableStateOf(false) }
@@ -189,6 +190,17 @@ fun VideoListPage(
         videoList, viewState
     ) { mutableStateOf(videoList.count { it.filterSort(viewState) }) }
 
+    val checkBoxState by remember(selectedItemIds, visibleItemCount) {
+        derivedStateOf {
+            if (selectedItemIds.isEmpty())
+                ToggleableState.Off
+            else if (selectedItemIds.size == visibleItemCount.value && selectedItemIds.isNotEmpty())
+                ToggleableState.On
+            else
+                ToggleableState.Indeterminate
+        }
+    }
+
     BackHandler(isSelectEnabled) {
         isSelectEnabled = false
     }
@@ -231,20 +243,21 @@ fun VideoListPage(
                     modifier = Modifier
                 ) {
                     val selectAllText = stringResource(R.string.select_all)
-                    Checkbox(
+                    TriStateCheckbox(
                         modifier = Modifier.semantics {
                             this.contentDescription = selectAllText
                         },
-                        checked = selectedItemIds.size == visibleItemCount.value && selectedItemIds.isNotEmpty(),
-                        onCheckedChange = {
-                            if (selectedItemIds.size == visibleItemCount.value) {
-                                selectedItemIds.clear()
-                            } else {
-                                for (item in videoList) {
-                                    if (!selectedItemIds.contains(item.id)
-                                        && item.filterSort(viewState)
-                                    ) {
-                                        selectedItemIds.add(item.id)
+                        state = checkBoxState,
+                        onClick = {
+                            when (checkBoxState) {
+                                ToggleableState.On -> selectedItemIds.clear()
+                                else -> {
+                                    for (item in videoList) {
+                                        if (!selectedItemIds.contains(item.id)
+                                            && item.filterSort(viewState)
+                                        ) {
+                                            selectedItemIds.add(item.id)
+                                        }
                                     }
                                 }
                             }
