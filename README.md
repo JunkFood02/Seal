@@ -6,6 +6,9 @@
 Seal
 </h1>
 </div>
+
+
+
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&label=stable&style=flat-square)](https://github.com/JunkFood02/Seal/releases/latest)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=preview&logo=github)](https://github.com/JunkFood02/Seal/releases)
@@ -52,14 +55,23 @@ English
 ## 📖 Features
 
 - Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly youtube-dl).
+
 - Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
+
 - Download all videos in the playlist with one click.
+
 - Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+
 - Embed subtitles into the downloaded videos.
+
 - Execute custom yt-dlp commands with templates.
+
 - Manage in-app downloads and custom command templates.
+
 - Easy to use and user-friendly.
+
 - [Material Design 3](https://m3.material.io/) style UI, with dynamic color theme.
+
 - MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
 
 
@@ -77,7 +89,9 @@ For most devices, it is recommended to install the **arm64-v8a** version of the 
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/)
 
+## 💬 Contact
 
+Join our [Telegram Channel](https://t.me/seal_app) for discussion, announcements, and releases!
 
 ## 🤝 Contributing
 

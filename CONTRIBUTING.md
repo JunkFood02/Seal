@@ -6,7 +6,7 @@ For bug reports and feature requests, please search in issues first (including t
 
 **We'll probably ignore and close your issue if it's not using the existing templates or doesn't contain sufficient description.**
 
-For questions or any other ideas to improve, you can join or [start a new discussion](https://github.com/JunkFood02/Seal/discussions). 
+For questions or any other ideas to improve, you can join or [start a new discussion](https://github.com/JunkFood02/Seal/discussions).
 
 ## Bug Report
 
