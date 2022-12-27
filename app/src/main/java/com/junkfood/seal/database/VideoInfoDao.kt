@@ -4,8 +4,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 @Dao
 interface VideoInfoDao {
@@ -23,6 +25,27 @@ interface VideoInfoDao {
 
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
     suspend fun deleteInfoByPath(path: String)
+
+    @Transaction
+    suspend fun deleteInfoByPathAndInsert(
+        videoInfo: DownloadedVideoInfo,
+        path: String = videoInfo.videoPath
+    ) {
+        deleteInfoByPath(path)
+        insertAll(videoInfo)
+    }
+
+    @Delete
+    suspend fun deleteInfo(vararg info: DownloadedVideoInfo)
+
+    @Transaction
+    suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) {
+        idList.forEach { id ->
+            val info = getInfoById(id)
+            if (deleteFile) File(info.videoPath).delete()
+            deleteInfo(info)
+        }
+    }
 
     @Query("SELECT * FROM CommandTemplate")
     fun getTemplateFlow(): Flow<List<CommandTemplate>>

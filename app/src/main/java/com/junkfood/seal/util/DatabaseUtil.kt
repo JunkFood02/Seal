@@ -23,10 +23,7 @@ object DatabaseUtil {
     private val dao = db.videoInfoDao()
     fun insertInfo(vararg infoList: DownloadedVideoInfo) {
         applicationScope.launch(Dispatchers.IO) {
-            for (info in infoList) {
-                dao.deleteInfoByPath(info.videoPath)
-                dao.insertAll(info)
-            }
+            infoList.forEach { dao.deleteInfoByPathAndInsert(it) }
         }
     }
 
@@ -43,6 +40,9 @@ object DatabaseUtil {
 
     suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
     suspend fun getTemplateList() = dao.getTemplateList()
+
+    suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) =
+        dao.deleteInfoListByIdList(idList, deleteFile)
 
     suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)
     suspend fun deleteInfoById(id: Int) = dao.deleteInfoById(id)

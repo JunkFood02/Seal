@@ -358,13 +358,7 @@ fun VideoListPage(
             }, confirmButton = {
                 ConfirmButton {
                     scope.launch {
-                        selectedItemIds.forEach { id ->
-                            if (deleteFile) {
-                                val info = DatabaseUtil.getInfoById(id)
-                                File(info.videoPath).delete()
-                            }
-                            DatabaseUtil.deleteInfoById(id)
-                        }
+                        DatabaseUtil.deleteInfoListByIdList(selectedItemIds, deleteFile)
                     }
                     showRemoveMultipleItemsDialog = false
                     isSelectEnabled = false
