@@ -1,10 +1,11 @@
+<div align="center">
 <p align="center"> 
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
 </p>
 <h1 align="center">
 Seal
 </h1>
-<div align="center">
+</div>
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&label=stable&style=flat-square)](https://github.com/JunkFood02/Seal/releases/latest)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=preview&logo=github)](https://github.com/JunkFood02/Seal/releases)
@@ -13,9 +14,9 @@ Seal
 [![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 [![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat-square&logo=telegram)](https://t.me/seal_app)
 
-
-
+<p align="center">
 Video/Audio Downloader for Android
+</p>
 
 <p align="center">
 English
