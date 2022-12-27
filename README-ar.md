@@ -34,19 +34,19 @@ Seal
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
 </p>
 
 <br>
 
 
 ## 📖 الميزات
-	
+
 - تحميل مقاطع الفيديو والملفات الصوتية من منصات الفيديو المدعومة من [yt-dlp](https://github.com/yt-dlp/yt-dlp) (سابقا [youtube-dl](https://github.com/ytdl-org/youtube-dl)).
 
 - قم بتضمين البيانات الوصفية وصورة الفيديو المصغرة في ملفات الصوت المستخرجة التي يدعمها [mutagen](https://github.com/quodlibet/mutagen).
@@ -115,7 +115,7 @@ Seal
 <a href="https://github.com/JunkFood02/Seal/blob/main/LICENSE">
 <img src="https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge" alt="GitHub" />
 </a>
-	
+
 <div align="right">
 <table><td>
 <a href="#start-of-content">👆 انتقل إلى أعلى</a>
