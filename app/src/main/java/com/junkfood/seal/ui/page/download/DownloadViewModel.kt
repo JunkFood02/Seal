@@ -95,7 +95,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private var downloadResultTemp: DownloadUtil.Result = DownloadUtil.Result.failure()
 
     private fun manageDownloadError(
-        th: Throwable, isFetchingInfo: Boolean = true, notificationId: Int? = null
+        th: Throwable, isFetchingInfo: Boolean = false, notificationId: Int? = null
     ) {
         viewModelScope.launch {
             if (th is YoutubeDL.CanceledException) return@launch
@@ -104,6 +104,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 th.message ?: context.getString(R.string.unknown_error)
             )
             else if (isFetchingInfo) showErrorMessage(context.getString(R.string.fetch_info_error_msg))
+            else if (th.message!!.contains("Failed to find configured root")) showErrorMessage(
+                context.getString(R.string.ignore_error_msg)
+            )
             else showErrorMessage(context.getString(R.string.download_error_msg))
             notificationId?.let {
                 NotificationUtil.finishNotification(
@@ -347,7 +350,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     videoInfo = info,
                     downloadPreferences = downloadPreferences
                 )
-            }.onFailure { manageDownloadError(it) }
+            }.onFailure {
+                manageDownloadError(it)
+            }
         }
     }
 
@@ -408,7 +413,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
 
             } catch (e: Exception) {
-                manageDownloadError(e, false, notificationId)
+                manageDownloadError(e)
                 return
             }
         }

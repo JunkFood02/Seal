@@ -1,12 +1,16 @@
 package com.junkfood.seal
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.IBinder
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -15,6 +19,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.collectAsState
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -33,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val downloadViewModel: DownloadViewModel by viewModels()
@@ -50,8 +57,16 @@ class MainActivity : AppCompatActivity() {
                 AppCompatDelegate.setApplicationLocales(
                     LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
                 )
+            if(Build.VERSION.SDK_INT >= 30) {
+                if (!Environment.isExternalStorageManager()) {
+                    val getFullAcessPermission = Intent()
+                    getFullAcessPermission.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                    startActivity(getFullAcessPermission)
+                }
+            }
         }
         context = this.baseContext
+        requestExternalStoragePermission(this)
         setContent {
             val isUrlSharingTriggered =
                 downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
@@ -71,6 +86,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
         handleShareIntent(intent)
+    }
+
+    fun requestExternalStoragePermission(activity: Activity) {
+        // Check if the app has the necessary permissions
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                activity,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                activity,
+                android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request the permissions if they are not granted
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                ),
+                REQUEST_CODE
+            )
+        } else {
+            Log.d(TAG, "requestExternalStoragePermission: Some of the permissions weren't granted")
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -109,6 +154,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         private var sharedUrl = ""
+        private val REQUEST_CODE = 1
         var isServiceRunning = false
         private val connection = object : ServiceConnection {
             override fun onServiceConnected(className: ComponentName, service: IBinder) {

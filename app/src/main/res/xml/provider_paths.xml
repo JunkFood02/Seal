@@ -3,7 +3,13 @@
     <external-path
         name="external_files"
         path="." />
+    <external-files-path
+        name="external_files"
+        path="/storage" />
     <cache-path
         name="cache"
         path="." />
+    <external-media-path
+        name="external_media"
+        path="/storage" />
 </paths>

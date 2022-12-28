@@ -34,6 +34,8 @@ room = "2.5.0-rc01"
 
 youtubedlAndroid = "a4afb4f6a2"
 
+commonsIoVer = "2.5"
+
 mmkv = "1.2.14"
 
 [libraries]
@@ -104,6 +106,8 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 youtubedl-android-library = { group = "com.github.JunkFood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
 youtubedl-android-ffmpeg = { group = "com.github.JunkFood02.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
 youtubedl-android-aria2c = { group = "com.github.JunkFood02.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
+
+apacheIoUtils = { group = "commons-io", name = "commons-io", version.ref = "commonsIoVer" }
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 

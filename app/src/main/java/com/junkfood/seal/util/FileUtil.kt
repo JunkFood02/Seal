@@ -6,8 +6,10 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.util.Log
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import java.io.File
@@ -108,15 +110,48 @@ object FileUtil {
         val path: String = treeUri.path.toString()
         Log.d(TAG, path)
         if (!path.contains("primary:")) {
-            TextUtil.makeToast("This directory is not supported")
-            return File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                "Seal"
-            ).absolutePath
+            //Get the SD ID that is after two "/" and before an ":"
+            val sdCardId = path.substring(path.indexOf("/", 1) + 1, path.indexOf(":"))
+            Log.d(TAG, "SD Card ID: $sdCardId")
+            //Get the path after the SD ID
+            val pathAfterSdId =
+                path.substring(path.indexOf(sdCardId) + sdCardId.length + 1, path.length)
+
+            val pathExists: Boolean = File("/storage/$sdCardId/$pathAfterSdId").exists()
+            Log.d(TAG, "Path exists: $pathExists")
+
+            return "/storage/$sdCardId/$pathAfterSdId"
         }
+
         val last: String = path.split("primary:").last()
         return "/storage/emulated/0/$last"
     }
 
+    //create a file in the indicated directory and write some data in it
+    fun createFileInDirectory(directoryUri: Uri, fileName: String, data: String) {
+        try {
+            context.contentResolver.takePersistableUriPermission(
+                directoryUri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+            val docId = DocumentsContract.getTreeDocumentId(directoryUri)
+            val destDir = DocumentsContract.buildDocumentUriUsingTree(directoryUri, docId)
+            DocumentsContract.createDocument(
+                context.contentResolver,
+                destDir,
+                "text/plain",
+                fileName,
+            )?.let { uri ->
+                context.contentResolver.openOutputStream(uri).use { outputStream ->
+                    outputStream?.write(data.toByteArray())
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private const val TAG = "FileUtil"
+
+    const val downloadDirKey = "downloadDir"
 }

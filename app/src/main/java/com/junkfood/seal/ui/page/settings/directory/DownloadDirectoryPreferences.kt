@@ -5,10 +5,12 @@ package com.junkfood.seal.ui.page.settings.general
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.UriPermission
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -56,10 +58,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
+import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -82,6 +86,7 @@ import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 
 private const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
@@ -134,9 +139,11 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
         )
     }
-
-    val storagePermission =
+    val writeStoragePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val readStoragePermission =
+        rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
+
     val showDirectoryAlert =
         Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()
                 && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
@@ -152,6 +159,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             }
         }) {
             it?.let {
+                Log.d("DownloadDirectory", "Uri: $it")
                 val path = FileUtil.getRealPath(it)
                 App.updateDownloadDir(path, isAudio = isEditingAudioDirectory)
                 if (isEditingAudioDirectory)
@@ -161,9 +169,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         }
 
     fun openDirectoryChooser() {
-        if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
-            launcher.launch(null)
-        else storagePermission.launchPermissionRequest()
+        if (Build.VERSION.SDK_INT > 29 || writeStoragePermission.status == PermissionStatus.Granted)
+            if(readStoragePermission.status != PermissionStatus.Granted){
+                readStoragePermission.launchPermissionRequest()
+            } else {
+                launcher.launch(null)
+            }
+        else writeStoragePermission.launchPermissionRequest()
     }
 
     Scaffold(

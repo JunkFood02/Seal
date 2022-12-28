@@ -270,4 +270,5 @@
     <string name="cookies_usage_msg">Downloading from some sites requires account authentication information. Click \"Generate new cookies\", enter the URL of the website and then log in with your account in the browser page, the app will generate it for you.</string>
     <string name="custom_command_usage_msg" translatable="false"></string>
     <string name="telegram_channel">Telegram channel</string>
+    <string name="ignore_error_msg">The file was downloaded. Ignore this error. (SD card support workaround).</string>
 </resources>
