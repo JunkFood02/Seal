@@ -104,9 +104,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 th.message ?: context.getString(R.string.unknown_error)
             )
             else if (isFetchingInfo) showErrorMessage(context.getString(R.string.fetch_info_error_msg))
-            else if (th.message!!.contains("Failed to find configured root")) showErrorMessage(
-                context.getString(R.string.ignore_error_msg)
-            )
             else showErrorMessage(context.getString(R.string.download_error_msg))
             notificationId?.let {
                 NotificationUtil.finishNotification(
@@ -413,8 +410,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 )
 
             } catch (e: Exception) {
-                manageDownloadError(e)
-                return
+                if(e.message!!.contains("Failed to find configured root")){
+                    finishProcessing()
+                }else {
+                    manageDownloadError(e)
+                    return
+                }
             }
         }
 
@@ -489,7 +490,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
 
     fun openVideoFile() {
         if (taskState.value.progress == 100f) openFile(downloadResultTemp)
