@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         context = this.baseContext
-      //  requestExternalStoragePermission(this)
         setContent {
             val isUrlSharingTriggered =
                 downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
@@ -80,37 +79,6 @@ class MainActivity : AppCompatActivity() {
         }
         handleShareIntent(intent)
     }
-
-   /* fun requestExternalStoragePermission(activity: Activity) {
-        // Check if the app has the necessary permissions
-        if (ContextCompat.checkSelfPermission(
-                activity,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                activity,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                activity,
-                android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Request the permissions if they are not granted
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
-                ),
-                REQUEST_CODE
-            )
-        } else {
-            Log.d(TAG, "requestExternalStoragePermission: Some of the permissions weren't granted")
-        }
-    }*/
-
     override fun onNewIntent(intent: Intent) {
         handleShareIntent(intent)
         super.onNewIntent(intent)
@@ -147,7 +115,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         private var sharedUrl = ""
-        private val REQUEST_CODE = 1
         var isServiceRunning = false
         private val connection = object : ServiceConnection {
             override fun onServiceConnected(className: ComponentName, service: IBinder) {
