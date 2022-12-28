@@ -58,6 +58,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -169,13 +170,20 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         }
 
     fun openDirectoryChooser() {
-        if (Build.VERSION.SDK_INT > 29 || writeStoragePermission.status == PermissionStatus.Granted)
-            if(readStoragePermission.status != PermissionStatus.Granted){
-                readStoragePermission.launchPermissionRequest()
-            } else {
+        if (Build.VERSION.SDK_INT > 29 || writeStoragePermission.status == PermissionStatus.Granted){
                 launcher.launch(null)
             }
         else writeStoragePermission.launchPermissionRequest()
+    }
+
+    fun requestStoragePermission() {
+        if(Build.VERSION.SDK_INT >= 30) {
+            if (!Environment.isExternalStorageManager()) {
+                val getFullAcessPermission = Intent()
+                getFullAcessPermission.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                startActivity(context, getFullAcessPermission, null)
+            }
+        }
     }
 
     Scaffold(
@@ -237,6 +245,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     ) {
                         isEditingAudioDirectory = false
                         openDirectoryChooser()
+                        requestStoragePermission()
                     }
                 }
                 item {
@@ -248,6 +257,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     ) {
                         isEditingAudioDirectory = true
                         openDirectoryChooser()
+                        requestStoragePermission()
                     }
                 }
                 item {

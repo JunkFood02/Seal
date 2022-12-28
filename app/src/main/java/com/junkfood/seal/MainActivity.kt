@@ -57,16 +57,9 @@ class MainActivity : AppCompatActivity() {
                 AppCompatDelegate.setApplicationLocales(
                     LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
                 )
-            if(Build.VERSION.SDK_INT >= 30) {
-                if (!Environment.isExternalStorageManager()) {
-                    val getFullAcessPermission = Intent()
-                    getFullAcessPermission.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                    startActivity(getFullAcessPermission)
-                }
-            }
         }
         context = this.baseContext
-        requestExternalStoragePermission(this)
+      //  requestExternalStoragePermission(this)
         setContent {
             val isUrlSharingTriggered =
                 downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
@@ -88,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         handleShareIntent(intent)
     }
 
-    fun requestExternalStoragePermission(activity: Activity) {
+   /* fun requestExternalStoragePermission(activity: Activity) {
         // Check if the app has the necessary permissions
         if (ContextCompat.checkSelfPermission(
                 activity,
@@ -116,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             Log.d(TAG, "requestExternalStoragePermission: Some of the permissions weren't granted")
         }
-    }
+    }*/
 
     override fun onNewIntent(intent: Intent) {
         handleShareIntent(intent)

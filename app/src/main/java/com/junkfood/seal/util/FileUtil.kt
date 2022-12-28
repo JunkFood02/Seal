@@ -127,30 +127,6 @@ object FileUtil {
         return "/storage/emulated/0/$last"
     }
 
-    //create a file in the indicated directory and write some data in it
-    fun createFileInDirectory(directoryUri: Uri, fileName: String, data: String) {
-        try {
-            context.contentResolver.takePersistableUriPermission(
-                directoryUri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            )
-            val docId = DocumentsContract.getTreeDocumentId(directoryUri)
-            val destDir = DocumentsContract.buildDocumentUriUsingTree(directoryUri, docId)
-            DocumentsContract.createDocument(
-                context.contentResolver,
-                destDir,
-                "text/plain",
-                fileName,
-            )?.let { uri ->
-                context.contentResolver.openOutputStream(uri).use { outputStream ->
-                    outputStream?.write(data.toByteArray())
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     private const val TAG = "FileUtil"
 
     const val downloadDirKey = "downloadDir"
