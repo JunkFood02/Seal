@@ -22,11 +22,13 @@ sealed class Version(
         override fun toVersionName(): String =
             "${versionMajor}.${versionMinor}.${versionPatch}-beta.$versionBuild"
     }
+
     class Stable(versionMajor: Int, versionMinor: Int, versionPatch: Int) :
         Version(versionMajor, versionMinor, versionPatch) {
         override fun toVersionName(): String =
             "${versionMajor}.${versionMinor}.${versionPatch}"
     }
+
     class ReleaseCandidate(
         versionMajor: Int,
         versionMinor: Int,
@@ -39,10 +41,11 @@ sealed class Version(
     }
 }
 
-val currentVersion:Version = Version.Stable(
+val currentVersion: Version = Version.Beta(
     versionMajor = 1,
-    versionMinor = 7,
+    versionMinor = 8,
     versionPatch = 0,
+    versionBuild = 1
 )
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
