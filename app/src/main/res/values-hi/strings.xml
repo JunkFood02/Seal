@@ -217,4 +217,10 @@
     <string name="generate_new_cookies">नई कुकीज़ उत्पन्न करें</string>
     <string name="format_selection_desc">डाउनलोड शुरू करने से पहले डाउनलोड करने के लिए प्रारूप का चयन करें</string>
     <string name="format_selection">प्रारूप चयन</string>
+    <string name="use_cookies">कुकीज़ का प्रयोग करें</string>
+    <string name="custom_command_enabled_hint">कस्टम आदेश का उपयोग करते समय कुछ विकल्प अनुपलब्ध होते हैं</string>
+    <string name="how_does_it_work">यह कैसे काम करता है\?</string>
+    <string name="telegram_channel">टेलीग्राम चैनल</string>
+    <string name="cookies_usage_msg">कुछ साइटों से डाउनलोड करने के लिए खाता प्रमाणीकरण जानकारी की आवश्यकता होती है। \"नई कुकी जनरेट करें\" पर क्लिक करें, वेबसाइट का URL दर्ज करें और फिर ब्राउज़र पेज में अपने खाते से लॉग इन करें, ऐप इसे आपके लिए जनरेट कर देगा।</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" के लिए कुकीज़ हटाएं\?</string>
 </resources>

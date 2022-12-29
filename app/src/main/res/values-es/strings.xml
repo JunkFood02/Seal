@@ -205,7 +205,7 @@
     <string name="use_custom_command">Usar comandos personalizados</string>
     <string name="private_directory_desc">Almacena las descargas en un directorio oculto</string>
     <string name="crop_artwork">Recortar carátulas</string>
-    <string name="crop_artwork_desc">Recorta las imagenes en cuadrados</string>
+    <string name="crop_artwork_desc">Recortar la imagen incrustada en un cuadrado</string>
     <string name="disable_preview">Deshabilitar vista previa</string>
     <string name="disable_preview_desc">Deshabilitar la vista previa en las descargas</string>
     <string name="private_directory">Directorio privado</string>
@@ -217,4 +217,10 @@
     <string name="video_only">Vídeo (sin audio)</string>
     <string name="format_selection">Selección de formato</string>
     <string name="generate_new_cookies">Crear nuevas cookies</string>
+    <string name="use_cookies">Utilizar cookies</string>
+    <string name="remove_cookie_profile_desc">¿Eliminar las cookies para \"%1$s\"\?</string>
+    <string name="custom_command_enabled_hint">Algunas opciones no están disponibles cuando se utiliza el comando personalizado</string>
+    <string name="how_does_it_work">¿Cómo funciona\?</string>
+    <string name="telegram_channel">Canal de Telegram</string>
+    <string name="cookies_usage_msg">La descarga desde algunos sitios requiere información de autenticación de cuenta. Haz clic en \"Generar nuevas cookies\", introduce la URL del sitio web y, a continuación, inicia sesión con tu cuenta en la página del navegador; la aplicación la generará por ti.</string>
 </resources>

@@ -204,7 +204,7 @@
     <string name="use_custom_command">Gunakan perintah kustom</string>
     <string name="private_directory">Direktori pribadi</string>
     <string name="crop_artwork">Potong gambar</string>
-    <string name="crop_artwork_desc">Potong gambar semat menjadi kotak</string>
+    <string name="crop_artwork_desc">Potong gambar tersemat menjadi kotak</string>
     <string name="format_settings_desc">Format file, kualitas video, subtitel</string>
     <string name="privacy">Privasi</string>
     <string name="disable_preview_desc">Nonaktifkan pratinjau di unduhan</string>
@@ -217,4 +217,10 @@
     <string name="video_only">Video (tanpa audio)</string>
     <string name="format_selection_desc">Pilih format untuk diunduh sebelum memulai unduhan</string>
     <string name="generate_new_cookies">Buat kuki baru</string>
+    <string name="use_cookies">Gunakan Kuki</string>
+    <string name="custom_command_enabled_hint">Beberapa opsi tidak tersedia ketika menggunakan perintah kustom</string>
+    <string name="how_does_it_work">Bagaimana cara kerjanya\?</string>
+    <string name="remove_cookie_profile_desc">Hapus kuki untuk \"%1$s\"\?</string>
+    <string name="cookies_usage_msg">Mengunduh dari beberapa situs memerlukan informasi autentikasi akun. Klik \"Buat kuki baru\", masukkan URL situs web dan kemudian masuk dengan akun Anda di halaman browser, aplikasi akan membuatnya untuk Anda.</string>
+    <string name="telegram_channel">Saluran Telegram</string>
 </resources>

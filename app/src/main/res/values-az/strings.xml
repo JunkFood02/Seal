@@ -217,4 +217,10 @@
     <string name="suggested">Məsləhət görülən</string>
     <string name="format_selection_desc">Endirməyə başlamazdan əvvəl endirmək üçün format seç</string>
     <string name="generate_new_cookies">Yeni kukilər yarat</string>
+    <string name="use_cookies">Kukilər istifadə et</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" üçün kukilər təmizlənsin\?</string>
+    <string name="custom_command_enabled_hint">Fərdi əmr istifadə edərkən bəzi seçimlər əlçatan olmur</string>
+    <string name="how_does_it_work">O necə işləyir\?</string>
+    <string name="cookies_usage_msg">Bəzi saytlardan endirərkən hesab təsdiqlənməsi məlumatı tələb olunur. \"Yeni kukilər yarat\" düyməsini kliklə, vebsayt URL-ni daxil et və sonra brauzer səhifəsində hesabınızla daxil olun, tətbiq sizin üçün onu yaradacaq.</string>
+    <string name="telegram_channel">Telegram kanalı</string>
 </resources>
