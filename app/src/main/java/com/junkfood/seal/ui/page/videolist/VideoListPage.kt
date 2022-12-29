@@ -107,8 +107,10 @@ fun VideoListPage(
     )
     val scope = rememberCoroutineScope()
 
-    val fileSizeList = remember(videoList.size) {
-        videoList.map { File(it.videoPath).length() }
+    val fileSizeMap = remember(videoList.size) {
+        mutableMapOf<Int, Long>().apply {
+            putAll(videoList.map { Pair(it.id, File(it.videoPath).length()) })
+        }
     }
 
 
@@ -186,6 +188,15 @@ fun VideoListPage(
                 )
             })
     }
+
+    val selectedFileSizeSum by remember(selectedItemIds.size) {
+        derivedStateOf {
+            selectedItemIds.fold(0L) { acc: Long, id: Int ->
+                acc + fileSizeMap.getOrElse(id) { 0L }
+            }
+        }
+    }
+
     val visibleItemCount = remember(
         videoList, viewState
     ) { mutableStateOf(videoList.count { it.filterSort(viewState) }) }
@@ -298,7 +309,7 @@ fun VideoListPage(
             }
             for (info in videoList) {
                 val fileSize =
-                    fileSizeList.getOrElse(videoList.indexOf(info)) { File(info.videoPath).length() }
+                    fileSizeMap.getOrElse(info.id) { File(info.videoPath).length() }
 
                 item(
                     key = info.id,
@@ -351,7 +362,9 @@ fun VideoListPage(
                         )
                     )
                     MultiChoiceItem(
-                        text = stringResource(R.string.delete_file),
+                        text = stringResource(R.string.delete_file) + " (%.2f M)".format(
+                            selectedFileSizeSum / (1024f * 1024f)
+                        ),
                         checked = deleteFile
                     ) { deleteFile = !deleteFile }
                 }
