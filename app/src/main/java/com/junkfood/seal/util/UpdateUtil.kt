@@ -134,16 +134,8 @@ object UpdateUtil {
             return@withContext flow<DownloadStatus> { emit(DownloadStatus.Finished(context.getLatestApk())) }
         }
 
-        val isArmArchSupported = Build.SUPPORTED_ABIS.contains(ARM32)
-        val is64BitsArchSupported = with(Build.SUPPORTED_ABIS) {
-            if (isArmArchSupported) contains(ARM64)
-            else contains(X64)
-        }
-        val preferredArch = if (is64BitsArchSupported) {
-            if (isArmArchSupported) ARM64 else X64
-        } else {
-            if (isArmArchSupported) ARM32 else X86
-        }
+        val abiList = Build.SUPPORTED_ABIS
+        val preferredArch = abiList.first() ?: ARM64
 
         val targetUrl = latestRelease.assets?.find {
             return@find it.name?.contains(preferredArch) ?: false
