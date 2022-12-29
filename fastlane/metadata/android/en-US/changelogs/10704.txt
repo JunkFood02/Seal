@@ -1,0 +1,9 @@
+Feature Update:
+Select from the formats of videos to download
+Built-in WebView to generate cookies for downloading
+Running custom commands in parallel
+
+Translation Update:
+Add translations for Norwegian Nynorsk, Azerbaijani, and Punjabi
+
+For full changelogs, please refer to GitHub

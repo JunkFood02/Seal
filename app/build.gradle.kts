@@ -10,10 +10,6 @@ plugins {
 }
 apply(plugin = "dagger.hilt.android.plugin")
 
-enum class VersionVariants {
-    STABLE, BETA, RELEASE_CANDIDATE
-}
-
 sealed class Version(
     open val versionMajor: Int,
     val versionMinor: Int,
@@ -43,11 +39,10 @@ sealed class Version(
     }
 }
 
-val currentVersion:Version = Version.ReleaseCandidate(
+val currentVersion:Version = Version.Stable(
     versionMajor = 1,
     versionMinor = 7,
     versionPatch = 0,
-    versionBuild = 1
 )
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
