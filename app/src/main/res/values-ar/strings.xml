@@ -217,4 +217,10 @@
     <string name="format_selection_desc">حدد الصيغة المراد تنزيلها قبل بدء العملية</string>
     <string name="video_only">فيديو (بدون صوت)</string>
     <string name="generate_new_cookies">إنشاء ملفات تعريف ارتباط جديدة</string>
+    <string name="use_cookies">استخدام ملفات تعريف الارتباط</string>
+    <string name="remove_cookie_profile_desc">هل تريد حذف ملفات تعريف الارتباط الخاصة بـ \"%1$s\"؟</string>
+    <string name="custom_command_enabled_hint">قد لا تتوفر بعض الخيارات عند استخدام الأوامر المخصصة</string>
+    <string name="how_does_it_work">كيف يعمل؟</string>
+    <string name="telegram_channel">قناة التيليجرام</string>
+    <string name="cookies_usage_msg">يتطلب التنزيل من بعض المواقع معلومات مصادقة الحساب. انقر فوق \"إنشاء ملفات تعريف ارتباط جديدة\" ، وأدخل عنوان URL لموقع الويب ، ثم قم بتسجيل الدخول باستخدام حسابك في صفحة المتصفح ، وسيقوم التطبيق بإنشائه لك.</string>
 </resources>

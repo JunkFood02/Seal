@@ -7,7 +7,7 @@
     <string name="settings">设置</string>
     <string name="download_settings_desc">常规设置、下载格式、自定义命令</string>
     <string name="extract_audio_summary">下载并保存音频，而非视频</string>
-    <string name="create_thumbnail_summary">下载并保存视频封面</string>
+    <string name="create_thumbnail_summary">以文件形式保存视频封面</string>
     <string name="yt_dlp_up_to_date">yt-dlp 已更新到最新版本</string>
     <string name="yt_dlp_update_fail">更新 yt-dlp 失败，请检查与GitHub的连接</string>
     <string name="fetching_info">正在获取视频信息…</string>
@@ -134,7 +134,7 @@
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
     <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>
-    <string name="embed_subtitles">内嵌字幕</string>
+    <string name="embed_subtitles">封装字幕</string>
     <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
     <string name="new_template">新建命令模板</string>
     <string name="template_label">模板标签</string>
@@ -208,7 +208,7 @@
     <string name="private_directory">隐藏目录</string>
     <string name="private_directory_desc">将文件下载到隐藏目录中</string>
     <string name="crop_artwork">裁剪封面</string>
-    <string name="crop_artwork_desc">将音频中内嵌封面裁切为正方形</string>
+    <string name="crop_artwork_desc">将音频中内嵌的封面图片裁切为正方形</string>
     <string name="download_selection_desc">选择要从播放列表 “%1$s” 中下载的视频</string>
     <string name="select_all">全选</string>
     <string name="selected_item_count">已选中 %1$d 个视频</string>

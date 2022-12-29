@@ -217,4 +217,10 @@
     <string name="private_directory_desc">ਇੱਕ ਲੁਕੀ ਹੋਈ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਡਾਊਨਲੋਡ ਸਟੋਰ ਕਰੋ</string>
     <string name="crop_artwork">ਕ੍ਰੌਪ ਆਰਟਵਰਕ</string>
     <string name="crop_artwork_desc">ਏਮਬੇਡ ਚਿੱਤਰ ਨੂੰ ਵਰਗ ਵਿੱਚ ਕੱਟੋ</string>
+    <string name="use_cookies">ਕੂਕੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="remove_cookie_profile_desc">ਕੀ \"%1$s\" ਲਈ ਕੂਕੀਜ਼ ਨੂੰ ਹਟਾਉਣਾ ਹੈ\?</string>
+    <string name="how_does_it_work">ਇਹ ਕਿਵੇਂ ਚਲਦਾ ਹੈ\?</string>
+    <string name="telegram_channel">ਟੈਲੀਗ੍ਰਾਮ ਚੈਨਲ</string>
+    <string name="custom_command_enabled_hint">ਕਸਟਮ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਵਿਕਲਪ ਉਪਲਬਧ ਨਹੀਂ ਹਨ</string>
+    <string name="cookies_usage_msg">ਕੁਝ ਸਾਈਟਾਂ ਤੋਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਖਾਤਾ ਪ੍ਰਮਾਣੀਕਰਨ ਜਾਣਕਾਰੀ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ। \"ਨਵੀਆਂ ਕੂਕੀਜ਼ ਤਿਆਰ ਕਰੋ\" \'ਤੇ ਕਲਿੱਕ ਕਰੋ, ਵੈੱਬਸਾਈਟ ਦਾ URL ਦਾਖਲ ਕਰੋ ਅਤੇ ਫਿਰ ਬ੍ਰਾਊਜ਼ਰ ਪੰਨੇ \'ਤੇ ਆਪਣੇ ਖਾਤੇ ਨਾਲ ਲਾਗ-ਇਨ ਕਰੋ, ਐਪ ਤੁਹਾਡੇ ਲਈ ਇਸਨੂੰ ਤਿਆਰ ਕਰੇਗੀ।</string>
 </resources>

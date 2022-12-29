@@ -217,4 +217,10 @@
     <string name="suggested">建議</string>
     <string name="video_only">視訊 (無音訊)</string>
     <string name="generate_new_cookies">產生新 cookies</string>
+    <string name="custom_command_enabled_hint">部分選項在使用自訂命令時不可用</string>
+    <string name="how_does_it_work">如何使用？</string>
+    <string name="telegram_channel">Telegram 頻道</string>
+    <string name="remove_cookie_profile_desc">確定要移除為「%1$s」儲存的 Cookies 嗎？</string>
+    <string name="use_cookies">使用 Cookies</string>
+    <string name="cookies_usage_msg">從某些網站下載時會需要帳戶驗證資訊。按一下 [產生新 Cookies]，接著輸入網站 URL 並在瀏覽器中以個人帳戶登入，應用程式將產生下載時所需的必要資訊。</string>
 </resources>
