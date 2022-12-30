@@ -2,6 +2,7 @@ package com.junkfood.seal
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
@@ -18,13 +19,12 @@ import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_EXAMPLE
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
 import com.yausername.youtubedl_android.YoutubeDL
-import com.yausername.youtubedl_android.YoutubeDLException
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,22 +51,24 @@ class App : Application() {
         connectivityManager = getSystemService(ConnectivityManager::class.java)
 
         applicationScope.launch((Dispatchers.IO)) {
-            if (!PreferenceUtil.containsKey(TEMPLATE_INDEX)) {
-                PreferenceUtil.updateInt(TEMPLATE_INDEX, 0)
-                DatabaseUtil.insertTemplate(
-                    CommandTemplate(
-                        id = 0,
-                        name = context.getString(R.string.custom_command_template),
-                        template = TEMPLATE_EXAMPLE
-                    )
-                )
-            }
             try {
-                YoutubeDL.getInstance().init(this@App)
-                FFmpeg.getInstance().init(this@App)
-                Aria2c.getInstance().init(this@App)
-            } catch (e: YoutubeDLException) {
+                if (!PreferenceUtil.containsKey(TEMPLATE_ID)) {
+                    PreferenceUtil.updateInt(
+                        TEMPLATE_ID, DatabaseUtil.insertTemplate(
+                            CommandTemplate(
+                                id = 0,
+                                name = context.getString(R.string.custom_command_template),
+                                template = TEMPLATE_EXAMPLE
+                            )
+                        ).toInt()
+                    )
+                }
+                YoutubeDL.init(this@App)
+                FFmpeg.init(this@App)
+                Aria2c.init(this@App)
+            } catch (e: Exception) {
                 e.printStackTrace()
+                clipboard.setPrimaryClip(ClipData.newPlainText(null, e.message))
                 Toast.makeText(this@App, e.message, Toast.LENGTH_LONG).show()
             }
         }

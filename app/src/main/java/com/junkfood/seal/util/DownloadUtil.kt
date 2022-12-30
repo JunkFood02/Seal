@@ -239,6 +239,8 @@ object DownloadUtil {
                     addOption("--config", configFile.absolutePath)
                 }
 
+                addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
+
                 if (playlistUrl.isNotEmpty()) {
                     addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
                     addOption(
@@ -381,8 +383,7 @@ object DownloadUtil {
                 "-P",
                 if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
             )
-            if(PreferenceUtil.getValue(ARIA2C))
-            {
+            if (PreferenceUtil.getValue(ARIA2C)) {
                 addOption("--downloader", "libaria2c.so")
                 addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
             }

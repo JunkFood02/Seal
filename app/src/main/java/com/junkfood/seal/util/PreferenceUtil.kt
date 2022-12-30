@@ -41,9 +41,6 @@ object PreferenceUtil {
     fun updateString(key: String, string: String) = kv.encode(key, string)
 
     fun containsKey(key: String) = kv.containsKey(key)
-    suspend fun getTemplate(): CommandTemplate {
-        return DatabaseUtil.getTemplateList()[kv.decodeInt(TEMPLATE_INDEX, 0)]
-    }
 
     //        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
     fun getOutputPathTemplate(): String =
@@ -115,7 +112,9 @@ object PreferenceUtil {
     const val CUSTOM_PATH = "custom_path"
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
-    const val TEMPLATE_INDEX = "template_index"
+
+    //    const val TEMPLATE_INDEX = "template_index"
+    const val TEMPLATE_ID = "template_id"
     const val MAX_FILE_SIZE = "max_file_size"
     const val SPONSORBLOCK = "sponsorblock"
     const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
@@ -294,6 +293,17 @@ object PreferenceUtil {
         }.stateIn(applicationScope, started = SharingStarted.Eagerly, COOKIE_HEADER)
 
     fun getCookies(): String = cookiesStateFlow.value
+
+    private val templateStateFlow: StateFlow<List<CommandTemplate>> =
+        DatabaseUtil.getTemplateFlow().distinctUntilChanged().stateIn(
+            applicationScope, started = SharingStarted.Eagerly, emptyList()
+        )
+
+    fun getTemplate(): CommandTemplate {
+        return templateStateFlow.value.run {
+            find { it.id == getInt(TEMPLATE_ID, 0) } ?: first()
+        }
+    }
 
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),

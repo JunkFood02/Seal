@@ -39,7 +39,7 @@ object DatabaseUtil {
     suspend fun insertCookieProfile(profile: CookieProfile) = dao.insertCookieProfile(profile)
 
     suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
-    suspend fun getTemplateList() = dao.getTemplateList()
+    private suspend fun getTemplateList() = dao.getTemplateList()
 
     suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) =
         dao.deleteInfoListByIdList(idList, deleteFile)
@@ -47,18 +47,14 @@ object DatabaseUtil {
     suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)
     suspend fun deleteInfoById(id: Int) = dao.deleteInfoById(id)
 
-    suspend fun insertTemplate(commandTemplate: CommandTemplate) {
+    suspend fun insertTemplate(commandTemplate: CommandTemplate): Long =
         dao.insertTemplate(commandTemplate)
-    }
 
     suspend fun updateTemplate(commandTemplate: CommandTemplate) {
         dao.updateTemplate(commandTemplate)
     }
 
-    suspend fun deleteTemplate(commandTemplate: CommandTemplate) {
-        dao.deleteTemplate(commandTemplate)
-    }
-
+    suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
     suspend fun exportTemplatesToJson(): String {
         return format.encodeToString(getTemplateList())
     }
@@ -68,11 +64,9 @@ object DatabaseUtil {
         var cnt = 0
         try {
             format.decodeFromString<List<CommandTemplate>>(json)
-                .forEach {
-                    if (!list.contains(it)) {
-                        cnt++
-                        dao.insertTemplate(it.copy(id = 0))
-                    }
+                .filter { !list.contains(it) }.run {
+                    dao.importTemplates(this)
+                    cnt = size
                 }
         } catch (e: Exception) {
             e.printStackTrace()

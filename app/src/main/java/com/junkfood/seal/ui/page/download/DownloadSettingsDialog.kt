@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
@@ -52,16 +52,16 @@ import com.junkfood.seal.ui.component.FilterChip
 import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
-import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
+import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
@@ -83,8 +83,8 @@ fun DownloadSettingDialog(
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
-    var selectedTemplateIndex by remember {
-        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_INDEX, 0))
+    var selectedTemplateId by remember {
+        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_ID, 0))
     }
 
     val templateList = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
@@ -92,7 +92,7 @@ fun DownloadSettingDialog(
 
     LaunchedEffect(customCommand) {
         if (customCommand)
-            scrollState.scrollToItem(selectedTemplateIndex)
+            scrollState.scrollToItem(templateList.indexOfFirst { it.id == selectedTemplateId })
     }
     val updatePreferences = {
         PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
@@ -100,7 +100,7 @@ fun DownloadSettingDialog(
         PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
         PreferenceUtil.updateValue(PLAYLIST, playlist)
         PreferenceUtil.updateValue(SUBTITLE, subtitle)
-        PreferenceUtil.updateInt(TEMPLATE_INDEX, selectedTemplateIndex)
+        PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
     }
 
     val downloadButtonCallback = {
@@ -119,9 +119,11 @@ fun DownloadSettingDialog(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
-            Row(modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .selectableGroup()) {
+            Row(
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .selectableGroup()
+            ) {
                 FilterChip(
                     selected = audio,
                     enabled = !customCommand,
@@ -211,11 +213,11 @@ fun DownloadSettingDialog(
             }
             AnimatedVisibility(visible = customCommand) {
                 LazyRow(state = scrollState, modifier = Modifier.selectableGroup()) {
-                    itemsIndexed(templateList) { index, item ->
+                    items(templateList) { item ->
                         FilterChipWithIcons(
-                            selected = index == selectedTemplateIndex,
+                            selected = item.id == selectedTemplateId,
                             onClick = {
-                                selectedTemplateIndex = index
+                                selectedTemplateId = item.id
                                 updatePreferences()
                             },
                             label = item.name
@@ -296,7 +298,7 @@ fun DownloadSettingDialog(
         (-1) -> CommandTemplateDialog(newTemplate = true,
             onDismissRequest = { showCustomCommandDialog = 0 })
 
-        (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateIndex],
+        (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateId],
             newTemplate = false,
             onDismissRequest = { showCustomCommandDialog = 0 })
     }

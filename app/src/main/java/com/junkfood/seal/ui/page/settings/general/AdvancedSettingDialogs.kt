@@ -49,7 +49,7 @@ const val sponsorBlockReference = "https://github.com/yt-dlp/yt-dlp#sponsorblock
 @Composable
 fun CommandTemplateDialog(
     commandTemplate: CommandTemplate = CommandTemplate(0, "", ""),
-    newTemplate: Boolean = false,
+    newTemplate: Boolean = commandTemplate.id == 0,
     onDismissRequest: () -> Unit = {},
     confirmationCallback: () -> Unit = {},
 ) {

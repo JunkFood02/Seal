@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AssignmentReturn
@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,7 +55,7 @@ import com.junkfood.seal.ui.component.TemplateItem
 import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_INDEX
+import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import kotlinx.coroutines.launch
 
 private const val TAG = "TemplateListPage"
@@ -77,9 +78,9 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
         mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
     }
 
-    var editingTemplateIndex by remember { mutableStateOf(-1) }
-    var selectedTemplateIndex by remember {
-        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_INDEX, 0))
+    var editingTemplateId by remember { mutableStateOf(-1) }
+    var selectedTemplateId by remember {
+        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_ID, 0))
     }
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -178,21 +179,21 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                         )
                     })
             }
-            itemsIndexed(templates) { index, commandTemplate ->
+            items(templates) { commandTemplate ->
                 TemplateItem(
                     label = commandTemplate.name,
                     template = commandTemplate.template,
-                    selected = selectedTemplateIndex == index,
+                    selected = selectedTemplateId == commandTemplate.id,
                     onClick = {
-                        editingTemplateIndex = index
+                        editingTemplateId = commandTemplate.id
                         showEditDialog = true
                     }, onSelect = {
-                        selectedTemplateIndex = index
-                        PreferenceUtil.updateInt(TEMPLATE_INDEX, selectedTemplateIndex)
+                        selectedTemplateId = commandTemplate.id
+                        PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
                     })
                 {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    editingTemplateIndex = index
+                    editingTemplateId = commandTemplate.id
                     if (templates.size != 1)
                         showDeleteDialog = true
                 }
@@ -202,22 +203,24 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                     title = stringResource(id = R.string.new_template),
                     icon = Icons.Outlined.Add
                 ) {
-                    editingTemplateIndex = -1
+                    editingTemplateId = -1
                     showEditDialog = true
                 }
             }
         }
     }
     if (showEditDialog) {
-        if (editingTemplateIndex == -1)
+        if (editingTemplateId == -1)
             CommandTemplateDialog(
-                newTemplate = true,
                 commandTemplate = CommandTemplate(0, "", ""),
                 onDismissRequest = { showEditDialog = false })
         else
             CommandTemplateDialog(
-                newTemplate = false,
-                commandTemplate = templates[editingTemplateIndex],
+                commandTemplate = templates.find { it.id == editingTemplateId } ?: CommandTemplate(
+                    id = 0,
+                    name = "",
+                    template = ""
+                ),
                 onDismissRequest = { showEditDialog = false })
     }
     if (showDeleteDialog) {
@@ -225,17 +228,21 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
             onDismissRequest = { showDeleteDialog = false },
             icon = { Icon(Icons.Outlined.Delete, null) },
             title = { Text(stringResource(R.string.remove_template)) },
-            text = { Text(stringResource(R.string.remove_template_desc).format(templates[editingTemplateIndex].name)) },
+            text = { Text(stringResource(R.string.remove_template_desc).format(templates.find { it.id == editingTemplateId }?.name)) },
             dismissButton = { DismissButton { showDeleteDialog = false } },
             confirmButton = {
                 ConfirmButton {
-                    if (selectedTemplateIndex >= editingTemplateIndex) {
-                        selectedTemplateIndex--
-                        PreferenceUtil.updateInt(TEMPLATE_INDEX, selectedTemplateIndex)
+                    scope.launch {
+                        DatabaseUtil.deleteTemplateById(editingTemplateId)
                     }
-                    scope.launch { DatabaseUtil.deleteTemplate(templates[editingTemplateIndex]) }
                     showDeleteDialog = false
                 }
             })
+    }
+    LaunchedEffect(templates.size) {
+        if (templates.isNotEmpty() && templates.find { it.id == selectedTemplateId } == null) {
+            selectedTemplateId = templates.first().id
+            PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+        }
     }
 }
