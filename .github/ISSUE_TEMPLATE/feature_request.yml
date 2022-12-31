@@ -22,6 +22,8 @@ body:
           required: false
         - label: This feature is not going to conflict with many of the existing options.
           required: false
+        - label: I have checked other issues (opened or closed) so I know that it's no repeated
+          required: false
   - type: textarea
     id: description_1
     attributes:
