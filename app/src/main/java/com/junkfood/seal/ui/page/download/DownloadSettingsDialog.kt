@@ -32,7 +32,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.BottomDrawer
@@ -56,7 +57,6 @@ import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
@@ -64,8 +64,12 @@ import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
+import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalAnimationApi::class,
+    ExperimentalLifecycleComposeApi::class
+)
 @Composable
 fun DownloadSettingDialog(
     useDialog: Boolean = false,
@@ -88,12 +92,14 @@ fun DownloadSettingDialog(
         mutableStateOf(PreferenceUtil.getInt(TEMPLATE_ID, 0))
     }
 
-    val templateList = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
+    val templateList by templateStateFlow.collectAsStateWithLifecycle(ArrayList())
     val scrollState = rememberLazyListState()
 
-    LaunchedEffect(customCommand) {
-        if (customCommand)
-            scrollState.scrollToItem(templateList.indexOfFirst { it.id == selectedTemplateId })
+    LaunchedEffect(templateList.size, customCommand) {
+        if (customCommand) {
+            templateList.indexOfFirst { it.id == selectedTemplateId }
+                .run { if (!equals(-1)) scrollState.scrollToItem(this) }
+        }
     }
     val updatePreferences = {
         PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)

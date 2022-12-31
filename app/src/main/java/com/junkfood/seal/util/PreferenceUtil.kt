@@ -294,7 +294,7 @@ object PreferenceUtil {
 
     fun getCookies(): String = cookiesStateFlow.value
 
-    private val templateStateFlow: StateFlow<List<CommandTemplate>> =
+    val templateStateFlow: StateFlow<List<CommandTemplate>> =
         DatabaseUtil.getTemplateFlow().distinctUntilChanged().stateIn(
             applicationScope, started = SharingStarted.Eagerly, emptyList()
         )

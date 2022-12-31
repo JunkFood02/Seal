@@ -26,7 +26,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +42,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.BackButton
@@ -60,13 +61,13 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "TemplateListPage"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TemplateListPage(onBackPressed: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
-    val templates = DatabaseUtil.getTemplateFlow().collectAsState(ArrayList()).value
+    val templates by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
     val clipboardManager = LocalClipboardManager.current
