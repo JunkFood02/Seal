@@ -27,7 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.page.StateHolder
+import com.junkfood.seal.StateHolder
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 

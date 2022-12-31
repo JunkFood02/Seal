@@ -1,5 +1,6 @@
-package com.junkfood.seal.ui.page
+package com.junkfood.seal
 
+import com.junkfood.seal.Downloader.State
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoInfo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 object StateHolder {
 
-    val mutableDownloaderState = MutableStateFlow(DownloaderState())
+    val mutableDownloaderState: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     val mutableTaskState = MutableStateFlow(DownloadTaskItem())
     val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
 
@@ -15,20 +16,6 @@ object StateHolder {
     val downloaderState = mutableDownloaderState.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
 
-
-    data class DownloaderState constructor(
-
-
-        val isDownloadError: Boolean = false,
-        val errorMessage: String = "",
-        val isFetchingInfo: Boolean = false,
-        val isProcessRunning: Boolean = false,
-        val debugMode: Boolean = false,
-        val isDownloadingPlaylist: Boolean = false,
-        val downloadItemCount: Int = 0,
-        val currentItem: Int = 0,
-        val isShowingErrorReport: Boolean = false
-    )
 
 
     data class DownloadTaskItem(

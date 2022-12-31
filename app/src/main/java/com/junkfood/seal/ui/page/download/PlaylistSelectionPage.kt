@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PlaylistItem
-import com.junkfood.seal.ui.page.StateHolder
+import com.junkfood.seal.StateHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
