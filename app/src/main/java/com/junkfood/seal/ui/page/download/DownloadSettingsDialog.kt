@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
@@ -295,11 +296,11 @@ fun DownloadSettingDialog(
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
     }
     when (showCustomCommandDialog) {
-        (-1) -> CommandTemplateDialog(newTemplate = true,
+        (-1) -> CommandTemplateDialog(
             onDismissRequest = { showCustomCommandDialog = 0 })
 
-        (1) -> CommandTemplateDialog(commandTemplate = templateList[selectedTemplateId],
-            newTemplate = false,
+        (1) -> CommandTemplateDialog(commandTemplate = templateList.find { it.id == selectedTemplateId }
+            ?: CommandTemplate(0, "", ""),
             onDismissRequest = { showCustomCommandDialog = 0 })
     }
 }
