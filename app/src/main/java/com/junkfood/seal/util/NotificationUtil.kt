@@ -98,6 +98,7 @@ object NotificationUtil {
                 .setStyle(null)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
+        notificationManager.cancel(notificationId)
         notificationManager.notify(notificationId, builder.build())
     }
 
@@ -178,7 +179,7 @@ object NotificationUtil {
             .setContentTitle("[${templateName}_${taskUrl}] " + context.getString(R.string.execute_command_notification))
             .setContentText(text)
             .setOngoing(true)
-            .setProgress(PROGRESS_MAX, PROGRESS_INITIAL, progress == -1)
+            .setProgress(PROGRESS_MAX, progress, progress == -1)
             .addAction(
                 R.drawable.outline_cancel_24,
                 context.getString(R.string.cancel),

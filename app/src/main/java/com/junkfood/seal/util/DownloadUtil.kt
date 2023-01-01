@@ -409,7 +409,7 @@ object DownloadUtil {
                 NotificationUtil.makeNotificationForCustomCommand(
                     notificationId = notificationId,
                     taskId = url,
-                    progress = progress.toInt(),
+                    progress = progress.roundToInt(),
                     templateName = template.name,
                     taskUrl = url,
                     text = text
