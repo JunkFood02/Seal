@@ -2,7 +2,6 @@ package com.junkfood.seal
 
 import com.junkfood.seal.Downloader.State
 import com.junkfood.seal.util.PlaylistResult
-import com.junkfood.seal.util.VideoInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -19,7 +18,6 @@ object StateHolder {
 
 
     data class DownloadTaskItem(
-        var videoInfo: VideoInfo? = null,
         val webpageUrl: String = "",
         val title: String = "",
         val uploader: String = "",

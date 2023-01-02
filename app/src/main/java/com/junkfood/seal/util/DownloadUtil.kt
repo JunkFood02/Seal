@@ -130,6 +130,7 @@ object DownloadUtil {
             }
             addOption("-R", "1")
             if (playlistItem != 0) addOption("--playlist-items", playlistItem)
+            else addOption("--no-playlist")
             addOption("--socket-timeout", "5")
         })
         with(videoInfo) {
