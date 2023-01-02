@@ -80,7 +80,6 @@ object DownloadUtil {
 
             }
         }
-        for (s in request.buildCommand()) Log.d(TAG, s)
         val resp = YoutubeDL.getInstance().execute(request, playlistURL).out
         val res = jsonFormat.decodeFromString<PlaylistResult>(resp)
         Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
@@ -404,7 +403,7 @@ object DownloadUtil {
             }
         }
 
-        MainActivity.startService()
+        App.startService()
         kotlin.runCatching {
             var last = System.nanoTime()
             YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
@@ -444,7 +443,7 @@ object DownloadUtil {
             }
         }
 
-        MainActivity.stopService()
+        App.stopService()
 
     }
 

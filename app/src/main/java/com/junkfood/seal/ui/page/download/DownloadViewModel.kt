@@ -9,17 +9,18 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
-import com.junkfood.seal.Downloader.State
-import com.junkfood.seal.MainActivity
+import com.junkfood.seal.DownloadTaskItem
 import com.junkfood.seal.R
-import com.junkfood.seal.StateHolder
-import com.junkfood.seal.StateHolder.downloaderState
-import com.junkfood.seal.StateHolder.mutableDownloaderState
-import com.junkfood.seal.StateHolder.mutablePlaylistResult
-import com.junkfood.seal.StateHolder.mutableTaskState
-import com.junkfood.seal.StateHolder.taskState
+import com.junkfood.seal.Downloader
+import com.junkfood.seal.Downloader.downloaderState
+import com.junkfood.seal.Downloader.mutablePlaylistResult
+import com.junkfood.seal.Downloader.mutableTaskState
+import com.junkfood.seal.Downloader.taskState
+import com.junkfood.seal.Downloader.State
+import com.junkfood.seal.Downloader.mutableErrorState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.openFile
@@ -67,14 +68,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val showFormatSelectionPage: Boolean = false,
         val isUrlSharingTriggered: Boolean = false,
-        val errorReport: String = "",
-        val errorMessage: String = "",
         val debugMode: Boolean = false
     )
-
-    private fun clearErrorState() {
-        mutableViewStateFlow.update { it.copy(errorMessage = "", errorReport = "") }
-    }
 
     private fun clearProgressState() =
         mutableTaskState.update { it.copy(progress = 0f, progressText = "") }
@@ -105,14 +100,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private fun parsePlaylistInfo() {
         currentJob = viewModelScope.launch(Dispatchers.IO) {
             if (!checkStateBeforeDownload()) return@launch
+
             val url = viewStateFlow.value.url
-            clearErrorState()
-            mutableDownloaderState.update { State.FetchingInfo }
+            Downloader.clearErrorState()
+            Downloader.run {
+                clearErrorState()
+                updateState(State.FetchingInfo)
+            }
 
             try {
-                when (val info = DownloadUtil.getPlaylistOrVideoInfo(url).apply {
-                    mutableDownloaderState.update { State.Idle }
-                }) {
+                val info = DownloadUtil.getPlaylistOrVideoInfo(url)
+                Downloader.updateState(State.Idle)
+                when (info) {
                     is PlaylistResult -> {
                         showPlaylistPage(info)
                     }
@@ -133,34 +132,35 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     fun downloadVideoInPlaylistByIndexList(
-        playlistResult: PlaylistResult = StateHolder.playlistResult.value,
+        playlistResult: PlaylistResult = Downloader.playlistResult.value,
         url: String = playlistResult.webpageUrl.toString(),
         indexList: List<Int>
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        currentJob = viewModelScope.launch(Dispatchers.IO) {
             val itemCount = indexList.size
             if (!checkStateBeforeDownload()) return@launch
-            mutableDownloaderState.update {
+            Downloader.updateState(
                 State.DownloadingPlaylist(
                     currentItem = 1,
                     itemCount = itemCount
                 )
-            }
+            )
+
             for (i in indexList.indices) {
-                if (mutableDownloaderState.value !is State.DownloadingPlaylist) break
+                if (downloaderState.value !is State.DownloadingPlaylist) break
                 with(playlistResult) {
-                    val task = StateHolder.DownloadTaskItem(
+                    val task = DownloadTaskItem(
                         webpageUrl = url,
                         title = title.toString(),
                         uploader = uploader ?: channel ?: "null",
                         playlistIndex = indexList[i]
                     )
-                    mutableDownloaderState.update {
-                        if (it is State.DownloadingPlaylist)
-                            it.copy(currentItem = i + 1)
-                        else it
+                    downloaderState.value.run {
+                        if (this is State.DownloadingPlaylist)
+                            Downloader.updateState(copy(currentItem = i + 1))
                     }
-                    if (MainActivity.isServiceRunning) NotificationUtil.updateServiceNotification(
+
+                    if (App.isServiceRunning) NotificationUtil.updateServiceNotification(
                         index = i + 1, itemCount = itemCount
                     )
                     fetchVideoInfo(url, task)?.let {
@@ -193,7 +193,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             viewModelScope.launch { showErrorMessage(context.getString(R.string.url_empty)) }
             return
         }
-        MainActivity.startService()
         if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
             parsePlaylistInfo()
             return
@@ -225,7 +224,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun fetchInfoForFormatSelection(url: String) {
-        mutableDownloaderState.update { State.FetchingInfo }
+        Downloader.updateState(State.FetchingInfo)
         try {
             val videoInfo = DownloadUtil.fetchVideoInfoFromUrl(url = url)
             if (videoInfo.formats.isNullOrEmpty()) {
@@ -235,7 +234,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         } catch (e: Exception) {
             manageDownloadError(e)
         }
-        mutableDownloaderState.update { State.Idle }
+        Downloader.updateState(State.Idle)
     }
 
     /**
@@ -243,10 +242,10 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
      */
     private fun fetchVideoInfo(
         url: String,
-        task: StateHolder.DownloadTaskItem = StateHolder.DownloadTaskItem(),
+        task: DownloadTaskItem = DownloadTaskItem(),
         isFormatSelectionEnabled: Boolean = false
     ): VideoInfo? {
-        mutableDownloaderState.update { State.FetchingInfo }
+        Downloader.updateState(State.FetchingInfo)
 
         val videoInfo = try {
             DownloadUtil.fetchVideoInfoFromUrl(url = url, playlistItem = task.playlistIndex)
@@ -262,19 +261,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     throw Exception(context.getString(R.string.fetch_info_error_msg))
                 }
                 videoInfoFlow.update { videoInfo }
-                MainActivity.stopService()
             }.onFailure { manageDownloadError(it) }
         } else {
             updateDownloadTask(videoInfo, task)
         }
-        mutableDownloaderState.update { State.Idle }
+        Downloader.updateState(State.Idle)
 
 
         return videoInfo
     }
 
 
-    private fun updateDownloadTask(videoInfo: VideoInfo, newTask: StateHolder.DownloadTaskItem) =
+    private fun updateDownloadTask(videoInfo: VideoInfo, newTask: DownloadTaskItem) =
         mutableTaskState.update {
             newTask.copy(
                 progress = 0f,
@@ -309,7 +307,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }
             updateDownloadTask(
                 info,
-                StateHolder.DownloadTaskItem()
+                DownloadTaskItem()
             )
             kotlin.runCatching {
                 downloadVideo(
@@ -326,10 +324,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         videoInfo: VideoInfo,
         downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ) {
-        with(mutableDownloaderState) {
-            MainActivity.startService()
+        with(downloaderState) {
             if (value !is State.DownloadingPlaylist)
-                update { State.DownloadingVideo }
+                Downloader.updateState(State.DownloadingVideo)
 
             Log.d(TAG, "downloadVideo: ${videoInfo.id}" + videoInfo.title)
 
@@ -401,9 +398,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         mutableTaskState.update {
             it.copy(progress = 100f, progressText = "")
         }
-        mutableDownloaderState.update { State.Idle }
+        Downloader.updateState(State.Idle)
         mutablePlaylistResult.update { PlaylistResult() }
-        MainActivity.stopService()
     }
 
 
@@ -426,20 +422,19 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     notificationId, text = context.getString(R.string.download_error_msg),
                 )
             }
-            MainActivity.stopService()
         }
     }
 
 
     private fun showErrorReport(report: String) {
         clearProgressState()
-        mutableViewStateFlow.update { it.copy(errorReport = report) }
+        mutableErrorState.update { it.copy(errorReport = report) }
     }
 
     private fun showErrorMessage(msg: String, report: String = "") {
         TextUtil.makeToastSuspend(msg)
         clearProgressState()
-        mutableViewStateFlow.update {
+        mutableErrorState.update {
             it.copy(errorReport = report, errorMessage = msg)
         }
     }
@@ -479,16 +474,13 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun cancelDownload() {
         TextUtil.makeToast(context.getString(R.string.task_canceled))
         currentJob?.cancel(CancellationException(context.getString(R.string.task_canceled)))
-        MainActivity.stopService()
         mutableTaskState.update {
             it.copy(
                 progress = 0f,
                 progressText = "",
             )
         }
-        mutableDownloaderState.update {
-            State.Idle
-        }
+        Downloader.updateState(State.Idle)
         mutablePlaylistResult.update { PlaylistResult() }
 
         val taskId = taskState.value.taskId

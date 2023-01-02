@@ -4,12 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
+import android.os.IBinder
 import android.widget.Toast
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
@@ -100,6 +104,38 @@ class App : Application() {
         lateinit var packageInfo: PackageInfo
         const val userAgentHeader =
             "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36 Edg/105.0.1343.53"
+
+        var isServiceRunning = false
+
+        private val connection = object : ServiceConnection {
+            override fun onServiceConnected(className: ComponentName, service: IBinder) {
+                val binder = service as DownloadService.DownloadServiceBinder
+                isServiceRunning = true
+            }
+
+            override fun onServiceDisconnected(arg0: ComponentName) {
+            }
+        }
+
+        fun startService() {
+            if (isServiceRunning) return
+            Intent(context.applicationContext, DownloadService::class.java).also { intent ->
+                context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            }
+        }
+
+        fun stopService() {
+            if (!isServiceRunning) return
+            try {
+                isServiceRunning = false
+                context.applicationContext.run {
+                    unbindService(connection)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
 
         fun getPrivateDownloadDirectory(): String =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).resolve(

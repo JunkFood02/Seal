@@ -78,7 +78,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.StateHolder
+import com.junkfood.seal.Downloader
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
@@ -110,10 +110,10 @@ fun DownloadPage(
         }
     }
     val scope = rememberCoroutineScope()
-    val downloaderState = StateHolder.downloaderState.collectAsStateWithLifecycle().value
-    val taskState = StateHolder.taskState.collectAsStateWithLifecycle().value
+    val downloaderState = Downloader.downloaderState.collectAsStateWithLifecycle().value
+    val taskState = Downloader.taskState.collectAsStateWithLifecycle().value
     val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle().value
-    val playlistInfo = StateHolder.playlistResult.collectAsStateWithLifecycle().value
+    val playlistInfo = Downloader.playlistResult.collectAsStateWithLifecycle().value
     val videoInfo = downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle().value
 
 
@@ -204,8 +204,8 @@ fun DownloadPage(
 )
 @Composable
 fun DownloadPageImpl(
-    downloaderState: StateHolder.DownloaderState,
-    taskState: StateHolder.DownloadTaskItem,
+    downloaderState: Downloader.DownloaderState,
+    taskState: Downloader.DownloadTaskItem,
     viewState: DownloadViewModel.ViewState,
     showVideoCard: Boolean = false,
     showDownloadProgress: Boolean = false,
@@ -506,8 +506,8 @@ fun DownloadPagePreview() {
     PreviewThemeLight {
         Column() {
             DownloadPageImpl(
-                downloaderState = StateHolder.DownloaderState(),
-                taskState = StateHolder.DownloadTaskItem(),
+                downloaderState = Downloader.DownloaderState(),
+                taskState = Downloader.DownloadTaskItem(),
                 viewState = DownloadViewModel.ViewState(),
                 isPreview = true,
                 showDownloadProgress = true,

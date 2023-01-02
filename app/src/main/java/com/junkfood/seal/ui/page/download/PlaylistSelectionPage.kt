@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PlaylistItem
-import com.junkfood.seal.StateHolder
+import com.junkfood.seal.Downloader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +52,7 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
         onBackPressed()
         MainActivity.stopService()
     }
-    val playlistInfo = StateHolder.playlistResult.collectAsState().value
+    val playlistInfo = Downloader.playlistResult.collectAsState().value
     val selectedItems = remember { mutableStateListOf<Int>() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
