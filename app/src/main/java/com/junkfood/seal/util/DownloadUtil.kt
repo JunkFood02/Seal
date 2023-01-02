@@ -405,15 +405,20 @@ object DownloadUtil {
 
         MainActivity.startService()
         kotlin.runCatching {
+            var last = System.nanoTime()
             YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
-                NotificationUtil.makeNotificationForCustomCommand(
-                    notificationId = notificationId,
-                    taskId = url,
-                    progress = progress.roundToInt(),
-                    templateName = template.name,
-                    taskUrl = url,
-                    text = text
-                )
+                val now = System.nanoTime()
+                if (now - last > 500L) {
+                    last = now
+                    NotificationUtil.makeNotificationForCustomCommand(
+                        notificationId = notificationId,
+                        taskId = url,
+                        progress = progress.toInt(),
+                        templateName = template.name,
+                        taskUrl = url,
+                        text = text
+                    )
+                }
             }
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
