@@ -79,7 +79,7 @@
     <string name="off">オフ</string>
     <string name="cancel">キャンセル</string>
     <string name="display">ディスプレイ</string>
-    <string name="settings_before_download">ダウンロード前の設定</string>
+    <string name="settings_before_download">ダウンロード前に設定する</string>
     <string name="settings_before_download_desc">ダウンロード前の環境設定</string>
     <string name="credits_desc">クレジットとフリーソフト</string>
     <string name="custom_command_desc">カスタムテンプレートを用いてyt-dlpコマンドを実行</string>

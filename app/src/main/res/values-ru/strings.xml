@@ -58,7 +58,7 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="translate">Перевод</string>
     <string name="translate_desc">Помогите с переводом на Hosted Weblate</string>
-    <string name="download">Загрузки</string>
+    <string name="download">Загрузить</string>
     <string name="url_empty">Ссылка не может быть пустой</string>
     <string name="permission_denied">Доступ запрещён</string>
     <string name="download_success_msg">Загрузка завершена</string>
@@ -198,7 +198,7 @@
     <string name="unavailable">Недоступно</string>
     <string name="format_settings_desc">Формат файла, качество видео, субтитры</string>
     <string name="general_settings_desc">Версия Yt-dlp, уведомление, плейлист</string>
-    <string name="network_settings_desc">Ограничить скорость, загрузчик, cookies</string>
+    <string name="network_settings_desc">Ограничить скорость, загрузчик, файлы cookie</string>
     <string name="disable_preview">Отключить миниатюру</string>
     <string name="disable_preview_desc">Отключить миниатюру в загружаемом</string>
     <string name="use_custom_command">Использовать свою команду</string>
@@ -213,8 +213,14 @@
     <string name="download_selection_desc">Выберите видео для загрузки из плейлиста \"%1$s\"</string>
     <string name="select_all">Выбрать все</string>
     <string name="format_selection_desc">Выбор формата для загрузки перед ее началом</string>
-    <string name="generate_new_cookies">Сгенерировать новые cookies</string>
+    <string name="generate_new_cookies">Сгенерировать новые файлы cookie</string>
     <string name="video_only">Видео (без аудио)</string>
     <string name="format_selection">Выбор формата</string>
     <string name="suggested">Предложенный</string>
+    <string name="use_cookies">Использовать файлы cookie</string>
+    <string name="how_does_it_work">Как это работает\?</string>
+    <string name="remove_cookie_profile_desc">Удалить файлы cookie для \"%1$s\"\?</string>
+    <string name="telegram_channel">Telegram канал</string>
+    <string name="custom_command_enabled_hint">Некоторые настройки недоступны, когда используется своя команда</string>
+    <string name="cookies_usage_msg">Загрузка с некоторых сайтов требует информацию для авторизации аккаунта. Нажмите \"Сгенерировать новые файлы cookie\", введите URL-адрес сайта и затем войдите в ваш аккаунт на странице браузера, приложение создаст это для вас.</string>
 </resources>

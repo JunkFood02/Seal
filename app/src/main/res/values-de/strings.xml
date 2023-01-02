@@ -208,7 +208,7 @@
     <string name="private_directory">Privates Verzeichnis</string>
     <string name="private_directory_desc">Downloads in einem versteckten Verzeichnis speichern</string>
     <string name="crop_artwork">Bild zuschneiden</string>
-    <string name="crop_artwork_desc">Einbettungsbild zum Quadrat zuschneiden</string>
+    <string name="crop_artwork_desc">Eingebettetes Bild auf ein Quadrat zuschneiden</string>
     <string name="select_all">Alle auswählen</string>
     <string name="selected_item_count">%1$d ausgewählt</string>
     <string name="download_selection_desc">Wähle die Videos zum Herunterladen aus der Wiedergabeliste „%1$s“</string>
@@ -217,4 +217,10 @@
     <string name="format_selection">Auswahl des Formats</string>
     <string name="format_selection_desc">Wähle das herunterzuladende Format, bevor du den Download startest</string>
     <string name="generate_new_cookies">Neue Cookies generieren</string>
+    <string name="use_cookies">Cookies verwenden</string>
+    <string name="remove_cookie_profile_desc">Cookies für \"%1$s\" entfernen\?</string>
+    <string name="custom_command_enabled_hint">Einige Optionen sind bei Verwendung des benutzerdefinierten Befehls nicht verfügbar</string>
+    <string name="how_does_it_work">Wie funktioniert das\?</string>
+    <string name="cookies_usage_msg">Für das Herunterladen von einigen Webseiten sind Informationen zur Kontoauthentifizierung erforderlich. Klicke auf \"Neue Cookies generieren\", gib die URL der Webseite ein und melde dich dann mit deinem Konto auf der Browserseite an, damit die App sie für dich generieren kann.</string>
+    <string name="telegram_channel">Telegram-Kanal</string>
 </resources>
