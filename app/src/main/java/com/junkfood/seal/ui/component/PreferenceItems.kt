@@ -96,11 +96,9 @@ fun PreferenceItem(
                     .padding(horizontal = if (icon == null) 12.dp else 0.dp)
                     .padding(end = 8.dp)
             ) {
-                with(MaterialTheme) {
-                    PreferenceItemTitle(text = title, enabled = enabled)
-                    if (description != null)
-                        PreferenceItemDescription(text = description, enabled = enabled)
-                }
+                PreferenceItemTitle(text = title, enabled = enabled)
+                if (description != null)
+                    PreferenceItemDescription(text = description, enabled = enabled)
             }
         }
     }
@@ -235,7 +233,7 @@ internal fun PreferenceItemTitle(
 internal fun PreferenceItemDescription(
     modifier: Modifier = Modifier,
     text: String,
-    maxLines: Int = 2,
+    maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     enabled: Boolean,
     color: Color = MaterialTheme.colorScheme.onSurface,

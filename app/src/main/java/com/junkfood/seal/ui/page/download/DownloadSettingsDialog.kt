@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -248,29 +249,36 @@ fun DownloadSettingDialog(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(vertical = 16.dp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center
             )
             sheetContent()
-            Row(
+            val state = rememberLazyListState()
+            LaunchedEffect(drawerState.isVisible) {
+                state.scrollToItem(1)
+            }
+            LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
+                state = state
             ) {
-
-                OutlinedButtonWithIcon(
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                    onClick = hide,
-                    icon = Icons.Outlined.Cancel,
-                    text = stringResource(R.string.cancel)
-                )
-
-                FilledButtonWithIcon(
-                    onClick = downloadButtonCallback,
-                    icon = Icons.Outlined.DownloadDone,
-                    text = stringResource(R.string.start_download)
-                )
+                item {
+                    OutlinedButtonWithIcon(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        onClick = hide,
+                        icon = Icons.Outlined.Cancel,
+                        text = stringResource(R.string.cancel)
+                    )
+                }
+                item {
+                    FilledButtonWithIcon(
+                        onClick = downloadButtonCallback,
+                        icon = Icons.Outlined.DownloadDone,
+                        text = stringResource(R.string.start_download)
+                    )
+                }
             }
         })
     } else if (dialogState) {

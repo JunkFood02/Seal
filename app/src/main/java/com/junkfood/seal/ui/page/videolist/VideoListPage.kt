@@ -274,13 +274,13 @@ fun VideoListPage(
                         },
                     )
                     Text(
-                        stringResource(R.string.multiselect_item_count).format(
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(R.string.multiselect_item_count).format(
                             selectedVideos.value,
                             selectedAudioFiles.value
                         ),
                         style = MaterialTheme.typography.labelLarge
                     )
-                    Spacer(modifier = Modifier.weight(1f))
                     IconButton(
                         onClick = { showRemoveMultipleItemsDialog = true },
                         enabled = selectedItemIds.isNotEmpty()

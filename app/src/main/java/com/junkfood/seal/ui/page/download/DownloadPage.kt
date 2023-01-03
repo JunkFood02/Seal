@@ -312,7 +312,7 @@ fun DownloadPageImpl(
                 AnimatedVisibility(visible = errorState.isErrorOccurred()) {
                     ErrorMessage(
                         errorMessage = errorState.errorMessage,
-                        errorReport = errorState.errorMessage
+                        errorReport = errorState.errorReport
                     )
                 }
                 content()
