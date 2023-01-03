@@ -28,25 +28,24 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.Downloader
+import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlaylistSelectionDialog(
-    downloadViewModel: DownloadViewModel = hiltViewModel(),
+    playlistInfo: PlaylistResult,
     onDismissRequest: () -> Unit = {},
     onConfirm: (IntRange) -> Unit = {}
 ) {
-    val playlistInfo = Downloader.playlistResult.collectAsStateWithLifecycle().value
+    val playlistCount = playlistInfo.entries?.size ?: 0
     var from by remember { mutableStateOf(1.toString()) }
-    var to by remember { mutableStateOf(playlistInfo.playlistCount.toString()) }
+    var to by remember { mutableStateOf(playlistCount.toString()) }
     var error by remember { mutableStateOf(false) }
     val (item1, item2) = remember { FocusRequester.createRefs() }
 
-    from = "1"
-    to = playlistInfo.playlistCount.toString()
     AlertDialog(onDismissRequest = { onDismissRequest() },
         icon = { Icon(Icons.Outlined.PlaylistAdd, null) },
         title = { Text(stringResource(R.string.download_range_selection)) },
@@ -55,7 +54,7 @@ fun PlaylistSelectionDialog(
                 Text(
                     text = stringResource(R.string.download_range_desc).format(
                         1,
-                        playlistInfo.playlistCount,
+                        playlistCount,
                         playlistInfo.title,
                     )
                 )
@@ -119,8 +118,8 @@ fun PlaylistSelectionDialog(
         confirmButton = {
             ConfirmButton(onClick = {
                 error =
-                    !from.isNumberInRange(1, playlistInfo.playlistCount) or !to.isNumberInRange(
-                        1, playlistInfo.playlistCount
+                    !from.isNumberInRange(1, playlistCount) or !to.isNumberInRange(
+                        1, playlistCount
                     ) || from.toInt() > to.toInt()
                 if (error) TextUtil.makeToast(R.string.invalid_index_range)
                 else {

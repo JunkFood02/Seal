@@ -40,23 +40,26 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PlaylistItem
 import com.junkfood.seal.Downloader
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
+fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
     val onDismissRequest = {
         onBackPressed()
     }
-    val playlistInfo = Downloader.playlistResult.collectAsState().value
+    val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
     val selectedItems = remember { mutableStateListOf<Int>() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
+    val playlistCount = playlistInfo.entries?.size ?: 0
 
-    BackHandler { onDismissRequest() }
+//    BackHandler { onDismissRequest() }
 
     Scaffold(
         modifier = Modifier
@@ -81,7 +84,10 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                     TextButton(
                         modifier = Modifier.padding(end = 8.dp),
                         onClick = {
-                            downloadViewModel.downloadVideoInPlaylistByIndexList(indexList = selectedItems)
+                            Downloader.downloadVideoInPlaylistByIndexList(
+                                url = playlistInfo.webpageUrl.toString(),
+                                indexList = selectedItems
+                            )
                             onDismissRequest()
                         }, enabled = selectedItems.isNotEmpty()
                     ) {
@@ -102,20 +108,20 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
                     Row(
                         modifier = Modifier
                             .selectable(
-                                selected = selectedItems.size == playlistInfo.playlistCount && selectedItems.size != 0,
+                                selected = selectedItems.size == playlistCount && selectedItems.size != 0,
                                 indication = null,
                                 interactionSource = MutableInteractionSource(),
                                 onClick = {
-                                    if (selectedItems.size == playlistInfo.playlistCount) selectedItems.clear() else {
+                                    if (selectedItems.size == playlistCount) selectedItems.clear() else {
                                         selectedItems.clear()
-                                        selectedItems.addAll(1..playlistInfo.playlistCount)
+                                        selectedItems.addAll(1..playlistCount)
                                     }
                                 }
                             ), verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
                             modifier = Modifier.padding(16.dp),
-                            checked = selectedItems.size == playlistInfo.playlistCount && selectedItems.size != 0,
+                            checked = selectedItems.size == playlistCount && selectedItems.size != 0,
                             onCheckedChange = null
                         )
                         Text(
@@ -168,7 +174,7 @@ fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: (
     }
     if (showDialog) {
         PlaylistSelectionDialog(
-            downloadViewModel = downloadViewModel,
+            playlistInfo = playlistInfo,
             onDismissRequest = { showDialog = false },
             onConfirm = {
                 selectedItems.clear()

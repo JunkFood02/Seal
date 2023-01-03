@@ -2,10 +2,12 @@ package com.junkfood.seal.util
 
 import android.os.Build
 import android.util.Log
+import androidx.annotation.CheckResult
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
+import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
@@ -44,11 +46,13 @@ object DownloadUtil {
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=in_h""""
 
 
+    @CheckResult
     fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> =
         YoutubeDL.runCatching {
             TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
             val request = YoutubeDLRequest(playlistURL)
             with(request) {
+                addOption("--compat-options", "no-youtube-unavailable-videos")
                 addOption("--flat-playlist")
                 addOption("-J")
                 addOption("-R", "1")
@@ -67,6 +71,7 @@ object DownloadUtil {
         }
 
 
+    @CheckResult
     private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> =
         request.addOption("--dump-json").runCatching {
             val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
@@ -74,6 +79,7 @@ object DownloadUtil {
         }
 
 
+    @CheckResult
     fun fetchVideoInfoFromUrl(
         url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
     ): Result<VideoInfo> =
@@ -86,6 +92,9 @@ object DownloadUtil {
                 }
                 if (cookies) {
                     enableCookies()
+                }
+                if (downloadPlaylist) {
+                    addOption("--compat-options", "no-youtube-unavailable-videos")
                 }
             }
             addOption("-R", "1")
@@ -151,6 +160,7 @@ object DownloadUtil {
         }
     }
 
+    @CheckResult
     private fun DownloadPreferences.toVideoFormatSorter(): String =
         StringBuilder().run {
             if (maxFileSize.isNumberInRange(1, 4096)) {
@@ -172,7 +182,6 @@ object DownloadUtil {
                 else -> append("res")
             }
         }.toString()
-
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String, downloadPreferences: DownloadPreferences, playlistUrl: String
@@ -217,6 +226,7 @@ object DownloadUtil {
 
     }
 
+    @CheckResult
     private fun scanVideoIntoDownloadHistory(
         videoInfo: VideoInfo,
         downloadPath: String,
@@ -240,6 +250,7 @@ object DownloadUtil {
         return filePaths
     }
 
+    @CheckResult
     fun downloadVideo(
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
@@ -249,6 +260,7 @@ object DownloadUtil {
     ): Result<List<String>> {
         if (videoInfo == null) return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
 
+        val filePaths = mutableListOf<String>()
         with(downloadPreferences) {
             val url = playlistUrl.ifEmpty {
                 videoInfo.webpageUrl
@@ -257,7 +269,7 @@ object DownloadUtil {
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
 
-            with(request) {
+            request.apply {
                 addOption("--no-mtime")
 //                addOption("-v")
                 if (cookies) {
@@ -268,10 +280,10 @@ object DownloadUtil {
                     addOption("-r", "${maxDownloadRate}K")
                 }
 
-                if (playlistItem != 0 && downloadPlaylist) addOption(
-                    "--playlist-items",
-                    playlistItem
-                )
+                if (playlistItem != 0 && downloadPlaylist) {
+                    addOption("--playlist-items", playlistItem)
+                    addOption("--compat-options", "no-youtube-unavailable-videos")
+                }
 
                 if (aria2c) {
                     addOption("--downloader", "libaria2c.so")
@@ -313,27 +325,42 @@ object DownloadUtil {
                 else addOption("-o", OUTPUT_TEMPLATE)
 
                 for (s in request.buildCommand()) Log.d(TAG, s)
-            }
-            kotlin.runCatching {
-                YoutubeDL.getInstance().execute(request, videoInfo.id, progressCallback)
+            }.runCatching {
+                YoutubeDL.getInstance().execute(
+                    request = this,
+                    processId = videoInfo.id,
+                    callback = progressCallback
+                )
             }.onFailure { th ->
                 if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
                     th.printStackTrace()
-                } else throw th
+                    filePaths.addAll(
+                        scanVideoIntoDownloadHistory(
+                            videoInfo = videoInfo,
+                            downloadPath = pathBuilder.toString(),
+                        )
+                    )
+                    return Result.success(filePaths)
+                }
+                return Result.failure(th)
+            }.onSuccess {
+                if (privateMode) {
+                    return Result.success(emptyList())
+                }
+                filePaths.addAll(
+                    scanVideoIntoDownloadHistory(
+                        videoInfo = videoInfo,
+                        downloadPath = pathBuilder.toString(),
+                    )
+                )
             }
-            if (privateMode) {
-                return Result.success(emptyList())
-            }
-            val filePaths = scanVideoIntoDownloadHistory(
-                videoInfo = videoInfo,
-                downloadPath = pathBuilder.toString(),
-            )
-            return Result.success(filePaths)
         }
+        return Result.success(filePaths)
+
     }
 
     suspend fun executeCommandInBackground(url: String) {
-        val notificationId = url.hashCode()
+        val notificationId = url.toNotificationId()
         val urlList = url.split(Regex("[\n ]"))
         val template = PreferenceUtil.getTemplate()
         TextUtil.makeToastSuspend(context.getString(R.string.start_execute))

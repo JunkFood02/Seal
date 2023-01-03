@@ -21,7 +21,7 @@ object FileUtil {
         if (filePaths.isNullOrEmpty()) return
         if (Build.VERSION.SDK_INT > 23)
             openFileInURI(filePaths.first())
-        else context.startActivity(createIntentForOpenFile(downloadResult))
+        else context.startActivity(createIntentForFile(filePaths))
     }
 
     fun openFileInURI(path: String) {
@@ -38,9 +38,8 @@ object FileUtil {
         }
     }
 
-    fun createIntentForOpenFile(downloadResult: Result<List<String>>): Intent? {
-        val filePaths = downloadResult.getOrNull()
-        if (filePaths.isNullOrEmpty()) return null
+    fun createIntentForFile(filePaths: List<String>): Intent? {
+        if (filePaths.isEmpty()) return null
         val path = filePaths.first()
         return Intent().apply {
             action = (Intent.ACTION_VIEW)

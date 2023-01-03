@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
@@ -63,7 +64,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
     if (videoInfo.formats.isNullOrEmpty()) return
     FormatPageImpl(videoInfo = videoInfo, onBackPressed = onBackPressed) { formatList ->
         Log.d(TAG, formatList.toString())
-        downloadViewModel.downloadVideoWithFormatId(videoInfo, formatList)
+        Downloader.downloadVideoWithFormatId(videoInfo, formatList)
         onBackPressed()
     }
 }

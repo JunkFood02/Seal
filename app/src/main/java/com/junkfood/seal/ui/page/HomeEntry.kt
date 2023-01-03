@@ -141,7 +141,7 @@ fun HomeEntry(
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
             animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
-            slideInComposable(Route.PLAYLIST) { PlaylistSelectionPage(downloadViewModel) { onBackPressed() } }
+            slideInComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
             settingsGraph(navController, cookiesViewModel)
 
@@ -248,7 +248,7 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(
             Route.COOKIE_GENERATOR_WEBVIEW
         ) {
-            WebViewPage(cookiesViewModel){ onBackPressed() }
+            WebViewPage(cookiesViewModel) { onBackPressed() }
         }
     }
 }

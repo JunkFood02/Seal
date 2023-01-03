@@ -8,20 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.Downloader
-import com.junkfood.seal.Downloader.DownloadTaskItem
 import com.junkfood.seal.Downloader.State
 import com.junkfood.seal.Downloader.manageDownloadError
-import com.junkfood.seal.Downloader.mutablePlaylistResult
-import com.junkfood.seal.Downloader.mutableTaskState
 import com.junkfood.seal.Downloader.showErrorMessage
-import com.junkfood.seal.Downloader.taskState
+import com.junkfood.seal.Downloader.updatePlaylistResult
 import com.junkfood.seal.R
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.FileUtil.openFile
-import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
 import com.junkfood.seal.util.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,7 +50,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val showFormatSelectionPage: Boolean = false,
         val isUrlSharingTriggered: Boolean = false,
-        val debugMode: Boolean = false
+        val isInDebugMode: Boolean = false
     )
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
@@ -80,13 +76,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun startDownloadVideo() {
         val url = viewStateFlow.value.url
-
+        mutableViewStateFlow.update {
+            it.copy(
+                isInDebugMode =
+                PreferenceUtil.getValue(DEBUG, true)
+            )
+        }
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
             return
         }
         if (PreferenceUtil.getValue(CUSTOM_COMMAND)) {
-            applicationScope.launch(Dispatchers.IO) { executeCustomCommand() }
+            applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
             return
         }
         if (url.isBlank()) {
@@ -94,7 +95,9 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
         if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
-            parsePlaylistInfo(url)
+            viewModelScope.launch(Dispatchers.IO) {
+                parsePlaylistInfo(url)
+            }
             return
         }
 
@@ -103,54 +106,31 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
 
-        currentJob = viewModelScope.launch(Dispatchers.IO) {
-            if (!checkStateBeforeDownload()) return@launch
-            try {
-                fetchVideoInfo(url = url)?.let {
-                    downloadVideo(videoInfo = it)
-                }
-            } catch (e: Exception) {
-                manageDownloadError(e)
-                return@launch
-            }
-        }
-    }
-
-
-    private suspend fun executeCustomCommand() {
-        DownloadUtil.executeCommandInBackground(viewStateFlow.value.url)
+        Downloader.getInfoAndDownload(url)
     }
 
 
     private fun fetchInfoForFormatSelection(url: String) {
         Downloader.updateState(State.FetchingInfo)
-        try {
-            DownloadUtil.fetchVideoInfoFromUrl(url = url).run {
-                if (formats.isNullOrEmpty()) {
-                    throw Exception(context.getString(R.string.fetch_info_error_msg))
-                }
-                showFormatSelectionPage(this)
+        DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess {
+            if (it.formats.isNullOrEmpty()) {
+                throw Exception(context.getString(R.string.fetch_info_error_msg))
             }
-        } catch (e: Exception) {
-            manageDownloadError(e)
+            showFormatSelectionPage(it)
+        }.onFailure {
+            manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true)
         }
         Downloader.updateState(State.Idle)
     }
 
 
-
-    private fun parsePlaylistInfo(url: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (!Downloader.checkStateBeforeDownload()) return@launch
-
-            Downloader.run {
-                clearErrorState()
-                updateState(State.FetchingInfo)
-            }
-
-            try {
-                val info = DownloadUtil.getPlaylistOrVideoInfo(url)
-                Downloader.updateState(State.Idle)
+    private fun parsePlaylistInfo(url: String): Unit =
+        Downloader.run {
+            if (!isDownloaderAvailable()) return
+            clearErrorState()
+            updateState(State.FetchingInfo)
+            DownloadUtil.getPlaylistOrVideoInfo(url).onSuccess { info ->
+                updateState(State.Idle)
                 when (info) {
                     is PlaylistResult -> {
                         showPlaylistPage(info)
@@ -159,25 +139,18 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     is VideoInfo -> {
                         if (PreferenceUtil.getValue(FORMAT_SELECTION, true)) {
                             showFormatSelectionPage(info)
-                        } else if (Downloader.checkStateBeforeDownload()) {
-                            Downloader.downloadVideo(videoInfo = info)
+                        } else if (isDownloaderAvailable()) {
+                            downloadVideoWithInfo(info = info)
                         }
                     }
                 }
-            } catch (e: Exception) {
-                manageDownloadError(e)
+            }.onFailure {
+                manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true)
             }
         }
 
-    }
-
-
-    fun openVideoFile() {
-        if (taskState.value.progress == 100f) openFile(downloadResultTemp)
-    }
-
     private fun showPlaylistPage(playlistResult: PlaylistResult) {
-        mutablePlaylistResult.update { playlistResult }
+        updatePlaylistResult(playlistResult)
         mutableViewStateFlow.update {
             it.copy(
                 showPlaylistSelectionDialog = true,
@@ -205,10 +178,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun onShareIntentConsumed() {
         mutableViewStateFlow.update { it.copy(isUrlSharingTriggered = false) }
-    }
-
-    fun clearPlaylistResult() {
-        mutablePlaylistResult.update { PlaylistResult() }
     }
 
     companion object {

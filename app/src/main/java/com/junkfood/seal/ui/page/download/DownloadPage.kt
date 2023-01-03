@@ -110,12 +110,12 @@ fun DownloadPage(
         }
     }
     val scope = rememberCoroutineScope()
-    val downloaderState = Downloader.downloaderState.collectAsStateWithLifecycle().value
-    val taskState = Downloader.taskState.collectAsStateWithLifecycle().value
-    val viewState = downloadViewModel.viewStateFlow.collectAsStateWithLifecycle().value
-    val playlistInfo = Downloader.playlistResult.collectAsStateWithLifecycle().value
-    val videoInfo = downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle().value
-
+    val downloaderState by Downloader.downloaderState.collectAsStateWithLifecycle()
+    val taskState by Downloader.taskState.collectAsStateWithLifecycle()
+    val viewState by downloadViewModel.viewStateFlow.collectAsStateWithLifecycle()
+    val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
+    val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
+    val errorState by Downloader.errorState.collectAsStateWithLifecycle()
 
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -156,7 +156,7 @@ fun DownloadPage(
         downloadViewModel.hideDialog(scope, useDialog)
     }
 
-    val showVideoCard by remember(downloaderState.isProcessRunning) {
+    val showVideoCard by remember(downloaderState) {
         mutableStateOf(
             !PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)
         )
@@ -171,6 +171,7 @@ fun DownloadPage(
         DownloadPageImpl(downloaderState = downloaderState,
             taskState = taskState,
             viewState = viewState,
+            errorState = errorState,
             downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
@@ -181,9 +182,9 @@ fun DownloadPage(
                     .let { downloadViewModel.updateUrl(it) }
             },
             cancelCallback = {
-                downloadViewModel.cancelDownload()
+                Downloader.cancelDownload()
             },
-            onVideoCardClicked = { downloadViewModel.openVideoFile() },
+            onVideoCardClicked = { Downloader.openDownloadResult() },
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }) {}
 
 
@@ -204,9 +205,10 @@ fun DownloadPage(
 )
 @Composable
 fun DownloadPageImpl(
-    downloaderState: Downloader.DownloaderState,
+    downloaderState: Downloader.State,
     taskState: Downloader.DownloadTaskItem,
     viewState: DownloadViewModel.ViewState,
+    errorState: Downloader.ErrorState,
     showVideoCard: Boolean = false,
     showDownloadProgress: Boolean = false,
     downloadCallback: () -> Unit = {},
@@ -221,106 +223,102 @@ fun DownloadPageImpl(
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    with(downloaderState) {
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        TopAppBar(title = {}, modifier = Modifier.padding(horizontal = 8.dp), navigationIcon = {
+            IconButton(onClick = { navigateToSettings() }) {
+                Icon(
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = stringResource(id = R.string.settings)
+                )
+            }
+        }, actions = {
+            IconButton(onClick = { navigateToDownloads() }) {
+                Icon(
+                    imageVector = Icons.Outlined.Subscriptions,
+                    contentDescription = stringResource(id = R.string.downloads_history)
+                )
+            }
+        })
+    }, floatingActionButton = {
+        FABs(
+            modifier = with(receiver = Modifier) { if (showDownloadProgress) this else this.imePadding() },
+            downloadCallback = downloadCallback,
+            pasteCallback = pasteCallback
+        )
+    }) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            TitleWithProgressIndicator(showProgressIndicator = downloaderState !is Downloader.State.Idle,
+                isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
+                showCancelOperation = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
+                currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
+                downloadItemCount = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) itemCount else 0 },
+                onClick = {
+                    cancelCallback()
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                },
+                onLongClick = {
+                    PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                })
 
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-            TopAppBar(title = {}, modifier = Modifier.padding(horizontal = 8.dp), navigationIcon = {
-                IconButton(onClick = { navigateToSettings() }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Settings,
-                        contentDescription = stringResource(id = R.string.settings)
-                    )
-                }
-            }, actions = {
-                IconButton(onClick = { navigateToDownloads() }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Subscriptions,
-                        contentDescription = stringResource(id = R.string.downloads_history)
-                    )
-                }
-            })
-        }, floatingActionButton = {
-            FABs(
-                modifier = with(receiver = Modifier) { if (showDownloadProgress) this else this.imePadding() },
-                downloadCallback = downloadCallback,
-                pasteCallback = pasteCallback
-            )
-        }) {
+
             Column(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                Modifier
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp)
             ) {
-                TitleWithProgressIndicator(showProgressIndicator = isProcessRunning || isFetchingInfo,
-                    showCancelOperation = isProcessRunning,
-                    isDownloadingPlaylist = isDownloadingPlaylist,
-                    currentIndex = currentItem,
-                    downloadItemCount = downloadItemCount,
-                    onClick = {
-                        cancelCallback()
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    },
-                    onLongClick = {
-                        PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    })
-
-
-                Column(
-                    Modifier
-                        .padding(horizontal = 24.dp)
-                        .padding(top = 24.dp)
-                ) {
-                    with(taskState) {
-                        AnimatedVisibility(
-                            visible = showDownloadProgress && showVideoCard
-                        ) {
-                            VideoCard(
-                                modifier = Modifier,
-                                title = title,
-                                author = uploader,
-                                thumbnailUrl = thumbnailUrl,
-                                progress = progress,
-                                fileSizeApprox = fileSizeApprox,
-                                duration = duration,
-                                onClick = onVideoCardClicked,
-                                isPreview = isPreview
-                            )
-                        }
-                        InputUrl(
-                            url = viewState.url,
-                            hint = stringResource(R.string.video_url),
+                with(taskState) {
+                    AnimatedVisibility(
+                        visible = showDownloadProgress && showVideoCard
+                    ) {
+                        VideoCard(
+                            modifier = Modifier,
+                            title = title,
+                            author = uploader,
+                            thumbnailUrl = thumbnailUrl,
                             progress = progress,
-                            showDownloadProgress = showDownloadProgress && !showVideoCard,
-                            error = isDownloadError,
-                        ) { url -> onUrlChanged(url) }
-                        AnimatedVisibility(
-                            enter = expandVertically() + fadeIn(),
-                            exit = shrinkVertically() + fadeOut(),
-                            visible = debugMode && progressText.isNotEmpty()
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(bottom = 12.dp),
-                                text = progressText,
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                    AnimatedVisibility(visible = isDownloadError) {
-                        ErrorMessage(
-                            error = isDownloadError,
-                            copyToClipboard = isShowingErrorReport,
-                            errorMessage = errorMessage
+                            fileSizeApprox = fileSizeApprox,
+                            duration = duration,
+                            onClick = onVideoCardClicked,
+                            isPreview = isPreview
                         )
                     }
-                    content()
-//                    PreviewFormat()
-                    NavigationBarSpacer()
-                    Spacer(modifier = Modifier.height(160.dp))
+                    InputUrl(
+                        url = viewState.url,
+                        hint = stringResource(R.string.video_url),
+                        progress = progress,
+                        showDownloadProgress = showDownloadProgress && !showVideoCard,
+                        error = errorState.isErrorOccurred(),
+                    ) { url -> onUrlChanged(url) }
+                    AnimatedVisibility(
+                        enter = expandVertically() + fadeIn(),
+                        exit = shrinkVertically() + fadeOut(),
+                        visible = viewState.isInDebugMode && progressText.isNotEmpty()
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(bottom = 12.dp),
+                            text = progressText,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
+                AnimatedVisibility(visible = errorState.isErrorOccurred()) {
+                    ErrorMessage(
+                        errorMessage = errorState.errorMessage,
+                        errorReport = errorState.errorMessage
+                    )
+                }
+                content()
+//                    PreviewFormat()
+                NavigationBarSpacer()
+                Spacer(modifier = Modifier.height(160.dp))
             }
         }
     }
@@ -437,8 +435,7 @@ fun TitleWithProgressIndicator(
 @Composable
 fun ErrorMessage(
     modifier: Modifier = Modifier,
-    copyToClipboard: Boolean = false,
-    error: Boolean = false,
+    errorReport: String = "",
     errorMessage: String = "",
 ) {
     val clipboardManager = LocalClipboardManager.current
@@ -446,10 +443,10 @@ fun ErrorMessage(
     Row(modifier = modifier
         .fillMaxWidth()
         .run {
-            if (error && copyToClipboard) {
+            if (errorReport.isNotEmpty()) {
                 clip(MaterialTheme.shapes.large).clickable {
-                    if (clipboardManager.getText()?.text?.equals(errorMessage) == false) {
-                        clipboardManager.setText(AnnotatedString(errorMessage))
+                    if (clipboardManager.getText()?.text?.equals(errorReport) == false) {
+                        clipboardManager.setText(AnnotatedString(errorReport))
                     }
                     TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
                 }
@@ -506,9 +503,10 @@ fun DownloadPagePreview() {
     PreviewThemeLight {
         Column() {
             DownloadPageImpl(
-                downloaderState = Downloader.DownloaderState(),
+                downloaderState = Downloader.State.DownloadingVideo,
                 taskState = Downloader.DownloadTaskItem(),
                 viewState = DownloadViewModel.ViewState(),
+                errorState = Downloader.ErrorState(),
                 isPreview = true,
                 showDownloadProgress = true,
                 showVideoCard = true
