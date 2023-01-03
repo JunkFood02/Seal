@@ -50,7 +50,6 @@ import com.junkfood.seal.Downloader
 fun PlaylistSelectionPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val onDismissRequest = {
         onBackPressed()
-        MainActivity.stopService()
     }
     val playlistInfo = Downloader.playlistResult.collectAsState().value
     val selectedItems = remember { mutableStateListOf<Int>() }

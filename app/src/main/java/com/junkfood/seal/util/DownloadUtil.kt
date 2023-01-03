@@ -6,7 +6,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
-import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
@@ -39,77 +38,46 @@ object DownloadUtil {
         ignoreUnknownKeys = true
     }
 
-    class Result(val resultCode: ResultCode, val filePath: List<String>?) {
-        companion object {
-            fun failure(): Result {
-                return Result(ResultCode.EXCEPTION, null)
-            }
-
-            fun success(filePaths: List<String>?): Result {
-                return Result(ResultCode.SUCCESS, filePaths)
-            }
-        }
-    }
-
-
-    enum class ResultCode {
-        SUCCESS, EXCEPTION
-    }
-
     private const val TAG = "DownloadUtil"
     private const val OUTPUT_TEMPLATE = "%(title).70s [%(id)s].%(ext)s"
-    private const val AUDIO_REGEX = "(mp3)|(aac)|(opus)|(m4a)"
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=in_h""""
 
 
-    fun getPlaylistOrVideoInfo(playlistURL: String): YoutubeDLInfo {
-        TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-        val request = YoutubeDLRequest(playlistURL)
-        with(request) {
-            addOption("--flat-playlist")
-            addOption("-J")
-            addOption("-R", "1")
-            addOption("--socket-timeout", "5")
-            if (PreferenceUtil.getValue(COOKIES)) {
-                addOption(
-                    "--cookies", FileUtil.writeContentToFile(
-                        PreferenceUtil.getCookies(), context.getCookiesFile()
-                    ).absolutePath
-                )
-
+    fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> =
+        YoutubeDL.runCatching {
+            TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
+            val request = YoutubeDLRequest(playlistURL)
+            with(request) {
+                addOption("--flat-playlist")
+                addOption("-J")
+                addOption("-R", "1")
+                addOption("--socket-timeout", "5")
+                if (PreferenceUtil.getValue(COOKIES)) {
+                    enableCookies()
+                }
+            }
+            execute(request, playlistURL).out.run {
+                val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
+                Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(playlistInfo))
+                if (playlistInfo.type != "playlist") {
+                    jsonFormat.decodeFromString<VideoInfo>(this)
+                } else playlistInfo
             }
         }
-        val resp = YoutubeDL.getInstance().execute(request, playlistURL).out
-        val res = jsonFormat.decodeFromString<PlaylistResult>(resp)
-        Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(res))
-        if (res.type != "playlist") {
-            return jsonFormat.decodeFromString<VideoInfo>(resp)
-        }
-        return res
-    }
 
 
-    private fun getVideoInfo(request: YoutubeDLRequest): VideoInfo {
-        request.addOption("--dump-json")
-        val videoInfo: VideoInfo
-        try {
-            Log.d(TAG, "getVideoInfo: Start")
+    private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> =
+        request.addOption("--dump-json").runCatching {
             val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
-            Log.d(TAG, "getVideoInfo: Reading response")
-            videoInfo = jsonFormat.decodeFromString(response.out)
-            Log.d(TAG, videoInfo.toString())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
+            jsonFormat.decodeFromString(response.out)
         }
-        return videoInfo
-    }
+
 
     fun fetchVideoInfoFromUrl(
         url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
-    ): VideoInfo {
-        val videoInfo: VideoInfo = getVideoInfo(YoutubeDLRequest(url).apply {
+    ): Result<VideoInfo> =
+        YoutubeDLRequest(url).apply {
             preferences.run {
                 if (extractAudio) {
                     addOption("-x")
@@ -117,28 +85,14 @@ object DownloadUtil {
                     addOption("-S", toVideoFormatSorter())
                 }
                 if (cookies) {
-                    PreferenceUtil.getCookies().run {
-                        if (isNotEmpty())
-                            addOption(
-                                "--cookies", FileUtil.writeContentToFile(
-                                    this, context.getCookiesFile()
-                                ).absolutePath
-                            )
-                    }
+                    enableCookies()
                 }
             }
             addOption("-R", "1")
             if (playlistItem != 0) addOption("--playlist-items", playlistItem)
             else addOption("--no-playlist")
             addOption("--socket-timeout", "5")
-        })
-        with(videoInfo) {
-            if (title.isEmpty() or ext.isEmpty()) {
-                throw Exception(context.getString(R.string.fetch_info_error_msg))
-            }
-        }
-        return videoInfo
-    }
+        }.run { getVideoInfo(this) }
 
 
     data class DownloadPreferences(
@@ -168,6 +122,17 @@ object DownloadUtil {
         val customCommandTemplate: String = ""
     )
 
+    private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {
+        PreferenceUtil.getCookies().run {
+            if (isNotEmpty())
+                addOption(
+                    "--cookies", FileUtil.writeContentToFile(
+                        this, context.getCookiesFile()
+                    ).absolutePath
+                )
+        }
+    }
+
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest {
@@ -186,71 +151,70 @@ object DownloadUtil {
         }
     }
 
-    private fun DownloadPreferences.toVideoFormatSorter(): String {
-        val sorter = StringBuilder()
-        if (maxFileSize.isNumberInRange(1, 4096)) {
-            sorter.append("size:${maxFileSize}M,")
-        }
-        when (videoFormat) {
-            1 -> sorter.append("ext,")
-            2 -> sorter.append("vcodec:vp9.2,")
-            3 -> sorter.append("vcodec:av01,")
-        }
-        when (videoResolution) {
-            1 -> sorter.append("res:2160")
-            2 -> sorter.append("res:1440")
-            3 -> sorter.append("res:1080")
-            4 -> sorter.append("res:720")
-            5 -> sorter.append("res:480")
-            6 -> sorter.append("res:360")
-            7 -> sorter.append("+size,+br,+res,+fps")
-            else -> sorter.append("res")
-        }
-        return sorter.toString()
-    }
+    private fun DownloadPreferences.toVideoFormatSorter(): String =
+        StringBuilder().run {
+            if (maxFileSize.isNumberInRange(1, 4096)) {
+                append("size:${maxFileSize}M,")
+            }
+            when (videoFormat) {
+                1 -> append("ext,")
+                2 -> append("vcodec:vp9.2,")
+                3 -> append("vcodec:av01,")
+            }
+            when (videoResolution) {
+                1 -> append("res:2160")
+                2 -> append("res:1440")
+                3 -> append("res:1080")
+                4 -> append("res:720")
+                5 -> append("res:480")
+                6 -> append("res:360")
+                7 -> append("+size,+br,+res,+fps")
+                else -> append("res")
+            }
+        }.toString()
+
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String, downloadPreferences: DownloadPreferences, playlistUrl: String
-    ): YoutubeDLRequest {
-        return this.apply {
-            with(downloadPreferences) {
-                addOption("-x")
-                if (formatId.isNotEmpty())
-                    addOption("-f", formatId)
-                else
-                    when (audioFormat) {
-                        1 -> {
-                            addOption("--audio-format", "mp3")
-                            addOption("--audio-quality", "0")
-                        }
-
-                        2 -> {
-                            addOption("--audio-format", "m4a")
-                            addOption("--audio-quality", "0")
-                        }
+    ): YoutubeDLRequest = this.apply {
+        with(downloadPreferences) {
+            addOption("-x")
+            if (formatId.isNotEmpty())
+                addOption("-f", formatId)
+            else
+                when (audioFormat) {
+                    1 -> {
+                        addOption("--audio-format", "mp3")
+                        addOption("--audio-quality", "0")
                     }
-                addOption("--embed-metadata")
-                addOption("--embed-thumbnail")
-                addOption("--convert-thumbnails", "jpg")
 
-                if (cropArtwork) {
-                    val configFile = context.getConfigFile(id)
-                    FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
-                    addOption("--config", configFile.absolutePath)
+                    2 -> {
+                        addOption("--audio-format", "m4a")
+                        addOption("--audio-quality", "0")
+                    }
                 }
+            addOption("--embed-metadata")
+            addOption("--embed-thumbnail")
+            addOption("--convert-thumbnails", "jpg")
 
-                addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
+            if (cropArtwork) {
+                val configFile = context.getConfigFile(id)
+                FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
+                addOption("--config", configFile.absolutePath)
+            }
 
-                if (playlistUrl.isNotEmpty()) {
-                    addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
-                    addOption(
-                        "--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s"
-                    )
-                } else {
-                    addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
-                }
+            addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
+
+            if (playlistUrl.isNotEmpty()) {
+                addOption("--parse-metadata", "%(album,playlist,title)s:%(meta_album)s")
+                addOption(
+                    "--parse-metadata", "%(track_number,playlist_index)d:%(meta_track)s"
+                )
+            } else {
+                addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
             }
         }
+
     }
 
     private fun scanVideoIntoDownloadHistory(
@@ -282,14 +246,13 @@ object DownloadUtil {
         playlistItem: Int = 0,
         downloadPreferences: DownloadPreferences,
         progressCallback: ((Float, Long, String) -> Unit)?
-    ): Result {
-        if (videoInfo == null) return Result.failure()
+    ): Result<List<String>> {
+        if (videoInfo == null) return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
 
         with(downloadPreferences) {
-            // TODO: Move custom template configurations here
-//            if (customCommandTemplate.isEmpty()) { }
             val url = playlistUrl.ifEmpty {
-                videoInfo.webpageUrl ?: return Result.failure()
+                videoInfo.webpageUrl
+                    ?: return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
             }
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
@@ -298,11 +261,7 @@ object DownloadUtil {
                 addOption("--no-mtime")
 //                addOption("-v")
                 if (cookies) {
-                    addOption(
-                        "--cookies", FileUtil.writeContentToFile(
-                            cookiesContent, context.getCookiesFile()
-                        ).absolutePath
-                    )
+                    enableCookies()
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
@@ -321,7 +280,7 @@ object DownloadUtil {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
 
-                if (extractAudio or (videoInfo.vcodec == "none")) {
+                if (extractAudio || (videoInfo.vcodec == "none")) {
                     if (privateDirectory) pathBuilder.append(App.getPrivateDownloadDirectory())
                     else pathBuilder.append(audioDownloadDir)
                     addOptionsForAudioDownloads(
@@ -363,7 +322,7 @@ object DownloadUtil {
                 } else throw th
             }
             if (privateMode) {
-                return Result.success(null)
+                return Result.success(emptyList())
             }
             val filePaths = scanVideoIntoDownloadHistory(
                 videoInfo = videoInfo,
@@ -394,12 +353,7 @@ object DownloadUtil {
             )
 //            addOption("-v")
             if (PreferenceUtil.getValue(COOKIES)) {
-                addOption(
-                    "--cookies", FileUtil.writeContentToFile(
-                        PreferenceUtil.getCookies(), context.getCookiesFile()
-                    ).absolutePath
-                )
-
+                enableCookies()
             }
         }
 

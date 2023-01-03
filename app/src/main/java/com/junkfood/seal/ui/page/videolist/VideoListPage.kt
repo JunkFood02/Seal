@@ -67,12 +67,11 @@ import com.junkfood.seal.ui.component.FilterChip
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import kotlinx.coroutines.launch
 import java.io.File
-
-private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
 
 fun DownloadedVideoInfo.filterByType(
     videoFilter: Boolean = false,

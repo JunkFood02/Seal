@@ -12,11 +12,15 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import java.io.File
 
+const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
+const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
+
 object FileUtil {
-    fun openFile(downloadResult: DownloadUtil.Result) {
-        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION) return
+    fun openFile(downloadResult: Result<List<String>>) {
+        val filePaths = downloadResult.getOrNull()
+        if (filePaths.isNullOrEmpty()) return
         if (Build.VERSION.SDK_INT > 23)
-            openFileInURI(downloadResult.filePath?.firstOrNull() ?: "")
+            openFileInURI(filePaths.first())
         else context.startActivity(createIntentForOpenFile(downloadResult))
     }
 
@@ -34,27 +38,25 @@ object FileUtil {
         }
     }
 
-    fun createIntentForOpenFile(downloadResult: DownloadUtil.Result): Intent? {
-        if (downloadResult.resultCode == DownloadUtil.ResultCode.EXCEPTION || downloadResult.filePath?.isEmpty() == true) return null
-        val path = downloadResult.filePath?.first() ?: return null
+    fun createIntentForOpenFile(downloadResult: Result<List<String>>): Intent? {
+        val filePaths = downloadResult.getOrNull()
+        if (filePaths.isNullOrEmpty()) return null
+        val path = filePaths.first()
         return Intent().apply {
             action = (Intent.ACTION_VIEW)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
-            setDataAndType(
-                FileProvider.getUriForFile(
-                    context,
-                    context.packageName + ".provider",
-                    File(path)
-                ),
-                if (path.contains(Regex("\\.mp3|\\.m4a|\\.opus"))) "audio/*" else "video/*"
+            data = FileProvider.getUriForFile(
+                context,
+                context.packageName + ".provider",
+                File(path)
             )
         }
     }
 
-    fun scanFileToMediaLibrary(title: String, downloadDir: String): ArrayList<String> {
+    fun scanFileToMediaLibrary(title: String, downloadDir: String): List<String> {
         Log.d(TAG, "scanFileToMediaLibrary: $title")
-        val files = ArrayList<File>()
-        val paths = ArrayList<String>()
+        val files = mutableListOf<File>()
+        val paths = mutableListOf<String>()
 
         File(downloadDir).walkTopDown()
             .forEach { if (it.isFile && it.path.contains(title)) files.add(it) }
@@ -67,7 +69,7 @@ object FileUtil {
             context, paths.toTypedArray(),
             null, null
         )
-        paths.removeAll { it.contains(Regex(".png$")) }
+        paths.removeAll { it.contains(Regex(THUMBNAIL_REGEX)) }
         return paths
     }
 
