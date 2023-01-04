@@ -71,7 +71,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 23
         targetSdk = 33
-        versionCode = 10700
+        versionCode = 10710
         versionName = currentVersion.toVersionName().run {
             if (!splitApks) "$this-(F-Droid)"
             else this

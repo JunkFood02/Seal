@@ -138,6 +138,7 @@ object Downloader {
         downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
+            updateState(State.FetchingInfo)
             DownloadUtil.fetchVideoInfoFromUrl(
                 url = url,
                 preferences = downloadPreferences

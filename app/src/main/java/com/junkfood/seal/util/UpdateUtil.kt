@@ -135,7 +135,7 @@ object UpdateUtil {
         }
 
         val abiList = Build.SUPPORTED_ABIS
-        val preferredArch = abiList.first() ?: ARM64
+        val preferredArch = abiList.firstOrNull() ?: return@withContext emptyFlow()
 
         val targetUrl = latestRelease.assets?.find {
             return@find it.name?.contains(preferredArch) ?: false
