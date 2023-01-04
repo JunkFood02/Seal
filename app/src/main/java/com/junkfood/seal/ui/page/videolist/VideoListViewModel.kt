@@ -115,11 +115,7 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     fun removeItem(delete: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                if (delete) {
-                    val info = DatabaseUtil.getInfoById(_detailViewState.value.id)
-                    File(info.videoPath).delete()
-                }
-                DatabaseUtil.deleteInfoById(_detailViewState.value.id)
+                DatabaseUtil.deleteInfoListByIdList(listOf(detailViewState.value.id), delete)
             }
         }
     }

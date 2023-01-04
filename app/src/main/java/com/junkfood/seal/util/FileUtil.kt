@@ -11,6 +11,7 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.annotation.CheckResult
 import androidx.core.content.FileProvider
+import androidx.documentfile.provider.DocumentFile
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import okhttp3.internal.closeQuietly
@@ -20,41 +21,47 @@ const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
 const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
 
 object FileUtil {
-    fun openFile(downloadResult: Result<List<String>>) {
+    fun openFileFromResult(downloadResult: Result<List<String>>) {
         val filePaths = downloadResult.getOrNull()
         if (filePaths.isNullOrEmpty()) return
-        if (Build.VERSION.SDK_INT > 23)
-            openFileInURI(filePaths.first())
-        else context.startActivity(createIntentForFile(filePaths))
+        context.startActivity(createIntentForFile(filePaths.first()))
     }
 
-    fun openFileInURI(path: String) {
-        MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, uri ->
-            if (uri == null) {
+    fun openFile(path: String) =
+        createIntentForFile(path).runCatching { context.startActivity(this) }
+            .onFailure {
                 TextUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
-            } else {
-                context.startActivity(Intent().apply {
-                    action = (Intent.ACTION_VIEW)
-                    data = uri
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
             }
-        }
-    }
 
-    fun createIntentForFile(filePaths: List<String>): Intent? {
-        if (filePaths.isEmpty()) return null
-        val path = filePaths.first()
+
+    fun createIntentForFile(path: String): Intent? {
+        val uri = path.runCatching {
+            FileProvider.getUriForFile(
+                context,
+                context.packageName + ".provider",
+                File(this)
+            )
+        }.getOrNull() ?: DocumentFile.fromSingleUri(context, Uri.parse(path))?.uri ?: return null
+
         return Intent().apply {
             action = (Intent.ACTION_VIEW)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
-            data = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                File(path)
-            )
+            data = uri
         }
     }
+
+    fun String.getFileSize(): Long = this.run {
+        val length = File(this).length()
+        if (length == 0L)
+            DocumentFile.fromSingleUri(context, Uri.parse(this))?.length() ?: 0L
+        else length
+    }
+
+    fun deleteFile(path: String) =
+        path.runCatching {
+            if (!File(path).delete())
+                DocumentFile.fromSingleUri(context, Uri.parse(this))?.delete()
+        }
 
     fun scanFileToMediaLibrary(title: String, downloadDir: String): List<String> {
         Log.d(TAG, "scanFileToMediaLibrary: $title")
@@ -89,6 +96,7 @@ object FileUtil {
             )
         }
         tempPath.walkTopDown().forEach {
+            if (it.isDirectory) return@forEach
             try {
                 val mimeType =
                     MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.extension) ?: "*/*"

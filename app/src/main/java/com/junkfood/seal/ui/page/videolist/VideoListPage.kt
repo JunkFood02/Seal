@@ -70,6 +70,7 @@ import com.junkfood.seal.ui.component.MultiChoiceItem
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getFileSize
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -108,7 +109,7 @@ fun VideoListPage(
 
     val fileSizeMap = remember(videoList.size) {
         mutableMapOf<Int, Long>().apply {
-            putAll(videoList.map { Pair(it.id, File(it.videoPath).length()) })
+            putAll(videoList.map { Pair(it.id, it.videoPath.getFileSize()) })
         }
     }
 
@@ -333,7 +334,7 @@ fun VideoListPage(
                                     if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
                                     else selectedItemIds.add(id)
                                 },
-                                onClick = { FileUtil.openFileInURI(videoPath) }
+                                onClick = { FileUtil.openFile(videoPath) }
                             ) { videoListViewModel.showDrawer(scope, info) }
                         }
                     }

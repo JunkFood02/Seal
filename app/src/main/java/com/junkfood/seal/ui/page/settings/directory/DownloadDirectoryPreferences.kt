@@ -169,7 +169,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         }) {
             it?.let {
                 if (editingDirectory == Directory.SDCARD) {
-                    sdcardUri = it.path.toString()
+                    sdcardUri = it.toString()
                     PreferenceUtil.updateString(SDCARD_URI, sdcardUri)
                     return@let
                 }

@@ -242,7 +242,8 @@ object Downloader {
         }
             .onSuccess {
                 if (!isDownloadingPlaylist) finishProcessing()
-                FileUtil.createIntentForFile(it).run {
+                if(it.isEmpty()) return@onSuccess
+                FileUtil.createIntentForFile(it.first()).run {
                     NotificationUtil.finishNotification(
                         notificationId,
                         title = videoInfo.title,
@@ -370,7 +371,7 @@ object Downloader {
     }
 
     fun openDownloadResult() {
-        if (taskState.value.progress == 100f) FileUtil.openFile(downloadResultTemp)
+        if (taskState.value.progress == 100f) FileUtil.openFileFromResult(downloadResultTemp)
     }
 
     fun String.toNotificationId(): Int = this.hashCode()

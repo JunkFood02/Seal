@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,7 +26,7 @@ import com.junkfood.seal.ui.component.MultiChoiceItem
 fun RemoveItemDialog(
     videoListViewModel: VideoListViewModel = hiltViewModel(),
 ) {
-    val deleteFile = remember { mutableStateOf(false) }
+    var deleteFile by remember { mutableStateOf(false) }
     val detailState = videoListViewModel.detailViewState.collectAsState()
     if (detailState.value.showDialog) {
 //        deleteFile.value = false
@@ -43,14 +45,14 @@ fun RemoveItemDialog(
                     )
                     MultiChoiceItem(
                         text = stringResource(R.string.delete_file),
-                        checked = deleteFile.value
-                    ) { deleteFile.value = !deleteFile.value }
+                        checked = deleteFile
+                    ) { deleteFile = !deleteFile }
                 }
 
             }, confirmButton = {
                 TextButton(onClick = {
                     videoListViewModel.hideDialog()
-                    videoListViewModel.removeItem(deleteFile.value)
+                    videoListViewModel.removeItem(deleteFile)
                 }) {
                     Text(text = stringResource(R.string.confirm))
                 }

@@ -334,7 +334,7 @@ object DownloadUtil {
                     addOption("-P", pathBuilder.toString())
                 }
 
-                if (Build.VERSION.SDK_INT > 23) addOption("-P", "temp:" + context.getTempDir())
+                if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption("-P", "temp:" + context.getTempDir())
                 if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
                 else addOption("-o", OUTPUT_TEMPLATE)
 

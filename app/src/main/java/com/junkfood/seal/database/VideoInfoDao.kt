@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.junkfood.seal.util.FileUtil
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -42,7 +43,7 @@ interface VideoInfoDao {
     suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) {
         idList.forEach { id ->
             val info = getInfoById(id)
-            if (deleteFile) File(info.videoPath).delete()
+            if (deleteFile) FileUtil.deleteFile(info.videoPath)
             deleteInfo(info)
         }
     }
