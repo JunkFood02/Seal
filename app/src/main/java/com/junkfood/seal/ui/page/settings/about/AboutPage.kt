@@ -32,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
@@ -41,6 +42,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
 import com.junkfood.seal.util.TextUtil
+import com.yausername.youtubedl_android.YoutubeDL
 import kotlin.math.roundToInt
 
 private const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
@@ -58,33 +60,21 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
         canScroll = { true })
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
-    val configuration = LocalConfiguration.current
-    val screenDensity = configuration.densityDpi / 160f
-    val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
-    val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
+//    val configuration = LocalConfiguration.current
+//    val screenDensity = configuration.densityDpi / 160f
+//    val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
+//    val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
     var isAutoUpdateEnabled by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
 
-
+    val info = App.getVersionReport()
     val versionName = packageInfo.versionName
 
-    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        packageInfo.longVersionCode
-    } else {
-        packageInfo.versionCode.toLong()
-    }
-    val release = if (Build.VERSION.SDK_INT >= 30) {
-        Build.VERSION.RELEASE_OR_CODENAME
-    } else {
-        Build.VERSION.RELEASE
-    }
+//        infoBuilder.append("App version: $versionName ($versionCode)\n")
+//            .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
+//            .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
+//            .append("\nScreen resolution: $screenHeight x $screenWidth")
+//            .append("Yt-dlp Version: ${YoutubeDL.version(context.applicationContext)}").toString()
 
-    val infoBuilder = StringBuilder()
-    val deviceInformation =
-        infoBuilder.append("App version: $versionName")
-            .append(" ($versionCode)\n")
-            .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
-            .append(Build.SUPPORTED_ABIS.contentToString())
-            .append("\nScreen resolution: $screenHeight x $screenWidth").toString()
     val uriHandler = LocalUriHandler.current
     fun openUrl(url: String) {
         uriHandler.openUri(url)
@@ -140,7 +130,7 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     icon = Icons.Outlined.AutoAwesome,
                 ) { jumpToCreditsPage() }
             }
-            if (!versionName.contains("F-Droid"))
+            if (!App.isFDroidBuild())
                 item {
                     PreferenceSwitch(
                         title = stringResource(R.string.check_for_updates),
@@ -158,7 +148,7 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     description = versionName,
                     icon = Icons.Outlined.Info,
                 ) {
-                    clipboardManager.setText(AnnotatedString(deviceInformation))
+                    clipboardManager.setText(AnnotatedString(info))
                     TextUtil.makeToast(R.string.info_copied)
                 }
             }

@@ -9,6 +9,7 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
+import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -85,7 +86,7 @@ object PreferenceUtil {
     fun isNetworkAvailableForDownload() =
         getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
-    fun isAutoUpdateEnabled() = getValue(AUTO_UPDATE, !packageInfo.versionName.contains("F-Droid"))
+    fun isAutoUpdateEnabled() = getValue(AUTO_UPDATE, !isFDroidBuild())
 
     const val TEMPLATE_EXAMPLE =
         """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""

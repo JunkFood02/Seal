@@ -35,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.StringBuilder
 
 @HiltAndroidApp
 class App : Application() {
@@ -155,6 +156,27 @@ class App : Application() {
                 PreferenceUtil.updateString(VIDEO_DIRECTORY, path)
             }
         }
+
+        fun getVersionReport(): String {
+            val versionName = packageInfo.versionName
+            val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                packageInfo.versionCode.toLong()
+            }
+            val release = if (Build.VERSION.SDK_INT >= 30) {
+                Build.VERSION.RELEASE_OR_CODENAME
+            } else {
+                Build.VERSION.RELEASE
+            }
+            return StringBuilder().append("App version: $versionName ($versionCode)\n")
+                .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
+                .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
+                .append("Yt-dlp version: ${YoutubeDL.version(context.applicationContext)}\n")
+                .toString()
+        }
+
+        fun isFDroidBuild(): Boolean = packageInfo.versionName.contains("F-Droid")
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context

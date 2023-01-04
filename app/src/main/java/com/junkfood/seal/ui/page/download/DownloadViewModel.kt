@@ -83,7 +83,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             )
         }
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
-            showErrorMessage(context.getString(R.string.download_disabled_with_cellular))
+            showErrorMessage(R.string.download_disabled_with_cellular)
             return
         }
         if (PreferenceUtil.getValue(CUSTOM_COMMAND)) {
@@ -91,13 +91,11 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             return
         }
         if (url.isBlank()) {
-            showErrorMessage(context.getString(R.string.url_empty))
+            showErrorMessage(R.string.url_empty)
             return
         }
         if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
-            viewModelScope.launch(Dispatchers.IO) {
-                parsePlaylistInfo(url)
-            }
+            viewModelScope.launch(Dispatchers.IO) { parsePlaylistInfo(url) }
             return
         }
 

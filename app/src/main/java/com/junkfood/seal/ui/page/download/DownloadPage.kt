@@ -74,6 +74,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.NavigationBarSpacer
@@ -311,7 +312,8 @@ fun DownloadPageImpl(
                 }
                 AnimatedVisibility(visible = errorState.isErrorOccurred()) {
                     ErrorMessage(
-                        errorMessage = errorState.errorMessage,
+                        url = viewState.url,
+                        errorMessageResId = errorState.errorMessageResId,
                         errorReport = errorState.errorReport
                     )
                 }
@@ -435,8 +437,9 @@ fun TitleWithProgressIndicator(
 @Composable
 fun ErrorMessage(
     modifier: Modifier = Modifier,
+    url: String,
     errorReport: String = "",
-    errorMessage: String = "",
+    errorMessageResId: Int,
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
@@ -445,9 +448,7 @@ fun ErrorMessage(
         .run {
             if (errorReport.isNotEmpty()) {
                 clip(MaterialTheme.shapes.large).clickable {
-                    if (clipboardManager.getText()?.text?.equals(errorReport) == false) {
-                        clipboardManager.setText(AnnotatedString(errorReport))
-                    }
+                    clipboardManager.setText(AnnotatedString(App.getVersionReport() + "\nURL: $url\n$errorReport"))
                     TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
                 }
             } else this
@@ -460,7 +461,7 @@ fun ErrorMessage(
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 6.dp),
-            text = errorMessage,
+            text = errorReport.ifEmpty { stringResource(id = errorMessageResId) },
             color = MaterialTheme.colorScheme.error
         )
     }

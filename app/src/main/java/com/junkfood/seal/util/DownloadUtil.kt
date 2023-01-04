@@ -142,6 +142,10 @@ object DownloadUtil {
         }
     }
 
+    private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
+        this.addOption("--downloader", "libaria2c.so")
+            .addOption("--external-downloader-args", "aria2c:\"--summary-interval=500\"")
+
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest {
@@ -286,8 +290,7 @@ object DownloadUtil {
                 }
 
                 if (aria2c) {
-                    addOption("--downloader", "libaria2c.so")
-                    addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
+                    enableAria2c()
                 } else if (concurrentFragments > 0f) {
                     addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
                 }
@@ -370,8 +373,7 @@ object DownloadUtil {
                 if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
             )
             if (PreferenceUtil.getValue(ARIA2C)) {
-                addOption("--downloader", "libaria2c.so")
-                addOption("--external-downloader-args", "aria2c:\"--summary-interval=1\"")
+                enableAria2c()
             }
             addOption(
                 "--config-locations", FileUtil.writeContentToFile(

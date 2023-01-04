@@ -44,9 +44,10 @@ object Downloader {
 
     data class ErrorState(
         val errorReport: String = "",
-        val errorMessage: String = "",
+        val errorMessageResId: Int = R.string.unknown_error,
     ) {
-        fun isErrorOccurred(): Boolean = errorMessage.isNotEmpty() || errorReport.isNotEmpty()
+        fun isErrorOccurred(): Boolean =
+            errorMessageResId != R.string.unknown_error || errorReport.isNotEmpty()
     }
 
     data class DownloadTaskItem(
@@ -110,11 +111,12 @@ object Downloader {
     fun updateState(state: State) = mutableDownloaderState.update { state }
 
     fun clearErrorState() {
-        mutableErrorState.update { it.copy(errorMessage = "", errorReport = "") }
+        mutableErrorState.update { ErrorState() }
     }
 
-    fun showErrorMessage(msg: String) {
-        mutableErrorState.update { ErrorState(errorReport = "", errorMessage = msg) }
+    fun showErrorMessage(resId: Int) {
+        TextUtil.makeToastSuspend(context.getString(resId))
+        mutableErrorState.update { ErrorState(errorMessageResId = resId) }
     }
 
     private fun clearProgressState(isFinished: Boolean) {
@@ -124,6 +126,8 @@ object Downloader {
                 progressText = "",
             )
         }
+        if (!isFinished)
+            downloadResultTemp = Result.failure(Exception())
     }
 
     fun updatePlaylistResult(playlistResult: PlaylistResult = PlaylistResult()) =
@@ -134,19 +138,17 @@ object Downloader {
         downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                DownloadUtil.fetchVideoInfoFromUrl(
-                    url = url,
-                    preferences = downloadPreferences
-                )
-            }.onFailure { manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true) }
-                .onSuccess {
-                    it.onSuccess { info ->
-                        downloadResultTemp = downloadVideo(
-                            videoInfo = info,
-                            preferences = downloadPreferences
-                        )
-                    }
+            DownloadUtil.fetchVideoInfoFromUrl(
+                url = url,
+                preferences = downloadPreferences
+            )
+                .onFailure { manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true) }
+                .onSuccess { info ->
+                    downloadResultTemp = downloadVideo(
+                        videoInfo = info,
+                        preferences = downloadPreferences
+                    )
+
                 }
         }
     }
@@ -260,19 +262,24 @@ object Downloader {
         indexList: List<Int>,
         preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ) {
+        val itemCount = indexList.size
+
+        if (!isDownloaderAvailable()) return
+
+        mutableDownloaderState.update { State.DownloadingPlaylist() }
+
         currentJob = applicationScope.launch(Dispatchers.IO) {
-            val itemCount = indexList.size
-
-            if (!isDownloaderAvailable()) return@launch
-
             for (i in indexList.indices) {
                 mutableDownloaderState.update {
-                    State.DownloadingPlaylist(currentItem = i + 1, itemCount = indexList.size)
+                    if (it is State.DownloadingPlaylist)
+                        it.copy(currentItem = i + 1, itemCount = indexList.size)
+                    else return@launch
                 }
 
                 if (App.isServiceRunning) NotificationUtil.updateServiceNotification(
                     index = i + 1, itemCount = itemCount
                 )
+
                 val playlistIndex = indexList[i]
 
                 DownloadUtil.fetchVideoInfoFromUrl(
@@ -280,10 +287,13 @@ object Downloader {
                     playlistItem = playlistIndex,
                     preferences = preferences
                 ).onSuccess {
+                    if (downloaderState.value !is State.DownloadingPlaylist)
+                        return@launch
                     downloadResultTemp =
                         downloadVideo(
                             videoInfo = it,
-                            playlistIndex = playlistIndex, preferences = preferences
+                            playlistIndex = playlistIndex,
+                            preferences = preferences
                         ).onFailure { th ->
                             manageDownloadError(
                                 th,
@@ -324,10 +334,13 @@ object Downloader {
     ) {
         if (th is YoutubeDL.CanceledException) return
         th.printStackTrace()
+        val resId =
+            if (isFetchingInfo) R.string.fetch_info_error_msg else R.string.download_error_msg
+        TextUtil.makeToastSuspend(context.getString(resId))
+
         mutableErrorState.update {
-            it.copy(
-                errorMessage = context.getString(if (isFetchingInfo) R.string.fetch_info_error_msg else R.string.download_error_msg),
-                errorReport = th.message ?: context.getString(R.string.unknown_error)
+            ErrorState(
+                errorReport = th.message.toString()
             )
         }
         notificationId?.let {
