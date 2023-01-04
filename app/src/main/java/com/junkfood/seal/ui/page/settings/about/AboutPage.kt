@@ -50,6 +50,7 @@ private const val repoUrl = "https://github.com/JunkFood02/Seal"
 const val weblate = "https://hosted.weblate.org/engage/seal/"
 private const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose"
 private const val telegramChannelUrl = "https://t.me/seal_app"
+private const val matrixSpaceUrl = ""
 private const val TAG = "AboutPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -123,6 +124,13 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     icon = painterResource(id = R.drawable.icons8_telegram_app)
                 ) { openUrl(telegramChannelUrl) }
             }
+//            item {
+//                PreferenceItem(
+//                    title = stringResource(R.string.matrix_space),
+//                    description = matrixSpaceUrl,
+//                    icon = painterResource(id = R.drawable.icons8_matrix)
+//                ) { openUrl(matrixSpaceUrl) }
+//            }
             item {
                 PreferenceItem(
                     title = stringResource(id = R.string.credits),
