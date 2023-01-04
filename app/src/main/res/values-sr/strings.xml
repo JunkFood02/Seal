@@ -217,4 +217,10 @@
     <string name="video_only">Видео (без звука)</string>
     <string name="format_selection">Избор формата</string>
     <string name="generate_new_cookies">Генеришите нове колачиће</string>
+    <string name="use_cookies">Користите колачиће</string>
+    <string name="custom_command_enabled_hint">Неке опције су недоступне када користите прилагођену команду</string>
+    <string name="how_does_it_work">Како то функционише\?</string>
+    <string name="telegram_channel">Telegram канал</string>
+    <string name="remove_cookie_profile_desc">Уклоните колачиће за \"%1$s\"\?</string>
+    <string name="cookies_usage_msg">Преузимање с неких сајтова захтева информације о аутентификацији налога. Кликните на „Генеришите нове колачиће“, унесите URL веб-сајта, а затим се пријавите са својим налогом на страници у претраживачу и апликација ће их генерисати за Вас.</string>
 </resources>

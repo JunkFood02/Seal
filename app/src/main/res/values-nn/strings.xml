@@ -31,7 +31,7 @@
     <string name="paste">Lim inn</string>
     <string name="yt_dlp_docs">Tilråding for bruk av yt-dlp</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">Ljod i MP3 eller M4A-formatet verkar på dei fleste einingar</string>
+    <string name="audio_format_desc">Omlaging av ljodfiler fører til tap av ljodkvalitet og auking av filstorleik.</string>
     <string name="video_quality">Videokvalitet</string>
     <string name="best_quality">Beste kvalitet (forval)</string>
     <string name="video_quality_desc">Avgrens formatkvaliteten og filstorleiken</string>
@@ -61,9 +61,9 @@
     <string name="close">Lat att</string>
     <string name="close_never_show_again">Ikkje vis att</string>
     <string name="open_settings">Opne innstillingane</string>
-    <string name="create_thumbnail">Gøym småbiletet</string>
-    <string name="create_thumbnail_summary">Gøym videosmåbiletet som ei fil</string>
-    <string name="yt_dlp_update_fail">Kunne ikkje leggja inn nyaste yt-dlp-versjon. Syrg for at du har samanbinding til internettet.</string>
+    <string name="create_thumbnail">Gøym småbilete</string>
+    <string name="create_thumbnail_summary">Gøym videosmåbilete som ei fil</string>
+    <string name="yt_dlp_update_fail">Kunne ikkje leggja inn den nyaste yt-dlp-utgåva. Syrg for at du har samanbinding til Internet.</string>
     <string name="additional_settings">Fleire innstillingar</string>
     <string name="share_success_msg">Les videolenka ifrå delt innhald…</string>
     <string name="show_more_actions">Vis fleire gjerder</string>
@@ -154,7 +154,7 @@
     <string name="download_selection_desc">Vel videoar som skal verta henta ifrå spelelista «%1$s»</string>
     <string name="select_all">Vel alle/alt</string>
     <string name="selected_item_count">%1$d vald(e)</string>
-    <string name="use_custom_command">Bruk eiget påbod</string>
+    <string name="use_custom_command">Bruk eigne påbod</string>
     <string name="yt_dlp_up_to_date">Nyttar nyaste utgåve av yt-dlp</string>
     <string name="paste_fail_msg">Kunne ikkje jamføra med nettadressa i utklippstavla</string>
     <string name="ytdlp_version">Yt-dlp-utgåve</string>
@@ -171,7 +171,7 @@
     <string name="user_guide">Brukarrettleiing</string>
     <string name="paste_desc">Trykk på «Lim inn» for å hente videolenka ifrå utklippstavla di.</string>
     <string name="check_download_settings_desc">Tak og so sjå på hentingsinnstillingane og syrg for at du har den nyaste utgåva av yt-dlp før du nyttar han.</string>
-    <string name="download_playlist">Hent spelelista</string>
+    <string name="download_playlist">Hent speleliste</string>
     <string name="download_playlist_desc">Hent fleire videoar ifrå ei speleliste</string>
     <string name="defaults">Føreval</string>
     <string name="channel_name">Hent</string>
@@ -197,4 +197,20 @@
     <string name="general_settings_desc">Yt-dlp-utgåve, merknad, speleliste</string>
     <string name="concurrent_download_desc">Hent fleire delar av M3U8/MPD-videoar samstundes</string>
     <string name="invalid_index_range">Ugildt indeksområde</string>
+    <string name="video_only">Video (ingen ljod)</string>
+    <string name="suggested">Tilrådd</string>
+    <string name="format_selection_desc">Vis formatval før ei henting byrjar</string>
+    <string name="format_selection">Formatval</string>
+    <string name="print_details">Detaljert utdata</string>
+    <string name="print_details_desc">Skriv ut detaljerte opplysingar ved henting</string>
+    <string name="battery_settings_desc">Om du vil hente i bakgrunnen, sett denne appens batteribruk til «uavgrensa» i systeminnstillingane.</string>
+    <string name="sponsorblock_desc">Tak bort stødde delar ifrå videoar med SponsorBlocks API</string>
+    <string name="check_for_updates">Sjå etter oppdateringar</string>
+    <string name="high_contrast">Høg motsetnad</string>
+    <string name="use_cookies">Bruk infokapslar</string>
+    <string name="remove_cookie_profile_desc">Tak bort infokapslar for «%1$s»\?</string>
+    <string name="custom_command_enabled_hint">Nokre val er utilgjengelege når « bruk eigne påbod» er slegen på</string>
+    <string name="how_does_it_work">Korleis verkar det\?</string>
+    <string name="cookies_usage_msg">Henting ifrå somme nettstadar krev kontostadfestingsopplysingar. Trykk på «lag nye infokapslar», skriv inn nettadressa til nettstaden, og logg deg so inn i nettlesersida som appen fører deg til.</string>
+    <string name="telegram_channel">Telegram-sambandsline</string>
 </resources>
