@@ -10,7 +10,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.isFDroidBuild
-import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.CookieProfile
@@ -105,6 +104,8 @@ object PreferenceUtil {
     const val WELCOME_DIALOG = "welcome_dialog"
     const val VIDEO_DIRECTORY = "download_dir"
     const val AUDIO_DIRECTORY = "audio_dir"
+    const val SDCARD_DOWNLOAD = "sdcard_download"
+    const val SDCARD_URI = "sd_card_uri"
     const val SUBDIRECTORY = "sub-directory"
     const val PLAYLIST = "playlist"
     const val LANGUAGE = "language"
@@ -114,7 +115,6 @@ object PreferenceUtil {
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
 
-    //    const val TEMPLATE_INDEX = "template_index"
     const val TEMPLATE_ID = "template_id"
     const val MAX_FILE_SIZE = "max_file_size"
     const val SPONSORBLOCK = "sponsorblock"
@@ -132,6 +132,7 @@ object PreferenceUtil {
     const val PRIVATE_DIRECTORY = "private_directory"
     const val CROP_ARTWORK = "crop_artwork"
     const val FORMAT_SELECTION = "format_selection"
+
     const val SYSTEM_DEFAULT = 0
 
     // Do not modify

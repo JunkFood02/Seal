@@ -271,4 +271,5 @@
     <string name="custom_command_usage_msg" translatable="false"></string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
+    <string name="sdcard_directory">SD card folder</string>
 </resources>

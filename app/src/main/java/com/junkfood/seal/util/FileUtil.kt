@@ -6,10 +6,14 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.util.Log
+import android.webkit.MimeTypeMap
+import androidx.annotation.CheckResult
 import androidx.core.content.FileProvider
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import okhttp3.internal.closeQuietly
 import java.io.File
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
@@ -72,6 +76,45 @@ object FileUtil {
         return paths
     }
 
+    @CheckResult
+    fun moveFilesToSdcard(
+        tempPath: File = context.getSdcardTempDir(),
+        sdcardUri: String
+    ): List<String> {
+        val uriList = mutableListOf<String>()
+        val destDir = Uri.parse(sdcardUri).run {
+            DocumentsContract.buildDocumentUriUsingTree(
+                this,
+                DocumentsContract.getTreeDocumentId(this)
+            )
+        }
+        tempPath.walkTopDown().forEach {
+            try {
+                val mimeType =
+                    MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.extension) ?: "*/*"
+
+                val destUri = DocumentsContract.createDocument(
+                    context.contentResolver,
+                    destDir,
+                    mimeType,
+                    it.name
+                ) ?: return@forEach
+
+                val inputStream = it.inputStream()
+                val outputStream =
+                    context.contentResolver.openOutputStream(destUri) ?: return@forEach
+                inputStream.copyTo(outputStream)
+                inputStream.closeQuietly()
+                outputStream.closeQuietly()
+                uriList.add(destUri.toString())
+            } catch (th: Throwable) {
+                th.printStackTrace()
+            }
+        }
+        tempPath.deleteRecursively()
+        return uriList
+    }
+
     fun clearTempFiles(downloadDir: File): Int {
         var count = 0
         downloadDir.walkTopDown().forEach {
@@ -92,6 +135,8 @@ object FileUtil {
         File(getConfigDirectory(), "cookies$suffix.txt")
 
     fun Context.getTempDir() = File(filesDir, "tmp")
+
+    fun Context.getSdcardTempDir() = File(filesDir, "sdcard_tmp")
 
     fun File.createEmptyFile(fileName: String) {
         kotlin.runCatching {

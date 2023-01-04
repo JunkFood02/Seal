@@ -27,6 +27,8 @@ import androidx.compose.material.icons.outlined.FolderDelete
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.SdCard
+import androidx.compose.material.icons.outlined.SdStorage
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.TabUnselected
 import androidx.compose.material.icons.outlined.VideoLibrary
@@ -74,11 +76,14 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
+import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
 import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.SDCARD_DOWNLOAD
+import com.junkfood.seal.util.PreferenceUtil.SDCARD_URI
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +95,10 @@ private const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents
 
 private fun String.isValidDirectory(): Boolean {
     return this.contains(Regex(validDirectoryRegex))
+}
+
+private enum class Directory {
+    AUDIO, VIDEO, SDCARD
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -121,6 +130,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var audioDirectoryText by remember(isPrivateDirectoryEnabled) {
         mutableStateOf(if (!isPrivateDirectoryEnabled) App.audioDownloadDir else App.getPrivateDownloadDirectory())
     }
+    var sdcardUri by remember {
+        mutableStateOf(PreferenceUtil.getString(SDCARD_URI, ""))
+    }
+    var sdcardDownload by remember {
+        mutableStateOf(PreferenceUtil.getValue(SDCARD_DOWNLOAD))
+    }
 
     var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
 
@@ -128,7 +143,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var showEditDialog by remember { mutableStateOf(false) }
     var showClearTempDialog by remember { mutableStateOf(false) }
 
-    var isEditingAudioDirectory by remember { mutableStateOf(false) }
+    var editingDirectory by remember { mutableStateOf(Directory.VIDEO) }
 
     val isCustomCommandEnabled by remember {
         mutableStateOf(
@@ -153,9 +168,14 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             }
         }) {
             it?.let {
+                if (editingDirectory == Directory.SDCARD) {
+                    sdcardUri = it.path.toString()
+                    PreferenceUtil.updateString(SDCARD_URI, sdcardUri)
+                    return@let
+                }
                 val path = FileUtil.getRealPath(it)
-                App.updateDownloadDir(path, isAudio = isEditingAudioDirectory)
-                if (isEditingAudioDirectory)
+                App.updateDownloadDir(path, isAudio = editingDirectory == Directory.AUDIO)
+                if (editingDirectory == Directory.AUDIO)
                     audioDirectoryText = path
                 else videoDirectoryText = path
             }
@@ -222,10 +242,11 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_directory),
-                        description = videoDirectoryText, enabled = !isPrivateDirectoryEnabled,
+                        description = videoDirectoryText,
+                        enabled = !isPrivateDirectoryEnabled && !sdcardDownload,
                         icon = Icons.Outlined.VideoLibrary
                     ) {
-                        isEditingAudioDirectory = false
+                        editingDirectory = Directory.VIDEO
                         openDirectoryChooser()
                     }
                 }
@@ -233,12 +254,29 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceItem(
                         title = stringResource(id = R.string.audio_directory),
                         description = audioDirectoryText,
-                        enabled = !isPrivateDirectoryEnabled && !isCustomCommandEnabled,
+                        enabled = !isPrivateDirectoryEnabled && !isCustomCommandEnabled && !sdcardDownload,
                         icon = Icons.Outlined.LibraryMusic
                     ) {
-                        isEditingAudioDirectory = true
+                        editingDirectory = Directory.AUDIO
                         openDirectoryChooser()
                     }
+                }
+                item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(id = R.string.sdcard_directory),
+                        description = sdcardUri,
+                        isChecked = sdcardDownload,
+                        enabled = !isCustomCommandEnabled,
+                        onChecked = {
+                            sdcardDownload = !sdcardDownload
+                            PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
+                        },
+                        icon = Icons.Outlined.SdCard,
+                        onClick = {
+                            editingDirectory = Directory.SDCARD
+                            openDirectoryChooser()
+                        }
+                    )
                 }
                 item {
                     PreferenceSwitch(
@@ -246,7 +284,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         description = stringResource(id = R.string.subdirectory_desc),
                         icon = Icons.Outlined.SnippetFolder,
                         isChecked = isSubdirectoryEnabled,
-                        enabled = !isCustomCommandEnabled,
+                        enabled = !isCustomCommandEnabled && !sdcardDownload,
                     ) {
                         isSubdirectoryEnabled = !isSubdirectoryEnabled
                         PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
@@ -262,7 +300,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             R.string.private_directory_desc
                         ),
                         icon = Icons.Outlined.TabUnselected,
-                        enabled = !showDirectoryAlert,
+                        enabled = !showDirectoryAlert && !sdcardDownload,
                         isChecked = isPrivateDirectoryEnabled,
                         onClick = {
                             isPrivateDirectoryEnabled = !isPrivateDirectoryEnabled
@@ -277,7 +315,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceSwitchWithDivider(title = stringResource(R.string.custom_output_path),
                         description = stringResource(R.string.custom_output_path_desc),
                         icon = Icons.Outlined.FolderSpecial,
-                        enabled = !isCustomCommandEnabled,
+                        enabled = !isCustomCommandEnabled && !sdcardDownload,
                         isChecked = isCustomPathEnabled,
                         onChecked = {
                             isCustomPathEnabled = !isCustomPathEnabled
@@ -320,7 +358,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     scope.launch(Dispatchers.IO) {
                         FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count =
-                            FileUtil.clearTempFiles(context.getTempDir())
+                            FileUtil.clearTempFiles(context.getTempDir()) +
+                                    FileUtil.clearTempFiles(context.getSdcardTempDir())
                         withContext(Dispatchers.Main) {
                             snackbarHostState.showSnackbar(
                                 context.getString(R.string.clear_temp_files_count).format(count)

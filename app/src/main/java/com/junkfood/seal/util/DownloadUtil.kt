@@ -12,7 +12,9 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
+import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
@@ -21,6 +23,8 @@ import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceUtil.RATE_LIMIT
+import com.junkfood.seal.util.PreferenceUtil.SDCARD_DOWNLOAD
+import com.junkfood.seal.util.PreferenceUtil.SDCARD_URI
 import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
 import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
 import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
@@ -128,7 +132,8 @@ object DownloadUtil {
         val maxDownloadRate: String = PreferenceUtil.getMaxDownloadRate(),
         val privateDirectory: Boolean = PreferenceUtil.getValue(PRIVATE_DIRECTORY),
         val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
-        val customCommandTemplate: String = ""
+        val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
+        val sdcardUri: String = PreferenceUtil.getString(SDCARD_URI, "")
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {
@@ -234,11 +239,15 @@ object DownloadUtil {
     private fun scanVideoIntoDownloadHistory(
         videoInfo: VideoInfo,
         downloadPath: String,
-    ): List<String> {
-        val filePaths = FileUtil.scanFileToMediaLibrary(
-            title = videoInfo.id, downloadDir = downloadPath
-        )
-        for (path in filePaths) {
+    ): List<String> = FileUtil.scanFileToMediaLibrary(
+        title = videoInfo.id, downloadDir = downloadPath
+    ).apply {
+        insertInfoIntoDownloadHistory(videoInfo, this)
+    }
+
+
+    private fun insertInfoIntoDownloadHistory(videoInfo: VideoInfo, filePaths: List<String>) =
+        filePaths.forEach {
             DatabaseUtil.insertInfo(
                 DownloadedVideoInfo(
                     id = 0,
@@ -246,13 +255,11 @@ object DownloadUtil {
                     videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
                     videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
                     thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
-                    videoPath = path,
+                    videoPath = it,
                     extractor = videoInfo.extractorKey
                 )
             )
         }
-        return filePaths
-    }
 
     @CheckResult
     fun downloadVideo(
@@ -264,7 +271,6 @@ object DownloadUtil {
     ): Result<List<String>> {
         if (videoInfo == null) return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
 
-        val filePaths = mutableListOf<String>()
         with(downloadPreferences) {
             val url = playlistUrl.ifEmpty {
                 videoInfo.webpageUrl
@@ -322,7 +328,12 @@ object DownloadUtil {
                 if (subdirectory) {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
-                addOption("-P", pathBuilder.toString())
+                if (sdcard) {
+                    addOption("-P", context.getSdcardTempDir().toString())
+                } else {
+                    addOption("-P", pathBuilder.toString())
+                }
+
                 if (Build.VERSION.SDK_INT > 23) addOption("-P", "temp:" + context.getTempDir())
                 if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
                 else addOption("-o", OUTPUT_TEMPLATE)
@@ -335,31 +346,35 @@ object DownloadUtil {
                     callback = progressCallback
                 )
             }.onFailure { th ->
-                if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
+                return if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
                     th.printStackTrace()
-                    filePaths.addAll(
-                        scanVideoIntoDownloadHistory(
-                            videoInfo = videoInfo,
-                            downloadPath = pathBuilder.toString(),
-                        )
-                    )
-                    return Result.success(filePaths)
-                }
-                return Result.failure(th)
-            }.onSuccess {
-                if (privateMode) {
-                    return Result.success(emptyList())
-                }
-                filePaths.addAll(
-                    scanVideoIntoDownloadHistory(
-                        videoInfo = videoInfo,
-                        downloadPath = pathBuilder.toString(),
-                    )
-                )
+                    onFinishDownloading(this, videoInfo, pathBuilder.toString(), sdcardUri)
+                } else Result.failure(th)
             }
+            return onFinishDownloading(this, videoInfo, pathBuilder.toString(), sdcardUri)
         }
-        return Result.success(filePaths)
+    }
 
+    private fun onFinishDownloading(
+        preferences: DownloadPreferences,
+        videoInfo: VideoInfo,
+        downloadPath: String,
+        sdcardUri: String
+    ): Result<List<String>> = preferences.run {
+        if (privateMode) {
+            Result.success(emptyList())
+        } else if (sdcard) {
+            Result.success(moveFilesToSdcard(sdcardUri = sdcardUri).apply {
+                insertInfoIntoDownloadHistory(videoInfo, this)
+            })
+        } else {
+            Result.success(
+                scanVideoIntoDownloadHistory(
+                    videoInfo = videoInfo,
+                    downloadPath = downloadPath,
+                )
+            )
+        }
     }
 
     suspend fun executeCommandInBackground(url: String) {
