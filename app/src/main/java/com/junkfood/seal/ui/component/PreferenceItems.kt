@@ -78,6 +78,7 @@ fun PreferenceItem(
                         tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
                     )
                 }
+
                 is Painter -> {
                     Icon(
                         painter = icon,
@@ -447,15 +448,15 @@ fun PreferencesCautionCard(
 }
 
 @Composable
-@Preview
 fun PreferencesHintCard(
     title: String = "Title ".repeat(2),
     description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
+    isDarkTheme: Boolean = false,
+    backgroundColor: Color = MaterialTheme.colorScheme.run { if (isDarkTheme) onPrimaryContainer else secondaryContainer },
+    contentColor: Color = MaterialTheme.colorScheme.run { if (isDarkTheme) surface else onSecondaryContainer },
     onClick: () -> Unit = {},
 ) {
-
-    val backgroundColor = MaterialTheme.colorScheme.secondaryContainer
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -473,7 +474,7 @@ fun PreferencesHintCard(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = MaterialTheme.colorScheme.contentColorFor(backgroundColor)
+                tint = contentColor
             )
         }
         Column(
@@ -482,17 +483,16 @@ fun PreferencesHintCard(
                 .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
         ) {
             with(MaterialTheme) {
-
                 Text(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = colorScheme.contentColorFor(backgroundColor)
+                    color = contentColor
                 )
                 if (description != null)
                     Text(
                         text = description,
-                        color = colorScheme.contentColorFor(backgroundColor),
+                        color = contentColor,
                         maxLines = 2, overflow = TextOverflow.Ellipsis,
                         style = typography.bodyMedium,
                     )

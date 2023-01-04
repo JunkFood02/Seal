@@ -7,6 +7,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
@@ -66,14 +68,17 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            LazyColumn(modifier = Modifier
-                .padding(it)
-                .selectableGroup()) {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(it)
+                    .selectableGroup()
+            ) {
                 item {
                     PreferencesHintCard(
                         title = stringResource(R.string.translate),
                         description = stringResource(R.string.translate_desc),
                         icon = Icons.Outlined.Translate,
+                        isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                     ) { uriHandler.openUri(weblate) }
                 }
                 item {

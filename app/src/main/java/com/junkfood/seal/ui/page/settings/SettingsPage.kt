@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHintCard
@@ -96,7 +97,8 @@ fun SettingsPage(navController: NavController) {
                     PreferencesHintCard(
                         title = stringResource(R.string.battery_configuration),
                         icon = Icons.Rounded.EnergySavingsLeaf,
-                        description = stringResource(R.string.battery_configuration_desc)
+                        description = stringResource(R.string.battery_configuration_desc),
+                        isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                     ) {
                         launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
                             data = Uri.parse("package:${context.packageName}")
