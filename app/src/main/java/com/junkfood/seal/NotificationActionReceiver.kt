@@ -43,10 +43,10 @@ class NotificationActionReceiver : BroadcastReceiver() {
 
     private fun cancelTask(taskId: String?, notificationId: Int) {
         if (taskId.isNullOrEmpty()) return
+        NotificationUtil.cancelNotification(notificationId)
         val result = YoutubeDL.getInstance().destroyProcessById(taskId)
         if (result) {
             Log.d(TAG, "Task (id:$taskId) was killed.")
-            NotificationUtil.cancelNotification(notificationId)
         }
     }
 

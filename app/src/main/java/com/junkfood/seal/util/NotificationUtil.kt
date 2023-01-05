@@ -84,10 +84,12 @@ object NotificationUtil {
         notificationId: Int = DEFAULT_NOTIFICATION_ID,
         title: String? = null,
         text: String? = null,
-        intent: PendingIntent? = null
+        intent: PendingIntent? = null,
+        isCustomCommand:Boolean=false
     ) {
         Log.d(TAG, "finishNotification: ")
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        notificationManager.cancel(notificationId)
+        if (!PreferenceUtil.getValue(NOTIFICATION) && !isCustomCommand) return
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_seal)
@@ -98,7 +100,6 @@ object NotificationUtil {
                 .setStyle(null)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
-        notificationManager.cancel(notificationId)
         notificationManager.notify(notificationId, builder.build())
     }
 

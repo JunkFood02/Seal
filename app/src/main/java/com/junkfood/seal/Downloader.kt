@@ -3,8 +3,11 @@ package com.junkfood.seal
 import android.app.PendingIntent
 import android.util.Log
 import androidx.annotation.CheckResult
+import androidx.compose.runtime.mutableStateMapOf
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
+import com.junkfood.seal.App.Companion.startService
+import com.junkfood.seal.App.Companion.stopService
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
@@ -18,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
@@ -70,19 +75,27 @@ object Downloader {
     private val mutableTaskState = MutableStateFlow(DownloadTaskItem())
     private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
     private val mutableErrorState = MutableStateFlow(ErrorState())
+    private val mutableProcessCount = MutableStateFlow(0)
+    val mutableProcessOutput = mutableStateMapOf<String,String>()
 
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
     val errorState = mutableErrorState.asStateFlow()
+    private val processCount = mutableProcessCount.asStateFlow()
 
     init {
         applicationScope.launch {
-            downloaderState.collect {
-                when (it) {
-                    is State.Idle -> App.stopService()
-                    else -> App.startService()
+            downloaderState.combine(processCount) { state, cnt ->
+                Log.d(TAG, "$cnt $state")
+                if (cnt > 0) true
+                else when (state) {
+                    is State.Idle -> false
+                    else -> true
                 }
+            }.collect {
+                if (it) startService()
+                else stopService()
             }
         }
     }
@@ -95,6 +108,16 @@ object Downloader {
         return true
     }
 
+    fun onProcessStarted() = mutableProcessCount.update { it + 1 }
+    private fun makeKey(taskId: String, templateName: String): String = "${templateName}_$taskId"
+    fun updateProcessOutput(taskId: String, templateName: String, line: String) =
+        mutableProcessOutput.apply {
+            val key = makeKey(taskId, templateName)
+            get(key)?.let { prev -> put(key, prev + "\n" + line) } ?: put(key, line)
+        }
+
+
+    fun onProcessEnded() = mutableProcessCount.update { it - 1 }
 
     private fun VideoInfo.toTask(playlistIndex: Int = 0): DownloadTaskItem =
         DownloadTaskItem(
@@ -242,7 +265,7 @@ object Downloader {
         }
             .onSuccess {
                 if (!isDownloadingPlaylist) finishProcessing()
-                if(it.isEmpty()) return@onSuccess
+                if (it.isEmpty()) return@onSuccess
                 FileUtil.createIntentForFile(it.first()).run {
                     NotificationUtil.finishNotification(
                         notificationId,

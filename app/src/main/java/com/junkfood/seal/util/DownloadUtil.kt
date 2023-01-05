@@ -7,6 +7,9 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
+import com.junkfood.seal.Downloader
+import com.junkfood.seal.Downloader.onProcessEnded
+import com.junkfood.seal.Downloader.onProcessStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -334,7 +337,10 @@ object DownloadUtil {
                     addOption("-P", pathBuilder.toString())
                 }
 
-                if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption("-P", "temp:" + context.getTempDir())
+                if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
+                    "-P",
+                    "temp:" + context.getTempDir()
+                )
                 if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
                 else addOption("-o", OUTPUT_TEMPLATE)
 
@@ -401,11 +407,11 @@ object DownloadUtil {
             }
         }
 
-        App.startService()
+        onProcessStarted()
         kotlin.runCatching {
-            var last = System.nanoTime()
+            var last = System.currentTimeMillis()
             YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
-                val now = System.nanoTime()
+                val now = System.currentTimeMillis()
                 if (now - last > 500L) {
                     last = now
                     NotificationUtil.makeNotificationForCustomCommand(
@@ -417,11 +423,17 @@ object DownloadUtil {
                         text = text
                     )
                 }
+//                Downloader.updateProcessOutput(
+//                    taskId = url,
+//                    templateName = template.name,
+//                    line = text
+//                )
             }
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
                 title = template.name + "_" + url,
                 text = context.getString(R.string.status_completed),
+                isCustomCommand = true
             )
         }.onFailure {
             it.printStackTrace()
@@ -440,9 +452,7 @@ object DownloadUtil {
                 )
             }
         }
-
-        App.stopService()
-
+        onProcessEnded()
     }
 
 
