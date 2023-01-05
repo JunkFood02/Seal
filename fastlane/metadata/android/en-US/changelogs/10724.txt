@@ -1,0 +1,3 @@
+Bug Fix:
+Permission denied error when trying to access termux directory by accident
+App crashes below API 26 (Android 8)
