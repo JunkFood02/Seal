@@ -114,6 +114,7 @@ object PreferenceUtil {
     const val CUSTOM_PATH = "custom_path"
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
+    const val AUTO_SUBTITLE = "auto_subtitle"
 
     const val TEMPLATE_ID = "template_id"
     const val MAX_FILE_SIZE = "max_file_size"

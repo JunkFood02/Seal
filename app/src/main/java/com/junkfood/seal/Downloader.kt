@@ -109,7 +109,7 @@ object Downloader {
     }
 
     fun onProcessStarted() = mutableProcessCount.update { it + 1 }
-    private fun makeKey(taskId: String, templateName: String): String = "${templateName}_$taskId"
+    fun makeKey(url: String, templateName: String): String = "${templateName}_$url"
     fun updateProcessOutput(taskId: String, templateName: String, line: String) =
         mutableProcessOutput.apply {
             val key = makeKey(taskId, templateName)

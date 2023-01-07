@@ -8,8 +8,10 @@ import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
 import com.junkfood.seal.Downloader
+import com.junkfood.seal.Downloader.makeKey
 import com.junkfood.seal.Downloader.onProcessEnded
 import com.junkfood.seal.Downloader.onProcessStarted
+import com.junkfood.seal.Downloader.taskState
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -19,6 +21,7 @@ import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
 import com.junkfood.seal.util.PreferenceUtil.ARIA2C
+import com.junkfood.seal.util.PreferenceUtil.AUTO_SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
@@ -119,6 +122,7 @@ object DownloadUtil {
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
         val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
         val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
+        val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments(),
         val maxFileSize: String = PreferenceUtil.getString(MAX_FILE_SIZE, ""),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
@@ -166,7 +170,12 @@ object DownloadUtil {
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
-                    addOption("--sub-lang", "all,-live_chat")
+                    if (autoSubtitle) {
+                        addOption("--write-auto-subs")
+                        addOption("--sub-lang", ".*orig")
+                    } else {
+                        addOption("--sub-lang", "all,-live_chat")
+                    }
                 }
             }
         }
@@ -384,9 +393,12 @@ object DownloadUtil {
     }
 
     suspend fun executeCommandInBackground(url: String) {
-        val notificationId = url.toNotificationId()
-        val urlList = url.split(Regex("[\n ]"))
         val template = PreferenceUtil.getTemplate()
+        val taskId = Downloader.makeKey(url = url, templateName = template.name)
+        val notificationId = taskId.toNotificationId()
+        val urlList = url.split(Regex("[\n ]"))
+
+
         TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
         val request = YoutubeDLRequest(urlList).apply {
             addOption(
@@ -410,13 +422,16 @@ object DownloadUtil {
         onProcessStarted()
         kotlin.runCatching {
             var last = System.currentTimeMillis()
-            YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
+            YoutubeDL.getInstance().execute(
+                request = request,
+                processId = taskId
+            ) { progress, _, text ->
                 val now = System.currentTimeMillis()
                 if (now - last > 500L) {
                     last = now
                     NotificationUtil.makeNotificationForCustomCommand(
                         notificationId = notificationId,
-                        taskId = url,
+                        taskId = taskId,
                         progress = progress.toInt(),
                         templateName = template.name,
                         taskUrl = url,
@@ -431,18 +446,18 @@ object DownloadUtil {
             }
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
-                title = template.name + "_" + url,
+                title = taskId,
                 text = context.getString(R.string.status_completed),
                 isCustomCommand = true
             )
         }.onFailure {
             it.printStackTrace()
-            if (it is YoutubeDL.CanceledException) return
+            if (it is YoutubeDL.CanceledException) return@onFailure
             val msg = it.message
             if (msg.isNullOrEmpty())
                 NotificationUtil.finishNotification(
                     notificationId = notificationId,
-                    title = template.name + "_" + url,
+                    title = taskId,
                     text = context.getString(R.string.status_completed),
                 )
             else {

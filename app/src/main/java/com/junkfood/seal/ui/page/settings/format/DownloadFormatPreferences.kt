@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
+import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
@@ -33,6 +34,7 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.AUTO_SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
@@ -50,6 +52,11 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
     }
     var isArtworkCroppingEnabled by remember {
         mutableStateOf(PreferenceUtil.getValue(CROP_ARTWORK))
+    }
+    var embedSubtitle by remember {
+        mutableStateOf(
+            PreferenceUtil.getValue(PreferenceUtil.SUBTITLE)
+        )
     }
 
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
@@ -145,13 +152,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                 }
 
                 item {
-                    var embedSubtitle by remember {
-                        mutableStateOf(
-                            PreferenceUtil.getValue(
-                                PreferenceUtil.SUBTITLE
-                            )
-                        )
-                    }
+
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         icon = Icons.Outlined.Subtitles,
@@ -161,6 +162,25 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                     ) {
                         embedSubtitle = !embedSubtitle
                         PreferenceUtil.updateValue(PreferenceUtil.SUBTITLE, embedSubtitle)
+                    }
+                }
+                item {
+                    var autoSubtitle by remember {
+                        mutableStateOf(
+                            PreferenceUtil.getValue(
+                                AUTO_SUBTITLE
+                            )
+                        )
+                    }
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.auto_subtitle),
+                        icon = Icons.Outlined.ClosedCaption,
+                        enabled = !isCustomCommandEnabled && embedSubtitle && !audioSwitch,
+                        description = stringResource(R.string.auto_subtitle_desc),
+                        isChecked = autoSubtitle
+                    ) {
+                        autoSubtitle = !autoSubtitle
+                        PreferenceUtil.updateValue(AUTO_SUBTITLE, autoSubtitle)
                     }
                 }
                 item {

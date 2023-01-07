@@ -272,4 +272,6 @@
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
     <string name="sdcard_directory">SD card folder</string>
+    <string name="auto_subtitle">Auto subtitles</string>
+    <string name="auto_subtitle_desc">Embed auto-generated subtitles instead</string>
 </resources>
