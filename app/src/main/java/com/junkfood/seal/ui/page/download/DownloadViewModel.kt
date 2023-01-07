@@ -76,6 +76,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
     fun startDownloadVideo() {
         val url = viewStateFlow.value.url
+        Downloader.clearErrorState()
         mutableViewStateFlow.update {
             it.copy(
                 isInDebugMode =
