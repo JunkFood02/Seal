@@ -5,6 +5,8 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
@@ -56,6 +58,71 @@ fun NavGraphBuilder.animatedComposable(
     content = content
 )
 
+const val duration = 350
+const val initialOffset = 0.08f
+//cubic-bezier(.4,.75,.45,1)
+val easing = CubicBezierEasing(.2f,.7f,.2f,1f)
+val tweenSpec = tween<Float>(durationMillis = duration, easing = easing)
+val tweenSpecInt = tween<IntOffset>(durationMillis = duration, easing = easing)
+val springSpec = spring<Float>(
+    dampingRatio = Spring.DampingRatioNoBouncy,
+    stiffness = Spring.StiffnessMedium,
+)
+
+fun slideInHorizontally(
+    animationSpec: FiniteAnimationSpec<IntOffset> =
+        spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium,
+            visibilityThreshold = IntOffset.VisibilityThreshold
+        ),
+    isPop: Boolean = false,
+    initialOffsetX: (fullWidth: Int) -> Int = {
+        (it * initialOffset).toInt().run {
+            if (isPop) -this else this
+        }
+    },
+): EnterTransition =
+    slideIn(
+        initialOffset = { IntOffset(initialOffsetX(it.width), 0) },
+        animationSpec = animationSpec
+    )
+
+fun slideOutHorizontally(
+    animationSpec: FiniteAnimationSpec<IntOffset> =
+        spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium,
+            visibilityThreshold = IntOffset.VisibilityThreshold
+        ),
+    isPop: Boolean = false,
+    targetOffsetX: (fullWidth: Int) -> Int = {
+        (it * initialOffset).toInt().run {
+            if (isPop) this else -this
+        }
+    },
+): ExitTransition =
+    slideOut(
+        targetOffset = { IntOffset(targetOffsetX(it.width), 0) },
+        animationSpec = animationSpec
+    )
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.slideInHorizontallyComposable(
+    route: String,
+    arguments: List<NamedNavArgument> = emptyList(),
+    deepLinks: List<NavDeepLink> = emptyList(),
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+) = composable(
+    route = route,
+    arguments = arguments,
+    deepLinks = deepLinks,
+    enterTransition = { slideInHorizontally(tweenSpecInt) + fadeIn(springSpec) },
+    exitTransition = { slideOutHorizontally(tweenSpecInt) + fadeOut(springSpec) },
+    popEnterTransition = { slideInHorizontally(tweenSpecInt, isPop = true) + fadeIn(springSpec) },
+    popExitTransition = { slideOutHorizontally(tweenSpecInt, isPop = true) + fadeOut(springSpec) },
+    content = content
+)
 
 fun slideInVertically(
     animationSpec: FiniteAnimationSpec<IntOffset> =
@@ -84,7 +151,7 @@ fun slideOutVertically(
     )
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.slideInComposable(
+fun NavGraphBuilder.slideInVerticallyComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
