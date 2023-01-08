@@ -274,4 +274,5 @@
     <string name="sdcard_directory">SD card folder</string>
     <string name="auto_subtitle">Auto subtitles</string>
     <string name="auto_subtitle_desc">Embed auto-generated subtitles instead</string>
+    <string name="title_activity_share">Quick download with Seal</string>
 </resources>

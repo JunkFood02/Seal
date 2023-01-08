@@ -1,7 +1,13 @@
 <resources>
+
     <style name="Theme.Seal" parent="Theme.Material3.DayNight.NoActionBar">
-<!--        <item name="windowNoTitle">true</item>
+        <!--        <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
+    <style name="Theme.Seal.Dialog" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+
+    </style>
 </resources>

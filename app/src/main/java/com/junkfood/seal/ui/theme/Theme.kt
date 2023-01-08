@@ -81,7 +81,11 @@ fun SealTheme(
 
     rememberSystemUiController(window).setSystemBarsColor(Color.Transparent, !darkTheme)
 
-    ProvideTextStyle(value = LocalTextStyle.current.copy(lineBreak = LineBreak.Paragraph)) {
+    ProvideTextStyle(
+        value = LocalTextStyle.current.copy(
+            lineBreak = LineBreak.Paragraph
+        )
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,

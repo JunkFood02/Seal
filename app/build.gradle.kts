@@ -78,6 +78,9 @@ android {
             else this
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")

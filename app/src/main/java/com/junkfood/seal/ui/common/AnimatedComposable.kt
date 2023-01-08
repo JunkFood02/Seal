@@ -66,7 +66,7 @@ val tweenSpec = tween<Float>(durationMillis = duration, easing = easing)
 val tweenSpecInt = tween<IntOffset>(durationMillis = duration, easing = easing)
 val springSpec = spring<Float>(
     dampingRatio = Spring.DampingRatioNoBouncy,
-    stiffness = Spring.StiffnessMedium,
+    stiffness = 5000f,
 )
 
 fun slideInHorizontally(
