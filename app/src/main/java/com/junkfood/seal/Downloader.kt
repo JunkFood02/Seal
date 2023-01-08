@@ -281,7 +281,7 @@ object Downloader {
                     else return@launch
                 }
 
-                if (App.isServiceRunning) NotificationUtil.updateServiceNotification(
+                NotificationUtil.updateServiceNotification(
                     index = i + 1, itemCount = itemCount
                 )
 

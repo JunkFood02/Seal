@@ -230,8 +230,12 @@ fun FilledButtonWithIcon(
 }
 
 @Composable
-fun ConfirmButton(text: String = stringResource(R.string.confirm), onClick: () -> Unit) {
-    TextButton(onClick = onClick) {
+fun ConfirmButton(
+    text: String = stringResource(R.string.confirm),
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    TextButton(onClick = onClick, enabled = enabled) {
         Text(text)
     }
 }
