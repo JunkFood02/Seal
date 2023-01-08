@@ -151,14 +151,9 @@ fun NetworkPreferences(
                     ) { showConcurrentDownloadDialog = true }
                 }
                 item {
-                    PreferenceSwitchWithDivider(title = stringResource(R.string.cookies),
+                    PreferenceItem(title = stringResource(R.string.cookies),
                         description = stringResource(R.string.cookies_desc),
-                        isChecked = isCookiesEnabled,
                         icon = Icons.Outlined.Cookie,
-                        onChecked = {
-                            isCookiesEnabled = !isCookiesEnabled
-                            PreferenceUtil.updateValue(PreferenceUtil.COOKIES, isCookiesEnabled)
-                        },
                         onClick = { navigateToCookieProfilePage() })
                 }
 

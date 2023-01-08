@@ -97,22 +97,25 @@ fun WebViewPage(
 
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        TopAppBar(title = { Text(webViewState.pageTitle.toString()) }, navigationIcon = {
-            IconButton(
-                onClick = { onDismissRequest() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Close,
-                    stringResource(id = R.string.close)
-                )
-            }
-        }, actions = {
-            TextButton(onClick = {
-                onConfirmationCallback(cookieSet)
-                onDismissRequest()
-            }) {
-                Text(stringResource(androidx.appcompat.R.string.abc_action_mode_done))
-            }
-        })
+        TopAppBar(
+            title = { Text(webViewState.pageTitle.toString(), maxLines = 1) },
+            navigationIcon = {
+                IconButton(
+                    onClick = { onDismissRequest() }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        stringResource(id = R.string.close)
+                    )
+                }
+            },
+            actions = {
+                TextButton(onClick = {
+                    onConfirmationCallback(cookieSet)
+                    onDismissRequest()
+                }) {
+                    Text(stringResource(androidx.appcompat.R.string.abc_action_mode_done))
+                }
+            })
     }) { paddingValues ->
         val webViewClient = remember {
             object : AccompanistWebViewClient() {

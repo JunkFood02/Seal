@@ -111,8 +111,12 @@ fun CookieProfilePage(
                     icon = null,
                     isChecked = isCookieEnabled,
                     onClick = {
-                        isCookieEnabled = !isCookieEnabled
-                        PreferenceUtil.updateValue(COOKIES, isCookieEnabled)
+                        if (cookies.isEmpty())
+                            showHelpDialog = true
+                        else {
+                            isCookieEnabled = !isCookieEnabled
+                            PreferenceUtil.updateValue(COOKIES, isCookieEnabled)
+                        }
                     })
             }
             itemsIndexed(cookies) { _, item ->
@@ -174,10 +178,10 @@ fun CookieGeneratorDialog(
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            Text(
-                stringResource(R.string.cookies_desc),
-                style = MaterialTheme.typography.bodyLarge
-            )
+//            Text(
+//                stringResource(R.string.cookies_desc),
+//                style = MaterialTheme.typography.bodyLarge
+//            )
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -208,7 +212,7 @@ fun CookieGeneratorDialog(
             onDismissRequest()
         }
     }, confirmButton = {
-        ConfirmButton {
+        ConfirmButton(enabled = url.isNotEmpty() && content.isNotEmpty()) {
             cookiesViewModel.updateCookieProfile()
             onDismissRequest()
         }
@@ -239,6 +243,7 @@ fun DeleteCookieDialog(
         }, confirmButton = {
             ConfirmButton {
                 cookiesViewModel.deleteCookieProfile()
+                onDismissRequest()
             }
         }, icon = { Icon(Icons.Outlined.Delete, null) })
 }
