@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
@@ -70,20 +71,23 @@ object Downloader {
     private val mutableTaskState = MutableStateFlow(DownloadTaskItem())
     private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
     private val mutableErrorState = MutableStateFlow(ErrorState())
+    private val mutableProcessCount = MutableStateFlow(0)
 
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
     val errorState = mutableErrorState.asStateFlow()
+    private val processCount = mutableProcessCount.asStateFlow()
 
     init {
         applicationScope.launch {
-            downloaderState.collect {
-                when (it) {
-                    is State.Idle -> App.stopService()
-                    else -> App.startService()
+            downloaderState.combine(processCount) { state, cnt ->
+                if (cnt > 0) true
+                else when (state) {
+                    is State.Idle -> false
+                    else -> true
                 }
-            }
+            }.collect { if (it) App.startService() else App.stopService() }
         }
     }
 
@@ -373,6 +377,9 @@ object Downloader {
         if (taskState.value.progress == 100f) FileUtil.openFile(downloadResultTemp)
     }
 
+    fun onProcessStarted() = mutableProcessCount.update { it + 1 }
+
+    fun onProcessFinished() = mutableProcessCount.update { it - 1 }
     fun String.toNotificationId(): Int = this.hashCode()
 }
 

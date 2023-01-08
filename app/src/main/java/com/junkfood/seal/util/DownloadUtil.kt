@@ -7,6 +7,8 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
+import com.junkfood.seal.Downloader.onProcessFinished
+import com.junkfood.seal.Downloader.onProcessStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -363,9 +365,10 @@ object DownloadUtil {
     }
 
     suspend fun executeCommandInBackground(url: String) {
-        val notificationId = url.toNotificationId()
-        val urlList = url.split(Regex("[\n ]"))
         val template = PreferenceUtil.getTemplate()
+        val taskId = template.name + "_" + url
+        val notificationId = taskId.toNotificationId()
+        val urlList = url.split(Regex("[\n ]"))
         TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
         val request = YoutubeDLRequest(urlList).apply {
             addOption(
@@ -385,17 +388,16 @@ object DownloadUtil {
                 enableCookies()
             }
         }
-
-        App.startService()
+        onProcessStarted()
         kotlin.runCatching {
             var last = System.nanoTime()
-            YoutubeDL.getInstance().execute(request, url) { progress, _, text ->
+            YoutubeDL.getInstance().execute(request, taskId) { progress, _, text ->
                 val now = System.nanoTime()
                 if (now - last > 500L) {
                     last = now
                     NotificationUtil.makeNotificationForCustomCommand(
                         notificationId = notificationId,
-                        taskId = url,
+                        taskId = taskId,
                         progress = progress.toInt(),
                         templateName = template.name,
                         taskUrl = url,
@@ -405,18 +407,20 @@ object DownloadUtil {
             }
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
-                title = template.name + "_" + url,
+                title = taskId,
                 text = context.getString(R.string.status_completed),
+                isCustomCommand = true
             )
         }.onFailure {
             it.printStackTrace()
-            if (it is YoutubeDL.CanceledException) return
+            if (it is YoutubeDL.CanceledException) return@onFailure
             val msg = it.message
             if (msg.isNullOrEmpty())
                 NotificationUtil.finishNotification(
                     notificationId = notificationId,
-                    title = template.name + "_" + url,
+                    title = taskId,
                     text = context.getString(R.string.status_completed),
+                    isCustomCommand = true
                 )
             else {
                 NotificationUtil.makeErrorReportNotificationForCustomCommand(
@@ -425,9 +429,7 @@ object DownloadUtil {
                 )
             }
         }
-
-        App.stopService()
-
+        onProcessFinished()
     }
 
 
