@@ -112,10 +112,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     private fun fetchInfoForFormatSelection(url: String) {
         Downloader.updateState(State.FetchingInfo)
         DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess {
-            if (it.formats.isNullOrEmpty()) {
-                throw Exception(context.getString(R.string.fetch_info_error_msg))
-            }
-            showFormatSelectionPage(it)
+            showFormatSelectionPageOrDownload(it)
         }.onFailure {
             manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true)
         }
@@ -137,7 +134,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
                     is VideoInfo -> {
                         if (PreferenceUtil.getValue(FORMAT_SELECTION, true)) {
-                            showFormatSelectionPage(info)
+                            showFormatSelectionPageOrDownload(info)
                         } else if (isDownloaderAvailable()) {
                             downloadVideoWithInfo(info = info)
                         }
@@ -157,14 +154,17 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun showFormatSelectionPage(info: VideoInfo) {
-        videoInfoFlow.update { info }
-        mutableViewStateFlow.update {
-            it.copy(
-                showFormatSelectionPage = true,
-            )
+    private fun showFormatSelectionPageOrDownload(info: VideoInfo) {
+        if (info.format.isNullOrEmpty())
+            Downloader.downloadVideoWithInfo(info)
+        else {
+            videoInfoFlow.update { info }
+            mutableViewStateFlow.update {
+                it.copy(
+                    showFormatSelectionPage = true,
+                )
+            }
         }
-
     }
 
     fun hidePlaylistDialog() {
