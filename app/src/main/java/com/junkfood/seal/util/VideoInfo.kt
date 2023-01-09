@@ -124,7 +124,6 @@ data class RequestedDownload(
 data class PlaylistResult(
     val uploader: String? = null,
     val availability: String? = null,
-    @SerialName("playlist_count") val playlistCount: Int = 0,
     val channel: String? = null,
     val title: String? = null,
     val description: String? = null,
