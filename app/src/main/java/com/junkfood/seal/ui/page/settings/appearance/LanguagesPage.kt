@@ -7,7 +7,6 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -58,11 +57,11 @@ fun LanguagePage(onBackPressed: () -> Unit) {
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier,
                         text = stringResource(id = R.string.language),
                     )
                 }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                    BackButton {
                         onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior

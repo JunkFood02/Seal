@@ -87,7 +87,7 @@ fun SettingsPage(navController: NavController) {
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction)
                     )
                 },
-                navigationIcon = { BackButton(modifier = Modifier.padding(start = 8.dp)) { navController.popBackStack() } },
+                navigationIcon = { BackButton { navController.popBackStack() } },
                 scrollBehavior = scrollBehavior
             )
         }) {
@@ -97,10 +97,10 @@ fun SettingsPage(navController: NavController) {
             item {
                 Text(
                     modifier = Modifier
-                        .padding(top = 24.dp)
-                        .padding(24.dp),
+                        .padding(top = 32.dp)
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
                     text = stringResource(id = R.string.settings),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.displaySmall
                 )
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

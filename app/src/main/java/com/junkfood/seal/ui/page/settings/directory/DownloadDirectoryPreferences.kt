@@ -28,7 +28,6 @@ import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SdCard
-import androidx.compose.material.icons.outlined.SdStorage
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.TabUnselected
 import androidx.compose.material.icons.outlined.VideoLibrary
@@ -206,11 +205,11 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier,
                         text = stringResource(id = R.string.download_directory),
                     )
                 }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                    BackButton {
                         onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior
@@ -417,7 +416,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                                 contentDescription = null
                             )
                             Text(
-                                modifier = Modifier.padding(start = 8.dp),
+                                modifier = Modifier,
                                 text = stringResource(R.string.yt_dlp_docs)
                             )
                         }

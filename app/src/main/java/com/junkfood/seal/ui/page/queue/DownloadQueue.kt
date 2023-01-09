@@ -36,11 +36,11 @@ fun DownloadQueuePage(onBackPressed: () -> Unit = {}) {
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier,
                         text = stringResource(id = R.string.download_queue),
                     )
                 }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                    BackButton {
                         onBackPressed()
                     }
                 }, scrollBehavior = scrollBehavior

@@ -97,21 +97,19 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
         topBar = {
             LargeTopAppBar(title = {
                 Text(
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier,
                     text = stringResource(id = R.string.custom_command),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }, navigationIcon = {
-                BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                BackButton {
                     onBackPressed()
                 }
             }, actions = {
                 var expanded by remember { mutableStateOf(false) }
                 Box(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .wrapContentSize(Alignment.TopEnd)
+                    modifier = Modifier.wrapContentSize(Alignment.TopEnd)
                 ) {
                     IconButton(onClick = { expanded = true }) {
                         Icon(

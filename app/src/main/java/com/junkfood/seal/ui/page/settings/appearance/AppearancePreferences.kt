@@ -95,11 +95,11 @@ fun AppearancePreferences(
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier,
                         text = stringResource(id = R.string.display),
                     )
                 }, navigationIcon = {
-                    BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                    BackButton {
                         navController.popBackStack()
                     }
                 }, scrollBehavior = scrollBehavior

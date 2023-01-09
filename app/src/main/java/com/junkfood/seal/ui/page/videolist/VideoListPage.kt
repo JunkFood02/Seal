@@ -9,7 +9,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -223,12 +222,12 @@ fun VideoListPage(
             LargeTopAppBar(
                 title = {
                     Text(
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier,
                         text = stringResource(R.string.downloads_history)
                     )
                 },
                 navigationIcon = {
-                    BackButton(Modifier.padding(start = 8.dp)) {
+                    BackButton {
                         onBackPressed()
                     }
                 }, actions = {

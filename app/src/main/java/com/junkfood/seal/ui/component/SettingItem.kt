@@ -24,7 +24,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp),
+                .padding(8.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {

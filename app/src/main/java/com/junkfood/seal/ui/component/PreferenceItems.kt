@@ -64,7 +64,7 @@ fun PreferenceItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp),
+                .padding(8.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             when (icon) {
@@ -131,7 +131,7 @@ fun PreferenceItemVariant(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp, 16.dp),
+                .padding(8.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -186,7 +186,7 @@ fun PreferenceSingleChoiceItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 28.dp),
+                .padding(horizontal = 8.dp, vertical = 28.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -283,7 +283,7 @@ fun PreferenceSwitch(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp),
+                .padding(8.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -352,7 +352,7 @@ fun PreferenceSwitchWithDivider(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp)
+                .padding(8.dp, 20.dp)
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -402,7 +402,7 @@ fun PreferencesCautionCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 8.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(MaterialTheme.colorScheme.errorContainer.harmonizeWithPrimary())
             .clickable { onClick() }
@@ -460,7 +460,7 @@ fun PreferencesHintCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 8.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(backgroundColor)
             .clickable { onClick() }
@@ -533,7 +533,7 @@ fun PreferenceSwitchWithContainer(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 8.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(with(MaterialTheme.colorScheme) {
                 if (isChecked) primaryContainer else outline
@@ -639,7 +639,7 @@ fun TemplateItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 16.dp),
+                .padding(8.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -690,7 +690,7 @@ fun PreferenceSubtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 24.dp, top = 28.dp, bottom = 12.dp),
+            .padding(start = 18.dp, top = 24.dp, bottom = 12.dp),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )
@@ -704,7 +704,7 @@ fun PreferenceInfo(
     applyPaddings: Boolean = true
 ) {
     Column(modifier = modifier.apply {
-        if (applyPaddings) padding(horizontal = 24.dp)
+        if (applyPaddings) padding(horizontal = 16.dp)
     }) {
         Icon(
             modifier = Modifier.padding(vertical = 12.dp),

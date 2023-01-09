@@ -34,8 +34,8 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.page.settings.general.ytdlpReference
 
 @Composable
-fun BackButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    IconButton(modifier = modifier, onClick = onClick) {
+fun BackButton(onClick: () -> Unit) {
+    IconButton(modifier = Modifier, onClick = onClick) {
         Icon(
             painter = painterResource(R.drawable.outline_arrow_back_24),
             contentDescription = stringResource(R.string.back),

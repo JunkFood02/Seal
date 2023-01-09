@@ -74,7 +74,7 @@ fun GeneralDownloadPreferences(
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
 
 
-    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG,true)) }
+    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG, true)) }
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
     var downloadNotification by remember {
@@ -86,11 +86,14 @@ fun GeneralDownloadPreferences(
     }
 
     var isPreviewDisabled by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) }
-
+    var isNotificationPermissionGranted by remember {
+        mutableStateOf(NotificationUtil.areNotificationsEnabled())
+    }
 
     val notificationPermission =
         if (Build.VERSION.SDK_INT >= 33) rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { status ->
             if (!status) TextUtil.makeToast(context.getString(R.string.permission_denied))
+            else isNotificationPermissionGranted = true
         } else null
 
 
@@ -103,11 +106,11 @@ fun GeneralDownloadPreferences(
         topBar = {
             com.junkfood.seal.ui.component.LargeTopAppBar(title = {
                 Text(
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier,
                     text = stringResource(id = R.string.general_settings),
                 )
             }, navigationIcon = {
-                BackButton(modifier = Modifier.padding(start = 8.dp)) {
+                BackButton {
                     onBackPressed()
                 }
             }, scrollBehavior = scrollBehavior
@@ -154,16 +157,16 @@ fun GeneralDownloadPreferences(
                 item {
                     PreferenceSwitch(title = stringResource(id = R.string.download_notification),
                         description = stringResource(
-                            id = if (NotificationUtil.areNotificationsEnabled()) R.string.download_notification_desc
+                            id = if (isNotificationPermissionGranted) R.string.download_notification_desc
                             else R.string.permission_denied
                         ),
-                        icon = if (!NotificationUtil.areNotificationsEnabled()) Icons.Outlined.NotificationsOff
+                        icon = if (!isNotificationPermissionGranted) Icons.Outlined.NotificationsOff
                         else if (!downloadNotification) Icons.Outlined.Notifications
                         else Icons.Outlined.NotificationsActive,
-                        isChecked = downloadNotification && NotificationUtil.areNotificationsEnabled(),
+                        isChecked = downloadNotification && isNotificationPermissionGranted,
                         onClick = {
                             notificationPermission?.launchPermissionRequest()
-                            if (NotificationUtil.areNotificationsEnabled()) {
+                            if (isNotificationPermissionGranted) {
                                 if (downloadNotification)
                                     NotificationUtil.cancelAllNotifications()
                                 downloadNotification = !downloadNotification
@@ -295,18 +298,18 @@ fun GeneralDownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
 
-/*                item {
-                    PreferenceSwitch(title = stringResource(id = R.string.custom_command),
-                        description = stringResource(
-                            id = R.string.custom_command_desc
-                        ),
-                        icon = Icons.Outlined.Terminal,
-                        isChecked = isCustomCommandEnabled,
-                        onClick = {
-                            isCustomCommandEnabled = !isCustomCommandEnabled
-                            PreferenceUtil.updateValue(CUSTOM_COMMAND, isCustomCommandEnabled)
-                        })
-                }*/
+                /*                item {
+                                    PreferenceSwitch(title = stringResource(id = R.string.custom_command),
+                                        description = stringResource(
+                                            id = R.string.custom_command_desc
+                                        ),
+                                        icon = Icons.Outlined.Terminal,
+                                        isChecked = isCustomCommandEnabled,
+                                        onClick = {
+                                            isCustomCommandEnabled = !isCustomCommandEnabled
+                                            PreferenceUtil.updateValue(CUSTOM_COMMAND, isCustomCommandEnabled)
+                                        })
+                                }*/
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),
