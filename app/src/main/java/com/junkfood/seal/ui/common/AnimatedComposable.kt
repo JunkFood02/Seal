@@ -6,7 +6,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
@@ -58,15 +57,17 @@ fun NavGraphBuilder.animatedComposable(
     content = content
 )
 
-const val duration = 350
-const val initialOffset = 0.08f
+const val duration = 500
+const val initialOffset = 0.15f
+
 //cubic-bezier(.4,.75,.45,1)
-val easing = CubicBezierEasing(.2f,.7f,.2f,1f)
-val tweenSpec = tween<Float>(durationMillis = duration, easing = easing)
-val tweenSpecInt = tween<IntOffset>(durationMillis = duration, easing = easing)
+val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+val standardDecelerate = CubicBezierEasing(.0f, .0f, 0f, 1f)
+val tweenSpec = tween<Float>(durationMillis = duration, easing = emphasizedDecelerate)
+val tweenSpecInt = tween<IntOffset>(durationMillis = duration, easing = emphasizedDecelerate)
 val springSpec = spring<Float>(
     dampingRatio = Spring.DampingRatioNoBouncy,
-    stiffness = 5000f,
+    stiffness = Spring.StiffnessMedium,
 )
 
 fun slideInHorizontally(
