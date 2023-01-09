@@ -271,4 +271,5 @@
     <string name="custom_command_usage_msg" translatable="false"></string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
+    <string name="abs_hint">Most video streaming platforms deliver audio and video separately, you can select and merge an audio-only format with a video-only format to a single video.</string>
 </resources>

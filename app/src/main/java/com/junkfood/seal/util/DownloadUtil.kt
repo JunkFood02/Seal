@@ -102,7 +102,7 @@ object DownloadUtil {
             }
             addOption("-R", "1")
             if (playlistItem != 0) addOption("--playlist-items", playlistItem)
-            else addOption("--playlist--items", 1)
+            else addOption("--playlist-items", "1")
             addOption("--socket-timeout", "5")
         }.run { getVideoInfo(this) }
 

@@ -700,9 +700,12 @@ fun PreferenceSubtitle(
 fun PreferenceInfo(
     modifier: Modifier = Modifier,
     text: String,
-    icon: ImageVector = Icons.Outlined.Info
+    icon: ImageVector = Icons.Outlined.Info,
+    applyPaddings: Boolean = true
 ) {
-    Column(modifier = modifier.padding(horizontal = 24.dp)) {
+    Column(modifier = modifier.apply {
+        if (applyPaddings) padding(horizontal = 24.dp)
+    }) {
         Icon(
             modifier = Modifier.padding(vertical = 12.dp),
             imageVector = icon,
