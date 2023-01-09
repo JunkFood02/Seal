@@ -70,7 +70,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "com.junkfood.seal"
-        minSdk = 23
+        minSdk = 21
         targetSdk = 33
         versionCode = 10720
         versionName = currentVersion.toVersionName().run {

@@ -15,8 +15,10 @@ import android.os.Build
 import android.os.Environment
 import android.os.IBinder
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
@@ -52,8 +54,8 @@ class App : Application() {
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
 
-        clipboard = getSystemService(ClipboardManager::class.java)
-        connectivityManager = getSystemService(ConnectivityManager::class.java)
+        clipboard = getSystemService()!!
+        connectivityManager = getSystemService()!!
 
         applicationScope.launch((Dispatchers.IO)) {
             try {

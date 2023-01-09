@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -56,24 +57,36 @@ import com.junkfood.seal.util.PreferenceUtil
 fun SettingsPage(navController: NavController) {
     val context = LocalContext.current
     val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-    var showBatteryHint by remember { mutableStateOf(!pm.isIgnoringBatteryOptimizations(context.packageName)) }
+    var showBatteryHint by remember {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                !pm.isIgnoringBatteryOptimizations(context.packageName)
+            } else {
+                false
+            }
+        )
+    }
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
+            }
         }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val fraction = CubicBezierEasing(1f,0f,.8f,.4f).transform(scrollBehavior.state.overlappedFraction)
+    val fraction =
+        CubicBezierEasing(1f, 0f, .8f, .4f).transform(scrollBehavior.state.overlappedFraction)
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    stringResource(R.string.settings),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction)
-                )
-            },
+            TopAppBar(
+                title = {
+                    Text(
+                        stringResource(R.string.settings),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction)
+                    )
+                },
                 navigationIcon = { BackButton(modifier = Modifier.padding(start = 8.dp)) { navController.popBackStack() } },
                 scrollBehavior = scrollBehavior
             )
@@ -90,20 +103,23 @@ fun SettingsPage(navController: NavController) {
                     style = MaterialTheme.typography.headlineLarge
                 )
             }
-            item {
-                AnimatedVisibility(
-                    visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
-                ) {
-                    PreferencesHintCard(
-                        title = stringResource(R.string.battery_configuration),
-                        icon = Icons.Rounded.EnergySavingsLeaf,
-                        description = stringResource(R.string.battery_configuration_desc),
-                        isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                item {
+                    AnimatedVisibility(
+                        visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
                     ) {
-                        launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                            data = Uri.parse("package:${context.packageName}")
-                        })
-                        showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
+                        PreferencesHintCard(
+                            title = stringResource(R.string.battery_configuration),
+                            icon = Icons.Rounded.EnergySavingsLeaf,
+                            description = stringResource(R.string.battery_configuration_desc),
+                            isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+                        ) {
+                            launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                data = Uri.parse("package:${context.packageName}")
+                            })
+                            showBatteryHint =
+                                !pm.isIgnoringBatteryOptimizations(context.packageName)
+                        }
                     }
                 }
             }
