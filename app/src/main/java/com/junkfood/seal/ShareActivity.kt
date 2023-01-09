@@ -1,9 +1,16 @@
 package com.junkfood.seal
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,9 +29,37 @@ import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.page.download.DownloadSettingDialog
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.TextUtil
+
+private const val TAG = "ShareActivity"
 
 class ShareActivity : ComponentActivity() {
+    private var url: String = ""
+    private fun handleShareIntent(intent: Intent) {
+        Log.d(TAG, "handleShareIntent: $intent")
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                intent.dataString?.let {
+                    url = it
+                }
+            }
+
+            Intent.ACTION_SEND -> {
+                intent.getStringExtra(Intent.EXTRA_TEXT)
+                    ?.let { sharedContent ->
+                        intent.removeExtra(Intent.EXTRA_TEXT)
+                        TextUtil.matchUrlFromSharedText(sharedContent)
+                            .let { matchedUrl ->
+                                url = matchedUrl
+                            }
+                    }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -32,6 +67,11 @@ class ShareActivity : ComponentActivity() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        handleShareIntent(intent)
 
         setContent {
             SealTheme(
@@ -44,28 +84,22 @@ class ShareActivity : ComponentActivity() {
                 LaunchedEffect(showDialog) {
                     if (!showDialog) finish()
                 }
-                if (showDialog)
-                    AlertDialog(onDismissRequest = { showDialog = false },
-                        title = { Text(text = "Title") },
-                        confirmButton = { ConfirmButton { showDialog = false } })
+                DownloadSettingDialog(
+                    useDialog = true,
+                    dialogState = showDialog,
+                    isShareActivity = true,
+                    drawerState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
+                    confirm = {
+                        Downloader.getInfoAndDownload(url)
+                    }) { showDialog = false }
+
 
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SealTheme {
-        Greeting("Android")
+    override fun onNewIntent(intent: Intent?) {
+        intent?.let { handleShareIntent(it) }
+        super.onNewIntent(intent)
     }
 }

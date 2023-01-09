@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
+import com.junkfood.seal.ShareActivity
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
@@ -66,6 +67,7 @@ import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
+import com.junkfood.seal.util.Thumbnail
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalAnimationApi::class,
@@ -75,6 +77,7 @@ import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
 fun DownloadSettingDialog(
     useDialog: Boolean = false,
     dialogState: Boolean = false,
+    isShareActivity: Boolean = false,
     drawerState: ModalBottomSheetState,
     confirm: () -> Unit,
     hide: () -> Unit
@@ -124,13 +127,12 @@ fun DownloadSettingDialog(
                 text = stringResource(R.string.settings_before_download_text),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             DrawerSheetSubtitle(text = stringResource(id = R.string.general_settings))
             Row(
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .selectableGroup()
+                modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
                 FilterChip(
                     selected = audio,
@@ -141,15 +143,16 @@ fun DownloadSettingDialog(
                     },
                     label = stringResource(R.string.extract_audio)
                 )
-                FilterChip(
-                    selected = playlist,
-                    enabled = !customCommand,
-                    onClick = {
-                        playlist = !playlist
-                        updatePreferences()
-                    },
-                    label = stringResource(R.string.download_playlist)
-                )
+                if (!isShareActivity)
+                    FilterChip(
+                        selected = playlist,
+                        enabled = !customCommand,
+                        onClick = {
+                            playlist = !playlist
+                            updatePreferences()
+                        },
+                        label = stringResource(R.string.download_playlist)
+                    )
                 FilterChip(
                     selected = subtitle,
                     enabled = !customCommand && !audio,
@@ -282,20 +285,31 @@ fun DownloadSettingDialog(
             }
         })
     } else if (dialogState) {
-        AlertDialog(onDismissRequest = hide, confirmButton = {
-            TextButton(onClick = downloadButtonCallback) {
-                Text(text = stringResource(R.string.start_download))
-            }
-        }, dismissButton = { DismissButton { hide() } }, icon = {
-            Icon(
-                imageVector = Icons.Outlined.DoneAll,
-                contentDescription = null
-            )
-        }, title = { Text(stringResource(R.string.settings_before_download)) }, text = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                sheetContent()
-            }
-        })
+        AlertDialog(
+            onDismissRequest = hide,
+            confirmButton = {
+                TextButton(onClick = downloadButtonCallback) {
+                    Text(text = stringResource(R.string.start_download))
+                }
+            },
+            dismissButton = { DismissButton { hide() } },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DoneAll,
+                    contentDescription = null
+                )
+            },
+            title = {
+                Text(
+                    stringResource(R.string.settings_before_download),
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    sheetContent()
+                }
+            })
     }
 
 
