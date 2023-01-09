@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
-import com.junkfood.seal.ShareActivity
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
@@ -67,7 +66,6 @@ import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
-import com.junkfood.seal.util.Thumbnail
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalAnimationApi::class,

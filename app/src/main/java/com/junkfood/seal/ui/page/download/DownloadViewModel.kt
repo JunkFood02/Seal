@@ -50,7 +50,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val showFormatSelectionPage: Boolean = false,
         val isUrlSharingTriggered: Boolean = false,
-        val isInDebugMode: Boolean = false
+        val isInDebugMode: Boolean = PreferenceUtil.getValue(DEBUG)
     )
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =

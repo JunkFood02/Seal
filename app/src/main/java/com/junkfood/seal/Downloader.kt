@@ -76,7 +76,7 @@ object Downloader {
     private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
     private val mutableErrorState = MutableStateFlow(ErrorState())
     private val mutableProcessCount = MutableStateFlow(0)
-    val mutableProcessOutput = mutableStateMapOf<String,String>()
+    val mutableProcessOutput = mutableStateMapOf<String, String>()
 
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
@@ -390,8 +390,10 @@ object Downloader {
             YoutubeDL.destroyProcessById(this)
             NotificationUtil.cancelNotification(this.toNotificationId())
         }
-
     }
+
+    fun executeCommandWithUrl(url: String) =
+        applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
 
     fun openDownloadResult() {
         if (taskState.value.progress == 100f) FileUtil.openFileFromResult(downloadResultTemp)

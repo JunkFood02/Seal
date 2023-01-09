@@ -40,7 +40,7 @@
         android:supportsRtl="true"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ShareActivity"
+            android:name=".QuickDownloadActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:label="@string/title_activity_share"
