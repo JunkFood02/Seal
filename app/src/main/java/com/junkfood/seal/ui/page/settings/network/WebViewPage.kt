@@ -61,9 +61,9 @@ private fun Cookie.toNetscapeCookieString(): String {
     )
 }
 
+private val domainRegex = Regex("""http(s)?://(\w*(www|m|account|sso))?|/.*""")
 private fun String.toDomain(): String {
-    val regex = Regex("http(s)?://(www|m)?|/.*")
-    return this.replace(regex, "")
+    return this.replace(domainRegex, "")
 }
 
 private fun makeCookie(url: String, cookieString: String): Cookie {
@@ -91,8 +91,8 @@ fun WebViewPage(
 
     val cookieManager = CookieManager.getInstance()
     val cookieSet = remember { mutableSetOf<Cookie>() }
-
-    val webViewState = rememberWebViewState(state.editingCookieProfile.url)
+    val websiteUrl = state.editingCookieProfile.url
+    val webViewState = rememberWebViewState(websiteUrl)
 
 
 
