@@ -56,6 +56,7 @@ object DownloadUtil {
             with(request) {
                 addOption("--compat-options", "no-youtube-unavailable-videos")
                 addOption("--flat-playlist")
+                addOption("--playlist-items", "1:200")
                 addOption("-J")
                 addOption("-R", "1")
                 addOption("--socket-timeout", "5")
@@ -101,7 +102,7 @@ object DownloadUtil {
             }
             addOption("-R", "1")
             if (playlistItem != 0) addOption("--playlist-items", playlistItem)
-            else addOption("--no-playlist")
+            else addOption("--playlist--items", 1)
             addOption("--socket-timeout", "5")
         }.run { getVideoInfo(this) }
 
@@ -289,6 +290,8 @@ object DownloadUtil {
                 if (playlistItem != 0 && downloadPlaylist) {
                     addOption("--playlist-items", playlistItem)
                     addOption("--compat-options", "no-youtube-unavailable-videos")
+                } else {
+                    addOption("--no-playlist")
                 }
 
                 if (aria2c) {
@@ -317,9 +320,6 @@ object DownloadUtil {
                 if (createThumbnail) {
                     addOption("--write-thumbnail")
                     addOption("--convert-thumbnails", "png")
-                }
-                if (!downloadPlaylist) {
-                    addOption("--no-playlist")
                 }
                 if (subdirectory) {
                     pathBuilder.append("/${videoInfo.extractorKey}")

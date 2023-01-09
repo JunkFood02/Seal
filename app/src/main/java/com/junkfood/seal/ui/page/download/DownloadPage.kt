@@ -137,7 +137,7 @@ fun DownloadPage(
         keyboardController?.hide()
     }
     DisposableEffect(viewState.showPlaylistSelectionDialog) {
-        if (playlistInfo.playlistCount > 1 && viewState.showPlaylistSelectionDialog) navigateToPlaylistPage()
+        if (!playlistInfo.entries.isNullOrEmpty() && viewState.showPlaylistSelectionDialog) navigateToPlaylistPage()
         onDispose { downloadViewModel.hidePlaylistDialog() }
     }
 
