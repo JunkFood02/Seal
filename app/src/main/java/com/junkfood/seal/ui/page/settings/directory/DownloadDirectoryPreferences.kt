@@ -171,6 +171,11 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 if (editingDirectory == Directory.SDCARD) {
                     sdcardUri = it.toString()
                     PreferenceUtil.updateString(SDCARD_URI, sdcardUri)
+                    context.contentResolver?.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
                     return@let
                 }
                 val path = FileUtil.getRealPath(it)

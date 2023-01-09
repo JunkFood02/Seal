@@ -28,20 +28,28 @@ object FileUtil {
     }
 
     fun openFile(path: String) =
-        createIntentForFile(path).runCatching { context.startActivity(this) }
-            .onFailure {
-                TextUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
-            }
+        path.runCatching {
+            createIntentForFile(this)?.run { context.startActivity(this) } ?: throw Exception()
+        }.onFailure {
+            TextUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
+        }
 
 
     fun createIntentForFile(path: String): Intent? {
+
         val uri = path.runCatching {
-            FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                File(this)
-            )
-        }.getOrNull() ?: DocumentFile.fromSingleUri(context, Uri.parse(path))?.uri ?: return null
+            DocumentFile.fromSingleUri(context, Uri.parse(path)).run {
+                if (this?.exists() == true) {
+                    this.uri
+                } else if (File(this@runCatching).exists()) {
+                    FileProvider.getUriForFile(
+                        context,
+                        context.packageName + ".provider",
+                        File(this@runCatching)
+                    )
+                } else null
+            }
+        }.getOrNull() ?: return null
 
         return Intent().apply {
             action = (Intent.ACTION_VIEW)
