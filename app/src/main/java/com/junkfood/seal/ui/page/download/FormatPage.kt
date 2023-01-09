@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.download
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -48,6 +51,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.TextUtil.connectWithBlank
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
@@ -70,6 +74,8 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
 }
 
 
+private const val NOT_SELECTED = -1
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
@@ -88,9 +94,9 @@ fun FormatPageImpl(
         videoInfo.formats.filter { it.acodec != "none" && it.vcodec != "none" }.reversed()
 
     var isSuggestedFormatSelected by remember { mutableStateOf(true) }
-    var selectedVideoAudioFormat by remember { mutableStateOf(-1) }
-    var selectedVideoOnlyFormat by remember { mutableStateOf(-1) }
-    var selectedAudioOnlyFormat by remember { mutableStateOf(-1) }
+    var selectedVideoAudioFormat by remember { mutableStateOf(NOT_SELECTED) }
+    var selectedVideoOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
+    var selectedAudioOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -160,7 +166,6 @@ fun FormatPageImpl(
                     )
                 }
 
-
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }
@@ -179,9 +184,9 @@ fun FormatPageImpl(
                         onLongClick = {}
                     ) {
                         isSuggestedFormatSelected = true
-                        selectedAudioOnlyFormat = -1
-                        selectedVideoAudioFormat = -1
-                        selectedAudioOnlyFormat - 1
+                        selectedAudioOnlyFormat = NOT_SELECTED
+                        selectedVideoAudioFormat = NOT_SELECTED
+                        selectedAudioOnlyFormat = NOT_SELECTED
                     }
                 }
             }
@@ -201,12 +206,13 @@ fun FormatPageImpl(
                         }
                     }
                 ) {
-                    selectedVideoAudioFormat = if (selectedVideoAudioFormat == index) -1 else {
-                        selectedAudioOnlyFormat = -1
-                        selectedVideoOnlyFormat = -1
-                        isSuggestedFormatSelected = false
-                        index
-                    }
+                    selectedVideoAudioFormat =
+                        if (selectedVideoAudioFormat == index) NOT_SELECTED else {
+                            selectedAudioOnlyFormat = NOT_SELECTED
+                            selectedVideoOnlyFormat = NOT_SELECTED
+                            isSuggestedFormatSelected = false
+                            index
+                        }
                 }
             }
 
@@ -230,13 +236,13 @@ fun FormatPageImpl(
                         }
                     }
                 ) {
-                    selectedAudioOnlyFormat = if (selectedAudioOnlyFormat == index) -1 else {
-                        selectedVideoAudioFormat = -1
-                        isSuggestedFormatSelected = false
-                        index
-                    }
+                    selectedAudioOnlyFormat =
+                        if (selectedAudioOnlyFormat == index) NOT_SELECTED else {
+                            selectedVideoAudioFormat = NOT_SELECTED
+                            isSuggestedFormatSelected = false
+                            index
+                        }
                 }
-
             }
 
             if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
@@ -258,13 +264,24 @@ fun FormatPageImpl(
                         }
                     }
                 ) {
-                    selectedVideoOnlyFormat = if (selectedVideoOnlyFormat == index) -1 else {
-                        selectedVideoAudioFormat = -1
-                        isSuggestedFormatSelected = false
-                        index
-                    }
+                    selectedVideoOnlyFormat =
+                        if (selectedVideoOnlyFormat == index) NOT_SELECTED else {
+                            selectedVideoAudioFormat = NOT_SELECTED
+                            isSuggestedFormatSelected = false
+                            index
+                        }
                 }
             }
+
+            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    PreferenceInfo(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        text = stringResource(R.string.abs_hint),
+                        applyPaddings = false
+                    )
+                }
+
             item {
                 Spacer(modifier = Modifier.height(32.dp))
             }
