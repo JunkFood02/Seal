@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_thumbnail_summary">שמור את תמונת השער של הסרטון כקובץ</string>
+    <string name="video_directory">תיקיית סרטונים</string>
+    <string name="extract_audio">שמור כשמע</string>
+    <string name="settings">הגדרות</string>
+    <string name="download_settings_desc">כללי, פורמט, פקודה מותאמת אישית</string>
+    <string name="download">הורדה</string>
+    <string name="url_empty">הקישור לא יכול להיות ריק</string>
+    <string name="extract_audio_summary">הורד ושמור שמע, במקום סרטון</string>
+    <string name="create_thumbnail">שמור תמונת שער</string>
+    <string name="yt_dlp_up_to_date">שימוש בגרסה העדכנית ביותר של yt-dlp</string>
+</resources>

@@ -224,4 +224,6 @@
     <string name="how_does_it_work">使用说明</string>
     <string name="cookies_usage_msg">从某些站点下载需要帐户验证信息。 点击“生成新的 Cookies”，输入网站的 URL，然后在浏览器页面使用你的账户登录，应用将会自动生成并在下载时输入认证信息。</string>
     <string name="telegram_channel">Telegram 频道</string>
+    <string name="matrix_space">Matrix 空间</string>
+    <string name="abs_hint">大部分视频平台将音频流与视频流分开传输，你可以同时选取仅音频格式与仅视频格式，将其合并为一个视频。</string>
 </resources>

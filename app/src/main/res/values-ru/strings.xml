@@ -142,7 +142,7 @@
     <string name="remove_template_desc">Удалить «%1$s» из шаблонов команд навсегда\?</string>
     <string name="template_selection">Выбор шаблона</string>
     <string name="custom_command_template_desc">Редактирование шаблонов команд и управление ими</string>
-    <string name="downloading_indicator_text">Загрузка загрузка в процессе, нажмите, чтобы отменить.</string>
+    <string name="downloading_indicator_text">Загрузка в процессе, нажмите, чтобы отменить.</string>
     <string name="task_canceled">Эта загрузка отменена</string>
     <string name="github_issue_desc">Отправьте сообщение о проблеме для сообщения об ошибке или запроса функции</string>
     <string name="info_copied">Информация, скопированная в буфер обмена</string>
@@ -223,4 +223,6 @@
     <string name="telegram_channel">Telegram канал</string>
     <string name="custom_command_enabled_hint">Некоторые настройки недоступны, когда используется своя команда</string>
     <string name="cookies_usage_msg">Загрузка с некоторых сайтов требует информацию для авторизации аккаунта. Нажмите \"Сгенерировать новые файлы cookie\", введите URL-адрес сайта и затем войдите в ваш аккаунт на странице браузера, приложение создаст это для вас.</string>
+    <string name="matrix_space">Матричное пространство</string>
+    <string name="cookies">Cookies</string>
 </resources>

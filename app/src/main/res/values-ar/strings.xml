@@ -223,4 +223,6 @@
     <string name="how_does_it_work">كيف يعمل؟</string>
     <string name="telegram_channel">قناة التيليجرام</string>
     <string name="cookies_usage_msg">يتطلب التنزيل من بعض المواقع معلومات مصادقة الحساب. انقر فوق \"إنشاء ملفات تعريف ارتباط جديدة\" ، وأدخل عنوان URL لموقع الويب ، ثم قم بتسجيل الدخول باستخدام حسابك في صفحة المتصفح ، وسيقوم التطبيق بإنشائه لك.</string>
+    <string name="matrix_space">مساحة ماتريكس</string>
+    <string name="cookies">كوكيز</string>
 </resources>
