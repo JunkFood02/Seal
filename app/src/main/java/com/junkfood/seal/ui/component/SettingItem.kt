@@ -14,7 +14,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.R
+
+
+@Composable
+fun SettingTitle(text: String) {
+    Text(
+        modifier = Modifier
+            .padding(top = 32.dp)
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        text = text,
+        style = MaterialTheme.typography.displaySmall
+    )
+}
 
 @Composable
 fun SettingItem(title: String, description: String, icon: ImageVector?, onClick: () -> Unit) {

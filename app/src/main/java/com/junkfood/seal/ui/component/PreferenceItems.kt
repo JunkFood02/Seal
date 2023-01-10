@@ -460,7 +460,7 @@ fun PreferencesHintCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(backgroundColor)
             .clickable { onClick() }
@@ -533,14 +533,14 @@ fun PreferenceSwitchWithContainer(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(with(MaterialTheme.colorScheme) {
                 if (isChecked) primaryContainer else outline
             }
             )
             .selectable(selected = isChecked) { onClick() }
-            .padding(horizontal = 12.dp, vertical = 20.dp),
+            .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon?.let {
@@ -563,7 +563,7 @@ fun PreferenceSwitchWithContainer(
                     text = title,
                     maxLines = 2,
                     style = preferenceTitle,
-                    color = if (isChecked) colorScheme.onSurfaceVariant else colorScheme.surface
+                    color = if (isChecked) colorScheme.onSurface else colorScheme.surface
                 )
             }
         }
@@ -589,7 +589,7 @@ fun CreditItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 20.dp),
+                .padding(8.dp, 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -703,16 +703,17 @@ fun PreferenceInfo(
     icon: ImageVector = Icons.Outlined.Info,
     applyPaddings: Boolean = true
 ) {
-    Column(modifier = modifier.apply {
-        if (applyPaddings) padding(horizontal = 16.dp)
-    }) {
+    Row(modifier = modifier.run {
+        if (applyPaddings) padding(horizontal = 16.dp, vertical = 16.dp)
+        else this
+    }, verticalAlignment = Alignment.CenterVertically) {
         Icon(
-            modifier = Modifier.padding(vertical = 12.dp),
+            modifier = Modifier.padding(),
             imageVector = icon,
             contentDescription = null
         )
         Text(
-            modifier = Modifier.padding(bottom = 12.dp),
+            modifier = Modifier.padding(start = 16.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium
         )

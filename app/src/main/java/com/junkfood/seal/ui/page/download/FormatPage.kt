@@ -276,7 +276,7 @@ fun FormatPageImpl(
             if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     PreferenceInfo(
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
                         text = stringResource(R.string.abs_hint),
                         applyPaddings = false
                     )

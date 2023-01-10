@@ -67,6 +67,7 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -406,21 +407,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         label = { Text(stringResource(R.string.download_path_template)) },
                         maxLines = 1
                     )
-                    TextButton(
-                        onClick = { uriHandler.openUri(ytdlpOutputTemplateReference) },
-                    ) {
-                        Row {
-                            Icon(
-                                modifier = Modifier.size(18.dp),
-                                imageVector = Icons.Outlined.OpenInNew,
-                                contentDescription = null
-                            )
-                            Text(
-                                modifier = Modifier,
-                                text = stringResource(R.string.yt_dlp_docs)
-                            )
-                        }
-                    }
+                    LinkButton()
                 }
             }
         )

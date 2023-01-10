@@ -32,6 +32,7 @@ val Typography =
         )
     }
 
+@OptIn(ExperimentalTextApi::class)
 private fun TextStyle.applyLinebreak(): TextStyle = this.copy(lineBreak = LineBreak.Paragraph)
 
 @OptIn(ExperimentalTextApi::class)

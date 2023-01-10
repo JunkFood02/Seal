@@ -23,6 +23,7 @@ import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -48,6 +49,7 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.ui.component.SettingTitle
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
@@ -103,17 +105,12 @@ fun GeneralDownloadPreferences(
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            com.junkfood.seal.ui.component.LargeTopAppBar(title = {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.general_settings),
-                )
-            }, navigationIcon = {
-                BackButton {
-                    onBackPressed()
-                }
-            }, scrollBehavior = scrollBehavior
+        topBar =
+        {
+            com.junkfood.seal.ui.component.LargeTopAppBar(
+                title={ Text(text = stringResource(id = R.string.general_settings))}, navigationIcon = {
+                    BackButton { onBackPressed() }
+                }, scrollBehavior = scrollBehavior
             )
         },
         content = {
@@ -125,6 +122,9 @@ fun GeneralDownloadPreferences(
             LazyColumn(
                 modifier = Modifier.padding(it)
             ) {
+//                item {
+//                    SettingTitle(text = stringResource(id = R.string.general_settings))
+//                }
                 if (isCustomCommandEnabled)
                     item {
                         PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))

@@ -50,6 +50,8 @@ import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SettingItem
+import com.junkfood.seal.ui.component.SmallTopAppBar
+import com.junkfood.seal.ui.component.fraction
 import com.junkfood.seal.util.PreferenceUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,20 +75,14 @@ fun SettingsPage(navController: NavController) {
             }
         }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val fraction =
-        CubicBezierEasing(1f, 0f, .8f, .4f).transform(scrollBehavior.state.overlappedFraction)
+
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        stringResource(R.string.settings),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction)
-                    )
-                },
+            SmallTopAppBar(
+                titleText = stringResource(id = R.string.settings),
                 navigationIcon = { BackButton { navController.popBackStack() } },
                 scrollBehavior = scrollBehavior
             )

@@ -232,7 +232,7 @@ fun VideoListPage(
                     }
                 }, actions = {
                     IconToggleButton(
-                        modifier = Modifier.padding(end = 8.dp),
+                        modifier = Modifier,
                         onCheckedChange = { isSelectEnabled = !isSelectEnabled },
                         checked = isSelectEnabled
                     ) {
