@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_url">视频链接</string>
-    <string name="video_directory">视频文件夹</string>
+    <string name="video_directory">视频目录</string>
     <string name="extract_audio">保存为音频</string>
     <string name="create_thumbnail">保存视频封面</string>
     <string name="settings">设置</string>
@@ -72,7 +72,7 @@
     <string name="not_convert">不进行格式转换</string>
     <string name="convert_to">转换为 %1$s 格式</string>
     <string name="format">格式</string>
-    <string name="audio_format_desc">重新编码音频文件将会降低音质并增大文件大小。</string>
+    <string name="audio_format_desc">重新编码音频文件将会降低音质并增大文件大小</string>
     <string name="video_quality">视频画质</string>
     <string name="best_quality">最高画质（默认）</string>
     <string name="video_quality_desc">下载画质不大于所选分辨率与文件大小的最清晰视频</string>
@@ -225,5 +225,9 @@
     <string name="cookies_usage_msg">从某些站点下载需要帐户验证信息。 点击“生成新的 Cookies”，输入网站的 URL，然后在浏览器页面使用你的账户登录，应用将会自动生成并在下载时输入认证信息。</string>
     <string name="telegram_channel">Telegram 频道</string>
     <string name="matrix_space">Matrix 空间</string>
+    <string name="sdcard_directory">SD 卡目录</string>
+    <string name="auto_subtitle">封装自动生成的字幕</string>
+    <string name="auto_subtitle_desc">将自动生成的字幕封装到视频中</string>
+    <string name="title_activity_share">一键下载</string>
     <string name="abs_hint">大部分视频平台将音频流与视频流分开传输，你可以同时选取仅音频格式与仅视频格式，将其合并为一个视频。</string>
 </resources>
