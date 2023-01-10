@@ -217,4 +217,12 @@
     <string name="suggested">Suggerito</string>
     <string name="format_selection">Selezione del formato</string>
     <string name="generate_new_cookies">Genera nuovi cookie</string>
+    <string name="matrix_space">Spazio Matrix</string>
+    <string name="cookies">Cookie</string>
+    <string name="use_cookies">Usa i cookie</string>
+    <string name="remove_cookie_profile_desc">Rimuovere i cookie per «%1$s»\?</string>
+    <string name="custom_command_enabled_hint">Alcune opzioni non sono disponibili quando si utilizza un comando personalizzato</string>
+    <string name="how_does_it_work">Come funziona\?</string>
+    <string name="telegram_channel">Canale Telegram</string>
+    <string name="cookies_usage_msg">La scaricamento da alcuni siti richiede le informazioni di autenticazione dell\'account. Clicca su „Genera nuovi cookie“, inserisci l\'URL del sito web e poi accedi con il tuo account nella pagina del browser: l\'applicazione lo genererà per te.</string>
 </resources>

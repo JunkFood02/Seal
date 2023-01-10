@@ -223,4 +223,7 @@
     <string name="remove_cookie_profile_desc">Видалити cookie для \"%1$s\"\?</string>
     <string name="custom_command_enabled_hint">Під час використання своїх команд деякі опції - недоступні</string>
     <string name="cookies_usage_msg">Деякі сайти потребують автентифікацію для завантаження. Натисніть \"Згенерувати нові cookie\", введіть URL адресу сайту та увійдіть у свій аккаунт на сторінці браузеру для їх створення.</string>
+    <string name="matrix_space">Кімната у Matrix</string>
+    <string name="cookies">Файли cookie</string>
+    <string name="abs_hint">Більшість платформ потокового відео надають аудіо та відео окремо, але ви можете об\'єднати формати \"лише відео\" та \"лише аудіо\" у єдине відео.</string>
 </resources>

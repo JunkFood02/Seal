@@ -223,4 +223,6 @@
     <string name="how_does_it_work">¿Cómo funciona\?</string>
     <string name="telegram_channel">Canal de Telegram</string>
     <string name="cookies_usage_msg">La descarga desde algunos sitios requiere información de autenticación de cuenta. Haz clic en \"Generar nuevas cookies\", introduce la URL del sitio web y, a continuación, inicia sesión con tu cuenta en la página del navegador; la aplicación la generará por ti.</string>
+    <string name="cookies">Cookies</string>
+    <string name="matrix_space">Canal de Matrix</string>
 </resources>
