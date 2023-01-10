@@ -9,16 +9,22 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalSeedColor
+import com.junkfood.seal.ui.common.LocalWindowWidthState
+import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.download.DownloadSettingDialog
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
@@ -60,7 +66,7 @@ class QuickDownloadActivity : ComponentActivity() {
             Downloader.getInfoAndDownload(url)
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -75,31 +81,47 @@ class QuickDownloadActivity : ComponentActivity() {
         handleShareIntent(intent)
 
         setContent {
-            SealTheme(
-                darkTheme = LocalDarkTheme.current.isDarkTheme(),
-                isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                seedColor = LocalSeedColor.current,
-                isDynamicColorEnabled = LocalDynamicColorSwitch.current,
+            val scope = rememberCoroutineScope()
+            SettingsProvider(
+                windowWidthSizeClass = calculateWindowSizeClass(this).widthSizeClass
             ) {
-                val isDialogEnabled = PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true)
-                if (!isDialogEnabled) {
-                    onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
-                    this.finish()
-                }
-
-                var showDialog by remember {
-                    mutableStateOf(isDialogEnabled)
-                }
-                DownloadSettingDialog(
-                    useDialog = true,
-                    dialogState = showDialog,
-                    isShareActivity = true,
-                    drawerState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
-                    confirm = {
+                SealTheme(
+                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                    isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
+                    seedColor = LocalSeedColor.current,
+                    isDynamicColorEnabled = LocalDynamicColorSwitch.current,
+                ) {
+                    val isDialogEnabled = PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true)
+                    if (!isDialogEnabled) {
                         onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
-                    }) {
-                    showDialog = false
-                    this@QuickDownloadActivity.finish()
+                        this.finish()
+                        return@SealTheme
+                    }
+
+                    var showDialog by remember { mutableStateOf(true) }
+                    val drawerState =
+                        rememberModalBottomSheetState(
+                            initialValue = ModalBottomSheetValue.Expanded,
+                            skipHalfExpanded = true
+                        )
+
+                    LaunchedEffect(drawerState.targetValue) {
+                        if (drawerState.targetValue == ModalBottomSheetValue.Hidden)
+                            this@QuickDownloadActivity.finish()
+                    }
+
+                    DownloadSettingDialog(
+                        useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact,
+                        dialogState = showDialog,
+                        isShareActivity = true,
+                        drawerState = drawerState,
+                        confirm = {
+                            onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+                        }) {
+                        scope.launch { drawerState.hide() }
+                        showDialog = false
+                        this@QuickDownloadActivity.finish()
+                    }
                 }
             }
         }

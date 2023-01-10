@@ -34,7 +34,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
-import com.junkfood.seal.ui.common.slideInHorizontallyComposable
+import com.junkfood.seal.ui.common.slideHorizontallyComposable
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
@@ -130,7 +130,7 @@ fun HomeEntry(
             navController = navController,
             startDestination = Route.HOME
         ) {
-            slideInHorizontallyComposable(Route.HOME) {
+            slideHorizontallyComposable(Route.HOME) {
                 DownloadPage(
                     navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
                     navigateToSettings = { navController.navigate(Route.SETTINGS) },
@@ -139,8 +139,8 @@ fun HomeEntry(
                     downloadViewModel = downloadViewModel
                 )
             }
-            slideInHorizontallyComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
-            slideInHorizontallyComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
+            slideHorizontallyComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
+            slideHorizontallyComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
             settingsGraph(navController, cookiesViewModel)
@@ -212,40 +212,40 @@ fun NavGraphBuilder.settingsGraph(
     onBackPressed: () -> Unit = { navController.popBackStack() }
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
-        slideInHorizontallyComposable(Route.DOWNLOAD_DIRECTORY) {
+        slideHorizontallyComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onBackPressed() }
         }
-        slideInHorizontallyComposable(Route.SETTINGS_PAGE) { SettingsPage(navController) }
-        slideInHorizontallyComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
+        slideHorizontallyComposable(Route.SETTINGS_PAGE) { SettingsPage(navController) }
+        slideHorizontallyComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
             GeneralDownloadPreferences(
                 onBackPressed = { onBackPressed() },
             ) { navController.navigate(Route.TEMPLATE) }
         }
-        slideInHorizontallyComposable(Route.DOWNLOAD_FORMAT) { DownloadFormatPreferences { onBackPressed() } }
-        slideInHorizontallyComposable(Route.ABOUT) {
+        slideHorizontallyComposable(Route.DOWNLOAD_FORMAT) { DownloadFormatPreferences { onBackPressed() } }
+        slideHorizontallyComposable(Route.ABOUT) {
             AboutPage(onBackPressed = { onBackPressed() })
             { navController.navigate(Route.CREDITS) }
         }
-        slideInHorizontallyComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
-        slideInHorizontallyComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
-        slideInHorizontallyComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
-        slideInHorizontallyComposable(Route.DOWNLOAD_DIRECTORY) {
+        slideHorizontallyComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
+        slideHorizontallyComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+        slideHorizontallyComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
+        slideHorizontallyComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onBackPressed() }
         }
-        slideInHorizontallyComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
-        slideInHorizontallyComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
-        slideInHorizontallyComposable(Route.NETWORK_PREFERENCES) {
+        slideHorizontallyComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
+        slideHorizontallyComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
+        slideHorizontallyComposable(Route.NETWORK_PREFERENCES) {
             NetworkPreferences(navigateToCookieProfilePage = {
                 navController.navigate(Route.COOKIE_PROFILE)
             }) { onBackPressed() }
         }
-        slideInHorizontallyComposable(Route.COOKIE_PROFILE) {
+        slideHorizontallyComposable(Route.COOKIE_PROFILE) {
             CookieProfilePage(
                 cookiesViewModel = cookiesViewModel,
                 navigateToCookieGeneratorPage = { navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW) },
             ) { onBackPressed() }
         }
-        slideInHorizontallyComposable(
+        slideHorizontallyComposable(
             Route.COOKIE_GENERATOR_WEBVIEW
         ) {
             WebViewPage(cookiesViewModel) { onBackPressed() }

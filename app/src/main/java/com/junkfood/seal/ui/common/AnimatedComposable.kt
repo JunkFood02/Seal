@@ -1,11 +1,14 @@
 package com.junkfood.seal.ui.common
 
 
+import android.graphics.Path
+import android.view.animation.PathInterpolator
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
@@ -25,7 +28,7 @@ import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.animatedComposable(
+fun NavGraphBuilder.fadeThroughComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
@@ -57,15 +60,34 @@ fun NavGraphBuilder.animatedComposable(
     content = content
 )
 
-const val duration = 500
+const val DURATION_ENTER = 400
+const val DURATION_EXIT = 200
 const val initialOffset = 0.15f
 
-//cubic-bezier(.4,.75,.45,1)
-val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
-val standardDecelerate = CubicBezierEasing(.0f, .0f, 0f, 1f)
-val tweenSpec = tween<Float>(durationMillis = duration, easing = emphasizedDecelerate)
-val tweenSpecInt = tween<IntOffset>(durationMillis = duration, easing = emphasizedDecelerate)
-val springSpec = spring<Float>(
+private fun PathInterpolator.toEasing(): Easing {
+    return Easing { f -> this.getInterpolation(f) }
+}
+
+private val path = Path().apply {
+    cubicTo(0.05F, 0F, 0.133333F, 0.06F, 0.166666F, 0.4F)
+    moveTo(0.166666F, 0.4F)
+    cubicTo(0.208333F, 0.82F, 0.25F, 1F, 1F, 1F)
+}
+
+private val emphasizePathInterpolator = PathInterpolator(path)
+private val emphasizeEasing = emphasizePathInterpolator.toEasing()
+private val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
+private val emphasizedAccelerate = CubicBezierEasing(0.3f, 0f, 1f, 1f)
+
+private val standardDecelerate = CubicBezierEasing(.0f, .0f, 0f, 1f)
+private val tweenSpec = tween<Float>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
+
+private val enterTween =
+    tween<IntOffset>(durationMillis = DURATION_ENTER, easing = emphasizedDecelerate)
+private val exitTween =
+    tween<IntOffset>(durationMillis = DURATION_EXIT, easing = emphasizedAccelerate)
+
+private val fadeSpring = spring<Float>(
     dampingRatio = Spring.DampingRatioNoBouncy,
     stiffness = Spring.StiffnessMedium,
 )
@@ -109,7 +131,7 @@ fun slideOutHorizontally(
     )
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.slideInHorizontallyComposable(
+fun NavGraphBuilder.slideHorizontallyComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
@@ -118,10 +140,10 @@ fun NavGraphBuilder.slideInHorizontallyComposable(
     route = route,
     arguments = arguments,
     deepLinks = deepLinks,
-    enterTransition = { slideInHorizontally(tweenSpecInt) + fadeIn(springSpec) },
-    exitTransition = { slideOutHorizontally(tweenSpecInt) + fadeOut(springSpec) },
-    popEnterTransition = { slideInHorizontally(tweenSpecInt, isPop = true) + fadeIn(springSpec) },
-    popExitTransition = { slideOutHorizontally(tweenSpecInt, isPop = true) + fadeOut(springSpec) },
+    enterTransition = { slideInHorizontally(enterTween) + fadeIn(fadeSpring) },
+    exitTransition = { slideOutHorizontally(exitTween) + fadeOut(fadeSpring) },
+    popEnterTransition = { slideInHorizontally(enterTween, isPop = true) + fadeIn(fadeSpring) },
+    popExitTransition = { slideOutHorizontally(exitTween, isPop = true) + fadeOut(fadeSpring) },
     content = content
 )
 

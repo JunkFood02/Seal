@@ -43,7 +43,8 @@ fun SmallTopAppBar(
     title: @Composable () -> Unit = {
         Text(
             text = titleText,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction(scrollBehavior.state.overlappedFraction))
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = fraction(scrollBehavior.state.overlappedFraction)),
+            maxLines = 1
         )
     },
     navigationIcon: @Composable () -> Unit = {},

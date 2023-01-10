@@ -639,7 +639,7 @@ fun TemplateItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp, 16.dp),
+                .padding(16.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(

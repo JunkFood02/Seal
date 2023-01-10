@@ -42,6 +42,7 @@
         <activity
             android:name=".QuickDownloadActivity"
             android:exported="true"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:label="@string/title_activity_share"
             android:theme="@style/Theme.Seal.Dialog">
