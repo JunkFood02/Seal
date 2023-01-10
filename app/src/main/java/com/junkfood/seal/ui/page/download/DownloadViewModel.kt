@@ -91,6 +91,8 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
             return
         }
+        if (!Downloader.isDownloaderAvailable())
+            return
         if (url.isBlank()) {
             showErrorMessage(R.string.url_empty)
             return
