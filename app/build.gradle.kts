@@ -45,7 +45,7 @@ val currentVersion: Version = Version.Beta(
     versionMajor = 1,
     versionMinor = 8,
     versionPatch = 0,
-    versionBuild = 1
+    versionBuild = 2
 )
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -72,7 +72,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 33
-        versionCode = 10720
+        versionCode = 10730
         versionName = currentVersion.toVersionName().run {
             if (!splitApks) "$this-(F-Droid)"
             else this

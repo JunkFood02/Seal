@@ -50,6 +50,7 @@ import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SettingItem
+import com.junkfood.seal.ui.component.SettingTitle
 import com.junkfood.seal.ui.component.SmallTopAppBar
 import com.junkfood.seal.ui.component.fraction
 import com.junkfood.seal.util.PreferenceUtil
@@ -91,13 +92,7 @@ fun SettingsPage(navController: NavController) {
             modifier = Modifier.padding(it)
         ) {
             item {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 32.dp)
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                    text = stringResource(id = R.string.settings),
-                    style = MaterialTheme.typography.displaySmall
-                )
+                SettingTitle(text = stringResource(id = R.string.settings))
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 item {
