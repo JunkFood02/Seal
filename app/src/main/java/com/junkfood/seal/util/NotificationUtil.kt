@@ -85,7 +85,7 @@ object NotificationUtil {
         title: String? = null,
         text: String? = null,
         intent: PendingIntent? = null,
-        isCustomCommand:Boolean=false
+        isCustomCommand: Boolean = false
     ) {
         Log.d(TAG, "finishNotification: ")
         notificationManager.cancel(notificationId)

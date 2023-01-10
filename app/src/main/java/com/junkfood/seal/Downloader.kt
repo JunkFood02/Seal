@@ -262,24 +262,24 @@ object Downloader {
                 notificationId = notificationId,
                 isTaskAborted = !isDownloadingPlaylist
             )
-        }
-            .onSuccess {
-                if (!isDownloadingPlaylist) finishProcessing()
-                if (it.isEmpty()) return@onSuccess
-                FileUtil.createIntentForFile(it.first()).run {
-                    NotificationUtil.finishNotification(
-                        notificationId,
-                        title = videoInfo.title,
-                        text = context.getString(R.string.download_finish_notification),
-                        intent = if (this != null) PendingIntent.getActivity(
-                            context,
-                            0,
-                            this,
-                            PendingIntent.FLAG_IMMUTABLE
-                        ) else null
-                    )
-                }
+        }.onSuccess {
+            if (!isDownloadingPlaylist) finishProcessing()
+            val text =
+                context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
+            FileUtil.createIntentForFile(it.first()).run {
+                NotificationUtil.finishNotification(
+                    notificationId,
+                    title = videoInfo.title,
+                    text = text,
+                    intent = if (this != null) PendingIntent.getActivity(
+                        context,
+                        0,
+                        this,
+                        PendingIntent.FLAG_IMMUTABLE
+                    ) else null
+                )
             }
+        }
     }
 
     fun downloadVideoInPlaylistByIndexList(
