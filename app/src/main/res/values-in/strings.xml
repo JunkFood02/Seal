@@ -223,4 +223,7 @@
     <string name="remove_cookie_profile_desc">Hapus kuki untuk \"%1$s\"\?</string>
     <string name="cookies_usage_msg">Mengunduh dari beberapa situs memerlukan informasi autentikasi akun. Klik \"Buat kuki baru\", masukkan URL situs web dan kemudian masuk dengan akun Anda di halaman browser, aplikasi akan membuatnya untuk Anda.</string>
     <string name="telegram_channel">Saluran Telegram</string>
+    <string name="matrix_space">Space Matrix</string>
+    <string name="cookies">Kuki</string>
+    <string name="abs_hint">Sebagian besar platform streaming video menayangkan audio dan video secara terpisah, Anda dapat memilih dan menggabungkan format audio saja dengan format video saja ke satu video.</string>
 </resources>

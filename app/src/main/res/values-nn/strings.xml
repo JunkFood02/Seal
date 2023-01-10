@@ -150,7 +150,7 @@
     <string name="private_directory">Privat mappe</string>
     <string name="private_directory_desc">Gøym hentingar i ein skjult mappe</string>
     <string name="crop_artwork">Kutt kunstverk</string>
-    <string name="crop_artwork_desc">Kutt innebygd bilete til eit kvadrat</string>
+    <string name="crop_artwork_desc">Skjer innbygt bilete til eit kvadrat</string>
     <string name="download_selection_desc">Vel videoar som skal verta henta ifrå spelelista «%1$s»</string>
     <string name="select_all">Vel alle/alt</string>
     <string name="selected_item_count">%1$d vald(e)</string>
@@ -213,4 +213,16 @@
     <string name="how_does_it_work">Korleis verkar det\?</string>
     <string name="cookies_usage_msg">Henting ifrå somme nettstadar krev kontostadfestingsopplysingar. Trykk på «lag nye infokapslar», skriv inn nettadressa til nettstaden, og logg deg so inn i nettlesersida som appen fører deg til.</string>
     <string name="telegram_channel">Telegram-sambandsline</string>
+    <string name="generate_new_cookies">Lag nye informasjonskapslar</string>
+    <string name="download_with_cellular_desc">Gje løyve til henting av media når sambunden til forbruksmålte nettverk</string>
+    <string name="settings_before_download_text">Still inn denne hentinga</string>
+    <string name="download_desc">Trykk so på «hent» etter å ha stilt inn innstillingane.</string>
+    <string name="share_fail_msg">Kunne ikkje samsvare nettadresse ifrå delt innhald</string>
+    <string name="cookies">Informasjonskapslar</string>
+    <string name="invalid_input">Ugild innmating</string>
+    <string name="rate_limit_desc">Set ei grense for kvar kjapt hentingar kan gå</string>
+    <string name="matrix_space">Matriserom</string>
+    <string name="rate_limit">Rateavgrensing</string>
+    <string name="max_rate">Øvre rategrense</string>
+    <string name="network_settings_desc">Rategrense, hentar, infokapslar</string>
 </resources>

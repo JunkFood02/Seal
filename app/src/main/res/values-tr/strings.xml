@@ -217,4 +217,12 @@
     <string name="suggested">Önerilen</string>
     <string name="format_selection">Biçim seçimi</string>
     <string name="generate_new_cookies">Yeni çerezler oluştur</string>
+    <string name="matrix_space">Matrix alanı</string>
+    <string name="cookies">Çerezler</string>
+    <string name="use_cookies">Çerezleri kullan</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" karşılığında çerezleri kaldır\?</string>
+    <string name="custom_command_enabled_hint">Bazı seçenekler özel komut kullanırken kullanılamaz</string>
+    <string name="how_does_it_work">Nasıl çalışıyor\?</string>
+    <string name="telegram_channel">Telegram kanalı</string>
+    <string name="cookies_usage_msg">Bazı sitelerden indirmek için hesap doğrulaması gerekir. \"Yeni çerezler üret\"e tıkla, sitenin URL\'sini gir ve sonra tarayıcı sayfasından hesabına gir, uygulama senin için bir tane oluşturacak.</string>
 </resources>

@@ -41,12 +41,12 @@
     <string name="credits">Kreditlər</string>
     <string name="credits_desc">Kreditlər və pulsuz proqram təminatı</string>
     <string name="custom_command">Fərdi komandanlıq</string>
-    <string name="custom_command_desc">Fərdi şablon ilə yt-dlp əmrini işə sal</string>
+    <string name="custom_command_desc">yt-dlp əmrini, fərdi şablonla işlət</string>
     <string name="custom_command_template">Komandanlıq şablonu</string>
     <string name="edit">Redaktə et</string>
     <string name="start_execute">Əmri icra etməyə başla</string>
     <string name="advanced_settings">Qabaqcıl</string>
-    <string name="print_details">Ətraflı hasilat</string>
+    <string name="print_details">Ətraflı debit</string>
     <string name="print_details_desc">Endirərkən ətraflı mesajları çap et</string>
     <string name="display">İnterfeys</string>
     <string name="display_settings">Qaranlıq mövzu, dinamikalı rəng, dillər</string>
@@ -179,7 +179,7 @@
     <string name="lowest_quality">Ən aşağı keyfiyyət</string>
     <string name="unavailable">Əlçatan deyil</string>
     <string name="general_settings_desc">Yt-dlp versiyası, bildiriş, pleylist</string>
-    <string name="network_settings_desc">Sürət limiti, endirici, kukilər</string>
+    <string name="network_settings_desc">Sürət limiti, endirici, məlumat bazası</string>
     <string name="disable_preview">Önizləməni deaktiv et</string>
     <string name="disable_preview_desc">Endirmələrdə önizləməni deaktiv et</string>
     <string name="privacy">Məxfilik</string>
@@ -200,7 +200,7 @@
     <string name="multiselect_item_count">%1$d video, %2$d səs faylı</string>
     <string name="template_exported">İxrac edilmiş %1$d şablon</string>
     <string name="template_imported">İdxal edilmiş %1$d şablon</string>
-    <string name="cookies_desc">Endirmələr üçün Netscape formatlı kukiləri istifadə et</string>
+    <string name="cookies_desc">Endirmələr üçün Netscape formatlı məlumat bazası istifadə et</string>
     <string name="sponsorblock_categories_desc">Video fayldan təmizlənəcək SponsorBlock kateqoriyalarını müəyyənləşdir</string>
     <string name="clear_temp_files_desc">Endirmə kataloqundan bütün müvəqqəti faylları sil</string>
     <string name="multiselect_mode">Çoxseçimli rejim</string>
@@ -216,11 +216,14 @@
     <string name="format_selection">Format seçimi</string>
     <string name="suggested">Məsləhət görülən</string>
     <string name="format_selection_desc">Endirməyə başlamazdan əvvəl endirmək üçün format seç</string>
-    <string name="generate_new_cookies">Yeni kukilər yarat</string>
-    <string name="use_cookies">Kukilər istifadə et</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\" üçün kukilər təmizlənsin\?</string>
+    <string name="generate_new_cookies">Yeni məlumat bazası yarat</string>
+    <string name="use_cookies">Məlumat bazası istifadə et</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" üçün məlumat bazası təmizlənsin\?</string>
     <string name="custom_command_enabled_hint">Fərdi əmr istifadə edərkən bəzi seçimlər əlçatan olmur</string>
     <string name="how_does_it_work">O necə işləyir\?</string>
-    <string name="cookies_usage_msg">Bəzi saytlardan endirərkən hesab təsdiqlənməsi məlumatı tələb olunur. \"Yeni kukilər yarat\" düyməsini kliklə, vebsayt URL-ni daxil et və sonra brauzer səhifəsində hesabınızla daxil olun, tətbiq sizin üçün onu yaradacaq.</string>
+    <string name="cookies_usage_msg">Bəzi saytlardan endirərkən hesab təsdiqlənməsi məlumatı tələb olunur. \"Yeni məlumat bazası yarat\" düyməsini kliklə, vebsayt URL-ni daxil et və sonra brauzer səhifəsində hesabınızla daxil olun, tətbiq sizin üçün onu yaradacaq.</string>
     <string name="telegram_channel">Telegram kanalı</string>
+    <string name="cookies">Məlumat bazası</string>
+    <string name="matrix_space">Matrix məkanı</string>
+    <string name="abs_hint">Əksər video yayım platformaları səs və videonu ayrı çatdırır, siz bir video üçün yalnız video formatı ilə yalnız səs formatını seçib, birləşdirə bilərsiniz.</string>
 </resources>
