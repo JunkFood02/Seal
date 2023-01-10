@@ -105,8 +105,8 @@ class QuickDownloadActivity : ComponentActivity() {
                             skipHalfExpanded = true
                         )
 
-                    LaunchedEffect(drawerState.targetValue) {
-                        if (drawerState.targetValue == ModalBottomSheetValue.Hidden)
+                    LaunchedEffect(drawerState.targetValue, showDialog) {
+                        if (drawerState.targetValue == ModalBottomSheetValue.Hidden || !showDialog)
                             this@QuickDownloadActivity.finish()
                     }
 
@@ -120,7 +120,6 @@ class QuickDownloadActivity : ComponentActivity() {
                         }) {
                         scope.launch { drawerState.hide() }
                         showDialog = false
-                        this@QuickDownloadActivity.finish()
                     }
                 }
             }

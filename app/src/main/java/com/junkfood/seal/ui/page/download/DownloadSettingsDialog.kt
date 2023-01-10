@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.horizontalScroll
@@ -35,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,6 +68,7 @@ import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
 import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
 import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
+import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalAnimationApi::class,
@@ -96,6 +99,7 @@ fun DownloadSettingDialog(
 
     val templateList by templateStateFlow.collectAsStateWithLifecycle(ArrayList())
     val scrollState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(templateList.size, customCommand) {
         if (customCommand) {
@@ -104,12 +108,14 @@ fun DownloadSettingDialog(
         }
     }
     val updatePreferences = {
-        PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
-        PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
-        PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
-        PreferenceUtil.updateValue(PLAYLIST, playlist)
-        PreferenceUtil.updateValue(SUBTITLE, subtitle)
-        PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+        scope.launch {
+            PreferenceUtil.updateValue(EXTRACT_AUDIO, audio)
+            PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
+            PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
+            PreferenceUtil.updateValue(PLAYLIST, playlist)
+            PreferenceUtil.updateValue(SUBTITLE, subtitle)
+            PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+        }
     }
 
     val downloadButtonCallback = {
@@ -323,7 +329,15 @@ fun DownloadSettingDialog(
     }
     when (showCustomCommandDialog) {
         (-1) -> CommandTemplateDialog(
-            onDismissRequest = { showCustomCommandDialog = 0 })
+            onDismissRequest = { showCustomCommandDialog = 0 },
+            confirmationCallback = {
+                scope.launch {
+                    selectedTemplateId = it
+                    PreferenceUtil.updateInt(TEMPLATE_ID, it)
+                    templateList.indexOfFirst { it.id == selectedTemplateId }
+                        .run { if (!equals(-1)) scrollState.scrollToItem(this) }
+                }
+            })
 
         (1) -> CommandTemplateDialog(commandTemplate = templateList.find { it.id == selectedTemplateId }
             ?: CommandTemplate(0, "", ""),

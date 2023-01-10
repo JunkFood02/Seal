@@ -157,17 +157,17 @@ object DownloadUtil {
 
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")
-            .addOption("--external-downloader-args", "aria2c:\"--summary-interval=500\"")
+            .addOption("--external-downloader-args", "aria2c:\"--summary-interval=120\"")
 
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
         downloadPreferences: DownloadPreferences,
-    ): YoutubeDLRequest {
-        return this.apply {
+    ): YoutubeDLRequest =
+        this.apply {
             downloadPreferences.run {
                 if (formatId.isNotEmpty())
                     addOption("-f", formatId)
                 else
-                    addOption("-S", toVideoFormatSorter())
+                    addOption("-S", this.toVideoFormatSorter())
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
@@ -178,9 +178,10 @@ object DownloadUtil {
                         addOption("--sub-lang", "all,-live_chat")
                     }
                 }
+                addOption("--embed-chapters")
             }
         }
-    }
+
 
     @CheckResult
     private fun DownloadPreferences.toVideoFormatSorter(): String =
@@ -212,18 +213,17 @@ object DownloadUtil {
             addOption("-x")
             if (formatId.isNotEmpty())
                 addOption("-f", formatId)
-            else
+            else {
                 when (audioFormat) {
                     1 -> {
                         addOption("--audio-format", "mp3")
-                        addOption("--audio-quality", "0")
                     }
 
                     2 -> {
                         addOption("--audio-format", "m4a")
-                        addOption("--audio-quality", "0")
                     }
                 }
+            }
             addOption("--embed-metadata")
             addOption("--embed-thumbnail")
             addOption("--convert-thumbnails", "jpg")

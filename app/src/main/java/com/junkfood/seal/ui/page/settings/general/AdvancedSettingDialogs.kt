@@ -51,7 +51,7 @@ fun CommandTemplateDialog(
     commandTemplate: CommandTemplate = CommandTemplate(0, "", ""),
     newTemplate: Boolean = commandTemplate.id == 0,
     onDismissRequest: () -> Unit = {},
-    confirmationCallback: () -> Unit = {},
+    confirmationCallback: (Int) -> Unit = {},
 ) {
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
@@ -74,20 +74,22 @@ fun CommandTemplateDialog(
                     isError = true
                 } else {
                     scope.launch {
-                        if (newTemplate) {
+                        val id = if (newTemplate) {
                             DatabaseUtil.insertTemplate(
                                 CommandTemplate(0, templateName, templateText)
-                            )
+                            ).toInt()
+
                         } else {
                             DatabaseUtil.updateTemplate(
                                 commandTemplate.copy(
                                     name = templateName, template = templateText
                                 )
                             )
+                            commandTemplate.id
                         }
+                        confirmationCallback(id)
+                        onDismissRequest()
                     }
-                    confirmationCallback()
-                    onDismissRequest()
                 }
             }
         },

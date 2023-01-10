@@ -47,7 +47,7 @@ object DatabaseUtil {
     suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)
     suspend fun deleteInfoById(id: Int) = dao.deleteInfoById(id)
 
-    suspend fun insertTemplate(commandTemplate: CommandTemplate): Long =
+    suspend fun insertTemplate(commandTemplate: CommandTemplate) =
         dao.insertTemplate(commandTemplate)
 
     suspend fun updateTemplate(commandTemplate: CommandTemplate) {
