@@ -59,6 +59,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -88,6 +89,7 @@ import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.DEBUG
 import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
 import com.junkfood.seal.util.TextUtil
 import kotlinx.coroutines.launch
@@ -96,7 +98,6 @@ import kotlinx.coroutines.launch
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterialApi::class,
-    ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class,
     ExperimentalLifecycleComposeApi::class
 )
@@ -154,7 +155,12 @@ fun DownloadPage(
         }
         onDispose { downloadViewModel.hideFormatPage() }
     }
-
+    var showOutput by remember {
+        mutableStateOf(PreferenceUtil.getValue(DEBUG))
+    }
+    LaunchedEffect(downloaderState) {
+        showOutput = PreferenceUtil.getValue(DEBUG) && downloaderState !is Downloader.State.Idle
+    }
     if (viewState.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
         downloadCallback()
@@ -184,6 +190,7 @@ fun DownloadPage(
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             showVideoCard = showVideoCard,
+            showOutput = showOutput,
             showDownloadProgress = taskState.taskId.isNotEmpty(),
             pasteCallback = {
                 TextUtil.matchUrlFromClipboard(clipboardManager.getText().toString())
@@ -209,7 +216,7 @@ fun DownloadPage(
 }
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun DownloadPageImpl(
@@ -218,6 +225,7 @@ fun DownloadPageImpl(
     viewState: DownloadViewModel.ViewState,
     errorState: Downloader.ErrorState,
     showVideoCard: Boolean = false,
+    showOutput: Boolean = false,
     showDownloadProgress: Boolean = false,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
@@ -306,7 +314,7 @@ fun DownloadPageImpl(
                     AnimatedVisibility(
                         enter = expandVertically() + fadeIn(),
                         exit = shrinkVertically() + fadeOut(),
-                        visible = viewState.isInDebugMode && progressText.isNotEmpty()
+                        visible = progressText.isNotEmpty() && showOutput
                     ) {
                         Text(
                             modifier = Modifier.padding(bottom = 12.dp),

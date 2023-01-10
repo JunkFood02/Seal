@@ -50,7 +50,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         val showDownloadSettingDialog: Boolean = false,
         val showFormatSelectionPage: Boolean = false,
         val isUrlSharingTriggered: Boolean = false,
-        val isInDebugMode: Boolean = PreferenceUtil.getValue(DEBUG)
     )
 
     fun updateUrl(url: String, isUrlSharingTriggered: Boolean = false) =
@@ -77,12 +76,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun startDownloadVideo() {
         val url = viewStateFlow.value.url
         Downloader.clearErrorState()
-        mutableViewStateFlow.update {
-            it.copy(
-                isInDebugMode =
-                PreferenceUtil.getValue(DEBUG, true)
-            )
-        }
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             showErrorMessage(R.string.download_disabled_with_cellular)
             return

@@ -1,6 +1,7 @@
 package com.junkfood.seal
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -74,11 +75,22 @@ class QuickDownloadActivity : ComponentActivity() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
+        window.setBackgroundDrawable(ColorDrawable(0))
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
         handleShareIntent(intent)
+        val isDialogEnabled = PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true)
+
+        if (url.isEmpty()) {
+            finish()
+        }
+
+        if (!isDialogEnabled) {
+            onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+            this.finish()
+        }
 
         setContent {
             val scope = rememberCoroutineScope()
@@ -91,12 +103,7 @@ class QuickDownloadActivity : ComponentActivity() {
                     seedColor = LocalSeedColor.current,
                     isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
-                    val isDialogEnabled = PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true)
-                    if (!isDialogEnabled) {
-                        onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
-                        this.finish()
-                        return@SealTheme
-                    }
+
 
                     var showDialog by remember { mutableStateOf(true) }
                     val drawerState =
@@ -105,8 +112,8 @@ class QuickDownloadActivity : ComponentActivity() {
                             skipHalfExpanded = true
                         )
 
-                    LaunchedEffect(drawerState.targetValue, showDialog) {
-                        if (drawerState.targetValue == ModalBottomSheetValue.Hidden || !showDialog)
+                    LaunchedEffect(drawerState.currentValue, showDialog) {
+                        if (drawerState.currentValue == ModalBottomSheetValue.Hidden || !showDialog)
                             this@QuickDownloadActivity.finish()
                     }
 
