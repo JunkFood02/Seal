@@ -250,7 +250,7 @@ object DownloadUtil {
     private fun scanVideoIntoDownloadHistory(
         videoInfo: VideoInfo,
         downloadPath: String,
-    ): List<String> = FileUtil.scanFileToMediaLibrary(
+    ): List<String> = FileUtil.scanFileToMediaLibraryPostDownload(
         title = videoInfo.id, downloadDir = downloadPath
     ).apply {
         insertInfoIntoDownloadHistory(videoInfo, this)
@@ -397,7 +397,6 @@ object DownloadUtil {
         val notificationId = taskId.toNotificationId()
         val urlList = url.split(Regex("[\n ]"))
 
-
         TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
         val request = YoutubeDLRequest(urlList).apply {
             addOption(
@@ -466,6 +465,7 @@ object DownloadUtil {
                 )
             }
         }
+        FileUtil.scanDownloadDirectoryToMediaLibrary(videoDownloadDir)
         onProcessEnded()
     }
 

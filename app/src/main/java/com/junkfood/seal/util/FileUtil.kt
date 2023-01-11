@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
@@ -71,7 +70,7 @@ object FileUtil {
                 DocumentFile.fromSingleUri(context, Uri.parse(this))?.delete()
         }
 
-    fun scanFileToMediaLibrary(title: String, downloadDir: String): List<String> {
+    fun scanFileToMediaLibraryPostDownload(title: String, downloadDir: String): List<String> {
         Log.d(TAG, "scanFileToMediaLibrary: $title")
         val files = mutableListOf<File>()
         val paths = mutableListOf<String>()
@@ -90,6 +89,15 @@ object FileUtil {
         paths.removeAll { it.contains(Regex(THUMBNAIL_REGEX)) }
         return paths
     }
+
+    fun scanDownloadDirectoryToMediaLibrary(downloadDir: String) =
+        File(downloadDir).walkTopDown().filter { it.isFile }.map { it.absolutePath }.run {
+            MediaScannerConnection.scanFile(
+                context, this.toList().toTypedArray(),
+                null, null
+            )
+        }
+
 
     @CheckResult
     fun moveFilesToSdcard(
