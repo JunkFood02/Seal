@@ -36,8 +36,6 @@ youtubedlAndroid = "a3b971724d"
 
 mmkv = "1.2.14"
 
-monet = "0.1.0-alpha03-multiplatform-fixed"
-
 [libraries]
 
 
@@ -53,6 +51,9 @@ accompanist-navigation-animation = { group = "com.google.accompanist", name = "a
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist" }
+accompanist-pager-layouts = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist" }
+accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
+
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -109,7 +110,6 @@ youtubedl-android-aria2c = { group = "com.github.JunkFood02.youtubedl-android", 
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
-monet = { group = "com.github.Kyant0.Monet", name = "Monet", version.ref = "monet" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
@@ -117,4 +117,4 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version = "1.7.20" }

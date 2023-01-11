@@ -21,8 +21,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
-import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
-import com.junkfood.seal.ui.theme.ColorScheme.colorSchemeFromColor
+import com.kyant.monet.dynamicColorScheme
 
 fun Color.applyOpacity(enabled: Boolean): Color {
     return if (enabled) this else this.copy(alpha = 0.62f)
@@ -63,8 +62,7 @@ fun SealTheme(
                 dynamicLightColorScheme(context)
             }
         }
-
-        else -> colorSchemeFromColor(seedColor, darkTheme)
+        else -> dynamicColorScheme(!darkTheme)
     }.run {
         if (isHighContrastModeEnabled && darkTheme) copy(
             surface = Color.Black,
@@ -100,19 +98,7 @@ fun PreviewThemeLight(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = colorSchemeFromColor(DEFAULT_SEED_COLOR, false),
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}
-
-@Composable
-fun PreviewThemeDark(
-    content: @Composable () -> Unit
-) {
-    MaterialTheme(
-        colorScheme = colorSchemeFromColor(DEFAULT_SEED_COLOR, true),
+        colorScheme = dynamicColorScheme(),
         typography = Typography,
         shapes = Shapes,
         content = content

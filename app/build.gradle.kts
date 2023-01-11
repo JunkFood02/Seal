@@ -183,6 +183,9 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.accompanist.webview)
+    implementation(libs.accompanist.pager.layouts)
+    implementation(libs.accompanist.pager.indicators)
+
 
     implementation(libs.coil.kt.compose)
 

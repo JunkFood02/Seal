@@ -13,7 +13,8 @@ import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.CookieProfile
-import com.junkfood.seal.ui.theme.ColorScheme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -111,6 +112,7 @@ object PreferenceUtil {
     const val LANGUAGE = "language"
     const val NOTIFICATION = "notification"
     private const val THEME_COLOR = "theme_color"
+    private const val PALETTE_STYLE = "palette_style"
     const val CUSTOM_PATH = "custom_path"
     const val OUTPUT_PATH_TEMPLATE = "path_template"
     const val SUBTITLE = "subtitle"
@@ -311,7 +313,15 @@ object PreferenceUtil {
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
-        val seedColor: Int = DEFAULT_SEED_COLOR
+        val seedColor: Int = DEFAULT_SEED_COLOR,
+        val paletteStyleIndex: Int = 0
+    )
+
+    val palettesMap = mapOf(
+        0 to PaletteStyle.TonalSpot,
+        1 to PaletteStyle.Spritz,
+        2 to PaletteStyle.FruitSalad,
+        3 to PaletteStyle.Vibrant,
     )
 
     fun getMaxDownloadRate(): String = getString(MAX_RATE, "1000")
@@ -327,7 +337,8 @@ object PreferenceUtil {
                 DYNAMIC_COLOR,
                 DynamicColors.isDynamicColorAvailable()
             ),
-            seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR)
+            seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
+            paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0)
         )
     )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
@@ -350,12 +361,13 @@ object PreferenceUtil {
         }
     }
 
-    fun modifyThemeSeedColor(colorArgb: Int) {
+    fun modifyThemeSeedColor(colorArgb: Int, paletteStyleIndex: Int) {
         applicationScope.launch(Dispatchers.IO) {
             mutableAppSettingsStateFlow.update {
-                it.copy(seedColor = colorArgb)
+                it.copy(seedColor = colorArgb, paletteStyleIndex = paletteStyleIndex)
             }
             kv.encode(THEME_COLOR, colorArgb)
+            kv.encode(PALETTE_STYLE, paletteStyleIndex)
         }
     }
 
