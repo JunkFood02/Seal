@@ -68,16 +68,40 @@ object NotificationUtil {
         title: String,
         notificationId: Int = DEFAULT_NOTIFICATION_ID,
         progress: Int = PROGRESS_INITIAL,
+        taskId: String? = null,
         text: String? = null
     ) {
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        val pendingIntent = taskId?.let {
+            Intent(context.applicationContext, NotificationActionReceiver::class.java)
+                .putExtra(TASK_ID_KEY, taskId)
+                .putExtra(NOTIFICATION_ID_KEY, notificationId)
+                .putExtra(ACTION_KEY, ACTION_CANCEL_TASK).run {
+                    PendingIntent.getBroadcast(
+                        context.applicationContext,
+                        0,
+                        this,
+                        PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                    )
+                }
+        }
+
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
             .setProgress(PROGRESS_MAX, progress, progress <= 0)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-            .run { notificationManager.notify(notificationId, build()) }
+            .run {
+                pendingIntent?.let {
+                    addAction(
+                        R.drawable.outline_cancel_24,
+                        context.getString(R.string.cancel),
+                        it
+                    )
+                }
+                notificationManager.notify(notificationId, build())
+            }
     }
 
     fun finishNotification(
@@ -125,7 +149,8 @@ object NotificationUtil {
         notificationManager.cancel(notificationId)
     }
 
-    fun makeErrorReportNotificationForCustomCommand(
+    fun makeErrorReportNotification(
+        title: String = context.getString(R.string.download_error_msg),
         notificationId: Int,
         error: String,
     ) {
@@ -143,7 +168,7 @@ object NotificationUtil {
         )
 
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
-            .setContentTitle(context.getString(R.string.download_error_msg))
+            .setContentTitle(title)
             .setContentText(error)
             .setOngoing(false)
             .addAction(

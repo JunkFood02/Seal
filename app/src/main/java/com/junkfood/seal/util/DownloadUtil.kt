@@ -8,10 +8,8 @@ import com.junkfood.seal.App.Companion.audioDownloadDir
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.videoDownloadDir
 import com.junkfood.seal.Downloader
-import com.junkfood.seal.Downloader.makeKey
 import com.junkfood.seal.Downloader.onProcessEnded
 import com.junkfood.seal.Downloader.onProcessStarted
-import com.junkfood.seal.Downloader.taskState
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -279,6 +277,7 @@ object DownloadUtil {
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
         playlistItem: Int = 0,
+        taskId: String = videoInfo?.id.toString(),
         downloadPreferences: DownloadPreferences,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result<List<String>> {
@@ -357,7 +356,7 @@ object DownloadUtil {
             }.runCatching {
                 YoutubeDL.getInstance().execute(
                     request = this,
-                    processId = videoInfo.id,
+                    processId = taskId,
                     callback = progressCallback
                 )
             }.onFailure { th ->
@@ -461,7 +460,7 @@ object DownloadUtil {
                     text = context.getString(R.string.status_completed),
                 )
             else {
-                NotificationUtil.makeErrorReportNotificationForCustomCommand(
+                NotificationUtil.makeErrorReportNotification(
                     notificationId = notificationId,
                     error = msg
                 )

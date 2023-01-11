@@ -64,7 +64,7 @@ class QuickDownloadActivity : ComponentActivity() {
         if (customCommand)
             Downloader.executeCommandWithUrl(url)
         else
-            Downloader.getInfoAndDownload(url)
+            Downloader.quickDownload(url = url)
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3WindowSizeClassApi::class)

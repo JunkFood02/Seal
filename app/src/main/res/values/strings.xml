@@ -276,4 +276,6 @@
     <string name="auto_subtitle_desc">Embed auto-generated subtitles instead</string>
     <string name="title_activity_share">Quick download</string>
     <string name="abs_hint">Most video streaming platforms deliver audio and video separately, you can select and merge an audio-only format with a video-only format to a single video.</string>
+    <string name="video_title_sample_text">Video title sample text</string>
+    <string name="video_creator_sample_text">Video creator sample text</string>
 </resources>

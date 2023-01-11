@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -156,6 +155,62 @@ object Downloader {
     fun updatePlaylistResult(playlistResult: PlaylistResult = PlaylistResult()) =
         mutablePlaylistResult.update { playlistResult }
 
+    fun quickDownload(
+        url: String,
+        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+    ) {
+        applicationScope.launch(Dispatchers.IO) {
+            onProcessStarted()
+            DownloadUtil.fetchVideoInfoFromUrl(
+                url = url,
+                preferences = downloadPreferences
+            )
+                .onFailure { manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true) }
+                .onSuccess { videoInfo ->
+                    val notificationId = videoInfo.id.toNotificationId()
+                    TextUtil.makeToastSuspend(
+                        context.getString(R.string.download_start_msg).format(videoInfo.title)
+                    )
+                    val taskId = videoInfo.id + downloadPreferences.hashCode()
+                    DownloadUtil.downloadVideo(
+                        videoInfo = videoInfo,
+                        downloadPreferences = downloadPreferences,
+                        taskId = taskId
+                    ) { progress, _, line ->
+                        NotificationUtil.notifyProgress(
+                            notificationId = notificationId,
+                            progress = progress.toInt(),
+                            text = line,
+                            title = videoInfo.title,
+                            taskId = taskId
+                        )
+                    }.onFailure {
+                        NotificationUtil.makeErrorReportNotification(
+                            title = videoInfo.title, notificationId = notificationId,
+                            error = it.message.toString()
+                        )
+                    }.onSuccess {
+                        val text =
+                            context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
+                        FileUtil.createIntentForFile(it.first()).run {
+                            NotificationUtil.finishNotification(
+                                notificationId,
+                                title = videoInfo.title,
+                                text = text,
+                                intent = if (this != null) PendingIntent.getActivity(
+                                    context,
+                                    0,
+                                    this,
+                                    PendingIntent.FLAG_IMMUTABLE
+                                ) else null
+                            )
+                        }
+                    }
+                }
+            onProcessEnded()
+        }
+    }
+
     fun getInfoAndDownload(
         url: String,
         downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
@@ -166,13 +221,18 @@ object Downloader {
                 url = url,
                 preferences = downloadPreferences
             )
-                .onFailure { manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true) }
+                .onFailure {
+                    manageDownloadError(
+                        it,
+                        isFetchingInfo = true,
+                        isTaskAborted = true
+                    )
+                }
                 .onSuccess { info ->
                     downloadResultTemp = downloadVideo(
                         videoInfo = info,
                         preferences = downloadPreferences
                     )
-
                 }
         }
     }

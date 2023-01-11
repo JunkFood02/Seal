@@ -21,9 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.SealTheme
 
@@ -31,8 +33,8 @@ import com.junkfood.seal.ui.theme.SealTheme
 @Composable
 fun VideoCard(
     modifier: Modifier = Modifier,
-    title: String = "Video title sample text",
-    author: String = "Video creator sample text",
+    title: String = stringResource(R.string.video_title_sample_text),
+    author: String = stringResource(R.string.video_creator_sample_text),
     thumbnailUrl: Any = "",
     onClick: () -> Unit = {},
     progress: Float = 100f,
