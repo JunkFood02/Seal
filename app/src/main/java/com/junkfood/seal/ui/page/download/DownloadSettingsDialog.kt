@@ -59,7 +59,7 @@ import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
-import com.junkfood.seal.ui.page.settings.general.CommandTemplateDialog
+import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO

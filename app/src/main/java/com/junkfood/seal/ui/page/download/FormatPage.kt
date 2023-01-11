@@ -245,6 +245,15 @@ fun FormatPageImpl(
                 }
             }
 
+            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    PreferenceInfo(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
+                        text = stringResource(R.string.abs_hint),
+                        applyPaddings = false
+                    )
+                }
+
             if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
                 FormatSubtitle(
                     text = stringResource(R.string.video_only),
@@ -272,15 +281,6 @@ fun FormatPageImpl(
                         }
                 }
             }
-
-            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    PreferenceInfo(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
-                        text = stringResource(R.string.abs_hint),
-                        applyPaddings = false
-                    )
-                }
 
             item {
                 Spacer(modifier = Modifier.height(32.dp))

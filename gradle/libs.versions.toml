@@ -36,6 +36,8 @@ youtubedlAndroid = "a3b971724d"
 
 mmkv = "1.2.14"
 
+monet = "0.1.0-alpha03-multiplatform-fixed"
+
 [libraries]
 
 
@@ -107,6 +109,7 @@ youtubedl-android-aria2c = { group = "com.github.JunkFood02.youtubedl-android", 
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
+monet = { group = "com.github.Kyant0.Monet", name = "Monet", version.ref = "monet" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
