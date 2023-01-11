@@ -18,7 +18,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOut
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NamedNavArgument
@@ -62,15 +64,15 @@ fun NavGraphBuilder.fadeThroughComposable(
 
 const val DURATION_ENTER = 400
 const val DURATION_EXIT = 200
-const val initialOffset = 0.15f
+const val initialOffset = 0.10f
 
 private fun PathInterpolator.toEasing(): Easing {
     return Easing { f -> this.getInterpolation(f) }
 }
 
 private val path = Path().apply {
+    moveTo(0f, 0f)
     cubicTo(0.05F, 0F, 0.133333F, 0.06F, 0.166666F, 0.4F)
-    moveTo(0.166666F, 0.4F)
     cubicTo(0.208333F, 0.82F, 0.25F, 1F, 1F, 1F)
 }
 
@@ -80,55 +82,23 @@ private val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
 private val emphasizedAccelerate = CubicBezierEasing(0.3f, 0f, 1f, 1f)
 
 private val standardDecelerate = CubicBezierEasing(.0f, .0f, 0f, 1f)
+
+private val motionEasingStandard = CubicBezierEasing(0.4F, 0.0F, 0.2F, 1F)
+
 private val tweenSpec = tween<Float>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
 
 private val enterTween =
-    tween<IntOffset>(durationMillis = DURATION_ENTER, easing = emphasizedDecelerate)
+    tween<IntOffset>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
 private val exitTween =
-    tween<IntOffset>(durationMillis = DURATION_EXIT, easing = emphasizedAccelerate)
+    tween<IntOffset>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
 
 private val fadeSpring = spring<Float>(
     dampingRatio = Spring.DampingRatioNoBouncy,
     stiffness = Spring.StiffnessMedium,
 )
+private val fadeTween = tween<Float>(durationMillis = DURATION_EXIT)
 
-fun slideInHorizontally(
-    animationSpec: FiniteAnimationSpec<IntOffset> =
-        spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessMedium,
-            visibilityThreshold = IntOffset.VisibilityThreshold
-        ),
-    isPop: Boolean = false,
-    initialOffsetX: (fullWidth: Int) -> Int = {
-        (it * initialOffset).toInt().run {
-            if (isPop) -this else this
-        }
-    },
-): EnterTransition =
-    slideIn(
-        initialOffset = { IntOffset(initialOffsetX(it.width), 0) },
-        animationSpec = animationSpec
-    )
-
-fun slideOutHorizontally(
-    animationSpec: FiniteAnimationSpec<IntOffset> =
-        spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessMedium,
-            visibilityThreshold = IntOffset.VisibilityThreshold
-        ),
-    isPop: Boolean = false,
-    targetOffsetX: (fullWidth: Int) -> Int = {
-        (it * initialOffset).toInt().run {
-            if (isPop) this else -this
-        }
-    },
-): ExitTransition =
-    slideOut(
-        targetOffset = { IntOffset(targetOffsetX(it.width), 0) },
-        animationSpec = animationSpec
-    )
+private val fadeSpec = fadeTween
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.slideHorizontallyComposable(
@@ -140,10 +110,26 @@ fun NavGraphBuilder.slideHorizontallyComposable(
     route = route,
     arguments = arguments,
     deepLinks = deepLinks,
-    enterTransition = { slideInHorizontally(enterTween) + fadeIn(fadeSpring) },
-    exitTransition = { slideOutHorizontally(exitTween) + fadeOut(fadeSpring) },
-    popEnterTransition = { slideInHorizontally(enterTween, isPop = true) + fadeIn(fadeSpring) },
-    popExitTransition = { slideOutHorizontally(exitTween, isPop = true) + fadeOut(fadeSpring) },
+    enterTransition = {
+        slideInHorizontally(
+            enterTween,
+            initialOffsetX = { (it * initialOffset).toInt() }) + fadeIn(fadeSpec)
+    },
+    exitTransition = {
+        slideOutHorizontally(
+            exitTween,
+            targetOffsetX = { -(it * initialOffset).toInt() }) + fadeOut(fadeSpec)
+    },
+    popEnterTransition = {
+        slideInHorizontally(
+            enterTween,
+            initialOffsetX = { -(it * initialOffset).toInt() }) + fadeIn(fadeSpec)
+    },
+    popExitTransition = {
+        slideOutHorizontally(
+            exitTween,
+            targetOffsetX = { (it * initialOffset).toInt() }) + fadeOut(fadeSpec)
+    },
     content = content
 )
 
