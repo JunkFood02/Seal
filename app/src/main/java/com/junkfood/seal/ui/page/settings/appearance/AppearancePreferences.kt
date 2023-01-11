@@ -290,8 +290,7 @@ fun RowScope.ColorButtonImpl(
             .padding(4.dp)
             .sizeIn(maxHeight = 80.dp, maxWidth = 80.dp, minHeight = 64.dp, minWidth = 64.dp)
             .weight(1f, false)
-            .aspectRatio(1f)
-            ,
+            .aspectRatio(1f),
             shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
             onClick = { onClick() }) {

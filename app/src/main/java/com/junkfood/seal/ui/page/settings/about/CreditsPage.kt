@@ -37,6 +37,7 @@ const val dvd = "https://github.com/yausername/dvd"
 const val icons8 = "https://icons8.com/"
 const val materialIcon = "https://fonts.google.com/icons"
 const val materialColor = "https://github.com/material-foundation/material-color-utilities"
+const val monet = "https://github.com/Kyant0/Monet"
 const val jetpack = "https://github.com/androidx/androidx"
 const val coil = "https://github.com/coil-kt/coil"
 const val mmkv = "https://github.com/Tencent/MMKV"
@@ -66,7 +67,8 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("Accompanist", APACHE_V2, accompanist),
         Credit("Material Design 3", APACHE_V2, material3),
         Credit("Material Icons", APACHE_V2, materialIcon),
-        Credit("Material color utilities", APACHE_V2, materialColor),
+        Credit("Monet", null, monet),
+//        Credit("Material color utilities", APACHE_V2, materialColor),
         Credit("MMKV", BSD, mmkv),
         Credit("Coil", APACHE_V2, coil),
         Credit("Dagger", APACHE_V2, dagger),
