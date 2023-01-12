@@ -53,8 +53,8 @@ import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
+import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.COOKIES
 import com.junkfood.seal.util.TextUtil
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)

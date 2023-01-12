@@ -71,10 +71,12 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.util.DarkThemePreference.Companion.FOLLOW_SYSTEM
+import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
+import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
+import com.junkfood.seal.util.getLanguageDesc
+import com.junkfood.seal.util.palettesMap
 import com.kyant.monet.Hct
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.PaletteStyle
@@ -201,7 +203,7 @@ fun AppearancePreferences(
                     PreferenceItem(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
-                        description = PreferenceUtil.getLanguageDesc()
+                        description = getLanguageDesc()
                     ) { navController.navigate(Route.LANGUAGES) }
             }
         })
@@ -246,7 +248,7 @@ fun AppearancePreferences(
 
 @Composable
 fun RowScope.ColorButtons(color: Color) {
-    PreferenceUtil.palettesMap.forEach {
+    palettesMap.forEach {
         ColorButton(color = color, index = it.key, tonalStyle = it.value)
     }
 }

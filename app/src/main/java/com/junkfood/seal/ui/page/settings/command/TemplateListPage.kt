@@ -45,6 +45,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -52,9 +53,10 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
+import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
+import com.junkfood.seal.util.TEMPLATE_ID
 import kotlinx.coroutines.launch
 
 private const val TAG = "TemplateListPage"
@@ -74,13 +76,11 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     var isCustomCommandEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+        mutableStateOf(PreferenceUtil.getValue(CUSTOM_COMMAND))
     }
 
     var editingTemplateId by remember { mutableStateOf(-1) }
-    var selectedTemplateId by remember {
-        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_ID, 0))
-    }
+    var selectedTemplateId by TEMPLATE_ID.intState
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(modifier = Modifier
@@ -171,7 +171,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                     onClick = {
                         isCustomCommandEnabled = !isCustomCommandEnabled
                         PreferenceUtil.updateValue(
-                            PreferenceUtil.CUSTOM_COMMAND,
+                            CUSTOM_COMMAND,
                             isCustomCommandEnabled
                         )
                     })

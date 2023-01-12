@@ -22,7 +22,6 @@ import com.junkfood.seal.NotificationActionReceiver.Companion.ERROR_REPORT_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.NOTIFICATION_ID_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.TASK_ID_KEY
 import com.junkfood.seal.R
-import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
 
 private const val TAG = "NotificationUtil"
 

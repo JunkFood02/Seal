@@ -31,10 +31,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.SingleChoiceItem
+import com.junkfood.seal.util.AUDIO_FORMAT
+import com.junkfood.seal.util.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
-import com.junkfood.seal.util.PreferenceUtil.VIDEO_QUALITY
+import com.junkfood.seal.util.VIDEO_FORMAT
+import com.junkfood.seal.util.VIDEO_QUALITY
 
 @Composable
 fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
@@ -51,7 +54,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
             Text(stringResource(R.string.audio_format))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(PreferenceUtil.AUDIO_FORMAT, audioFormat)
+                PreferenceUtil.updateInt(AUDIO_FORMAT, audioFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -90,7 +93,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
             Text(stringResource(R.string.video_format_preference))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(PreferenceUtil.VIDEO_FORMAT, videoFormat)
+                PreferenceUtil.updateInt(VIDEO_FORMAT, videoFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -119,7 +122,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
 @Composable
 fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
-    var fileSize by remember { mutableStateOf(PreferenceUtil.getString(MAX_FILE_SIZE, "")) }
+    var fileSize by MAX_FILE_SIZE.stringState
 
     @Composable
     fun videoResolutionSelectField(modifier: Modifier = Modifier) {

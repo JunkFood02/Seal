@@ -23,7 +23,6 @@ import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,28 +37,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
-import com.junkfood.seal.ui.component.SettingTitle
+import com.junkfood.seal.util.CONFIGURE
+import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.DEBUG
+import com.junkfood.seal.util.DISABLE_PREVIEW
+import com.junkfood.seal.util.NOTIFICATION
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.PLAYLIST
+import com.junkfood.seal.util.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
-import com.junkfood.seal.util.PreferenceUtil.DEBUG
-import com.junkfood.seal.util.PreferenceUtil.NOTIFICATION
-import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
-import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
-import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
+import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.SPONSORBLOCK
+import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
+import com.junkfood.seal.util.YT_DLP
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.launch
 
@@ -76,7 +79,7 @@ fun GeneralDownloadPreferences(
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
 
 
-    var displayErrorReport by remember { mutableStateOf(PreferenceUtil.getValue(DEBUG, true)) }
+    var displayErrorReport by DEBUG.booleanState
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
     var downloadNotification by remember {
@@ -84,10 +87,10 @@ fun GeneralDownloadPreferences(
     }
 
     var isPrivateModeEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.PRIVATE_MODE))
+        mutableStateOf(PreferenceUtil.getValue(PRIVATE_MODE))
     }
 
-    var isPreviewDisabled by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.DISABLE_PREVIEW)) }
+    var isPreviewDisabled by remember { mutableStateOf(PreferenceUtil.getValue(DISABLE_PREVIEW)) }
     var isNotificationPermissionGranted by remember {
         mutableStateOf(NotificationUtil.areNotificationsEnabled())
     }
@@ -143,7 +146,8 @@ fun GeneralDownloadPreferences(
                     ) {
                         scope.launch {
                             kotlin.runCatching {
-                                ytdlpVersion = UpdateUtil.updateYtDlp()
+                                UpdateUtil.updateYtDlp()
+                                ytdlpVersion = YT_DLP.getString()
                             }.onFailure {
                                 TextUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                             }.onSuccess {
@@ -177,9 +181,7 @@ fun GeneralDownloadPreferences(
                         })
                 }
                 item {
-                    var configureBeforeDownload by remember {
-                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true))
-                    }
+                    var configureBeforeDownload by CONFIGURE.booleanState
                     PreferenceSwitch(title = stringResource(id = R.string.settings_before_download),
                         description = stringResource(
                             id = R.string.settings_before_download_desc
@@ -189,7 +191,7 @@ fun GeneralDownloadPreferences(
                         onClick = {
                             configureBeforeDownload = !configureBeforeDownload
                             PreferenceUtil.updateValue(
-                                PreferenceUtil.CONFIGURE, configureBeforeDownload
+                                CONFIGURE, configureBeforeDownload
                             )
                         })
                 }
@@ -241,7 +243,7 @@ fun GeneralDownloadPreferences(
                         onClick = {
                             isPrivateModeEnabled = !isPrivateModeEnabled
                             PreferenceUtil.updateValue(
-                                PreferenceUtil.PRIVATE_MODE,
+                                PRIVATE_MODE,
                                 isPrivateModeEnabled
                             )
                         }
@@ -257,7 +259,7 @@ fun GeneralDownloadPreferences(
                         onClick = {
                             isPreviewDisabled = !isPreviewDisabled
                             PreferenceUtil.updateValue(
-                                PreferenceUtil.DISABLE_PREVIEW,
+                                DISABLE_PREVIEW,
                                 isPreviewDisabled
                             )
                         }
@@ -298,18 +300,6 @@ fun GeneralDownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
 
-                /*                item {
-                                    PreferenceSwitch(title = stringResource(id = R.string.custom_command),
-                                        description = stringResource(
-                                            id = R.string.custom_command_desc
-                                        ),
-                                        icon = Icons.Outlined.Terminal,
-                                        isChecked = isCustomCommandEnabled,
-                                        onClick = {
-                                            isCustomCommandEnabled = !isCustomCommandEnabled
-                                            PreferenceUtil.updateValue(CUSTOM_COMMAND, isCustomCommandEnabled)
-                                        })
-                                }*/
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.custom_command_template),

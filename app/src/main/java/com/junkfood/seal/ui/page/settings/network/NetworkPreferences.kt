@@ -25,6 +25,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
@@ -32,7 +33,14 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.util.ARIA2C
+import com.junkfood.seal.util.CELLULAR_DOWNLOAD
+import com.junkfood.seal.util.COOKIES
+import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getValue
+import com.junkfood.seal.util.PreferenceUtil.updateValue
+import com.junkfood.seal.util.RATE_LIMIT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,10 +55,8 @@ fun NetworkPreferences(
 
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showRateLimitDialog by remember { mutableStateOf(false) }
-    var aria2c by remember { mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.ARIA2C)) }
-    var isCookiesEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.COOKIES))
-    }
+    var aria2c by remember { mutableStateOf(getValue(ARIA2C)) }
+    var isCookiesEnabled by COOKIES.booleanState
 
     Scaffold(
         modifier = Modifier
@@ -70,11 +76,8 @@ fun NetworkPreferences(
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            val isCustomCommandEnabled by remember {
-                mutableStateOf(
-                    PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
-                )
-            }
+            val isCustomCommandEnabled by CUSTOM_COMMAND.booleanState
+
             LazyColumn(Modifier.padding(it)) {
                 if (isCustomCommandEnabled)
                     item {
@@ -85,7 +88,7 @@ fun NetworkPreferences(
                 }
                 item {
                     var isRateLimitEnabled by remember {
-                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.RATE_LIMIT))
+                        mutableStateOf(getValue(RATE_LIMIT))
                     }
 
                     PreferenceSwitchWithDivider(
@@ -96,8 +99,8 @@ fun NetworkPreferences(
                         isChecked = isRateLimitEnabled,
                         onChecked = {
                             isRateLimitEnabled = !isRateLimitEnabled
-                            PreferenceUtil.updateValue(
-                                PreferenceUtil.RATE_LIMIT,
+                            updateValue(
+                                RATE_LIMIT,
                                 isRateLimitEnabled
                             )
                         },
@@ -106,7 +109,7 @@ fun NetworkPreferences(
                 }
                 item {
                     var isDownloadWithCellularEnabled by remember {
-                        mutableStateOf(PreferenceUtil.getValue(PreferenceUtil.CELLULAR_DOWNLOAD))
+                        mutableStateOf(getValue(CELLULAR_DOWNLOAD))
                     }
                     PreferenceSwitch(
                         title = stringResource(R.string.download_with_cellular),
@@ -116,8 +119,8 @@ fun NetworkPreferences(
                         isChecked = isDownloadWithCellularEnabled,
                         onClick = {
                             isDownloadWithCellularEnabled = !isDownloadWithCellularEnabled
-                            PreferenceUtil.updateValue(
-                                PreferenceUtil.CELLULAR_DOWNLOAD,
+                            updateValue(
+                                CELLULAR_DOWNLOAD,
                                 isDownloadWithCellularEnabled
                             )
                         }
@@ -138,7 +141,7 @@ fun NetworkPreferences(
                         isChecked = aria2c,
                         onClick = {
                             aria2c = !aria2c
-                            PreferenceUtil.updateValue(PreferenceUtil.ARIA2C, aria2c)
+                            updateValue(ARIA2C, aria2c)
                         }
                     )
                 }

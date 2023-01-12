@@ -3,6 +3,8 @@ package com.junkfood.seal.util
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import com.google.android.material.color.DynamicColors
@@ -14,6 +16,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
@@ -28,26 +31,112 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
+const val CUSTOM_COMMAND = "custom_command"
+const val CONCURRENT = "concurrent_fragments"
+const val EXTRACT_AUDIO = "extract_audio"
+const val THUMBNAIL = "create_thumbnail"
+const val YT_DLP = "yt-dlp_init"
+const val DEBUG = "debug"
+const val CONFIGURE = "configure"
+const val DARK_THEME_VALUE = "dark_theme_value"
+const val AUDIO_FORMAT = "audio_format"
+const val VIDEO_FORMAT = "video_format"
+const val VIDEO_QUALITY = "quality"
+const val WELCOME_DIALOG = "welcome_dialog"
+const val VIDEO_DIRECTORY = "download_dir"
+const val AUDIO_DIRECTORY = "audio_dir"
+const val SDCARD_DOWNLOAD = "sdcard_download"
+const val SDCARD_URI = "sd_card_uri"
+const val SUBDIRECTORY = "sub-directory"
+const val PLAYLIST = "playlist"
+const val LANGUAGE = "language"
+const val NOTIFICATION = "notification"
+private const val THEME_COLOR = "theme_color"
+const val PALETTE_STYLE = "palette_style"
+const val CUSTOM_PATH = "custom_path"
+const val OUTPUT_PATH_TEMPLATE = "path_template"
+const val SUBTITLE = "subtitle"
+const val EMBED_SUBTITLE = "embed_subtitle"
+const val KEEP_SUBTITLE_FILES = "keep_subtitle"
+const val SUBTITLE_LANGUAGE = "sub_lang"
+const val AUTO_SUBTITLE = "auto_subtitle"
+
+const val TEMPLATE_ID = "template_id"
+const val MAX_FILE_SIZE = "max_file_size"
+const val SPONSORBLOCK = "sponsorblock"
+const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
+const val ARIA2C = "aria2c"
+const val COOKIES = "cookies"
+const val AUTO_UPDATE = "auto_update"
+const val PRIVATE_MODE = "private_mode"
+private const val DYNAMIC_COLOR = "dynamic_color"
+const val CELLULAR_DOWNLOAD = "cellular_download"
+const val RATE_LIMIT = "rate_limit"
+const val MAX_RATE = "max_rate"
+private const val HIGH_CONTRAST = "high_contrast"
+const val DISABLE_PREVIEW = "disable_preview"
+const val PRIVATE_DIRECTORY = "private_directory"
+const val CROP_ARTWORK = "crop_artwork"
+const val FORMAT_SELECTION = "format_selection"
+
+const val SYSTEM_DEFAULT = 0
+
+const val TEMPLATE_EXAMPLE =
+    """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
+
+val palettesMap = mapOf(
+    0 to PaletteStyle.TonalSpot,
+    1 to PaletteStyle.Spritz,
+    2 to PaletteStyle.FruitSalad,
+    3 to PaletteStyle.Vibrant,
+)
+
+
+private val StringPreferenceDefaults =
+    mapOf(
+        SPONSORBLOCK_CATEGORIES to "default",
+        MAX_RATE to "1000",
+        OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
+    )
+
+private val BooleanPreferenceDefaults =
+    mapOf(
+        FORMAT_SELECTION to true,
+        CONFIGURE to true
+    )
+
+private val IntPreferenceDefaults = mapOf(
+    TEMPLATE_ID to 0,
+    CONCURRENT to 1,
+    LANGUAGE to SYSTEM_DEFAULT,
+    PALETTE_STYLE to 0,
+    DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
+    WELCOME_DIALOG to 1,
+    AUDIO_FORMAT to 0,
+    VIDEO_QUALITY to 0,
+    VIDEO_FORMAT to 0,
+)
+
 object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
 
+    fun String.getInt(default: Int = IntPreferenceDefaults.getOrElse(this) { 0 }): Int =
+        kv.decodeInt(this, default)
+
+    fun String.getString(default: String = StringPreferenceDefaults.getOrElse(this) { "" }): String =
+        kv.decodeString(this) ?: default
+
+    fun String.getBoolean(default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }): Boolean =
+        kv.decodeBool(this, default)
+
     fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
     fun updateInt(key: String, int: Int) = kv.encode(key, int)
-    fun getInt(key: String, int: Int) = kv.decodeInt(key, int)
-    fun getValue(key: String): Boolean = kv.decodeBool(key, false)
-    fun getValue(key: String, b: Boolean): Boolean = kv.decodeBool(key, b)
-    fun getString(key: String): String? = kv.decodeString(key)
-
-    fun getString(key: String, default: String): String = kv.decodeString(key, default).toString()
+    fun getValue(key: String): Boolean = key.getBoolean()
     fun updateString(key: String, string: String) = kv.encode(key, string)
-
     fun containsKey(key: String) = kv.containsKey(key)
+    fun getOutputPathTemplate(): String = OUTPUT_PATH_TEMPLATE.getString()
 
-    //        kv.decodeString(TEMPLATE, context.getString(R.string.template_example)).toString()
-    fun getOutputPathTemplate(): String =
-        kv.decodeString(OUTPUT_PATH_TEMPLATE, "%(uploader)s/%(playlist_title)s/").toString()
-
-    fun getAudioFormat(): Int = kv.decodeInt(AUDIO_FORMAT, 0)
+    fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
 
     fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
         return when (audioFormatCode) {
@@ -57,7 +146,7 @@ object PreferenceUtil {
         }
     }
 
-    fun getVideoResolution(): Int = kv.decodeInt(VIDEO_QUALITY, 0)
+    fun getVideoResolution(): Int = VIDEO_QUALITY.getInt()
 
     fun getVideoResolutionDesc(videoQualityCode: Int = getVideoResolution()): String {
         return when (videoQualityCode) {
@@ -72,7 +161,7 @@ object PreferenceUtil {
         }
     }
 
-    fun getVideoFormat(): Int = kv.decodeInt(VIDEO_FORMAT, 0)
+    fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()
 
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
@@ -86,131 +175,10 @@ object PreferenceUtil {
     fun isNetworkAvailableForDownload() =
         getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
-    fun isAutoUpdateEnabled() = getValue(AUTO_UPDATE, !isFDroidBuild())
+    fun isAutoUpdateEnabled() = AUTO_UPDATE.getBoolean(!isFDroidBuild())
 
-    const val TEMPLATE_EXAMPLE =
-        """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
 
-    const val CUSTOM_COMMAND = "custom_command"
-    const val CONCURRENT = "concurrent_fragments"
-    const val EXTRACT_AUDIO = "extract_audio"
-    const val THUMBNAIL = "create_thumbnail"
-    const val YT_DLP = "yt-dlp_init"
-    const val DEBUG = "debug"
-    const val CONFIGURE = "configure"
-    private const val DARK_THEME = "dark_theme_value"
-    const val AUDIO_FORMAT = "audio_format"
-    const val VIDEO_FORMAT = "video_format"
-    const val VIDEO_QUALITY = "quality"
-    const val WELCOME_DIALOG = "welcome_dialog"
-    const val VIDEO_DIRECTORY = "download_dir"
-    const val AUDIO_DIRECTORY = "audio_dir"
-    const val SDCARD_DOWNLOAD = "sdcard_download"
-    const val SDCARD_URI = "sd_card_uri"
-    const val SUBDIRECTORY = "sub-directory"
-    const val PLAYLIST = "playlist"
-    const val LANGUAGE = "language"
-    const val NOTIFICATION = "notification"
-    private const val THEME_COLOR = "theme_color"
-    private const val PALETTE_STYLE = "palette_style"
-    const val CUSTOM_PATH = "custom_path"
-    const val OUTPUT_PATH_TEMPLATE = "path_template"
-    const val SUBTITLE = "subtitle"
-    const val AUTO_SUBTITLE = "auto_subtitle"
 
-    const val TEMPLATE_ID = "template_id"
-    const val MAX_FILE_SIZE = "max_file_size"
-    const val SPONSORBLOCK = "sponsorblock"
-    const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
-    const val ARIA2C = "aria2c"
-    const val COOKIES = "cookies"
-    const val AUTO_UPDATE = "auto_update"
-    const val PRIVATE_MODE = "private_mode"
-    private const val DYNAMIC_COLOR = "dynamic_color"
-    const val CELLULAR_DOWNLOAD = "cellular_download"
-    const val RATE_LIMIT = "rate_limit"
-    const val MAX_RATE = "max_rate"
-    private const val HIGH_CONTRAST = "high_contrast"
-    const val DISABLE_PREVIEW = "disable_preview"
-    const val PRIVATE_DIRECTORY = "private_directory"
-    const val CROP_ARTWORK = "crop_artwork"
-    const val FORMAT_SELECTION = "format_selection"
-
-    const val SYSTEM_DEFAULT = 0
-
-    // Do not modify
-    private const val SIMPLIFIED_CHINESE = 1
-    private const val ENGLISH = 2
-    private const val CZECH = 3
-    private const val FRENCH = 4
-    private const val GERMAN = 5
-    private const val NORWEGIAN_BOKMAL = 6
-    private const val DANISH = 7
-    private const val SPANISH = 8
-    private const val TURKISH = 9
-    private const val UKRAINIAN = 10
-    private const val RUSSIAN = 11
-    private const val ARABIC = 12
-    private const val PERSIAN = 13
-    private const val INDONESIAN = 14
-    private const val FILIPINO = 15
-    private const val ITALIAN = 16
-    private const val DUTCH = 17
-    private const val PORTUGUESE_BRAZIL = 18
-    private const val JAPANESE = 19
-    private const val POLISH = 20
-    private const val HUNGARIAN = 21
-    private const val MALAY = 22
-    private const val TRADITIONAL_CHINESE = 23
-    private const val VIETNAMESE = 24
-    private const val BELARUSIAN = 25
-    private const val CROATIAN = 26
-    private const val BASQUE = 27
-    private const val HINDI = 28
-    private const val MALAYALAM = 29
-    private const val SINHALA = 30
-    private const val SERBIAN = 31
-    private const val AZERBAIJANI = 32
-    private const val NORWEGIAN_NYNORSK = 33
-    private const val PUNJABI = 34
-
-    // Sorted alphabetically
-    val languageMap: Map<Int, String> = mapOf(
-        ARABIC to "ar",
-        AZERBAIJANI to "az",
-        BASQUE to "eu",
-        BELARUSIAN to "be",
-        SIMPLIFIED_CHINESE to "zh-CN",
-        TRADITIONAL_CHINESE to "zh-TW",
-        CROATIAN to "hr",
-        CZECH to "cs",
-        DANISH to "da",
-        DUTCH to "nl",
-        ENGLISH to "en-US",
-        FILIPINO to "fil",
-        FRENCH to "fr",
-        GERMAN to "de",
-        HINDI to "hi",
-        HUNGARIAN to "hu",
-        INDONESIAN to "in",
-        ITALIAN to "it",
-        JAPANESE to "ja",
-        MALAY to "ms",
-        MALAYALAM to "ml",
-        NORWEGIAN_BOKMAL to "nb-NO",
-        NORWEGIAN_NYNORSK to "nn",
-        PERSIAN to "fa",
-        POLISH to "pl",
-        PORTUGUESE_BRAZIL to "pt-BR",
-        PUNJABI to "pa",
-        RUSSIAN to "ru",
-        SERBIAN to "sr",
-        SINHALA to "si",
-        SPANISH to "es",
-        TURKISH to "tr",
-        UKRAINIAN to "ua",
-        VIETNAMESE to "vi",
-    )
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =
         languageMap.getOrElse(languageNumber) { "" }
@@ -225,7 +193,7 @@ object PreferenceUtil {
             getLanguageNumberByCode(
                 LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
             )
-        else getInt(LANGUAGE, SYSTEM_DEFAULT)
+        else LANGUAGE.getInt()
     }
 
     fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
@@ -238,54 +206,7 @@ object PreferenceUtil {
         }
     }
 
-    @Composable
-    fun getLanguageDesc(language: Int = getLanguageNumber()): String {
-        return stringResource(
-            when (language) {
-                SIMPLIFIED_CHINESE -> R.string.la_zh_CN
-                ENGLISH -> R.string.la_en_US
-                CZECH -> R.string.la_cs
-                FRENCH -> R.string.la_fr
-                GERMAN -> R.string.la_de
-                NORWEGIAN_BOKMAL -> R.string.la_nb_NO
-                DANISH -> R.string.la_da
-                SPANISH -> R.string.la_es
-                TURKISH -> R.string.la_tr
-                UKRAINIAN -> R.string.la_ua
-                RUSSIAN -> R.string.la_ru
-                ARABIC -> R.string.la_ar
-                PERSIAN -> R.string.la_fa
-                INDONESIAN -> R.string.la_in
-                FILIPINO -> R.string.la_fil
-                ITALIAN -> R.string.la_it
-                DUTCH -> R.string.la_nl
-                PORTUGUESE_BRAZIL -> R.string.la_pt_BR
-                JAPANESE -> R.string.la_ja
-                POLISH -> R.string.la_pl
-                HUNGARIAN -> R.string.la_hu
-                MALAY -> R.string.la_ms
-                TRADITIONAL_CHINESE -> R.string.la_zh_TW
-                VIETNAMESE -> R.string.la_vi
-                BELARUSIAN -> R.string.la_be
-                CROATIAN -> R.string.la_hr
-                BASQUE -> R.string.la_eu
-                HINDI -> R.string.la_hi
-                MALAYALAM -> R.string.la_ml
-                SINHALA -> R.string.la_si
-                SERBIAN -> R.string.la_sr
-                AZERBAIJANI -> R.string.la_az
-                NORWEGIAN_NYNORSK -> R.string.la_nn
-                PUNJABI -> R.string.la_pa
-                else -> R.string.follow_system
-            }
-        )
-    }
-
-    fun getSponsorBlockCategories(): String =
-        with(getString(SPONSORBLOCK_CATEGORIES)) {
-            if (isNullOrEmpty()) "default"
-            else this
-        }
+    fun getSponsorBlockCategories(): String = SPONSORBLOCK_CATEGORIES.getString()
 
     private const val COOKIE_HEADER = "# Netscape HTTP Cookie File\n" +
             "# Auto-generated by Seal built-in WebView\n"
@@ -306,7 +227,7 @@ object PreferenceUtil {
 
     fun getTemplate(): CommandTemplate {
         return templateStateFlow.value.run {
-            find { it.id == getInt(TEMPLATE_ID, 0) } ?: first()
+            find { it.id == TEMPLATE_ID.getInt() } ?: first()
         }
     }
 
@@ -317,19 +238,13 @@ object PreferenceUtil {
         val paletteStyleIndex: Int = 0
     )
 
-    val palettesMap = mapOf(
-        0 to PaletteStyle.TonalSpot,
-        1 to PaletteStyle.Spritz,
-        2 to PaletteStyle.FruitSalad,
-        3 to PaletteStyle.Vibrant,
-    )
+    fun getMaxDownloadRate(): String = MAX_RATE.getString()
 
-    fun getMaxDownloadRate(): String = getString(MAX_RATE, "1000")
     private val mutableAppSettingsStateFlow = MutableStateFlow(
         AppSettings(
             DarkThemePreference(
                 darkThemeValue = kv.decodeInt(
-                    DARK_THEME,
+                    DARK_THEME_VALUE,
                     DarkThemePreference.FOLLOW_SYSTEM
                 ), isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)
             ),
@@ -356,7 +271,7 @@ object PreferenceUtil {
                     )
                 )
             }
-            kv.encode(DARK_THEME, darkThemeValue)
+            kv.encode(DARK_THEME_VALUE, darkThemeValue)
             kv.encode(HIGH_CONTRAST, isHighContrastModeEnabled)
         }
     }
@@ -380,33 +295,34 @@ object PreferenceUtil {
         }
     }
 
-    data class DarkThemePreference(
-        val darkThemeValue: Int = FOLLOW_SYSTEM,
-        val isHighContrastModeEnabled: Boolean = false
-    ) {
-        companion object {
-            const val FOLLOW_SYSTEM = 1
-            const val ON = 2
-            const val OFF = 3
-        }
-
-        @Composable
-        fun isDarkTheme(): Boolean {
-            return if (darkThemeValue == FOLLOW_SYSTEM)
-                isSystemInDarkTheme()
-            else darkThemeValue == ON
-        }
-
-        @Composable
-        fun getDarkThemeDesc(): String {
-            return when (darkThemeValue) {
-                FOLLOW_SYSTEM -> stringResource(R.string.follow_system)
-                ON -> stringResource(R.string.on)
-                else -> stringResource(R.string.off)
-            }
-        }
-
-    }
 
     private const val TAG = "PreferenceUtil"
+}
+
+data class DarkThemePreference(
+    val darkThemeValue: Int = FOLLOW_SYSTEM,
+    val isHighContrastModeEnabled: Boolean = false
+) {
+    companion object {
+        const val FOLLOW_SYSTEM = 1
+        const val ON = 2
+        const val OFF = 3
+    }
+
+    @Composable
+    fun isDarkTheme(): Boolean {
+        return if (darkThemeValue == FOLLOW_SYSTEM)
+            isSystemInDarkTheme()
+        else darkThemeValue == ON
+    }
+
+    @Composable
+    fun getDarkThemeDesc(): String {
+        return when (darkThemeValue) {
+            FOLLOW_SYSTEM -> stringResource(R.string.follow_system)
+            ON -> stringResource(R.string.on)
+            else -> stringResource(R.string.off)
+        }
+    }
+
 }

@@ -53,7 +53,9 @@ import com.junkfood.seal.ui.component.SettingItem
 import com.junkfood.seal.ui.component.SettingTitle
 import com.junkfood.seal.ui.component.SmallTopAppBar
 import com.junkfood.seal.ui.component.fraction
+import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -144,7 +146,7 @@ fun SettingsPage(navController: NavController) {
                 SettingItem(
                     title = stringResource(id = R.string.format),
                     description = stringResource(id = R.string.format_settings_desc),
-                    icon = if (PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO)) Icons.Filled.AudioFile else Icons.Filled.VideoFile
+                    icon = if (EXTRACT_AUDIO.getBoolean()) Icons.Filled.AudioFile else Icons.Filled.VideoFile
                 ) {
                     navController.navigate(Route.DOWNLOAD_FORMAT) {
                         launchSingleTop = true

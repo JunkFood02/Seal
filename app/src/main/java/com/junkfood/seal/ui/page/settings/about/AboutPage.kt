@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.dp
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.packageInfo
 import com.junkfood.seal.R
@@ -37,8 +36,8 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.util.AUTO_UPDATE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.AUTO_UPDATE
 import com.junkfood.seal.util.TextUtil
 
 private const val releaseURL = "https://github.com/JunkFood02/Seal/releases"

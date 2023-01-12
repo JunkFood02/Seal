@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -29,10 +28,12 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.page.settings.about.weblate
+import com.junkfood.seal.util.LANGUAGE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.LANGUAGE
-import com.junkfood.seal.util.PreferenceUtil.SYSTEM_DEFAULT
 import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
+import com.junkfood.seal.util.SYSTEM_DEFAULT
+import com.junkfood.seal.util.getLanguageDesc
+import com.junkfood.seal.util.languageMap
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,10 +87,10 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                         selected = language == SYSTEM_DEFAULT
                     ) { setLanguage(SYSTEM_DEFAULT) }
                 }
-                for (languageData in PreferenceUtil.languageMap) {
+                for (languageData in languageMap) {
                     item {
                         PreferenceSingleChoiceItem(
-                            text = PreferenceUtil.getLanguageDesc(languageData.key),
+                            text = getLanguageDesc(languageData.key),
                             selected = language == languageData.key
                         ) { setLanguage(languageData.key) }
                     }

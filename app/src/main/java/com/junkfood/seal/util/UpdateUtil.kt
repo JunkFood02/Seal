@@ -9,7 +9,7 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.util.PreferenceUtil.YT_DLP
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -51,15 +51,16 @@ object UpdateUtil {
             .build()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    suspend fun updateYtDlp(): String {
+    suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
         withContext(Dispatchers.IO) {
-            YoutubeDL.getInstance().updateYoutubeDL(context)
-            YoutubeDL.getInstance().version(context)?.let {
-                PreferenceUtil.updateString(YT_DLP, it)
+            YoutubeDL.getInstance().updateYoutubeDL(context).apply {
+                if (this == YoutubeDL.UpdateStatus.DONE)
+                    YoutubeDL.getInstance().version(context)?.let {
+                        PreferenceUtil.updateString(YT_DLP, it)
+                    }
             }
         }
-        return PreferenceUtil.getString(YT_DLP) ?: context.getString(R.string.ytdlp_update)
-    }
+
 
     private suspend fun getLatestRelease(): LatestRelease {
         return suspendCoroutine { continuation ->

@@ -18,15 +18,15 @@ import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
-import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.AUDIO_DIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_EXAMPLE
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
-import com.junkfood.seal.util.PreferenceUtil.VIDEO_DIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.TEMPLATE_EXAMPLE
+import com.junkfood.seal.util.TEMPLATE_ID
+import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
@@ -37,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.StringBuilder
 
 @HiltAndroidApp
 class App : Application() {
@@ -80,19 +79,15 @@ class App : Application() {
             }
         }
 
-
-        with(PreferenceUtil.getString(VIDEO_DIRECTORY)) {
-            videoDownloadDir = if (isNullOrEmpty()) File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+        videoDownloadDir = VIDEO_DIRECTORY.getString(
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                 getString(R.string.app_name)
             ).absolutePath
-            else this
-        }
+        )
 
-        with(PreferenceUtil.getString(AUDIO_DIRECTORY)) {
-            audioDownloadDir = if (isNullOrEmpty()) File(videoDownloadDir, "Audio").absolutePath
-            else this
-        }
+        audioDownloadDir = AUDIO_DIRECTORY.getString(File(videoDownloadDir, "Audio").absolutePath)
+
         if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
     }
 

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPermissionsApi::class)
 
-package com.junkfood.seal.ui.page.settings.general
+package com.junkfood.seal.ui.page.settings.directory
 
 import android.Manifest
 import android.content.Context
@@ -12,11 +12,9 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -26,7 +24,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FolderDelete
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
-import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SdCard
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.TabUnselected
@@ -41,7 +38,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -74,17 +70,19 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesHintCard
+import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.CUSTOM_PATH
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
+import com.junkfood.seal.util.OUTPUT_PATH_TEMPLATE
+import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
-import com.junkfood.seal.util.PreferenceUtil.OUTPUT_PATH_TEMPLATE
-import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.SDCARD_DOWNLOAD
-import com.junkfood.seal.util.PreferenceUtil.SDCARD_URI
-import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
+import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.SDCARD_DOWNLOAD
+import com.junkfood.seal.util.SDCARD_URI
+import com.junkfood.seal.util.SUBDIRECTORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -116,9 +114,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     var isSubdirectoryEnabled
-            by remember { mutableStateOf(PreferenceUtil.getValue(SUBDIRECTORY, false)) }
+            by remember { mutableStateOf(PreferenceUtil.getValue(SUBDIRECTORY)) }
     var isCustomPathEnabled
-            by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_PATH, false)) }
+            by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_PATH)) }
 
     var isPrivateDirectoryEnabled by remember {
         mutableStateOf(PreferenceUtil.getValue(PRIVATE_DIRECTORY))
@@ -131,7 +129,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         mutableStateOf(if (!isPrivateDirectoryEnabled) App.audioDownloadDir else App.getPrivateDownloadDirectory())
     }
     var sdcardUri by remember {
-        mutableStateOf(PreferenceUtil.getString(SDCARD_URI, ""))
+        mutableStateOf(SDCARD_URI.getString())
     }
     var sdcardDownload by remember {
         mutableStateOf(PreferenceUtil.getValue(SDCARD_DOWNLOAD))
@@ -147,7 +145,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
 
     val isCustomCommandEnabled by remember {
         mutableStateOf(
-            PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
+            PreferenceUtil.getValue(CUSTOM_COMMAND)
         )
     }
 
@@ -170,7 +168,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             it?.let {
                 if (editingDirectory == Directory.SDCARD) {
                     sdcardUri = it.toString()
-                    PreferenceUtil.updateString(SDCARD_URI, sdcardUri)
+                    PreferenceUtil.updateString(SDCARD_URI, it.toString())
                     context.contentResolver?.takePersistableUriPermission(
                         it,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or

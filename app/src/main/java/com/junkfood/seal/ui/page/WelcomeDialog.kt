@@ -30,12 +30,13 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.MultiChoiceItem
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.WELCOME_DIALOG
+import com.junkfood.seal.util.PreferenceUtil.getInt
+import com.junkfood.seal.util.WELCOME_DIALOG
 
 @Composable
 fun WelcomeDialog(onClick: () -> Unit) {
     var showWelcomeDialog by rememberSaveable {
-        mutableStateOf(PreferenceUtil.getInt(WELCOME_DIALOG, 1))
+        mutableStateOf(WELCOME_DIALOG.getInt())
     }
     var disableDialog by remember { mutableStateOf(false) }
     val onDismissRequest = {

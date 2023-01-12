@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.component.BackButton
@@ -24,10 +23,10 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.util.DarkThemePreference.Companion.FOLLOW_SYSTEM
+import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
+import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.FOLLOW_SYSTEM
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.OFF
-import com.junkfood.seal.util.PreferenceUtil.DarkThemePreference.Companion.ON
 
 
 @OptIn(ExperimentalMaterial3Api::class)

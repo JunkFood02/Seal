@@ -6,19 +6,19 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
-import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.Downloader.State
 import com.junkfood.seal.Downloader.manageDownloadError
 import com.junkfood.seal.Downloader.showErrorMessage
 import com.junkfood.seal.Downloader.updatePlaylistResult
 import com.junkfood.seal.R
+import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FORMAT_SELECTION
+import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
-import com.junkfood.seal.util.PreferenceUtil.DEBUG
-import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -80,7 +80,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             showErrorMessage(R.string.download_disabled_with_cellular)
             return
         }
-        if (PreferenceUtil.getValue(CUSTOM_COMMAND)) {
+        if (CUSTOM_COMMAND.getBoolean()) {
             applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
             return
         }
@@ -90,12 +90,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             showErrorMessage(R.string.url_empty)
             return
         }
-        if (PreferenceUtil.getValue(PreferenceUtil.PLAYLIST)) {
+        if (PLAYLIST.getBoolean()) {
             viewModelScope.launch(Dispatchers.IO) { parsePlaylistInfo(url) }
             return
         }
 
-        if (PreferenceUtil.getValue(FORMAT_SELECTION, true)) {
+        if (FORMAT_SELECTION.getBoolean()) {
             viewModelScope.launch(Dispatchers.IO) { fetchInfoForFormatSelection(url) }
             return
         }
@@ -128,7 +128,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     }
 
                     is VideoInfo -> {
-                        if (PreferenceUtil.getValue(FORMAT_SELECTION, true)) {
+                        if (FORMAT_SELECTION.getBoolean()) {
                             showFormatSelectionPageOrDownload(info)
                         } else if (isDownloaderAvailable()) {
                             downloadVideoWithInfo(info = info)

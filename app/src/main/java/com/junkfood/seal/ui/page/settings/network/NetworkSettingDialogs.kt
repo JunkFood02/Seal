@@ -27,6 +27,8 @@ import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.util.CONCURRENT
+import com.junkfood.seal.util.MAX_RATE
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 import kotlin.math.roundToInt
@@ -72,7 +74,7 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
     }, confirmButton = {
         ConfirmButton {
             if (maxRate.isNumberInRange(1, 100_0000)) {
-                PreferenceUtil.updateString(PreferenceUtil.MAX_RATE, maxRate)
+                PreferenceUtil.updateString(MAX_RATE, maxRate)
                 onDismissRequest()
             } else {
                 isError = true
@@ -102,7 +104,7 @@ fun ConcurrentDownloadDialog(
         confirmButton = {
             TextButton(onClick = {
                 onDismissRequest()
-                PreferenceUtil.updateInt(PreferenceUtil.CONCURRENT, count)
+                PreferenceUtil.updateInt(CONCURRENT, count)
             }) {
                 Text(stringResource(R.string.confirm))
             }

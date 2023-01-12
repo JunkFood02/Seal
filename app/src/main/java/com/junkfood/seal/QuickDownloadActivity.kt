@@ -28,8 +28,11 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.download.DownloadSettingDialog
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.CONFIGURE
+import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.TextUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,14 +84,14 @@ class QuickDownloadActivity : ComponentActivity() {
             WindowManager.LayoutParams.MATCH_PARENT
         )
         handleShareIntent(intent)
-        val isDialogEnabled = PreferenceUtil.getValue(PreferenceUtil.CONFIGURE, true)
+        val isDialogEnabled = CONFIGURE.getBoolean()
 
         if (url.isEmpty()) {
             finish()
         }
 
         if (!isDialogEnabled) {
-            onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+            onDownloadStarted(CUSTOM_COMMAND.getBoolean())
             this.finish()
         }
 
@@ -122,7 +125,7 @@ class QuickDownloadActivity : ComponentActivity() {
                         isShareActivity = true,
                         drawerState = drawerState,
                         confirm = {
-                            onDownloadStarted(PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+                            onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
                         }) {
                         scope.launch { drawerState.hide() }
                         showDialog = false

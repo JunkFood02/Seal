@@ -18,20 +18,7 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
-import com.junkfood.seal.util.PreferenceUtil.ARIA2C
-import com.junkfood.seal.util.PreferenceUtil.AUTO_SUBTITLE
-import com.junkfood.seal.util.PreferenceUtil.COOKIES
-import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_PATH
-import com.junkfood.seal.util.PreferenceUtil.MAX_FILE_SIZE
-import com.junkfood.seal.util.PreferenceUtil.PRIVATE_DIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.PRIVATE_MODE
-import com.junkfood.seal.util.PreferenceUtil.RATE_LIMIT
-import com.junkfood.seal.util.PreferenceUtil.SDCARD_DOWNLOAD
-import com.junkfood.seal.util.PreferenceUtil.SDCARD_URI
-import com.junkfood.seal.util.PreferenceUtil.SPONSORBLOCK
-import com.junkfood.seal.util.PreferenceUtil.SUBDIRECTORY
-import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
@@ -114,16 +101,16 @@ object DownloadUtil {
 
 
     data class DownloadPreferences(
-        val extractAudio: Boolean = PreferenceUtil.getValue(PreferenceUtil.EXTRACT_AUDIO),
-        val createThumbnail: Boolean = PreferenceUtil.getValue(PreferenceUtil.THUMBNAIL),
-        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PreferenceUtil.PLAYLIST),
+        val extractAudio: Boolean = PreferenceUtil.getValue(EXTRACT_AUDIO),
+        val createThumbnail: Boolean = PreferenceUtil.getValue(THUMBNAIL),
+        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PLAYLIST),
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
         val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
         val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments(),
-        val maxFileSize: String = PreferenceUtil.getString(MAX_FILE_SIZE, ""),
+        val maxFileSize: String = MAX_FILE_SIZE.getString(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
         val cookies: Boolean = PreferenceUtil.getValue(COOKIES),
@@ -139,7 +126,7 @@ object DownloadUtil {
         val privateDirectory: Boolean = PreferenceUtil.getValue(PRIVATE_DIRECTORY),
         val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
         val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
-        val sdcardUri: String = PreferenceUtil.getString(SDCARD_URI, "")
+        val sdcardUri: String = SDCARD_URI.getString()
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {

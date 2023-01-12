@@ -27,17 +27,20 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.util.AUTO_SUBTITLE
+import com.junkfood.seal.util.CROP_ARTWORK
+import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.EXTRACT_AUDIO
+import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.AUTO_SUBTITLE
-import com.junkfood.seal.util.PreferenceUtil.CROP_ARTWORK
-import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.FORMAT_SELECTION
+import com.junkfood.seal.util.SUBTITLE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +58,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
     }
     var embedSubtitle by remember {
         mutableStateOf(
-            PreferenceUtil.getValue(PreferenceUtil.SUBTITLE)
+            PreferenceUtil.getValue(SUBTITLE)
         )
     }
 
@@ -87,7 +90,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
         }, content = {
             val isCustomCommandEnabled by remember {
                 mutableStateOf(
-                    PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND)
+                    PreferenceUtil.getValue(CUSTOM_COMMAND)
                 )
             }
             LazyColumn(Modifier.padding(it)) {
@@ -161,7 +164,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         isChecked = embedSubtitle
                     ) {
                         embedSubtitle = !embedSubtitle
-                        PreferenceUtil.updateValue(PreferenceUtil.SUBTITLE, embedSubtitle)
+                        PreferenceUtil.updateValue(SUBTITLE, embedSubtitle)
                     }
                 }
                 item {
@@ -188,13 +191,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                 }
 
                 item {
-                    var isFormatSelectionEnabled by remember {
-                        mutableStateOf(
-                            PreferenceUtil.getValue(
-                                FORMAT_SELECTION, true
-                            )
-                        )
-                    }
+                    var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
                     PreferenceSwitch(
                         title = stringResource(id = R.string.format_selection),
                         icon = Icons.Outlined.VideoSettings,

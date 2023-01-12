@@ -16,8 +16,8 @@ object TextUtil {
         return this.isNotEmpty() && this.isDigitsOnly() && this.length < 10 && this.toInt() >= start && this.toInt() <= end
     }
 
-    fun matchUrlFromClipboard(s: String): String {
-        matchUrlFromString(s).run {
+    fun matchUrlFromClipboard(string: String, isMatchingMultiLink: Boolean = false): String {
+        matchUrlFromString(string, isMatchingMultiLink).run {
             if (isEmpty())
                 makeToast(R.string.paste_fail_msg)
             else
@@ -36,12 +36,12 @@ object TextUtil {
         }
     }
 
-    private fun matchUrlFromString(s: String): String {
+    private fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String {
         val builder = StringBuilder()
         val pattern =
             Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
         with(pattern.matcher(s)) {
-            if (PreferenceUtil.getValue(PreferenceUtil.CUSTOM_COMMAND))
+            if (isMatchingMultiLink)
                 while (find()) {
                     if (builder.isNotEmpty())
                         builder.append("\n")

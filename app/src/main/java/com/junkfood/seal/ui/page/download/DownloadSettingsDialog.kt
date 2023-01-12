@@ -48,6 +48,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
@@ -60,14 +61,14 @@ import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
+import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.EXTRACT_AUDIO
+import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.CUSTOM_COMMAND
-import com.junkfood.seal.util.PreferenceUtil.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil.PLAYLIST
-import com.junkfood.seal.util.PreferenceUtil.SUBTITLE
-import com.junkfood.seal.util.PreferenceUtil.TEMPLATE_ID
-import com.junkfood.seal.util.PreferenceUtil.THUMBNAIL
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
+import com.junkfood.seal.util.SUBTITLE
+import com.junkfood.seal.util.TEMPLATE_ID
+import com.junkfood.seal.util.THUMBNAIL
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -93,9 +94,7 @@ fun DownloadSettingDialog(
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
-    var selectedTemplateId by remember {
-        mutableStateOf(PreferenceUtil.getInt(TEMPLATE_ID, 0))
-    }
+    var selectedTemplateId by TEMPLATE_ID.intState
 
     val templateList by templateStateFlow.collectAsStateWithLifecycle(ArrayList())
     val scrollState = rememberLazyListState()

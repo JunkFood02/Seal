@@ -8,13 +8,14 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.util.DarkThemePreference
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.palettesMap
+import com.junkfood.seal.util.palettesMap
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.PaletteStyle
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 
-val LocalDarkTheme = compositionLocalOf { PreferenceUtil.DarkThemePreference() }
+val LocalDarkTheme = compositionLocalOf { DarkThemePreference() }
 val LocalSeedColor = compositionLocalOf { DEFAULT_SEED_COLOR }
 val LocalWindowWidthState = staticCompositionLocalOf { WindowWidthSizeClass.Compact }
 val LocalDynamicColorSwitch = compositionLocalOf { false }
