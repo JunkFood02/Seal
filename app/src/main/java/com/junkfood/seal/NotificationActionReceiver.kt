@@ -17,17 +17,22 @@ class NotificationActionReceiver : BroadcastReceiver() {
 
         const val ACTION_CANCEL_TASK = 0
         const val ACTION_ERROR_REPORT = 1
+        const val ACTION_COPY_LOG = 2
+
         const val ACTION_KEY = PACKAGE_NAME_PREFIX + "action"
         const val TASK_ID_KEY = PACKAGE_NAME_PREFIX + "taskId"
+
         const val NOTIFICATION_ID_KEY = PACKAGE_NAME_PREFIX + "notificationId"
         const val ERROR_REPORT_KEY = PACKAGE_NAME_PREFIX + "error_report"
+        const val LOG_KEY = PACKAGE_NAME_PREFIX + "copy_log"
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null) return
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_KEY, 0)
-
-        when (intent.getIntExtra(ACTION_KEY, ACTION_CANCEL_TASK)) {
+        val action = intent.getIntExtra(ACTION_KEY, ACTION_CANCEL_TASK)
+        Log.d(TAG, "onReceive: $action")
+        when (action) {
             ACTION_CANCEL_TASK -> {
                 val taskId = intent.getStringExtra(TASK_ID_KEY)
                 cancelTask(taskId, notificationId)
@@ -37,6 +42,14 @@ class NotificationActionReceiver : BroadcastReceiver() {
                 val errorReport = intent.getStringExtra(ERROR_REPORT_KEY)
                 if (!errorReport.isNullOrEmpty())
                     copyErrorReport(errorReport, notificationId)
+            }
+
+            ACTION_COPY_LOG -> {
+                intent.getStringExtra(LOG_KEY).run {
+                    Log.d(TAG, this.toString())
+                    if (!isNullOrEmpty())
+                        copyLog(this, notificationId)
+                }
             }
         }
     }
@@ -57,4 +70,12 @@ class NotificationActionReceiver : BroadcastReceiver() {
         context.let { TextUtil.makeToastSuspend(it.getString(R.string.error_copied)) }
         NotificationUtil.cancelNotification(notificationId)
     }
+
+    private fun copyLog(log: String, notificationId: Int) {
+        App.clipboard.setPrimaryClip(
+            ClipData.newPlainText(null, log)
+        )
+        NotificationUtil.cancelNotification(notificationId)
+    }
+
 }

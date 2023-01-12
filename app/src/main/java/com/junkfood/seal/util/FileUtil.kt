@@ -71,25 +71,21 @@ object FileUtil {
                 DocumentFile.fromSingleUri(context, Uri.parse(this))?.delete()
         }
 
-    fun scanFileToMediaLibraryPostDownload(title: String, downloadDir: String): List<String> {
-        Log.d(TAG, "scanFileToMediaLibrary: $title")
-        val files = mutableListOf<File>()
-        val paths = mutableListOf<String>()
-
-        File(downloadDir).walkTopDown()
-            .forEach { if (it.isFile && it.path.contains(title)) files.add(it) }
-
-        for (file in files) {
-            paths.add(file.absolutePath)
+    @CheckResult
+    fun scanFileToMediaLibraryPostDownload(title: String, downloadDir: String): List<String> =
+        File(downloadDir)
+            .walkTopDown()
+            .filter { it.isFile && it.path.contains(title) }
+            .map { it.absolutePath }
+            .toMutableList()
+            .apply {
+            MediaScannerConnection.scanFile(
+                context, this.toList().toTypedArray(),
+                null, null
+            )
+            removeAll { it.contains(Regex(THUMBNAIL_REGEX)) || it.contains(Regex(SUBTITLE_REGEX)) }
         }
 
-        MediaScannerConnection.scanFile(
-            context, paths.toTypedArray(),
-            null, null
-        )
-        paths.removeAll { it.contains(Regex(THUMBNAIL_REGEX)) || it.contains(Regex(SUBTITLE_REGEX)) }
-        return paths
-    }
 
     fun scanDownloadDirectoryToMediaLibrary(downloadDir: String) =
         File(downloadDir).walkTopDown().filter { it.isFile }.map { it.absolutePath }.run {

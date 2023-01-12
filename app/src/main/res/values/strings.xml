@@ -282,4 +282,5 @@
     <string name="download_subtitles">Download subtitles</string>
     <string name="subtitle_language">Subtitle languages</string>
     <string name="subtitle_desc">Languages, embed subtitles, auto captions</string>
+    <string name="copy_log">Copy log</string>
 </resources>

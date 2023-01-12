@@ -413,7 +413,7 @@ object DownloadUtil {
         onProcessStarted()
         kotlin.runCatching {
             var last = System.currentTimeMillis()
-            YoutubeDL.getInstance().execute(
+            val response = YoutubeDL.getInstance().execute(
                 request = request,
                 processId = taskId
             ) { progress, _, text ->
@@ -429,18 +429,22 @@ object DownloadUtil {
                         text = text
                     )
                 }
-//                Downloader.updateProcessOutput(
-//                    taskId = url,
-//                    templateName = template.name,
-//                    line = text
-//                )
             }
-            NotificationUtil.finishNotification(
-                notificationId = notificationId,
-                title = taskId,
-                text = context.getString(R.string.status_completed),
-                isCustomCommand = true
-            )
+            response.out.runCatching {
+                NotificationUtil.finishNotificationForCustomCommands(
+                    notificationId = notificationId,
+                    title = taskId,
+                    text = context.getString(R.string.status_completed),
+                    response = this
+                )
+            }.onFailure {
+                NotificationUtil.finishNotificationForCustomCommands(
+                    notificationId = notificationId,
+                    title = taskId,
+                    text = context.getString(R.string.status_completed)
+                )
+            }
+
         }.onFailure {
             it.printStackTrace()
             if (it is YoutubeDL.CanceledException) return@onFailure
