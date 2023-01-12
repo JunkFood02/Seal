@@ -22,5 +22,6 @@ object Route {
     const val NETWORK_PREFERENCES = "network_preferences"
     const val COOKIE_PROFILE = "cookie_profile"
     const val COOKIE_GENERATOR_WEBVIEW = "cookie_webview"
+    const val SUBTITLE_PREFERENCES = "subtitle_preferences"
 
 }

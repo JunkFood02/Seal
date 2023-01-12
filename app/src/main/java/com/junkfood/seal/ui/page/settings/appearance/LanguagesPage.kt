@@ -47,7 +47,7 @@ fun LanguagePage(onBackPressed: () -> Unit) {
     val uriHandler = LocalUriHandler.current
     fun setLanguage(selectedLanguage: Int) {
         language = selectedLanguage
-        PreferenceUtil.updateInt(LANGUAGE, language)
+        PreferenceUtil.encodeInt(LANGUAGE, language)
         MainActivity.setLanguage(getLanguageConfiguration())
     }
     Scaffold(

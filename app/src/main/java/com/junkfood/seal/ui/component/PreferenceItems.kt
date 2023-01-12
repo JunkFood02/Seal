@@ -289,7 +289,8 @@ fun PreferenceSwitch(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal.dp, vertical.dp),
+                .padding(horizontal.dp, vertical.dp)
+                .padding(start = if (icon == null) 12.dp else 0.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -521,7 +522,7 @@ private fun PreferenceSwitchWithContainerPreview() {
 @Composable
 fun PreferenceSwitchWithContainer(
     title: String = "Title ".repeat(2),
-    icon: ImageVector? = Icons.Outlined.Translate,
+    icon: ImageVector? = null,
     isChecked: Boolean = true,
     onClick: () -> Unit = {},
 ) {

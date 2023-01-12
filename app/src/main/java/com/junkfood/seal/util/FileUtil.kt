@@ -18,6 +18,7 @@ import java.io.File
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
 const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
+const val SUBTITLE_REGEX = "\\.(lrc|vtt|srt|ass|json3|srv.|ttml)$"
 
 object FileUtil {
     fun openFileFromResult(downloadResult: Result<List<String>>) {
@@ -86,7 +87,7 @@ object FileUtil {
             context, paths.toTypedArray(),
             null, null
         )
-        paths.removeAll { it.contains(Regex(THUMBNAIL_REGEX)) }
+        paths.removeAll { it.contains(Regex(THUMBNAIL_REGEX)) || it.contains(Regex(SUBTITLE_REGEX)) }
         return paths
     }
 

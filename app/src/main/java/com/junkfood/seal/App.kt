@@ -59,7 +59,7 @@ class App : Application() {
         applicationScope.launch((Dispatchers.IO)) {
             try {
                 if (!PreferenceUtil.containsKey(TEMPLATE_ID)) {
-                    PreferenceUtil.updateInt(
+                    PreferenceUtil.encodeInt(
                         TEMPLATE_ID, DatabaseUtil.insertTemplate(
                             CommandTemplate(
                                 id = 0,
@@ -147,10 +147,10 @@ class App : Application() {
         fun updateDownloadDir(path: String, isAudio: Boolean = false) {
             if (isAudio) {
                 audioDownloadDir = path
-                PreferenceUtil.updateString(AUDIO_DIRECTORY, path)
+                PreferenceUtil.encodeString(AUDIO_DIRECTORY, path)
             } else {
                 videoDownloadDir = path
-                PreferenceUtil.updateString(VIDEO_DIRECTORY, path)
+                PreferenceUtil.encodeString(VIDEO_DIRECTORY, path)
             }
         }
 

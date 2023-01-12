@@ -18,6 +18,7 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.TextUtil.isNumberInRange
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
@@ -107,7 +108,9 @@ object DownloadUtil {
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
         val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
-        val embedSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
+        val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
+        val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
+        val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
         val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments(),
         val maxFileSize: String = MAX_FILE_SIZE.getString(),
@@ -153,14 +156,17 @@ object DownloadUtil {
                     addOption("-f", formatId)
                 else
                     addOption("-S", this.toVideoFormatSorter())
-                if (embedSubtitle) {
-                    addOption("--remux-video", "mkv")
-                    addOption("--embed-subs")
+                if (downloadSubtitle) {
                     if (autoSubtitle) {
                         addOption("--write-auto-subs")
-                        addOption("--sub-lang", ".*orig")
+                        addOption("--extractor-args", "youtube:skip=translated_subs")
+                    }
+                    addOption("--sub-langs", subtitleLanguage)
+                    if (embedSubtitle) {
+                        addOption("--remux-video", "mkv")
+                        addOption("--embed-subs")
                     } else {
-                        addOption("--sub-lang", "all,-live_chat")
+                        addOption("--write-subs")
                     }
                 }
                 addOption("--embed-chapters")

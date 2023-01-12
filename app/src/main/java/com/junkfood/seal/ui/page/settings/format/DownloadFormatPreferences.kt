@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
-import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
@@ -25,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
@@ -34,7 +32,6 @@ import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
-import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
@@ -44,7 +41,7 @@ import com.junkfood.seal.util.SUBTITLE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
+fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -156,36 +153,14 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
 
                 item {
 
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.embed_subtitles),
+                    PreferenceItem(
+                        title = stringResource(id = R.string.subtitle),
                         icon = Icons.Outlined.Subtitles,
                         enabled = !audioSwitch && !isCustomCommandEnabled,
-                        description = stringResource(id = R.string.embed_subtitles_desc),
-                        isChecked = embedSubtitle
-                    ) {
-                        embedSubtitle = !embedSubtitle
-                        PreferenceUtil.updateValue(SUBTITLE, embedSubtitle)
-                    }
+                        description = stringResource(id = R.string.subtitle_desc),
+                    ) { navigateToSubtitlePage() }
                 }
-                item {
-                    var autoSubtitle by remember {
-                        mutableStateOf(
-                            PreferenceUtil.getValue(
-                                AUTO_SUBTITLE
-                            )
-                        )
-                    }
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.auto_subtitle),
-                        icon = Icons.Outlined.ClosedCaption,
-                        enabled = !isCustomCommandEnabled && embedSubtitle && !audioSwitch,
-                        description = stringResource(R.string.auto_subtitle_desc),
-                        isChecked = autoSubtitle
-                    ) {
-                        autoSubtitle = !autoSubtitle
-                        PreferenceUtil.updateValue(AUTO_SUBTITLE, autoSubtitle)
-                    }
-                }
+
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
                 }
@@ -202,7 +177,6 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit) {
                         isFormatSelectionEnabled = !isFormatSelectionEnabled
                         PreferenceUtil.updateValue(FORMAT_SELECTION, isFormatSelectionEnabled)
                     }
-
                 }
             }
         })

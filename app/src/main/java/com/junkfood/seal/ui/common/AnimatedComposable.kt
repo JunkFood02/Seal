@@ -66,7 +66,7 @@ const val DURATION_ENTER = 400
 const val DURATION_EXIT = 200
 const val initialOffset = 0.10f
 
-private fun PathInterpolator.toEasing(): Easing {
+fun PathInterpolator.toEasing(): Easing {
     return Easing { f -> this.getInterpolation(f) }
 }
 
@@ -101,7 +101,7 @@ private val fadeTween = tween<Float>(durationMillis = DURATION_EXIT)
 private val fadeSpec = fadeTween
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.slideHorizontallyComposable(
+fun NavGraphBuilder.animatedComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),

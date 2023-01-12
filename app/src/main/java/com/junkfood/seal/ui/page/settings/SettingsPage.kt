@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.SignalCellular4Bar
 import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -149,6 +150,17 @@ fun SettingsPage(navController: NavController) {
                     icon = if (EXTRACT_AUDIO.getBoolean()) Icons.Filled.AudioFile else Icons.Filled.VideoFile
                 ) {
                     navController.navigate(Route.DOWNLOAD_FORMAT) {
+                        launchSingleTop = true
+                    }
+                }
+            }
+            item {
+                SettingItem(
+                    title = stringResource(id = R.string.subtitle), description = stringResource(
+                        id = R.string.subtitle_desc
+                    ), icon = Icons.Outlined.Subtitles
+                ) {
+                    navController.navigate(Route.SUBTITLE_PREFERENCES) {
                         launchSingleTop = true
                     }
                 }

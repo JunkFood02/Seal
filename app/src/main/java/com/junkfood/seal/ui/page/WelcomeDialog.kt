@@ -40,7 +40,7 @@ fun WelcomeDialog(onClick: () -> Unit) {
     }
     var disableDialog by remember { mutableStateOf(false) }
     val onDismissRequest = {
-        PreferenceUtil.updateInt(
+        PreferenceUtil.encodeInt(
             WELCOME_DIALOG,
             if (disableDialog) 0 else showWelcomeDialog + 1
         )

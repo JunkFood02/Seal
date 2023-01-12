@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.download
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.horizontalScroll
@@ -25,6 +24,7 @@ import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.HighQuality
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -46,8 +46,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.material.badge.BadgeUtils
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
@@ -61,11 +63,14 @@ import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
+import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
+import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
@@ -89,10 +94,12 @@ fun DownloadSettingDialog(
     var customCommand by remember { mutableStateOf(PreferenceUtil.getValue(CUSTOM_COMMAND)) }
     var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
+    var formatSelection by FORMAT_SELECTION.booleanState
 
     var showAudioFormatEditDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showSubtitleDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
     var selectedTemplateId by TEMPLATE_ID.intState
 
@@ -113,7 +120,7 @@ fun DownloadSettingDialog(
             PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
             PreferenceUtil.updateValue(PLAYLIST, playlist)
             PreferenceUtil.updateValue(SUBTITLE, subtitle)
-            PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+            PreferenceUtil.encodeInt(TEMPLATE_ID, selectedTemplateId)
         }
     }
 
@@ -146,7 +153,7 @@ fun DownloadSettingDialog(
                     },
                     label = stringResource(R.string.extract_audio)
                 )
-                if (!isShareActivity)
+                if (!isShareActivity) {
                     FilterChip(
                         selected = playlist,
                         enabled = !customCommand,
@@ -156,6 +163,16 @@ fun DownloadSettingDialog(
                         },
                         label = stringResource(R.string.download_playlist)
                     )
+                    FilterChip(
+                        selected = formatSelection,
+                        enabled = !customCommand && !playlist,
+                        onClick = {
+                            formatSelection = !formatSelection
+                            FORMAT_SELECTION.updateBoolean(formatSelection)
+                        },
+                        label = stringResource(R.string.format_selection)
+                    )
+                }
                 FilterChip(
                     selected = subtitle,
                     enabled = !customCommand && !audio,
@@ -163,7 +180,7 @@ fun DownloadSettingDialog(
                         subtitle = !subtitle
                         updatePreferences()
                     },
-                    label = stringResource(id = R.string.embed_subtitles)
+                    label = stringResource(id = R.string.download_subtitles)
                 )
                 FilterChip(
                     selected = thumbnail,
@@ -216,6 +233,12 @@ fun DownloadSettingDialog(
                         enabled = !customCommand && !audio,
                         label = stringResource(R.string.video_quality),
                         icon = Icons.Outlined.HighQuality
+                    )
+                    ButtonChip(
+                        onClick = { showSubtitleDialog = true },
+                        label = stringResource(id = R.string.subtitle_language),
+                        icon = Icons.Outlined.Language,
+                        enabled = !customCommand && !audio && subtitle
                     )
                     ButtonChip(
                         onClick = { showAudioFormatEditDialog = true },
@@ -332,7 +355,7 @@ fun DownloadSettingDialog(
             confirmationCallback = {
                 scope.launch {
                     selectedTemplateId = it
-                    PreferenceUtil.updateInt(TEMPLATE_ID, it)
+                    PreferenceUtil.encodeInt(TEMPLATE_ID, it)
                     templateList.indexOfFirst { it.id == selectedTemplateId }
                         .run { if (!equals(-1)) scrollState.scrollToItem(this) }
                 }
@@ -342,4 +365,6 @@ fun DownloadSettingDialog(
             ?: CommandTemplate(0, "", ""),
             onDismissRequest = { showCustomCommandDialog = 0 })
     }
+    if (showSubtitleDialog)
+        SubtitleLanguageDialog { showSubtitleDialog = false }
 }

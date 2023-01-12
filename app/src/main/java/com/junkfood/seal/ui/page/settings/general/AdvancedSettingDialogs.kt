@@ -62,7 +62,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
     }, confirmButton = {
         ConfirmButton {
             onDismissRequest()
-            PreferenceUtil.updateString(SPONSORBLOCK_CATEGORIES, categories)
+            PreferenceUtil.encodeString(SPONSORBLOCK_CATEGORIES, categories)
         }
     })
 }

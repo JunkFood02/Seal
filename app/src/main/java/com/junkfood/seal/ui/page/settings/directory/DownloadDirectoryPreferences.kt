@@ -168,7 +168,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             it?.let {
                 if (editingDirectory == Directory.SDCARD) {
                     sdcardUri = it.toString()
-                    PreferenceUtil.updateString(SDCARD_URI, it.toString())
+                    PreferenceUtil.encodeString(SDCARD_URI, it.toString())
                     context.contentResolver?.takePersistableUriPermission(
                         it,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or
@@ -382,7 +382,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             confirmButton = {
                 ConfirmButton {
                     showEditDialog = false
-                    PreferenceUtil.updateString(OUTPUT_PATH_TEMPLATE, pathTemplateText)
+                    PreferenceUtil.encodeString(OUTPUT_PATH_TEMPLATE, pathTemplateText)
                 }
             }, icon = { Icon(Icons.Outlined.Edit, null) },
             text = {

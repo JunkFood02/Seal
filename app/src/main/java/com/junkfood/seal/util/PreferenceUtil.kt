@@ -3,8 +3,6 @@ package com.junkfood.seal.util
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import com.google.android.material.color.DynamicColors
@@ -16,7 +14,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
-import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
@@ -97,6 +94,7 @@ private val StringPreferenceDefaults =
         SPONSORBLOCK_CATEGORIES to "default",
         MAX_RATE to "1000",
         OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
+        SUBTITLE_LANGUAGE to "en,.*-orig"
     )
 
 private val BooleanPreferenceDefaults =
@@ -129,10 +127,15 @@ object PreferenceUtil {
     fun String.getBoolean(default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }): Boolean =
         kv.decodeBool(this, default)
 
-    fun updateValue(key: String, b: Boolean) = kv.encode(key, b)
-    fun updateInt(key: String, int: Int) = kv.encode(key, int)
+    fun String.updateString(newString: String) = kv.encode(this, newString)
+
+    fun String.updateInt(newInt: Int) = kv.encode(this, newInt)
+
+    fun String.updateBoolean(newValue: Boolean) = kv.encode(this, newValue)
+    fun updateValue(key: String, b: Boolean) = key.updateBoolean(b)
+    fun encodeInt(key: String, int: Int) = key.updateInt(int)
     fun getValue(key: String): Boolean = key.getBoolean()
-    fun updateString(key: String, string: String) = kv.encode(key, string)
+    fun encodeString(key: String, string: String) = key.updateString(string)
     fun containsKey(key: String) = kv.containsKey(key)
     fun getOutputPathTemplate(): String = OUTPUT_PATH_TEMPLATE.getString()
 
@@ -176,8 +179,6 @@ object PreferenceUtil {
         getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
 
     fun isAutoUpdateEnabled() = AUTO_UPDATE.getBoolean(!isFDroidBuild())
-
-
 
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =

@@ -279,7 +279,7 @@ fun DownloadPageImpl(
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 },
                 onLongClick = {
-                    PreferenceUtil.updateInt(WELCOME_DIALOG, 1)
+                    PreferenceUtil.encodeInt(WELCOME_DIALOG, 1)
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 })
 

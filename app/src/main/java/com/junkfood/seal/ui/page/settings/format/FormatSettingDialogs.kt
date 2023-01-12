@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined._4k
 import androidx.compose.material3.AlertDialog
@@ -31,11 +32,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.stringState
+import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
 
@@ -54,7 +61,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
             Text(stringResource(R.string.audio_format))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(AUDIO_FORMAT, audioFormat)
+                PreferenceUtil.encodeInt(AUDIO_FORMAT, audioFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -93,7 +100,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
             Text(stringResource(R.string.video_format_preference))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(VIDEO_FORMAT, videoFormat)
+                PreferenceUtil.encodeInt(VIDEO_FORMAT, videoFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -133,7 +140,9 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }) {
             OutlinedTextField(
-                modifier = modifier.fillMaxWidth().menuAnchor(),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
                 value = videoResolutionText,
                 onValueChange = {},
                 readOnly = true,
@@ -169,7 +178,9 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }) {
             OutlinedTextField(
-                modifier = modifier.fillMaxWidth().menuAnchor(),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
                 value = fileSize,
                 onValueChange = {
                     fileSize =
@@ -204,8 +215,8 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
             Text(stringResource(R.string.video_quality))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.updateInt(VIDEO_QUALITY, videoResolution)
-                PreferenceUtil.updateString(MAX_FILE_SIZE, fileSize)
+                PreferenceUtil.encodeInt(VIDEO_QUALITY, videoResolution)
+                PreferenceUtil.encodeString(MAX_FILE_SIZE, fileSize)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -224,6 +235,36 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                     item { videoResolutionSelectField() }
                     item { videoSizeTextField(modifier = Modifier.padding(top = 12.dp)) }
                 }
+            }
+        })
+}
+
+private const val subtitleOptions = "https://github.com/yt-dlp/yt-dlp#subtitle-options"
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
+    var languages by SUBTITLE_LANGUAGE.stringState
+
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text(stringResource(id = R.string.subtitle_language)) },
+        icon = { Icon(Icons.Outlined.Language, null) },
+        text = {
+            Column() {
+                OutlinedTextField(modifier = Modifier.padding(bottom = 8.dp), value = languages, onValueChange = { languages = it }, label = {
+                    Text(stringResource(id = R.string.subtitle_language))
+                })
+                LinkButton(link = subtitleOptions)
+            }
+        }, confirmButton = {
+            ConfirmButton() {
+                SUBTITLE_LANGUAGE.updateString(languages)
+                onDismissRequest()
+            }
+        }, dismissButton = {
+            DismissButton() {
+                onDismissRequest()
             }
         })
 }

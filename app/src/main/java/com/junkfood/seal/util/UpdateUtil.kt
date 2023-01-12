@@ -9,7 +9,6 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.util.PreferenceUtil.getString
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -56,7 +55,7 @@ object UpdateUtil {
             YoutubeDL.getInstance().updateYoutubeDL(context).apply {
                 if (this == YoutubeDL.UpdateStatus.DONE)
                     YoutubeDL.getInstance().version(context)?.let {
-                        PreferenceUtil.updateString(YT_DLP, it)
+                        PreferenceUtil.encodeString(YT_DLP, it)
                     }
             }
         }

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -135,11 +136,12 @@ fun OutlinedButtonWithIcon(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     icon: ImageVector,
-    text: String
+    text: String,
 ) {
     OutlinedButton(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
     )
     {
         Icon(
@@ -163,7 +165,8 @@ fun TextButtonWithIcon(
 ) {
     TextButton(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
     )
     {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -214,7 +217,8 @@ fun FilledButtonWithIcon(
 ) {
     Button(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
     )
     {
         Icon(

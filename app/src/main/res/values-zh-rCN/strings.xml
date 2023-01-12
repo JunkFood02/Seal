@@ -135,7 +135,7 @@
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
     <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>
     <string name="embed_subtitles">封装字幕</string>
-    <string name="embed_subtitles_desc">将网站提供的字幕嵌入到视频文件中</string>
+    <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
     <string name="new_template">新建命令模板</string>
     <string name="template_label">模板标签</string>
     <string name="remove_template">移除命令模板</string>
@@ -226,8 +226,14 @@
     <string name="telegram_channel">Telegram 频道</string>
     <string name="matrix_space">Matrix 空间</string>
     <string name="sdcard_directory">SD 卡目录</string>
-    <string name="auto_subtitle">封装自动生成的字幕</string>
-    <string name="auto_subtitle_desc">将自动生成的字幕封装到视频中</string>
+    <string name="auto_subtitle">自动生成的字幕</string>
+    <string name="auto_subtitle_desc">下载自动生成的字幕</string>
     <string name="title_activity_share">一键下载</string>
     <string name="abs_hint">大部分视频平台将音频流与视频流分开传输，你可以同时选取仅音频格式与仅视频格式，将其合并为一个视频。</string>
+    <string name="video_title_sample_text">视频标题</string>
+    <string name="video_creator_sample_text">视频作者</string>
+    <string name="subtitle">字幕</string>
+    <string name="download_subtitles">下载字幕</string>
+    <string name="subtitle_language">字幕语言</string>
+    <string name="subtitle_desc">语言，封装字幕，自动字幕</string>
 </resources>

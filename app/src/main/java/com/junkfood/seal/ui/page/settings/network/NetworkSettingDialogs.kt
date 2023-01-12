@@ -74,7 +74,7 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
     }, confirmButton = {
         ConfirmButton {
             if (maxRate.isNumberInRange(1, 100_0000)) {
-                PreferenceUtil.updateString(MAX_RATE, maxRate)
+                PreferenceUtil.encodeString(MAX_RATE, maxRate)
                 onDismissRequest()
             } else {
                 isError = true
@@ -104,7 +104,7 @@ fun ConcurrentDownloadDialog(
         confirmButton = {
             TextButton(onClick = {
                 onDismissRequest()
-                PreferenceUtil.updateInt(CONCURRENT, count)
+                PreferenceUtil.encodeInt(CONCURRENT, count)
             }) {
                 Text(stringResource(R.string.confirm))
             }

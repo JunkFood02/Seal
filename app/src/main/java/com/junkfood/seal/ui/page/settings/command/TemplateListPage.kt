@@ -186,7 +186,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                         showEditDialog = true
                     }, onSelect = {
                         selectedTemplateId = commandTemplate.id
-                        PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+                        PreferenceUtil.encodeInt(TEMPLATE_ID, selectedTemplateId)
                     })
                 {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -239,7 +239,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     LaunchedEffect(templates.size) {
         if (templates.isNotEmpty() && templates.find { it.id == selectedTemplateId } == null) {
             selectedTemplateId = templates.first().id
-            PreferenceUtil.updateInt(TEMPLATE_ID, selectedTemplateId)
+            PreferenceUtil.encodeInt(TEMPLATE_ID, selectedTemplateId)
         }
     }
 }
