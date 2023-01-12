@@ -67,7 +67,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("Accompanist", APACHE_V2, accompanist),
         Credit("Material Design 3", APACHE_V2, material3),
         Credit("Material Icons", APACHE_V2, materialIcon),
-        Credit("Monet", null, monet),
+        Credit("Monet", APACHE_V2, monet),
 //        Credit("Material color utilities", APACHE_V2, materialColor),
         Credit("MMKV", BSD, mmkv),
         Credit("Coil", APACHE_V2, coil),
