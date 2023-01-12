@@ -67,6 +67,7 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
@@ -187,12 +188,15 @@ fun AppearancePreferences(
                         }
                     )
                 }
-                PreferenceItem(
+                val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+                PreferenceSwitchWithDivider(
                     title = stringResource(id = R.string.dark_theme),
-                    description = LocalDarkTheme.current.getDarkThemeDesc(),
                     icon = Icons.Outlined.DarkMode,
-                    enabled = true
-                ) { navController.navigate(Route.DARK_THEME) }
+                    isChecked = isDarkTheme,
+                    description = LocalDarkTheme.current.getDarkThemeDesc(),
+                    onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },
+                    onClick = { navController.navigate(Route.DARK_THEME) }
+                )
                 if (Build.VERSION.SDK_INT >= 24)
                     PreferenceItem(
                         title = stringResource(R.string.language),

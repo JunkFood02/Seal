@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
 
+import android.os.Build
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -57,12 +58,13 @@ fun DarkThemePreferences(onBackPressed: () -> Unit) {
             )
         }, content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                item {
-                    PreferenceSingleChoiceItem(
-                        text = stringResource(R.string.follow_system),
-                        selected = darkThemePreference.darkThemeValue == FOLLOW_SYSTEM
-                    ) { PreferenceUtil.modifyDarkThemePreference(FOLLOW_SYSTEM) }
-                }
+                if (Build.VERSION.SDK_INT >= 29)
+                    item {
+                        PreferenceSingleChoiceItem(
+                            text = stringResource(R.string.follow_system),
+                            selected = darkThemePreference.darkThemeValue == FOLLOW_SYSTEM
+                        ) { PreferenceUtil.modifyDarkThemePreference(FOLLOW_SYSTEM) }
+                    }
                 item {
                     PreferenceSingleChoiceItem(
                         text = stringResource(R.string.on),

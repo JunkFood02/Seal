@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +50,9 @@ import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
+
+private const val horizontal = 8
+private const val vertical = 16
 
 @Composable
 fun PreferenceItem(
@@ -64,7 +68,7 @@ fun PreferenceItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp, 20.dp),
+                .padding(horizontal.dp, vertical.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             when (icon) {
@@ -75,7 +79,7 @@ fun PreferenceItem(
                         modifier = Modifier
                             .padding(start = 8.dp, end = 16.dp)
                             .size(24.dp),
-                        tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                     )
                 }
 
@@ -86,7 +90,7 @@ fun PreferenceItem(
                         modifier = Modifier
                             .padding(start = 8.dp, end = 16.dp)
                             .size(24.dp),
-                        tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                     )
                 }
             }
@@ -131,7 +135,7 @@ fun PreferenceItemVariant(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(8.dp, 16.dp),
+                .padding(12.dp, vertical.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -141,7 +145,7 @@ fun PreferenceItemVariant(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                 )
             }
             Column(
@@ -186,7 +190,7 @@ fun PreferenceSingleChoiceItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 28.dp),
+                .padding(horizontal = 12.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -203,8 +207,10 @@ fun PreferenceSingleChoiceItem(
             }
             RadioButton(
                 selected = selected,
-                onClick = null,
-                modifier = Modifier.padding(start = 20.dp, end = 8.dp),
+                onClick = onClick,
+                modifier = Modifier
+                    .padding()
+                    .clearAndSetSemantics { },
             )
         }
     }
@@ -217,7 +223,7 @@ internal fun PreferenceItemTitle(
     maxLines: Int = 2,
     style: TextStyle = preferenceTitle,
     enabled: Boolean,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
     Text(
@@ -237,7 +243,7 @@ internal fun PreferenceItemDescription(
     maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     enabled: Boolean,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
     Text(
@@ -283,7 +289,7 @@ fun PreferenceSwitch(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp, 20.dp),
+                .padding(horizontal.dp, vertical.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -293,7 +299,7 @@ fun PreferenceSwitch(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                 )
             }
             Column(
@@ -352,7 +358,7 @@ fun PreferenceSwitchWithDivider(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp, 20.dp)
+                .padding(horizontal.dp, vertical.dp)
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -363,7 +369,7 @@ fun PreferenceSwitchWithDivider(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 16.dp)
                         .size(24.dp),
-                    tint = MaterialTheme.colorScheme.secondary.applyOpacity(enabled)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                 )
             }
             Column(

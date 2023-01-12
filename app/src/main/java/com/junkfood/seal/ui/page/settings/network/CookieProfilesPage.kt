@@ -110,7 +110,7 @@ fun CookieProfilePage(
                     icon = null,
                     isChecked = isCookieEnabled,
                     onClick = {
-                        if (cookies.isEmpty())
+                        if (cookies.isEmpty() && !isCookieEnabled)
                             showHelpDialog = true
                         else {
                             isCookieEnabled = !isCookieEnabled
