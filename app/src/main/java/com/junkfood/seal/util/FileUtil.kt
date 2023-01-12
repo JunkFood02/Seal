@@ -23,7 +23,7 @@ object FileUtil {
     fun openFileFromResult(downloadResult: Result<List<String>>) {
         val filePaths = downloadResult.getOrNull()
         if (filePaths.isNullOrEmpty()) return
-        context.startActivity(createIntentForFile(filePaths.first()))
+        openFile(filePaths.first())
     }
 
     fun openFile(path: String) =

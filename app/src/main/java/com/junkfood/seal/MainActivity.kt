@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                 SealTheme(
                     darkTheme = LocalDarkTheme.current.isDarkTheme(),
                     isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                    seedColor = LocalSeedColor.current,
                     isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
                     HomeEntry(

@@ -15,20 +15,20 @@ val LocalTonalPalettes = staticCompositionLocalOf {
     Color(0xFF007FAC).toTonalPalettes()
 }
 
-val Number.a1: Color
+inline val Number.a1: Color
     @Composable
     get() = LocalTonalPalettes.current accent1 toDouble()
 
-val Number.a2: Color
+inline val Number.a2: Color
     @Composable get() = LocalTonalPalettes.current accent2 toDouble()
 
-val Number.a3: Color
+inline val Number.a3: Color
     @Composable get() = LocalTonalPalettes.current accent3 toDouble()
 
-val Number.n1: Color
+inline val Number.n1: Color
     @Composable get() = LocalTonalPalettes.current neutral1 toDouble()
 
-val Number.n2: Color
+inline val Number.n2: Color
     @Composable get() = LocalTonalPalettes.current neutral2 toDouble()
 
 @Composable

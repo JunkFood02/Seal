@@ -49,7 +49,6 @@ private tailrec fun Context.findWindow(): Window? =
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     isHighContrastModeEnabled: Boolean = false,
-    seedColor: Int = DEFAULT_SEED_COLOR,
     isDynamicColorEnabled: Boolean = false,
     content: @Composable () -> Unit
 ) {
