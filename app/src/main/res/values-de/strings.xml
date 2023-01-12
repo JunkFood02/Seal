@@ -225,4 +225,5 @@
     <string name="telegram_channel">Telegram-Kanal</string>
     <string name="cookies">Cookies</string>
     <string name="matrix_space">Matrix-Raum</string>
+    <string name="abs_hint">Die meisten Videostreaming-Plattformen liefern Audio und Video getrennt. Du kannst ein reines Audioformat auswählen und mit einem reinen Videoformat zu einem einzigen Video zusammenfügen.</string>
 </resources>

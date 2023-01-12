@@ -15,7 +15,7 @@
     <string name="permission_denied">Недостатньо повноважень</string>
     <string name="download_success_msg">Завантаження завершено</string>
     <string name="download_error_msg">Неможливо завантажити файл</string>
-    <string name="download_start_msg">Завантаження «%1$s»</string>
+    <string name="download_start_msg">Завантаження \"%1$s\"</string>
     <string name="fetch_info_error_msg">Неможливо зібрати інформацію про відео</string>
     <string name="general_settings">Основне</string>
     <string name="language">Мова</string>
@@ -26,7 +26,7 @@
     <string name="ytdlp_version">Версiя yt-dlp</string>
     <string name="ytdlp_update">Натисніть для встановлення останньої версії yt-dlp</string>
     <string name="delete_info">Видалити?</string>
-    <string name="delete_info_msg">Видалити «%1$s» з вашої історії завантажень\?</string>
+    <string name="delete_info_msg">Видалити \"%1$s\" з вашої історії завантажень\?</string>
     <string name="confirm">Підтвердити</string>
     <string name="dismiss">Скасувати</string>
     <string name="downloads_history">Завантаження</string>
@@ -65,7 +65,7 @@
     <string name="settings_before_download_desc">Налаштувати завантаження перед початком</string>
     <string name="settings_before_download_text">Параметри завантаження</string>
     <string name="error_copied">Звіт про помилку скопійовано в буфер обміну</string>
-    <string name="thumbnail">Прев\'ю</string>
+    <string name="thumbnail">прев\'ю</string>
     <string name="paste">Вставити</string>
     <string name="yt_dlp_docs">Документація yt-dlp</string>
     <string name="edit_template_desc">Директорія завантажень та посилання будуть додані застосунком.</string>
@@ -87,8 +87,8 @@
     <string name="close_never_show_again">Не показувати знову</string>
     <string name="user_guide">Інструкція</string>
     <string name="open_settings">Вiдкрити параметри</string>
-    <string name="paste_desc">Натисніть «Вставити», щоб вставити посилання з вашого буфера обміну.</string>
-    <string name="download_desc">Після чого натисніть «Завантажити», щоб почати завантаження.</string>
+    <string name="paste_desc">Натисніть \"Вставити\", щоб вставити посилання з вашого буфера обміну.</string>
+    <string name="download_desc">Після чого натисніть \"Завантажити\", щоб почати завантаження.</string>
     <string name="download_history_desc">Керування завантаженнями, включаючи аудіо та відео.</string>
     <string name="check_download_settings_desc">Спочатку ознайомтеся з налаштуваннями завантажень та переконайтеся, що у Вас встановлена остання версія yt-dlp.</string>
     <string name="download_playlist">Завантажити плейлист</string>
@@ -112,7 +112,7 @@
     <string name="download_notification_desc">"Повідомляти про завантаження"</string>
     <string name="fetching_playlist_info">Збираємо інформацію про плейлист…</string>
     <string name="download_range_selection">Вибір плейлиста</string>
-    <string name="download_range_desc">Позначити початок та кінець списку завантажень із плейлиста «%3$s» (з %1$d по %2$d).</string>
+    <string name="download_range_desc">Позначити початок та кінець списку завантажень із плейлиста \"%3$s\" (з %1$d по %2$d).</string>
     <string name="from">Почати з номера</string>
     <string name="to">Закінчити номером</string>
     <string name="invalid_index_range">Неіснуючий діапазон індексу</string>
@@ -139,7 +139,7 @@
     <string name="new_template">Новий шаблон</string>
     <string name="template_label">Позначка</string>
     <string name="remove_template">Видалити\?</string>
-    <string name="remove_template_desc">Назавжди видалити «%1$s» з шаблонів команд\?</string>
+    <string name="remove_template_desc">Назавжди видалити \"%1$s\" з шаблонів команд\?</string>
     <string name="template_selection">Вибрати шаблони</string>
     <string name="custom_command_template_desc">Керувати шаблонами команд</string>
     <string name="downloading_indicator_text">Завантаження в процесі, натисніть щоб скасувати.</string>

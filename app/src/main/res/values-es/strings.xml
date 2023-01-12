@@ -225,4 +225,5 @@
     <string name="cookies_usage_msg">La descarga desde algunos sitios requiere información de autenticación de cuenta. Haz clic en \"Generar nuevas cookies\", introduce la URL del sitio web y, a continuación, inicia sesión con tu cuenta en la página del navegador; la aplicación la generará por ti.</string>
     <string name="cookies">Cookies</string>
     <string name="matrix_space">Canal de Matrix</string>
+    <string name="abs_hint">La mayoría de los servicios de streaming en línea proveen el audio y el vídeo por separado. De esta forma puedes seleccionar mezclar un formato de solo vídeo con otro de solo audio para crear un único vídeo con audio, dando así una mayor personalización.</string>
 </resources>
