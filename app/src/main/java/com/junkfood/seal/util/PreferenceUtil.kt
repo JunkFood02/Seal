@@ -94,18 +94,19 @@ private val StringPreferenceDefaults =
         SPONSORBLOCK_CATEGORIES to "default",
         MAX_RATE to "1000",
         OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
-        SUBTITLE_LANGUAGE to "en,.*-orig"
+        SUBTITLE_LANGUAGE to "en.*,.*-orig"
     )
 
 private val BooleanPreferenceDefaults =
     mapOf(
         FORMAT_SELECTION to true,
-        CONFIGURE to true
+        CONFIGURE to true,
+        CELLULAR_DOWNLOAD to true
     )
 
 private val IntPreferenceDefaults = mapOf(
     TEMPLATE_ID to 0,
-    CONCURRENT to 1,
+    CONCURRENT to 8,
     LANGUAGE to SYSTEM_DEFAULT,
     PALETTE_STYLE to 0,
     DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
@@ -176,7 +177,7 @@ object PreferenceUtil {
     }
 
     fun isNetworkAvailableForDownload() =
-        getValue(CELLULAR_DOWNLOAD) || !App.connectivityManager.isActiveNetworkMetered
+        CELLULAR_DOWNLOAD.getBoolean() || !App.connectivityManager.isActiveNetworkMetered
 
     fun isAutoUpdateEnabled() = AUTO_UPDATE.getBoolean(!isFDroidBuild())
 
@@ -197,7 +198,7 @@ object PreferenceUtil {
         else LANGUAGE.getInt()
     }
 
-    fun getConcurrentFragments(level: Int = kv.decodeInt(CONCURRENT, 1)): Float {
+    fun getConcurrentFragments(level: Int = CONCURRENT.getInt()): Float {
         return when (level) {
             1 -> 0f
             4 -> 0.25f
