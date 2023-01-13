@@ -33,8 +33,10 @@ import androidx.compose.ui.window.DialogProperties
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.ButtonChip
+import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.LinkButton
+import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.util.DatabaseUtil
 import kotlinx.coroutines.launch
 
@@ -122,9 +124,9 @@ fun CommandTemplateDialog(
                     value = templateText,
                     onValueChange = { templateText = it },
                     trailingIcon = {
-                        IconButton(onClick = {
-                            clipboardManager.getText().toString().let { templateText = it }
-                        }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
+                        if (templateText.isEmpty())
+                            PasteButton { templateText = it }
+                        else ClearButton { templateText = "" }
                     },
                     label = { Text(stringResource(R.string.custom_command_template)) },
                     maxLines = 12,

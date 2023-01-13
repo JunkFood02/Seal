@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material.icons.outlined.ClearAll
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.AssistChipDefaults
@@ -270,9 +272,29 @@ fun LinkButton(
 @Composable
 fun PasteButton(onPaste: (String) -> Unit = {}) {
     val clipboardManager = LocalClipboardManager.current
-    IconButton(onClick = {
+    PasteUrlButton(onClick = {
         clipboardManager.getText().toString().let { onPaste(it) }
-    }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
-
+    })
 }
 
+@Composable
+fun PasteUrlButton(onClick: () -> Unit = {}) {
+    IconButton(onClick = onClick) {
+        Icon(
+            Icons.Outlined.ContentPaste,
+            stringResource(R.string.paste)
+        )
+    }
+}
+
+@Composable
+fun ClearButton(onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            modifier = Modifier.size(18.dp),
+            imageVector = Icons.Outlined.Clear,
+            contentDescription = stringResource(id = R.string.clear),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}

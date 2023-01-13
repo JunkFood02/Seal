@@ -80,7 +80,10 @@ import com.junkfood.seal.App
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
+import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
+import com.junkfood.seal.ui.component.PasteButton
+import com.junkfood.seal.ui.component.PasteUrlButton
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.CONFIGURE
@@ -307,10 +310,10 @@ fun DownloadPageImpl(
                     }
                     InputUrl(
                         url = viewState.url,
-                        hint = stringResource(R.string.video_url),
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
                         error = errorState.isErrorOccurred(),
+                        onPaste = pasteCallback,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
                         enter = expandVertically() + fadeIn(),
@@ -360,22 +363,26 @@ fun DownloadPageImpl(
 @Composable
 fun InputUrl(
     url: String,
-    hint: String,
     error: Boolean,
     showDownloadProgress: Boolean = false,
     progress: Float,
+    onPaste: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
     OutlinedTextField(
         value = url,
         isError = error,
         onValueChange = onValueChange,
-        label = { Text(hint) },
+        label = { Text(stringResource(R.string.video_url)) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
             .fillMaxWidth(),
         textStyle = MaterialTheme.typography.bodyLarge,
-        maxLines = 3
+        maxLines = 3,
+        trailingIcon = {
+            if (url.isNotEmpty()) ClearButton { onValueChange("") }
+//            else PasteUrlButton { onPaste() }
+        }
     )
     AnimatedVisibility(visible = showDownloadProgress) {
         Row(
