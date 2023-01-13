@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AssignmentReturn
-import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.icons.outlined.ContentPasteGo
 import androidx.compose.material.icons.outlined.Delete
@@ -46,7 +45,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -184,8 +182,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                     template = commandTemplate.template,
                     selected = selectedTemplateId == commandTemplate.id,
                     onClick = {
-                        editingTemplateId = commandTemplate.id
-                        showEditDialog = true
+                        onNavigateToEditPage(commandTemplate.id)
                     }, onSelect = {
                         selectedTemplateId = commandTemplate.id
                         PreferenceUtil.encodeInt(TEMPLATE_ID, selectedTemplateId)
@@ -231,7 +228,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                             onClick = {})
                     }
                     PreferenceItemVariant(
-                        title = stringResource(id = R.string.edit_option_chips),
+                        title = stringResource(id = R.string.edit_shortcuts),
                         icon = Icons.Outlined.BookmarkAdd,
                         onLongClick = {
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -245,7 +242,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
             }
         }
     }
-    if (showEditDialog) {
+/*    if (showEditDialog) {
         if (editingTemplateId == -1)
             CommandTemplateDialog(
                 commandTemplate = CommandTemplate(0, "", ""),
@@ -258,7 +255,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                     template = ""
                 ),
                 onDismissRequest = { showEditDialog = false })
-    }
+    }*/
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },

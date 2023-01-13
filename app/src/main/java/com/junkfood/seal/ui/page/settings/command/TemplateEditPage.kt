@@ -1,19 +1,14 @@
 package com.junkfood.seal.ui.page.settings.command
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -43,14 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -68,58 +60,59 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
+    val scope = rememberCoroutineScope()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val commandTemplate =
-        if (templateId > 0) PreferenceUtil.templateStateFlow.collectAsState().value[templateId] else
-            CommandTemplate(0, "", "")
+        PreferenceUtil.templateStateFlow.collectAsState().value.find { it.id == templateId }
+            ?: CommandTemplate(0, "", "")
 
     var templateText by remember { mutableStateOf(commandTemplate.template) }
     var templateName by remember { mutableStateOf(commandTemplate.name) }
 
     var isEditingShortcuts by remember { mutableStateOf(false) }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = stringResource(R.string.new_template),
+                    text = stringResource(if (templateId <= 0) R.string.new_template else R.string.edit),
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
-            },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { onDismissRequest() }) {
-                        Icon(Icons.Outlined.Close, stringResource(R.string.close))
-                    }
-                }, actions = {
-                    TextButton(
-                        modifier = Modifier.padding(end = 8.dp),
-                        onClick = {
+            }, navigationIcon = {
+                IconButton(onClick = { onDismissRequest() }) {
+                    Icon(Icons.Outlined.Close, stringResource(R.string.close))
+                }
+            }, actions = {
+                TextButton(
+                    modifier = Modifier.padding(end = 8.dp), onClick = {
+                        scope.launch {
+                            commandTemplate.copy(name = templateName, template = templateText).run {
+                                if (id == 0) DatabaseUtil.insertTemplate(this)
+                                else DatabaseUtil.updateTemplate(this)
+                            }
+
                             onDismissRequest()
                         }
-                    ) {
-                        Text(text = stringResource(androidx.appcompat.R.string.abc_action_mode_done))
-                    }
-                }, scrollBehavior = scrollBehavior
+                    }, enabled = templateName.isNotEmpty()
+                ) {
+                    Text(text = stringResource(androidx.appcompat.R.string.abc_action_mode_done))
+                }
+            }, scrollBehavior = scrollBehavior
             )
         }) { paddings ->
         LazyColumn(
-            modifier = Modifier.padding(paddings),
-            contentPadding = PaddingValues()
+            modifier = Modifier.padding(paddings), contentPadding = PaddingValues()
         ) {
 
             item {
-                Column(androidx.compose.ui.Modifier.padding(horizontal = 24.dp)) {
-                    AdjacentLabel(
-                        text = stringResource(R.string.template_label),
+                Column(Modifier.padding(horizontal = 24.dp)) {
+                    AdjacentLabel(text = stringResource(R.string.template_label),
                         modifier = Modifier
                             .padding(top = 12.dp)
-                            .clearAndSetSemantics { }
-                    )
+                            .clearAndSetSemantics { })
                     AccessibleOutlinedTextField(
                         labelText = stringResource(R.string.template_label),
                         modifier = Modifier
@@ -133,8 +126,6 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
             }
             item {
                 Column(Modifier.padding(horizontal = 24.dp)) {
-
-
                     AdjacentLabel(text = stringResource(R.string.custom_command_template))
                     OutlinedTextField(
                         supportingText = { Text(text = stringResource(id = R.string.edit_template_desc)) },
@@ -142,8 +133,9 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                         value = templateText,
                         onValueChange = { templateText = it },
                         trailingIcon = {
-                            if (templateText.isEmpty())
-                                PasteFromClipBoardButton { templateText = it }
+                            if (templateText.isEmpty()) PasteFromClipBoardButton {
+                                templateText = it
+                            }
                             else ClearButton { templateText = "" }
                         },
                         maxLines = 6,
@@ -178,19 +170,19 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                         modifier = Modifier,
                         onClick = { isEditingShortcuts = true },
                         icon = Icons.Outlined.Edit,
-                        text = stringResource(id = R.string.edit),
+                        text = stringResource(id = R.string.edit_shortcuts),
                         contentColor = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }
             item {
-                val scope = rememberCoroutineScope()
                 val shortcuts by DatabaseUtil.getShortcuts().collectAsState(emptyList())
                 var text by remember { mutableStateOf("") }
                 val addShortCuts = {
                     scope.launch {
-                        if (shortcuts.find { it.option == text } == null)
-                            DatabaseUtil.insertShortcut(OptionShortcut(option = text))
+                        if (shortcuts.find { it.option == text } == null) DatabaseUtil.insertShortcut(
+                            OptionShortcut(option = text)
+                        )
                         text = ""
                     }
                 }
@@ -207,15 +199,12 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                         crossAxisSpacing = 2.dp,
                     ) {
                         shortcuts.forEach { item ->
-                            ShortcutChip(
-                                text = item.option,
-                                onClick = {
-                                    templateText.run {
-                                        if (isEmpty()) "$this${item.option}"
-                                        else this.removeSuffix(" ") + " ${item.option}"
-                                    }
+                            ShortcutChip(text = item.option, onClick = {
+                                templateText = templateText.run {
+                                    if (isEmpty()) "$this${item.option}"
+                                    else this.removeSuffix(" ") + " ${item.option}"
                                 }
-                            )
+                            })
                         }
                     }
 
@@ -223,7 +212,6 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
             }
         }
     }
-    if (isEditingShortcuts)
-        OptionChipsDialog { isEditingShortcuts = false }
+    if (isEditingShortcuts) OptionChipsDialog { isEditingShortcuts = false }
 }
 

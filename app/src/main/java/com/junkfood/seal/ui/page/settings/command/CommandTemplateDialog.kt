@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,7 +37,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import com.google.accompanist.flowlayout.FlowRow
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -49,7 +49,6 @@ import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.util.DatabaseUtil
-import com.kyant.monet.a3
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -156,16 +155,23 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit) {
     var text by remember { mutableStateOf("") }
     val addShortCuts = {
         scope.launch {
-            if (shortcuts.find { it.option == text } == null)
-                DatabaseUtil.insertShortcut(OptionShortcut(option = text))
-            text = ""
+            text.removeSuffix(" ").run {
+                if (shortcuts.find { it.option == this } == null)
+                    DatabaseUtil.insertShortcut(OptionShortcut(option = this))
+                text = ""
+            }
         }
     }
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text(text = stringResource(id = R.string.edit_option_chips)) },
+        title = { Text(text = stringResource(id = R.string.edit_shortcuts)) },
         icon = { Icon(Icons.Outlined.Edit, null) }, text = {
             Column {
+                Text(
+                    text = stringResource(R.string.edit_shortcuts_desc),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
                 Column(
                     modifier = Modifier
                         .requiredHeight(400.dp)
@@ -184,6 +190,7 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit) {
                         }
                     }
                 }
+//                HorizontalDivider()
 
                 SealTextField(
                     modifier = Modifier.padding(top = 12.dp),
@@ -195,7 +202,12 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit) {
                     keyboardActions = KeyboardActions(onDone = { addShortCuts() }),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     maxLines = 2,
-
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.shortcuts),
+                            color = Color.Transparent
+                        )
+                    }
                 )
             }
 
