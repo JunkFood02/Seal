@@ -154,7 +154,7 @@
     <string name="github_issue_desc">Submit an issue for bug report or feature request</string>
     <string name="info_copied">Info copied to clipboard</string>
 
-    <string name="la_nb_NO" translatable="false">Bokmål</string>
+    <string name="la_nb" translatable="false">Bokmål</string>
     <string name="la_cs" translatable="false">Čeština</string>
     <string name="la_de" translatable="false">Deutsch</string>
     <string name="la_zh_CN" translatable="false">简体中文</string>
@@ -163,19 +163,32 @@
     <string name="la_da" translatable="false">Dansk</string>
     <string name="la_es" translatable="false">Español</string>
     <string name="la_tr" translatable="false">Türkçe</string>
-    <string name="la_ru" translatable="false">Русский язык</string>
+    <string name="la_ru" translatable="false">Русский</string>
     <string name="la_ar" translatable="false">عربي</string>
-    <string name="la_ua" translatable="false">Українська мова</string>
-    <string name="la_in" translatable="false">Bahasa Indonesia</string>
+    <string name="la_uk" translatable="false">Українська</string>
+    <string name="la_in" translatable="false">Indonesia</string>
     <string name="la_fa" translatable="false">فارسی</string>
-    <string name="la_fil" translatable="false">Wikang Filipino</string>
+    <string name="la_fil" translatable="false">Filipino</string>
     <string name="la_it" translatable="false">Italiano</string>
     <string name="la_nl" translatable="false">Nederlands</string>
     <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
     <string name="la_ja" translatable="false">日本語</string>
     <string name="la_pl" translatable="false">Polski</string>
-    <string name="la_hu" translatable="false">"Magyar nyelv"</string>
-    <string name="la_be" translatable="false">беларуская мова</string>
+    <string name="la_hu" translatable="false">Magyar</string>
+    <string name="la_be" translatable="false">беларуская</string>
+    <string name="la_ms" translatable="false">Melayu</string>
+    <string name="la_zh_TW" translatable="false">繁體中文</string>
+    <string name="la_vi" translatable="false">Tiếng Việt</string>
+    <string name="la_hr" translatable="false">Hrvatski</string>
+    <string name="la_eu" translatable="false">Euskara</string>
+    <string name="la_hi" translatable="false">हिन्दी</string>
+    <string name="la_ml" translatable="false">മലയാളം</string>
+    <string name="la_si" translatable="false">සිංහල</string>
+    <string name="la_sr" translatable="false">Српски</string>
+    <string name="la_az" translatable="false">Azərbaycanca</string>
+    <string name="la_nn" translatable="false">Nynorsk</string>
+    <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
+
     <string name="status_enqueued">Enqueued</string>
     <string name="status_completed">Completed</string>
     <string name="status_downloading">Downloading</string>
@@ -188,8 +201,6 @@
     <string name="copy_error_report">Error report</string>
     <string name="video_resolution">Video resolution</string>
     <string name="video_file_size">Video file size</string>
-    <string name="la_ms" translatable="false">Bahasa Melayu</string>
-    <string name="la_zh_TW" translatable="false">繁體中文</string>
     <string name="export_to_clipboard">Export to clipboard</string>
     <string name="import_from_clipboard">Import from clipboard</string>
     <string name="template_exported">Exported %1$d template(s)</string>
@@ -216,13 +227,11 @@
     <string name="clear_temp_files_desc">Delete all temporary files from the download directory</string>
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
     <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
-    <string name="la_vi" translatable="false">Tiếng Việt</string>
     <string name="multiselect_mode">Multiselect mode</string>
     <string name="private_mode">Private mode</string>
     <string name="private_mode_desc">Disable download history</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
-    <string name="la_hr" translatable="false">Hrvatski</string>
     <string name="download_with_cellular">Download using cellular</string>
     <string name="download_with_cellular_desc">Allow downloading media when connected to metered networks</string>
     <string name="download_disabled_with_cellular">Downloading with cellular network is disabled according to your settings</string>
@@ -234,9 +243,6 @@
     <string name="high_contrast">High contrast dark theme</string>
     <string name="invalid_input">Invalid input</string>
     <string name="lowest_quality">Lowest quality</string>
-    <string name="la_eu" translatable="false">Euskara</string>
-    <string name="la_hi" translatable="false">हिन्दी</string>
-    <string name="la_ml" translatable="false">മലയാളം</string>
     <string name="download_queue" translatable="false">Download queue</string>
     <string name="unavailable">Unavailable</string>
     <string name="format_settings_desc">File format, video quality, subtitles</string>
@@ -253,16 +259,11 @@
     <string name="download_selection_desc">Select videos to download from the playlist \"%1$s\"</string>
     <string name="select_all">Select all</string>
     <string name="selected_item_count">%1$d selected</string>
-    <string name="la_si" translatable="false">සිංහල</string>
-    <string name="la_sr" translatable="false">Српски језик</string>
     <string name="video_only">Video (no audio)</string>
     <string name="suggested">Suggested</string>
     <string name="format_selection">Format selection</string>
     <string name="format_selection_desc">Select the format to download before starting the download</string>
-    <string name="la_az" translatable="false">Azərbaycanca</string>
-    <string name="la_nn" translatable="false">Nynorsk</string>
     <string name="generate_new_cookies">Generate new cookies</string>
-    <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
     <string name="use_cookies">Use Cookies</string>
     <string name="remove_cookie_profile_desc">Remove cookies for \"%1$s\"?</string>
     <string name="custom_command_enabled_hint">Some options are unavailable when using custom command</string>

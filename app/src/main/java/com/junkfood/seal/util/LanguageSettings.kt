@@ -29,11 +29,11 @@ fun getLanguageDesc(language: Int = getLanguageNumber()): String {
             CZECH -> R.string.la_cs
             FRENCH -> R.string.la_fr
             GERMAN -> R.string.la_de
-            NORWEGIAN_BOKMAL -> R.string.la_nb_NO
+            NORWEGIAN_BOKMAL -> R.string.la_nb
             DANISH -> R.string.la_da
             SPANISH -> R.string.la_es
             TURKISH -> R.string.la_tr
-            UKRAINIAN -> R.string.la_ua
+            UKRAINIAN -> R.string.la_uk
             RUSSIAN -> R.string.la_ru
             ARABIC -> R.string.la_ar
             PERSIAN -> R.string.la_fa
@@ -122,7 +122,7 @@ val languageMap: Map<Int, String> = mapOf(
     JAPANESE to "ja",
     MALAY to "ms",
     MALAYALAM to "ml",
-    NORWEGIAN_BOKMAL to "nb-NO",
+    NORWEGIAN_BOKMAL to "nb",
     NORWEGIAN_NYNORSK to "nn",
     PERSIAN to "fa",
     POLISH to "pl",
@@ -133,6 +133,6 @@ val languageMap: Map<Int, String> = mapOf(
     SINHALA to "si",
     SPANISH to "es",
     TURKISH to "tr",
-    UKRAINIAN to "ua",
+    UKRAINIAN to "uk",
     VIETNAMESE to "vi",
 )
