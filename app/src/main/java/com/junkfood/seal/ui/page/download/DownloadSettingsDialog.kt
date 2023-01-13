@@ -46,7 +46,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.material.badge.BadgeUtils
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.common.booleanState
@@ -56,7 +55,7 @@ import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.FilterChip
+import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
@@ -144,7 +143,7 @@ fun DownloadSettingDialog(
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
-                FilterChip(
+                VideoFilterChip(
                     selected = audio,
                     enabled = !customCommand,
                     onClick = {
@@ -154,7 +153,7 @@ fun DownloadSettingDialog(
                     label = stringResource(R.string.extract_audio)
                 )
                 if (!isShareActivity) {
-                    FilterChip(
+                    VideoFilterChip(
                         selected = playlist,
                         enabled = !customCommand,
                         onClick = {
@@ -163,7 +162,7 @@ fun DownloadSettingDialog(
                         },
                         label = stringResource(R.string.download_playlist)
                     )
-                    FilterChip(
+                    VideoFilterChip(
                         selected = formatSelection,
                         enabled = !customCommand && !playlist,
                         onClick = {
@@ -173,7 +172,7 @@ fun DownloadSettingDialog(
                         label = stringResource(R.string.format_selection)
                     )
                 }
-                FilterChip(
+                VideoFilterChip(
                     selected = subtitle,
                     enabled = !customCommand && !audio,
                     onClick = {
@@ -182,7 +181,7 @@ fun DownloadSettingDialog(
                     },
                     label = stringResource(id = R.string.download_subtitles)
                 )
-                FilterChip(
+                VideoFilterChip(
                     selected = thumbnail,
                     enabled = !customCommand,
                     onClick = {
@@ -194,7 +193,7 @@ fun DownloadSettingDialog(
             }
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                FilterChip(
+                VideoFilterChip(
                     selected = customCommand,
                     onClick = {
                         customCommand = !customCommand

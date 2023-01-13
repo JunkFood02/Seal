@@ -1,0 +1,229 @@
+package com.junkfood.seal.ui.page.settings.command
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.MainAxisAlignment
+import com.google.accompanist.flowlayout.SizeMode
+import com.junkfood.seal.R
+import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.OptionShortcut
+import com.junkfood.seal.ui.component.AccessibleOutlinedTextField
+import com.junkfood.seal.ui.component.ClearButton
+import com.junkfood.seal.ui.component.AdjacentLabel
+import com.junkfood.seal.ui.component.PasteFromClipBoardButton
+import com.junkfood.seal.ui.component.ShortcutChip
+import com.junkfood.seal.ui.component.TextButtonWithIcon
+import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.PreferenceUtil
+import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
+
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val commandTemplate =
+        if (templateId > 0) PreferenceUtil.templateStateFlow.collectAsState().value[templateId] else
+            CommandTemplate(0, "", "")
+
+    var templateText by remember { mutableStateOf(commandTemplate.template) }
+    var templateName by remember { mutableStateOf(commandTemplate.name) }
+
+    var isEditingShortcuts by remember { mutableStateOf(false) }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(title = {
+                Text(
+                    text = stringResource(R.string.new_template),
+                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+                )
+            },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { onDismissRequest() }) {
+                        Icon(Icons.Outlined.Close, stringResource(R.string.close))
+                    }
+                }, actions = {
+                    TextButton(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {
+                            onDismissRequest()
+                        }
+                    ) {
+                        Text(text = stringResource(androidx.appcompat.R.string.abc_action_mode_done))
+                    }
+                }, scrollBehavior = scrollBehavior
+            )
+        }) { paddings ->
+        LazyColumn(
+            modifier = Modifier.padding(paddings),
+            contentPadding = PaddingValues()
+        ) {
+
+            item {
+                Column(androidx.compose.ui.Modifier.padding(horizontal = 24.dp)) {
+                    AdjacentLabel(
+                        text = stringResource(R.string.template_label),
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .clearAndSetSemantics { }
+                    )
+                    AccessibleOutlinedTextField(
+                        labelText = stringResource(R.string.template_label),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        value = templateName,
+                        onValueChange = { templateName = it },
+                    )
+                }
+
+            }
+            item {
+                Column(Modifier.padding(horizontal = 24.dp)) {
+
+
+                    AdjacentLabel(text = stringResource(R.string.custom_command_template))
+                    OutlinedTextField(
+                        supportingText = { Text(text = stringResource(id = R.string.edit_template_desc)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        value = templateText,
+                        onValueChange = { templateText = it },
+                        trailingIcon = {
+                            if (templateText.isEmpty())
+                                PasteFromClipBoardButton { templateText = it }
+                            else ClearButton { templateText = "" }
+                        },
+                        maxLines = 6,
+                        minLines = 6
+                    )
+                    Divider(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 48.dp, bottom = 24.dp)
+                            .size(DividerDefaults.Thickness)
+                            .clip(CircleShape),
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                    )
+                }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.shortcuts),
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                    TextButtonWithIcon(
+                        modifier = Modifier,
+                        onClick = { isEditingShortcuts = true },
+                        icon = Icons.Outlined.Edit,
+                        text = stringResource(id = R.string.edit),
+                        contentColor = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            }
+            item {
+                val scope = rememberCoroutineScope()
+                val shortcuts by DatabaseUtil.getShortcuts().collectAsState(emptyList())
+                var text by remember { mutableStateOf("") }
+                val addShortCuts = {
+                    scope.launch {
+                        if (shortcuts.find { it.option == text } == null)
+                            DatabaseUtil.insertShortcut(OptionShortcut(option = text))
+                        text = ""
+                    }
+                }
+                Column(
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                ) {
+                    FlowRow(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .width(500.dp),
+                        mainAxisSize = SizeMode.Expand,
+                        crossAxisSpacing = 2.dp,
+                    ) {
+                        shortcuts.forEach { item ->
+                            ShortcutChip(
+                                text = item.option,
+                                onClick = {
+                                    templateText.run {
+                                        if (isEmpty()) "$this${item.option}"
+                                        else this.removeSuffix(" ") + " ${item.option}"
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    if (isEditingShortcuts)
+        OptionChipsDialog { isEditingShortcuts = false }
+}
+

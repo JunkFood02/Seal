@@ -7,6 +7,7 @@ import com.junkfood.seal.database.AppDatabase
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.database.OptionShortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
@@ -32,6 +33,11 @@ object DatabaseUtil {
     fun getTemplateFlow() = dao.getTemplateFlow()
 
     fun getCookiesFlow() = dao.getCookieProfileFlow()
+
+    fun getShortcuts() = dao.getOptionShortcuts()
+
+    suspend fun deleteShortcut(shortcut: OptionShortcut) = dao.deleteShortcut(shortcut)
+    suspend fun insertShortcut(shortcut: OptionShortcut) = dao.insertShortcut(shortcut)
 
     suspend fun getCookieById(id: Int) = dao.getCookieById(id)
     suspend fun deleteCookieProfile(profile: CookieProfile) = dao.deleteCookieProfile(profile)

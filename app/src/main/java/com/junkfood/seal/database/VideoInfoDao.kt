@@ -87,4 +87,13 @@ interface VideoInfoDao {
 
     @Query("delete from CommandTemplate where id=:id")
     suspend fun deleteTemplateById(id: Int)
+
+    @Query("select * from OptionShortcut")
+    fun getOptionShortcuts(): Flow<List<OptionShortcut>>
+
+    @Delete
+    suspend fun deleteShortcut(optionShortcut: OptionShortcut)
+
+    @Insert
+    suspend fun insertShortcut(optionShortcut: OptionShortcut): Long
 }

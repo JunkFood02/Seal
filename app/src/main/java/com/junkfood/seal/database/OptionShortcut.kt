@@ -6,8 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Entity
 @Serializable
-data class CommandTemplate(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String,
-    val template: String
+data class OptionShortcut(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val option: String
 )

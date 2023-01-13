@@ -28,6 +28,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -36,6 +38,8 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
+import com.junkfood.seal.ui.common.toId
+import com.junkfood.seal.ui.common.withArg
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.page.download.FormatPage
@@ -48,6 +52,7 @@ import com.junkfood.seal.ui.page.settings.about.kotlin
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
+import com.junkfood.seal.ui.page.settings.command.TemplateEditPage
 import com.junkfood.seal.ui.page.settings.command.TemplateListPage
 import com.junkfood.seal.ui.page.settings.directory.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.format.DownloadFormatPreferences
@@ -143,7 +148,7 @@ fun HomeEntry(
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
-            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
+//            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
             settingsGraph(navController, cookiesViewModel)
@@ -238,7 +243,17 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onBackPressed() }
         }
-        animatedComposable(Route.TEMPLATE) { TemplateListPage { onBackPressed() } }
+        animatedComposable(Route.TEMPLATE) {
+            TemplateListPage(onBackPressed = onBackPressed) {
+                navController.navigate(Route.TEMPLATE_EDIT.toId(it))
+            }
+        }
+        animatedComposable(
+            Route.TEMPLATE_EDIT.withArg("templateId"),
+            arguments = listOf(navArgument("templateId") { type = NavType.IntType })
+        ) {
+            TemplateEditPage(onBackPressed, it.arguments?.getInt("templateId") ?: -1)
+        }
         animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
         animatedComposable(Route.NETWORK_PREFERENCES) {
             NetworkPreferences(navigateToCookieProfilePage = {

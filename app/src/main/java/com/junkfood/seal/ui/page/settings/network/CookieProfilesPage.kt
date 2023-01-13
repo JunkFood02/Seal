@@ -49,7 +49,7 @@ import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.component.PasteButton
+import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
@@ -187,7 +187,7 @@ fun CookieGeneratorDialog(
                     .padding(top = 16.dp),
                 value = url, label = { Text("URL") },
                 onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
-                    PasteButton { cookiesViewModel.updateUrl(TextUtil.matchUrlFromClipboard(it)) }
+                    PasteFromClipBoardButton { cookiesViewModel.updateUrl(TextUtil.matchUrlFromClipboard(it)) }
                 }, maxLines = 1
             )
 

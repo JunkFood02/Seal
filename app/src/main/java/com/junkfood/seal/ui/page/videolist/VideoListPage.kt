@@ -62,7 +62,7 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.FilterChip
+import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.MultiChoiceItem
@@ -134,13 +134,13 @@ fun VideoListPage(
                 .padding(8.dp)
                 .selectableGroup()
         ) {
-            FilterChip(
+            VideoFilterChip(
                 selected = viewState.audioFilter,
                 onClick = { videoListViewModel.clickAudioFilter() },
                 label = stringResource(id = R.string.audio),
             )
 
-            FilterChip(
+            VideoFilterChip(
                 selected = viewState.videoFilter,
                 onClick = { videoListViewModel.clickVideoFilter() },
                 label = stringResource(id = R.string.video),
@@ -156,7 +156,7 @@ fun VideoListPage(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     )
                     for (i in 0 until filterSet.size) {
-                        FilterChip(
+                        VideoFilterChip(
                             selected = viewState.activeFilterIndex == i,
                             onClick = { videoListViewModel.clickExtractorFilter(i) },
                             label = filterSet.elementAt(i)

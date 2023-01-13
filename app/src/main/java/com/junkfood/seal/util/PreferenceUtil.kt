@@ -81,6 +81,8 @@ const val SYSTEM_DEFAULT = 0
 const val TEMPLATE_EXAMPLE =
     """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
 
+const val TEMPLATE_SHORTCUTS = "template_shortcuts"
+
 val palettesMap = mapOf(
     0 to PaletteStyle.TonalSpot,
     1 to PaletteStyle.Spritz,
@@ -149,6 +151,7 @@ object PreferenceUtil {
             else -> context.getString(R.string.convert_to).format("m4a")
         }
     }
+
 
     fun getVideoResolution(): Int = VIDEO_QUALITY.getInt()
 

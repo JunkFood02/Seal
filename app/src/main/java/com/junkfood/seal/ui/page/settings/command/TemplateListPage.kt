@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AssignmentReturn
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.icons.outlined.ContentPasteGo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.MoreVert
@@ -63,7 +65,7 @@ private const val TAG = "TemplateListPage"
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun TemplateListPage(onBackPressed: () -> Unit) {
+fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
@@ -74,7 +76,7 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
     val context = LocalContext.current
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-
+    var showShortcutsDialog by remember { mutableStateOf(false) }
     var isCustomCommandEnabled by remember {
         mutableStateOf(PreferenceUtil.getValue(CUSTOM_COMMAND))
     }
@@ -200,8 +202,45 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                     title = stringResource(id = R.string.new_template),
                     icon = Icons.Outlined.Add
                 ) {
-                    editingTemplateId = -1
-                    showEditDialog = true
+                    onNavigateToEditPage(-1)
+//                    editingTemplateId = -1
+//                    showEditDialog = true
+
+                }
+            }
+            item {
+                var expanded by remember { mutableStateOf(false) }
+                Box(
+                    modifier = Modifier.wrapContentSize(Alignment.TopEnd)
+                ) {
+                    DropdownMenu(
+                        modifier = Modifier,
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }) {
+                        DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.ContentPasteGo, null) },
+                            text = {
+                                Text(stringResource(R.string.export_to_clipboard))
+                            },
+                            onClick = {})
+                        DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.AssignmentReturn, null) },
+                            text = {
+                                Text(stringResource(R.string.import_from_clipboard))
+                            },
+                            onClick = {})
+                    }
+                    PreferenceItemVariant(
+                        title = stringResource(id = R.string.edit_option_chips),
+                        icon = Icons.Outlined.BookmarkAdd,
+                        onLongClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            expanded = true
+                        }, onLongClickLabel = stringResource(id = R.string.show_more_actions)
+                    ) {
+                        showShortcutsDialog = true
+
+                    }
                 }
             }
         }
@@ -235,6 +274,11 @@ fun TemplateListPage(onBackPressed: () -> Unit) {
                     showDeleteDialog = false
                 }
             })
+    }
+    if (showShortcutsDialog) {
+        OptionChipsDialog {
+            showShortcutsDialog = false
+        }
     }
     LaunchedEffect(templates.size) {
         if (templates.isNotEmpty() && templates.find { it.id == selectedTemplateId } == null) {

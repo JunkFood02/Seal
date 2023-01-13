@@ -76,7 +76,6 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
             },
                 navigationIcon = {
                     IconButton(
-//                    modifier = Modifier.padding(start = 8.dp),
                         onClick = { onDismissRequest() }) {
                         Icon(Icons.Outlined.Close, stringResource(R.string.close))
                     }

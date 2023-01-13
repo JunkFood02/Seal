@@ -185,7 +185,7 @@ dependencies {
     implementation(libs.accompanist.webview)
     implementation(libs.accompanist.pager.layouts)
     implementation(libs.accompanist.pager.indicators)
-
+    implementation(libs.accompanist.flowlayout)
 
     implementation(libs.coil.kt.compose)
 
