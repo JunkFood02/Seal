@@ -91,9 +91,16 @@ interface VideoInfoDao {
     @Query("select * from OptionShortcut")
     fun getOptionShortcuts(): Flow<List<OptionShortcut>>
 
+    @Query("select * from OptionShortcut")
+    suspend fun getShortcutList(): List<OptionShortcut>
+
     @Delete
     suspend fun deleteShortcut(optionShortcut: OptionShortcut)
 
     @Insert
     suspend fun insertShortcut(optionShortcut: OptionShortcut): Long
+
+    @Transaction
+    @Insert
+    suspend fun insertAllShortcuts(shortcuts: List<OptionShortcut>)
 }

@@ -177,15 +177,6 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
             }
             item {
                 val shortcuts by DatabaseUtil.getShortcuts().collectAsState(emptyList())
-                var text by remember { mutableStateOf("") }
-                val addShortCuts = {
-                    scope.launch {
-                        if (shortcuts.find { it.option == text } == null) DatabaseUtil.insertShortcut(
-                            OptionShortcut(option = text)
-                        )
-                        text = ""
-                    }
-                }
                 Column(
                     modifier = Modifier
                         .fillParentMaxWidth()

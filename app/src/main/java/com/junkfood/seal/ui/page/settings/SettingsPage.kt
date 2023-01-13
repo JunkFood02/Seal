@@ -154,7 +154,7 @@ fun SettingsPage(navController: NavController) {
                     }
                 }
             }
-            item {
+/*            item {
                 SettingItem(
                     title = stringResource(id = R.string.subtitle), description = stringResource(
                         id = R.string.subtitle_desc
@@ -164,7 +164,7 @@ fun SettingsPage(navController: NavController) {
                         launchSingleTop = true
                     }
                 }
-            }
+            }*/
             item {
                 SettingItem(
                     title = stringResource(id = R.string.network),
