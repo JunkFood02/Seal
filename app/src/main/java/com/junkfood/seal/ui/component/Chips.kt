@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
@@ -38,7 +39,7 @@ fun ButtonChip(
     enabled: Boolean = true,
     icon: ImageVector? = null,
     onClick: () -> Unit,
-    ) {
+) {
     ElevatedAssistChip(
         modifier = modifier.padding(horizontal = 4.dp),
         onClick = onClick,
@@ -51,6 +52,35 @@ fun ButtonChip(
             )
         }
     )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FlatButtonChip(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    label: String,
+    iconColor: Color = MaterialTheme.colorScheme.primary,
+    labelColor: Color = MaterialTheme.colorScheme.onSurface,
+    onClick: () -> Unit
+) {
+    AssistChip(
+        modifier = modifier.padding(horizontal = 4.dp),
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+            labelColor = labelColor,
+            leadingIconContentColor = iconColor
+        ),
+        border = null,
+        onClick = onClick,
+        leadingIcon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)
+            )
+        },
+        label = { Text(text = label) })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

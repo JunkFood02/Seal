@@ -28,14 +28,13 @@ fun Color.applyOpacity(enabled: Boolean): Color {
 }
 
 @Composable
-fun Color.harmonizeWithPrimary(): Color {
-    return Color(
-        MaterialColors.harmonize(
-            this.toArgb(),
-            MaterialTheme.colorScheme.primary.toArgb()
-        )
-    )
-}
+fun Color.harmonizeWith(other: Color) =
+    Color(MaterialColors.harmonize(this.toArgb(), other.toArgb()))
+
+@Composable
+fun Color.harmonizeWithPrimary(): Color =
+    this.harmonizeWith(other = MaterialTheme.colorScheme.primary)
+
 
 private tailrec fun Context.findWindow(): Window? =
     when (this) {
@@ -61,6 +60,7 @@ fun SealTheme(
                 dynamicLightColorScheme(context)
             }
         }
+
         else -> dynamicColorScheme(!darkTheme)
     }.run {
         if (isHighContrastModeEnabled && darkTheme) copy(

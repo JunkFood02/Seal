@@ -28,6 +28,7 @@ import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
+import com.junkfood.seal.ui.component.TaskItemPreview
 import com.junkfood.seal.ui.component.TaskStatus
 import com.junkfood.seal.util.DatabaseUtil
 import kotlinx.coroutines.launch
@@ -67,7 +68,20 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                     templateName = it.template.name,
                     )
             }
+            item {
+                CustomCommandTaskItem(status = TaskStatus.RUNNING)
+            }
+            item {
+                CustomCommandTaskItem(status = TaskStatus.FINISHED)
+            }
+            item {
+                CustomCommandTaskItem(status = TaskStatus.ERROR)
+            }
+            item {
+                CustomCommandTaskItem(status = TaskStatus.CANCELED)
+            }
         }
+
     }
 }
 
