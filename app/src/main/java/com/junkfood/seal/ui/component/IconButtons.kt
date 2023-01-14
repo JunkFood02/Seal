@@ -22,7 +22,7 @@ import com.junkfood.seal.R
 fun PasteFromClipBoardButton(onPaste: (String) -> Unit = {}) {
     val clipboardManager = LocalClipboardManager.current
     PasteButton(onClick = {
-        clipboardManager.getText().toString().let { onPaste(it) }
+        clipboardManager.getText()?.let { onPaste(it.toString()) }
     })
 }
 

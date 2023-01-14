@@ -15,6 +15,7 @@ import com.junkfood.seal.Downloader.onTaskError
 import com.junkfood.seal.Downloader.onTaskStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
+import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
@@ -387,8 +388,10 @@ object DownloadUtil {
         }
     }
 
-    suspend fun executeCommandInBackground(url: String) {
-        val template = PreferenceUtil.getTemplate()
+    suspend fun executeCommandInBackground(
+        url: String,
+        template: CommandTemplate = PreferenceUtil.getTemplate()
+    ) {
         val taskId = Downloader.makeKey(url = url, templateName = template.name)
         val notificationId = taskId.toNotificationId()
         val urlList = url.split(Regex("[\n ]"))
