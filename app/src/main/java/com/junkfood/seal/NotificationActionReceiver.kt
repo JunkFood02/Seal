@@ -17,14 +17,12 @@ class NotificationActionReceiver : BroadcastReceiver() {
 
         const val ACTION_CANCEL_TASK = 0
         const val ACTION_ERROR_REPORT = 1
-        const val ACTION_COPY_LOG = 2
 
         const val ACTION_KEY = PACKAGE_NAME_PREFIX + "action"
         const val TASK_ID_KEY = PACKAGE_NAME_PREFIX + "taskId"
 
         const val NOTIFICATION_ID_KEY = PACKAGE_NAME_PREFIX + "notificationId"
         const val ERROR_REPORT_KEY = PACKAGE_NAME_PREFIX + "error_report"
-        const val LOG_KEY = PACKAGE_NAME_PREFIX + "copy_log"
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -43,14 +41,6 @@ class NotificationActionReceiver : BroadcastReceiver() {
                 if (!errorReport.isNullOrEmpty())
                     copyErrorReport(errorReport, notificationId)
             }
-
-            ACTION_COPY_LOG -> {
-                intent.getStringExtra(LOG_KEY).run {
-                    Log.d(TAG, this.toString())
-                    if (!isNullOrEmpty())
-                        copyLog(this, notificationId)
-                }
-            }
         }
     }
 
@@ -60,6 +50,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
         val result = YoutubeDL.getInstance().destroyProcessById(taskId)
         if (result) {
             Log.d(TAG, "Task (id:$taskId) was killed.")
+            Downloader.onProcessCanceled(taskId)
         }
     }
 
@@ -68,13 +59,6 @@ class NotificationActionReceiver : BroadcastReceiver() {
             ClipData.newPlainText(null, error)
         )
         context.let { TextUtil.makeToastSuspend(it.getString(R.string.error_copied)) }
-        NotificationUtil.cancelNotification(notificationId)
-    }
-
-    private fun copyLog(log: String, notificationId: Int) {
-        App.clipboard.setPrimaryClip(
-            ClipData.newPlainText(null, log)
-        )
         NotificationUtil.cancelNotification(notificationId)
     }
 

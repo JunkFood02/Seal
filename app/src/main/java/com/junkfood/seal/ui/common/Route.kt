@@ -6,6 +6,7 @@ object Route {
     const val PLAYLIST = "playlist"
     const val SETTINGS = "settings"
     const val FORMAT_SELECTION = "format"
+    const val TASK_LIST = "task_list"
 
     const val SETTINGS_PAGE = "settings_page"
 

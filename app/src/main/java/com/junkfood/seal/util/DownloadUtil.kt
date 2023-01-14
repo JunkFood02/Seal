@@ -10,6 +10,9 @@ import com.junkfood.seal.App.Companion.videoDownloadDir
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.Downloader.onProcessEnded
 import com.junkfood.seal.Downloader.onProcessStarted
+import com.junkfood.seal.Downloader.onTaskEnded
+import com.junkfood.seal.Downloader.onTaskError
+import com.junkfood.seal.Downloader.onTaskStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
@@ -411,55 +414,36 @@ object DownloadUtil {
         }
 
         onProcessStarted()
+        onTaskStarted(template, url)
         kotlin.runCatching {
-            var last = System.currentTimeMillis()
             val response = YoutubeDL.getInstance().execute(
                 request = request,
                 processId = taskId
             ) { progress, _, text ->
-                val now = System.currentTimeMillis()
-                if (now - last > 500L) {
-                    last = now
-                    NotificationUtil.makeNotificationForCustomCommand(
-                        notificationId = notificationId,
-                        taskId = taskId,
-                        progress = progress.toInt(),
-                        templateName = template.name,
-                        taskUrl = url,
-                        text = text
-                    )
-                }
-            }
-            response.out.runCatching {
-                NotificationUtil.finishNotificationForCustomCommands(
+                NotificationUtil.makeNotificationForCustomCommand(
                     notificationId = notificationId,
-                    title = taskId,
-                    text = context.getString(R.string.status_completed),
-                    response = this
+                    taskId = taskId,
+                    progress = progress.toInt(),
+                    templateName = template.name,
+                    taskUrl = url,
+                    text = text
                 )
-            }.onFailure {
-                NotificationUtil.finishNotificationForCustomCommands(
-                    notificationId = notificationId,
-                    title = taskId,
-                    text = context.getString(R.string.status_completed)
+                Downloader.updateTaskOutput(
+                    template = template,
+                    url = url,
+                    line = text,
+                    progress = progress
                 )
             }
-
+            onTaskEnded(template, url)
         }.onFailure {
             it.printStackTrace()
             if (it is YoutubeDL.CanceledException) return@onFailure
-            val msg = it.message
-            if (msg.isNullOrEmpty())
-                NotificationUtil.finishNotification(
-                    notificationId = notificationId,
-                    title = taskId,
-                    text = context.getString(R.string.status_completed),
-                )
-            else {
-                NotificationUtil.makeErrorReportNotification(
-                    notificationId = notificationId,
-                    error = msg
-                )
+            it.message.run {
+                if (isNullOrEmpty())
+                    onTaskEnded(template, url)
+                else
+                    onTaskError(this, template, url)
             }
         }
         FileUtil.scanDownloadDirectoryToMediaLibrary(videoDownloadDir)

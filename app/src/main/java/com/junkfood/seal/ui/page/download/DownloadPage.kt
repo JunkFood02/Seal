@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
+import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -106,6 +107,7 @@ fun DownloadPage(
     navigateToDownloads: () -> Unit = {},
     navigateToPlaylistPage: () -> Unit = {},
     navigateToFormatPage: () -> Unit = {},
+    onNavigateToTaskList: () -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission = rememberPermissionState(
@@ -188,6 +190,7 @@ fun DownloadPage(
             downloadCallback = { downloadCallback() },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
+            onNavigateToTaskList = onNavigateToTaskList,
             showVideoCard = showVideoCard,
             showOutput = showOutput,
             showDownloadProgress = taskState.taskId.isNotEmpty(),
@@ -232,6 +235,7 @@ fun DownloadPageImpl(
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
+    onNavigateToTaskList: () -> Unit = {},
     pasteCallback: () -> Unit = {},
     cancelCallback: () -> Unit = {},
     onVideoCardClicked: () -> Unit = {},
@@ -254,6 +258,12 @@ fun DownloadPageImpl(
                 Icon(
                     imageVector = Icons.Outlined.Subscriptions,
                     contentDescription = stringResource(id = R.string.downloads_history)
+                )
+            }
+            IconButton(onClick = { onNavigateToTaskList() }) {
+                Icon(
+                    imageVector = Icons.Outlined.Terminal,
+                    contentDescription = stringResource(id = R.string.running_tasks)
                 )
             }
         })

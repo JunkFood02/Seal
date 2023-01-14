@@ -8,6 +8,7 @@ import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.startService
 import com.junkfood.seal.App.Companion.stopService
+import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
@@ -54,6 +55,24 @@ object Downloader {
             errorMessageResId != R.string.unknown_error || errorReport.isNotEmpty()
     }
 
+
+    data class CustomCommandTask(
+        val template: CommandTemplate,
+        val url: String,
+        val output: String,
+        val state: State,
+        val currentLine: String
+    ) {
+        fun toKey() = makeKey(url, template.name)
+        sealed class State {
+            data class Error(val errorReport: String) : State()
+            object Completed : State()
+            object Canceled : State()
+            data class Running(val progress: Float) : State()
+        }
+    }
+
+
     data class DownloadTaskItem(
         val webpageUrl: String = "",
         val title: String = "",
@@ -75,7 +94,9 @@ object Downloader {
     private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
     private val mutableErrorState = MutableStateFlow(ErrorState())
     private val mutableProcessCount = MutableStateFlow(0)
-    val mutableProcessOutput = mutableStateMapOf<String, String>()
+
+    val mutableTaskList = mutableStateMapOf<String, CustomCommandTask>()
+
 
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
@@ -108,15 +129,83 @@ object Downloader {
     }
 
     fun onProcessStarted() = mutableProcessCount.update { it + 1 }
+
+
     fun makeKey(url: String, templateName: String): String = "${templateName}_$url"
-    fun updateProcessOutput(taskId: String, templateName: String, line: String) =
-        mutableProcessOutput.apply {
-            val key = makeKey(taskId, templateName)
-            get(key)?.let { prev -> put(key, prev + "\n" + line) } ?: put(key, line)
+
+    fun onTaskStarted(template: CommandTemplate, url: String) =
+        CustomCommandTask(
+            template = template,
+            url = url,
+            output = "",
+            state = CustomCommandTask.State.Running(0f),
+            currentLine = ""
+        ).run {
+            mutableTaskList.put(this.toKey(), this)
         }
 
 
-    fun onProcessEnded() = mutableProcessCount.update { it - 1 }
+    fun updateTaskOutput(template: CommandTemplate, url: String, line: String, progress: Float) {
+        val key = makeKey(url, template.name)
+        val oldValue = mutableTaskList[key] ?: return
+        val newValue = oldValue.run {
+            copy(
+                output = output + "\n" + line,
+                currentLine = line,
+                state = CustomCommandTask.State.Running(progress)
+            )
+        }
+        mutableTaskList[key] = newValue
+    }
+
+
+    fun onTaskEnded(
+        template: CommandTemplate,
+        url: String
+    ) {
+        val key = makeKey(url, template.name)
+        NotificationUtil.finishNotification(
+            notificationId = key.toNotificationId(),
+            title = key,
+            text = context.getString(R.string.status_completed),
+        )
+        mutableTaskList.run {
+            val oldValue = get(key) ?: return
+            val newValue = oldValue.copy(state = CustomCommandTask.State.Completed)
+            this[key] = newValue
+        }
+    }
+
+
+    fun onProcessEnded() =
+        mutableProcessCount.update { it - 1 }
+
+
+    fun onProcessCanceled(taskId: String) =
+        mutableTaskList.run {
+            get(taskId)?.let {
+                this.put(
+                    taskId,
+                    it.copy(state = CustomCommandTask.State.Canceled)
+                )
+            }
+        }
+
+    fun onTaskError(errorReport: String, template: CommandTemplate, url: String) =
+        mutableTaskList.run {
+            val key = makeKey(url, template.name)
+            NotificationUtil.makeErrorReportNotification(
+                notificationId = key.toNotificationId(),
+                error = errorReport
+            )
+            val oldValue = mutableTaskList[key] ?: return
+            mutableTaskList[key] = oldValue.copy(
+                state = CustomCommandTask.State.Error(
+                    errorReport
+                ), currentLine = errorReport
+            )
+        }
+
 
     private fun VideoInfo.toTask(playlistIndex: Int = 0): DownloadTaskItem =
         DownloadTaskItem(
@@ -165,11 +254,18 @@ object Downloader {
                 url = url,
                 preferences = downloadPreferences
             )
-                .onFailure { manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true) }
+                .onFailure {
+                    manageDownloadError(
+                        it,
+                        isFetchingInfo = true,
+                        isTaskAborted = true
+                    )
+                }
                 .onSuccess { videoInfo ->
                     val notificationId = videoInfo.id.toNotificationId()
                     TextUtil.makeToastSuspend(
-                        context.getString(R.string.download_start_msg).format(videoInfo.title)
+                        context.getString(R.string.download_start_msg)
+                            .format(videoInfo.title)
                     )
                     val taskId = videoInfo.id + downloadPreferences.hashCode()
                     DownloadUtil.downloadVideo(
@@ -243,7 +339,8 @@ object Downloader {
                 acc + (format.fileSize ?: format.fileSizeApprox ?: 0L)
             }
 
-            val info = videoInfo.run { if (fileSize != 0L) copy(fileSize = fileSize) else this }
+            val info =
+                videoInfo.run { if (fileSize != 0L) copy(fileSize = fileSize) else this }
 
             val audioOnly =
                 formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
@@ -453,7 +550,11 @@ object Downloader {
     }
 
     fun executeCommandWithUrl(url: String) =
-        applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
+        applicationScope.launch(Dispatchers.IO) {
+            DownloadUtil.executeCommandInBackground(
+                url
+            )
+        }
 
     fun openDownloadResult() {
         if (taskState.value.progress == 100f) FileUtil.openFileFromResult(downloadResultTemp)

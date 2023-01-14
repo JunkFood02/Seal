@@ -40,6 +40,7 @@ import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
 import com.junkfood.seal.ui.common.toId
 import com.junkfood.seal.ui.common.withArg
+import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.page.download.FormatPage
@@ -144,10 +145,18 @@ fun HomeEntry(
                     navigateToSettings = { navController.navigate(Route.SETTINGS) },
                     navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
                     navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
+                    onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
                     downloadViewModel = downloadViewModel
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
+            animatedComposable(Route.TASK_LIST) {
+                TaskListPage(
+                    onBackPressed = { onBackPressed() },
+                    onNavigateToDetail = {}
+                )
+            }
+
 //            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
@@ -193,7 +202,9 @@ fun HomeEntry(
                                 .collect { downloadStatus ->
                                     currentDownloadStatus = downloadStatus
                                     if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
-                                        launcher.launch(Manifest.permission.REQUEST_INSTALL_PACKAGES)
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                            launcher.launch(Manifest.permission.REQUEST_INSTALL_PACKAGES)
+                                        }
                                     }
                                 }
                         }.onFailure {

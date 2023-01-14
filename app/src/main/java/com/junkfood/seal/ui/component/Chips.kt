@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
@@ -21,19 +24,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.android.material.chip.ChipDrawable
 import com.junkfood.seal.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ButtonChip(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
     label: String,
     enabled: Boolean = true,
-    icon: ImageVector? = null
-) {
+    icon: ImageVector? = null,
+    onClick: () -> Unit,
+    ) {
     ElevatedAssistChip(
         modifier = modifier.padding(horizontal = 4.dp),
         onClick = onClick,
@@ -46,6 +51,23 @@ fun ButtonChip(
             )
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OutlinedButtonChip(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit
+) {
+    AssistChip(modifier = modifier.padding(horizontal = 4.dp), onClick = onClick, leadingIcon = {
+        Icon(
+            imageVector = icon,
+            contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)
+        )
+    }, label = { Text(text = label) })
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

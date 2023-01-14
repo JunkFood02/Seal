@@ -16,15 +16,12 @@ import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.NotificationActionReceiver
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_CANCEL_TASK
-import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_COPY_LOG
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_ERROR_REPORT
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.ERROR_REPORT_KEY
-import com.junkfood.seal.NotificationActionReceiver.Companion.LOG_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.NOTIFICATION_ID_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.TASK_ID_KEY
 import com.junkfood.seal.R
-import kotlin.math.log
 
 private const val TAG = "NotificationUtil"
 
@@ -132,7 +129,6 @@ object NotificationUtil {
         notificationId: Int = DEFAULT_NOTIFICATION_ID,
         title: String? = null,
         text: String? = null,
-        response: String? = null
     ) {
 //        notificationManager.cancel(notificationId)
         val builder =
@@ -143,24 +139,6 @@ object NotificationUtil {
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setStyle(null)
-        response?.let {
-            builder.addAction(
-                R.drawable.outline_content_copy_24,
-                context.getString(R.string.copy_log),
-                Intent(context.applicationContext, NotificationActionReceiver::class.java)
-                    .putExtra(ACTION_KEY, ACTION_COPY_LOG)
-                    .putExtra(NOTIFICATION_ID_KEY, notificationId)
-                    .putExtra(LOG_KEY, it)
-                    .run {
-                        PendingIntent.getBroadcast(
-                            context.applicationContext,
-                            notificationId,
-                            this,
-                            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-                        )
-                    }
-            )
-        }
         title?.let { builder.setContentTitle(title) }
         notificationManager.notify(notificationId, builder.build())
     }
@@ -204,7 +182,6 @@ object NotificationUtil {
             intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
             .setContentText(error)
@@ -214,6 +191,7 @@ object NotificationUtil {
                 context.getString(R.string.copy_error_report),
                 pendingIntent
             ).run {
+                notificationManager.cancel(notificationId)
                 notificationManager.notify(notificationId, build())
             }
     }
