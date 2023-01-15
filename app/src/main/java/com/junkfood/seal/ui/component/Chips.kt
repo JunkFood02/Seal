@@ -38,13 +38,14 @@ fun ButtonChip(
     label: String,
     enabled: Boolean = true,
     icon: ImageVector? = null,
+    iconColor: Color = MaterialTheme.colorScheme.primary,
     onClick: () -> Unit,
 ) {
     ElevatedAssistChip(
         modifier = modifier.padding(horizontal = 4.dp),
         onClick = onClick,
         label = { Text(label) },
-        colors = AssistChipDefaults.elevatedAssistChipColors(),
+        colors = AssistChipDefaults.elevatedAssistChipColors(leadingIconContentColor = iconColor),
         enabled = enabled,
         leadingIcon = {
             if (icon != null) Icon(

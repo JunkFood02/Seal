@@ -449,7 +449,6 @@ object DownloadUtil {
                     onTaskError(this, template, url)
             }
         }
-        FileUtil.scanDownloadDirectoryToMediaLibrary(videoDownloadDir)
         onProcessEnded()
     }
 

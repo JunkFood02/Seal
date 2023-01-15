@@ -7,6 +7,7 @@ object Route {
     const val SETTINGS = "settings"
     const val FORMAT_SELECTION = "format"
     const val TASK_LIST = "task_list"
+    const val TASK_LOG = "task_log"
 
     const val SETTINGS_PAGE = "settings_page"
 
@@ -25,7 +26,10 @@ object Route {
     const val COOKIE_PROFILE = "cookie_profile"
     const val COOKIE_GENERATOR_WEBVIEW = "cookie_webview"
     const val SUBTITLE_PREFERENCES = "subtitle_preferences"
+
+    const val TASK_HASHCODE = "task_hashcode"
+    const val TEMPLATE_ID = "template_id"
 }
 
-fun String.toId(id: Int) = "$this/$id"
-fun String.withArg(arg: String) = "$this/{$arg}"
+infix fun String.arg(arg: String) = "$this/{$arg}"
+infix fun String.id(id: Int) = "$this/$id"

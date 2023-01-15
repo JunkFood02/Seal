@@ -37,15 +37,16 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.animatedComposable
+import com.junkfood.seal.ui.common.animatedComposableVariant
+import com.junkfood.seal.ui.common.arg
+import com.junkfood.seal.ui.common.id
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
-import com.junkfood.seal.ui.common.toId
-import com.junkfood.seal.ui.common.withArg
 import com.junkfood.seal.ui.page.command.TaskListPage
+import com.junkfood.seal.ui.page.command.TaskLogPage
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.page.download.FormatPage
 import com.junkfood.seal.ui.page.download.PlaylistSelectionPage
-import com.junkfood.seal.ui.page.queue.DownloadQueuePage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -113,7 +114,7 @@ fun HomeEntry(
         }
     }
 
-    val onBackPressed = { navController.popBackStack() }
+    val onBackPressed: () -> Unit = { navController.popBackStack() }
 
     if (isUrlShared) {
         if (navController.currentDestination?.route != Route.HOME) {
@@ -150,10 +151,19 @@ fun HomeEntry(
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
-            animatedComposable(Route.TASK_LIST) {
+            animatedComposableVariant(Route.TASK_LIST) {
                 TaskListPage(
                     onBackPressed = { onBackPressed() },
-                    onNavigateToDetail = {}
+                    onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) }
+                )
+            }
+            slideInVerticallyComposable(
+                Route.TASK_LOG arg Route.TASK_HASHCODE,
+                arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType })
+            ) {
+                TaskLogPage(
+                    onBackPressed = onBackPressed,
+                    taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1
                 )
             }
 
@@ -256,14 +266,14 @@ fun NavGraphBuilder.settingsGraph(
         }
         animatedComposable(Route.TEMPLATE) {
             TemplateListPage(onBackPressed = onBackPressed) {
-                navController.navigate(Route.TEMPLATE_EDIT.toId(it))
+                navController.navigate(Route.TEMPLATE_EDIT id it)
             }
         }
         animatedComposable(
-            Route.TEMPLATE_EDIT.withArg("templateId"),
-            arguments = listOf(navArgument("templateId") { type = NavType.IntType })
+            Route.TEMPLATE_EDIT arg Route.TEMPLATE_ID,
+            arguments = listOf(navArgument(Route.TEMPLATE_ID) { type = NavType.IntType })
         ) {
-            TemplateEditPage(onBackPressed, it.arguments?.getInt("templateId") ?: -1)
+            TemplateEditPage(onBackPressed, it.arguments?.getInt(Route.TEMPLATE_ID) ?: -1)
         }
         animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
         animatedComposable(Route.NETWORK_PREFERENCES) {

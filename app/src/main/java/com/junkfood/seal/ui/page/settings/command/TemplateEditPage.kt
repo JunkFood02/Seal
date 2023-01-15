@@ -50,6 +50,7 @@ import com.junkfood.seal.database.OptionShortcut
 import com.junkfood.seal.ui.component.AccessibleOutlinedTextField
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.AdjacentLabel
+import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.ui.component.TextButtonWithIcon
@@ -82,9 +83,7 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             }, navigationIcon = {
-                IconButton(onClick = { onDismissRequest() }) {
-                    Icon(Icons.Outlined.Close, stringResource(R.string.close))
-                }
+                BackButton { onDismissRequest() }
             }, actions = {
                 TextButton(
                     modifier = Modifier.padding(end = 8.dp), onClick = {

@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.command
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,6 +39,7 @@ import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.TextUtil
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,35 +70,26 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(Downloader.mutableTaskList.values.toList()) {
-                val id = it.toKey()
-
-                CustomCommandTaskItem(
-                    status = it.state.toStatus(),
-                    progress = if (it.state is Downloader.CustomCommandTask.State.Running) it.state.progress / 100f else 0f,
-                    progressText = it.currentLine,
-                    url = it.url,
-                    templateName = it.template.name,
-                    onCancel = {
-                        YoutubeDL.destroyProcessById(id)
-                        Downloader.onProcessCanceled(id)
-                    },
-                    onCopyError = {
-                        clipboardManager.setText(AnnotatedString(it.currentLine))
-                        TextUtil.makeToast(R.string.error_copied)
-                    },
-                    onRestart = {
-                        App.applicationScope.launch {
-                            DownloadUtil.executeCommandInBackground(
-                                it.url,
-                                it.template
-                            )
+                it.run {
+                    CustomCommandTaskItem(
+                        status = state.toStatus(),
+                        progress = if (state is Downloader.CustomCommandTask.State.Running) state.progress / 100f else 0f,
+                        progressText = currentLine,
+                        url = url,
+                        templateName = template.name,
+                        onCancel = { onCancel() },
+                        onCopyError = {
+                            onCopyError(clipboardManager)
+                        },
+                        onRestart = {
+                            onRestart()
+                        }, onCopyLog = {
+                            onCopyLog(clipboardManager)
+                        }, onShowLog = {
+                            onNavigateToDetail(hashCode())
                         }
-                    }, onCopyLog = {
-                        clipboardManager.setText(AnnotatedString(it.output))
-                    }, onShowLog = {
-                        TextUtil.makeToast("Not Yet Implement!")
-                    }
-                )
+                    )
+                }
             }
 //            item {
 //                CustomCommandTaskItem(status = TaskStatus.RUNNING)

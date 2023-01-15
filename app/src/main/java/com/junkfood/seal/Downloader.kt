@@ -3,7 +3,11 @@ package com.junkfood.seal
 import android.app.PendingIntent
 import android.util.Log
 import androidx.annotation.CheckResult
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.startService
@@ -69,6 +73,50 @@ object Downloader {
             object Completed : State()
             object Canceled : State()
             data class Running(val progress: Float) : State()
+        }
+
+        override fun hashCode(): Int {
+            return (this.url + this.template.name + this.template.template).hashCode()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as CustomCommandTask
+
+            if (template != other.template) return false
+            if (url != other.url) return false
+            if (output != other.output) return false
+            if (state != other.state) return false
+            if (currentLine != other.currentLine) return false
+
+            return true
+        }
+
+
+        fun onCopyLog(clipboardManager: ClipboardManager) {
+            clipboardManager.setText(AnnotatedString(output))
+        }
+
+
+        fun onRestart() {
+            applicationScope.launch(Dispatchers.IO) {
+                DownloadUtil.executeCommandInBackground(url, template)
+            }
+        }
+
+
+        fun onCopyError(clipboardManager: ClipboardManager) {
+            clipboardManager.setText(AnnotatedString(currentLine))
+            TextUtil.makeToast(R.string.error_copied)
+        }
+
+        fun onCancel() {
+            toKey().run {
+                YoutubeDL.destroyProcessById(this)
+                onProcessCanceled(this)
+            }
         }
     }
 
@@ -150,7 +198,7 @@ object Downloader {
         val oldValue = mutableTaskList[key] ?: return
         val newValue = oldValue.run {
             copy(
-                output = output + "\n" + line,
+                output = output + line + "\n",
                 currentLine = line,
                 state = CustomCommandTask.State.Running(progress)
             )
@@ -174,6 +222,7 @@ object Downloader {
             val newValue = oldValue.copy(state = CustomCommandTask.State.Completed)
             this[key] = newValue
         }
+        FileUtil.scanDownloadDirectoryToMediaLibrary(App.videoDownloadDir)
     }
 
 

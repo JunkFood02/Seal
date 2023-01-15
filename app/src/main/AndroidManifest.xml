@@ -49,7 +49,7 @@
             <intent-filter>
 
                 <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.APP_BROWSER" />
+<!--                <category android:name="android.intent.category.APP_BROWSER" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -97,8 +97,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.APP_BROWSER" />
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <category android:name="android.intent.category.APP_BROWSER" />-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>

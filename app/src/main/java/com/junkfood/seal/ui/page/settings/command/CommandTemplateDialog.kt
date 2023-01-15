@@ -149,7 +149,7 @@ fun CommandTemplateDialog(
 }
 
 @Composable
-fun OptionChipsDialog(onDismissRequest: () -> Unit) {
+fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
     val scope = rememberCoroutineScope()
     val shortcuts by DatabaseUtil.getShortcuts().collectAsState(emptyList())
     var text by remember { mutableStateOf("") }
@@ -170,7 +170,7 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit) {
                 Text(
                     text = stringResource(R.string.edit_shortcuts_desc),
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 12.dp)
                 )
                 Column(
                     modifier = Modifier

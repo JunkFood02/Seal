@@ -19,8 +19,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOut
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NamedNavArgument
@@ -133,31 +135,52 @@ fun NavGraphBuilder.animatedComposable(
     content = content
 )
 
-fun slideInVertically(
-    animationSpec: FiniteAnimationSpec<IntOffset> =
-        spring(
-            stiffness = Spring.StiffnessMediumLow,
-            visibilityThreshold = IntOffset.VisibilityThreshold
-        ),
-    initialOffsetY: (fullHeight: Int) -> Int = { it },
-): EnterTransition =
-    slideIn(
-        initialOffset = { IntOffset(0, initialOffsetY(it.height)) },
-        animationSpec = animationSpec
-    )
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.animatedComposableVariant(
+    route: String,
+    arguments: List<NamedNavArgument> = emptyList(),
+    deepLinks: List<NavDeepLink> = emptyList(),
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+) = composable(
+    route = route,
+    arguments = arguments,
+    deepLinks = deepLinks,
+    enterTransition = {
+        slideInHorizontally(
+            enterTween,
+            initialOffsetX = { (it * initialOffset).toInt() }) + fadeIn(fadeSpec)
+    },
+    exitTransition = {
+        fadeOut(fadeSpec)
+    },
+    popEnterTransition = {
+        fadeIn(fadeSpec)
+    },
+    popExitTransition = {
+        slideOutHorizontally(
+            exitTween,
+            targetOffsetX = { (it * initialOffset).toInt() }) + fadeOut(fadeSpec)
+    },
+    content = content
+)
 
-fun slideOutVertically(
-    animationSpec: FiniteAnimationSpec<IntOffset> =
-        spring(
-            stiffness = Spring.StiffnessMediumLow,
-            visibilityThreshold = IntOffset.VisibilityThreshold
-        ),
-    targetOffsetY: (fullHeight: Int) -> Int = { it },
-): ExitTransition =
-    slideOut(
-        targetOffset = { IntOffset(0, targetOffsetY(it.height)) },
-        animationSpec = animationSpec
-    )
+//fun slideInVertically(
+//    animationSpec: FiniteAnimationSpec<IntOffset> =
+//        spring(
+//            stiffness = Spring.StiffnessMedium,
+//            visibilityThreshold = IntOffset.VisibilityThreshold
+//        ),
+//    initialOffsetY: (fullHeight: Int) -> Int = { it },
+//): EnterTransition =
+//    slideIn(
+//        initialOffset = { IntOffset(0, initialOffsetY(it.height)) },
+//        animationSpec = animationSpec
+//    )
+
+val springSpec = spring(
+    stiffness = Spring.StiffnessMedium,
+    visibilityThreshold = IntOffset.VisibilityThreshold
+)
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.slideInVerticallyComposable(
@@ -169,9 +192,18 @@ fun NavGraphBuilder.slideInVerticallyComposable(
     route = route,
     arguments = arguments,
     deepLinks = deepLinks,
-    enterTransition = { slideInVertically() },
+    enterTransition = {
+        slideInVertically(
+            initialOffsetY = { it }, animationSpec = enterTween
+        ) + fadeIn()
+    },
     exitTransition = { slideOutVertically() },
     popEnterTransition = { slideInVertically() },
-    popExitTransition = { slideOutVertically() },
+    popExitTransition = {
+        slideOutVertically(
+            targetOffsetY = { it },
+            animationSpec = enterTween
+        ) + fadeOut()
+    },
     content = content
 )
