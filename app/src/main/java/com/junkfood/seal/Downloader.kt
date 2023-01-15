@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.net.CacheResponse
 import java.util.concurrent.CancellationException
 import kotlin.math.roundToInt
 
@@ -146,7 +147,6 @@ object Downloader {
     val mutableTaskList = mutableStateMapOf<String, CustomCommandTask>()
 
 
-
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
@@ -210,7 +210,8 @@ object Downloader {
 
     fun onTaskEnded(
         template: CommandTemplate,
-        url: String
+        url: String,
+        response: String? = null
     ) {
         val key = makeKey(url, template.name)
         NotificationUtil.finishNotification(
@@ -220,7 +221,9 @@ object Downloader {
         )
         mutableTaskList.run {
             val oldValue = get(key) ?: return
-            val newValue = oldValue.copy(state = CustomCommandTask.State.Completed)
+            val newValue = oldValue.copy(state = CustomCommandTask.State.Completed).run {
+                response?.let { copy(output = response) } ?: this
+            }
             this[key] = newValue
         }
         FileUtil.scanDownloadDirectoryToMediaLibrary(App.videoDownloadDir)
@@ -252,7 +255,7 @@ object Downloader {
             mutableTaskList[key] = oldValue.copy(
                 state = CustomCommandTask.State.Error(
                     errorReport
-                ), currentLine = errorReport
+                ), currentLine = errorReport, output = oldValue.output + "\n" + errorReport
             )
         }
 

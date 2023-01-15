@@ -438,7 +438,7 @@ object DownloadUtil {
                     progress = progress
                 )
             }
-            onTaskEnded(template, url)
+            onTaskEnded(template, url, response.out)
         }.onFailure {
             it.printStackTrace()
             if (it is YoutubeDL.CanceledException) return@onFailure
