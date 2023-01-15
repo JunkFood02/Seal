@@ -236,4 +236,13 @@
     <string name="download_subtitles">下载字幕</string>
     <string name="subtitle_language">字幕语言</string>
     <string name="subtitle_desc">语言，封装字幕，自动字幕</string>
+    <string name="copy_log">复制日志</string>
+    <string name="clear">清除</string>
+    <string name="edit_shortcuts">编辑快捷命令</string>
+    <string name="add">添加</string>
+    <string name="shortcuts">快捷命令</string>
+    <string name="edit_shortcuts_desc">编辑用于组成命令模板的快捷命令</string>
+    <string name="running_tasks">任务列表</string>
+    <string name="show_logs">显示日志</string>
+    <string name="logs">日志</string>
 </resources>

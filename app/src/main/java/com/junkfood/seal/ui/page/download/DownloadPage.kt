@@ -24,10 +24,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Badge
+import androidx.compose.material.BadgedBox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -254,16 +257,18 @@ fun DownloadPageImpl(
                 )
             }
         }, actions = {
-            IconButton(onClick = { navigateToDownloads() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Subscriptions,
-                    contentDescription = stringResource(id = R.string.downloads_history)
-                )
-            }
+
             IconButton(onClick = { onNavigateToTaskList() }) {
                 Icon(
                     imageVector = Icons.Outlined.Terminal,
                     contentDescription = stringResource(id = R.string.running_tasks)
+                )
+            }
+
+            IconButton(onClick = { navigateToDownloads() }) {
+                Icon(
+                    imageVector = Icons.Outlined.Subscriptions,
+                    contentDescription = stringResource(id = R.string.downloads_history)
                 )
             }
         })
