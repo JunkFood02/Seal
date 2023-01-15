@@ -16,6 +16,8 @@ Seal
 [![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat-square)](https://github.com/JunkFood02/Seal/stargazers)
 [![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 [![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat-square&logo=telegram)](https://t.me/seal_app)
+[![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat-square&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
+
 
 <p align="center">
 Video/Audio Downloader for Android
@@ -91,7 +93,7 @@ For most devices, it is recommended to install the **arm64-v8a** version of the 
 
 ## 💬 Contact
 
-Join our [Telegram Channel](https://t.me/seal_app) for discussion, announcements, and releases!
+Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
 
 ## 🤝 Contributing
 
@@ -118,6 +120,8 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 [dvd](https://github.com/yausername/dvd)
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
+
+[Monet](https://github.com/Kyant0/Monet)
 
 ## 📃 License
 
