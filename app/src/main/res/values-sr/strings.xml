@@ -15,7 +15,7 @@
     <string name="options">Опције</string>
     <string name="additional_settings">Додатна подешавања</string>
     <string name="download_range_selection">Избор плејлисте</string>
-    <string name="audio_directory">Аудио фасцикла</string>
+    <string name="audio_directory">Аудио фолдер</string>
     <string name="battery_configuration_desc">Игноришите оптимизацију батерије за ову апликацију да бисте преузимали у позадини</string>
     <string name="fetching_playlist_info">Преузимање информација о плејлисти…</string>
     <string name="playlist_indicator_text">Преузимање плејлисте (%1$d/%2$d), кликните да бисте зауставили.</string>
@@ -106,7 +106,7 @@
     <string name="download_path_template">Шаблон путање</string>
     <string name="custom_output_path_desc">Користите шаблон за поддиректоријум</string>
     <string name="embed_subtitles">Уграђивање титлова</string>
-    <string name="embed_subtitles_desc">Уграђивање титлова у видее ако су доступни</string>
+    <string name="embed_subtitles_desc">Уградите титлове у видее, ако су доступни</string>
     <string name="new_template">Нови шаблон</string>
     <string name="remove_template">Уклоните\?</string>
     <string name="custom_command_template_desc">Уредите и управљајте командним шаблонима</string>

@@ -225,4 +225,5 @@
     <string name="custom_command_enabled_hint">Certaines options ne sont pas disponibles lors de l\'utilisation de la commande personnalisée</string>
     <string name="how_does_it_work">Comment ça fonctionne \?</string>
     <string name="matrix_space">Espace Matrix</string>
+    <string name="abs_hint">La plupart des plateformes de streaming vidéo fournissent l\'audio et la vidéo séparément. Vous pouvez sélectionner et fusionner un format uniquement audio avec un format uniquement vidéo pour obtenir une seule vidéo.</string>
 </resources>

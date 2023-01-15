@@ -16,7 +16,7 @@
     <string name="ytdlp_version">إصدار Yt-dlp</string>
     <string name="delete_info">إزالة من السجل ؟</string>
     <string name="delete_info_msg">هل أنت متأكد من أنك تريد إزالة \"%1$s\" من السجل ؟</string>
-    <string name="confirm">تم</string>
+    <string name="confirm">نعم</string>
     <string name="dismiss">إلغاء</string>
     <string name="downloads_history">التحميلات</string>
     <string name="open_url">افتح الرابط</string>
@@ -132,7 +132,7 @@
     <string name="fetching_playlist_info">جارٍ إحضار معلومات قائمة التشغيل …</string>
     <string name="download_path_template">قالب المسار</string>
     <string name="custom_output_path">مجلد فرعي مخصص</string>
-    <string name="custom_output_path_desc">استخدم نموذجًا للمجلد الفرعي</string>
+    <string name="custom_output_path_desc">استخدم نموذجاً للمجلد الفرعي</string>
     <string name="edit_custom_path_template_desc">حدد مجلد فرعي بالحقول المتاحة التي يوفرها yt-dlp</string>
     <string name="embed_subtitles">دمج الترجمة</string>
     <string name="embed_subtitles_desc">سيقوم هذا الخيار بدمج الترجمة من المصدر ان توفرت</string>
@@ -225,4 +225,5 @@
     <string name="cookies_usage_msg">يتطلب التنزيل من بعض المواقع معلومات مصادقة الحساب. انقر فوق \"إنشاء ملفات تعريف ارتباط جديدة\" ، وأدخل عنوان URL لموقع الويب ، ثم قم بتسجيل الدخول باستخدام حسابك في صفحة المتصفح ، وسيقوم التطبيق بإنشائه لك.</string>
     <string name="matrix_space">مساحة ماتريكس</string>
     <string name="cookies">كوكيز</string>
+    <string name="abs_hint">تقدم معظم منصات الفيديو، الصوت والفيديو بشكل منفصل ، يمكنك تحديد ودمج صيغة صوت فقط بصيغة فيديو في فيديو واحد.</string>
 </resources>
