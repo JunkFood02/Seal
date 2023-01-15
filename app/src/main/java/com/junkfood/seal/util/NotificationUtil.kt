@@ -112,14 +112,12 @@ object NotificationUtil {
         Log.d(TAG, "finishNotification: ")
         notificationManager.cancel(notificationId)
         if (!PreferenceUtil.getValue(NOTIFICATION)) return
+
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_seal)
                 .setContentText(text)
-                .setProgress(0, 0, false)
-                .setAutoCancel(true)
                 .setOngoing(false)
-                .setStyle(null)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
         notificationManager.notify(notificationId, builder.build())
@@ -140,6 +138,7 @@ object NotificationUtil {
                 .setOngoing(false)
                 .setStyle(null)
         title?.let { builder.setContentTitle(title) }
+
         notificationManager.notify(notificationId, builder.build())
     }
 

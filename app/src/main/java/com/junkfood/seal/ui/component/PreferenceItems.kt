@@ -714,6 +714,7 @@ fun PreferenceInfo(
         if (applyPaddings) padding(horizontal = 16.dp, vertical = 16.dp)
         else this
     }, verticalAlignment = Alignment.CenterVertically) {
+
         Icon(
             modifier = Modifier.padding(),
             imageVector = icon,

@@ -146,6 +146,7 @@ object Downloader {
     val mutableTaskList = mutableStateMapOf<String, CustomCommandTask>()
 
 
+
     val taskState = mutableTaskState.asStateFlow()
     val downloaderState = mutableDownloaderState.asStateFlow()
     val playlistResult = mutablePlaylistResult.asStateFlow()
@@ -156,6 +157,7 @@ object Downloader {
         applicationScope.launch {
             downloaderState.combine(processCount) { state, cnt ->
                 Log.d(TAG, "$cnt $state")
+
                 if (cnt > 0) true
                 else when (state) {
                     is State.Idle -> false
@@ -165,6 +167,7 @@ object Downloader {
                 if (it) startService()
                 else stopService()
             }
+
         }
     }
 
@@ -175,8 +178,6 @@ object Downloader {
         }
         return true
     }
-
-    fun onProcessStarted() = mutableProcessCount.update { it + 1 }
 
 
     fun makeKey(url: String, templateName: String): String = "${templateName}_$url"
@@ -609,6 +610,9 @@ object Downloader {
         if (taskState.value.progress == 100f) FileUtil.openFileFromResult(downloadResultTemp)
     }
 
+    fun onProcessStarted() = mutableProcessCount.update { it + 1 }
+
+    fun onProcessFinished() = mutableProcessCount.update { it - 1 }
     fun String.toNotificationId(): Int = this.hashCode()
 }
 

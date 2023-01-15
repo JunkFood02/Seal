@@ -129,6 +129,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
 
                     is VideoInfo -> {
                         if (FORMAT_SELECTION.getBoolean()) {
+
                             showFormatSelectionPageOrDownload(info)
                         } else if (isDownloaderAvailable()) {
                             downloadVideoWithInfo(info = info)
