@@ -169,6 +169,8 @@ object NotificationUtil {
         notificationId: Int,
         error: String,
     ) {
+        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+
         val intent = Intent()
             .setClass(context, NotificationActionReceiver::class.java)
             .putExtra(NOTIFICATION_ID_KEY, notificationId)
@@ -203,11 +205,12 @@ object NotificationUtil {
         templateName: String,
         taskUrl: String
     ) {
+        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+
         val intent = Intent(context.applicationContext, NotificationActionReceiver::class.java)
             .putExtra(TASK_ID_KEY, taskId)
             .putExtra(NOTIFICATION_ID_KEY, notificationId)
             .putExtra(ACTION_KEY, ACTION_CANCEL_TASK)
-
 
         val pendingIntent = PendingIntent.getBroadcast(
             context.applicationContext,

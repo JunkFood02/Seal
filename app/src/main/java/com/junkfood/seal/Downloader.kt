@@ -442,9 +442,9 @@ object Downloader {
         Log.d(TAG, "downloadVideo: id=${videoInfo.id} " + videoInfo.title)
         Log.d(TAG, "notificationId: $notificationId")
 
-        TextUtil.makeToastSuspend(
-            context.getString(R.string.download_start_msg).format(videoInfo.title)
-        )
+//        TextUtil.makeToastSuspend(
+//            context.getString(R.string.download_start_msg).format(videoInfo.title)
+//        )
 
         NotificationUtil.notifyProgress(
             notificationId = notificationId, title = videoInfo.title
