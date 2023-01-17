@@ -3,10 +3,8 @@ package com.junkfood.seal
 import android.app.PendingIntent
 import android.util.Log
 import androidx.annotation.CheckResult
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.platform.ClipboardManager
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
@@ -29,7 +27,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.net.CacheResponse
 import java.util.concurrent.CancellationException
 import kotlin.math.roundToInt
 
@@ -528,7 +525,8 @@ object Downloader {
                         downloadVideo(
                             videoInfo = it,
                             playlistIndex = playlistIndex,
-                            preferences = preferences
+                            playlistUrl = url,
+                            preferences = preferences,
                         ).onFailure { th ->
                             manageDownloadError(
                                 th,
