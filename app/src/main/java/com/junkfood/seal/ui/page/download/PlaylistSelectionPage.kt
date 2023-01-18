@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.download
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +27,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -42,10 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.junkfood.seal.MainActivity
+import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.PlaylistItem
-import com.junkfood.seal.Downloader
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -156,12 +153,13 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entries ->
+                itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entry ->
                     val index = _index + 1
                     PlaylistItem(modifier = Modifier.padding(horizontal = 12.dp),
-                        imageModel = entries.thumbnails?.lastOrNull()?.url ?: "",
-                        title = entries.title ?: index.toString(),
-                        author = entries.channel ?: entries.uploader,
+                        imageModel = entry.thumbnails?.lastOrNull()?.url ?: "",
+                        title = entry.title ?: index.toString(),
+                        author = entry.channel ?: entry.uploader ?: playlistInfo.channel
+                        ?: playlistInfo.uploader,
                         selected = selectedItems.contains(index),
                         onClick = {
                             if (selectedItems.contains(index)) selectedItems.remove(index)

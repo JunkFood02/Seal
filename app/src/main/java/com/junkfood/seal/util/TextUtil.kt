@@ -30,8 +30,7 @@ object TextUtil {
         matchUrlFromString(s).run {
             if (isEmpty())
                 makeToast(R.string.share_fail_msg)
-            else
-                makeToast(R.string.share_success_msg)
+//            else makeToast(R.string.share_success_msg)
             return this
         }
     }
