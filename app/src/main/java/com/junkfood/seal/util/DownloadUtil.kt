@@ -54,7 +54,7 @@ object DownloadUtil {
             with(request) {
                 addOption("--compat-options", "no-youtube-unavailable-videos")
                 addOption("--flat-playlist")
-                addOption("--playlist-items", "1:200")
+//                addOption("--playlist-items", "1:200")
                 addOption("-J")
                 addOption("-R", "1")
                 addOption("--socket-timeout", "5")
