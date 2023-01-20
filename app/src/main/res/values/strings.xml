@@ -102,7 +102,7 @@
     <string name="channel_name">Download</string>
     <string name="channel_description">Notify of downloaded files and progress</string>
     <string name="video_url">Video link</string>
-    <string name="download_finish_notification">Download finished. Click to open.</string>
+    <string name="download_finish_notification">Download finished. Tap to open.</string>
     <string name="execute_command_notification">Running custom commands…</string>
     <string name="battery_settings_desc">"Please set battery usage of this app to \"Unrestricted\" in the system settings to download in the background."
     </string>
@@ -122,7 +122,7 @@
     <string name="from">Start</string>
     <string name="to">End</string>
     <string name="invalid_index_range">Invalid index range</string>
-    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), click to stop.</string>
+    <string name="playlist_indicator_text">Downloading playlist (%1$d/%2$d), tap to stop.</string>
     <string name="audio_directory">Audio folder</string>
     <string name="download_directory">Download directory</string>
     <string name="download_directory_desc">Select where to store videos and audio files</string>
@@ -148,7 +148,7 @@
     <string name="remove_template_desc">Remove \"%1$s\" from command templates for good?</string>
     <string name="template_selection">Template selection</string>
     <string name="custom_command_template_desc">Edit and manage command templates</string>
-    <string name="downloading_indicator_text">Download in progress, click to cancel.</string>
+    <string name="downloading_indicator_text">Download in progress, tap to cancel.</string>
     <string name="task_canceled">Download task canceled</string>
     <string name="github_issue">GitHub issue</string>
     <string name="github_issue_desc">Submit an issue for bug report or feature request</string>
@@ -292,5 +292,6 @@
     <string name="running_tasks">Running tasks</string>
     <string name="show_logs">Show logs</string>
     <string name="logs">Logs</string>
+    <string name="subtitle_sponsorblock">Subtitles will be mistimed when removing SponsorBlock segments.</string>
 
 </resources>

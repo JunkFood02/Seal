@@ -6,9 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Subtitles
-import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,17 +22,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
-import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
+import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.EMBED_SUBTITLE
-import com.junkfood.seal.util.KEEP_SUBTITLE_FILES
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.SPONSORBLOCK
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 
@@ -46,13 +44,14 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
         canScroll = { true }
     )
     var downloadSubtitle by SUBTITLE.booleanState
+    val sponsorBlock by SPONSORBLOCK.booleanState
 //    var keepSubtitleFile by KEEP_SUBTITLE_FILES.booleanState
     var embedSubtitle by EMBED_SUBTITLE.booleanState
     var autoSubtitle by AUTO_SUBTITLE.booleanState
     var showLanguageDialog by remember { mutableStateOf(false) }
 
 
-    val subtitleLang by remember(showLanguageDialog){ mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
+    val subtitleLang by remember(showLanguageDialog) { mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
 
 
     Scaffold(
@@ -119,6 +118,9 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                     )
                 }
 
+                if (sponsorBlock) item {
+                    PreferenceInfo(text = stringResource(id = R.string.subtitle_sponsorblock))
+                }
 
             }
         })

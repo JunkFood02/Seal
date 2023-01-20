@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.HistoryToggleOff
@@ -59,6 +58,7 @@ import com.junkfood.seal.util.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.SPONSORBLOCK
+import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.UpdateUtil
@@ -78,6 +78,7 @@ fun GeneralDownloadPreferences(
     val scope = rememberCoroutineScope()
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
 
+    val downloadSubtitle by SUBTITLE.booleanState
 
     var displayErrorReport by DEBUG.booleanState
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
@@ -300,14 +301,17 @@ fun GeneralDownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
 
-                item {
-                    PreferenceItem(
-                        title = stringResource(R.string.custom_command_template),
-                        icon = Icons.Outlined.Code,
-                        description = stringResource(R.string.custom_command_template_desc),
-                    ) {
-                        navigateToTemplate()
-                    }
+//                item {
+//                    PreferenceItem(
+//                        title = stringResource(R.string.custom_command_template),
+//                        icon = Icons.Outlined.Code,
+//                        description = stringResource(R.string.custom_command_template_desc),
+//                    ) {
+//                        navigateToTemplate()
+//                    }
+//                }
+                if (downloadSubtitle) item {
+                    PreferenceInfo(text = stringResource(id = R.string.subtitle_sponsorblock))
                 }
             }
         })
