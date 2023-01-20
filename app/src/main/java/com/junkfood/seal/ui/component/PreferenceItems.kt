@@ -26,7 +26,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +39,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -353,7 +354,9 @@ fun PreferenceSwitchWithDivider(
     Surface(
         modifier = Modifier
             .clickable(
-                enabled = enabled, onClick = onClick
+                enabled = enabled,
+                onClick = onClick,
+                onClickLabel = stringResource(id = R.string.open_settings)
             )
     ) {
         Row(
@@ -391,7 +394,11 @@ fun PreferenceSwitchWithDivider(
             Switch(
                 checked = isChecked,
                 onCheckedChange = { onChecked() },
-                modifier = Modifier.padding(start = 12.dp, end = 6.dp),
+                modifier = Modifier
+                    .padding(start = 12.dp, end = 6.dp)
+                    .semantics {
+                        contentDescription = title
+                    },
                 enabled = enabled, thumbContent = thumbContent
             )
         }
@@ -546,7 +553,7 @@ fun PreferenceSwitchWithContainer(
                 if (isChecked) primaryContainer else outline
             }
             )
-            .selectable(selected = isChecked) { onClick() }
+            .toggleable(value = isChecked) { onClick() }
             .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -679,7 +686,7 @@ fun TemplateItem(
                     .align(Alignment.CenterVertically),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
             )
-            RadioButton(selected = selected, onClick = onSelect)
+            RadioButton(modifier = Modifier.semantics { contentDescription = label }, selected = selected, onClick = onSelect)
         }
 
 
