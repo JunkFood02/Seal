@@ -290,8 +290,8 @@
     <string name="shortcuts">Shortcuts</string>
     <string name="edit_shortcuts_desc">Edit the custom shortcuts that can be used to compose command templates.</string>
     <string name="running_tasks">Running tasks</string>
-    <string name="show_logs">Show logs</string>
-    <string name="logs">Logs</string>
+    <string name="show_logs">Show log</string>
+    <string name="logs">Log</string>
     <string name="subtitle_sponsorblock">Subtitles will be mistimed when removing SponsorBlock segments.</string>
 
 </resources>
