@@ -245,5 +245,5 @@
     <string name="running_tasks">任务列表</string>
     <string name="show_logs">显示日志</string>
     <string name="logs">日志</string>
-
+    <string name="subtitle_sponsorblock">从视频中移除 SponsorBlock 段落会导致字幕时间轴错位。</string>
 </resources>

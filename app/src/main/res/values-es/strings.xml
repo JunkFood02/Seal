@@ -110,7 +110,7 @@
     <string name="from">Inicio</string>
     <string name="to">Fin</string>
     <string name="invalid_index_range">Rango de vídeos inválido</string>
-    <string name="download_finish_notification">Descarga finalizada. Haz clic para abrirla.</string>
+    <string name="download_finish_notification">Descarga finalizada. Pulse para abrir.</string>
     <string name="concurrent_download_num">%d subproceso(s) serían usados para descargar vídeos nativos DASH/HSL concurrentemente.</string>
     <string name="fetching_playlist_info">Adquiriendo información de la lista de reproducción…</string>
     <string name="download_range_desc">Especifica el rango de vídeos que quieres descargar desde la lista de reproducción \"%3$s\"(desde %1$d hasta %2$d ).</string>
@@ -127,7 +127,7 @@
     <string name="translate">Traducir</string>
     <string name="translate_desc">Ayuda a traducir esta aplicación en Hosted Weblate</string>
     <string name="execute_command_notification">Ejecutando comandos personalizados…</string>
-    <string name="playlist_indicator_text">Descargando lista de reproducción (%1$d/%2$d)… Haz clic para detener la descarga.</string>
+    <string name="playlist_indicator_text">Descargando la lista de reproducción (%1$d/%2$d), pulse para detener.</string>
     <string name="subdirectory_desc">Guardar archivos en un subdirectorio nombrado con los nombres de las páginas web</string>
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
     <string name="download_path_template">Plantilla de ruta</string>
@@ -149,7 +149,7 @@
     <string name="status_fetching_video_info">Obteniendo información</string>
     <string name="open_file">Abrir archivo</string>
     <string name="restart">Reinciar</string>
-    <string name="downloading_indicator_text">Descarga en progreso, haz click para cancelar.</string>
+    <string name="downloading_indicator_text">Descarga en curso, pulse para cancelar.</string>
     <string name="task_canceled">Tarea de descarga cancelada</string>
     <string name="github_issue">Reportar un problema en GitHub</string>
     <string name="github_issue_desc">Envía un reporte de un problema que te ha ocurrido o haz una petición de alguna funcionalidad que te gustaría que tuviera Seal</string>
@@ -226,4 +226,24 @@
     <string name="cookies">Cookies</string>
     <string name="matrix_space">Canal de Matrix</string>
     <string name="abs_hint">La mayoría de los servicios de streaming en línea proveen el audio y el vídeo por separado. De esta forma puedes seleccionar mezclar un formato de solo vídeo con otro de solo audio para crear un único vídeo con audio, dando así una mayor personalización.</string>
+    <string name="sdcard_directory">Ubicación para tarjetas SD</string>
+    <string name="auto_subtitle">Subtítulos generados automáticamente</string>
+    <string name="auto_subtitle_desc">Descarga subtítulos autogenerados</string>
+    <string name="title_activity_share">Descarga rápida</string>
+    <string name="video_title_sample_text">Texto de ejemplo en título de vídeo</string>
+    <string name="video_creator_sample_text">Texto de ejemplo de creador de vídeo</string>
+    <string name="subtitle">Subtítulo</string>
+    <string name="download_subtitles">Descargar subtítulos</string>
+    <string name="subtitle_language">Idiomas de los subtítulos</string>
+    <string name="subtitle_desc">Idiomas, subtítulos incorporados, subtítulos automáticos</string>
+    <string name="copy_log">Copiar reporte</string>
+    <string name="clear">Limpiar</string>
+    <string name="edit_shortcuts">Editar accesos directos</string>
+    <string name="add">Añadir</string>
+    <string name="shortcuts">Accesos directos</string>
+    <string name="running_tasks">Tareas ejecutándose</string>
+    <string name="show_logs">Mostrar registro</string>
+    <string name="logs">Registro</string>
+    <string name="edit_shortcuts_desc">Edita los accesos directos a los argumentos que puedes usar para crear plantillas de comandos.</string>
+    <string name="subtitle_sponsorblock">Los subtítulos se sincronizarán incorrectamente al eliminar los segmentos de SponsorBlock.</string>
 </resources>

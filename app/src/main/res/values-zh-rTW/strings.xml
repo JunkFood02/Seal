@@ -95,7 +95,7 @@
     <string name="fetching_playlist_info">正在擷取播放清單資訊…</string>
     <string name="download_range_selection">播放清單範圍</string>
     <string name="invalid_index_range">無效的索引範圍</string>
-    <string name="playlist_indicator_text">正在下載播放清單 (%1$d/%2$d)，點擊以停止。</string>
+    <string name="playlist_indicator_text">正在下載播放清單 (%1$d/%2$d)，輕觸以停止。</string>
     <string name="download_notification_desc">通知下載檔案和進度資訊</string>
     <string name="from">起始編號</string>
     <string name="to">結束編號</string>
@@ -143,7 +143,7 @@
     <string name="paste_desc">點選 [貼上] 以從剪貼簿取得影片連結。</string>
     <string name="download_desc">調整此次下載配置，然後點選 [下載]。</string>
     <string name="channel_description">通知下載檔案和進度資訊</string>
-    <string name="download_finish_notification">下載完成。點擊以開啟。</string>
+    <string name="download_finish_notification">下載完成。輕觸以開啟。</string>
     <string name="additional_settings">其他設定</string>
     <string name="share_fail_msg">無法比對來自分享內容中的 URL</string>
     <string name="download_range_desc">指定欲從「%3$s」播放清單中下載的視訊項目範圍 (編號從 %1$d 到 %2$d)。</string>
@@ -153,7 +153,7 @@
     <string name="embed_subtitles">內嵌字幕</string>
     <string name="github_issue">GitHub 議題</string>
     <string name="custom_command_template_desc">編輯和管理命令範本</string>
-    <string name="downloading_indicator_text">正在下載，點擊以取消。</string>
+    <string name="downloading_indicator_text">正在下載，輕觸以取消。</string>
     <string name="status_canceled">已取消</string>
     <string name="task_canceled">已取消下載任務</string>
     <string name="copy_link">複製連結</string>
@@ -226,4 +226,24 @@
     <string name="matrix_space">Matrix 空間</string>
     <string name="cookies">Cookies</string>
     <string name="abs_hint">大多數視訊串流平台皆分別提供純音訊和純視訊格式，可選取純音訊和純視訊格式，並將其合併為單個視訊。</string>
+    <string name="clear">清除</string>
+    <string name="sdcard_directory">SD 卡資料夾</string>
+    <string name="auto_subtitle">自動化字幕</string>
+    <string name="auto_subtitle_desc">下載自動產生的字幕</string>
+    <string name="title_activity_share">快速下載</string>
+    <string name="video_title_sample_text">視訊標題範例文字</string>
+    <string name="video_creator_sample_text">視訊建立者範例文字</string>
+    <string name="subtitle">字幕</string>
+    <string name="download_subtitles">下載字幕</string>
+    <string name="subtitle_language">字幕語言</string>
+    <string name="subtitle_desc">語言、內嵌字幕、自動化字幕</string>
+    <string name="copy_log">複製記錄檔</string>
+    <string name="add">新增</string>
+    <string name="edit_shortcuts">編輯捷徑</string>
+    <string name="shortcuts">捷徑</string>
+    <string name="edit_shortcuts_desc">編輯可用於撰寫命令範本的自訂捷徑。</string>
+    <string name="running_tasks">任務清單</string>
+    <string name="show_logs">顯示記錄檔</string>
+    <string name="logs">記錄檔</string>
+    <string name="subtitle_sponsorblock">當移除 SponsorBlock 區段時，字幕會錯時。</string>
 </resources>

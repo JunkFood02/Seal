@@ -51,7 +51,7 @@
     <string name="defaults">Bawaan</string>
     <string name="channel_name">Unduhan</string>
     <string name="video_url">Link video</string>
-    <string name="download_finish_notification">Unduhan selesai. Tekan untuk membuka.</string>
+    <string name="download_finish_notification">Unduhan selesai. Ketuk untuk membuka.</string>
     <string name="execute_command_notification">Menjalankan perintah khusus…</string>
     <string name="battery_settings_desc">Harap atur penggunaan baterai aplikasi ini ke \"Tidak dibatasi\" di pengaturan sistem untuk mengunduh di latar belakang.</string>
     <string name="concurrent_download_desc">Unduh lebih banyak bagian video dari M3U8/MPD secara parallel</string>
@@ -63,7 +63,7 @@
     <string name="download_range_selection">Seleksi playlist</string>
     <string name="from">Mulai</string>
     <string name="invalid_index_range">Rentang indeks tidak valid</string>
-    <string name="playlist_indicator_text">Mengunduh playlist (%1$d/%2$d), tekan untuk berhenti.</string>
+    <string name="playlist_indicator_text">Mengunduh daftar putar (%1$d/%2$d), ketuk untuk berhenti.</string>
     <string name="download_directory_desc">Pilih tempat untuk menyimpan file video dan audio</string>
     <string name="subdirectory">Simpan ke subdirektori</string>
     <string name="subdirectory_desc">Simpan file dalam folder bernama sebagai situs web masing-masing</string>
@@ -142,7 +142,7 @@
     <string name="remove_template">Hapus\?</string>
     <string name="remove_template_desc">Hapus \"%1$s\" dari templat perintah untuk selamanya\?</string>
     <string name="custom_command_template_desc">Edit dan kelola templat perintah</string>
-    <string name="downloading_indicator_text">Unduhan sedang berlangsung, tekan untuk membatalkan.</string>
+    <string name="downloading_indicator_text">Unduhan sedang berlangsung, ketuk untuk membatalkan.</string>
     <string name="task_canceled">Unduhan dibatalkan</string>
     <string name="github_issue">Isu Github</string>
     <string name="github_issue_desc">Kirimkan isu untuk pelaporan masalah atau permintaan fitur</string>
@@ -226,4 +226,24 @@
     <string name="matrix_space">Space Matrix</string>
     <string name="cookies">Kuki</string>
     <string name="abs_hint">Sebagian besar platform streaming video menayangkan audio dan video secara terpisah, Anda dapat memilih dan menggabungkan format audio saja dengan format video saja ke satu video.</string>
+    <string name="auto_subtitle_desc">Unduh takarir yang dibuat otomatis</string>
+    <string name="video_title_sample_text">Teks sampel judul video</string>
+    <string name="video_creator_sample_text">Teks sampel pembuat video</string>
+    <string name="subtitle">Takarir</string>
+    <string name="subtitle_desc">Bahasa, takarir tersemat, takarir otomatis</string>
+    <string name="copy_log">Salin catatan</string>
+    <string name="clear">Hapus</string>
+    <string name="running_tasks">Tugas yang berjalan</string>
+    <string name="show_logs">Tampilkan catatan</string>
+    <string name="logs">Catatan</string>
+    <string name="auto_subtitle">Takarir otomatis</string>
+    <string name="edit_shortcuts_desc">Sunting pintasan kustom yang dapat digunakan untuk membuat templat perintah.</string>
+    <string name="download_subtitles">Unduh takarir</string>
+    <string name="sdcard_directory">Folder kartu SD</string>
+    <string name="title_activity_share">Unduhan cepat</string>
+    <string name="subtitle_language">Bahasa takarir</string>
+    <string name="edit_shortcuts">Sunting pintasan</string>
+    <string name="add">Tambahkan</string>
+    <string name="shortcuts">Pintasan</string>
+    <string name="subtitle_sponsorblock">Takarir akan tidak pas waktunya ketika menghapus segmen SponsorBlock.</string>
 </resources>

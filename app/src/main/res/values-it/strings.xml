@@ -226,4 +226,23 @@
     <string name="telegram_channel">Canale Telegram</string>
     <string name="cookies_usage_msg">La scaricamento da alcuni siti richiede le informazioni di autenticazione dell\'account. Clicca su „Genera nuovi cookie“, inserisci l\'URL del sito web e poi accedi con il tuo account nella pagina del browser: l\'applicazione lo genererà per te.</string>
     <string name="abs_hint">La maggior parte delle piattaforme di streaming video fornisce audio e video separatamente; è possibile selezionare e unire un formato solo audio con un formato solo video in un unico video.</string>
+    <string name="add">Aggiungi</string>
+    <string name="show_logs">Mostra i registri</string>
+    <string name="logs">Registri</string>
+    <string name="title_activity_share">Scaricamento rapido</string>
+    <string name="video_creator_sample_text">Testo di esempio del creatore di video</string>
+    <string name="subtitle">Sottotitolo</string>
+    <string name="subtitle_language">Lingue dei sottotitoli</string>
+    <string name="copy_log">Copia il registro</string>
+    <string name="edit_shortcuts">Modifica le scorciatoie</string>
+    <string name="shortcuts">Scorciatoie</string>
+    <string name="running_tasks">Attività in esecuzione</string>
+    <string name="sdcard_directory">Cartella della scheda SD</string>
+    <string name="auto_subtitle_desc">Scarica i sottotitoli autogenerati</string>
+    <string name="download_subtitles">Scarica i sottotitoli</string>
+    <string name="subtitle_desc">Lingue, sottotitoli incorporati, sottotitoli automatici</string>
+    <string name="clear">Cancella</string>
+    <string name="edit_shortcuts_desc">Modifica le scorciatoie personalizzate che possono essere utilizzate per comporre i modelli di comando.</string>
+    <string name="auto_subtitle">Sottotitoli automatici</string>
+    <string name="video_title_sample_text">Titolo del video testo di esempio</string>
 </resources>

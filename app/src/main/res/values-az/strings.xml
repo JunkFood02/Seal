@@ -85,7 +85,7 @@
     <string name="channel_name">Endir</string>
     <string name="channel_description">Endirilmiş fayllar və inkişaf barədə bildir</string>
     <string name="video_url">Video linki</string>
-    <string name="download_finish_notification">Endirmə bitdi. Açmaq üçün kliklə.</string>
+    <string name="download_finish_notification">Endirmə bitdi. Açmaq üçün bas.</string>
     <string name="execute_command_notification">Fərdi əmrlər icra edilir…</string>
     <string name="battery_settings_desc">Lütfən, arxa fonda endirmək üçün, sistem tənzimləmələrində bu tətbiqin batareya istifadəsini \"Məhdudlaşdırılmamış\" kimi təyin et.</string>
     <string name="concurrent_download">Çoxsaylı hissələri endir</string>
@@ -128,7 +128,7 @@
     <string name="translate_desc">Hosted Weblate-də bu tətbiqi tərcümə etməyə kömək et</string>
     <string name="permission_issue_desc">Download/ və Documents/ xaricindəki kataloqlar dəstəklənmir</string>
     <string name="download_path_template">Yol şablonu</string>
-    <string name="downloading_indicator_text">Endirmə davam edir, ləğv etmək üçün kliklə.</string>
+    <string name="downloading_indicator_text">Endirmə davam edir, ləğv etmək üçün bas.</string>
     <string name="custom_output_path">Fərdi alt kataloq</string>
     <string name="edit_custom_path_template_desc">yt-dlp tərəfindən təmin edilən mövcud sahələrlə alt kataloqu müəyyənləşdir</string>
     <string name="embed_subtitles">Altyazıları yerləşdir</string>
@@ -190,7 +190,7 @@
     <string name="selected_item_count">%1$d seçildi</string>
     <string name="battery_configuration">Batareya konfiqurasiyası</string>
     <string name="battery_configuration_desc">Fonda endirmək üçün, bu tətbiq üçün batareya optimallaşdırılmasına məhəl qoyulmamalıdır</string>
-    <string name="playlist_indicator_text">Pleylist endirilir (%1$d/%2$d), dayandırmaq üçün kliklə.</string>
+    <string name="playlist_indicator_text">Pleylist endirilir (%1$d/%2$d), dayandırmaq üçün bas.</string>
     <string name="subdirectory_desc">Faylları əlaqəli veb-saytlar kimi adlandırılan qovluqlarda saxla</string>
     <string name="custom_output_path_desc">Alt kataloq üçün şablon istifadə et</string>
     <string name="github_issue_desc">Xəta hesabatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
@@ -226,4 +226,24 @@
     <string name="cookies">Məlumat bazası</string>
     <string name="matrix_space">Matrix məkanı</string>
     <string name="abs_hint">Əksər video yayım platformaları səs və videonu ayrı çatdırır, siz bir video üçün yalnız video formatı ilə yalnız səs formatını seçib, birləşdirə bilərsiniz.</string>
+    <string name="auto_subtitle">Avtomatik altyazılar</string>
+    <string name="video_title_sample_text">Video başlıq mətn nümunəsi</string>
+    <string name="subtitle">Altyazı</string>
+    <string name="download_subtitles">Altyazıları yüklə</string>
+    <string name="subtitle_language">Altyazı dilləri</string>
+    <string name="subtitle_desc">Dillər, yerləşdirilən altyazılar, avtomatik altyazılar</string>
+    <string name="copy_log">Jurnalı köçür</string>
+    <string name="clear">Təmizlə</string>
+    <string name="edit_shortcuts">Qısayolları redaktə et</string>
+    <string name="add">Əlavə et</string>
+    <string name="show_logs">Jurnalı göstər</string>
+    <string name="logs">Jurnal</string>
+    <string name="sdcard_directory">SD kart qovluğu</string>
+    <string name="auto_subtitle_desc">Avtomatik yaradılan altyazıları yüklə</string>
+    <string name="title_activity_share">Sürətli yükləmə</string>
+    <string name="video_creator_sample_text">Video yaradıcı mətn nümunəsi</string>
+    <string name="shortcuts">Qısayollar</string>
+    <string name="edit_shortcuts_desc">Əmr şablonlarını tərtib etmək üçün istifadə edilən fərdi qısayolları redaktə edin.</string>
+    <string name="running_tasks">Çalışan tapşırıqlar</string>
+    <string name="subtitle_sponsorblock">SponsorBlock seqmentləri silinən zaman altyazılar vaxtı səhv olacaq.</string>
 </resources>
