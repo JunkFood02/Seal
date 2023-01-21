@@ -45,7 +45,7 @@
     <string name="channel_name">Herunterladen</string>
     <string name="defaults">Standard</string>
     <string name="video_url">Videolink</string>
-    <string name="download_finish_notification">Download beendet. Zum Öffnen anklicken.</string>
+    <string name="download_finish_notification">Download beendet. Zum Öffnen antippen.</string>
     <string name="download_playlist">Wiedergabeliste herunterladen</string>
     <string name="download_playlist_desc">Mehrere Videos aus einer Wiedergabeliste herunterladen</string>
     <string name="user_guide">Benutzerhandbuch</string>
@@ -104,7 +104,7 @@
     <string name="service_title">Seal lädt herunter …</string>
     <string name="channel_description">Benachrichtigung über heruntergeladene Dateien und den Fortschritt</string>
     <string name="additional_settings">Zusätzliche Einstellungen</string>
-    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d), zum Anhalten anklicken.</string>
+    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d), zum Anhalten antippen.</string>
     <string name="format">Format</string>
     <string name="print_details_desc">Detaillierte Meldungen beim Herunterladen drucken</string>
     <string name="not_convert">Nicht konvertieren</string>
@@ -142,7 +142,7 @@
     <string name="remove_template_desc">„%1$s“ endgültig aus den Befehlsvorlagen entfernen\?</string>
     <string name="template_selection">Vorlagenauswahl</string>
     <string name="custom_command_template_desc">Befehlsvorlagen bearbeiten und verwalten</string>
-    <string name="downloading_indicator_text">Download läuft, zum Abbrechen klicken.</string>
+    <string name="downloading_indicator_text">Download läuft, zum Abbrechen antippen.</string>
     <string name="task_canceled">Download-Aufgabe wurde abgebrochen</string>
     <string name="github_issue">GitHub-Problem</string>
     <string name="info_copied">Informationen in die Zwischenablage kopiert</string>
@@ -226,4 +226,24 @@
     <string name="cookies">Cookies</string>
     <string name="matrix_space">Matrix-Raum</string>
     <string name="abs_hint">Die meisten Videostreaming-Plattformen liefern Audio und Video getrennt. Du kannst ein reines Audioformat auswählen und mit einem reinen Videoformat zu einem einzigen Video zusammenfügen.</string>
+    <string name="edit_shortcuts_desc">Individuelle Verknüpfungen bearbeiten, die zur Erstellung von Befehlsvorlagen verwendet werden können.</string>
+    <string name="running_tasks">Laufende Aufgaben</string>
+    <string name="auto_subtitle">Automatische Untertitel</string>
+    <string name="title_activity_share">Schnelles Herunterladen</string>
+    <string name="video_title_sample_text">Videotitel Beispieltext</string>
+    <string name="video_creator_sample_text">Videoersteller Beispieltext</string>
+    <string name="subtitle">Untertitel</string>
+    <string name="download_subtitles">Untertitel herunterladen</string>
+    <string name="subtitle_desc">Sprachen, Untertitel einbetten, automatische Untertitel</string>
+    <string name="copy_log">Protokoll kopieren</string>
+    <string name="clear">Löschen</string>
+    <string name="edit_shortcuts">Verknüpfungen bearbeiten</string>
+    <string name="show_logs">Protokoll anzeigen</string>
+    <string name="logs">Protokoll</string>
+    <string name="shortcuts">Verknüpfungen</string>
+    <string name="sdcard_directory">SD-Kartenordner</string>
+    <string name="auto_subtitle_desc">Automatisch generierte Untertitel herunterladen</string>
+    <string name="subtitle_language">Untertitelsprachen</string>
+    <string name="add">Hinzufügen</string>
+    <string name="subtitle_sponsorblock">Untertitel werden beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert.</string>
 </resources>

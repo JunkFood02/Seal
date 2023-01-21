@@ -121,9 +121,9 @@
     <string name="concurrent_download_num">%d thread(s) worden gebruikt om DASH/HLS native video gelijktijdig te downloaden.</string>
     <string name="share_success_msg">Videolink aan het lezen vanuit gedeelde inhoud…</string>
     <string name="download_notification">Downloadnotificatie</string>
-    <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), Klik om te stoppen.</string>
+    <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), klik om te stoppen.</string>
     <string name="permission_issue_desc">Mappen buiten Download/ en Documents/ worden niet ondersteund</string>
-    <string name="to">Einde van index</string>
+    <string name="to">Einde</string>
     <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst ‘%3$s’ (van %1$d tot %2$d).</string>
     <string name="download_directory_desc">Selecteer waar u video\'s en geluidsbestanden wilt opslaan</string>
     <string name="battery_configuration_desc">Negeer batterijoptimalisatie voor deze app om op de achtergrond te kunnen downloaden</string>

@@ -226,4 +226,23 @@
     <string name="how_does_it_work">Comment ça fonctionne \?</string>
     <string name="matrix_space">Espace Matrix</string>
     <string name="abs_hint">La plupart des plateformes de streaming vidéo fournissent l\'audio et la vidéo séparément. Vous pouvez sélectionner et fusionner un format uniquement audio avec un format uniquement vidéo pour obtenir une seule vidéo.</string>
+    <string name="sdcard_directory">Dossier de la carte SD</string>
+    <string name="auto_subtitle">Sous-titres automatiques</string>
+    <string name="auto_subtitle_desc">Télécharger les sous-titres générés automatiquement</string>
+    <string name="video_creator_sample_text">Texte type du créateur vidéo</string>
+    <string name="subtitle_language">Langues des sous-titres</string>
+    <string name="clear">Effacer</string>
+    <string name="edit_shortcuts">Modifier les raccourcis</string>
+    <string name="add">Ajouter</string>
+    <string name="shortcuts">Raccourcis</string>
+    <string name="edit_shortcuts_desc">Modifier les raccourcis personnalisés qui peuvent être utilisés pour composer des modèles de commande.</string>
+    <string name="running_tasks">Tâches courantes</string>
+    <string name="show_logs">Afficher les journaux</string>
+    <string name="logs">Journaux</string>
+    <string name="download_subtitles">Télécharger les sous-titres</string>
+    <string name="title_activity_share">Téléchargement rapide</string>
+    <string name="video_title_sample_text">Titre de la vidéo, exemple de texte</string>
+    <string name="subtitle">Sous-titre</string>
+    <string name="copy_log">Copier le journal</string>
+    <string name="subtitle_desc">Langues, sous-titres intégrés, sous-titres automatiques</string>
 </resources>

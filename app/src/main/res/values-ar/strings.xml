@@ -45,7 +45,7 @@
     <string name="paste">لصق</string>
     <string name="yt_dlp_docs">مراجع استخدام Yt-dlp</string>
     <string name="convert_to">التحويل إلى%1$s</string>
-    <string name="format">صيغة</string>
+    <string name="format">الصيغ</string>
     <string name="audio_format">تحويل صيغة الصوت</string>
     <string name="video_quality_desc">حد جودة الفيديو وحجم الملف</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
@@ -59,7 +59,7 @@
     <string name="download_playlist">تنزيل قائمة التشغيل</string>
     <string name="download_playlist_desc">قم بتنزيل مقاطع فيديو متعددة من قائمة التشغيل</string>
     <string name="channel_name">تحميل</string>
-    <string name="download_finish_notification">انتهى التحميل، انقر للعرض.</string>
+    <string name="download_finish_notification">تم التحميل، انقر للعرض.</string>
     <string name="execute_command_notification">تشغيل الأوامر المخصصة …</string>
     <string name="concurrent_download_desc">قم بتنزيل المزيد من أجزاء مقاطع الفيديو M3U8 / MPD بالتوازي</string>
     <string name="concurrent_download_num">%d من الممكن استخدام سلسلة لتنزيل فيديو DASH / HLS الأصلي بشكل متزامن.</string>
@@ -97,7 +97,7 @@
     <string name="custom_command_desc">أستخدم Yt-dlp بأوامر مخصصة منك</string>
     <string name="credits">الاعتمادات</string>
     <string name="credits_desc">الاعتمادات والبرمجيات الحرة</string>
-    <string name="custom_command">أمر مخصص</string>
+    <string name="custom_command">الأوامر المخصصة</string>
     <string name="start_execute">بدء تنفيذ الأمر</string>
     <string name="advanced_settings">أعدادات متقدمة</string>
     <string name="close_never_show_again">لا تظهر مرة أخرى</string>
@@ -226,4 +226,24 @@
     <string name="matrix_space">مساحة ماتريكس</string>
     <string name="cookies">كوكيز</string>
     <string name="abs_hint">تقدم معظم منصات الفيديو، الصوت والفيديو بشكل منفصل ، يمكنك تحديد ودمج صيغة صوت فقط بصيغة فيديو في فيديو واحد.</string>
+    <string name="auto_subtitle_desc">سيقوم هذا الخيار بتحميل الترجمة التلقائية ان توفرت من المصدر</string>
+    <string name="download_subtitles">تحميل الترجمات</string>
+    <string name="edit_shortcuts">تعديل الاختصارات</string>
+    <string name="sdcard_directory">مجلد كرت الذاكرة</string>
+    <string name="auto_subtitle">الترجمة التلقائية</string>
+    <string name="title_activity_share">تنزيل سريع</string>
+    <string name="video_title_sample_text">نص نموذجي لعنوان الفيديو</string>
+    <string name="subtitle_language">لغات الترجمة</string>
+    <string name="subtitle_desc">اللغات، دمج الترجمة، الترجمة التلقائية</string>
+    <string name="copy_log">نسخ السجل</string>
+    <string name="clear">إزالة</string>
+    <string name="add">إضافة</string>
+    <string name="shortcuts">اختصارات</string>
+    <string name="running_tasks">المهام الجارية</string>
+    <string name="show_logs">إظهار السِجل</string>
+    <string name="logs">السِجل</string>
+    <string name="video_creator_sample_text">نص نموذجي لمنشئ الفيديو</string>
+    <string name="subtitle">الترجمة</string>
+    <string name="edit_shortcuts_desc">قم بتعديل الاختصارات المخصصة التي يمكن استخدامها لإنشاء قوالب الأوامر.</string>
+    <string name="subtitle_sponsorblock">توقيت الترجمة سيصبح غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
 </resources>
