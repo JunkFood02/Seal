@@ -1,18 +1,14 @@
 <resources>
 
     <style name="Theme.Seal" parent="Theme.Material3.DayNight.NoActionBar">
-        <!--        <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
     <style name="Theme.Seal.Dialog" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
 </resources>

@@ -23,8 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New transition animation between destinations
 - Change `minSdkVersion` to 21 (Android 5.0)
-- A11Y improvements to components
+- Accessibility improvements to components
 - Revert playlist items limit in v1.7.3
+- Scan the download directory to the system media library after running commands
 
 
 
