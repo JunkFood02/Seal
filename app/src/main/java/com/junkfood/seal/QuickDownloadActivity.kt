@@ -2,11 +2,13 @@ package com.junkfood.seal
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -19,23 +21,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
-import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.download.DownloadSettingDialog
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.TextUtil
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 private const val TAG = "ShareActivity"
 
@@ -84,6 +85,12 @@ class QuickDownloadActivity : ComponentActivity() {
             WindowManager.LayoutParams.MATCH_PARENT
         )
         handleShareIntent(intent)
+        runBlocking {
+            if (Build.VERSION.SDK_INT < 33)
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
+                )
+        }
         val isDialogEnabled = CONFIGURE.getBoolean()
 
         if (url.isEmpty()) {
