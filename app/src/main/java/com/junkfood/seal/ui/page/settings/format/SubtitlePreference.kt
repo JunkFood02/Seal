@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,7 +53,17 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
 
 
     val subtitleLang by remember(showLanguageDialog) { mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
-
+    val sponsorBlockText = stringResource(id = R.string.subtitle_sponsorblock)
+    val embedSubtitleText = stringResource(R.string.embed_subtitles_mkv_msg)
+    val hint by remember(sponsorBlock, embedSubtitle) {
+        derivedStateOf {
+            StringBuilder().apply {
+                if (sponsorBlock) append(sponsorBlockText)
+                if (isNotEmpty()) append("\n\n")
+                if (embedSubtitle) append(embedSubtitleText)
+            }.toString()
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -118,8 +129,10 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                     )
                 }
 
-                if (sponsorBlock) item {
-                    PreferenceInfo(text = stringResource(id = R.string.subtitle_sponsorblock))
+
+                item {
+                    if (hint.isNotEmpty())
+                        PreferenceInfo(text = hint)
                 }
 
             }

@@ -686,7 +686,11 @@ fun TemplateItem(
                     .align(Alignment.CenterVertically),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
             )
-            RadioButton(modifier = Modifier.semantics { contentDescription = label }, selected = selected, onClick = onSelect)
+            RadioButton(
+                modifier = Modifier.semantics { contentDescription = label },
+                selected = selected,
+                onClick = onSelect
+            )
         }
 
 
@@ -717,18 +721,17 @@ fun PreferenceInfo(
     icon: ImageVector = Icons.Outlined.Info,
     applyPaddings: Boolean = true
 ) {
-    Row(modifier = modifier.run {
+    Column(modifier = modifier.fillMaxWidth().run {
         if (applyPaddings) padding(horizontal = 16.dp, vertical = 16.dp)
         else this
-    }, verticalAlignment = Alignment.CenterVertically) {
-
+    }) {
         Icon(
             modifier = Modifier.padding(),
             imageVector = icon,
             contentDescription = null
         )
         Text(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(vertical = 16.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium
         )
