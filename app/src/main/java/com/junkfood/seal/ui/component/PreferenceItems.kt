@@ -17,6 +17,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -178,6 +179,7 @@ fun PreferenceItemVariant(
 
 @Composable
 fun PreferenceSingleChoiceItem(
+    modifier: Modifier=Modifier,
     text: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -189,9 +191,9 @@ fun PreferenceSingleChoiceItem(
         )
     ) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 20.dp),
+                .padding(horizontal = 8.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -257,11 +259,29 @@ internal fun PreferenceItemDescription(
     )
 }
 
+@Composable
+@Preview
+fun PreferenceSwitchPreview() {
+    PreferenceSwitch(
+        title = "PreferenceSwitch",
+        description = "Supporting text",
+        icon = Icons.Outlined.ToggleOn,
+    )
+}
 
 @Composable
 @Preview
+fun PreferenceSwitchWithDividerPreview() {
+    PreferenceSwitchWithDivider(
+        title = "PreferenceSwitch",
+        description = "Supporting text",
+        icon = Icons.Outlined.ToggleOn,
+    )
+}
+
+@Composable
 fun PreferenceSwitch(
-    title: String = "test title".repeat(10),
+    title: String,
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
@@ -329,9 +349,8 @@ fun PreferenceSwitch(
 
 
 @Composable
-@Preview
 fun PreferenceSwitchWithDivider(
-    title: String = "",
+    title: String,
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,

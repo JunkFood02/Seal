@@ -21,6 +21,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -40,11 +41,24 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 
-private const val AUDIO_REGEX = "(\\.mp3)|(\\.aac)|(\\.opus)|(\\.m4a)"
+private const val AUDIO_REGEX = "\\.(mp3|aac|opus|m4a|flac|wav)"
 
+@Composable
+@Preview
+fun MediaListItemPreview() {
+    MaterialTheme() {
+        Surface() {
+            MediaListItem(
+                title = stringResource(id = R.string.video_title_sample_text),
+                author = stringResource(
+                    id = (R.string.video_creator_sample_text)
+                ), videoFileSize = 56.78f
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
-@Preview
 @Composable
 fun MediaListItem(
     modifier: Modifier = Modifier,
@@ -79,21 +93,18 @@ fun MediaListItem(
     val isFileAvailable = videoFileSize != 0f
     Box(
         modifier = with(modifier) {
-            if (!isSelectEnabled())
-                combinedClickable(
-                    enabled = true,
-                    onClick = { onClick() },
-                    onClickLabel = stringResource(R.string.open_file),
-                    onLongClick = {
-                        onLongClick()
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    },
-                    onLongClickLabel = stringResource(R.string.show_more_actions)
-                )
-            else
-                selectable(selected = isSelected(), onClick = onSelect)
-        }
-            .fillMaxWidth(),
+            if (!isSelectEnabled()) combinedClickable(
+                enabled = true,
+                onClick = { onClick() },
+                onClickLabel = stringResource(R.string.open_file),
+                onLongClick = {
+                    onLongClick()
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                },
+                onLongClickLabel = stringResource(R.string.show_more_actions)
+            )
+            else selectable(selected = isSelected(), onClick = onSelect)
+        }.fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
@@ -119,24 +130,23 @@ fun MediaListItem(
                 modifier = Modifier
                     .weight(1f - imageWeight)
                     .padding(horizontal = 12.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Top
+                    .fillMaxWidth(), verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2, overflow = TextOverflow.Ellipsis
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
-                if (author != "playlist" && author != "null")
-                    Text(
-                        modifier = Modifier.padding(top = 3.dp),
-                        text = author,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                if (author != "null") Text(
+                    modifier = Modifier.padding(top = 3.dp),
+                    text = author,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     modifier = Modifier.padding(top = 3.dp),
                     text = if (isFileAvailable) "%.2f M".format(videoFileSize) else stringResource(
@@ -151,13 +161,13 @@ fun MediaListItem(
             }
         }
         AnimatedVisibility(
-            modifier = Modifier.align(Alignment.BottomEnd), visible = !isSelectEnabled(),
+            modifier = Modifier.align(Alignment.BottomEnd),
+            visible = !isSelectEnabled(),
             enter = fadeIn(tween(100)),
             exit = fadeOut(tween(100))
         ) {
             IconButton(
-                modifier = Modifier.clearAndSetSemantics { },
-                onClick = onLongClick
+                modifier = Modifier.clearAndSetSemantics { }, onClick = onLongClick
             ) {
                 Icon(
                     modifier = Modifier.size(18.dp),
@@ -173,9 +183,11 @@ fun MediaListItem(
 fun MediaImage(modifier: Modifier = Modifier, imageModel: String, isAudio: Boolean = false) {
     AsyncImageImpl(
         modifier = modifier
-            .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
+            .aspectRatio(
+                if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true
+            )
             .clip(MaterialTheme.shapes.extraSmall),
-        model = imageModel,
+        model = imageModel.ifEmpty { R.drawable.sample1 },
         contentDescription = null,
         contentScale = ContentScale.Crop,
     )
