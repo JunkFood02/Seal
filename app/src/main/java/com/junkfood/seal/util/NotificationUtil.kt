@@ -118,6 +118,7 @@ object NotificationUtil {
                 .setSmallIcon(R.drawable.ic_stat_seal)
                 .setContentText(text)
                 .setOngoing(false)
+                .setAutoCancel(true)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
         notificationManager.notify(notificationId, builder.build())
