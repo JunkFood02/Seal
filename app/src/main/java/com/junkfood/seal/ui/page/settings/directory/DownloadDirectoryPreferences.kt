@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -46,12 +48,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -99,7 +106,9 @@ private enum class Directory {
     AUDIO, VIDEO, SDCARD
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class,
+    ExperimentalComposeUiApi::class
+)
 @Composable
 fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
 
@@ -386,6 +395,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 }
             }, icon = { Icon(Icons.Outlined.Edit, null) },
             text = {
+                val focusManager = LocalFocusManager.current
+                val softwareKeyboardController = LocalSoftwareKeyboardController.current
                 Column {
                     Text(
                         stringResource(R.string.edit_custom_path_template_desc),
@@ -403,7 +414,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
                         },
                         label = { Text(stringResource(R.string.download_path_template)) },
-                        maxLines = 1
+                        maxLines = 1,
+                        keyboardActions = KeyboardActions(onDone = {
+                            softwareKeyboardController?.hide()
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                     )
                     LinkButton()
                 }

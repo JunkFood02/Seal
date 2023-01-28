@@ -28,10 +28,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,12 +50,12 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
-import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.ui.component.SealTextField
+import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.util.DatabaseUtil
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun CommandTemplateDialog(
@@ -106,6 +110,8 @@ fun CommandTemplateDialog(
             }
         },
         text = {
+            val focusManager = LocalFocusManager.current
+            val softwareKeyboardController = LocalSoftwareKeyboardController.current
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -126,7 +132,12 @@ fun CommandTemplateDialog(
                     },
                     label = { Text(stringResource(R.string.template_label)) },
                     maxLines = 1,
-                    isError = isError
+                    isError = isError,
+                    keyboardActions = KeyboardActions(onDone = {
+                        softwareKeyboardController?.hide()
+                        focusManager.moveFocus(FocusDirection.Down)
+                    }),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 OutlinedTextField(
                     modifier = Modifier
@@ -141,13 +152,19 @@ fun CommandTemplateDialog(
                     },
                     label = { Text(stringResource(R.string.custom_command_template)) },
                     maxLines = 12,
-                    minLines = 3
+                    minLines = 3,
+                    keyboardActions = KeyboardActions(onDone = {
+                        softwareKeyboardController?.hide()
+                        focusManager.moveFocus(FocusDirection.Down)
+                    }),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 LinkButton()
             }
         })
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
     val scope = rememberCoroutineScope()
@@ -191,15 +208,21 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
                     }
                 }
 //                HorizontalDivider()
+                val focusManager = LocalFocusManager.current
+                val softwareKeyboardController = LocalSoftwareKeyboardController.current
 
                 SealTextField(
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier.padding(),
                     value = text,
                     onValueChange = { text = it },
                     trailingIcon = {
                         AddButton(onClick = { addShortCuts() }, enabled = text.isNotEmpty())
                     },
-                    keyboardActions = KeyboardActions(onDone = { addShortCuts() }),
+                    keyboardActions = KeyboardActions(onDone = {
+                        addShortCuts()
+                        softwareKeyboardController?.hide()
+                        focusManager.moveFocus(FocusDirection.Down)
+                    }),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     maxLines = 2,
                     label = {

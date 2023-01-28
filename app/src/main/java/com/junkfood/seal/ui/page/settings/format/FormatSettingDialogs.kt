@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
@@ -27,12 +29,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -241,20 +247,31 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
 
 private const val subtitleOptions = "https://github.com/yt-dlp/yt-dlp#subtitle-options"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
     var languages by SUBTITLE_LANGUAGE.stringState
-
+    val focusManager = LocalFocusManager.current
+    val softwareKeyboardController = LocalSoftwareKeyboardController.current
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.subtitle_language)) },
         icon = { Icon(Icons.Outlined.Language, null) },
         text = {
             Column() {
-                OutlinedTextField(modifier = Modifier.padding(bottom = 8.dp), value = languages, onValueChange = { languages = it }, label = {
-                    Text(stringResource(id = R.string.subtitle_language))
-                })
+                OutlinedTextField(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    value = languages,
+                    onValueChange = { languages = it },
+                    label = {
+                        Text(stringResource(id = R.string.subtitle_language))
+                    },
+                    keyboardActions = KeyboardActions(onDone = {
+                        softwareKeyboardController?.hide()
+                        focusManager.moveFocus(FocusDirection.Down)
+                    }),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                )
                 LinkButton(link = subtitleOptions)
             }
         }, confirmButton = {

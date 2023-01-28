@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -59,13 +61,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -322,7 +329,7 @@ fun DownloadPageImpl(
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
                         error = errorState.isErrorOccurred(),
-                        onPaste = pasteCallback,
+                        onDone = downloadCallback,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
                         enter = expandVertically() + fadeIn(),
@@ -368,16 +375,19 @@ fun DownloadPageImpl(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun InputUrl(
     url: String,
     error: Boolean,
     showDownloadProgress: Boolean = false,
     progress: Float,
-    onPaste: () -> Unit,
+    onDone: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    val softwareKeyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = url,
         isError = error,
@@ -385,13 +395,19 @@ fun InputUrl(
         label = { Text(stringResource(R.string.video_url)) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 3,
         trailingIcon = {
             if (url.isNotEmpty()) ClearButton { onValueChange("") }
 //            else PasteUrlButton { onPaste() }
-        }
+        }, keyboardActions = KeyboardActions(onDone = {
+            softwareKeyboardController?.hide()
+            focusManager.moveFocus(FocusDirection.Down)
+            onDone()
+        }),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
     )
     AnimatedVisibility(visible = showDownloadProgress) {
         Row(

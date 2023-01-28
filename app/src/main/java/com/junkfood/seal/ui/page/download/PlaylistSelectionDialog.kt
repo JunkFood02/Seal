@@ -6,6 +6,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PlaylistAdd
@@ -21,13 +22,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.Downloader
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.TextUtil
 import com.junkfood.seal.util.TextUtil.isNumberInRange
@@ -45,7 +42,16 @@ fun PlaylistSelectionDialog(
     var to by remember { mutableStateOf(playlistCount.toString()) }
     var error by remember { mutableStateOf(false) }
     val (item1, item2) = remember { FocusRequester.createRefs() }
-
+    val onDone: () -> Unit = {
+        error = !from.isNumberInRange(1, playlistCount) or !to.isNumberInRange(
+            1, playlistCount
+        ) || from.toInt() > to.toInt()
+        if (error) TextUtil.makeToast(R.string.invalid_index_range)
+        else {
+            onConfirm(from.toInt()..to.toInt())
+            onDismissRequest()
+        }
+    }
     AlertDialog(onDismissRequest = { onDismissRequest() },
         icon = { Icon(Icons.Outlined.PlaylistAdd, null) },
         title = { Text(stringResource(R.string.download_range_selection)) },
@@ -70,8 +76,7 @@ fun PlaylistSelectionDialog(
                             .focusRequester(item1),
                             value = from,
                             onValueChange = {
-                                if (it.isDigitsOnly())
-                                    from = it
+                                if (it.isDigitsOnly()) from = it
                                 error = false
                             },
                             label = { Text(stringResource(R.string.from)) },
@@ -94,15 +99,15 @@ fun PlaylistSelectionDialog(
                             .focusRequester(item2),
                             value = to,
                             onValueChange = {
-                                if (it.isDigitsOnly())
-                                    to = it
+                                if (it.isDigitsOnly()) to = it
                                 error = false
                             },
                             label = { Text(stringResource(R.string.to)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.NumberPassword,
-                                imeAction = ImeAction.Next
+                                imeAction = ImeAction.Done
                             ),
+                            keyboardActions = KeyboardActions(onDone = { onDone() }),
                             singleLine = true,
                             isError = error
                         )
@@ -116,17 +121,7 @@ fun PlaylistSelectionDialog(
             }
         },
         confirmButton = {
-            ConfirmButton(onClick = {
-                error =
-                    !from.isNumberInRange(1, playlistCount) or !to.isNumberInRange(
-                        1, playlistCount
-                    ) || from.toInt() > to.toInt()
-                if (error) TextUtil.makeToast(R.string.invalid_index_range)
-                else {
-                    onConfirm(from.toInt()..to.toInt())
-                    onDismissRequest()
-                }
-            })
+            ConfirmButton(onClick = onDone)
         })
 
 }

@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.settings
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager.MATCH_ALL
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
@@ -9,7 +10,6 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,14 +24,10 @@ import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.SignalCellular4Bar
 import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.junkfood.seal.App
 import com.junkfood.seal.R
@@ -53,9 +48,7 @@ import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SettingItem
 import com.junkfood.seal.ui.component.SettingTitle
 import com.junkfood.seal.ui.component.SmallTopAppBar
-import com.junkfood.seal.ui.component.fraction
 import com.junkfood.seal.util.EXTRACT_AUDIO
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,24 +91,29 @@ fun SettingsPage(navController: NavController) {
                 SettingTitle(text = stringResource(id = R.string.settings))
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                item {
-                    AnimatedVisibility(
-                        visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
-                    ) {
-                        PreferencesHintCard(
-                            title = stringResource(R.string.battery_configuration),
-                            icon = Icons.Rounded.EnergySavingsLeaf,
-                            description = stringResource(R.string.battery_configuration_desc),
-                            isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+                if (context.packageManager.queryIntentActivities(
+                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS),
+                        MATCH_ALL
+                    ).isNotEmpty()
+                )
+                    item {
+                        AnimatedVisibility(
+                            visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
                         ) {
-                            launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                                data = Uri.parse("package:${context.packageName}")
-                            })
-                            showBatteryHint =
-                                !pm.isIgnoringBatteryOptimizations(context.packageName)
+                            PreferencesHintCard(
+                                title = stringResource(R.string.battery_configuration),
+                                icon = Icons.Rounded.EnergySavingsLeaf,
+                                description = stringResource(R.string.battery_configuration_desc),
+                                isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+                            ) {
+                                launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                    data = Uri.parse("package:${context.packageName}")
+                                })
+                                showBatteryHint =
+                                    !pm.isIgnoringBatteryOptimizations(context.packageName)
+                            }
                         }
                     }
-                }
             }
             item {
                 SettingItem(
@@ -154,17 +152,17 @@ fun SettingsPage(navController: NavController) {
                     }
                 }
             }
-/*            item {
-                SettingItem(
-                    title = stringResource(id = R.string.subtitle), description = stringResource(
-                        id = R.string.subtitle_desc
-                    ), icon = Icons.Outlined.Subtitles
-                ) {
-                    navController.navigate(Route.SUBTITLE_PREFERENCES) {
-                        launchSingleTop = true
-                    }
-                }
-            }*/
+            /*            item {
+                            SettingItem(
+                                title = stringResource(id = R.string.subtitle), description = stringResource(
+                                    id = R.string.subtitle_desc
+                                ), icon = Icons.Outlined.Subtitles
+                            ) {
+                                navController.navigate(Route.SUBTITLE_PREFERENCES) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        }*/
             item {
                 SettingItem(
                     title = stringResource(id = R.string.network),

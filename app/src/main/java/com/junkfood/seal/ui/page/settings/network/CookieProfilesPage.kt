@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -31,13 +33,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -160,7 +167,10 @@ fun CookieProfilePage(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class,
+    ExperimentalComposeUiApi::class
+)
 @Composable
 fun CookieGeneratorDialog(
     cookiesViewModel: CookiesViewModel = viewModel(),
@@ -177,18 +187,27 @@ fun CookieGeneratorDialog(
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-//            Text(
-//                stringResource(R.string.cookies_desc),
-//                style = MaterialTheme.typography.bodyLarge
-//            )
+            val focusManager = LocalFocusManager.current
+            val softwareKeyboardController = LocalSoftwareKeyboardController.current
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 value = url, label = { Text("URL") },
                 onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
-                    PasteFromClipBoardButton { cookiesViewModel.updateUrl(TextUtil.matchUrlFromClipboard(it)) }
-                }, maxLines = 1
+                    PasteFromClipBoardButton {
+                        cookiesViewModel.updateUrl(
+                            TextUtil.matchUrlFromClipboard(
+                                it
+                            )
+                        )
+                    }
+                }, maxLines = 1,
+                keyboardActions = KeyboardActions(onDone = {
+                    softwareKeyboardController?.hide()
+                    focusManager.moveFocus(FocusDirection.Down)
+                }),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
 
             OutlinedTextField(
@@ -197,7 +216,12 @@ fun CookieGeneratorDialog(
                     .padding(top = 16.dp, bottom = 12.dp),
                 value = content,
                 label = { Text(stringResource(R.string.cookies_file_name)) },
-                onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8
+                onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8,
+                keyboardActions = KeyboardActions(onDone = {
+                    softwareKeyboardController?.hide()
+                    focusManager.moveFocus(FocusDirection.Down)
+                }),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
             TextButtonWithIcon(
                 onClick = { navigateToCookieGeneratorPage() },
