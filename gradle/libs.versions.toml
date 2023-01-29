@@ -1,14 +1,14 @@
 [versions]
 accompanist = "0.28.0"
 androidGradlePlugin = "7.4.0"
-androidxComposeBom = "2022.12.00"
-androidxComposeCompiler = "1.3.2"
+androidxComposeBom = "2023.01.00"
+androidxComposeCompiler = "1.4.0"
 androidxCore = "1.9.0"
 androidMaterial = "1.8.0-beta01"
 androidxAppCompat = "1.7.0-alpha01"
 androidxActivity = "1.6.1"
 
-androidxLifecycle = "2.6.0-alpha03"
+androidxLifecycle = "2.6.0-alpha05"
 androidxNavigation = "2.5.3"
 androidxComposeMaterial3 = "1.1.0-alpha03"
 
@@ -24,17 +24,17 @@ hilt = "2.44.2"
 hiltExt = "1.0.0"
 
 junit4 = "4.13.2"
-kotlin = "1.7.20"
+kotlin = "1.8.0"
 kotlinxCoroutines = "1.6.4"
 kotlinxDatetime = "0.4.0"
 kotlinxSerializationJson = "1.4.1"
 okhttp = "5.0.0-alpha.10"
 
-room = "2.5.0-rc01"
+room = "2.5.0"
 
 youtubedlAndroid = "a3b971724d"
 
-mmkv = "1.2.14"
+mmkv = "1.2.15"
 
 [libraries]
 
@@ -117,4 +117,4 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version = "1.7.20" }
+kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

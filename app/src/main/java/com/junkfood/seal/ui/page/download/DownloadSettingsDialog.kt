@@ -44,7 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
@@ -76,8 +75,7 @@ import com.junkfood.seal.util.THUMBNAIL
 import kotlinx.coroutines.launch
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalAnimationApi::class,
-    ExperimentalLifecycleComposeApi::class
+    ExperimentalMaterialApi::class,
 )
 @Composable
 fun DownloadSettingDialog(

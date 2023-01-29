@@ -45,7 +45,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.R
@@ -62,7 +61,7 @@ import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookieProfilePage(
     cookiesViewModel: CookiesViewModel = viewModel(),
@@ -166,7 +165,7 @@ fun CookieProfilePage(
 }
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class
 )
 @Composable
