@@ -1,0 +1,8 @@
+UI Improvements & Feature Updates:
+
+Download to SD card
+Quick download
+Task dashboard, log page and custom shortcuts for custom commands
+...
+
+For full changelogs, please refer to GitHub

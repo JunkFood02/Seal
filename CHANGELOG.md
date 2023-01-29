@@ -17,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Subtitle preferences
 - Apply `--embed-chapters` for video downloads by default
 - New color schemes for UI theming
-- Display message when using SponsorBlock with subtitles
 
 ### Changed
 
@@ -26,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Accessibility improvements to components
 - Revert playlist items limit in v1.7.3
 - Scan the download directory to the system media library after running commands
+- Change the LongClick operations of `FormatItem` to share the stream URLs
 
 
 
