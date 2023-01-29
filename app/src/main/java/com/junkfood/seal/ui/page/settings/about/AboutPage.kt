@@ -133,18 +133,18 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     icon = Icons.Outlined.AutoAwesome,
                 ) { jumpToCreditsPage() }
             }
-            if (!App.isFDroidBuild())
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(R.string.check_for_updates),
-                        description = stringResource(R.string.check_for_updates_desc),
-                        icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
-                        isChecked = isAutoUpdateEnabled
-                    ) {
-                        isAutoUpdateEnabled = !isAutoUpdateEnabled
-                        PreferenceUtil.updateValue(AUTO_UPDATE, isAutoUpdateEnabled)
-                    }
+            item {
+                PreferenceSwitch(
+                    title = stringResource(R.string.check_for_updates),
+                    description = stringResource(R.string.check_for_updates_desc),
+                    icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
+                    isChecked = isAutoUpdateEnabled,
+                    enabled = !App.isFDroidBuild()
+                ) {
+                    isAutoUpdateEnabled = !isAutoUpdateEnabled
+                    PreferenceUtil.updateValue(AUTO_UPDATE, isAutoUpdateEnabled)
                 }
+            }
             item {
                 PreferenceItem(
                     title = stringResource(R.string.version),
