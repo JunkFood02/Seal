@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -18,8 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -29,15 +28,14 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +51,6 @@ import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.TextUtil.connectWithBlank
 import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
@@ -94,13 +91,19 @@ fun FormatPageImpl(
     var selectedVideoAudioFormat by remember { mutableStateOf(NOT_SELECTED) }
     var selectedVideoOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
     var selectedAudioOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
+    val context = LocalContext.current
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val hapticFeedback = LocalHapticFeedback.current
 
-    val scope = rememberCoroutineScope()
-    val msg = stringResource(id = R.string.link_copied)
+    fun String?.share() = this?.let {
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+        context.startActivity(Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, it)
+        }, null), null)
+    }
 
-    val showSnackbar = { scope.launch { snackbarHostState.showSnackbar(message = msg) } }
 
     val formatList: List<Format> by remember {
         derivedStateOf {
@@ -115,7 +118,6 @@ fun FormatPageImpl(
 
 
     val clipboardManager = LocalClipboardManager.current
-    val hapticFeedback = LocalHapticFeedback.current
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -137,11 +139,6 @@ fun FormatPageImpl(
                     Text(text = stringResource(R.string.download))
                 }
             })
-        }, snackbarHost = {
-            SnackbarHost(
-                modifier = Modifier,
-                hostState = snackbarHostState
-            )
         }) { paddingValues ->
 
         LazyVerticalGrid(
@@ -195,13 +192,7 @@ fun FormatPageImpl(
                 FormatItem(
                     formatInfo = formatInfo,
                     selected = selectedVideoAudioFormat == index,
-                    onLongClick = {
-                        formatInfo.url?.let {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            clipboardManager.setText(AnnotatedString(it))
-                            showSnackbar()
-                        }
-                    }
+                    onLongClick = { formatInfo.url.share() }
                 ) {
                     selectedVideoAudioFormat =
                         if (selectedVideoAudioFormat == index) NOT_SELECTED else {
@@ -225,13 +216,8 @@ fun FormatPageImpl(
                     selected = selectedAudioOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     outlineColor = MaterialTheme.colorScheme.secondary,
-                    onLongClick = {
-                        formatInfo.url?.let {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            clipboardManager.setText(AnnotatedString(it))
-                            showSnackbar()
-                        }
-                    }
+                    onLongClick = { formatInfo.url.share() }
+
                 ) {
                     selectedAudioOnlyFormat =
                         if (selectedAudioOnlyFormat == index) NOT_SELECTED else {
@@ -255,12 +241,9 @@ fun FormatPageImpl(
                     formatInfo = formatInfo,
                     selected = selectedVideoOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    outlineColor = MaterialTheme.colorScheme.tertiary, onLongClick = {
-                        formatInfo.url?.let {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            clipboardManager.setText(AnnotatedString(it))
-                            showSnackbar()
-                        }
+                    outlineColor = MaterialTheme.colorScheme.tertiary,
+                    onLongClick = {
+                        formatInfo.url.share()
                     }
                 ) {
                     selectedVideoOnlyFormat =

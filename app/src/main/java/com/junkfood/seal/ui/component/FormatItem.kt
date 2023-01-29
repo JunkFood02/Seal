@@ -128,7 +128,7 @@ fun FormatItem(
             codec = connectWithBlank(
                 vcodec.toString().substringBefore("."),
                 acodec.toString().substringBefore(".")
-            ),
+            ).run { if (isNotBlank()) "($this)" else this },
             ext = ext.toString(),
             bitRate = tbr?.toFloat() ?: 0f,
             fileSize = fileSize ?: fileSizeApprox ?: 0,
@@ -197,7 +197,7 @@ fun FormatItem(
             val bitRateText =
                 if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
             val fileSizeText = "%.2f M".format(fileSize.toFloat() / 1024 / 1024)
-            val codecText = "$ext ($codec)".uppercase()
+            val codecText = "$ext $codec".uppercase()
             Text(
                 text = connectWithDelimiter(fileSizeText, bitRateText, delimiter = " "),
                 style = MaterialTheme.typography.labelMedium,
