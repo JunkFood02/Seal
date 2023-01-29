@@ -102,7 +102,7 @@
     <string name="download_playlist">प्लेलिस्ट डाउनलोड करें</string>
     <string name="download_playlist_desc">एक प्लेलिस्ट से कई वीडियो डाउनलोड करें</string>
     <string name="video_url">वीडियो लिंक</string>
-    <string name="download_finish_notification">डाउनलोड समाप्त। खोलने के लिए क्लिक करें।</string>
+    <string name="download_finish_notification">डाउनलोड समाप्त। खोलने के लिए टैप करें।</string>
     <string name="execute_command_notification">कस्टम कमांड चल रहा है…</string>
     <string name="battery_settings_desc">कृपया पृष्ठभूमि में डाउनलोड करने के लिए सिस्टम सेटिंग्स में इस ऐप के बैटरी उपयोग को \"अप्रतिबंधित\" पर सेट करें।</string>
     <string name="concurrent_download">कई भागों को डाउनलोड करें</string>
@@ -120,7 +120,7 @@
     <string name="from">शुरू</string>
     <string name="to">समाप्त</string>
     <string name="invalid_index_range">अमान्य अनुक्रमणिका श्रेणी</string>
-    <string name="playlist_indicator_text">प्लेलिस्ट (%1$d/%2$d) डाउनलोड हो रही है, रोकने के लिए क्लिक करें।</string>
+    <string name="playlist_indicator_text">प्लेलिस्ट (%1$d/%2$d) डाउनलोड हो रही है, रोकने के लिए टैप करें।</string>
     <string name="audio_directory">ऑडियो फ़ोल्डर</string>
     <string name="download_directory">डाउनलोड निर्देशिका</string>
     <string name="subdirectory">उपनिर्देशिका में सहेजें</string>
@@ -143,7 +143,7 @@
     <string name="remove_template_desc">कमांड टेम्प्लेट से \"%1$s\" हमेशा के लिए हटा दें\?</string>
     <string name="template_selection">टेम्पलेट चयन</string>
     <string name="custom_command_template_desc">कमांड टेम्प्लेट संपादित और प्रबंधित करें</string>
-    <string name="downloading_indicator_text">डाउनलोड प्रगति पर है, रद्द करने के लिए क्लिक करें।</string>
+    <string name="downloading_indicator_text">डाउनलोड प्रगति पर है, रद्द करने के लिए टैप करें।</string>
     <string name="task_canceled">डाउनलोड कार्य रद्द किया गया</string>
     <string name="github_issue_desc">बग रिपोर्ट या सुविधा अनुरोध के लिए कोई समस्या सबमिट करें</string>
     <string name="github_issue">गिटहब अनुरोध</string>
@@ -223,4 +223,28 @@
     <string name="telegram_channel">टेलीग्राम चैनल</string>
     <string name="cookies_usage_msg">कुछ साइटों से डाउनलोड करने के लिए खाता प्रमाणीकरण जानकारी की आवश्यकता होती है। \"नई कुकी जनरेट करें\" पर क्लिक करें, वेबसाइट का URL दर्ज करें और फिर ब्राउज़र पेज में अपने खाते से लॉग इन करें, ऐप इसे आपके लिए जनरेट कर देगा।</string>
     <string name="remove_cookie_profile_desc">\"%1$s\" के लिए कुकीज़ हटाएं\?</string>
+    <string name="cookies">कुकीज़</string>
+    <string name="matrix_space">मैट्रिक्स स्पेस</string>
+    <string name="add">जोड़ें</string>
+    <string name="title_activity_share">शीघ्र डाउनलोड</string>
+    <string name="video_creator_sample_text">वीडियो निर्माता नमूना पाठ</string>
+    <string name="video_title_sample_text">वीडियो शीर्षक नमूना पाठ</string>
+    <string name="copy_log">लॉग कापी करें</string>
+    <string name="subtitle">उपशीर्षक</string>
+    <string name="download_subtitles">उपशीर्षक डाउनलोड करें</string>
+    <string name="subtitle_language">उपशीर्षक भाषाएँ</string>
+    <string name="subtitle_desc">भाषाएँ, एम्बेड किए उपशीर्षक , ऑटो कैप्शन</string>
+    <string name="clear">साफ़ करें</string>
+    <string name="edit_shortcuts">शॉर्टकट संपादित करें</string>
+    <string name="show_logs">लॉग दिखाएँ</string>
+    <string name="shortcuts">शॉर्टकट</string>
+    <string name="edit_shortcuts_desc">उन कस्टम शॉर्टकट को संपादित करें जिनका उपयोग कमांड टेम्प्लेट लिखने के लिए किया जा सकता है।</string>
+    <string name="running_tasks">चल रहे कार्य</string>
+    <string name="subtitle_sponsorblock">प्रायोजक ब्लॉक सेगमेंट को हटाते समय उपशीर्षक गलत समय पर हो सकते हैं।</string>
+    <string name="abs_hint">अधिकांश वीडियो स्ट्रीमिंग प्लेटफ़ॉर्म ऑडियो और वीडियो को अलग-अलग वितरित करते हैं, आप एक वीडियो-केवल प्रारूप के साथ एक ऑडियो-ओनली प्रारूप का चयन और विलय कर सकते हैं।</string>
+    <string name="sdcard_directory">एसडी कार्ड फ़ोल्डर</string>
+    <string name="auto_subtitle">स्वचालित कैप्शन</string>
+    <string name="auto_subtitle_desc">स्वत: जनरेट किए गए कैप्शन डाउनलोड करें</string>
+    <string name="logs">लॉग</string>
+    <string name="embed_subtitles_mkv_msg">उपशीर्षक एम्बेड करने के लिए, वीडियो को एमकेवी कंटेनर में रीमक्स किया जाएगा।</string>
 </resources>

@@ -74,7 +74,7 @@
     <string name="defaults">Par défaut</string>
     <string name="not_specified">Non spécifié (par défaut)</string>
     <string name="user_guide">Guide de l\'utilisateur</string>
-    <string name="playlist_indicator_text">Téléchargement de la liste de lecture (%1$d/%2$d). Cliquez pour arrêter.</string>
+    <string name="playlist_indicator_text">Téléchargement de la liste de lecture (%1$d/%2$d). Appuyez pour arrêter.</string>
     <string name="video_format_desc">Format choisi lorsque plusieurs sont fournis</string>
     <string name="close_never_show_again">Ne plus afficher</string>
     <string name="download_history_desc">Vérifiez et gérez les téléchargements dans l\'appli, y compris les vidéos et les fichiers audio.</string>
@@ -113,7 +113,7 @@
     <string name="service_title">Seal en cours de téléchargement…</string>
     <string name="unknown_error">Erreur inconnue</string>
     <string name="video_url">Lien vidéo</string>
-    <string name="download_finish_notification">Le téléchargement est terminé. Cliquez pour ouvrir.</string>
+    <string name="download_finish_notification">Le téléchargement est terminé. Appuyez pour ouvrir.</string>
     <string name="download_notification">Notification de téléchargement</string>
     <string name="download_notification_desc">Notification des fichiers téléchargés et de leur progression</string>
     <string name="fetching_playlist_info">Recherche d\'informations sur les listes de lecture…</string>
@@ -137,7 +137,7 @@
     <string name="embed_subtitles">Sous-titres intégrés</string>
     <string name="embed_subtitles_desc">Sous-titres intégrés dans les vidéos, si disponible</string>
     <string name="template_selection">Sélection du modèle</string>
-    <string name="downloading_indicator_text">Téléchargement en cours, cliquez pour annuler.</string>
+    <string name="downloading_indicator_text">Téléchargement en cours, appuyez pour annuler.</string>
     <string name="github_issue_desc">Soumettre un ticket pour signaler un bug ou suggérer une fonctionnalité</string>
     <string name="new_template">Nouveau modèle</string>
     <string name="template_label">Étiquette</string>
@@ -237,12 +237,14 @@
     <string name="shortcuts">Raccourcis</string>
     <string name="edit_shortcuts_desc">Modifier les raccourcis personnalisés qui peuvent être utilisés pour composer des modèles de commande.</string>
     <string name="running_tasks">Tâches courantes</string>
-    <string name="show_logs">Afficher les journaux</string>
-    <string name="logs">Journaux</string>
+    <string name="show_logs">Afficher le journal</string>
+    <string name="logs">Journal</string>
     <string name="download_subtitles">Télécharger les sous-titres</string>
     <string name="title_activity_share">Téléchargement rapide</string>
     <string name="video_title_sample_text">Titre de la vidéo, exemple de texte</string>
     <string name="subtitle">Sous-titre</string>
     <string name="copy_log">Copier le journal</string>
     <string name="subtitle_desc">Langues, sous-titres intégrés, sous-titres automatiques</string>
+    <string name="subtitle_sponsorblock">Les sous-titres peuvent être mal synchronisés lors de la suppression des segments du SponsorBlock.</string>
+    <string name="embed_subtitles_mkv_msg">Pour l\'intégration des sous-titres, les vidéos seront remixées dans un conteneur mkv.</string>
 </resources>

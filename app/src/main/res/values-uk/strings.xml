@@ -228,7 +228,7 @@
     <string name="abs_hint">Більшість платформ потокового відео надають аудіо та відео окремо, але ви можете об\'єднати формати \"лише відео\" та \"лише аудіо\" у єдине відео.</string>
     <string name="video_creator_sample_text">Зразок тексту для створення відео</string>
     <string name="subtitle_language">Мови субтитрів</string>
-    <string name="show_logs">Показати журнали</string>
+    <string name="show_logs">Показати журнал</string>
     <string name="auto_subtitle">Автоматичні субтитри</string>
     <string name="sdcard_directory">Папка SD-карти</string>
     <string name="auto_subtitle_desc">Завантажити автоматично створені підписи</string>
@@ -244,6 +244,7 @@
     <string name="edit_shortcuts">Редагувати комбінації клавіш</string>
     <string name="shortcuts">Комбінації клавіш</string>
     <string name="edit_shortcuts_desc">Відредагувати власні комбінації клавіш, які можна використовувати для створення шаблонів команд.</string>
-    <string name="logs">Журнали</string>
-    <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри будуть не синхронізовані.</string>
+    <string name="logs">Журнал</string>
+    <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
+    <string name="embed_subtitles_mkv_msg">Відео буде перетворено у mkv контейнер для вбудовування субтитрів.</string>
 </resources>

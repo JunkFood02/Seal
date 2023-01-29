@@ -245,5 +245,6 @@
     <string name="running_tasks">Покренути задаци</string>
     <string name="show_logs">Прикажите евиденцију</string>
     <string name="logs">Евиденција</string>
-    <string name="subtitle_sponsorblock">Приликом уклањања SponsorBlock сегмената, титлови ће бити несинхронизовани.</string>
+    <string name="subtitle_sponsorblock">Приликом уклањања SponsorBlock сегмената, титлови могу бити несинхронизовани.</string>
+    <string name="embed_subtitles_mkv_msg">За уграђивање титлова, видеи ће бити ремуксовани у mkv контејнер.</string>
 </resources>

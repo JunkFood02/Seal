@@ -245,5 +245,6 @@
     <string name="video_creator_sample_text">نص نموذجي لمنشئ الفيديو</string>
     <string name="subtitle">الترجمة</string>
     <string name="edit_shortcuts_desc">قم بتعديل الاختصارات المخصصة التي يمكن استخدامها لإنشاء قوالب الأوامر.</string>
-    <string name="subtitle_sponsorblock">توقيت الترجمة سيصبح غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
+    <string name="subtitle_sponsorblock">من الوارد ان يصبح توقيت الترجمة غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
+    <string name="embed_subtitles_mkv_msg">لأجل دمج الترجمة، سيتم إعادة صياغة الفيديو من الحاوية الأصلية إلى حاوية mkv.</string>
 </resources>

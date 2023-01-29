@@ -245,5 +245,6 @@
     <string name="edit_shortcuts">Sunting pintasan</string>
     <string name="add">Tambahkan</string>
     <string name="shortcuts">Pintasan</string>
-    <string name="subtitle_sponsorblock">Takarir akan tidak pas waktunya ketika menghapus segmen SponsorBlock.</string>
+    <string name="subtitle_sponsorblock">Takarir mungkin tidak pas waktunya ketika menghapus segmen SponsorBlock.</string>
+    <string name="embed_subtitles_mkv_msg">Untuk menyematkan takarir, video akan dimux ulang ke kontainer MKV.</string>
 </resources>
