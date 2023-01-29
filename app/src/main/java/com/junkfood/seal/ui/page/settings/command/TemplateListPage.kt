@@ -42,7 +42,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
@@ -61,7 +60,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "TemplateListPage"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -242,20 +241,20 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
             }
         }
     }
-/*    if (showEditDialog) {
-        if (editingTemplateId == -1)
-            CommandTemplateDialog(
-                commandTemplate = CommandTemplate(0, "", ""),
-                onDismissRequest = { showEditDialog = false })
-        else
-            CommandTemplateDialog(
-                commandTemplate = templates.find { it.id == editingTemplateId } ?: CommandTemplate(
-                    id = 0,
-                    name = "",
-                    template = ""
-                ),
-                onDismissRequest = { showEditDialog = false })
-    }*/
+    /*    if (showEditDialog) {
+            if (editingTemplateId == -1)
+                CommandTemplateDialog(
+                    commandTemplate = CommandTemplate(0, "", ""),
+                    onDismissRequest = { showEditDialog = false })
+            else
+                CommandTemplateDialog(
+                    commandTemplate = templates.find { it.id == editingTemplateId } ?: CommandTemplate(
+                        id = 0,
+                        name = "",
+                        template = ""
+                    ),
+                    onDismissRequest = { showEditDialog = false })
+        }*/
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
