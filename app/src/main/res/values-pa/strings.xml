@@ -97,7 +97,7 @@
     <string name="channel_name">ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="channel_description">ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਅਤੇ ਪ੍ਰਗਤੀ ਬਾਰੇ ਸੂਚਿਤ ਕਰੋ</string>
     <string name="video_url">ਵੀਡੀਓ ਲਿੰਕ</string>
-    <string name="download_finish_notification">ਡਾਊਨਲੋਡ ਪੂਰਾ ਹੋਇਆ, ਖੋਲ੍ਹਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।</string>
+    <string name="download_finish_notification">ਡਾਊਨਲੋਡ ਪੂਰਾ ਹੋਇਆ, ਖੋਲ੍ਹਣ ਲਈ ਟੈਪ ਕਰੋ।</string>
     <string name="execute_command_notification">ਕਸਟਮ ਕਮਾਂਡਾਂ ਚੱਲ ਰਹੀਆਂ ਹਨ…</string>
     <string name="battery_settings_desc">ਕਿਰਪਾ ਕਰਕੇ ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਇਸ ਐਪ ਦੀ ਬੈਟਰੀ ਵਰਤੋਂ ਨੂੰ \"ਅਪ੍ਰਬੰਧਿਤ\" \'ਤੇ ਸੈੱਟ ਕਰੋ।</string>
     <string name="concurrent_download">ਕਈ ਭਾਗਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ</string>
@@ -115,7 +115,7 @@
     <string name="template_label">ਲੇਬਲ</string>
     <string name="remove_template">ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="template_selection">ਟੈਮਪਲੇਟ ਚੋਣ</string>
-    <string name="downloading_indicator_text">ਡਾਊਨਲੋਡ ਜਾਰੀ ਹੈ, ਰੱਦ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ।</string>
+    <string name="downloading_indicator_text">ਡਾਊਨਲੋਡ ਜਾਰੀ ਹੈ, ਰੱਦ ਕਰਨ ਲਈ ਟੈਪ ਕਰੋ।</string>
     <string name="task_canceled">ਡਾਊਨਲੋਡ ਕਾਰਜ ਰੱਦ ਕੀਤਾ ਗਿਆ</string>
     <string name="info_copied">ਜਾਣਕਾਰੀ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤੀ ਗਈ</string>
     <string name="status_enqueued">ਕਤਾਰਬੱਧ</string>
@@ -186,7 +186,7 @@
     <string name="to">ਅੰਤ</string>
     <string name="from">ਸ਼ੁਰੂ</string>
     <string name="invalid_index_range">ਅਵੈਧ ਇੰਡੈਕਸ ਰੇਂਜ</string>
-    <string name="playlist_indicator_text">ਪਲੇਲਿਸਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ (%1$d/%2$d), ਰੋਕਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।</string>
+    <string name="playlist_indicator_text">ਪਲੇਲਿਸਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ (%1$d/%2$d), ਰੋਕਣ ਲਈ ਟੈਪ ਕਰੋ।</string>
     <string name="subdirectory_desc">ਫਾਈਲਾਂ ਨੂੰ ਸੰਬੰਧਿਤ ਵੈਬਸਾਈਟਾਂ ਦੇ ਨਾਮ ਵਾਲੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਸਹੇਜੋ</string>
     <string name="permission_issue">ਸਟੋਰੇਜ਼ ਇਜਾਜ਼ਤ ਸਮੱਸਿਆ</string>
     <string name="permission_issue_desc">ਡਾਉਨਲੋਡ/ ਅਤੇ ਦਸਤਾਵੇਜ਼/ ਤੋਂ ਬਾਹਰ ਦੀਆਂ ਡਾਇਰੈਕਟਰੀਆਂ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ</string>
@@ -223,4 +223,28 @@
     <string name="telegram_channel">ਟੈਲੀਗ੍ਰਾਮ ਚੈਨਲ</string>
     <string name="custom_command_enabled_hint">ਕਸਟਮ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਵਿਕਲਪ ਉਪਲਬਧ ਨਹੀਂ ਹਨ</string>
     <string name="cookies_usage_msg">ਕੁਝ ਸਾਈਟਾਂ ਤੋਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਖਾਤਾ ਪ੍ਰਮਾਣੀਕਰਨ ਜਾਣਕਾਰੀ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ। \"ਨਵੀਆਂ ਕੂਕੀਜ਼ ਤਿਆਰ ਕਰੋ\" \'ਤੇ ਕਲਿੱਕ ਕਰੋ, ਵੈੱਬਸਾਈਟ ਦਾ URL ਦਾਖਲ ਕਰੋ ਅਤੇ ਫਿਰ ਬ੍ਰਾਊਜ਼ਰ ਪੰਨੇ \'ਤੇ ਆਪਣੇ ਖਾਤੇ ਨਾਲ ਲਾਗ-ਇਨ ਕਰੋ, ਐਪ ਤੁਹਾਡੇ ਲਈ ਇਸਨੂੰ ਤਿਆਰ ਕਰੇਗੀ।</string>
+    <string name="cookies">ਕੁਕੀਜ਼</string>
+    <string name="matrix_space">ਮੈਟ੍ਰਿਕਸ ਸਪੇਸ</string>
+    <string name="sdcard_directory">ਐਸ ਡੀ ਕਾਰਡ ਫੋਲਡਰ</string>
+    <string name="auto_subtitle">ਆਟੋਮੈਟਿਕ ਸੁਰਖੀਆਂ</string>
+    <string name="subtitle">ਸਬ- ਟਾਈਟਲ</string>
+    <string name="abs_hint">ਜ਼ਿਆਦਾਤਰ ਵੀਡੀਓ ਸਟ੍ਰੀਮਿੰਗ ਪਲੇਟਫਾਰਮ ਆਡੀਓ ਅਤੇ ਵੀਡੀਓ ਨੂੰ ਵੱਖਰੇ ਤੌਰ \'ਤੇ ਪ੍ਰਦਾਨ ਕਰਦੇ ਹਨ, ਤੁਸੀਂ ਇੱਕ ਆਡੀਓ-ਓਨਲੀ ਫਾਰਮੈਟ ਨੂੰ ਚੁਣ ਸਕਦੇ ਹੋ ਅਤੇ ਇੱਕ ਵੀਡੀਓ ਵਿੱਚ ਕੇਵਲ-ਵੀਡੀਓ ਫਾਰਮੈਟ ਨੂੰ ਇੱਕ ਵੀਡੀਓ ਵਿੱਚ ਮਿਲਾ ਸਕਦੇ ਹੋ।</string>
+    <string name="download_subtitles">ਸਬ- ਟਾਈਟਲ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="subtitle_language">ਸਬ- ਟਾਈਟਲ ਭਾਸ਼ਾਵਾਂ</string>
+    <string name="subtitle_desc">ਭਾਸ਼ਾਵਾਂ, ਇੰਬੈੱਡ ਕੀਤੇ ਸਬ- ਟਾਈਟਲ, ਆਟੋ ਸੁਰਖੀਆਂ</string>
+    <string name="copy_log">ਲੌਗ ਕਾਪੀ ਕਰੋ</string>
+    <string name="add">ਸ਼ਾਮਿਲ ਕਰੋ</string>
+    <string name="shortcuts">ਸ਼ਾਰਟਕੱਟ</string>
+    <string name="edit_shortcuts_desc">ਕਸਟਮ ਸ਼ਾਰਟਕੱਟ ਸੋਧੋ, ਜੋ ਕਿ ਕਮਾਂਡ ਟੈਂਪਲੇਟ ਲਿਖਣ ਲਈ ਵਰਤੇ ਜਾ ਸਕਦੇ ਹਨ।</string>
+    <string name="running_tasks">ਚੱਲ ਰਹੇ ਟਾਸਕ</string>
+    <string name="logs">ਲੌਗ</string>
+    <string name="show_logs">ਲੌਗ ਵਿਖਾਓ</string>
+    <string name="auto_subtitle_desc">ਆਟੋ- ਤਿਆਰ ਕੀਤੀਆਂ ਸੁਰਖੀਆਂ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="title_activity_share">ਤੁਰੰਤ ਡਾਊਨਲੋਡ</string>
+    <string name="video_title_sample_text">ਵੀਡੀਓ ਟਾਈਟਲ ਨਮੂਨੇ ਦੀ ਲਿਖਤ</string>
+    <string name="video_creator_sample_text">ਵੀਡੀਓ ਨਿਰਮਾਤਾ ਦੀ ਨਮੂਨਾ ਲਿਖਤ</string>
+    <string name="clear">ਸਾਫ ਕਰੋ</string>
+    <string name="edit_shortcuts">ਸ਼ਾਰਟਕੱਟ ਸੋਧ</string>
+    <string name="subtitle_sponsorblock">ਸਪਾਂਸਰ-ਬਲਾਕ ਖੰਡਾਂ ਨੂੰ ਹਟਾਉਂਦੇ ਸਮੇਂ ਸਬ-ਟਾਈਟਲ ਗਲਤ ਸਮੇਂ ਤੇ ਹੋ ਸਕਦੇ ਹਨ।</string>
+    <string name="embed_subtitles_mkv_msg">ਉਪਸਿਰਲੇਖਾਂ ਨੂੰ ਏਮਬੈਡ ਕਰਨ ਲਈ, ਵੀਡੀਓ ਨੂੰ mkv ਕੰਟੇਨਰ ਵਿੱਚ ਰੀਮਕਸ ਕੀਤਾ ਜਾਵੇਗਾ।</string>
 </resources>

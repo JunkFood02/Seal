@@ -245,5 +245,6 @@
     <string name="shortcuts">Qısayollar</string>
     <string name="edit_shortcuts_desc">Əmr şablonlarını tərtib etmək üçün istifadə edilən fərdi qısayolları redaktə edin.</string>
     <string name="running_tasks">Çalışan tapşırıqlar</string>
-    <string name="subtitle_sponsorblock">SponsorBlock seqmentləri silinən zaman altyazılar vaxtı səhv olacaq.</string>
+    <string name="subtitle_sponsorblock">SponsorBlock seqmentləri silinən zaman altyazılar vaxtı səhv ola bilər.</string>
+    <string name="embed_subtitles_mkv_msg">Altyazıları yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq.</string>
 </resources>

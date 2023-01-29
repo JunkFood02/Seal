@@ -94,7 +94,7 @@
     <string name="open_settings">設定を開く</string>
     <string name="error_copied">エラーレポートがクリップボードにコピーされました</string>
     <string name="format">フォーマット</string>
-    <string name="audio_format_desc">MP3またはM4Aの音声はほとんどのデバイスで動作します</string>
+    <string name="audio_format_desc">音声ファイルの再エンコードは音質の悪化とファイルサイズの増大を引き起こします。</string>
     <string name="close">閉じる</string>
     <string name="close_never_show_again">再度表示しない</string>
     <string name="user_guide">ユーザーガイド</string>
@@ -102,7 +102,7 @@
     <string name="video_url">動画リンク</string>
     <string name="download_history_desc">動画や音声ファイルなど、アプリ内ダウンロードを確認・管理します。</string>
     <string name="battery_settings_desc">バックグラウンドでのダウンロードを行うため、システム設定で本アプリのバッテリー使用量を「制限なし」に設定してください。</string>
-    <string name="download_finish_notification">ダウンロードが完了しました。クリックして再生します。</string>
+    <string name="download_finish_notification">ダウンロードが完了しました。タップして再生します。</string>
     <string name="concurrent_download_num">DASH/HLS ネイティブビデオを同時にダウンロードするために %d 個のスレッドが使用されます。</string>
     <string name="additional_settings">追加の設定</string>
     <string name="share_fail_msg">共有コンテンツからのURLと一致しません</string>

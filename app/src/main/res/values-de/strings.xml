@@ -245,5 +245,6 @@
     <string name="auto_subtitle_desc">Automatisch generierte Untertitel herunterladen</string>
     <string name="subtitle_language">Untertitelsprachen</string>
     <string name="add">Hinzufügen</string>
-    <string name="subtitle_sponsorblock">Untertitel werden beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert.</string>
+    <string name="subtitle_sponsorblock">Untertitel können beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert werden.</string>
+    <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt.</string>
 </resources>

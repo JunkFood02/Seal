@@ -243,7 +243,8 @@
     <string name="shortcuts">捷徑</string>
     <string name="edit_shortcuts_desc">編輯可用於撰寫命令範本的自訂捷徑。</string>
     <string name="running_tasks">任務清單</string>
-    <string name="show_logs">顯示記錄檔</string>
-    <string name="logs">記錄檔</string>
-    <string name="subtitle_sponsorblock">當移除 SponsorBlock 區段時，字幕會錯時。</string>
+    <string name="show_logs">顯示記錄</string>
+    <string name="logs">記錄</string>
+    <string name="subtitle_sponsorblock">當移除 SponsorBlock 區段時，可能導致字幕時間軸錯位。</string>
+    <string name="embed_subtitles_mkv_msg">視訊將在嵌入字幕時重新混合至 MKV 容器中。</string>
 </resources>
