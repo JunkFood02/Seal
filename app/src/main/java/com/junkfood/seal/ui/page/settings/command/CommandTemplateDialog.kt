@@ -133,10 +133,6 @@ fun CommandTemplateDialog(
                     label = { Text(stringResource(R.string.template_label)) },
                     maxLines = 1,
                     isError = isError,
-                    keyboardActions = KeyboardActions(onDone = {
-                        softwareKeyboardController?.hide()
-                        focusManager.moveFocus(FocusDirection.Down)
-                    }),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 OutlinedTextField(
@@ -153,11 +149,6 @@ fun CommandTemplateDialog(
                     label = { Text(stringResource(R.string.custom_command_template)) },
                     maxLines = 12,
                     minLines = 3,
-                    keyboardActions = KeyboardActions(onDone = {
-                        softwareKeyboardController?.hide()
-                        focusManager.moveFocus(FocusDirection.Down)
-                    }),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 LinkButton()
             }

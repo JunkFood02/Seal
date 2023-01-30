@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
@@ -50,7 +49,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -415,10 +413,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         },
                         label = { Text(stringResource(R.string.download_path_template)) },
                         maxLines = 1,
-                        keyboardActions = KeyboardActions(onDone = {
-                            softwareKeyboardController?.hide()
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                     )
                     LinkButton()

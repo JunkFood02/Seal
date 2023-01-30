@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.page.settings.network
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.OfflineBolt
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -75,10 +73,6 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
                     if (it.isDigitsOnly()) maxRate = it
                     isError = false
                 }, trailingIcon = { Text("K") },
-                keyboardActions = KeyboardActions(onDone = {
-                    softwareKeyboardController?.hide()
-                    focusManager.moveFocus(FocusDirection.Down)
-                }),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
         }

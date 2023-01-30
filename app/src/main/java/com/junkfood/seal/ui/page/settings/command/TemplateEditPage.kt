@@ -37,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -145,11 +144,11 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                         },
                         maxLines = 6,
                         minLines = 6,
-                        keyboardActions = KeyboardActions(onDone = {
+/*                        keyboardActions = KeyboardActions(onDone = {
                             softwareKeyboardController?.hide()
                             focusManager.moveFocus(FocusDirection.Down)
                         }),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)*/
                     )
                     Divider(
                         Modifier

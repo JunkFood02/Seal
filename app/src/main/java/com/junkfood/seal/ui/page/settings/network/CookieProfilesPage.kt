@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -35,7 +34,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -203,10 +201,6 @@ fun CookieGeneratorDialog(
                         )
                     }
                 }, maxLines = 1,
-                keyboardActions = KeyboardActions(onDone = {
-                    softwareKeyboardController?.hide()
-                    focusManager.moveFocus(FocusDirection.Down)
-                }),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
 
@@ -217,10 +211,6 @@ fun CookieGeneratorDialog(
                 value = content,
                 label = { Text(stringResource(R.string.cookies_file_name)) },
                 onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8,
-                keyboardActions = KeyboardActions(onDone = {
-                    softwareKeyboardController?.hide()
-                    focusManager.moveFocus(FocusDirection.Down)
-                }),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
             TextButtonWithIcon(
