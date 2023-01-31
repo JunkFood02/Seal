@@ -331,6 +331,8 @@ object Downloader {
                             taskId = taskId
                         )
                     }.onFailure {
+                        NotificationUtil.cancelNotification(notificationId)
+                        if (it is YoutubeDL.CanceledException) return@onFailure
                         NotificationUtil.makeErrorReportNotification(
                             title = videoInfo.title, notificationId = notificationId,
                             error = it.message.toString()
