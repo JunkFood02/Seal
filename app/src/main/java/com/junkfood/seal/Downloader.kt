@@ -257,13 +257,13 @@ object Downloader {
         }
 
 
-    private fun VideoInfo.toTask(playlistIndex: Int = 0): DownloadTaskItem =
+    private fun VideoInfo.toTask(playlistIndex: Int = 0, preferencesHash: Int): DownloadTaskItem =
         DownloadTaskItem(
             webpageUrl = webpageUrl.toString(),
             title = title,
             uploader = uploader ?: channel.toString(),
             duration = duration?.roundToInt() ?: 0,
-            taskId = id,
+            taskId = id + preferencesHash,
             thumbnailUrl = thumbnail.toHttpsUrl(),
             fileSizeApprox = fileSize ?: fileSizeApprox ?: 0,
             playlistIndex = playlistIndex
@@ -340,7 +340,8 @@ object Downloader {
                     }.onSuccess {
                         val text =
                             context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
-                        FileUtil.createIntentForFile(it.first()).run {
+
+                        FileUtil.createIntentForFile(it.firstOrNull()).run {
                             NotificationUtil.finishNotification(
                                 notificationId,
                                 title = videoInfo.title,
@@ -432,7 +433,7 @@ object Downloader {
         preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ): Result<List<String>> {
 
-        mutableTaskState.update { videoInfo.toTask() }
+        mutableTaskState.update { videoInfo.toTask(preferencesHash = preferences.hashCode()) }
 
         val isDownloadingPlaylist = downloaderState.value is State.DownloadingPlaylist
         if (!isDownloadingPlaylist)
@@ -452,7 +453,8 @@ object Downloader {
             videoInfo = videoInfo,
             playlistUrl = playlistUrl,
             playlistItem = playlistIndex,
-            downloadPreferences = preferences
+            downloadPreferences = preferences,
+            taskId = videoInfo.id + preferences.hashCode()
         ) { progress, _, line ->
             Log.d(TAG, line)
             mutableTaskState.update {
@@ -475,7 +477,7 @@ object Downloader {
             if (!isDownloadingPlaylist) finishProcessing()
             val text =
                 context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
-            FileUtil.createIntentForFile(it.first()).run {
+            FileUtil.createIntentForFile(it.firstOrNull()).run {
                 NotificationUtil.finishNotification(
                     notificationId,
                     title = videoInfo.title,

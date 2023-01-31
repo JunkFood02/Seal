@@ -274,7 +274,7 @@ object DownloadUtil {
         videoInfo: VideoInfo? = null,
         playlistUrl: String = "",
         playlistItem: Int = 0,
-        taskId: String = videoInfo?.id.toString(),
+        taskId: String,
         downloadPreferences: DownloadPreferences,
         progressCallback: ((Float, Long, String) -> Unit)?
     ): Result<List<String>> {

@@ -35,7 +35,8 @@ object FileUtil {
         }
 
 
-    fun createIntentForFile(path: String): Intent? {
+    fun createIntentForFile(path: String?): Intent? {
+        if (path == null) return null
 
         val uri = path.runCatching {
             DocumentFile.fromSingleUri(context, Uri.parse(path)).run {
@@ -79,12 +80,12 @@ object FileUtil {
             .map { it.absolutePath }
             .toMutableList()
             .apply {
-            MediaScannerConnection.scanFile(
-                context, this.toList().toTypedArray(),
-                null, null
-            )
-            removeAll { it.contains(Regex(THUMBNAIL_REGEX)) || it.contains(Regex(SUBTITLE_REGEX)) }
-        }
+                MediaScannerConnection.scanFile(
+                    context, this.toList().toTypedArray(),
+                    null, null
+                )
+                removeAll { it.contains(Regex(THUMBNAIL_REGEX)) || it.contains(Regex(SUBTITLE_REGEX)) }
+            }
 
 
     fun scanDownloadDirectoryToMediaLibrary(downloadDir: String) =
