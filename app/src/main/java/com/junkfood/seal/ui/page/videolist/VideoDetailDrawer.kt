@@ -34,7 +34,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -74,7 +74,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
             }
             TextButton(modifier = Modifier.padding(vertical = 6.dp), onClick = {
                 clipboardManager.setText(AnnotatedString(url))
-                TextUtil.makeToast(context.getString(R.string.link_copied))
+                ToastUtil.makeToast(context.getString(R.string.link_copied))
             }) {
                 Icon(Icons.Outlined.Link, stringResource(R.string.video_url))
                 Text(

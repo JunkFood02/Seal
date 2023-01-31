@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
-import com.junkfood.seal.util.TextUtil.connectWithBlank
-import com.junkfood.seal.util.TextUtil.connectWithDelimiter
-import com.junkfood.seal.util.TextUtil.toFileSizeText
+import com.junkfood.seal.util.connectWithBlank
+import com.junkfood.seal.util.connectWithDelimiter
+import com.junkfood.seal.util.toFileSizeText
 
 
 @Preview

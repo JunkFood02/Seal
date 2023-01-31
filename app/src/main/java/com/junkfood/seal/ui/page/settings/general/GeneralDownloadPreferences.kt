@@ -60,7 +60,7 @@ import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.SPONSORBLOCK
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.YT_DLP
 import com.yausername.youtubedl_android.YoutubeDL
@@ -98,7 +98,7 @@ fun GeneralDownloadPreferences(
 
     val notificationPermission =
         if (Build.VERSION.SDK_INT >= 33) rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { status ->
-            if (!status) TextUtil.makeToast(context.getString(R.string.permission_denied))
+            if (!status) ToastUtil.makeToast(context.getString(R.string.permission_denied))
             else isNotificationPermissionGranted = true
         } else null
 
@@ -150,9 +150,9 @@ fun GeneralDownloadPreferences(
                                 UpdateUtil.updateYtDlp()
                                 ytdlpVersion = YT_DLP.getString()
                             }.onFailure {
-                                TextUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
+                                ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                             }.onSuccess {
-                                TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
+                                ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
                             }
                         }
                     }

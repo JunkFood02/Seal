@@ -48,9 +48,9 @@ import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.util.Format
-import com.junkfood.seal.util.TextUtil.connectWithBlank
-import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.junkfood.seal.util.VideoInfo
+import com.junkfood.seal.util.connectWithBlank
+import com.junkfood.seal.util.toHttpsUrl
 import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"

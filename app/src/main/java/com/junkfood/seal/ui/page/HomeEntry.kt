@@ -67,7 +67,7 @@ import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.YT_DLP
 import com.yausername.youtubedl_android.YoutubeDL
@@ -185,7 +185,7 @@ fun HomeEntry(
                 kotlin.runCatching {
                     val res = UpdateUtil.updateYtDlp()
                     if (res == YoutubeDL.UpdateStatus.DONE) {
-                        TextUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP.getString()})")
+                        ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP.getString()})")
                     }
                     val temp = UpdateUtil.checkForUpdate()
                     if (temp != null) {
@@ -220,7 +220,7 @@ fun HomeEntry(
                         }.onFailure {
                             it.printStackTrace()
                             currentDownloadStatus = UpdateUtil.DownloadStatus.NotYet
-                            TextUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
+                            ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
                             return@launch
                         }
                     }

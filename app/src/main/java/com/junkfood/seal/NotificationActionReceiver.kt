@@ -7,7 +7,7 @@ import android.content.Intent
 import android.util.Log
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.util.NotificationUtil
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 import com.yausername.youtubedl_android.YoutubeDL
 
 class NotificationActionReceiver : BroadcastReceiver() {
@@ -60,7 +60,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
         App.clipboard.setPrimaryClip(
             ClipData.newPlainText(null, error)
         )
-        context.let { TextUtil.makeToastSuspend(it.getString(R.string.error_copied)) }
+        context.let { ToastUtil.makeToastSuspend(it.getString(R.string.error_copied)) }
         NotificationUtil.cancelNotification(notificationId)
     }
 

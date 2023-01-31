@@ -31,7 +31,7 @@ object FileUtil {
         path.runCatching {
             createIntentForFile(this)?.run { context.startActivity(this) } ?: throw Exception()
         }.onFailure {
-            TextUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
+            ToastUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
         }
 
 
@@ -179,7 +179,7 @@ object FileUtil {
         val path: String = treeUri.path.toString()
         Log.d(TAG, path)
         if (!path.contains("primary:")) {
-            TextUtil.makeToast("This directory is not supported")
+            ToastUtil.makeToast("This directory is not supported")
             return File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
                 "Seal"

@@ -38,7 +38,7 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.util.AUTO_UPDATE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 
 private const val releaseURL = "https://github.com/JunkFood02/Seal/releases"
 private const val repoUrl = "https://github.com/JunkFood02/Seal"
@@ -152,7 +152,7 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     icon = Icons.Outlined.Info,
                 ) {
                     clipboardManager.setText(AnnotatedString(info))
-                    TextUtil.makeToast(R.string.info_copied)
+                    ToastUtil.makeToast(R.string.info_copied)
                 }
             }
         }

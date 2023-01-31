@@ -34,7 +34,7 @@ import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.matchUrlFromSharedText
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -55,7 +55,7 @@ class QuickDownloadActivity : ComponentActivity() {
                 intent.getStringExtra(Intent.EXTRA_TEXT)
                     ?.let { sharedContent ->
                         intent.removeExtra(Intent.EXTRA_TEXT)
-                        TextUtil.matchUrlFromSharedText(sharedContent)
+                        matchUrlFromSharedText(sharedContent)
                             .let { matchedUrl ->
                                 url = matchedUrl
                             }

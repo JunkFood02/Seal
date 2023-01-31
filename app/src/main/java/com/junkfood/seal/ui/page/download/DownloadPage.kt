@@ -97,8 +97,9 @@ import com.junkfood.seal.util.DEBUG
 import com.junkfood.seal.util.DISABLE_PREVIEW
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.WELCOME_DIALOG
+import com.junkfood.seal.util.matchUrlFromClipboard
 
 
 @OptIn(
@@ -122,7 +123,7 @@ fun DownloadPage(
         if (b) {
             downloadViewModel.startDownloadVideo()
         } else {
-            TextUtil.makeToast(R.string.permission_denied)
+            ToastUtil.makeToast(R.string.permission_denied)
         }
     }
     val scope = rememberCoroutineScope()
@@ -201,7 +202,7 @@ fun DownloadPage(
             showOutput = showOutput,
             showDownloadProgress = taskState.taskId.isNotEmpty(),
             pasteCallback = {
-                TextUtil.matchUrlFromClipboard(
+                matchUrlFromClipboard(
                     string = clipboardManager.getText().toString(),
                     isMatchingMultiLink = CUSTOM_COMMAND.getBoolean()
                 )
@@ -505,7 +506,7 @@ fun ErrorMessage(
             if (errorReport.isNotEmpty()) {
                 clip(MaterialTheme.shapes.large).clickable {
                     clipboardManager.setText(AnnotatedString(App.getVersionReport() + "\nURL: $url\n$errorReport"))
-                    TextUtil.makeToastSuspend(context.getString(R.string.error_copied))
+                    ToastUtil.makeToastSuspend(context.getString(R.string.error_copied))
                 }
             } else this
         }

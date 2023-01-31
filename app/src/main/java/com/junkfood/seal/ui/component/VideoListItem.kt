@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalWindowWidthState
+import com.junkfood.seal.util.toFileSizeText
 
 private const val AUDIO_REGEX = "\\.(mp3|aac|opus|m4a|flac|wav)"
 
@@ -52,7 +53,7 @@ fun MediaListItemPreview() {
                 title = stringResource(id = R.string.video_title_sample_text),
                 author = stringResource(
                     id = (R.string.video_creator_sample_text)
-                ), videoFileSize = 56.78f
+                ), videoFileSize = 5678 * 1024 * 1024L
             )
         }
     }
@@ -67,7 +68,7 @@ fun MediaListItem(
     thumbnailUrl: String = "",
     videoPath: String = "",
     videoUrl: String = "",
-    videoFileSize: Float = 0f,
+    videoFileSize: Long = 0L,
     isSelectEnabled: () -> Boolean = { false },
     isSelected: () -> Boolean = { false },
     onSelect: () -> Unit = {},
@@ -90,7 +91,9 @@ fun MediaListItem(
     }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
-    val isFileAvailable = videoFileSize != 0f
+    val isFileAvailable = videoFileSize != 0L
+    val fileSizeText = videoFileSize.toFileSizeText()
+
     Box(
         modifier = with(modifier) {
             if (!isSelectEnabled()) combinedClickable(
@@ -149,7 +152,7 @@ fun MediaListItem(
                 )
                 Text(
                     modifier = Modifier.padding(top = 3.dp),
-                    text = if (isFileAvailable) "%.2f M".format(videoFileSize) else stringResource(
+                    text = if (isFileAvailable) fileSizeText else stringResource(
                         R.string.unavailable
                     ),
                     style = MaterialTheme.typography.labelSmall,

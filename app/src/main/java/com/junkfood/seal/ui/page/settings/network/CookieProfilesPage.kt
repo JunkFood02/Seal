@@ -60,7 +60,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.matchUrlFromClipboard
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -195,9 +195,7 @@ fun CookieGeneratorDialog(
                 onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
                     PasteFromClipBoardButton {
                         cookiesViewModel.updateUrl(
-                            TextUtil.matchUrlFromClipboard(
-                                it
-                            )
+                            matchUrlFromClipboard(it)
                         )
                     }
                 }, maxLines = 1,
