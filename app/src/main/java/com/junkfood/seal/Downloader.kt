@@ -341,7 +341,7 @@ object Downloader {
                         val text =
                             context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
 
-                        FileUtil.createIntentForFile(it.firstOrNull()).run {
+                        FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
                             NotificationUtil.finishNotification(
                                 notificationId,
                                 title = videoInfo.title,
@@ -478,7 +478,7 @@ object Downloader {
             if (!isDownloadingPlaylist) finishProcessing()
             val text =
                 context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
-            FileUtil.createIntentForFile(it.firstOrNull()).run {
+            FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
                 NotificationUtil.finishNotification(
                     notificationId,
                     title = videoInfo.title,

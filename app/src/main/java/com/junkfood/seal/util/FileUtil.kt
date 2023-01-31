@@ -1,5 +1,6 @@
 package com.junkfood.seal.util
 
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -29,13 +30,13 @@ object FileUtil {
 
     fun openFile(path: String) =
         path.runCatching {
-            createIntentForFile(this)?.run { context.startActivity(this) } ?: throw Exception()
+            createIntentForOpeningFile(this)?.run { context.startActivity(this) }
+                ?: throw Exception()
         }.onFailure {
             ToastUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
         }
 
-
-    fun createIntentForFile(path: String?): Intent? {
+    private fun createIntentForFile(path: String?): Intent? {
         if (path == null) return null
 
         val uri = path.runCatching {
@@ -53,11 +54,30 @@ object FileUtil {
         }.getOrNull() ?: return null
 
         return Intent().apply {
-            action = (Intent.ACTION_VIEW)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             data = uri
         }
     }
+
+    fun createIntentForOpeningFile(path: String?): Intent? = createIntentForFile(path)?.let {
+        it.apply {
+            action = (Intent.ACTION_VIEW)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    }
+
+    fun createIntentForSharingFile(path: String?): Intent? = createIntentForFile(path)?.apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_STREAM, this.data)
+        type = "*/*"
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        clipData = ClipData(
+            null,
+            arrayOf("*/*"),
+            ClipData.Item(data)
+        )
+    }
+
 
     fun String.getFileSize(): Long = this.run {
         val length = File(this).length()

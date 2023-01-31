@@ -296,5 +296,6 @@
     <string name="embed_subtitles_mkv_msg">For embedding subtitles, videos will be remuxed into mkv container.</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="filesize_gb">%.2f G</string>
+    <string name="share">Share</string>
 
 </resources>
