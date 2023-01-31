@@ -40,6 +40,7 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.TextUtil.connectWithBlank
 import com.junkfood.seal.util.TextUtil.connectWithDelimiter
+import com.junkfood.seal.util.TextUtil.toFileSizeText
 
 
 @Preview
@@ -196,7 +197,7 @@ fun FormatItem(
 
             val bitRateText =
                 if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
-            val fileSizeText = "%.2f M".format(fileSize.toFloat() / 1024 / 1024)
+            val fileSizeText = fileSize.toFileSizeText()
             val codecText = "$ext $codec".uppercase()
             Text(
                 text = connectWithDelimiter(fileSizeText, bitRateText, delimiter = " "),

@@ -294,5 +294,7 @@
     <string name="logs">Log</string>
     <string name="subtitle_sponsorblock">Subtitles may be mistimed when removing SponsorBlock segments.</string>
     <string name="embed_subtitles_mkv_msg">For embedding subtitles, videos will be remuxed into mkv container.</string>
+    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f G</string>
 
 </resources>

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.TextUtil.toFileSizeText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +68,7 @@ fun VideoCard(
                     color = Color.Black.copy(alpha = 0.68f),
                     shape = MaterialTheme.shapes.extraSmall
                 ) {
-                    val fileSizeText = "%.2f M".format(fileSizeApprox / (1024f * 1024f))
+                    val fileSizeText = fileSizeApprox.toFileSizeText()
                     val durationText = "%02d:%02d".format(duration / 60, duration % 60)
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),

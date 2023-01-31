@@ -62,14 +62,15 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
+import com.junkfood.seal.util.TextUtil.toFileSizeText
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -361,9 +362,7 @@ fun VideoListPage(
                         )
                     )
                     MultiChoiceItem(
-                        text = stringResource(R.string.delete_file) + " (%.2f M)".format(
-                            selectedFileSizeSum / (1024f * 1024f)
-                        ),
+                        text = stringResource(R.string.delete_file) + " (${selectedFileSizeSum.toFileSizeText()})",
                         checked = deleteFile
                     ) { deleteFile = !deleteFile }
                 }
