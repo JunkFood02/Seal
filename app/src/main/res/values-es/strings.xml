@@ -247,4 +247,6 @@
     <string name="edit_shortcuts_desc">Edita los accesos directos a los argumentos que puedes usar para crear plantillas de comandos.</string>
     <string name="subtitle_sponsorblock">Los subtítulos pueden estar mal sincronizados cuando se eliminan segmentos del SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Para incrustar subtítulos, los vídeos se remezclarán en un contenedor mkv.</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
 </resources>

@@ -246,4 +246,6 @@
     <string name="video_title_sample_text">Пример названия видео</string>
     <string name="video_creator_sample_text">Пример автора видео</string>
     <string name="embed_subtitles_mkv_msg">Для встраивания субтитров, контейнер видео будет изменен на mkv.</string>
+    <string name="filesize_mb">%.2f МБ</string>
+    <string name="filesize_gb">%.2f ГБ</string>
 </resources>

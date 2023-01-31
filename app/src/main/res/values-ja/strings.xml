@@ -145,5 +145,16 @@
     <string name="battery_configuration_desc">バックグラウンドでダウンロードするにはこのアプリのバッテリー最適化を無効にしてください</string>
     <string name="translate">翻訳</string>
     <string name="remove_template_desc">\"%1$s\"をコマンドテンプレートから永久に削除しますか？</string>
-    <string name="downloading_indicator_text">ダウンロード進行中、クリックしてキャンセルする。</string>
+    <string name="downloading_indicator_text">ダウンロード進行中、タップしてキャンセルする。</string>
+    <string name="status_error">エラー</string>
+    <string name="copy_error_report">エラーの報告</string>
+    <string name="edit_custom_path_template_desc">yt-dlpの使用可能なフィールドを含むサブディレクトリを指定する</string>
+    <string name="status_completed">完了しました</string>
+    <string name="status_downloading">ダウンロード中</string>
+    <string name="status_canceled">キャンセルしました</string>
+    <string name="status_fetching_video_info">情報の取得中</string>
+    <string name="status_enqueued">キューに追加しました</string>
+    <string name="open_file">ファイルを開く</string>
+    <string name="restart">リスタート</string>
+    <string name="copy_link">リンクをコピー</string>
 </resources>

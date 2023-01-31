@@ -247,4 +247,6 @@
     <string name="edit_shortcuts_desc">قم بتعديل الاختصارات المخصصة التي يمكن استخدامها لإنشاء قوالب الأوامر.</string>
     <string name="subtitle_sponsorblock">من الوارد ان يصبح توقيت الترجمة غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">لأجل دمج الترجمة، سيتم إعادة صياغة الفيديو من الحاوية الأصلية إلى حاوية mkv.</string>
+    <string name="filesize_mb">%.2f م.ب</string>
+    <string name="filesize_gb">%.2f ج.ب</string>
 </resources>
