@@ -179,7 +179,7 @@ fun PreferenceItemVariant(
 
 @Composable
 fun PreferenceSingleChoiceItem(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -354,6 +354,7 @@ fun PreferenceSwitchWithDivider(
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
+    isSwitchEnabled: Boolean = enabled,
     isChecked: Boolean = true,
     checkedIcon: ImageVector = Icons.Outlined.Check,
     onClick: (() -> Unit) = {},
@@ -418,7 +419,7 @@ fun PreferenceSwitchWithDivider(
                     .semantics {
                         contentDescription = title
                     },
-                enabled = enabled, thumbContent = thumbContent
+                enabled = isSwitchEnabled, thumbContent = thumbContent
             )
         }
     }

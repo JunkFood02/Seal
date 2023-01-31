@@ -104,7 +104,8 @@ private enum class Directory {
     AUDIO, VIDEO, SDCARD
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class,
     ExperimentalComposeUiApi::class
 )
 @Composable
@@ -277,6 +278,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         description = sdcardUri,
                         isChecked = sdcardDownload,
                         enabled = !isCustomCommandEnabled,
+                        isSwitchEnabled = !isCustomCommandEnabled && sdcardUri.isNotBlank(),
                         onChecked = {
                             sdcardDownload = !sdcardDownload
                             PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
