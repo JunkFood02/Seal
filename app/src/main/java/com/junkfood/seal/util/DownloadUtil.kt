@@ -24,8 +24,6 @@ import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
-import com.junkfood.seal.util.TextUtil.isNumberInRange
-import com.junkfood.seal.util.TextUtil.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
@@ -49,7 +47,7 @@ object DownloadUtil {
     @CheckResult
     fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> =
         YoutubeDL.runCatching {
-            TextUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
+            ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
             val request = YoutubeDLRequest(playlistURL)
             with(request) {
                 addOption("--compat-options", "no-youtube-unavailable-videos")
@@ -410,7 +408,7 @@ object DownloadUtil {
         val notificationId = taskId.toNotificationId()
         val urlList = url.split(Regex("[\n ]"))
 
-        TextUtil.makeToastSuspend(context.getString(R.string.start_execute))
+        ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
         val request = YoutubeDLRequest(urlList).apply {
             addOption(
                 "-P",

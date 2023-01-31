@@ -26,7 +26,7 @@ import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.junkfood.seal.R
-import com.junkfood.seal.util.TextUtil.connectWithDelimiter
+import com.junkfood.seal.util.connectWithDelimiter
 
 private const val TAG = "WebViewPage"
 

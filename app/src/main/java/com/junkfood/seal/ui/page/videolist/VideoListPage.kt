@@ -69,7 +69,7 @@ import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
-import com.junkfood.seal.util.TextUtil.toFileSizeText
+import com.junkfood.seal.util.toFileSizeText
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -325,7 +325,7 @@ fun VideoListPage(
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoPath = videoPath,
-                                videoFileSize = fileSize / (1024f * 1024f),
+                                videoFileSize = fileSize,
                                 videoUrl = videoUrl,
                                 isSelectEnabled = { isSelectEnabled },
                                 isSelected = { selectedItemIds.contains(id) },

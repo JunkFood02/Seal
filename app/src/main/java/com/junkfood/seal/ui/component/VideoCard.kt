@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.util.TextUtil.toFileSizeText
+import com.junkfood.seal.util.toFileSizeText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

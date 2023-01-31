@@ -35,7 +35,7 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.util.CONCURRENT
 import com.junkfood.seal.util.MAX_RATE
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.TextUtil.isNumberInRange
+import com.junkfood.seal.util.isNumberInRange
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)

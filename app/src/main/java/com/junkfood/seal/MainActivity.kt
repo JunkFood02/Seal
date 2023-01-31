@@ -1,12 +1,8 @@
 package com.junkfood.seal
 
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -21,13 +17,12 @@ import androidx.core.view.WindowCompat
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
-import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.page.download.DownloadViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.TextUtil
+import com.junkfood.seal.util.matchUrlFromSharedText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 intent.getStringExtra(Intent.EXTRA_TEXT)
                     ?.let { sharedContent ->
                         intent.removeExtra(Intent.EXTRA_TEXT)
-                        TextUtil.matchUrlFromSharedText(sharedContent)
+                        matchUrlFromSharedText(sharedContent)
                             .let { matchedUrl ->
                                 if (sharedUrl != matchedUrl) {
                                     sharedUrl = matchedUrl

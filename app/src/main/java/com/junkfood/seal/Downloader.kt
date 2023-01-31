@@ -16,9 +16,9 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
-import com.junkfood.seal.util.TextUtil
-import com.junkfood.seal.util.TextUtil.toHttpsUrl
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VideoInfo
+import com.junkfood.seal.util.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -107,7 +107,7 @@ object Downloader {
 
         fun onCopyError(clipboardManager: ClipboardManager) {
             clipboardManager.setText(AnnotatedString(currentLine))
-            TextUtil.makeToast(R.string.error_copied)
+            ToastUtil.makeToast(R.string.error_copied)
         }
 
         fun onCancel() {
@@ -170,7 +170,7 @@ object Downloader {
 
     fun isDownloaderAvailable(): Boolean {
         if (downloaderState.value !is State.Idle) {
-            TextUtil.makeToastSuspend(context.getString(R.string.task_running))
+            ToastUtil.makeToastSuspend(context.getString(R.string.task_running))
             return false
         }
         return true
@@ -276,7 +276,7 @@ object Downloader {
     }
 
     fun showErrorMessage(resId: Int) {
-        TextUtil.makeToastSuspend(context.getString(resId))
+        ToastUtil.makeToastSuspend(context.getString(resId))
         mutableErrorState.update { ErrorState(errorMessageResId = resId) }
     }
 
@@ -313,7 +313,7 @@ object Downloader {
                 }
                 .onSuccess { videoInfo ->
                     val notificationId = videoInfo.id.toNotificationId()
-                    TextUtil.makeToastSuspend(
+                    ToastUtil.makeToastSuspend(
                         context.getString(R.string.download_start_msg)
                             .format(videoInfo.title)
                     )
@@ -573,7 +573,7 @@ object Downloader {
         th.printStackTrace()
         val resId =
             if (isFetchingInfo) R.string.fetch_info_error_msg else R.string.download_error_msg
-        TextUtil.makeToastSuspend(context.getString(resId))
+        ToastUtil.makeToastSuspend(context.getString(resId))
 
         mutableErrorState.update {
             ErrorState(
@@ -594,7 +594,7 @@ object Downloader {
     }
 
     fun cancelDownload() {
-        TextUtil.makeToast(context.getString(R.string.task_canceled))
+        ToastUtil.makeToast(context.getString(R.string.task_canceled))
         currentJob?.cancel(CancellationException(context.getString(R.string.task_canceled)))
         updateState(State.Idle)
         clearProgressState(isFinished = false)

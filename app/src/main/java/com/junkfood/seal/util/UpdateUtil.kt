@@ -115,7 +115,7 @@ object UpdateUtil {
             startActivity(intent)
         }.onFailure { throwable: Throwable ->
             throwable.printStackTrace()
-            TextUtil.makeToast(R.string.app_update_failed)
+            ToastUtil.makeToast(R.string.app_update_failed)
         }
     }
 
