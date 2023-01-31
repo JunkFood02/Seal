@@ -247,4 +247,6 @@
     <string name="logs">Журнал</string>
     <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
     <string name="embed_subtitles_mkv_msg">Відео буде перетворено у mkv контейнер для вбудовування субтитрів.</string>
+    <string name="filesize_gb">%.2f Gb</string>
+    <string name="filesize_mb">%.2f Mb</string>
 </resources>

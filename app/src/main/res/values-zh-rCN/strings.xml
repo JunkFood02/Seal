@@ -247,4 +247,6 @@
     <string name="logs">日志</string>
     <string name="subtitle_sponsorblock">从视频中移除 SponsorBlock 段落会导致字幕时间轴错位。</string>
     <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中。</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f M</string>
 </resources>

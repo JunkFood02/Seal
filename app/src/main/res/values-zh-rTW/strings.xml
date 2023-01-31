@@ -247,4 +247,6 @@
     <string name="logs">記錄</string>
     <string name="subtitle_sponsorblock">當移除 SponsorBlock 區段時，可能導致字幕時間軸錯位。</string>
     <string name="embed_subtitles_mkv_msg">視訊將在嵌入字幕時重新混合至 MKV 容器中。</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
 </resources>

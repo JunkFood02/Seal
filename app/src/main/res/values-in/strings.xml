@@ -247,4 +247,6 @@
     <string name="shortcuts">Pintasan</string>
     <string name="subtitle_sponsorblock">Takarir mungkin tidak pas waktunya ketika menghapus segmen SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Untuk menyematkan takarir, video akan dimux ulang ke kontainer MKV.</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f M</string>
 </resources>

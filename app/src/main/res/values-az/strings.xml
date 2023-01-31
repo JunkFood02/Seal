@@ -247,4 +247,6 @@
     <string name="running_tasks">Çalışan tapşırıqlar</string>
     <string name="subtitle_sponsorblock">SponsorBlock seqmentləri silinən zaman altyazılar vaxtı səhv ola bilər.</string>
     <string name="embed_subtitles_mkv_msg">Altyazıları yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq.</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f M</string>
 </resources>
