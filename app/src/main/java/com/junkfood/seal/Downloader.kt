@@ -616,8 +616,6 @@ object Downloader {
     }
 
     fun onProcessStarted() = mutableProcessCount.update { it + 1 }
-
-    fun onProcessFinished() = mutableProcessCount.update { it - 1 }
     fun String.toNotificationId(): Int = this.hashCode()
 }
 

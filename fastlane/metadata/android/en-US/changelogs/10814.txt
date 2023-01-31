@@ -1,0 +1,5 @@
+Fixed
+- App crashes when downloading in private mode
+- Unexpected ImeActions in TextFields
+- Disable SD card download when the directory is not set
+- Localized strings for file size texts
