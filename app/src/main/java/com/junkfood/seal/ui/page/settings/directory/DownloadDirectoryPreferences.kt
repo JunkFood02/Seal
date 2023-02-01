@@ -371,7 +371,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count =
                             FileUtil.clearTempFiles(context.getTempDir()) +
-                                    FileUtil.clearTempFiles(context.getSdcardTempDir())
+                                    FileUtil.clearTempFiles(context.getSdcardTempDir(null))
                         withContext(Dispatchers.Main) {
                             snackbarHostState.showSnackbar(
                                 context.getString(R.string.clear_temp_files_count).format(count)

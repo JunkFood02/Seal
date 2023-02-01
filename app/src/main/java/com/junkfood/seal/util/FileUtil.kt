@@ -99,7 +99,7 @@ object FileUtil {
 
     @CheckResult
     fun moveFilesToSdcard(
-        tempPath: File = context.getSdcardTempDir(),
+        tempPath: File,
         sdcardUri: String
     ): List<String> {
         val uriList = mutableListOf<String>()
@@ -109,9 +109,9 @@ object FileUtil {
                 DocumentsContract.getTreeDocumentId(this)
             )
         }
-        tempPath.walkTopDown().forEach {
-            if (it.isDirectory) return@forEach
-            try {
+        tempPath.runCatching {
+            walkTopDown().forEach {
+                if (it.isDirectory) return@forEach
                 val mimeType =
                     MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.extension) ?: "*/*"
 
@@ -129,10 +129,11 @@ object FileUtil {
                 inputStream.closeQuietly()
                 outputStream.closeQuietly()
                 uriList.add(destUri.toString())
-            } catch (th: Throwable) {
-                th.printStackTrace()
             }
+        }.onFailure {
+            it.printStackTrace()
         }
+
         tempPath.deleteRecursively()
         return uriList
     }
@@ -158,7 +159,9 @@ object FileUtil {
 
     fun Context.getTempDir() = File(filesDir, "tmp")
 
-    fun Context.getSdcardTempDir() = File(filesDir, "sdcard_tmp")
+    fun Context.getSdcardTempDir(child: String?): File = File(filesDir, "sdcard_tmp").run {
+        child?.let { resolve(it) } ?: this
+    }
 
     fun File.createEmptyFile(fileName: String) {
         kotlin.runCatching {

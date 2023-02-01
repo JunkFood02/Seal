@@ -337,7 +337,7 @@ object DownloadUtil {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
                 if (sdcard) {
-                    addOption("-P", context.getSdcardTempDir().toString())
+                    addOption("-P", context.getSdcardTempDir(videoInfo.id).absolutePath)
                 } else {
                     addOption("-P", pathBuilder.toString())
                 }
@@ -359,10 +359,20 @@ object DownloadUtil {
             }.onFailure { th ->
                 return if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
                     th.printStackTrace()
-                    onFinishDownloading(this, videoInfo, pathBuilder.toString(), sdcardUri)
+                    onFinishDownloading(
+                        this,
+                        videoInfo = videoInfo,
+                        downloadPath = pathBuilder.toString(),
+                        sdcardUri = sdcardUri
+                    )
                 } else Result.failure(th)
             }
-            return onFinishDownloading(this, videoInfo, pathBuilder.toString(), sdcardUri)
+            return onFinishDownloading(
+                this,
+                videoInfo = videoInfo,
+                downloadPath = pathBuilder.toString(),
+                sdcardUri = sdcardUri
+            )
         }
     }
 
@@ -375,9 +385,13 @@ object DownloadUtil {
         if (privateMode) {
             Result.success(emptyList())
         } else if (sdcard) {
-            Result.success(moveFilesToSdcard(sdcardUri = sdcardUri).apply {
-                insertInfoIntoDownloadHistory(videoInfo, this)
-            })
+            Result.success(
+                moveFilesToSdcard(
+                    sdcardUri = sdcardUri,
+                    tempPath = context.getSdcardTempDir(videoInfo.id)
+                ).apply {
+                    insertInfoIntoDownloadHistory(videoInfo, this)
+                })
         } else {
             Result.success(
                 scanVideoIntoDownloadHistory(
