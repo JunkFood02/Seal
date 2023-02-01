@@ -9,7 +9,7 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.util.UpdateUtil.VersionFactory.toVersion
+import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -76,7 +76,8 @@ object UpdateUtil {
                     val releaseList =
                         jsonFormat.decodeFromString<List<LatestRelease>>(responseData)
                     val latestRelease =
-                        releaseList.maxByOrNull { it.name.toVersion() }
+                        releaseList.filter { if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable else true }
+                            .maxByOrNull { it.name.toVersion() }
                             ?: throw Exception("null response")
                     releaseList.sortedBy { it.name.toVersion() }.forEach {
                         Log.d(TAG, it.tagName.toString())
@@ -235,26 +236,24 @@ object UpdateUtil {
         data class Finished(val file: File) : DownloadStatus()
     }
 
-    object VersionFactory {
-        private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-(\w+)\.(\d+))?""")
-        private val EMPTY_VERSION = Version.Stable()
+    private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-(\w+)\.(\d+))?""")
+    private val EMPTY_VERSION = Version.Stable()
 
-        fun String?.toVersion(): Version = this?.run {
-            val matcher = pattern.matcher(this)
-            if (matcher.find()) {
-                val major = matcher.group(1)?.toInt() ?: 0
-                val minor = matcher.group(2)?.toInt() ?: 0
-                val patch = matcher.group(3)?.toInt() ?: 0
-                val buildNumber = matcher.group(6)?.toInt() ?: 0
-                when (matcher.group(5)) {
-                    "beta" -> Version.Beta(major, minor, patch, buildNumber)
-                    "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
-                    else -> Version.Stable(major, minor, patch)
-                }
-            } else EMPTY_VERSION
-        } ?: EMPTY_VERSION
+    fun String?.toVersion(): Version = this?.run {
+        val matcher = pattern.matcher(this)
+        if (matcher.find()) {
+            val major = matcher.group(1)?.toInt() ?: 0
+            val minor = matcher.group(2)?.toInt() ?: 0
+            val patch = matcher.group(3)?.toInt() ?: 0
+            val buildNumber = matcher.group(6)?.toInt() ?: 0
+            when (matcher.group(5)) {
+                "beta" -> Version.Beta(major, minor, patch, buildNumber)
+                "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
+                else -> Version.Stable(major, minor, patch)
+            }
+        } else EMPTY_VERSION
+    } ?: EMPTY_VERSION
 
-    }
 
     sealed class Version(
         val major: Int,

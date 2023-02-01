@@ -35,7 +35,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.util.AUTO_UPDATE
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.ToastUtil
@@ -50,7 +50,11 @@ private const val TAG = "AboutPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
+fun AboutPage(
+    onBackPressed: () -> Unit,
+    onNavigateToCreditsPage: () -> Unit,
+    onNavigateToUpdatePage: () -> Unit
+) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
@@ -131,15 +135,16 @@ fun AboutPage(onBackPressed: () -> Unit, jumpToCreditsPage: () -> Unit) {
                     title = stringResource(id = R.string.credits),
                     description = stringResource(id = R.string.credits_desc),
                     icon = Icons.Outlined.AutoAwesome,
-                ) { jumpToCreditsPage() }
+                ) { onNavigateToCreditsPage() }
             }
             item {
-                PreferenceSwitch(
+                PreferenceSwitchWithDivider(
                     title = stringResource(R.string.check_for_updates),
                     description = stringResource(R.string.check_for_updates_desc),
                     icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
                     isChecked = isAutoUpdateEnabled,
-                    enabled = !App.isFDroidBuild()
+                    enabled = !App.isFDroidBuild(),
+                    onClick = onNavigateToUpdatePage
                 ) {
                     isAutoUpdateEnabled = !isAutoUpdateEnabled
                     PreferenceUtil.updateValue(AUTO_UPDATE, isAutoUpdateEnabled)

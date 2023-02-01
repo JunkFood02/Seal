@@ -50,7 +50,7 @@ import com.junkfood.seal.ui.page.download.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
-import com.junkfood.seal.ui.page.settings.about.kotlin
+import com.junkfood.seal.ui.page.settings.about.UpdatePage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
 import com.junkfood.seal.ui.page.settings.appearance.LanguagePage
@@ -182,14 +182,13 @@ fun HomeEntry(
             )
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
-                kotlin.runCatching {
+                runCatching {
                     val res = UpdateUtil.updateYtDlp()
                     if (res == YoutubeDL.UpdateStatus.DONE) {
                         ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP.getString()})")
                     }
-                    val temp = UpdateUtil.checkForUpdate()
-                    if (temp != null) {
-                        latestRelease = temp
+                    UpdateUtil.checkForUpdate()?.let {
+                        latestRelease = it
                         showUpdateDialog = true
                     }
                 }.onFailure {
@@ -199,7 +198,7 @@ fun HomeEntry(
         }
 
         if (showUpdateDialog) {
-            UpdateDialog(
+            UpdateDialogImpl(
                 onDismissRequest = {
                     showUpdateDialog = false
                     updateJob?.cancel()
@@ -207,7 +206,7 @@ fun HomeEntry(
                 title = latestRelease.name.toString(),
                 onConfirmUpdate = {
                     updateJob = scope.launch(Dispatchers.IO) {
-                        kotlin.runCatching {
+                        runCatching {
                             UpdateUtil.downloadApk(latestRelease = latestRelease)
                                 .collect { downloadStatus ->
                                     currentDownloadStatus = downloadStatus
@@ -255,10 +254,14 @@ fun NavGraphBuilder.settingsGraph(
         }
         animatedComposable(Route.SUBTITLE_PREFERENCES) { SubtitlePreference { onBackPressed() } }
         animatedComposable(Route.ABOUT) {
-            AboutPage(onBackPressed = { onBackPressed() })
-            { navController.navigate(Route.CREDITS) }
+            AboutPage(
+                onBackPressed = { onBackPressed() },
+                onNavigateToCreditsPage = { navController.navigate(Route.CREDITS) },
+                onNavigateToUpdatePage = { navController.navigate(Route.AUTO_UPDATE) })
+
         }
         animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
+        animatedComposable(Route.AUTO_UPDATE) { UpdatePage { onBackPressed() } }
         animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
         animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
