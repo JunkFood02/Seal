@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add share file operation in `VideoDetailDrawer`
+- Add pre-release channel for auto-updating
 
 ### Changed
 - Change the operation of open link to long pressing the link button in `VideoDetailDrawer`

@@ -26,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -49,6 +51,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
+    val hapticFeedback = LocalHapticFeedback.current
 
     BackHandler(detailViewState.drawerState.targetValue == ModalBottomSheetValue.Expanded) {
         videoListViewModel.hideDrawer(scope)
@@ -65,6 +68,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
                 videoListViewModel.hideDrawer(scope)
                 videoListViewModel.showDialog()
             }, onOpenLink = {
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 videoListViewModel.hideDrawer(scope)
                 uriHandler.openUri(url)
             }, onShareFile = {
