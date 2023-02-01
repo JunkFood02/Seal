@@ -65,6 +65,7 @@ const val SPONSORBLOCK_CATEGORIES = "sponsorblock_categories"
 const val ARIA2C = "aria2c"
 const val COOKIES = "cookies"
 const val AUTO_UPDATE = "auto_update"
+const val UPDATE_CHANNEL = "update_channel"
 const val PRIVATE_MODE = "private_mode"
 private const val DYNAMIC_COLOR = "dynamic_color"
 const val CELLULAR_DOWNLOAD = "cellular_download"
@@ -77,6 +78,9 @@ const val CROP_ARTWORK = "crop_artwork"
 const val FORMAT_SELECTION = "format_selection"
 
 const val SYSTEM_DEFAULT = 0
+
+const val STABLE = 0
+const val PRE_RELEASE = 1
 
 const val TEMPLATE_EXAMPLE =
     """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
@@ -113,9 +117,10 @@ private val IntPreferenceDefaults = mapOf(
     PALETTE_STYLE to 0,
     DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
     WELCOME_DIALOG to 1,
-    AUDIO_FORMAT to 0,
-    VIDEO_QUALITY to 0,
-    VIDEO_FORMAT to 0,
+    AUDIO_FORMAT to SYSTEM_DEFAULT,
+    VIDEO_QUALITY to SYSTEM_DEFAULT,
+    VIDEO_FORMAT to SYSTEM_DEFAULT,
+    UPDATE_CHANNEL to STABLE,
 )
 
 object PreferenceUtil {

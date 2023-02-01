@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -83,6 +84,7 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 }
                 item {
                     PreferenceSingleChoiceItem(
+                        modifier = Modifier.padding(horizontal = 4.dp),
                         text = stringResource(R.string.follow_system),
                         selected = language == SYSTEM_DEFAULT
                     ) { setLanguage(SYSTEM_DEFAULT) }
@@ -90,6 +92,7 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 for (languageData in languageMap) {
                     item {
                         PreferenceSingleChoiceItem(
+                            modifier = Modifier.padding(horizontal = 4.dp),
                             text = getLanguageDesc(languageData.key),
                             selected = language == languageData.key
                         ) { setLanguage(languageData.key) }

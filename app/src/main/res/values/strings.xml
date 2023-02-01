@@ -297,5 +297,11 @@
     <string name="filesize_mb">%.2f M</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="share">Share</string>
+    <string name="stable_channel">Stable</string>
+    <string name="pre_release_channel">Pre-release</string>
+    <string name="update_channel_desc">Install pre-release builds to preview new features and changes.\n\nThere will be some instability in these versions, so please don\'t hesitate to give us feedback if you experience any problems to help us improve the app for the future.</string>
+    <string name="update_channel">Update channel</string>
+    <string name="auto_update">Auto update</string>
+    <string name="enable_auto_update">Enable auto update</string>
 
 </resources>

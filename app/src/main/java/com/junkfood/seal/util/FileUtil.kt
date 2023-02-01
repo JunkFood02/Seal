@@ -183,12 +183,11 @@ object FileUtil {
         child?.let { resolve(it) } ?: this
     }
 
-    fun File.createEmptyFile(fileName: String) {
-        kotlin.runCatching {
-            this.mkdir()
-            this.resolve(fileName).createNewFile()
-        }.onFailure { it.printStackTrace() }
-    }
+    fun File.createEmptyFile(fileName: String) = this.runCatching {
+        mkdir()
+        resolve(fileName).createNewFile()
+    }.onFailure { it.printStackTrace() }
+
 
     fun writeContentToFile(content: String, file: File): File {
         file.writeText(content)

@@ -92,7 +92,8 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                         onClick = {
                             downloadSubtitle = !downloadSubtitle
                             SUBTITLE.updateBoolean(downloadSubtitle)
-                        })
+                        }, icon = null
+                    )
                 }
                 item {
                     PreferenceItem(
