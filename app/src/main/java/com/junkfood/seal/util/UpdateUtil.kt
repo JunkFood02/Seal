@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.UpdateUtil.VersionFactory.toVersion
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +49,11 @@ object UpdateUtil {
     private val requestForLatestRelease =
         Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest")
             .build()
+
+    private val requestForReleases =
+        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases")
+            .build()
+
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
@@ -63,10 +69,18 @@ object UpdateUtil {
 
     private suspend fun getLatestRelease(): LatestRelease {
         return suspendCoroutine { continuation ->
-            client.newCall(requestForLatestRelease).enqueue(object : Callback {
+            client.newCall(requestForReleases).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body.string()
-                    val latestRelease = jsonFormat.decodeFromString<LatestRelease>(responseData)
+//                    val latestRelease = jsonFormat.decodeFromString<LatestRelease>(responseData)
+                    val releaseList =
+                        jsonFormat.decodeFromString<List<LatestRelease>>(responseData)
+                    val latestRelease =
+                        releaseList.maxByOrNull { it.name.toVersion() }
+                            ?: throw Exception("null response")
+                    releaseList.sortedBy { it.name.toVersion() }.forEach {
+                        Log.d(TAG, it.tagName.toString())
+                    }
                     response.body.close()
                     continuation.resume(latestRelease)
                 }
@@ -81,12 +95,12 @@ object UpdateUtil {
     suspend fun checkForUpdate(context: Context = App.context): LatestRelease? {
         val currentVersion = context.getCurrentVersion()
         val latestRelease = getLatestRelease()
-        val latestVersion = Version(latestRelease.name ?: "")
+        val latestVersion = latestRelease.name.toVersion()
         return if (currentVersion < latestVersion) latestRelease
         else null
     }
 
-    private fun Context.getCurrentVersion() =
+    private fun Context.getCurrentVersion(): Version =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getPackageInfo(
                 packageName, PackageManager.PackageInfoFlags.of(0)
@@ -97,7 +111,6 @@ object UpdateUtil {
             ).versionName.toVersion()
         }
 
-    private fun String.toVersion() = Version(this)
 
     private fun Context.getLatestApk() =
         File(getExternalFilesDir("apk"), "latest.apk")
@@ -125,12 +138,11 @@ object UpdateUtil {
     ): Flow<DownloadStatus> = withContext(Dispatchers.IO) {
         val apkVersion = context.packageManager.getPackageArchiveInfo(
             context.getLatestApk().absolutePath, 0
-        )?.versionName?.toVersion() ?: Version()
+        )?.versionName.toVersion()
 
         Log.d(TAG, apkVersion.toString())
 
-        if (apkVersion >= Version(latestRelease.tagName.toString())
-        ) {
+        if (apkVersion >= latestRelease.name.toVersion()) {
             return@withContext flow<DownloadStatus> { emit(DownloadStatus.Finished(context.getLatestApk())) }
         }
 
@@ -223,42 +235,80 @@ object UpdateUtil {
         data class Finished(val file: File) : DownloadStatus()
     }
 
-    class Version(
-        versionName: String = "v0.0.0",
-    ) {
-        var major: Int = 0
-            private set
-        var minor: Int = 0
-            private set
-        var patch: Int = 0
-            private set
-        var build: Int = 0
-            private set
+    object VersionFactory {
+        private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-(\w+)\.(\d+))?""")
+        private val EMPTY_VERSION = Version.Stable()
 
-        private fun toNumber(): Long {
-            return major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
-        }
+        fun String?.toVersion(): Version = this?.run {
+            val matcher = pattern.matcher(this)
+            if (matcher.find()) {
+                val major = matcher.group(1)?.toInt() ?: 0
+                val minor = matcher.group(2)?.toInt() ?: 0
+                val patch = matcher.group(3)?.toInt() ?: 0
+                val buildNumber = matcher.group(6)?.toInt() ?: 0
+                when (matcher.group(5)) {
+                    "beta" -> Version.Beta(major, minor, patch, buildNumber)
+                    "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
+                    else -> Version.Stable(major, minor, patch)
+                }
+            } else EMPTY_VERSION
+        } ?: EMPTY_VERSION
 
+    }
+
+    sealed class Version(
+        val major: Int,
+        val minor: Int,
+        val patch: Int,
+        val build: Int = 0
+    ) : Comparable<Version> {
         companion object {
-            private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-.*?(\d+))*""")
-
             private const val BUILD = 1L
             private const val PATCH = 100L
             private const val MINOR = 10_000L
             private const val MAJOR = 1_000_000L
         }
 
-        init {
-            val matcher = pattern.matcher(versionName)
-            if (matcher.find()) {
-                major = matcher.group(1)?.toInt() ?: 0
-                minor = matcher.group(2)?.toInt() ?: 0
-                patch = matcher.group(3)?.toInt() ?: 0
-                build = matcher.group(5)?.toInt() ?: 99
-                // Prioritize stable versions
-            }
+        abstract fun toVersionName(): String
+        abstract fun toNumber(): Long
+
+        class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
+            Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+            override fun toVersionName(): String =
+                "${major}.${minor}.${patch}-beta.$build"
+
+            override fun toNumber(): Long =
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
+
         }
 
-        operator fun compareTo(other: Version) = toNumber().compareTo(other.toNumber())
+        class Stable(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
+            Version(versionMajor, versionMinor, versionPatch) {
+            override fun toVersionName(): String =
+                "${major}.${minor}.${patch}"
+
+            override fun toNumber(): Long =
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
+            // Prioritize stable versions
+
+        }
+
+        class ReleaseCandidate(
+            versionMajor: Int,
+            versionMinor: Int,
+            versionPatch: Int,
+            versionBuild: Int
+        ) :
+            Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+            override fun toVersionName(): String =
+                "${major}.${minor}.${patch}-rc.$build"
+
+            override fun toNumber(): Long =
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 25
+        }
+
+        override operator fun compareTo(other: Version): Int =
+            this.toNumber().compareTo(other.toNumber())
+
     }
 }
