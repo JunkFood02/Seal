@@ -193,7 +193,7 @@ fun PreferenceSingleChoiceItem(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 20.dp),
+                .padding(horizontal = 8.dp, vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -541,17 +541,19 @@ private fun PreferenceSwitchWithContainerPreview() {
     var isChecked by remember { mutableStateOf(false) }
     PreviewThemeLight {
         PreferenceSwitchWithContainer(
+            title = "Title ".repeat(2),
             isChecked = isChecked,
-            onClick = { isChecked = !isChecked })
+            onClick = { isChecked = !isChecked }, icon = null
+        )
     }
 }
 
 @Composable
 fun PreferenceSwitchWithContainer(
-    title: String = "Title ".repeat(2),
+    title: String,
     icon: ImageVector? = null,
-    isChecked: Boolean = true,
-    onClick: () -> Unit = {},
+    isChecked: Boolean,
+    onClick: () -> Unit,
 ) {
     val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
         {
