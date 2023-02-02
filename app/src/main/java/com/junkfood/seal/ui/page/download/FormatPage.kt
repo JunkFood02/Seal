@@ -2,16 +2,18 @@ package com.junkfood.seal.ui.page.download
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +26,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,11 +48,14 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.connectWithBlank
 import com.junkfood.seal.util.toHttpsUrl
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
@@ -58,9 +64,9 @@ private const val TAG = "FormatPage"
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     if (videoInfo.formats.isNullOrEmpty()) return
-    FormatPageImpl(videoInfo = videoInfo, onBackPressed = onBackPressed) { formatList ->
+    FormatPageImpl(videoInfo = videoInfo, onBackPressed = onBackPressed) { formatList, videoClips ->
         Log.d(TAG, formatList.toString())
-        Downloader.downloadVideoWithFormatId(videoInfo, formatList)
+        Downloader.downloadVideoWithFormatId(videoInfo, formatList, videoClips)
         onBackPressed()
     }
 }
@@ -74,7 +80,7 @@ private const val NOT_SELECTED = -1
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (List<Format>) -> Unit = { _ -> }
+    onDownloadPressed: (List<Format>, List<VideoClip>) -> Unit = { _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -102,6 +108,15 @@ fun FormatPageImpl(
         }, null), null)
     }
 
+    var isClipEnabled by remember { mutableStateOf(false) }
+    val videoDuration = 0f..(videoInfo.duration?.toFloat() ?: 0f)
+
+    var videoClipDuration by remember { mutableStateOf(videoDuration) }
+
+    LaunchedEffect(isClipEnabled) {
+        delay(200)
+        videoClipDuration = videoDuration
+    }
 
     val formatList: List<Format> by remember {
         derivedStateOf {
@@ -132,7 +147,7 @@ fun FormatPageImpl(
                 }
             }, actions = {
                 TextButton(onClick = {
-                    onDownloadPressed(formatList)
+                    onDownloadPressed(formatList, listOf(VideoClip(videoClipDuration)))
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
                 }
@@ -142,8 +157,7 @@ fun FormatPageImpl(
         LazyVerticalGrid(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 8.dp)
-                .selectableGroup(),
+                .padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             columns = GridCells.Adaptive(150.dp)
@@ -154,10 +168,31 @@ fun FormatPageImpl(
                         title = title,
                         author = uploader ?: channel.toString(),
                         thumbnailUrl = thumbnail.toHttpsUrl(),
-                        duration = (duration ?: .0).roundToInt()
+                        duration = (duration ?: .0).roundToInt(),
+                        showButton = (duration ?: .0) >= 0,
+                        isClipEnabled = isClipEnabled,
+                        onButtonClick = { isClipEnabled = it }
                     )
                 }
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Column {
+                        AnimatedVisibility(visible = isClipEnabled) {
+                            Column {
+                                VideoSelectionSlider(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp),
+                                    value = videoClipDuration,
+                                    duration = duration?.roundToInt() ?: 0,
+                                    onDiscard = { isClipEnabled = false },
+                                    onValueChange = { videoClipDuration = it }
+                                )
+                                HorizontalDivider()
+                            }
+                        }
+                    }
 
+                }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }
@@ -168,7 +203,7 @@ fun FormatPageImpl(
                         codec = connectWithBlank(
                             vcodec.toString().substringBefore("."),
                             acodec.toString().substringBefore(".")
-                        ),
+                        ).run { if (isNotBlank()) "($this)" else this },
                         ext = ext,
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: 0,

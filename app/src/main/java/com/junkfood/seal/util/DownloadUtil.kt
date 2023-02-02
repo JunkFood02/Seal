@@ -45,29 +45,28 @@ object DownloadUtil {
 
 
     @CheckResult
-    fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> =
-        YoutubeDL.runCatching {
-            ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(playlistURL)
-            with(request) {
-                addOption("--compat-options", "no-youtube-unavailable-videos")
-                addOption("--flat-playlist")
+    fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> = YoutubeDL.runCatching {
+        ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
+        val request = YoutubeDLRequest(playlistURL)
+        with(request) {
+            addOption("--compat-options", "no-youtube-unavailable-videos")
+            addOption("--flat-playlist")
 //                addOption("--playlist-items", "1:200")
-                addOption("-J")
-                addOption("-R", "1")
-                addOption("--socket-timeout", "5")
-                if (PreferenceUtil.getValue(COOKIES)) {
-                    enableCookies()
-                }
-            }
-            execute(request, playlistURL).out.run {
-                val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
-                Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(playlistInfo))
-                if (playlistInfo.type != "playlist") {
-                    jsonFormat.decodeFromString<VideoInfo>(this)
-                } else playlistInfo
+            addOption("-J")
+            addOption("-R", "1")
+            addOption("--socket-timeout", "5")
+            if (PreferenceUtil.getValue(COOKIES)) {
+                enableCookies()
             }
         }
+        execute(request, playlistURL).out.run {
+            val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
+            Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(playlistInfo))
+            if (playlistInfo.type != "playlist") {
+                jsonFormat.decodeFromString<VideoInfo>(this)
+            } else playlistInfo
+        }
+    }
 
 
     @CheckResult
@@ -81,26 +80,25 @@ object DownloadUtil {
     @CheckResult
     fun fetchVideoInfoFromUrl(
         url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
-    ): Result<VideoInfo> =
-        YoutubeDLRequest(url).apply {
-            preferences.run {
-                if (extractAudio) {
-                    addOption("-x")
-                } else {
-                    addOption("-S", toVideoFormatSorter())
-                }
-                if (cookies) {
-                    enableCookies()
-                }
-                if (downloadPlaylist) {
-                    addOption("--compat-options", "no-youtube-unavailable-videos")
-                }
+    ): Result<VideoInfo> = YoutubeDLRequest(url).apply {
+        preferences.run {
+            if (extractAudio) {
+                addOption("-x")
+            } else {
+                addOption("-S", toVideoFormatSorter())
             }
-            addOption("-R", "1")
-            if (playlistItem != 0) addOption("--playlist-items", playlistItem)
-            else addOption("--playlist-items", "1")
-            addOption("--socket-timeout", "5")
-        }.run { getVideoInfo(this) }
+            if (cookies) {
+                enableCookies()
+            }
+            if (downloadPlaylist) {
+                addOption("--compat-options", "no-youtube-unavailable-videos")
+            }
+        }
+        addOption("-R", "1")
+        if (playlistItem != 0) addOption("--playlist-items", playlistItem)
+        else addOption("--playlist-items", "1")
+        addOption("--socket-timeout", "5")
+    }.run { getVideoInfo(this) }
 
 
     data class DownloadPreferences(
@@ -131,17 +129,17 @@ object DownloadUtil {
         val privateDirectory: Boolean = PreferenceUtil.getValue(PRIVATE_DIRECTORY),
         val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
         val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
-        val sdcardUri: String = SDCARD_URI.getString()
+        val sdcardUri: String = SDCARD_URI.getString(),
+        val videoClips: List<VideoClip> = emptyList()
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {
         PreferenceUtil.getCookies().run {
-            if (isNotEmpty())
-                addOption(
-                    "--cookies", FileUtil.writeContentToFile(
-                        this, context.getCookiesFile()
-                    ).absolutePath
-                )
+            if (isNotEmpty()) addOption(
+                "--cookies", FileUtil.writeContentToFile(
+                    this, context.getCookiesFile()
+                ).absolutePath
+            )
         }
     }
 
@@ -151,61 +149,68 @@ object DownloadUtil {
 
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
         downloadPreferences: DownloadPreferences,
-    ): YoutubeDLRequest =
-        this.apply {
-            downloadPreferences.run {
-                if (formatId.isNotEmpty())
-                    addOption("-f", formatId)
-                else
-                    addOption("-S", this.toVideoFormatSorter())
-                if (downloadSubtitle) {
-                    if (autoSubtitle) {
-                        addOption("--write-auto-subs")
-                        addOption("--extractor-args", "youtube:skip=translated_subs")
-                    }
-                    addOption("--sub-langs", subtitleLanguage)
-                    if (embedSubtitle) {
-                        addOption("--remux-video", "mkv")
-                        addOption("--embed-subs")
-                    } else {
-                        addOption("--write-subs")
+    ): YoutubeDLRequest = this.apply {
+        downloadPreferences.run {
+            if (formatId.isNotEmpty()) addOption("-f", formatId)
+            else addOption("-S", this.toVideoFormatSorter())
+            if (downloadSubtitle) {
+                if (autoSubtitle) {
+                    addOption("--write-auto-subs")
+                    addOption("--extractor-args", "youtube:skip=translated_subs")
+                }
+                addOption("--sub-langs", subtitleLanguage)
+                if (embedSubtitle) {
+                    addOption("--remux-video", "mkv")
+                    addOption("--embed-subs")
+                } else {
+                    addOption("--write-subs")
+                }
+            }
+            videoClips.run {
+                if (isEmpty()) {
+                    addOption("--embed-chapters")
+                } else {
+                    forEach {
+                        addOption(
+                            "--download-sections", "*%d-%d".format(
+                                it.start, it.end
+                            )
+                        )
                     }
                 }
-                addOption("--embed-chapters")
             }
         }
+    }
 
 
     @CheckResult
-    private fun DownloadPreferences.toVideoFormatSorter(): String =
-        StringBuilder().run {
-            if (maxFileSize.isNumberInRange(1, 4096)) {
-                append("size:${maxFileSize}M,")
-            }
-            when (videoFormat) {
-                1 -> append("ext,")
-                2 -> append("vcodec:vp9.2,")
-                3 -> append("vcodec:av01,")
-            }
-            when (videoResolution) {
-                1 -> append("res:2160")
-                2 -> append("res:1440")
-                3 -> append("res:1080")
-                4 -> append("res:720")
-                5 -> append("res:480")
-                6 -> append("res:360")
-                7 -> append("+size,+br,+res,+fps")
-                else -> append("res")
-            }
-        }.toString()
+    private fun DownloadPreferences.toVideoFormatSorter(): String = StringBuilder().run {
+        if (maxFileSize.isNumberInRange(1, 4096)) {
+            append("size:${maxFileSize}M,")
+        }
+        when (videoFormat) {
+            1 -> append("ext,")
+            2 -> append("vcodec:vp9.2,")
+            3 -> append("vcodec:av01,")
+        }
+        when (videoResolution) {
+            1 -> append("res:2160")
+            2 -> append("res:1440")
+            3 -> append("res:1080")
+            4 -> append("res:720")
+            5 -> append("res:480")
+            6 -> append("res:360")
+            7 -> append("+size,+br,+res,+fps")
+            else -> append("res")
+        }
+    }.toString()
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String, downloadPreferences: DownloadPreferences, playlistUrl: String
     ): YoutubeDLRequest = this.apply {
         with(downloadPreferences) {
             addOption("-x")
-            if (formatId.isNotEmpty())
-                addOption("-f", formatId)
+            if (formatId.isNotEmpty()) addOption("-f", formatId)
             else {
                 when (audioFormat) {
                     1 -> {
@@ -341,8 +346,7 @@ object DownloadUtil {
                 }
 
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
-                    "-P",
-                    "temp:" + context.getTempDir()
+                    "-P", "temp:" + context.getTempDir()
                 )
                 if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
                 else addOption("-o", OUTPUT_TEMPLATE)
@@ -350,9 +354,7 @@ object DownloadUtil {
                 for (s in request.buildCommand()) Log.d(TAG, s)
             }.runCatching {
                 YoutubeDL.getInstance().execute(
-                    request = this,
-                    processId = taskId,
-                    callback = progressCallback
+                    request = this, processId = taskId, callback = progressCallback
                 )
             }.onFailure { th ->
                 return if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
@@ -383,13 +385,11 @@ object DownloadUtil {
         if (privateMode) {
             Result.success(emptyList())
         } else if (sdcard) {
-            Result.success(
-                moveFilesToSdcard(
-                    sdcardUri = sdcardUri,
-                    tempPath = context.getSdcardTempDir(videoInfo.id)
-                ).apply {
-                    insertInfoIntoDownloadHistory(videoInfo, this)
-                })
+            Result.success(moveFilesToSdcard(
+                sdcardUri = sdcardUri, tempPath = context.getSdcardTempDir(videoInfo.id)
+            ).apply {
+                insertInfoIntoDownloadHistory(videoInfo, this)
+            })
         } else {
             Result.success(
                 scanVideoIntoDownloadHistory(
@@ -401,8 +401,7 @@ object DownloadUtil {
     }
 
     suspend fun executeCommandInBackground(
-        url: String,
-        template: CommandTemplate = PreferenceUtil.getTemplate()
+        url: String, template: CommandTemplate = PreferenceUtil.getTemplate()
     ) {
         val taskId = Downloader.makeKey(url = url, templateName = template.name)
         val notificationId = taskId.toNotificationId()
@@ -432,8 +431,7 @@ object DownloadUtil {
         onTaskStarted(template, url)
         kotlin.runCatching {
             val response = YoutubeDL.getInstance().execute(
-                request = request,
-                processId = taskId
+                request = request, processId = taskId
             ) { progress, _, text ->
                 NotificationUtil.makeNotificationForCustomCommand(
                     notificationId = notificationId,
@@ -444,10 +442,7 @@ object DownloadUtil {
                     text = text
                 )
                 Downloader.updateTaskOutput(
-                    template = template,
-                    url = url,
-                    line = text,
-                    progress = progress
+                    template = template, url = url, line = text, progress = progress
                 )
             }
             onTaskEnded(template, url, response.out)
@@ -455,10 +450,8 @@ object DownloadUtil {
             it.printStackTrace()
             if (it is YoutubeDL.CanceledException) return@onFailure
             it.message.run {
-                if (isNullOrEmpty())
-                    onTaskEnded(template, url)
-                else
-                    onTaskError(this, template, url)
+                if (isNullOrEmpty()) onTaskEnded(template, url)
+                else onTaskError(this, template, url)
             }
         }
         onProcessEnded()

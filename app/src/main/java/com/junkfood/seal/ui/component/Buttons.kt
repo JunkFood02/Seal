@@ -45,11 +45,13 @@ fun OutlinedButtonWithIcon(
     onClick: () -> Unit,
     icon: ImageVector,
     text: String,
+    contentColor:Color = MaterialTheme.colorScheme.primary
 ) {
     OutlinedButton(
         modifier = modifier,
         onClick = onClick,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor)
     )
     {
         Icon(

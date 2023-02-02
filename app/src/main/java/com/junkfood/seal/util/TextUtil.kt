@@ -30,11 +30,20 @@ object ToastUtil {
 
 private const val GIGA_BYTES = 1024f * 1024f * 1024f
 private const val MEGA_BYTES = 1024f * 1024f
+
 @Composable
 fun Long.toFileSizeText() = this.toFloat().run {
     if (this > GIGA_BYTES)
         stringResource(R.string.filesize_gb).format(this / GIGA_BYTES)
     else stringResource(R.string.filesize_mb).format(this / MEGA_BYTES)
+}
+
+/**
+ * Convert time in **seconds** to `hh:mm:ss` or `mm:ss`
+ */
+fun Int.toDurationText(): String = this.run {
+    if (this > 3600) "%d:%02d:%02d".format(this / 3600, (this % 3600) / 60, this % 60)
+    else "%02d:%02d".format(this / 60, this % 60)
 }
 
 fun String.isNumberInRange(start: Int, end: Int): Boolean {
