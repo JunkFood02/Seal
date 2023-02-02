@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,8 @@ import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,16 +59,26 @@ import com.junkfood.seal.ui.theme.preferenceTitle
 private const val horizontal = 8
 private const val vertical = 16
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItem(
     title: String,
     description: String? = null,
     icon: Any? = null,
     enabled: Boolean = true,
+    onLongClickLabel: String? = null,
+    onLongClick: (() -> Unit)? = null,
+    onClickLabel: String? = null,
     onClick: () -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier.clickable(onClick = onClick, enabled = enabled)
+        modifier = Modifier.combinedClickable(
+            onClick = onClick,
+            onClickLabel = onClickLabel,
+            enabled = enabled,
+            onLongClickLabel = onLongClickLabel,
+            onLongClick = onLongClick
+        )
     ) {
         Row(
             modifier = Modifier
@@ -95,6 +108,15 @@ fun PreferenceItem(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                     )
                 }
+
+                is Int -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 16.dp)
+                            .size(24.dp)
+                            .padding(2.dp)
+                    )
+                }
             }
 
             Column(
@@ -104,12 +126,23 @@ fun PreferenceItem(
                     .padding(end = 8.dp)
             ) {
                 PreferenceItemTitle(text = title, enabled = enabled)
-                if (description != null)
-                    PreferenceItemDescription(text = description, enabled = enabled)
+                if (description != null) PreferenceItemDescription(
+                    text = description,
+                    enabled = enabled
+                )
             }
         }
     }
 
+}
+
+@Composable
+@Preview
+fun PreferenceItemPreview() {
+    Column {
+        PreferenceItem(title = "title", description = "description", icon = 0)
+        PreferenceItem(title = "title", description = "description", icon = Icons.Outlined.Update)
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -163,13 +196,12 @@ fun PreferenceItemVariant(
                         style = typography.titleMedium,
                         color = colorScheme.onSurface.applyOpacity(enabled)
                     )
-                    if (description != null)
-                        Text(
-                            text = description,
-                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                            maxLines = 2, overflow = TextOverflow.Ellipsis,
-                            style = typography.bodyMedium,
-                        )
+                    if (description != null) Text(
+                        text = description,
+                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                    )
                 }
             }
         }
@@ -182,18 +214,18 @@ fun PreferenceSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 18.dp),
     onClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier.selectable(
-            selected = selected,
-            onClick = onClick
+            selected = selected, onClick = onClick
         )
     ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 18.dp),
+                .padding(contentPadding),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -205,7 +237,8 @@ fun PreferenceSingleChoiceItem(
                     text = text,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-                    color = MaterialTheme.colorScheme.onSurface, overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurface,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             RadioButton(
@@ -301,11 +334,9 @@ fun PreferenceSwitch(
         null
     }
     Surface(
-        modifier = Modifier.toggleable(
-            value = isChecked,
+        modifier = Modifier.toggleable(value = isChecked,
             enabled = enabled,
-            onValueChange = { onClick() }
-        )
+            onValueChange = { onClick() })
     ) {
         Row(
             modifier = Modifier
@@ -328,20 +359,18 @@ fun PreferenceSwitch(
                 modifier = Modifier.weight(1f)
             ) {
                 PreferenceItemTitle(
-                    text = title,
-                    enabled = enabled
+                    text = title, enabled = enabled
                 )
-                if (!description.isNullOrEmpty())
-                    PreferenceItemDescription(
-                        text = description,
-                        enabled = enabled
-                    )
+                if (!description.isNullOrEmpty()) PreferenceItemDescription(
+                    text = description, enabled = enabled
+                )
             }
             Switch(
                 checked = isChecked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = 20.dp, end = 6.dp),
-                enabled = enabled, thumbContent = thumbContent
+                enabled = enabled,
+                thumbContent = thumbContent
             )
         }
     }
@@ -372,12 +401,11 @@ fun PreferenceSwitchWithDivider(
         null
     }
     Surface(
-        modifier = Modifier
-            .clickable(
-                enabled = enabled,
-                onClick = onClick,
-                onClickLabel = stringResource(id = R.string.open_settings)
-            )
+        modifier = Modifier.clickable(
+            enabled = enabled,
+            onClick = onClick,
+            onClickLabel = stringResource(id = R.string.open_settings)
+        )
     ) {
         Row(
             modifier = Modifier
@@ -400,8 +428,10 @@ fun PreferenceSwitchWithDivider(
                 modifier = Modifier.weight(1f)
             ) {
                 PreferenceItemTitle(text = title, enabled = enabled)
-                if (!description.isNullOrEmpty())
-                    PreferenceItemDescription(text = description, enabled = enabled)
+                if (!description.isNullOrEmpty()) PreferenceItemDescription(
+                    text = description,
+                    enabled = enabled
+                )
             }
             Divider(
                 modifier = Modifier
@@ -419,7 +449,8 @@ fun PreferenceSwitchWithDivider(
                     .semantics {
                         contentDescription = title
                     },
-                enabled = isSwitchEnabled, thumbContent = thumbContent
+                enabled = isSwitchEnabled,
+                thumbContent = thumbContent
             )
         }
     }
@@ -467,13 +498,12 @@ fun PreferencesCautionCard(
                     style = typography.titleLarge.copy(fontSize = 20.sp),
                     color = colorScheme.onErrorContainer.harmonizeWithPrimary()
                 )
-                if (description != null)
-                    Text(
-                        text = description,
-                        color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                if (description != null) Text(
+                    text = description,
+                    color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
+                    maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    style = typography.bodyMedium,
+                )
             }
         }
     }
@@ -523,13 +553,12 @@ fun PreferencesHintCard(
                     style = typography.titleLarge.copy(fontSize = 20.sp),
                     color = contentColor
                 )
-                if (description != null)
-                    Text(
-                        text = description,
-                        color = contentColor,
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                if (description != null) Text(
+                    text = description,
+                    color = contentColor,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    style = typography.bodyMedium,
+                )
             }
         }
     }
@@ -543,7 +572,8 @@ private fun PreferenceSwitchWithContainerPreview() {
         PreferenceSwitchWithContainer(
             title = "Title ".repeat(2),
             isChecked = isChecked,
-            onClick = { isChecked = !isChecked }, icon = null
+            onClick = { isChecked = !isChecked },
+            icon = null
         )
     }
 }
@@ -573,21 +603,18 @@ fun PreferenceSwitchWithContainer(
             .clip(MaterialTheme.shapes.extraLarge)
             .background(with(MaterialTheme.colorScheme) {
                 if (isChecked) primaryContainer else outline
-            }
-            )
+            })
             .toggleable(value = isChecked) { onClick() }
             .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon?.let {
-            Icon(
-                imageVector = icon,
+            Icon(imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = with(MaterialTheme.colorScheme) { if (isChecked) onSurfaceVariant else surface }
-            )
+                tint = with(MaterialTheme.colorScheme) { if (isChecked) onSurfaceVariant else surface })
         }
         Column(
             modifier = Modifier
@@ -619,9 +646,7 @@ fun CreditItem(
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
-    Surface(
-        modifier = Modifier.clickable { onClick() }
-    ) {
+    Surface(modifier = Modifier.clickable { onClick() }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -748,9 +773,7 @@ fun PreferenceInfo(
         else this
     }) {
         Icon(
-            modifier = Modifier.padding(),
-            imageVector = icon,
-            contentDescription = null
+            modifier = Modifier.padding(), imageVector = icon, contentDescription = null
         )
         Text(
             modifier = Modifier.padding(vertical = 16.dp),

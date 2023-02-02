@@ -2,9 +2,15 @@ package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.os.Build
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.History
@@ -18,13 +24,20 @@ import androidx.compose.material.icons.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
+import androidx.compose.material.icons.outlined.SyncAlt
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,10 +45,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
@@ -57,12 +77,14 @@ import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SPONSORBLOCK
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.YT_DLP
+import com.junkfood.seal.util.YT_DLP_NIGHTLY
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.launch
 
@@ -76,9 +98,14 @@ fun GeneralDownloadPreferences(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
+
     var showSponsorBlockDialog by remember { mutableStateOf(false) }
+    var showYtdlpDialog by remember { mutableStateOf(false) }
+    var isUpdating by remember { mutableStateOf(false) }
 
     val downloadSubtitle by SUBTITLE.booleanState
+    var ytdlpNightly by YT_DLP_NIGHTLY.booleanState
 
     var displayErrorReport by DEBUG.booleanState
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
@@ -109,12 +136,13 @@ fun GeneralDownloadPreferences(
     Scaffold(modifier = Modifier
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar =
-        {
+        topBar = {
             com.junkfood.seal.ui.component.LargeTopAppBar(
-                title={ Text(text = stringResource(id = R.string.general_settings))}, navigationIcon = {
+                title = { Text(text = stringResource(id = R.string.general_settings)) },
+                navigationIcon = {
                     BackButton { onBackPressed() }
-                }, scrollBehavior = scrollBehavior
+                },
+                scrollBehavior = scrollBehavior
             )
         },
         content = {
@@ -143,19 +171,25 @@ fun GeneralDownloadPreferences(
                     PreferenceItem(
                         title = stringResource(id = R.string.ytdlp_version),
                         description = ytdlpVersion,
-                        icon = Icons.Outlined.Update
-                    ) {
-                        scope.launch {
-                            kotlin.runCatching {
-                                UpdateUtil.updateYtDlp()
-                                ytdlpVersion = YT_DLP.getString()
-                            }.onFailure {
-                                ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
-                            }.onSuccess {
-                                ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
+                        icon = if (isUpdating) 0 else Icons.Outlined.Update, onClick = {
+                            scope.launch {
+                                runCatching {
+                                    isUpdating = true
+                                    UpdateUtil.updateYtDlp()
+                                    ytdlpVersion = YT_DLP.getString()
+                                }.onFailure {
+                                    ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
+                                }.onSuccess {
+                                    ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
+                                }
+                                isUpdating = false
                             }
-                        }
-                    }
+                        }, onClickLabel = stringResource(id = R.string.update),
+                        onLongClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            showYtdlpDialog = true
+                        }, onLongClickLabel = stringResource(id = R.string.open_settings)
+                    )
                 }
 
 
@@ -320,7 +354,85 @@ fun GeneralDownloadPreferences(
             showSponsorBlockDialog = false
         }
     }
+    if (showYtdlpDialog) {
+        AlertDialog(
+            onDismissRequest = { showYtdlpDialog = false },
+            confirmButton = {},
+            title = { Text(text = stringResource(id = R.string.update_channel)) },
+            icon = { Icon(Icons.Outlined.SyncAlt, null) },
+            text = {
+                LazyColumn() {
+                    item {
+                        DialogSingleChoiceItem(
+                            text = "yt-dlp/yt-dlp",
+                            selected = !ytdlpNightly,
+                            label = "Stable"
+                        ) {
+                            ytdlpNightly = false
+                            YT_DLP_NIGHTLY.updateBoolean(false)
+                            showYtdlpDialog = false
+                        }
+                    }
+                    item {
+                        DialogSingleChoiceItem(
+                            text = "ytdl-patched/yt-dlp",
+                            selected = ytdlpNightly,
+                            label = "Nightly",
+                            labelContainerColor = MaterialTheme.colorScheme.tertiary
+                        ) {
+                            ytdlpNightly = true
+                            YT_DLP_NIGHTLY.updateBoolean(true)
+                            showYtdlpDialog = false
+
+                        }
+                    }
+                }
+            })
+    }
+
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DialogSingleChoiceItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    selected: Boolean,
+    label: String,
+    labelContainerColor: Color = MaterialTheme.colorScheme.primary,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .padding(vertical = 2.dp)
+            .clip(CircleShape)
+            .selectable(
+                selected = selected,
+                enabled = true,
+                onClick = onClick,
+            )
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        RadioButton(
+            modifier = Modifier.clearAndSetSemantics { }, selected = selected, onClick = onClick
+        )
 
+        Text(text = text, style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.weight(1f))
+        Surface(
+            modifier.padding(end = 4.dp),
+            shape = CircleShape,
+            color = labelContainerColor
+        ) {
+            Text(
+                modifier = Modifier.padding(4.dp),
+                text = label,
+                color = MaterialTheme.colorScheme.contentColorFor(labelContainerColor),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}

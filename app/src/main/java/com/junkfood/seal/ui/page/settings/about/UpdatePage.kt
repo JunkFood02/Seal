@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.settings.about
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +37,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
@@ -103,9 +105,9 @@ fun UpdatePage(onBackPressed: () -> Unit) {
             }
             item {
                 PreferenceSingleChoiceItem(
-                    modifier = Modifier.padding(horizontal = 4.dp),
                     text = stringResource(id = R.string.stable_channel),
-                    selected = updateChannel == STABLE
+                    selected = updateChannel == STABLE,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
                 ) {
                     updateChannel = STABLE
                     UPDATE_CHANNEL.updateInt(updateChannel)
@@ -114,10 +116,9 @@ fun UpdatePage(onBackPressed: () -> Unit) {
 
             item {
                 PreferenceSingleChoiceItem(
-                    modifier = Modifier.padding(horizontal = 4.dp),
-
                     text = stringResource(id = R.string.pre_release_channel),
-                    selected = updateChannel == PRE_RELEASE
+                    selected = updateChannel == PRE_RELEASE,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
                 ) {
                     updateChannel = PRE_RELEASE
                     UPDATE_CHANNEL.updateInt(updateChannel)
@@ -132,7 +133,8 @@ fun UpdatePage(onBackPressed: () -> Unit) {
                     ProgressIndicatorButton(
                         modifier = Modifier
                             .padding(horizontal = 24.dp)
-                            .padding(top = 12.dp),
+                            .padding(top = 6.dp)
+                            .padding(bottom = 12.dp),
                         text = stringResource(
                             id = R.string.check_for_updates
                         ),
@@ -159,10 +161,12 @@ fun UpdatePage(onBackPressed: () -> Unit) {
                             }
                     }
                 }
+                HorizontalDivider()
             }
             item {
                 PreferenceInfo(
-                    modifier = Modifier.padding(horizontal = 4.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp),
                     text = stringResource(id = R.string.update_channel_desc)
                 )
             }
