@@ -171,11 +171,7 @@ object DownloadUtil {
                     addOption("--embed-chapters")
                 } else {
                     forEach {
-                        addOption(
-                            "--download-sections", "*%d-%d".format(
-                                it.start, it.end
-                            )
-                        )
+                        addOption("--download-sections", "*%d-%d".format(it.start, it.end))
                     }
                 }
             }
@@ -230,6 +226,10 @@ object DownloadUtil {
                 val configFile = context.getConfigFile(id)
                 FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
                 addOption("--config", configFile.absolutePath)
+            }
+
+            videoClips.forEach {
+                addOption("--download-sections", "*%d-%d".format(it.start, it.end))
             }
 
             addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
