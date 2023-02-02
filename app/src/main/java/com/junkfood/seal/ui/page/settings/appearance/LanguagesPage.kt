@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -84,17 +85,17 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                 }
                 item {
                     PreferenceSingleChoiceItem(
-                        modifier = Modifier.padding(horizontal = 4.dp),
                         text = stringResource(R.string.follow_system),
-                        selected = language == SYSTEM_DEFAULT
+                        selected = language == SYSTEM_DEFAULT,
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
                     ) { setLanguage(SYSTEM_DEFAULT) }
                 }
                 for (languageData in languageMap) {
                     item {
                         PreferenceSingleChoiceItem(
-                            modifier = Modifier.padding(horizontal = 4.dp),
                             text = getLanguageDesc(languageData.key),
-                            selected = language == languageData.key
+                            selected = language == languageData.key,
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
                         ) { setLanguage(languageData.key) }
                     }
                 }

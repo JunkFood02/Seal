@@ -32,17 +32,14 @@ fun SingleChoiceItem(
                 enabled = true,
                 onClick = onClick,
             )
-            .fillMaxWidth()
-//            .padding(vertical = 12.dp)
-        , verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         RadioButton(
             modifier = Modifier.clearAndSetSemantics { }, selected = selected, onClick = onClick
         )
-        Text(
-//            modifier = Modifier.padding(start = 18.dp),
-            text = text, style = MaterialTheme.typography.bodyLarge
-        )
+        Text(text = text, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
@@ -53,25 +50,23 @@ fun MultiChoiceItem(
     checked: Boolean,
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp)
-            .selectable(
-                selected = checked,
-                enabled = true,
-                onClick = onClick,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ), verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .padding(vertical = 12.dp)
+        .selectable(selected = checked,
+            enabled = true,
+            onClick = onClick,
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() }),
+        verticalAlignment = Alignment.CenterVertically) {
         Checkbox(
 //            modifier = Modifier.clearAndSetSemantics { },
             checked = checked, onCheckedChange = null
         )
         Text(
             modifier = Modifier.padding(start = 12.dp),
-            text = text, style = MaterialTheme.typography.bodyMedium
+            text = text,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

@@ -139,7 +139,7 @@ fun AboutPage(
             }
             item {
                 PreferenceSwitchWithDivider(
-                    title = stringResource(R.string.check_for_updates),
+                    title = stringResource(R.string.auto_update),
                     description = stringResource(R.string.check_for_updates_desc),
                     icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
                     isChecked = isAutoUpdateEnabled,

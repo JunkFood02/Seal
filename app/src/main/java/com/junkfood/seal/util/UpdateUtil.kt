@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
@@ -54,11 +55,17 @@ object UpdateUtil {
         Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases")
             .build()
 
+    private val ytdlpNightlyBuildRelease =
+        "https://api.github.com/repos/ytdl-patched/yt-dlp/releases/latest"
+
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
         withContext(Dispatchers.IO) {
-            YoutubeDL.getInstance().updateYoutubeDL(context).apply {
+            YoutubeDL.getInstance().updateYoutubeDL(
+                context,
+                if (YT_DLP_NIGHTLY.getBoolean()) ytdlpNightlyBuildRelease else null
+            ).apply {
                 if (this == YoutubeDL.UpdateStatus.DONE)
                     YoutubeDL.getInstance().version(context)?.let {
                         PreferenceUtil.encodeString(YT_DLP, it)
