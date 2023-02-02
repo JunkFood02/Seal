@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +70,7 @@ fun VideoCard(
                     shape = MaterialTheme.shapes.extraSmall
                 ) {
                     val fileSizeText = fileSizeApprox.toFileSizeText()
-                    val durationText = "%02d:%02d".format(duration / 60, duration % 60)
+                    val durationText = duration.toDurationText()
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = "$fileSizeText · $durationText",

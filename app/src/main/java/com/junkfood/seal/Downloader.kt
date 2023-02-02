@@ -17,6 +17,7 @@ import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.ToastUtil
+import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
@@ -386,7 +387,11 @@ object Downloader {
         }
     }
 
-    fun downloadVideoWithFormatId(videoInfo: VideoInfo, formatList: List<Format>) {
+    fun downloadVideoWithFormatId(
+        videoInfo: VideoInfo,
+        formatList: List<Format>,
+        videoClips: List<VideoClip>
+    ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
             val fileSize = formatList.fold(0L) { acc, format ->
                 acc + (format.fileSize ?: format.fileSizeApprox ?: 0L)
@@ -404,7 +409,11 @@ object Downloader {
             }.removePrefix("+")
 
             val downloadPreferences = DownloadUtil.DownloadPreferences().run {
-                copy(extractAudio = extractAudio || audioOnly, formatId = formatId)
+                copy(
+                    extractAudio = extractAudio || audioOnly,
+                    formatId = formatId,
+                    videoClips = videoClips
+                )
             }
             downloadResultTemp = downloadVideo(
                 videoInfo = info,

@@ -13,11 +13,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ContentCut
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +45,7 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.connectWithBlank
 import com.junkfood.seal.util.connectWithDelimiter
+import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
 
 
@@ -50,7 +56,10 @@ fun FormatVideoPreview(
     title: String = "",
     author: String = "",
     thumbnailUrl: String = "",
-    duration: Int = 0
+    duration: Int = 0,
+    showButton: Boolean = true,
+    isClipEnabled: Boolean = false,
+    onButtonClick: ((Boolean) -> Unit)? = {}
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
         WindowWidthSizeClass.Expanded -> 0.25f
@@ -77,7 +86,7 @@ fun FormatVideoPreview(
                     color = Color.Black.copy(alpha = 0.68f),
                     shape = MaterialTheme.shapes.extraSmall
                 ) {
-                    val durationText = "%02d:%02d".format(duration / 60, duration % 60)
+                    val durationText = duration.toDurationText()
                     Text(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = durationText,
@@ -110,6 +119,20 @@ fun FormatVideoPreview(
                 )
             }
         }
+        if (showButton)
+            onButtonClick?.let {
+                IconToggleButton(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    onCheckedChange = onButtonClick,
+                    checked = isClipEnabled
+                ) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        imageVector = Icons.Outlined.ContentCut,
+                        contentDescription = stringResource(id = R.string.clip_video)
+                    )
+                }
+            }
 
     }
 }

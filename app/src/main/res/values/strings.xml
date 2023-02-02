@@ -303,5 +303,8 @@
     <string name="update_channel">Update channel</string>
     <string name="auto_update">Auto update</string>
     <string name="enable_auto_update">Enable auto update</string>
+    <string name="discard">Discard</string>
+    <string name="apply">Apply</string>
+    <string name="clip_video">Clip video</string>
 
 </resources>

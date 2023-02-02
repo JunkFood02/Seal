@@ -2,6 +2,7 @@ package com.junkfood.seal.util
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 
 sealed interface YoutubeDLInfo
 
@@ -86,6 +87,16 @@ data class Format(
     @SerialName("filesize") val fileSize: Long? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Long? = null,
 )
+
+data class VideoClip(
+    val start: Int = 0,
+    val end: Int = 0
+) {
+    constructor(range: ClosedFloatingPointRange<Float>) : this(
+        range.start.roundToInt(),
+        range.endInclusive.roundToInt()
+    )
+}
 
 @Serializable
 data class Chapter(
