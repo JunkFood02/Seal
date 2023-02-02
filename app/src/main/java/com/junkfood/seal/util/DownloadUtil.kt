@@ -43,7 +43,7 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
     private const val OUTPUT_TEMPLATE = "%(title).70s [%(id)s].%(ext)s"
     private const val CROP_ARTWORK_COMMAND =
-        """--ppa "ffmpeg: -c:v mjpeg -vf crop='if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'""""
+        """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
 
 
     @CheckResult
