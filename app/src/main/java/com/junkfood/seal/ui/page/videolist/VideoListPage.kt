@@ -22,7 +22,6 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.DeleteSweep
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,6 +63,7 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
@@ -347,7 +347,7 @@ fun VideoListPage(
     VideoDetailDrawer()
     if (showRemoveMultipleItemsDialog) {
         var deleteFile by remember { mutableStateOf(false) }
-        AlertDialog(
+        SealDialog(
             onDismissRequest = { showRemoveMultipleItemsDialog = false },
             icon = { Icon(Icons.Outlined.DeleteSweep, null) },
             title = { Text(stringResource(R.string.delete_info)) }, text = {
@@ -355,12 +355,14 @@ fun VideoListPage(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 12.dp),
+                            .padding(horizontal = 24.dp)
+                        ,
                         text = stringResource(R.string.delete_multiple_items_msg).format(
                             selectedItemIds.size
                         )
                     )
                     MultiChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
                         text = stringResource(R.string.delete_file) + " (${selectedFileSizeSum.toFileSizeText()})",
                         checked = deleteFile
                     ) { deleteFile = !deleteFile }

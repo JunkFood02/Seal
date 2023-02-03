@@ -57,7 +57,7 @@ fun CustomRangeSlider(
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
         startThumb = {
-            Box(modifier= Modifier.size(20.dp)){
+            Box(modifier = Modifier.size(20.dp)) {
                 SliderDefaults.Thumb(
                     modifier = Modifier.align(Alignment.Center),
                     interactionSource = startInteractionSource,
@@ -68,7 +68,7 @@ fun CustomRangeSlider(
             }
         },
         endThumb = {
-            Box(modifier= Modifier.size(20.dp)){
+            Box(modifier = Modifier.size(20.dp)) {
                 SliderDefaults.Thumb(
                     modifier = Modifier.align(Alignment.Center),
                     interactionSource = startInteractionSource,
@@ -89,7 +89,6 @@ fun CustomRangeSlider(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoSelectionSlider(
     modifier: Modifier = Modifier,
@@ -141,6 +140,12 @@ fun VideoSelectionSlider(
         }
     }
 }
+
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun VideoClipDialog(onDismissRequest: () -> Unit) {
+//    AlertDialog(onDismissRequest = onDismissRequest)
+//}
 
 @Composable
 @Preview
