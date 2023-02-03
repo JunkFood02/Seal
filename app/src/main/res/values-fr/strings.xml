@@ -247,4 +247,6 @@
     <string name="subtitle_desc">Langues, sous-titres intégrés, sous-titres automatiques</string>
     <string name="subtitle_sponsorblock">Les sous-titres peuvent être mal synchronisés lors de la suppression des segments du SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Pour l\'intégration des sous-titres, les vidéos seront remixées dans un conteneur mkv.</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f M</string>
 </resources>

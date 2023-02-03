@@ -247,4 +247,15 @@
     <string name="add">Hinzufügen</string>
     <string name="subtitle_sponsorblock">Untertitel können beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert werden.</string>
     <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt.</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="pre_release_channel">Vorabversion</string>
+    <string name="auto_update">Automatische Aktualisierung</string>
+    <string name="update_channel">Update-Kanal</string>
+    <string name="share">Teilen</string>
+    <string name="update_channel_desc">Installiere Vorabversionen, um eine Vorschau der neuen Funktionen und Änderungen erhalten.
+\n
+\nEs wird einige Instabilitäten in diesen Versionen geben, also zögere bitte nicht, uns Feedback zu geben, wenn du Probleme hast, um uns zu helfen, die App für die Zukunft zu verbessern.</string>
+    <string name="enable_auto_update">Automatische Aktualisierung aktivieren</string>
+    <string name="stable_channel">Stabil</string>
 </resources>
