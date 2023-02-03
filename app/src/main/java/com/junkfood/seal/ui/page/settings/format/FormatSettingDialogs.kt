@@ -41,6 +41,7 @@ import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LinkButton
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.MAX_FILE_SIZE
@@ -53,7 +54,7 @@ import com.junkfood.seal.util.VIDEO_QUALITY
 @Composable
 fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
     var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioFormat()) }
-    AlertDialog(
+    SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
@@ -76,12 +77,14 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp),
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
                     text = stringResource(R.string.audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in 0..2)
                     SingleChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
                         text = PreferenceUtil.getAudioFormatDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
@@ -93,7 +96,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
 @Composable
 fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormat()) }
-    AlertDialog(
+    SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
@@ -115,12 +118,14 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp),
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
                     text = stringResource(R.string.video_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in 0..3)
                     SingleChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
                         text = PreferenceUtil.getVideoFormatDesc(i),
                         selected = videoFormat == i
                     ) { videoFormat = i }

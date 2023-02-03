@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.SealDialog
 
 @Composable
 fun RemoveItemDialog(
@@ -30,7 +30,7 @@ fun RemoveItemDialog(
     val detailState = videoListViewModel.detailViewState.collectAsState()
     if (detailState.value.showDialog) {
 //        deleteFile.value = false
-        AlertDialog(onDismissRequest = { videoListViewModel.hideDialog() },
+        SealDialog(onDismissRequest = { videoListViewModel.hideDialog() },
             title = {
                 Text(text = stringResource(R.string.delete_info))
             }, icon = { Icon(Icons.Outlined.Delete, null) },
@@ -39,11 +39,12 @@ fun RemoveItemDialog(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 12.dp),
+                            .padding(horizontal = 24.dp),
                         text = stringResource(R.string.delete_info_msg)
                             .format(detailState.value.title),// textAlign = TextAlign.Center
                     )
                     MultiChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
                         text = stringResource(R.string.delete_file),
                         checked = deleteFile
                     ) { deleteFile = !deleteFile }
