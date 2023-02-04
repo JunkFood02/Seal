@@ -28,7 +28,6 @@ import androidx.compose.material.icons.outlined.SyncAlt
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +66,7 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
@@ -355,7 +355,7 @@ fun GeneralDownloadPreferences(
         }
     }
     if (showYtdlpDialog) {
-        AlertDialog(
+        SealDialog(
             onDismissRequest = { showYtdlpDialog = false },
             confirmButton = {},
             title = { Text(text = stringResource(id = R.string.update_channel)) },
@@ -393,7 +393,6 @@ fun GeneralDownloadPreferences(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DialogSingleChoiceItem(
     modifier: Modifier = Modifier,
@@ -405,6 +404,7 @@ private fun DialogSingleChoiceItem(
 ) {
     Row(
         modifier = modifier
+            .padding(horizontal = 12.dp)
             .padding(vertical = 2.dp)
             .clip(CircleShape)
             .selectable(
@@ -423,7 +423,7 @@ private fun DialogSingleChoiceItem(
         Text(text = text, style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.weight(1f))
         Surface(
-            modifier.padding(end = 4.dp),
+            modifier.padding(end = 12.dp),
             shape = CircleShape,
             color = labelContainerColor
         ) {

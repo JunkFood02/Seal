@@ -110,7 +110,7 @@ fun FormatPageImpl(
 
     var isClipEnabled by remember { mutableStateOf(false) }
     val videoDuration = 0f..(videoInfo.duration?.toFloat() ?: 0f)
-
+    var showVideoClipDialog by remember { mutableStateOf(false) }
     var videoClipDuration by remember { mutableStateOf(videoDuration) }
 
     LaunchedEffect(isClipEnabled) {
@@ -180,12 +180,12 @@ fun FormatPageImpl(
                             Column {
                                 VideoSelectionSlider(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 8.dp),
+                                        .fillMaxWidth(),
                                     value = videoClipDuration,
                                     duration = duration?.roundToInt() ?: 0,
                                     onDiscard = { isClipEnabled = false },
-                                    onValueChange = { videoClipDuration = it }
+                                    onValueChange = { videoClipDuration = it },
+                                    onDurationClick = { showVideoClipDialog = true }
                                 )
                                 HorizontalDivider()
                             }
@@ -301,4 +301,11 @@ fun FormatPageImpl(
 
         }
     }
+    if (showVideoClipDialog)
+        VideoClipDialog(
+            onDismissRequest = { showVideoClipDialog = false },
+            initialValue = videoClipDuration,
+            valueRange = videoDuration,
+            onConfirm = { videoClipDuration = it }
+        )
 }
