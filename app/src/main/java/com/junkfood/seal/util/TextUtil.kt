@@ -11,6 +11,7 @@ import com.junkfood.seal.ui.component.toEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import kotlin.math.roundToInt
 
 object ToastUtil {
     fun makeToast(text: String) {
@@ -49,6 +50,11 @@ fun Int.toDurationText(): String = this.run {
 fun String.isNumberInRange(start: Int, end: Int): Boolean {
     return this.isNotEmpty() && this.isDigitsOnly() && this.length < 10 && this.toInt() >= start && this.toInt() <= end
 }
+
+fun String.isNumberInRange(range: IntRange): Boolean = this.isNumberInRange(range.first, range.last)
+
+fun ClosedFloatingPointRange<Float>.toIntRange() =
+    IntRange(start.roundToInt(), endInclusive.roundToInt())
 
 fun String?.toHttpsUrl(): String =
     this?.run {

@@ -298,7 +298,7 @@
     <string name="filesize_gb">%.2f G</string>
     <string name="share">Share</string>
     <string name="stable_channel">Stable</string>
-    <string name="pre_release_channel">Pre-release</string>
+    <string name="pre_release_channel">Preview</string>
     <string name="update_channel_desc">Install pre-release builds to preview new features and changes.\n\nThere will be some instability in these versions, so please don\'t hesitate to give us feedback if you experience any problems to help us improve the app for the future.</string>
     <string name="update_channel">Update channel</string>
     <string name="auto_update">Auto update</string>
@@ -306,5 +306,7 @@
     <string name="discard">Discard</string>
     <string name="apply">Apply</string>
     <string name="clip_video">Clip video</string>
+    <string name="clip_start">Start</string>
+    <string name="clip_end">End</string>
 
 </resources>
