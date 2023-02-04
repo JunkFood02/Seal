@@ -45,12 +45,12 @@
     <string name="paste">Beillesztés</string>
     <string name="yt_dlp_docs">Yt-dlp használati hivatkozások</string>
     <string name="edit_template_desc">A kimeneti útvonalat és az URL-t az alkalmazás adja hozzá.</string>
-    <string name="audio_format">Hang formátum konvertálása</string>
+    <string name="convert_audio_format">Hang formátum konvertálása</string>
     <string name="cancel">Mégsem</string>
     <string name="format">Formátum</string>
-    <string name="audio_format_desc">Az audió fájlok újrakódolása minőségbeli veszteséget és a fájlméret növekedését okozza.</string>
+    <string name="convert_audio_format_desc">Az audió fájlok újrakódolása minőségbeli veszteséget és a fájlméret növekedését okozza.</string>
     <string name="video_format_preference">Előnyben részesített videó formátum</string>
-    <string name="video_format_desc">Választott formátum, ha több van megadva</string>
+    <string name="preferred_format_desc">Választott formátum, ha több van megadva</string>
     <string name="video_format">Videó formátum</string>
     <string name="convert_audio">Konvertál</string>
     <string name="start_download">Letöltés</string>

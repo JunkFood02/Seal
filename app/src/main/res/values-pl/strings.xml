@@ -25,7 +25,7 @@
     <string name="display_settings">Ciemny motyw, kolor dynamiczny, język</string>
     <string name="on">Włączono</string>
     <string name="cancel">Anuluj</string>
-    <string name="audio_format_desc">Audio w MP3 lub M4A powinno działać na większości urządzeń</string>
+    <string name="convert_audio_format_desc">Audio w MP3 lub M4A powinno działać na większości urządzeń</string>
     <string name="video_quality">Jakość wideo</string>
     <string name="not_specified">Nie sprecyzowano (domyślne)</string>
     <string name="video_format_preference">Preferowany format wideo</string>
@@ -78,7 +78,7 @@
     <string name="settings_before_download">Skonfiguruj przed pobieraniem</string>
     <string name="paste">Wklej</string>
     <string name="settings_before_download_text">Dostosuj to pobieranie</string>
-    <string name="audio_format">Konwertuj format audio</string>
+    <string name="convert_audio_format">Konwertuj format audio</string>
     <string name="settings_before_download_desc">Dostosuj preferencje przed pobieraniem</string>
     <string name="yt_dlp_docs">Dokumentacja yt-dlp</string>
     <string name="convert_to">Konwertuj na %1$s</string>
@@ -112,7 +112,7 @@
     <string name="edit_template_desc">Folder wyjściowy i URL zostaną dodane przez aplikację.</string>
     <string name="not_convert">Niekonwertowany</string>
     <string name="video_quality_desc">Ogranicz jakość wideo do danej wartości</string>
-    <string name="video_format_desc">Wybrany format, gdy dostępne jest wiele</string>
+    <string name="preferred_format_desc">Wybrany format, gdy dostępne jest wiele</string>
     <string name="concurrent_download_num">%d wątek (wątki) będzie używany do jednoczesnego pobierania natywnego wideo DASH/HLS.</string>
     <string name="share_fail_msg">Nie można odczytać udostępnionego adresu URL</string>
     <string name="share_success_msg">Odczytywanie udostępnionego linku do filmu…</string>

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined._4k
 import androidx.compose.material3.AlertDialog
@@ -37,23 +38,28 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
+import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
+import com.junkfood.seal.util.DEFAULT
+import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.MAX_FILE_SIZE
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
 
 @Composable
-fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
-    var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioFormat()) }
+fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
+    var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertFormat()) }
     SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -61,12 +67,12 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 Text(stringResource(R.string.dismiss))
             }
         },
-        icon = { Icon(Icons.Outlined.AudioFile, null) },
+        icon = { Icon(Icons.Outlined.Sync, null) },
         title = {
-            Text(stringResource(R.string.audio_format))
+            Text(stringResource(R.string.convert_audio_format))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.encodeInt(AUDIO_FORMAT, audioFormat)
+                PreferenceUtil.encodeInt(AUDIO_CONVERSION_FORMAT, audioFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -79,13 +85,13 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
                         .padding(horizontal = 24.dp),
-                    text = stringResource(R.string.audio_format_desc),
+                    text = stringResource(R.string.convert_audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in 0..2)
+                for (i in 0..1)
                     SingleChoiceItem(
                         modifier = Modifier.padding(horizontal = 12.dp),
-                        text = PreferenceUtil.getAudioFormatDesc(i),
+                        text = PreferenceUtil.getAudioConvertDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
             }
@@ -120,7 +126,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
                         .padding(horizontal = 24.dp),
-                    text = stringResource(R.string.video_format_desc),
+                    text = stringResource(R.string.preferred_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in 0..3)
@@ -129,6 +135,43 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                         text = PreferenceUtil.getVideoFormatDesc(i),
                         selected = videoFormat == i
                     ) { videoFormat = i }
+            }
+        })
+}
+
+@Composable
+fun AudioFormatDialog(onDismissRequest: () -> Unit) {
+    var audioFormat by AUDIO_FORMAT.intState
+    SealDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(R.string.dismiss))
+            }
+        }, icon = { Icon(Icons.Outlined.AudioFile, null) },
+        title = {
+            Text(stringResource(R.string.audio_format_preference))
+        }, confirmButton = {
+            ConfirmButton {
+                AUDIO_FORMAT.updateInt(audioFormat)
+                onDismissRequest()
+            }
+        }, text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
+                    text = stringResource(R.string.preferred_format_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                for (i in DEFAULT..M4A)
+                    SingleChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        text = PreferenceUtil.getAudioFormatDesc(i),
+                        selected = audioFormat == i
+                    ) { audioFormat = i }
             }
         })
 }

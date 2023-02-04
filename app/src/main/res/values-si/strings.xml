@@ -33,7 +33,7 @@
     <string name="yt_dlp_docs">Yt-dlp භාවිතයන්</string>
     <string name="best_quality">උසස් ගුණාත්මකතාව (default)</string>
     <string name="video_quality_desc">ආකෘතියේ ගුණාත්මකභාවය සහ විශාලත්වය සීමා කිරීම</string>
-    <string name="video_format_desc">බහු බාගැනීම් වලදී තෝරාගත් ආකෘතිය</string>
+    <string name="preferred_format_desc">බහු බාගැනීම් වලදී තෝරාගත් ආකෘතිය</string>
     <string name="close">වසන්න</string>
     <string name="close_never_show_again">නැවත නොපෙන්වන්න</string>
     <string name="user_guide">පරිශීලක මාර්ගෝපදේශ</string>
@@ -110,14 +110,14 @@
     <string name="off">අක්‍රීයයි</string>
     <string name="cancel">අවලංගු කරන්න</string>
     <string name="settings_before_download">බාගැනීමට පෙර සකසන්න</string>
-    <string name="audio_format">ඕඩියෝ ආකෘතිය පරිවර්තනය කරන්න</string>
+    <string name="convert_audio_format">ඕඩියෝ ආකෘතිය පරිවර්තනය කරන්න</string>
     <string name="settings_before_download_text">මෙම බාගැනීම සකසන්න</string>
     <string name="error_copied">දෝෂ වාර්තාව ක්ලිප්බෝඩයට පිටපත් විය</string>
     <string name="paste">පේස්ට්</string>
     <string name="edit_template_desc">ප්‍රතිදාන ස්ථානය සහ URL යෙදුම මගින් එක් කරනු ඇත.</string>
     <string name="convert_to">%1$s ලෙස පරිවර්තනය කරන්න</string>
     <string name="format">ආකෘතිය</string>
-    <string name="audio_format_desc">MP3 හෝ M4A ආකෘති බොහෝ උපාංගවල ක්‍රියා කරයි</string>
+    <string name="convert_audio_format_desc">MP3 හෝ M4A ආකෘති බොහෝ උපාංගවල ක්‍රියා කරයි</string>
     <string name="video_quality">වීඩියෝ ගුණාත්මකතාවය</string>
     <string name="not_specified">නිශ්චිතව දක්වා නැත (default)</string>
     <string name="video_format_preference">වීඩියෝ ආකෘතිය</string>

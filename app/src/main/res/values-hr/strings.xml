@@ -51,7 +51,7 @@
     <string name="error_copied">Izvješće o pogrešci kopirano u međuspremnik</string>
     <string name="yt_dlp_docs">Reference korištenja yt-dlp</string>
     <string name="not_convert">Nepromijenjeno</string>
-    <string name="audio_format_desc">Zvuk u MP3 ili M4A formatu funkcionira na većini uređaja</string>
+    <string name="convert_audio_format_desc">Zvuk u MP3 ili M4A formatu funkcionira na većini uređaja</string>
     <string name="best_quality">Najbolja kvaliteta (zadano)</string>
     <string name="video_format_preference">Prioritetni oblik videa</string>
     <string name="start_download">Preuzmi</string>
@@ -143,7 +143,7 @@
     <string name="credits_desc">Zasluge i softver otvorenog koda</string>
     <string name="edit">Uredi</string>
     <string name="paste">Zalijepi</string>
-    <string name="audio_format">Promijeni audio oblik</string>
+    <string name="convert_audio_format">Promijeni audio oblik</string>
     <string name="convert_to">Promijeni u %1$s</string>
     <string name="thumbnail">minijatura</string>
     <string name="edit_template_desc">Krajnji put i poveznicu će dodati aplikacija.</string>
@@ -151,7 +151,7 @@
     <string name="video_quality">Kvaliteta videozapisa</string>
     <string name="video_quality_desc">Ograniči kvalitetu oblika i veličinu datoteke</string>
     <string name="not_specified">Neodređeno (zadano)</string>
-    <string name="video_format_desc">Prioritetni format kada ih je više ponuđeno</string>
+    <string name="preferred_format_desc">Prioritetni format kada ih je više ponuđeno</string>
     <string name="download_playlist">Preuzmi popis za reprodukciju</string>
     <string name="video_format">Oblik videa</string>
     <string name="user_guide">Vodič</string>

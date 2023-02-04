@@ -37,7 +37,10 @@ const val YT_DLP_NIGHTLY = "yt-dlp_nightly"
 const val DEBUG = "debug"
 const val CONFIGURE = "configure"
 const val DARK_THEME_VALUE = "dark_theme_value"
-const val AUDIO_FORMAT = "audio_format"
+const val AUDIO_CONVERT = "audio_convert"
+const val AUDIO_CONVERSION_FORMAT = "audio_convert_format"
+const val AUDIO_FORMAT = "audio_format_preferred"
+const val AUDIO_QUALITY = "audio_quality"
 const val VIDEO_FORMAT = "video_format"
 const val VIDEO_QUALITY = "quality"
 const val WELCOME_DIALOG = "welcome_dialog"
@@ -78,13 +81,24 @@ const val PRIVATE_DIRECTORY = "private_directory"
 const val CROP_ARTWORK = "crop_artwork"
 const val FORMAT_SELECTION = "format_selection"
 
+const val DEFAULT = 0
+const val NOT_SPECIFIED = 0
 const val SYSTEM_DEFAULT = 0
 
 const val STABLE = 0
 const val PRE_RELEASE = 1
 
+const val OPUS = 1
+const val M4A = 2
+
+const val HIGH = 1
+const val MEDIUM = 2
+const val LOW = 3
+const val ULTRA_LOW = 4
+
+
 const val TEMPLATE_EXAMPLE =
-    """--no-mtime -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b""""
+    """--no-mtime -S "ext""""
 
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
@@ -118,9 +132,9 @@ private val IntPreferenceDefaults = mapOf(
     PALETTE_STYLE to 0,
     DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
     WELCOME_DIALOG to 1,
-    AUDIO_FORMAT to SYSTEM_DEFAULT,
-    VIDEO_QUALITY to SYSTEM_DEFAULT,
-    VIDEO_FORMAT to SYSTEM_DEFAULT,
+    AUDIO_CONVERSION_FORMAT to NOT_SPECIFIED,
+    VIDEO_QUALITY to NOT_SPECIFIED,
+    VIDEO_FORMAT to NOT_SPECIFIED,
     UPDATE_CHANNEL to STABLE,
 )
 
@@ -148,12 +162,11 @@ object PreferenceUtil {
     fun containsKey(key: String) = kv.containsKey(key)
     fun getOutputPathTemplate(): String = OUTPUT_PATH_TEMPLATE.getString()
 
-    fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
+    fun getAudioConvertFormat(): Int = AUDIO_CONVERSION_FORMAT.getInt()
 
-    fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String {
+    fun getAudioConvertDesc(audioFormatCode: Int = getAudioConvertFormat()): String {
         return when (audioFormatCode) {
-            0 -> context.getString(R.string.not_convert)
-            1 -> context.getString(R.string.convert_to).format("mp3")
+            0 -> context.getString(R.string.convert_to).format("mp3")
             else -> context.getString(R.string.convert_to).format("m4a")
         }
     }
@@ -174,16 +187,37 @@ object PreferenceUtil {
         }
     }
 
+    fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
+
+    @Composable
+    fun getAudioQualityDesc(audioQualityCode: Int = getAudioQuality()): String =
+        when (audioQualityCode) {
+            NOT_SPECIFIED -> stringResource(R.string.unlimited)
+            HIGH -> "192 Kbps"
+            MEDIUM -> "128 Kbps"
+            LOW -> "96 Kbps"
+            else -> "48 Kbps"
+        }
+
     fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()
 
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
             1 -> "MP4"
-            2 -> "WebM (VP9)"
-            3 -> "WebM (AV1)"
+            2 -> "VP9"
+            3 -> "AV1"
             else -> context.getString(R.string.not_specified)
         }
     }
+
+    private fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
+
+    fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String =
+        when (audioFormatCode) {
+            M4A -> "M4A"
+            OPUS -> "OPUS"
+            else -> context.getString(R.string.not_specified)
+        }
 
     fun isNetworkAvailableForDownload() =
         CELLULAR_DOWNLOAD.getBoolean() || !App.connectivityManager.isActiveNetworkMetered

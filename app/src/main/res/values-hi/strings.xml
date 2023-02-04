@@ -50,7 +50,7 @@
     <string name="thumbnail">थंबनेल</string>
     <string name="paste">पेस्ट करें</string>
     <string name="edit_template_desc">ऐप द्वारा आउटपुट पथ और URL जोड़ा जाएगा।</string>
-    <string name="audio_format">ऑडियो प्रारूप परिवर्तित करें</string>
+    <string name="convert_audio_format">ऑडियो प्रारूप परिवर्तित करें</string>
     <string name="high_contrast">हाई कंट्रास्ट डार्क थीम</string>
     <string name="invalid_input">अमान्य इनपुट</string>
     <string name="lowest_quality">निम्नतम गुणवत्ता</string>
@@ -76,12 +76,12 @@
     <string name="not_convert">असंशोधित</string>
     <string name="convert_to">%1$s में बदलें</string>
     <string name="format">प्रारूप</string>
-    <string name="audio_format_desc">ऑडियो फ़ाइलों को पुनः इनकोड करने से ऑडियो गुणवत्ता में कमी आएगी और फ़ाइल आकार में वृद्धि होगी।</string>
+    <string name="convert_audio_format_desc">ऑडियो फ़ाइलों को पुनः इनकोड करने से ऑडियो गुणवत्ता में कमी आएगी और फ़ाइल आकार में वृद्धि होगी।</string>
     <string name="video_quality">चलचित्र गुणवत्ता</string>
     <string name="video_quality_desc">फ़ाइल का प्रारूप गुणवत्ता और आकार सीमित करें</string>
     <string name="not_specified">अनिर्दिष्ट (default)</string>
     <string name="video_format_preference">पसंदीदा चलचित्र प्रारूप</string>
-    <string name="video_format_desc">एकाधिक विकल्प दिए जाने पर चुना गया प्रारूप</string>
+    <string name="preferred_format_desc">एकाधिक विकल्प दिए जाने पर चुना गया प्रारूप</string>
     <string name="video_format">चलचित्र प्रारूप</string>
     <string name="convert_audio">संशोधित</string>
     <string name="start_download">डाउनलोड</string>

@@ -51,13 +51,13 @@
     <string name="paste">ஒட்டவும்</string>
     <string name="yt_dlp_docs">Yt-dlp பயன்பாட்டுக் குறிப்புகள்</string>
     <string name="edit_template_desc">அவுட்புட் பாதை மற்றும் URL ஆப்ஸால் சேர்க்கப்படும்.</string>
-    <string name="audio_format">ஆடியோ வடிவத்தை மாற்றவும்</string>
+    <string name="convert_audio_format">ஆடியோ வடிவத்தை மாற்றவும்</string>
     <string name="not_convert">மாற்றப்படாதது</string>
     <string name="convert_to">%1$s ஆக மாற்றவும்</string>
     <string name="format">வடிவம்</string>
     <string name="video_quality">காணொளி தரம்</string>
     <string name="video_format_preference">விருப்பமான காணொளி வடிவம்</string>
-    <string name="video_format_desc">பல வழங்கப்படும் போது தேர்ந்தெடுக்கப்பட்ட வடிவம்</string>
+    <string name="preferred_format_desc">பல வழங்கப்படும் போது தேர்ந்தெடுக்கப்பட்ட வடிவம்</string>
     <string name="best_quality">சிறந்த தரம் (இயல்புநிலை)</string>
     <string name="video_quality_desc">வடிவத்தின் தரம் மற்றும் கோப்பு அளவை வரம்பிடவும்</string>
     <string name="not_specified">குறிப்பிடப்படவில்லை (இயல்புநிலை)</string>

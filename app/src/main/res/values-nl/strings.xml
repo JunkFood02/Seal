@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="audio_format_desc">Geluidsbestanden in MP3 of M4A werkt op de meeste apparaten</string>
+    <string name="convert_audio_format_desc">Geluidsbestanden in MP3 of M4A werkt op de meeste apparaten</string>
     <string name="video_quality">Videokwaliteit</string>
     <string name="best_quality">Beste kwaliteit (standaard)</string>
     <string name="extract_audio">Sla op als geluidsbestand</string>
@@ -46,14 +46,14 @@
     <string name="paste">Plakken</string>
     <string name="yt_dlp_docs">Yt-dlp gebruiksreferenties</string>
     <string name="edit_template_desc">Uitvoerpad en URL zullen door de app worden toegevoegd.</string>
-    <string name="audio_format">Geluidsbestand converteren</string>
+    <string name="convert_audio_format">Geluidsbestand converteren</string>
     <string name="not_convert">Niet converteren</string>
     <string name="convert_to">Converteren naar %1$s</string>
     <string name="format">Bestandstype</string>
     <string name="video_quality_desc">Beperk de kwaliteit van het formaat en de bestandsgrootte</string>
     <string name="not_specified">Niet gespecificeerd (standaard)</string>
     <string name="video_format_preference">Voorkeur type videobestand</string>
-    <string name="video_format_desc">Gekozen bestandstype bij meerdere opties</string>
+    <string name="preferred_format_desc">Gekozen bestandstype bij meerdere opties</string>
     <string name="video_format">Type videobestand</string>
     <string name="convert_audio">Converteren</string>
     <string name="start_download">Downloaden</string>

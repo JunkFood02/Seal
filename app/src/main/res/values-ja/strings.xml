@@ -33,13 +33,13 @@
     <string name="print_details_desc">ダウンロード時に詳細メッセージを表示</string>
     <string name="thumbnail">サムネイル</string>
     <string name="edit_template_desc">出力パスとURLはアプリで追加されます。</string>
-    <string name="audio_format">音声フォーマットの変換</string>
+    <string name="convert_audio_format">音声フォーマットの変換</string>
     <string name="video_quality">動画画質</string>
     <string name="best_quality">最高画質（デフォルト）</string>
     <string name="video_quality_desc">フォーマット品質とファイルサイズを制限</string>
     <string name="not_specified">指定しない（デフォルト）</string>
     <string name="video_format_preference">希望する動画形式</string>
-    <string name="video_format_desc">複数提供される場合に選択される形式</string>
+    <string name="preferred_format_desc">複数提供される場合に選択される形式</string>
     <string name="video_format">動画形式</string>
     <string name="start_download">ダウンロード</string>
     <string name="download_desc">設定後、「ダウンロード」をクリックしてください。</string>
@@ -94,7 +94,7 @@
     <string name="open_settings">設定を開く</string>
     <string name="error_copied">エラーレポートがクリップボードにコピーされました</string>
     <string name="format">フォーマット</string>
-    <string name="audio_format_desc">音声ファイルの再エンコードは音質の悪化とファイルサイズの増大を引き起こします。</string>
+    <string name="convert_audio_format_desc">音声ファイルの再エンコードは音質の悪化とファイルサイズの増大を引き起こします。</string>
     <string name="close">閉じる</string>
     <string name="close_never_show_again">再度表示しない</string>
     <string name="user_guide">ユーザーガイド</string>

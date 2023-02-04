@@ -5,7 +5,7 @@
     <string name="create_thumbnail">ਥੰਮਨੇਲ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="settings">ਸੈਟਿੰਗਾਂ</string>
     <string name="download">ਡਾਊਨਲੋਡ ਕਰੋ</string>
-    <string name="audio_format_desc">ਆਡੀਓ ਫਾਈਲਾਂ ਨੂੰ ਮੁੜ-ਇਨਕੋਡਿੰਗ ਕਰਨ ਨਾਲ ਆਡੀਓ ਗੁਣਵੱਤਾ ਵਿੱਚ ਕਮੀ ਆਵੇਗੀ ਅਤੇ ਫਾਈਲ ਦੇ ਆਕਾਰ ਵਿੱਚ ਵਾਧਾ ਹੋਵੇਗਾ।</string>
+    <string name="convert_audio_format_desc">ਆਡੀਓ ਫਾਈਲਾਂ ਨੂੰ ਮੁੜ-ਇਨਕੋਡਿੰਗ ਕਰਨ ਨਾਲ ਆਡੀਓ ਗੁਣਵੱਤਾ ਵਿੱਚ ਕਮੀ ਆਵੇਗੀ ਅਤੇ ਫਾਈਲ ਦੇ ਆਕਾਰ ਵਿੱਚ ਵਾਧਾ ਹੋਵੇਗਾ।</string>
     <string name="custom_command_desc">ਕਸਟਮ ਟੈਮਪਲੇਟ ਨਾਲ yt-dlp ਕਮਾਂਡ ਚਲਾਓ</string>
     <string name="print_details">ਵਿਸਤ੍ਰਿਤ ਆਉਟਪੁੱਟ</string>
     <string name="print_details_desc">ਡਾਊਨਲੋਡ ਕਰਨ ਵੇਲੇ ਵਿਸਤ੍ਰਿਤ ਸੁਨੇਹੇ ਪ੍ਰਿੰਟ ਕਰੋ</string>
@@ -70,7 +70,7 @@
     <string name="error_copied">ਤਰੁੱਟੀ ਰਿਪੋਰਟ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤੀ ਗਈ</string>
     <string name="thumbnail">ਥੰਮਨੇਲ</string>
     <string name="edit_template_desc">ਆਉਟਪੁੱਟ ਮਾਰਗ ਅਤੇ URL ਐਪ ਦੁਆਰਾ ਜੋੜਿਆ ਜਾਵੇਗਾ।</string>
-    <string name="audio_format">ਆਡੀਓ ਫਾਰਮੈਟ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="convert_audio_format">ਆਡੀਓ ਫਾਰਮੈਟ ਵਿੱਚ ਬਦਲੋ</string>
     <string name="not_convert">ਅਣਬਦਲਿਆ</string>
     <string name="convert_to">%1$s ਵਿੱਚ ਬਦਲੋ</string>
     <string name="format">ਫਾਰਮੈਟ</string>
@@ -79,7 +79,7 @@
     <string name="video_quality_desc">ਫਾਰਮੈਟ ਗੁਣਵੱਤਾ ਅਤੇ ਫਾਈਲ ਆਕਾਰ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
     <string name="not_specified">ਅਣਨਿਰਦੇਸ਼ਤ (ਡਿਫ਼ਾਲਟ)</string>
     <string name="video_format_preference">ਪਸੰਦੀਦਾ ਵੀਡੀਓ ਫਾਰਮੈਟ</string>
-    <string name="video_format_desc">ਇੱਕ ਤੋਂ ਵੱਧ ਪ੍ਰਦਾਨ ਕੀਤੇ ਜਾਣ \'ਤੇ ਫਾਰਮੈਟ ਚੁਣਿਆ ਗਿਆ</string>
+    <string name="preferred_format_desc">ਇੱਕ ਤੋਂ ਵੱਧ ਪ੍ਰਦਾਨ ਕੀਤੇ ਜਾਣ \'ਤੇ ਫਾਰਮੈਟ ਚੁਣਿਆ ਗਿਆ</string>
     <string name="video_format">ਵੀਡੀਓ ਫਾਰਮੈਟ</string>
     <string name="convert_audio">ਬਦਲੋ</string>
     <string name="start_download">ਡਾਊਨਲੋਡ ਕਰੋ</string>

@@ -48,7 +48,7 @@
     <string name="advanced_settings">അഡ്വാൻസ്ഡ്</string>
     <string name="print_details">വിശദമായ ഔട്ട്പുട്ട്</string>
     <string name="yt_dlp_docs">Yt-dlp ഉപയോഗ റഫറൻസുകൾ</string>
-    <string name="audio_format">ഓഡിയോ ഫോർമാറ്റ് പരിവർത്തനം ചെയ്യുക</string>
+    <string name="convert_audio_format">ഓഡിയോ ഫോർമാറ്റ് പരിവർത്തനം ചെയ്യുക</string>
     <string name="convert_to">%1$s ലേക്ക് പരിവർത്തനം ചെയ്യുക</string>
     <string name="video_quality">വീഡിയോ ഗുണനിലവാരം</string>
     <string name="video_format">വീഡിയോ ഫോർമാറ്റ്</string>
@@ -87,7 +87,7 @@
     <string name="format">ഫോർമാറ്റ്</string>
     <string name="paste">പേസ്റ്റ് ചെയ്യുക</string>
     <string name="edit_template_desc">ഔട്ട്പുട്ട് പാത്തും URL-ഉം ആപ്ലിക്കേഷൻ ചേർക്കും.</string>
-    <string name="audio_format_desc">ഓഡിയോ ഫയലുകൾ വീണ്ടും എൻകോഡ് ചെയ്യുന്നത് ഓഡിയോ നിലവാരം നഷ്‌ടപ്പെടുത്താനും ഫയലിന്റെ വലുപ്പം വർദ്ധിപ്പിക്കാനും ഇടയാക്കും.</string>
+    <string name="convert_audio_format_desc">ഓഡിയോ ഫയലുകൾ വീണ്ടും എൻകോഡ് ചെയ്യുന്നത് ഓഡിയോ നിലവാരം നഷ്‌ടപ്പെടുത്താനും ഫയലിന്റെ വലുപ്പം വർദ്ധിപ്പിക്കാനും ഇടയാക്കും.</string>
     <string name="best_quality">മികച്ച നിലവാരം (ഡിഫോൾട്ട്)</string>
     <string name="download_desc">അതിന്റെ ക്രമീകരണങ്ങൾ ക്രമീകരിച്ചതിന് ശേഷം \"ഡൗൺലോഡ്\" ക്ലിക്ക് ചെയ്യുക.</string>
     <string name="not_specified">വ്യക്തമാക്കിയിട്ടില്ല (സ്വതവേയുള്ളത്)</string>
@@ -96,7 +96,7 @@
     <string name="download_playlist">പ്ലേലിസ്റ്റ് ഡൌൺലോഡ് ചെയ്യുക</string>
     <string name="video_quality_desc">ഫോർമാറ്റ് ഗുണനിലവാരവും ഫയൽ വലുപ്പവും പരിമിതപ്പെടുത്തുക</string>
     <string name="video_format_preference">തിരഞ്ഞെടുത്ത വീഡിയോ ഫോർമാറ്റ്</string>
-    <string name="video_format_desc">ഒന്നിലധികം നൽകുമ്പോൾ തിരഞ്ഞെടുത്ത ഫോർമാറ്റ്</string>
+    <string name="preferred_format_desc">ഒന്നിലധികം നൽകുമ്പോൾ തിരഞ്ഞെടുത്ത ഫോർമാറ്റ്</string>
     <string name="user_guide">ഉപയോക്തൃ ഗൈഡ്</string>
     <string name="open_settings">ക്രമീകരണങ്ങൾ തുറക്കുക</string>
     <string name="paste_desc">നിങ്ങളുടെ ക്ലിപ്പ്ബോർഡിൽ നിന്ന് വീഡിയോ ലിങ്ക് ലഭിക്കാൻ \"ഒട്ടിക്കുക\" ക്ലിക്ക് ചെയ്യുക.</string>

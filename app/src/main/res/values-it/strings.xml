@@ -41,7 +41,7 @@
     <string name="edit_template_desc">Il percorso di output e l\'URL verrano aggiunti dall\'applicazione.</string>
     <string name="not_convert">Non convertito</string>
     <string name="format">Formato</string>
-    <string name="audio_format_desc">La ri-codifica dei file audio comporta una perdita di qualità audio e un aumento delle dimensioni del file.</string>
+    <string name="convert_audio_format_desc">La ri-codifica dei file audio comporta una perdita di qualità audio e un aumento delle dimensioni del file.</string>
     <string name="best_quality">Qualità migliore (predefinito)</string>
     <string name="video_format_preference">Formato video preferito</string>
     <string name="video_directory">Cartella video</string>
@@ -73,13 +73,13 @@
     <string name="follow_system">Sistema</string>
     <string name="off">Disattivato</string>
     <string name="on">Attivato</string>
-    <string name="audio_format">Converti il formato audio</string>
+    <string name="convert_audio_format">Converti il formato audio</string>
     <string name="convert_to">Converti in %1$s</string>
     <string name="video_quality">Qualità video</string>
     <string name="not_specified">Non specificato (predefinito)</string>
     <string name="video_quality_desc">Limitare la qualità del formato e le dimensioni del file</string>
     <string name="thumbnail">miniatura</string>
-    <string name="video_format_desc">Formato predefinito quando ne sono forniti molteplici</string>
+    <string name="preferred_format_desc">Formato predefinito quando ne sono forniti molteplici</string>
     <string name="video_format">Formato video</string>
     <string name="paste_desc">Clicca «Incolla» per ottenere il collegamento del video dai tuoi appunti.</string>
     <string name="download_desc">Poi clicca «Scarica» dopo aver aggiustato le sue impostazioni.</string>

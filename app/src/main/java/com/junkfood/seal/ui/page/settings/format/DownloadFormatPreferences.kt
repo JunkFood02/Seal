@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Subtitles
+import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,11 +33,14 @@ import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
+import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SUBTITLE
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,13 +63,16 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
         )
     }
 
-    var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
-    var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
-    var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
-
-    var showAudioFormatEditDialog by remember { mutableStateOf(false) }
+    var showAudioFormatDialog by remember { mutableStateOf(false) }
+    var showAudioConvertDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+
+    var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
+    var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
+    var convertFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertDesc()) }
+    var audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
+    var convertAudio by AUDIO_CONVERT.booleanState
 
     Scaffold(
         modifier = Modifier
@@ -113,11 +120,26 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 }
                 item {
                     PreferenceItem(
-                        title = stringResource(R.string.audio_format),
+                        title = stringResource(id = R.string.audio_format_preference),
                         description = audioFormat,
                         icon = Icons.Outlined.AudioFile,
-                        enabled = audioSwitch && !isCustomCommandEnabled
-                    ) { showAudioFormatEditDialog = true }
+                        enabled = !isCustomCommandEnabled,
+                        onClick = { showAudioFormatDialog = true }
+                    )
+                }
+                item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.convert_audio_format),
+                        description = convertFormat,
+                        icon = Icons.Outlined.Sync,
+                        enabled = audioSwitch && !isCustomCommandEnabled,
+                        onClick = { showAudioConvertDialog = true },
+                        isChecked = convertAudio,
+                        onChecked = {
+                            convertAudio = !convertAudio
+                            AUDIO_CONVERT.updateBoolean(convertAudio)
+                        }
+                    )
                 }
                 item {
                     PreferenceSwitch(
@@ -180,9 +202,12 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 }
             }
         })
-    if (showAudioFormatEditDialog) {
-        AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false }) {
-            audioFormat = PreferenceUtil.getAudioFormatDesc()
+    if (showAudioFormatDialog) {
+        AudioFormatDialog { showAudioFormatDialog = false }
+    }
+    if (showAudioConvertDialog) {
+        AudioConversionDialog(onDismissRequest = { showAudioConvertDialog = false }) {
+            convertFormat = PreferenceUtil.getAudioConvertDesc()
         }
     }
     if (showVideoQualityDialog) {

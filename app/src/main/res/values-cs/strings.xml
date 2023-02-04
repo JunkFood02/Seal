@@ -42,13 +42,13 @@
     <string name="thumbnail">miniatura</string>
     <string name="paste">Vložit</string>
     <string name="yt_dlp_docs">Návod k používání yt-dlp</string>
-    <string name="audio_format">Převedený audio formát</string>
+    <string name="convert_audio_format">Převedený audio formát</string>
     <string name="not_convert">Nepřevedeno</string>
     <string name="convert_to">Převést na %1$s</string>
-    <string name="audio_format_desc">Audio v mp3 nebo m4a funguje na většině zařízení</string>
+    <string name="convert_audio_format_desc">Audio v mp3 nebo m4a funguje na většině zařízení</string>
     <string name="video_quality">Kvalita videa</string>
     <string name="not_specified">Nespecifikována (výchozí)</string>
-    <string name="video_format_desc">Vybraný formát videa při poskytnutí více formátů</string>
+    <string name="preferred_format_desc">Vybraný formát videa při poskytnutí více formátů</string>
     <string name="start_download">Stáhnout</string>
     <string name="close_never_show_again">Již nezobrazovat</string>
     <string name="user_guide">Uživatelská příručka</string>

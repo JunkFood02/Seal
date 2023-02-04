@@ -71,17 +71,17 @@
     <string name="paste">Paste</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL will be added by the app.</string>
-    <string name="audio_format">Convert audio format</string>
+    <string name="convert_audio_format">Convert audio format</string>
     <string name="not_convert">Unconverted</string>
     <string name="convert_to">Convert to %1$s</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">Re-encoding audio files will cause loss in audio quality and increase in file size.</string>
+    <string name="convert_audio_format_desc">Re-encoding audio files will cause loss in audio quality and increase in file size.</string>
     <string name="video_quality">Video quality</string>
     <string name="best_quality">Best quality (default)</string>
     <string name="video_quality_desc">Limit the format quality and the file size</string>
     <string name="not_specified">Not specified (default)</string>
     <string name="video_format_preference">Preferred video format</string>
-    <string name="video_format_desc">Chosen format when multiple are provided</string>
+    <string name="preferred_format_desc">Chosen format when multiple are provided</string>
     <string name="video_format">Video format</string>
     <string name="convert_audio">Convert</string>
     <string name="start_download">Download</string>
@@ -308,5 +308,7 @@
     <string name="clip_video">Clip video</string>
     <string name="clip_start">Start</string>
     <string name="clip_end">End</string>
+    <string name="audio_format_preference">Preferred audio format</string>
+    <string name="unlimited">Unlimited</string>
 
 </resources>

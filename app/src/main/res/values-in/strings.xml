@@ -34,12 +34,12 @@
     <string name="thumbnail">Gambar mini</string>
     <string name="paste">Tempel</string>
     <string name="edit_template_desc">Jalur keluar dan URL akan ditambahkan oleh aplikasi.</string>
-    <string name="audio_format">Ubah format audio</string>
+    <string name="convert_audio_format">Ubah format audio</string>
     <string name="not_convert">Tidak diubah</string>
-    <string name="audio_format_desc">Mengenkode ulang berkas audio akan menyebabkan kehilangan kualitas audio dan perbesaran ukuran berkas.</string>
+    <string name="convert_audio_format_desc">Mengenkode ulang berkas audio akan menyebabkan kehilangan kualitas audio dan perbesaran ukuran berkas.</string>
     <string name="video_quality">Kualitas video</string>
     <string name="best_quality">Kualitas terbaik (bawaan)</string>
-    <string name="video_format_desc">Format yang dipilih ketika beberapa disediakan</string>
+    <string name="preferred_format_desc">Format yang dipilih ketika beberapa disediakan</string>
     <string name="video_format">Format video</string>
     <string name="convert_audio">Ubah</string>
     <string name="start_download">Unduh</string>

@@ -75,7 +75,7 @@
     <string name="not_specified">Non spécifié (par défaut)</string>
     <string name="user_guide">Guide de l\'utilisateur</string>
     <string name="playlist_indicator_text">Téléchargement de la liste de lecture (%1$d/%2$d). Appuyez pour arrêter.</string>
-    <string name="video_format_desc">Format choisi lorsque plusieurs sont fournis</string>
+    <string name="preferred_format_desc">Format choisi lorsque plusieurs sont fournis</string>
     <string name="close_never_show_again">Ne plus afficher</string>
     <string name="download_history_desc">Vérifiez et gérez les téléchargements dans l\'appli, y compris les vidéos et les fichiers audio.</string>
     <string name="error_copied">Rapport d\'erreur copié dans le presse-papiers</string>
@@ -123,8 +123,8 @@
     <string name="to">Fin</string>
     <string name="invalid_index_range">Plage d\'index invalide</string>
     <string name="channel_description">Notification des fichiers téléchargés et de leur progression</string>
-    <string name="audio_format">Convertir le format audio</string>
-    <string name="audio_format_desc">Le réencodage des fichiers audio entraîne une perte de qualité audio et une augmentation de la taille du fichier.</string>
+    <string name="convert_audio_format">Convertir le format audio</string>
+    <string name="convert_audio_format_desc">Le réencodage des fichiers audio entraîne une perte de qualité audio et une augmentation de la taille du fichier.</string>
     <string name="best_quality">Meilleure qualité (par défaut)</string>
     <string name="video_quality_desc">Limiter la qualité du format et la taille du fichier</string>
     <string name="open_settings">Ouvrir les paramètres</string>

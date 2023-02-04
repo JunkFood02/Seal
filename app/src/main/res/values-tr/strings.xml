@@ -43,7 +43,7 @@
     <string name="format">Biçim</string>
     <string name="edit_template_desc">Çıktı yolu ve URL, uygulama tarafından eklenecektir.</string>
     <string name="convert_to">%1$s\'a dönüştür</string>
-    <string name="video_format_desc">Birden çok sağlandığında seçilen format</string>
+    <string name="preferred_format_desc">Birden çok sağlandığında seçilen format</string>
     <string name="convert_audio">Dönüştür</string>
     <string name="start_download">İndir</string>
     <string name="user_guide">Kullanıcı rehberi</string>
@@ -71,7 +71,7 @@
     <string name="permission_issue_desc">İndirilenler/ ve Belgeler/ dışındaki dizinler desteklenmez</string>
     <string name="subdirectory">Alt dizine kaydet</string>
     <string name="off">Kapalı</string>
-    <string name="audio_format_desc">Ses dosyalarının yeniden kodlanması ses kalitesinde kayba ve dosya boyutunda artışa neden olacaktır.</string>
+    <string name="convert_audio_format_desc">Ses dosyalarının yeniden kodlanması ses kalitesinde kayba ve dosya boyutunda artışa neden olacaktır.</string>
     <string name="video_quality">Video kalitesi</string>
     <string name="not_specified">Belirtilmemiş (varsayılan)</string>
     <string name="dismiss">İptal et</string>
@@ -91,7 +91,7 @@
     <string name="delete_file">Sil</string>
     <string name="credits_desc">Künye ve libre yazılımlar</string>
     <string name="print_details">Detaylı çıktı</string>
-    <string name="audio_format">Ses formatını dönüştür</string>
+    <string name="convert_audio_format">Ses formatını dönüştür</string>
     <string name="release_desc">Güncelleme günlüklerine ve yeni sürümlere bakın</string>
     <string name="custom_command">Özel komut</string>
     <string name="edit">Düzenle</string>

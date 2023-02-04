@@ -45,7 +45,7 @@
     <string name="error_copied">Relatório de erros copiado para a área de transferência</string>
     <string name="paste">Colar</string>
     <string name="yt_dlp_docs">Referências de uso do Yt-dlp</string>
-    <string name="audio_format">Converter formato de áudio</string>
+    <string name="convert_audio_format">Converter formato de áudio</string>
     <string name="not_convert">Não convertido</string>
     <string name="convert_to">Converter para %1$s</string>
     <string name="format">Formato</string>
@@ -65,9 +65,9 @@
     <string name="video_format">Formato de vídeo</string>
     <string name="release_desc">Procure por changelogs e novas versões</string>
     <string name="edit_template_desc">O caminho de saída e a URL serão adicionados pelo aplicativo.</string>
-    <string name="audio_format_desc">Áudio em MP3 ou M4A funciona na maioria dos dispositivos</string>
+    <string name="convert_audio_format_desc">Áudio em MP3 ou M4A funciona na maioria dos dispositivos</string>
     <string name="video_quality">Qualidade de vídeo</string>
-    <string name="video_format_desc">Formato escolhido quando vários são fornecidos</string>
+    <string name="preferred_format_desc">Formato escolhido quando vários são fornecidos</string>
     <string name="language">Idioma de exibição</string>
     <string name="language_settings">Definir idioma de exibição</string>
     <string name="close_never_show_again">Não apareça novamente</string>

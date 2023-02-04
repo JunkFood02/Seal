@@ -46,10 +46,10 @@
     <string name="yt_dlp_docs">مراجع استخدام Yt-dlp</string>
     <string name="convert_to">التحويل إلى%1$s</string>
     <string name="format">الصيغ</string>
-    <string name="audio_format">تحويل صيغة الصوت</string>
+    <string name="convert_audio_format">تحويل صيغة الصوت</string>
     <string name="video_quality_desc">حد جودة الفيديو وحجم الملف</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
-    <string name="video_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
+    <string name="preferred_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
     <string name="video_format">صيغة الفيديو</string>
     <string name="convert_audio">تحويل</string>
     <string name="start_download">تحميل</string>
@@ -103,7 +103,7 @@
     <string name="close_never_show_again">لا تظهر مرة أخرى</string>
     <string name="not_convert">غير محول</string>
     <string name="additional_settings">إعدادات إضافية</string>
-    <string name="audio_format_desc">إعادة صياغة ملفات الصوت يسبب انخفاض بجودة الصوت وازدياد حجم الملف.</string>
+    <string name="convert_audio_format_desc">إعادة صياغة ملفات الصوت يسبب انخفاض بجودة الصوت وازدياد حجم الملف.</string>
     <string name="video_quality">جودة الفيديو</string>
     <string name="best_quality">أفضل جودة (افتراضي)</string>
     <string name="not_specified">غير محدد (افتراضي)</string>

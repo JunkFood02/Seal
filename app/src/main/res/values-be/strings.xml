@@ -80,13 +80,13 @@
     <string name="not_convert">Не канвертаваць</string>
     <string name="convert_to">Пераўтварыць у %1$s</string>
     <string name="format">Фармат</string>
-    <string name="audio_format_desc">Аўдыё ў фармаце MP3 або M4A працуе на большасці прылад</string>
+    <string name="convert_audio_format_desc">Аўдыё ў фармаце MP3 або M4A працуе на большасці прылад</string>
     <string name="video_quality">Якасць відэа</string>
     <string name="best_quality">Найлепшая якасць (па змаўчанні)</string>
     <string name="video_quality_desc">Абмежаваць якасць і памер файла</string>
     <string name="not_specified">Не ўказана (па змаўчанні)</string>
     <string name="video_format_preference">Пераважны фармат відэа</string>
-    <string name="video_format_desc">Выбраны фармат, калі прадастаўлена некалькі</string>
+    <string name="preferred_format_desc">Выбраны фармат, калі прадастаўлена некалькі</string>
     <string name="video_format">Фармат відэа</string>
     <string name="convert_audio">Канвертаваць</string>
     <string name="start_download">Спампаваць</string>
@@ -101,7 +101,7 @@
     <string name="battery_settings_desc">Каб спампоўваць у фонавым рэжыме, усталюйце ў сістэмных наладах \"Неабмежаваны\" расход батарэі для гэтай праграмы.</string>
     <string name="concurrent_download">Спампаваць некалькі частак</string>
     <string name="concurrent_download_desc">Спампоўвайце больш частак відэа M3U8/MPD паралельна</string>
-    <string name="audio_format">Канвертаваць фармат аўдыё</string>
+    <string name="convert_audio_format">Канвертаваць фармат аўдыё</string>
     <string name="subdirectory">Захаваць у падкаталог</string>
     <string name="concurrent_download_num">%d патокаў будзе выкарыстана для адначасовай спампоўкі відэа DASH/HLS.</string>
     <string name="options">Налады</string>

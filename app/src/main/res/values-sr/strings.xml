@@ -75,7 +75,7 @@
     <string name="settings_before_download_text">Прилагодите ово преузимање</string>
     <string name="error_copied">Извештај о грешци је копиран у привремену меморију</string>
     <string name="thumbnail">сличица</string>
-    <string name="audio_format_desc">Поновно кодирање аудио фајлова узроковаће губитак квалитета звука и повећање величине фајла.</string>
+    <string name="convert_audio_format_desc">Поновно кодирање аудио фајлова узроковаће губитак квалитета звука и повећање величине фајла.</string>
     <string name="video_quality">Квалитет видеа</string>
     <string name="video_quality_desc">Ограничите квалитет формата и величину фајла</string>
     <string name="convert_audio">Претворите</string>
@@ -191,7 +191,7 @@
     <string name="dark_theme">Тамни режим</string>
     <string name="follow_system">Системски</string>
     <string name="on">Укључено</string>
-    <string name="audio_format">Претварање аудио формата</string>
+    <string name="convert_audio_format">Претварање аудио формата</string>
     <string name="yt_dlp_docs">Yt-dlp референце о употреби</string>
     <string name="edit_template_desc">Апликација ће додати излазну путању и URL.</string>
     <string name="convert_to">Претворите у %1$s</string>
@@ -201,7 +201,7 @@
     <string name="best_quality">Најбољи квалитет (подразумевано)</string>
     <string name="export_to_clipboard">Извезите у привремену меморију</string>
     <string name="import_from_clipboard">Увезите из привремене меморије</string>
-    <string name="video_format_desc">Изабрани формат када их је доступно више</string>
+    <string name="preferred_format_desc">Изабрани формат када их је доступно више</string>
     <string name="close">Затворите</string>
     <string name="close_never_show_again">Не приказуј поново</string>
     <string name="start_download">Преузмите</string>

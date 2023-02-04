@@ -82,13 +82,13 @@
     <string name="thumbnail">miniatura</string>
     <string name="settings_before_download_text">Ayusin itong download</string>
     <string name="not_convert">Hindi binago</string>
-    <string name="audio_format">Palitan ang audio format</string>
+    <string name="convert_audio_format">Palitan ang audio format</string>
     <string name="video_quality">Quality ng video</string>
     <string name="video_format_preference">Gustong pormat ng video</string>
     <string name="edit_template_desc">output path at URL ay i dadag-dag ng app.</string>
     <string name="convert_to">I-convert sa %1$s</string>
     <string name="best_quality">Pinakamahusay na kalidad (kasalukuyan)</string>
-    <string name="video_format_desc">Napiling pormat kapag marami ang ibinigay</string>
+    <string name="preferred_format_desc">Napiling pormat kapag marami ang ibinigay</string>
     <string name="open_settings">I-open ang settings</string>
     <string name="paste_desc">Pindutin ang \"Paste\" upang makuha ang video link na galing sa iyong clipboard.</string>
     <string name="link_copied">Ang link ay kinopya na sa clipboard</string>
@@ -118,7 +118,7 @@
     <string name="settings_before_download_desc">I-configure ang preferences bago mag download</string>
     <string name="error_copied">Ulat ng error kinopya sa clipboard</string>
     <string name="paste">I-paste</string>
-    <string name="audio_format_desc">Ang audio pormat na MP3 at M4A ay gagana sa lahat ng devices</string>
+    <string name="convert_audio_format_desc">Ang audio pormat na MP3 at M4A ay gagana sa lahat ng devices</string>
     <string name="start_download">Download</string>
     <string name="user_guide">Gabay para sa gumagamit</string>
     <string name="off">Naka-off</string>

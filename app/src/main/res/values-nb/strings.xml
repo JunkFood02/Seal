@@ -22,7 +22,7 @@
     <string name="cancel">Avbryt</string>
     <string name="thumbnail">miniatyrbilde</string>
     <string name="paste">Lim inn</string>
-    <string name="audio_format">Konverter lydformat</string>
+    <string name="convert_audio_format">Konverter lydformat</string>
     <string name="video_quality">Videokvalitet</string>
     <string name="video_format">Videoformat</string>
     <string name="close">Lukk</string>
@@ -65,14 +65,14 @@
     <string name="display_settings">Mørk drakt, dynamisk farge, språk</string>
     <string name="service_title">Seal laster ned …</string>
     <string name="video_format_preference">Foretrukket videoformat</string>
-    <string name="video_format_desc">Valgt format når flere tilbys</string>
+    <string name="preferred_format_desc">Valgt format når flere tilbys</string>
     <string name="paste_desc">Klikk «Lim inn» for å hente videolenken fra utklippstavlen din.</string>
     <string name="download_history_desc">Sjekk og håndter nedlastninger i programmet, inkludert video- og lydfiler.</string>
     <string name="channel_description">Merknad om nedlastingsframdrift og fullføring</string>
     <string name="settings_before_download_desc">Sett opp innstillinger før nedlastning</string>
     <string name="settings_before_download_text">Juster denne nedlastingen</string>
     <string name="error_copied">Feilrapport kopiert til utklippstavlen</string>
-    <string name="audio_format_desc">Lyd i MP3 eller M4A-format fungerer på de fleste enheter</string>
+    <string name="convert_audio_format_desc">Lyd i MP3 eller M4A-format fungerer på de fleste enheter</string>
     <string name="battery_configuration_desc">Ignorer batterioptimaliseringer for bakgrunnsnedlastinger i dette programmet</string>
     <string name="permission_issue_desc">Mapper utenfor Download/ og Documents/ støttes ikke</string>
     <string name="options">Alternativer</string>

@@ -75,10 +75,10 @@
     <string name="paste">Lim ind</string>
     <string name="yt_dlp_docs">Brugsreference for yt-dlp</string>
     <string name="convert_to">Konverter til %1$s</string>
-    <string name="audio_format_desc">Lyd i MP3 eller M4A lader sig spille på de fleste enheder</string>
+    <string name="convert_audio_format_desc">Lyd i MP3 eller M4A lader sig spille på de fleste enheder</string>
     <string name="video_quality">Videokvalitet:</string>
     <string name="not_specified">Ikke angivet (forvalg)</string>
-    <string name="video_format_desc">Valgt format når flere forefindes</string>
+    <string name="preferred_format_desc">Valgt format når flere forefindes</string>
     <string name="settings_before_download">Konfigurer før nedlastning</string>
     <string name="display_settings">Mørk dragt, dynamiske farver, sprog</string>
     <string name="dark_theme">Mørk dragt</string>
@@ -89,7 +89,7 @@
     <string name="error_copied">Fejlrapport kopieret til udklipsholderen</string>
     <string name="thumbnail">miniaturbilde</string>
     <string name="edit_template_desc">Uddatasti og URL vil blive tillagt af programmet.</string>
-    <string name="audio_format">Konverter lydformat</string>
+    <string name="convert_audio_format">Konverter lydformat</string>
     <string name="not_convert">Ukonverteret</string>
     <string name="best_quality">Bedste kvalitet (forvalg)</string>
     <string name="video_quality_desc">Begræns formatkvaliteten til dette niveau</string>

@@ -37,7 +37,7 @@
     <string name="user_guide">Руководство пользователя</string>
     <string name="open_settings">Открыть настройки</string>
     <string name="video_quality_desc">Ограничьте качество и размер файла этими настройками</string>
-    <string name="video_format_desc">Выбранный формат, если доступны несколько</string>
+    <string name="preferred_format_desc">Выбранный формат, если доступны несколько</string>
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
     <string name="channel_description">Уведомлять о загруженных файлах и прогрессе</string>
@@ -93,11 +93,11 @@
     <string name="paste">Вставить</string>
     <string name="follow_system">Системная</string>
     <string name="convert_to">Преобразовать в %1$s</string>
-    <string name="audio_format">Преобразование аудиоформата</string>
+    <string name="convert_audio_format">Преобразование аудиоформата</string>
     <string name="not_convert">Не преобразовывать</string>
     <string name="on">Включено</string>
     <string name="off">Отключено</string>
-    <string name="audio_format_desc">Перекодирование аудиофайлов создаст потерю качества и увеличит размер файла.</string>
+    <string name="convert_audio_format_desc">Перекодирование аудиофайлов создаст потерю качества и увеличит размер файла.</string>
     <string name="video_format">Формат видео</string>
     <string name="best_quality">Наилучшее качество (по умолчанию)</string>
     <string name="convert_audio">Преобразовать</string>

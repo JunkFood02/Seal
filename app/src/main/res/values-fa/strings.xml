@@ -66,11 +66,11 @@
     <string name="thumbnail">تصویر شاخص</string>
     <string name="paste">چسباندن</string>
     <string name="yt_dlp_docs">مراجع استفاده از Yt-dlp</string>
-    <string name="audio_format">تبدیل فرمت صدا</string>
+    <string name="convert_audio_format">تبدیل فرمت صدا</string>
     <string name="convert_to">تبدیل به %1$s</string>
     <string name="format">فرمت</string>
-    <string name="audio_format_desc">صدا با فرمت MP3 یا M4A در اکثر دستگاه ها کار می کند</string>
-    <string name="video_format_desc">فرمت انتخاب شده زمانی که چندین مورد انتخاب می شود</string>
+    <string name="convert_audio_format_desc">صدا با فرمت MP3 یا M4A در اکثر دستگاه ها کار می کند</string>
+    <string name="preferred_format_desc">فرمت انتخاب شده زمانی که چندین مورد انتخاب می شود</string>
     <string name="close">بستن</string>
     <string name="close_never_show_again">دوباره نمایش نده</string>
     <string name="open_settings">باز کردن تنظیمات</string>

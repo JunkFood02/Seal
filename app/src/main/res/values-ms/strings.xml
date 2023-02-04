@@ -69,7 +69,7 @@
     <string name="cancel">Batal</string>
     <string name="yt_dlp_docs">Rujukan penggunaan yt-dlp</string>
     <string name="error_copied">Laporan ralat disalin ke papan keratan</string>
-    <string name="audio_format">Ubah format audio</string>
+    <string name="convert_audio_format">Ubah format audio</string>
     <string name="not_convert">Tidak boleh diubah</string>
     <string name="convert_to">Ubah ke %1$s</string>
     <string name="format">Format</string>
@@ -77,7 +77,7 @@
     <string name="video_quality_desc">Hadkan qualiti format dan saiz fail</string>
     <string name="not_specified">Tidak dinyatakan (tetapan asal)</string>
     <string name="video_format_preference">Format video yang digemari</string>
-    <string name="video_format_desc">Format yang dipilih apabila terdapat pelbagai pilihan</string>
+    <string name="preferred_format_desc">Format yang dipilih apabila terdapat pelbagai pilihan</string>
     <string name="start_download">Muat turun</string>
     <string name="close">Tutup</string>
     <string name="close_never_show_again">Jangan tunjuk untuk selama-lamanya</string>
@@ -139,7 +139,7 @@
     <string name="template_exported">Eksport %1$d templat</string>
     <string name="video_format">Format video</string>
     <string name="download_desc">Kemudian tekan \"Muat turun\" selepas melaras tetapannya.</string>
-    <string name="audio_format_desc">Audio dalam format MP3 atau M4A lebih stabil untuk kebanyakan peranti</string>
+    <string name="convert_audio_format_desc">Audio dalam format MP3 atau M4A lebih stabil untuk kebanyakan peranti</string>
     <string name="video_quality">Qualiti video</string>
     <string name="download_directory_desc">Pilih tempat untuk menyimpan fail video dan audio</string>
     <string name="embed_subtitles_desc">Jika boleh, benamkan seri kata ke dalam video</string>

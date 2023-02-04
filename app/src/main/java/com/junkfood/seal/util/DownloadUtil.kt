@@ -23,6 +23,7 @@ import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
@@ -120,7 +121,9 @@ object DownloadUtil {
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
         val cookies: Boolean = PreferenceUtil.getValue(COOKIES),
         val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
-        val audioFormat: Int = PreferenceUtil.getAudioFormat(),
+        val audioFormat: Int = AUDIO_FORMAT.getInt(),
+        val convertAudio: Boolean = AUDIO_CONVERT.getBoolean(),
+        val audioConvertFormat: Int = PreferenceUtil.getAudioConvertFormat(),
         val videoFormat: Int = PreferenceUtil.getVideoFormat(),
         val formatId: String = "",
         val videoResolution: Int = PreferenceUtil.getVideoResolution(),
@@ -153,7 +156,7 @@ object DownloadUtil {
     ): YoutubeDLRequest = this.apply {
         downloadPreferences.run {
             if (formatId.isNotEmpty()) addOption("-f", formatId)
-            else addOption("-S", this.toVideoFormatSorter())
+            else addOption("-S", this.toVideoFormatSorter() + "," + this.toAudioFormatSorter())
             if (downloadSubtitle) {
                 if (autoSubtitle) {
                     addOption("--write-auto-subs")
@@ -174,6 +177,15 @@ object DownloadUtil {
 
 
     @CheckResult
+    private fun DownloadPreferences.toAudioFormatSorter(): String = StringBuilder().run {
+        when (audioFormat) {
+            M4A -> append("acodec:m4a")
+            OPUS -> append("acodec:opus")
+            else -> append("acodec")
+        }
+    }.toString()
+
+    @CheckResult
     private fun DownloadPreferences.toVideoFormatSorter(): String = StringBuilder().run {
         if (maxFileSize.isNumberInRange(1, 4096)) {
             append("size:${maxFileSize}M,")
@@ -190,7 +202,7 @@ object DownloadUtil {
             4 -> append("res:720")
             5 -> append("res:480")
             6 -> append("res:360")
-            7 -> append("+size,+br,+res,+fps")
+            7 -> append("+res")
             else -> append("res")
         }
     }.toString()
@@ -201,8 +213,8 @@ object DownloadUtil {
         with(downloadPreferences) {
             addOption("-x")
             if (formatId.isNotEmpty()) addOption("-f", formatId)
-            else {
-                when (audioFormat) {
+            else if (convertAudio) {
+                when (audioConvertFormat) {
                     1 -> {
                         addOption("--audio-format", "mp3")
                     }
@@ -211,6 +223,8 @@ object DownloadUtil {
                         addOption("--audio-format", "m4a")
                     }
                 }
+            } else if (audioFormat != 0) {
+                addOption("-S", toAudioFormatSorter())
             }
             addOption("--embed-metadata")
             addOption("--embed-thumbnail")

@@ -31,13 +31,13 @@
     <string name="paste">Lim inn</string>
     <string name="yt_dlp_docs">Tilråding for bruk av yt-dlp</string>
     <string name="format">Format</string>
-    <string name="audio_format_desc">Omlaging av ljodfiler fører til tap av ljodkvalitet og auking av filstorleik.</string>
+    <string name="convert_audio_format_desc">Omlaging av ljodfiler fører til tap av ljodkvalitet og auking av filstorleik.</string>
     <string name="video_quality">Videokvalitet</string>
     <string name="best_quality">Beste kvalitet (forval)</string>
     <string name="video_quality_desc">Avgrens formatkvaliteten og filstorleiken</string>
     <string name="not_specified">Ikkje oppgjeve (forval)</string>
     <string name="video_format_preference">Ynskt videoformat</string>
-    <string name="video_format_desc">Valt format når fleire vert tilbodne</string>
+    <string name="preferred_format_desc">Valt format når fleire vert tilbodne</string>
     <string name="extract_audio_summary">Hent og gøym ljod i staden for video</string>
     <string name="fetching_info">Hentar videoopplysingar…</string>
     <string name="download_start_msg">Hent «%1$s»</string>
@@ -165,7 +165,7 @@
     <string name="checked">Granska</string>
     <string name="settings_before_download">Sett opp før henting</string>
     <string name="settings_before_download_desc">Sett opp innstillingar før henting</string>
-    <string name="audio_format">Lag om ljodformatet</string>
+    <string name="convert_audio_format">Lag om ljodformatet</string>
     <string name="not_convert">Ikkje omlaga</string>
     <string name="convert_to">Lag om til %1$s</string>
     <string name="user_guide">Brukarrettleiing</string>

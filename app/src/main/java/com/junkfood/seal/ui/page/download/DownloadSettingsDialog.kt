@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,14 +53,14 @@ import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
-import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
-import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
@@ -220,10 +219,14 @@ fun DownloadSettingDialog(
             AnimatedVisibility(visible = !customCommand) {
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     ButtonChip(
-                        onClick = { showVideoFormatDialog = true },
-                        enabled = !customCommand && !audio,
-                        label = stringResource(R.string.video_format),
-                        icon = Icons.Outlined.VideoFile
+                        onClick = {
+                            if (audio)
+                                showAudioFormatEditDialog = true else
+                                showVideoFormatDialog = true
+                        },
+                        enabled = !customCommand,
+                        label = stringResource(R.string.format),
+                        icon = if (audio) Icons.Outlined.AudioFile else Icons.Outlined.VideoFile
                     )
                     ButtonChip(
                         onClick = { showVideoQualityDialog = true },
@@ -236,12 +239,6 @@ fun DownloadSettingDialog(
                         label = stringResource(id = R.string.subtitle_language),
                         icon = Icons.Outlined.Language,
                         enabled = !customCommand && !audio && subtitle
-                    )
-                    ButtonChip(
-                        onClick = { showAudioFormatEditDialog = true },
-                        enabled = !customCommand && audio,
-                        label = stringResource(R.string.convert_audio),
-                        icon = Icons.Outlined.AudioFile
                     )
                 }
             }

@@ -77,7 +77,7 @@
     <string name="on">Ein</string>
     <string name="off">Aus</string>
     <string name="close">Schließen</string>
-    <string name="video_format_desc">Bevorzugtes Videoformat, wenn mehrere vorhanden sind</string>
+    <string name="preferred_format_desc">Bevorzugtes Videoformat, wenn mehrere vorhanden sind</string>
     <string name="not_specified">Nicht angegeben (Standard)</string>
     <string name="video_quality_desc">Begrenzung der Formatqualität und der Dateigröße</string>
     <string name="custom_command_desc">yt-dlp-Befehl mit benutzerdefinierter Vorlage ausführen</string>
@@ -87,7 +87,7 @@
     <string name="print_details">Detaillierte Ausgabe</string>
     <string name="yt_dlp_docs">Yt-dlp-Verwendungshinweise</string>
     <string name="convert_to">In %1$s konvertieren</string>
-    <string name="audio_format">Audioformat konvertieren</string>
+    <string name="convert_audio_format">Audioformat konvertieren</string>
     <string name="concurrent_download">Mehrere Teile herunterladen</string>
     <string name="concurrent_download_desc">Mehrere Teile von M3U8/MPD-Videos parallel herunterladen</string>
     <string name="show_more_actions">Weitere Aktionen anzeigen</string>
@@ -128,7 +128,7 @@
     <string name="to">Ende</string>
     <string name="invalid_index_range">Ungültiger Indexbereich</string>
     <string name="permission_issue_desc">Ordner außerhalb von Download/ und Dokumente/ werden nicht unterstützt</string>
-    <string name="audio_format_desc">Die Neukodierung von Audiodateien führt zu einem Verlust an Audioqualität und einer Vergrößerung der Datei.</string>
+    <string name="convert_audio_format_desc">Die Neukodierung von Audiodateien führt zu einem Verlust an Audioqualität und einer Vergrößerung der Datei.</string>
     <string name="from">Start</string>
     <string name="download_path_template">Ordnervorlage</string>
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
