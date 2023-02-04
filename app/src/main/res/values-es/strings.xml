@@ -249,4 +249,13 @@
     <string name="embed_subtitles_mkv_msg">Para incrustar subtítulos, los vídeos se remezclarán en un contenedor mkv.</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="filesize_gb">%.2f GB</string>
+    <string name="share">Compartir</string>
+    <string name="update_channel">Actualizar el canal</string>
+    <string name="auto_update">Actualizar automáticamente</string>
+    <string name="enable_auto_update">Habilitar la actualización automática</string>
+    <string name="pre_release_channel">Prelanzamiento</string>
+    <string name="update_channel_desc">Instala versiones preliminares para probar nuevas funciones y cambios.
+\n
+\nHabrá cierta inestabilidad en estas versiones, así que no dudes en hacernos llegar tus comentarios si experimentas algún problema para ayudarnos a mejorar la aplicación en el futuro.</string>
+    <string name="stable_channel">Estable</string>
 </resources>

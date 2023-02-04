@@ -233,14 +233,14 @@
     <string name="show_logs">Показать лог</string>
     <string name="logs">Лог</string>
     <string name="sdcard_directory">Папка SD карты</string>
-    <string name="auto_subtitle_desc">Загружать авто-сгенерированные подписи</string>
+    <string name="auto_subtitle_desc">Загружать автоматически сгенерированные субтитры</string>
     <string name="shortcuts">Ярлыки</string>
     <string name="edit_shortcuts">Редактировать ярлыки</string>
     <string name="subtitle_language">Языки субтитров</string>
-    <string name="download_subtitles">Загрузить субтитры</string>
+    <string name="download_subtitles">Загружать субтитры</string>
     <string name="title_activity_share">Быстрая загрузка</string>
     <string name="subtitle">Субтитры</string>
-    <string name="subtitle_desc">Языки, встроенные субтитры, авто-сгенерированные подписи</string>
+    <string name="subtitle_desc">Языки, встроенные субтитры, автоматические субтитры</string>
     <string name="subtitle_sponsorblock">Тайминги субтитров могут быть нарушены при удалении сегментов SponsorBlock.</string>
     <string name="edit_shortcuts_desc">Изменяйте ярлыки, которые могут быть использованы для составления своих команд.</string>
     <string name="video_title_sample_text">Пример названия видео</string>
@@ -248,4 +248,14 @@
     <string name="embed_subtitles_mkv_msg">Для встраивания субтитров, контейнер видео будет изменен на mkv.</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="filesize_gb">%.2f ГБ</string>
+    <string name="share">Поделиться</string>
+    <string name="update_channel">Канал обновлений</string>
+    <string name="pre_release_channel">Предварительный</string>
+    <string name="stable_channel">Стабильный</string>
+    <string name="update_channel_desc">Устанавливайте предварительные версии, чтобы ознакомиться с новыми функциями и изменениями.
+\n
+\nЭти версии могут быть немного нестабильными поэтому, пожалуйста, не стесняйтесь сообщать нам, если у вас возникнут какие-то проблемы, это поможет нам улучшить приложение в будущем.</string>
+    <string name="auto_update">Автообновление</string>
+    <string name="enable_auto_update">Включить автообновление</string>
+    <string name="abs_hint">Большинство стриминговых сервисов поставляют аудио и видео раздельно. Вы можете выбрать и объединить форматы только аудио с только видео в одно видео.</string>
 </resources>

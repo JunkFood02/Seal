@@ -7,10 +7,10 @@
     <string name="download_settings_desc">Ümumi, format, xüsusi əmr</string>
     <string name="download">Yüklə</string>
     <string name="url_empty">Link boş ola bilməz</string>
-    <string name="extract_audio_summary">Video əvəzində səs endir və saxla</string>
+    <string name="extract_audio_summary">Video əvəzinə səsi saxla və endir</string>
     <string name="create_thumbnail_summary">Video miniatürünü fayl kimi saxla</string>
     <string name="yt_dlp_up_to_date">yt-dlp-nin ən son versiyası işlədilir</string>
-    <string name="yt_dlp_update_fail">Ən son yt-dlp versiyasını quraşdırmaq alınmadı. Lütfən, İnternetə qoşulduğunuzdan əmin olun.</string>
+    <string name="yt_dlp_update_fail">Ən son yt-dlp versiyasını quraşdırmaq alınmadı.Zəhmət olmasa, İnternetə qoşulduğunuzdan əmin olun.</string>
     <string name="fetching_info">Video məlumatı alınır…</string>
     <string name="permission_denied">İcazə rədd edildi</string>
     <string name="download_success_msg">Endirmə bitdi</string>
@@ -18,7 +18,7 @@
     <string name="fetch_info_error_msg">Video məlumatını almaq mümkün olmadı</string>
     <string name="general_settings">Ümumi</string>
     <string name="language">İnterfeys dili</string>
-    <string name="language_settings">İnterfeys dilini təyin et</string>
+    <string name="language_settings">İnterfeys dilini tənzimlə</string>
     <string name="task_running">Mövcud endirmə tapşırığı artıq işləmədədir</string>
     <string name="paste_msg">URL-ni buferdən yapışdır</string>
     <string name="paste_fail_msg">Buferdəki URL uyğunlaşmadı</string>
@@ -46,8 +46,8 @@
     <string name="edit">Redaktə et</string>
     <string name="start_execute">Əmri icra etməyə başla</string>
     <string name="advanced_settings">Qabaqcıl</string>
-    <string name="print_details">Ətraflı debit</string>
-    <string name="print_details_desc">Endirərkən ətraflı mesajları çap et</string>
+    <string name="print_details">Ətraflı çıxış</string>
+    <string name="print_details_desc">Endirmə zamanı ətraflı tapşırıqları çap et</string>
     <string name="display">İnterfeys</string>
     <string name="display_settings">Qaranlıq mövzu, dinamikalı rəng, dillər</string>
     <string name="dark_theme">Qaranlıq mövzu</string>
@@ -61,7 +61,7 @@
     <string name="paste">Yapışdır</string>
     <string name="yt_dlp_docs">Yt-dlp istifadə xatırlatmaları</string>
     <string name="edit_template_desc">Hasilat yolu və URL tətbiq tərəfindən əlavə olunacaq.</string>
-    <string name="audio_format">Səs formatına dəyiş</string>
+    <string name="audio_format">Səs formatını dəyiş</string>
     <string name="not_convert">Dəyişdirilməmiş</string>
     <string name="convert_to">%1$s-a dəyiş</string>
     <string name="format">Format</string>
@@ -71,7 +71,7 @@
     <string name="video_quality_desc">Format keyfiyyətini və fayl həcmini məhdudlaşdır</string>
     <string name="not_specified">Müəyyənləşdirilməyib (defolt)</string>
     <string name="video_format_preference">Üstünlük verilən video formatı</string>
-    <string name="video_format_desc">Çoxsaylı təmin edən format seç</string>
+    <string name="video_format_desc">Çoxsaylı təmin ediləndə format seç</string>
     <string name="video_format">Video formatı</string>
     <string name="start_download">Endir</string>
     <string name="close">Bağla</string>
@@ -87,7 +87,7 @@
     <string name="video_url">Video linki</string>
     <string name="download_finish_notification">Endirmə bitdi. Açmaq üçün bas.</string>
     <string name="execute_command_notification">Fərdi əmrlər icra edilir…</string>
-    <string name="battery_settings_desc">Lütfən, arxa fonda endirmək üçün, sistem tənzimləmələrində bu tətbiqin batareya istifadəsini \"Məhdudlaşdırılmamış\" kimi təyin et.</string>
+    <string name="battery_settings_desc">Zəhmət olmasa, arxa fonda endirmək üçün, bu tətbiqin batareya istifadəsini sistem tənzimləmələrində \"Məhdudlaşdırılmamış\" kimi tənzimləyin.</string>
     <string name="concurrent_download">Çoxsaylı hissələri endir</string>
     <string name="options">Seçimlər</string>
     <string name="additional_settings">Əlavə tənzimləmələr</string>
@@ -103,7 +103,7 @@
     <string name="delete_file">Sil</string>
     <string name="about_page">Versiya, buraxılışlar, kreditlər</string>
     <string name="readme_desc">GitHub deposunu və README-ni yoxla</string>
-    <string name="on">Aktiv</string>
+    <string name="on">Aktiv et</string>
     <string name="settings_before_download_desc">Endirməzdən əvvəl seçimləri konfiqurasiya et</string>
     <string name="convert_audio">Dəyişdir</string>
     <string name="close_never_show_again">Təkrar göstərmə</string>
@@ -160,7 +160,7 @@
     <string name="sponsorblock_categories">SponsorBlock kateqoriyaları</string>
     <string name="check_for_updates">Yeniləmələri yoxla</string>
     <string name="check_for_updates_desc">GitHub-da ən son versiyanı avtomatik yoxla</string>
-    <string name="app_up_to_date">Cari versiya güncəldir</string>
+    <string name="app_up_to_date">Hazırkı versiya güncəldir</string>
     <string name="app_update_failed">Ən son versiyaya yeniləmək alınmadı</string>
     <string name="update">Yenilə</string>
     <string name="aria2_desc">Xarici endirici kimi aria2c istifadə et</string>
@@ -207,7 +207,7 @@
     <string name="clear_temp_files">Müvəqqəti faylları təmizlə</string>
     <string name="clear_temp_files_info">Müvəqqəti fayllar ləğv edilmiş endirmələri davam etdirmək üçün istifadə edilə bilər. Bu faylların hamısını siləcəyinizə əminsiniz\?</string>
     <string name="private_mode_desc">Endirmə tarixçəsini deaktiv et</string>
-    <string name="download_with_cellular_desc">Ölçülmüş şəbəkələrə qoşulduqda medianın endirilməsinə icazə ver</string>
+    <string name="download_with_cellular_desc">Ölçülmüş şəbəkələrə qoşulduqda media endirilməsinə icazə ver</string>
     <string name="use_custom_command">Xüsusi əmr istifadə et</string>
     <string name="invalid_input">Etibarsız daxiletmə</string>
     <string name="format_settings_desc">Fayl formatı, video keyfiyyəti, altyazılar</string>
@@ -215,7 +215,7 @@
     <string name="video_only">Video (səs yoxdur)</string>
     <string name="format_selection">Format seçimi</string>
     <string name="suggested">Məsləhət görülən</string>
-    <string name="format_selection_desc">Endirməyə başlamazdan əvvəl endirmək üçün format seç</string>
+    <string name="format_selection_desc">Endirmə başlamazdan əvvəl endirmək üçün format seç</string>
     <string name="generate_new_cookies">Yeni məlumat bazası yarat</string>
     <string name="use_cookies">Məlumat bazası istifadə et</string>
     <string name="remove_cookie_profile_desc">\"%1$s\" üçün məlumat bazası təmizlənsin\?</string>
@@ -247,6 +247,15 @@
     <string name="running_tasks">Çalışan tapşırıqlar</string>
     <string name="subtitle_sponsorblock">SponsorBlock seqmentləri silinən zaman altyazılar vaxtı səhv ola bilər.</string>
     <string name="embed_subtitles_mkv_msg">Altyazıları yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq.</string>
-    <string name="filesize_gb">%.2f G</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="share">Paylaş</string>
+    <string name="update_channel">Kanalı yenilə</string>
+    <string name="enable_auto_update">Avtomatik yeniləməni aktivləşdir</string>
+    <string name="stable_channel">Stabil</string>
+    <string name="pre_release_channel">İlkin buraxılış</string>
+    <string name="update_channel_desc">Yeni xüsusiyyətlər və dəyişikliklərə ilkin baxış üçün ilkin buraxılış quruluşları quraşdır. 
+\n
+\nBu versiyalarda müəyyən dəyişkənlik olacaq, ona görə də gələcək müddətdə tətbiqi təkmilləşdirmək,bizə kömək etmək üçün hər hansı problemlərlə qarşılaşsanız, bizə rəy bildirməkdən çəkinməyin.</string>
+    <string name="auto_update">Avtomatik yeniləmək</string>
 </resources>

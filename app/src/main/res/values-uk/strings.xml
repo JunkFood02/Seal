@@ -249,4 +249,13 @@
     <string name="embed_subtitles_mkv_msg">Відео буде перетворено у mkv контейнер для вбудовування субтитрів.</string>
     <string name="filesize_gb">%.2f Gb</string>
     <string name="filesize_mb">%.2f Mb</string>
+    <string name="stable_channel">Стабільний</string>
+    <string name="pre_release_channel">Пре-реліз</string>
+    <string name="share">Поділитися</string>
+    <string name="update_channel">Оновити канал</string>
+    <string name="auto_update">Автоматичне оновлення</string>
+    <string name="update_channel_desc">Встановіть пре-реліз, щоб переглянути нові функції та зміни.
+\n
+\nУ цих версіях буде спостерігатися деяка нестабільність, тому, будь ласка, не соромтеся повідомляти нам про будь-які проблеми, щоб допомогти нам покращити додаток у майбутньому.</string>
+    <string name="enable_auto_update">Увімкнути автоматичне оновлення</string>
 </resources>
