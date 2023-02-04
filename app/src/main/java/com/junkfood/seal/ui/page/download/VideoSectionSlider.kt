@@ -130,7 +130,9 @@ fun VideoSelectionSlider(
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
 
             CustomRangeSlider(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 12.dp),
                 value = value,
                 valueRange = 0f..duration.toFloat(),
                 onValueChange = onValueChange
