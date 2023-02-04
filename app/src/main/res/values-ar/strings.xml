@@ -249,4 +249,13 @@
     <string name="embed_subtitles_mkv_msg">لأجل دمج الترجمة، سيتم إعادة صياغة الفيديو من الحاوية الأصلية إلى حاوية mkv.</string>
     <string name="filesize_mb">%.2f م.ب</string>
     <string name="filesize_gb">%.2f ج.ب</string>
+    <string name="share">شارك</string>
+    <string name="stable_channel">مستقر</string>
+    <string name="pre_release_channel">أصدار مسبق</string>
+    <string name="update_channel_desc">قم بتثبيت إصدارات مسبقة لمعاينة الميزات والتغييرات الجديدة. 
+\n
+\nسيكون هناك بعض عدم الاستقرار في هذه الإصدارات ، لذا يرجى عدم التردد في تزويدنا بتعليقات إذا واجهت أي مشاكل لمساعدتنا في تحسين التطبيق للمستقبل.</string>
+    <string name="update_channel">قناة التحديث</string>
+    <string name="auto_update">التحديث التلقائي</string>
+    <string name="enable_auto_update">تفعيل التحديث التلقائي</string>
 </resources>

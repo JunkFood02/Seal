@@ -247,4 +247,6 @@
     <string name="video_title_sample_text">Titolo del video testo di esempio</string>
     <string name="subtitle_sponsorblock">I sottotitoli possono risultare non sincronizzati quando si rimuovono i segmenti SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Per incorporare i sottotitoli, i video verranno rimuxati in un contenitore mkv.</string>
+    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f G</string>
 </resources>

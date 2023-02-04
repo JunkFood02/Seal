@@ -247,4 +247,15 @@
     <string name="logs">Евиденција</string>
     <string name="subtitle_sponsorblock">Приликом уклањања SponsorBlock сегмената, титлови могу бити несинхронизовани.</string>
     <string name="embed_subtitles_mkv_msg">За уграђивање титлова, видеи ће бити ремуксовани у mkv контејнер.</string>
+    <string name="filesize_gb">%.2f Г</string>
+    <string name="filesize_mb">%.2f М</string>
+    <string name="share">Делите</string>
+    <string name="stable_channel">Стабилно</string>
+    <string name="pre_release_channel">Предиздање</string>
+    <string name="auto_update">Аутоматско ажурирање</string>
+    <string name="enable_auto_update">Омогућите аутоматско ажурирање</string>
+    <string name="update_channel_desc">Инсталирајте верзије предиздања да бисте прегледали нове функције и промене.
+\n
+\nБиће неких нестабилности у овим верзијама, тако да не оклевајте да нам дате повратне информације ако наиђете на било какве проблеме, како бисте нам помогли да побољшамо апликацију у будућности.</string>
+    <string name="update_channel">Ажурирајте канал</string>
 </resources>

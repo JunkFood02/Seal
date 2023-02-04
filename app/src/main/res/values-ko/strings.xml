@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="settings">설정</string>
+    <string name="download_error_msg">파일을 다운로드할 수 없습니다</string>
+    <string name="yt_dlp_update_fail">최신 yt-dlp 버전을 설치할 수 없습니다. 인터넷에 연결되어 있는지 확인해주세요.</string>
+    <string name="download_start_msg">\"%1$s\" 다운로드</string>
+    <string name="fetch_info_error_msg">동영상 정보를 가져올 수 없습니다</string>
+    <string name="language">언어</string>
+    <string name="paste_msg">클립보드에서 URL 붙여넣기</string>
+    <string name="audio">오디오</string>
+    <string name="delete_info_msg">다운로드 기록에서 \"%1$s\"을(를) 삭제할까요\?</string>
+    <string name="yt_dlp_up_to_date">최신 버전의 yt-dlp 사용</string>
+    <string name="create_thumbnail_summary">동영상 썸네일을 파일로 저장</string>
+    <string name="extract_audio_summary">동영상 대신 오디오 다운로드 및 저장</string>
+    <string name="language_settings">언어 설정</string>
+    <string name="delete_info">삭제하실 건가요\?</string>
+    <string name="downloads_history">다운로드</string>
+    <string name="delete_file">파일 삭제</string>
+    <string name="about">정보</string>
+    <string name="ytdlp_update">yt-dlp의 최신버전을 설치하려면 클릭하세요</string>
+    <string name="paste_fail_msg">클립보드의 URL을 일치시킬 수 없습니다</string>
+    <string name="ytdlp_version">Yt-dlp 버전</string>
+    <string name="confirm">확인</string>
+    <string name="dismiss">취소</string>
+    <string name="open_url">링크 열기</string>
+    <string name="remove">목록에서 제거</string>
+    <string name="release">최신 릴리스</string>
+    <string name="checked">체크</string>
+    <string name="advanced_settings">고급 옵션</string>
+    <string name="about_page">버전, 릴리스, 크레딧</string>
+    <string name="version">버전</string>
+    <string name="release_desc">변경 로그 및 새 버전 찾기</string>
+    <string name="back">뒤로</string>
+    <string name="readme_desc">GitHub 저장소 및 사용방법 확인</string>
+    <string name="video">동영상</string>
+    <string name="edit">편집</string>
+    <string name="start_execute">명령 시작</string>
+    <string name="credits">크레딧</string>
+    <string name="credits_desc">크레딧 및 자유 소프트웨어</string>
+    <string name="custom_command">사용자 지정 명령</string>
+    <string name="custom_command_desc">맞춤 템플릿으로 yt-dlp 명령어 실행</string>
+    <string name="general_settings">일반</string>
+    <string name="link_copied">클립보드에 복사된 링크</string>
+    <string name="task_running">다운로드 작업이 이미 실행 중입니다</string>
+    <string name="extract_audio">오디오로 저장</string>
+    <string name="create_thumbnail">썸네일 저장</string>
+    <string name="download_settings_desc">일반, 서식, 사용자 지정 명령</string>
+    <string name="video_directory">동영상 폴더</string>
+    <string name="custom_command_template">명령 템플릿</string>
+    <string name="download">다운로드</string>
+    <string name="url_empty">링크는 비워둘 수 없습니다</string>
+    <string name="fetching_info">동영상 정보를 가져오는 중…</string>
+    <string name="permission_denied">권한이 거부되었습니다</string>
+    <string name="download_success_msg">다운로드가 완료되었습니다</string>
+</resources>
