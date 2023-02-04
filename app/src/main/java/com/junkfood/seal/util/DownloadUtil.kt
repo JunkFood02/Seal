@@ -40,6 +40,8 @@ object DownloadUtil {
 
     private const val TAG = "DownloadUtil"
     private const val OUTPUT_TEMPLATE = "%(title).200B [%(id)s].%(ext)s"
+    private const val OUTPUT_TEMPLATE_CLIPS =
+        "%(title).200B [%(id)s][%(section_start)d-%(section_end)d].%(ext)s"
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
 
@@ -117,7 +119,6 @@ object DownloadUtil {
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
         val cookies: Boolean = PreferenceUtil.getValue(COOKIES),
-        val cookiesContent: String = PreferenceUtil.getCookies(),
         val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
         val audioFormat: Int = PreferenceUtil.getAudioFormat(),
         val videoFormat: Int = PreferenceUtil.getVideoFormat(),
@@ -166,15 +167,8 @@ object DownloadUtil {
                     addOption("--write-subs")
                 }
             }
-            videoClips.run {
-                if (isEmpty()) {
-                    addOption("--embed-chapters")
-                } else {
-                    forEach {
-                        addOption("--download-sections", "*%d-%d".format(it.start, it.end))
-                    }
-                }
-            }
+            if (videoClips.isEmpty())
+                addOption("--embed-chapters")
         }
     }
 
@@ -226,10 +220,6 @@ object DownloadUtil {
                 val configFile = context.getConfigFile(id)
                 FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
                 addOption("--config", configFile.absolutePath)
-            }
-
-            videoClips.forEach {
-                addOption("--download-sections", "*%d-%d".format(it.start, it.end))
             }
 
             addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
@@ -345,11 +335,18 @@ object DownloadUtil {
                     addOption("-P", pathBuilder.toString())
                 }
 
+                videoClips.forEach {
+                    addOption("--download-sections", "*%d-%d".format(it.start, it.end))
+                }
+
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
                     "-P", "temp:" + context.getTempDir()
                 )
-                if (customPath) addOption("-o", outputPathTemplate + OUTPUT_TEMPLATE)
-                else addOption("-o", OUTPUT_TEMPLATE)
+                val outputFileName =
+                    if (videoClips.isEmpty()) OUTPUT_TEMPLATE else OUTPUT_TEMPLATE_CLIPS
+
+                if (customPath) addOption("-o", outputPathTemplate + outputFileName)
+                else addOption("-o", outputFileName)
 
                 for (s in request.buildCommand()) Log.d(TAG, s)
             }.runCatching {

@@ -147,7 +147,10 @@ fun FormatPageImpl(
                 }
             }, actions = {
                 TextButton(onClick = {
-                    onDownloadPressed(formatList, listOf(VideoClip(videoClipDuration)))
+                    onDownloadPressed(
+                        formatList,
+                        if (isClipEnabled) listOf(VideoClip(videoClipDuration)) else emptyList()
+                    )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
                 }
@@ -179,8 +182,7 @@ fun FormatPageImpl(
                         AnimatedVisibility(visible = isClipEnabled) {
                             Column {
                                 VideoSelectionSlider(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     value = videoClipDuration,
                                     duration = duration?.roundToInt() ?: 0,
                                     onDiscard = { isClipEnabled = false },
