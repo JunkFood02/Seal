@@ -249,4 +249,16 @@
     <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中。</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="filesize_mb">%.2f M</string>
+    <string name="share">分享</string>
+    <string name="stable_channel">稳定</string>
+    <string name="pre_release_channel">预览</string>
+    <string name="update_channel_desc">安装预览版本以提前体验新功能与应用变更。预览版本中的新功能可能仍在进行更改或不稳定，如在使用的过程中遇到问题，请及时向我们进行反馈，以帮助我们更好地优化应用。</string>
+    <string name="update_channel">更新频道</string>
+    <string name="auto_update">自动更新</string>
+    <string name="enable_auto_update">启用自动更新</string>
+    <string name="discard">撤销</string>
+    <string name="apply">应用</string>
+    <string name="clip_video">剪辑视频</string>
+    <string name="clip_start">开始时间</string>
+    <string name="clip_end">结束时间</string>
 </resources>
