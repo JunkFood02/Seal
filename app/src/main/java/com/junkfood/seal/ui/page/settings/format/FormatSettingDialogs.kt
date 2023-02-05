@@ -47,9 +47,12 @@ import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
+import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.DEFAULT
+import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.MAX_FILE_SIZE
+import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -172,6 +175,41 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                         text = PreferenceUtil.getAudioFormatDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
+            }
+        })
+}
+
+@Composable
+fun AudioQualityDialog(onDismissRequest: () -> Unit) {
+    var audioQuality by AUDIO_QUALITY.intState
+    SealDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            DismissButton { onDismissRequest() }
+        }, icon = { Icon(Icons.Outlined.HighQuality, null) },
+        title = {
+            Text(stringResource(R.string.audio_quality))
+        }, confirmButton = {
+            ConfirmButton {
+                AUDIO_QUALITY.updateInt(audioQuality)
+                onDismissRequest()
+            }
+        }, text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
+                    text = stringResource(R.string.audio_quality_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                for (i in NOT_SPECIFIED..LOW)
+                    SingleChoiceItem(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        text = PreferenceUtil.getAudioQualityDesc(i),
+                        selected = audioQuality == i
+                    ) { audioQuality = i }
             }
         })
 }

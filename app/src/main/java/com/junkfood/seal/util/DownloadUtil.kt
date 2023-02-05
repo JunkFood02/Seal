@@ -87,9 +87,8 @@ object DownloadUtil {
         preferences.run {
             if (extractAudio) {
                 addOption("-x")
-            } else {
-                addOption("-S", toVideoFormatSorter())
             }
+            addOption("-S", toFormatSorter())
             if (cookies) {
                 enableCookies()
             }
@@ -122,6 +121,7 @@ object DownloadUtil {
         val cookies: Boolean = PreferenceUtil.getValue(COOKIES),
         val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
         val audioFormat: Int = AUDIO_FORMAT.getInt(),
+        val audioQuality: Int = AUDIO_QUALITY.getInt(),
         val convertAudio: Boolean = AUDIO_CONVERT.getBoolean(),
         val audioConvertFormat: Int = PreferenceUtil.getAudioConvertFormat(),
         val videoFormat: Int = PreferenceUtil.getVideoFormat(),
@@ -156,7 +156,7 @@ object DownloadUtil {
     ): YoutubeDLRequest = this.apply {
         downloadPreferences.run {
             if (formatId.isNotEmpty()) addOption("-f", formatId)
-            else addOption("-S", this.toVideoFormatSorter() + "," + this.toAudioFormatSorter())
+            else addOption("-S", this.toFormatSorter())
             if (downloadSubtitle) {
                 if (autoSubtitle) {
                     addOption("--write-auto-subs")
@@ -179,9 +179,16 @@ object DownloadUtil {
     @CheckResult
     private fun DownloadPreferences.toAudioFormatSorter(): String = StringBuilder().run {
         when (audioFormat) {
-            M4A -> append("acodec:m4a")
-            OPUS -> append("acodec:opus")
-            else -> append("acodec")
+            M4A -> append("acodec:m4a,")
+            OPUS -> append("acodec:opus,")
+            else -> append("acodec,")
+        }
+        when (audioQuality) {
+            NOT_SPECIFIED -> append("abr")
+            HIGH -> append("abr~192")
+            MEDIUM -> append("abr~128")
+            LOW -> append("abr~64")
+            else -> append("+abr")
         }
     }.toString()
 
@@ -206,6 +213,10 @@ object DownloadUtil {
             else -> append("res")
         }
     }.toString()
+
+    @CheckResult
+    private fun DownloadPreferences.toFormatSorter(): String =
+        this.toVideoFormatSorter() + "," + this.toAudioFormatSorter()
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String, downloadPreferences: DownloadPreferences, playlistUrl: String

@@ -187,16 +187,16 @@ object PreferenceUtil {
         }
     }
 
-    fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
+    private fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
 
-    @Composable
     fun getAudioQualityDesc(audioQualityCode: Int = getAudioQuality()): String =
         when (audioQualityCode) {
-            NOT_SPECIFIED -> stringResource(R.string.unlimited)
+            NOT_SPECIFIED -> context.getString(R.string.unlimited)
             HIGH -> "192 Kbps"
             MEDIUM -> "128 Kbps"
-            LOW -> "96 Kbps"
-            else -> "48 Kbps"
+            LOW -> "64 Kbps"
+            ULTRA_LOW -> "32 Kbps"
+            else -> context.getString(R.string.lowest_bitrate)
         }
 
     fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()

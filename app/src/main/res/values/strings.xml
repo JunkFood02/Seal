@@ -310,5 +310,8 @@
     <string name="clip_end">End</string>
     <string name="audio_format_preference">Preferred audio format</string>
     <string name="unlimited">Unlimited</string>
+    <string name="lowest_bitrate">Lowest bitrate</string>
+    <string name="audio_quality">Audio quality</string>
+    <string name="audio_quality_desc">Limit audio bitrate when multiple qualities are present</string>
 
 </resources>

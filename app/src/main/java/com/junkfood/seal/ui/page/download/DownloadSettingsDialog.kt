@@ -58,6 +58,7 @@ import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
+import com.junkfood.seal.ui.page.settings.format.AudioQualityDialog
 import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
@@ -97,6 +98,7 @@ fun DownloadSettingDialog(
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showSubtitleDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
+    var showAudioQualityDialog by remember { mutableStateOf(false) }
     var selectedTemplateId by TEMPLATE_ID.intState
 
     val templateList by templateStateFlow.collectAsStateWithLifecycle(ArrayList())
@@ -141,23 +143,17 @@ fun DownloadSettingDialog(
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
                 VideoFilterChip(
-                    selected = audio,
-                    enabled = !customCommand,
-                    onClick = {
+                    selected = audio, enabled = !customCommand, onClick = {
                         audio = !audio
                         updatePreferences()
-                    },
-                    label = stringResource(R.string.extract_audio)
+                    }, label = stringResource(R.string.extract_audio)
                 )
                 if (!isShareActivity) {
                     VideoFilterChip(
-                        selected = playlist,
-                        enabled = !customCommand,
-                        onClick = {
+                        selected = playlist, enabled = !customCommand, onClick = {
                             playlist = !playlist
                             updatePreferences()
-                        },
-                        label = stringResource(R.string.download_playlist)
+                        }, label = stringResource(R.string.download_playlist)
                     )
                     VideoFilterChip(
                         selected = formatSelection,
@@ -170,33 +166,25 @@ fun DownloadSettingDialog(
                     )
                 }
                 VideoFilterChip(
-                    selected = subtitle,
-                    enabled = !customCommand && !audio,
-                    onClick = {
+                    selected = subtitle, enabled = !customCommand && !audio, onClick = {
                         subtitle = !subtitle
                         updatePreferences()
-                    },
-                    label = stringResource(id = R.string.download_subtitles)
+                    }, label = stringResource(id = R.string.download_subtitles)
                 )
                 VideoFilterChip(
-                    selected = thumbnail,
-                    enabled = !customCommand,
-                    onClick = {
+                    selected = thumbnail, enabled = !customCommand, onClick = {
                         thumbnail = !thumbnail
                         updatePreferences()
-                    },
-                    label = stringResource(R.string.create_thumbnail)
+                    }, label = stringResource(R.string.create_thumbnail)
                 )
             }
             DrawerSheetSubtitle(text = stringResource(id = R.string.advanced_settings))
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 VideoFilterChip(
-                    selected = customCommand,
-                    onClick = {
+                    selected = customCommand, onClick = {
                         customCommand = !customCommand
                         updatePreferences()
-                    },
-                    label = stringResource(R.string.custom_command)
+                    }, label = stringResource(R.string.custom_command)
                 )
                 ButtonChip(
                     onClick = { showCustomCommandDialog = -1 }, label = stringResource(
@@ -220,18 +208,20 @@ fun DownloadSettingDialog(
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     ButtonChip(
                         onClick = {
-                            if (audio)
-                                showAudioFormatEditDialog = true else
-                                showVideoFormatDialog = true
+                            if (audio) showAudioFormatEditDialog = true
+                            else showVideoFormatDialog = true
                         },
                         enabled = !customCommand,
                         label = stringResource(R.string.format),
                         icon = if (audio) Icons.Outlined.AudioFile else Icons.Outlined.VideoFile
                     )
                     ButtonChip(
-                        onClick = { showVideoQualityDialog = true },
-                        enabled = !customCommand && !audio,
-                        label = stringResource(R.string.video_quality),
+                        onClick = {
+                            if (audio) showAudioQualityDialog = true
+                            else showVideoQualityDialog = true
+                        },
+                        enabled = !customCommand,
+                        label = stringResource(if (audio) R.string.audio_quality else R.string.video_quality),
                         icon = Icons.Outlined.HighQuality
                     )
                     ButtonChip(
@@ -246,12 +236,10 @@ fun DownloadSettingDialog(
                 LazyRow(state = scrollState, modifier = Modifier.selectableGroup()) {
                     items(templateList) { item ->
                         FilterChipWithIcons(
-                            selected = item.id == selectedTemplateId,
-                            onClick = {
+                            selected = item.id == selectedTemplateId, onClick = {
                                 selectedTemplateId = item.id
                                 updatePreferences()
-                            },
-                            label = item.name
+                            }, label = item.name
                         )
                     }
                 }
@@ -273,7 +261,8 @@ fun DownloadSettingDialog(
                     .align(Alignment.CenterHorizontally)
                     .padding(vertical = 16.dp),
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
             )
             sheetContent()
             val state = rememberLazyListState()
@@ -305,37 +294,32 @@ fun DownloadSettingDialog(
             }
         })
     } else if (dialogState) {
-        AlertDialog(
-            onDismissRequest = hide,
-            confirmButton = {
-                TextButton(onClick = downloadButtonCallback) {
-                    Text(text = stringResource(R.string.start_download))
-                }
-            },
-            dismissButton = { DismissButton { hide() } },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.DoneAll,
-                    contentDescription = null
-                )
-            },
-            title = {
-                Text(
-                    stringResource(R.string.settings_before_download),
-                    textAlign = TextAlign.Center
-                )
-            },
-            text = {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    sheetContent()
-                }
-            })
+        AlertDialog(onDismissRequest = hide, confirmButton = {
+            TextButton(onClick = downloadButtonCallback) {
+                Text(text = stringResource(R.string.start_download))
+            }
+        }, dismissButton = { DismissButton { hide() } }, icon = {
+            Icon(
+                imageVector = Icons.Outlined.DoneAll, contentDescription = null
+            )
+        }, title = {
+            Text(
+                stringResource(R.string.settings_before_download), textAlign = TextAlign.Center
+            )
+        }, text = {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                sheetContent()
+            }
+        })
     }
 
 
 
     if (showAudioFormatEditDialog) {
         AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false })
+    }
+    if (showAudioQualityDialog) {
+        AudioQualityDialog { showAudioQualityDialog = false }
     }
     if (showVideoQualityDialog) {
         VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false })
@@ -344,8 +328,7 @@ fun DownloadSettingDialog(
         VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
     }
     when (showCustomCommandDialog) {
-        (-1) -> CommandTemplateDialog(
-            onDismissRequest = { showCustomCommandDialog = 0 },
+        (-1) -> CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = 0 },
             confirmationCallback = {
                 scope.launch {
                     selectedTemplateId = it
@@ -356,9 +339,7 @@ fun DownloadSettingDialog(
             })
 
         (1) -> CommandTemplateDialog(commandTemplate = templateList.find { it.id == selectedTemplateId }
-            ?: CommandTemplate(0, "", ""),
-            onDismissRequest = { showCustomCommandDialog = 0 })
+            ?: CommandTemplate(0, "", ""), onDismissRequest = { showCustomCommandDialog = 0 })
     }
-    if (showSubtitleDialog)
-        SubtitleLanguageDialog { showSubtitleDialog = false }
+    if (showSubtitleDialog) SubtitleLanguageDialog { showSubtitleDialog = false }
 }

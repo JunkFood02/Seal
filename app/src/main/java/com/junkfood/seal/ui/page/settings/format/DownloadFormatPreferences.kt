@@ -64,6 +64,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     }
 
     var showAudioFormatDialog by remember { mutableStateOf(false) }
+    var showAudioQualityDialog by remember { mutableStateOf(false) }
     var showAudioConvertDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
@@ -71,8 +72,9 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
     var convertFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertDesc()) }
-    var audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
+    val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
     var convertAudio by AUDIO_CONVERT.booleanState
+    val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceUtil.getAudioQualityDesc()) }
 
     Scaffold(
         modifier = Modifier
@@ -125,6 +127,15 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         icon = Icons.Outlined.AudioFile,
                         enabled = !isCustomCommandEnabled,
                         onClick = { showAudioFormatDialog = true }
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.audio_quality),
+                        description = audioQuality,
+                        icon = Icons.Outlined.HighQuality,
+                        onClick = { showAudioQualityDialog = true },
+                        enabled = !isCustomCommandEnabled
                     )
                 }
                 item {
@@ -204,6 +215,9 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
         })
     if (showAudioFormatDialog) {
         AudioFormatDialog { showAudioFormatDialog = false }
+    }
+    if (showAudioQualityDialog) {
+        AudioQualityDialog { showAudioQualityDialog = false }
     }
     if (showAudioConvertDialog) {
         AudioConversionDialog(onDismissRequest = { showAudioConvertDialog = false }) {
