@@ -178,17 +178,16 @@ object DownloadUtil {
 
     @CheckResult
     private fun DownloadPreferences.toAudioFormatSorter(): String = StringBuilder().run {
-        when (audioFormat) {
-            M4A -> append("acodec:m4a,")
-            OPUS -> append("acodec:opus,")
-            else -> append("acodec,")
-        }
         when (audioQuality) {
-            NOT_SPECIFIED -> append("abr")
-            HIGH -> append("abr~192")
-            MEDIUM -> append("abr~128")
-            LOW -> append("abr~64")
-            else -> append("+abr")
+            HIGH -> append("abr~192,")
+            MEDIUM -> append("abr~128,")
+            LOW -> append("abr~64,")
+            else -> append("quality")
+        }
+        when (audioFormat) {
+            M4A -> append("acodec:m4a")
+            OPUS -> append("acodec:opus")
+            else -> append("acodec")
         }
     }.toString()
 
