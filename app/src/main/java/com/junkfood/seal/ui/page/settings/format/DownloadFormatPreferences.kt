@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
@@ -39,8 +40,11 @@ import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
+import com.junkfood.seal.util.FORMAT_SORTING
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,12 +72,15 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     var showAudioConvertDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showFormatSorterDialog by remember { mutableStateOf(false) }
 
     var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
     var convertFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertDesc()) }
+    val sortingFields by remember { mutableStateOf(SORTING_FIELDS.getString()) }
     val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
     var convertAudio by AUDIO_CONVERT.booleanState
+    var formatSorting by FORMAT_SORTING.booleanState
     val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceUtil.getAudioQualityDesc()) }
 
     Scaffold(
@@ -197,7 +204,19 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 item {
                     PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
                 }
-
+                item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(id = R.string.format_sorting),
+                        icon = Icons.Outlined.Sort,
+                        description = stringResource(id = R.string.format_sorting_desc),
+                        enabled = !isCustomCommandEnabled,
+                        isChecked = formatSorting,
+                        onChecked = {
+                            formatSorting = !formatSorting
+                            FORMAT_SORTING.updateBoolean(formatSorting)
+                        }, onClick = { showFormatSorterDialog = true }
+                    )
+                }
                 item {
                     var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
                     PreferenceSwitch(
@@ -233,5 +252,8 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
         VideoFormatDialog(onDismissRequest = {
             showVideoFormatDialog = false
         }) { videoFormat = PreferenceUtil.getVideoFormatDesc() }
+    }
+    if (showFormatSorterDialog) {
+        FormatSortingDialog { showFormatSorterDialog = false }
     }
 }

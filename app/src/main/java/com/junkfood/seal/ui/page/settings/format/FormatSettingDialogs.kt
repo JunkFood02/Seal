@@ -1,6 +1,8 @@
 package com.junkfood.seal.ui.page.settings.format
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.SettingsSuggest
+import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined._4k
@@ -33,6 +38,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -40,6 +46,7 @@ import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
+import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LinkButton
@@ -49,6 +56,8 @@ import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.DEFAULT
+import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.MAX_FILE_SIZE
@@ -56,6 +65,7 @@ import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
@@ -214,6 +224,69 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
         })
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FormatSortingDialog(onDismissRequest: () -> Unit) {
+    var sortingFields by SORTING_FIELDS.stringState
+    SealDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            DismissButton { onDismissRequest() }
+        }, icon = { Icon(Icons.Outlined.Sort, null) },
+        title = {
+            Text(stringResource(R.string.audio_format_preference))
+        }, confirmButton = {
+            ConfirmButton {
+                SORTING_FIELDS.updateString(sortingFields)
+                onDismissRequest()
+            }
+        }, text = {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
+                    text = stringResource(R.string.format_sorting_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp),
+                    value = sortingFields,
+                    onValueChange = { sortingFields = it },
+//                    label = {
+//                        Text(stringResource(id = R.string.format_sorting))
+//                    },
+                    leadingIcon = { Text(text = "-S") },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                )
+                val uriHandler = LocalUriHandler.current
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                ) {
+                    ButtonChip(
+                        modifier = Modifier.padding(end = 8.dp),
+                        label = stringResource(id = R.string.import_from_preferences),
+                        icon = Icons.Outlined.SettingsSuggest
+                    ) {
+                        sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+
+                    }
+                    ButtonChip(
+                        label = stringResource(R.string.yt_dlp_docs),
+                        icon = Icons.Outlined.OpenInNew
+                    ) {
+                        uriHandler.openUri(sortingFormats)
+                    }
+                }
+            }
+        })
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -330,6 +403,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
 }
 
 private const val subtitleOptions = "https://github.com/yt-dlp/yt-dlp#subtitle-options"
+private const val sortingFormats = "https://github.com/yt-dlp/yt-dlp#sorting-formats"
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable

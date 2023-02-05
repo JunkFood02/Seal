@@ -313,5 +313,8 @@
     <string name="lowest_bitrate">Lowest bitrate</string>
     <string name="audio_quality">Audio quality</string>
     <string name="audio_quality_desc">Limit audio bitrate when multiple qualities are present</string>
+    <string name="format_sorting">Format sorting</string>
+    <string name="format_sorting_desc">Sorting formats with the -S option of yt-dlp</string>
+    <string name="import_from_preferences">Import</string>
 
 </resources>

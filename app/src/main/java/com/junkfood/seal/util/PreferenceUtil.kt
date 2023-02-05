@@ -43,6 +43,10 @@ const val AUDIO_FORMAT = "audio_format_preferred"
 const val AUDIO_QUALITY = "audio_quality"
 const val VIDEO_FORMAT = "video_format"
 const val VIDEO_QUALITY = "quality"
+
+const val FORMAT_SORTING = "format_sorting"
+const val SORTING_FIELDS = "sorting_fields"
+
 const val WELCOME_DIALOG = "welcome_dialog"
 const val VIDEO_DIRECTORY = "download_dir"
 const val AUDIO_DIRECTORY = "audio_dir"

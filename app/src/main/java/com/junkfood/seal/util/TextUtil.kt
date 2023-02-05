@@ -99,11 +99,14 @@ private fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false):
 }
 
 
-fun connectWithDelimiter(vararg strings: String, delimiter: String = " · "): String {
+fun connectWithDelimiter(vararg strings: String, delimiter: String): String {
     val builder = StringBuilder(strings.first())
     for (s in strings.asList().subList(1, strings.size)) {
-        builder.append(delimiter)
-        builder.append(s)
+        if (s.isNotEmpty()) {
+            if (builder.isNotEmpty())
+                builder.append(delimiter)
+            builder.append(s)
+        }
     }
     return builder.toString()
 }
