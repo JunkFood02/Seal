@@ -124,6 +124,7 @@ fun TaskLogPage(onBackPressed: () -> Unit, taskHashCode: Int) {
                 .padding(paddings)
                 .padding(horizontal = 24.dp)
                 .verticalScroll(scrollState)
+                .horizontalScroll(rememberScrollState())
         ) {
             SelectionContainer() {
                 Text(
