@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.FormatItem
@@ -346,7 +347,8 @@ fun RenameDialog(initialValue: String, onDismissRequest: () -> Unit, onConfirm: 
                 modifier = Modifier.padding(horizontal = 24.dp),
                 value = filename,
                 onValueChange = { filename = it },
-                label = { Text(text = stringResource(id = R.string.title)) }
+                label = { Text(text = stringResource(id = R.string.title)) },
+                trailingIcon = { if (filename == initialValue) ClearButton { filename = "" } }
             )
         }
     })

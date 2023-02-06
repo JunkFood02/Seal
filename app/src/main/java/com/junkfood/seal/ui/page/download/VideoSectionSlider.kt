@@ -14,12 +14,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowLeft
+import androidx.compose.material.icons.outlined.ArrowRight
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
@@ -34,23 +35,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.isNumberInRange
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toIntRange
 import kotlin.math.roundToInt
 
+private const val TAG = "VideoSectionSlider"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -173,7 +180,6 @@ fun VideoSelectionSlider(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoClipDialog(
     onDismissRequest: () -> Unit,
@@ -181,18 +187,36 @@ fun VideoClipDialog(
     valueRange: ClosedFloatingPointRange<Float>,
     onConfirm: (ClosedFloatingPointRange<Float>) -> Unit,
 ) {
-    var from by remember { mutableStateOf(initialValue.start.roundToInt().toString()) }
-    var to by remember { mutableStateOf(initialValue.endInclusive.roundToInt().toString()) }
-    var error by remember(from, to) { mutableStateOf(false) }
+    var fromMin by remember { mutableStateOf((initialValue.start.roundToInt() / 60).toString()) }
+    var toMin by remember { mutableStateOf((initialValue.endInclusive.roundToInt() / 60).toString()) }
+    var fromSec by remember { mutableStateOf((initialValue.start.roundToInt() % 60).toString()) }
+    var toSec by remember { mutableStateOf((initialValue.endInclusive.roundToInt() % 60).toString()) }
+
+
+    var error by remember(fromMin, toMin, fromSec, toSec) { mutableStateOf(false) }
     val valueIntRange = valueRange.toIntRange()
+
+    val start = stringResource(id = R.string.clip_start)
+    val end = stringResource(id = R.string.clip_end)
+    val minute = "," + stringResource(id = R.string.minute)
+    val second = "," + stringResource(id = R.string.second)
+
+
     fun onDone() {
-        if (from.isNumberInRange(valueIntRange) && to.isNumberInRange(valueIntRange) &&
-            (from.toIntOrNull() ?: 0) < (to.toIntOrNull() ?: 0)
+        val startTime = convertToSecs(fromMin, fromSec)
+        val endTime = convertToSecs(toMin, toSec)
+        if (startTime != -1
+            && endTime != -1
+            && startTime < endTime
+            && valueIntRange.contains(startTime)
+            && valueIntRange.contains(endTime)
         ) {
-            onConfirm((from.toFloatOrNull() ?: 0f)..(to.toFloatOrNull() ?: 0f))
+            onConfirm((startTime.toFloat())..endTime.toFloat())
             onDismissRequest()
         } else error = true
     }
+
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     SealDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.clip_video)) },
@@ -202,52 +226,101 @@ fun VideoClipDialog(
         text = {
             Column() {
                 Row(
-                    modifier = Modifier
-                        .padding(top = 12.dp)
-                        .padding(horizontal = 12.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 6.dp)
                     ) {
-                        OutlinedTextField(
-                            modifier = Modifier,
-                            value = from,
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SealTextField(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .semantics {
+                                        contentDescription = start + minute
+                                    },
+                                value = fromMin,
+                                onValueChange = {
+                                    if (it.isDigitsOnly()) fromMin = it
+                                },
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Next
+                                ),
+                                singleLine = true,
+                                isError = error,
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp),
+                                text = ":",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                            SealTextField(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .semantics {
+                                        contentDescription = start + second
+                                    },
+                                value = fromSec,
+                                onValueChange = {
+                                    if (it.isNumberInRange(0, 60)) fromSec = it
+                                },
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Next
+                                ),
+                                singleLine = true,
+                                isError = error,
+                            )
+                        }
+                    }
+                    Icon(
+                        imageVector = if (!isRtl) Icons.Outlined.ArrowRight else Icons.Outlined.ArrowLeft,
+                        contentDescription = null
+                    )
+                    Row(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 6.dp), verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SealTextField(
+                            modifier = Modifier
+                                .weight(1f)
+                                .semantics {
+                                    contentDescription = end + minute
+                                },
+                            value = toMin,
                             onValueChange = {
-                                if (it.isDigitsOnly()) from = it
-                                error = false
+                                if (it.isDigitsOnly()) toMin = it
                             },
-                            label = { Text(stringResource(R.string.clip_start)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.NumberPassword,
                                 imeAction = ImeAction.Next
                             ),
                             singleLine = true,
                             isError = error,
-                            supportingText = {
-                                Text(
-                                    text = from.toIntOrNull()?.toDurationText() ?: stringResource(
-                                        id = R.string.status_error
-                                    )
-                                )
-                            },
-                            trailingIcon = { Text(text = "s") }
                         )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 6.dp)
-                    ) {
-                        OutlinedTextField(
-                            modifier = Modifier,
-                            value = to,
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp),
+                            text = ":",
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                        SealTextField(
+                            modifier = Modifier
+                                .weight(1f)
+                                .semantics {
+                                    contentDescription = end + second
+                                },
+                            value = toSec,
                             onValueChange = {
-                                if (it.isDigitsOnly()) to = it
-                                error = false
+                                if (it.isNumberInRange(0, 60)) toSec = it
                             },
-                            label = { Text(stringResource(R.string.clip_end)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.NumberPassword,
                                 imeAction = ImeAction.Done
@@ -255,14 +328,6 @@ fun VideoClipDialog(
                             keyboardActions = KeyboardActions(onDone = { onDone() }),
                             singleLine = true,
                             isError = error,
-                            supportingText = {
-                                Text(
-                                    text = to.toIntOrNull()?.toDurationText() ?: stringResource(
-                                        id = R.string.status_error
-                                    )
-                                )
-                            },
-                            trailingIcon = { Text(text = "s") }
                         )
                     }
                 }
@@ -298,3 +363,12 @@ fun SliderPreview() {
             onDurationClick = {})
     }
 }
+
+private fun convertToSecs(min: String, sec: String): Int {
+    return if (sec.isNumberInRange(0, 60)) {
+        if (min.isNumberInRange(0, Int.MAX_VALUE)) {
+            min.toInt() * 60 + sec.toInt()
+        } else -1
+    } else -1
+}
+

@@ -318,5 +318,7 @@
     <string name="import_from_preferences">Import</string>
     <string name="title">Title</string>
     <string name="rename">Rename</string>
+    <string name="second">second</string>
+    <string name="minute">minute</string>
 
 </resources>

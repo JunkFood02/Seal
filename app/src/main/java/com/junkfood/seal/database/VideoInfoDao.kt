@@ -8,7 +8,6 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.junkfood.seal.util.FileUtil
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 @Dao
 interface VideoInfoDao {
@@ -27,13 +26,16 @@ interface VideoInfoDao {
     @Query("DELETE FROM DownloadedVideoInfo WHERE videoPath = :path")
     suspend fun deleteInfoByPath(path: String)
 
+    @Query("select * from DownloadedVideoInfo where videoPath = :path")
+    suspend fun getInfoByPath(path: String): DownloadedVideoInfo?
+
     @Transaction
-    suspend fun deleteInfoByPathAndInsert(
+    suspend fun insertInfoDistinctByPath(
         videoInfo: DownloadedVideoInfo,
         path: String = videoInfo.videoPath
     ) {
-        deleteInfoByPath(path)
-        insertAll(videoInfo)
+        if (getInfoByPath(path) == null)
+            insertAll(videoInfo)
     }
 
     @Delete

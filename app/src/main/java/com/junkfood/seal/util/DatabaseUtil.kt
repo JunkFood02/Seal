@@ -11,11 +11,9 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.database.OptionShortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import javax.xml.transform.Templates
 
 
 object DatabaseUtil {
@@ -27,7 +25,7 @@ object DatabaseUtil {
     private val dao = db.videoInfoDao()
     fun insertInfo(vararg infoList: DownloadedVideoInfo) {
         applicationScope.launch(Dispatchers.IO) {
-            infoList.forEach { dao.deleteInfoByPathAndInsert(it) }
+            infoList.forEach { dao.insertInfoDistinctByPath(it) }
         }
     }
 
