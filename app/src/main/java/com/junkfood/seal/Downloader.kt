@@ -312,12 +312,12 @@ object Downloader {
                     )
                 }
                 .onSuccess { videoInfo ->
-                    val notificationId = videoInfo.id.toNotificationId()
+                    val taskId = videoInfo.id + downloadPreferences.hashCode()
+                    val notificationId = taskId.toNotificationId()
                     ToastUtil.makeToastSuspend(
                         context.getString(R.string.download_start_msg)
                             .format(videoInfo.title)
                     )
-                    val taskId = videoInfo.id + downloadPreferences.hashCode()
                     DownloadUtil.downloadVideo(
                         videoInfo = videoInfo,
                         downloadPreferences = downloadPreferences,
@@ -438,7 +438,8 @@ object Downloader {
         val isDownloadingPlaylist = downloaderState.value is State.DownloadingPlaylist
         if (!isDownloadingPlaylist)
             updateState(State.DownloadingVideo)
-        val notificationId = videoInfo.id.toNotificationId()
+        val taskId = videoInfo.id + preferences.hashCode()
+        val notificationId = taskId.toNotificationId()
         Log.d(TAG, "downloadVideo: id=${videoInfo.id} " + videoInfo.title)
         Log.d(TAG, "notificationId: $notificationId")
 
