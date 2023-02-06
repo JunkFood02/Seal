@@ -8,14 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v1.9.0][1.9.0] - unreleased
 
 ### Added
+
 - Add share file operation in `VideoDetailDrawer`
 - Add pre-release channel for auto-updating
-- Option to update to Nightly builds of yt-dlp 
-- Make video/audio clip in `FormatSelectionPage` 
+- Option to update to Nightly builds of yt-dlp
+- Make video/audio clip in `FormatSelectionPage`
+- Edit title of the video in `FormatSelectionPage` before downloading
 
 ### Changed
-- Change the operation of open link to long pressing the link button in `VideoDetailDrawer`
 
+- Change the operation of open link to long pressing the link button in `VideoDetailDrawer`
 
 ## [v1.8.2][1.8.2] - 2023-02-10
 
