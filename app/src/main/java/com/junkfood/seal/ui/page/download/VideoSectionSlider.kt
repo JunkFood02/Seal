@@ -39,8 +39,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
@@ -187,13 +189,41 @@ fun VideoClipDialog(
     valueRange: ClosedFloatingPointRange<Float>,
     onConfirm: (ClosedFloatingPointRange<Float>) -> Unit,
 ) {
-    var fromMin by remember { mutableStateOf((initialValue.start.roundToInt() / 60).toString()) }
-    var toMin by remember { mutableStateOf((initialValue.endInclusive.roundToInt() / 60).toString()) }
-    var fromSec by remember { mutableStateOf((initialValue.start.roundToInt() % 60).toString()) }
-    var toSec by remember { mutableStateOf((initialValue.endInclusive.roundToInt() % 60).toString()) }
+    var fromMin by remember {
+        mutableStateOf(
+            TextFieldValue(
+                (initialValue.start.roundToInt() / 60).toString(),
+                selection = TextRange(Int.MAX_VALUE)
+            )
+        )
+    }
+    var toMin by remember {
+        mutableStateOf(
+            TextFieldValue(
+                (initialValue.endInclusive.roundToInt() / 60).toString(),
+                selection = TextRange(Int.MAX_VALUE)
+            )
+        )
+    }
+    var fromSec by remember {
+        mutableStateOf(
+            TextFieldValue(
+                (initialValue.start.roundToInt() % 60).toString(),
+                selection = TextRange(Int.MAX_VALUE)
+            )
+        )
+    }
+    var toSec by remember {
+        mutableStateOf(
+            TextFieldValue(
+                (initialValue.endInclusive.roundToInt() % 60).toString(),
+                selection = TextRange(Int.MAX_VALUE)
+            )
+        )
+    }
 
 
-    var error by remember(fromMin, toMin, fromSec, toSec) { mutableStateOf(false) }
+    var error by remember(fromMin.text, toMin, fromSec, toSec) { mutableStateOf(false) }
     val valueIntRange = valueRange.toIntRange()
 
     val start = stringResource(id = R.string.clip_start)
@@ -203,8 +233,8 @@ fun VideoClipDialog(
 
 
     fun onDone() {
-        val startTime = convertToSecs(fromMin, fromSec)
-        val endTime = convertToSecs(toMin, toSec)
+        val startTime = convertToSecs(fromMin.text, fromSec.text)
+        val endTime = convertToSecs(toMin.text, toSec.text)
         if (startTime != -1
             && endTime != -1
             && startTime < endTime
@@ -245,7 +275,7 @@ fun VideoClipDialog(
                                     },
                                 value = fromMin,
                                 onValueChange = {
-                                    if (it.isDigitsOnly()) fromMin = it
+                                    if (it.text.isDigitsOnly()) fromMin = it
                                 },
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.NumberPassword,
@@ -268,7 +298,7 @@ fun VideoClipDialog(
                                     },
                                 value = fromSec,
                                 onValueChange = {
-                                    if (it.isNumberInRange(0, 60)) fromSec = it
+                                    if (it.text.isDigitsOnly()) fromSec = it
                                 },
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.NumberPassword,
@@ -296,7 +326,7 @@ fun VideoClipDialog(
                                 },
                             value = toMin,
                             onValueChange = {
-                                if (it.isDigitsOnly()) toMin = it
+                                if (it.text.isDigitsOnly()) toMin = it
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.NumberPassword,
@@ -319,7 +349,7 @@ fun VideoClipDialog(
                                 },
                             value = toSec,
                             onValueChange = {
-                                if (it.isNumberInRange(0, 60)) toSec = it
+                                if (it.text.isDigitsOnly()) toSec = it
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.NumberPassword,

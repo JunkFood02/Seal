@@ -319,7 +319,7 @@ fun FormatPageImpl(
 
     if (showRenameDialog)
         RenameDialog(
-            initialValue = videoInfo.title,
+            initialValue = videoTitle.ifEmpty { videoInfo.title },
             onDismissRequest = { showRenameDialog = false }) {
             videoTitle = it
         }
