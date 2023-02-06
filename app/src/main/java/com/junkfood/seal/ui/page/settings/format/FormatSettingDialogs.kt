@@ -36,20 +36,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
-import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LinkButton
+import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
@@ -234,7 +233,7 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
             DismissButton { onDismissRequest() }
         }, icon = { Icon(Icons.Outlined.Sort, null) },
         title = {
-            Text(stringResource(R.string.audio_format_preference))
+            Text(stringResource(R.string.format_sorting))
         }, confirmButton = {
             ConfirmButton {
                 SORTING_FIELDS.updateString(sortingFields)
@@ -242,42 +241,38 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
             }
         }, text = {
             Column(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .verticalScroll(rememberScrollState())
+                modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp),
+                        .padding(horizontal = 24.dp)
+                        .padding(bottom = 12.dp),
                     text = stringResource(R.string.format_sorting_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 OutlinedTextField(
-                    modifier = Modifier
-                        .padding(bottom = 8.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     value = sortingFields,
                     onValueChange = { sortingFields = it },
-//                    label = {
-//                        Text(stringResource(id = R.string.format_sorting))
-//                    },
-                    leadingIcon = { Text(text = "-S") },
+                    leadingIcon = { Text(text = "-S", fontFamily = FontFamily.Monospace) },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 val uriHandler = LocalUriHandler.current
                 Row(
                     modifier = Modifier
+                        .padding(horizontal = 16.dp)
                         .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 4.dp)
                 ) {
-                    ButtonChip(
+                    OutlinedButtonChip(
                         modifier = Modifier.padding(end = 8.dp),
                         label = stringResource(id = R.string.import_from_preferences),
                         icon = Icons.Outlined.SettingsSuggest
                     ) {
                         sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
-
                     }
-                    ButtonChip(
+                    OutlinedButtonChip(
                         label = stringResource(R.string.yt_dlp_docs),
                         icon = Icons.Outlined.OpenInNew
                     ) {
@@ -409,8 +404,6 @@ private const val sortingFormats = "https://github.com/yt-dlp/yt-dlp#sorting-for
 @Composable
 fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
     var languages by SUBTITLE_LANGUAGE.stringState
-    val focusManager = LocalFocusManager.current
-    val softwareKeyboardController = LocalSoftwareKeyboardController.current
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.subtitle_language)) },

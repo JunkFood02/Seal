@@ -50,6 +50,7 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.util.DatabaseUtil
@@ -170,7 +171,7 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
             }
         }
     }
-    AlertDialog(
+    SealDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(text = stringResource(id = R.string.edit_shortcuts)) },
         icon = { Icon(Icons.Outlined.Edit, null) }, text = {
@@ -178,10 +179,13 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
                 Text(
                     text = stringResource(R.string.edit_shortcuts_desc),
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    modifier = Modifier
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp)
                 )
                 Column(
                     modifier = Modifier
+                        .padding(horizontal = 16.dp)
                         .requiredHeight(400.dp)
                         .horizontalScroll(rememberScrollState())
                         .verticalScroll(rememberScrollState())
@@ -198,12 +202,13 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
                         }
                     }
                 }
-//                HorizontalDivider()
                 val focusManager = LocalFocusManager.current
                 val softwareKeyboardController = LocalSoftwareKeyboardController.current
 
                 SealTextField(
-                    modifier = Modifier.padding(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
                     value = text,
                     onValueChange = { text = it },
                     trailingIcon = {
@@ -226,6 +231,8 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
             }
 
         }, confirmButton = {
-            ConfirmButton { onDismissRequest() }
+            TextButton(onClick = onDismissRequest) {
+                Text(text = stringResource(id = androidx.appcompat.R.string.abc_action_mode_done))
+            }
         })
 }
