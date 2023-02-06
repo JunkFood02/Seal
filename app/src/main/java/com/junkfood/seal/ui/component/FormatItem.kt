@@ -6,10 +6,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.connectWithBlank
 import com.junkfood.seal.util.connectWithDelimiter
@@ -49,16 +53,16 @@ import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
 
 
-@Preview
 @Composable
 fun FormatVideoPreview(
     modifier: Modifier = Modifier,
-    title: String = "",
-    author: String = "",
-    thumbnailUrl: String = "",
-    duration: Int = 0,
+    title: String,
+    author: String,
+    thumbnailUrl: String,
+    duration: Int,
     showButton: Boolean = true,
     isClipEnabled: Boolean = false,
+    onTitleClick: () -> Unit = {},
     onButtonClick: ((Boolean) -> Unit)? = {}
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
@@ -73,9 +77,12 @@ fun FormatVideoPreview(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(PaddingValues(8.dp))
         ) {
-            Box(modifier = Modifier.weight(imageWeight)) {
+            Box(
+                modifier = Modifier
+                    .weight(imageWeight)
+            ) {
                 MediaImage(
                     modifier = Modifier, imageModel = thumbnailUrl, isAudio = false
                 )
@@ -99,18 +106,28 @@ fun FormatVideoPreview(
             Column(
                 modifier = Modifier
                     .weight(1f - imageWeight)
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Top
+                    .fillMaxWidth()
+                    .clickable(
+                        onClick = onTitleClick,
+                        onClickLabel = stringResource(id = R.string.rename),
+                        indication = null, interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                    ), verticalArrangement = Arrangement.Top
             ) {
                 Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                    ,
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 if (author != "playlist" && author != "null") Text(
-                    modifier = Modifier.padding(top = 3.dp),
+                    modifier = Modifier.padding(horizontal = 12.dp).padding(top = 3.dp),
                     text = author,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -134,6 +151,23 @@ fun FormatVideoPreview(
                 }
             }
 
+    }
+}
+
+@Composable
+@Preview
+fun VideoInfoPreview() {
+    SealTheme {
+        Surface {
+            FormatVideoPreview(
+                title = stringResource(id = R.string.video_title_sample_text),
+                author = stringResource(
+                    id = R.string.video_creator_sample_text
+                ),
+                thumbnailUrl = "",
+                duration = 7890
+            )
+        }
     }
 }
 

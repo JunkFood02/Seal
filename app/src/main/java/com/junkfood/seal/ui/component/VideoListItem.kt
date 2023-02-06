@@ -190,7 +190,7 @@ fun MediaImage(modifier: Modifier = Modifier, imageModel: String, isAudio: Boole
                 if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true
             )
             .clip(MaterialTheme.shapes.extraSmall),
-        model = imageModel.ifEmpty { R.drawable.sample1 },
+        model = imageModel,
         contentDescription = null,
         contentScale = ContentScale.Crop,
     )

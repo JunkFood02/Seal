@@ -316,5 +316,7 @@
     <string name="format_sorting">Format sorting</string>
     <string name="format_sorting_desc">Sorting formats with the -S option of yt-dlp</string>
     <string name="import_from_preferences">Import</string>
+    <string name="title">Title</string>
+    <string name="rename">Rename</string>
 
 </resources>

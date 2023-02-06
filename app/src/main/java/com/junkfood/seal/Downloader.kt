@@ -390,7 +390,8 @@ object Downloader {
     fun downloadVideoWithFormatId(
         videoInfo: VideoInfo,
         formatList: List<Format>,
-        videoClips: List<VideoClip>
+        videoClips: List<VideoClip>,
+        newTitle: String
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
             val fileSize = formatList.fold(0L) { acc, format ->
@@ -412,11 +413,12 @@ object Downloader {
                 copy(
                     extractAudio = extractAudio || audioOnly,
                     formatId = formatId,
-                    videoClips = videoClips
+                    videoClips = videoClips,
+                    newTitle = newTitle
                 )
             }
             downloadResultTemp = downloadVideo(
-                videoInfo = info,
+                videoInfo = if (newTitle.isNotEmpty()) info.copy(title = newTitle) else info,
                 preferences = downloadPreferences
             )
         }

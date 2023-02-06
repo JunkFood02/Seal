@@ -136,7 +136,8 @@ object DownloadUtil {
         val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
         val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
         val sdcardUri: String = SDCARD_URI.getString(),
-        val videoClips: List<VideoClip> = emptyList()
+        val videoClips: List<VideoClip> = emptyList(),
+        val newTitle: String = ""
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {
@@ -382,7 +383,9 @@ object DownloadUtil {
                 videoClips.forEach {
                     addOption("--download-sections", "*%d-%d".format(it.start, it.end))
                 }
-
+                if (newTitle.isNotEmpty()) {
+                    addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
+                }
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
                     "-P", "temp:" + context.getTempDir()
                 )
@@ -401,7 +404,7 @@ object DownloadUtil {
                 return if (sponsorBlock && th.message?.contains("Unable to communicate with SponsorBlock API") == true) {
                     th.printStackTrace()
                     onFinishDownloading(
-                        this,
+                        preferences = this,
                         videoInfo = videoInfo,
                         downloadPath = pathBuilder.toString(),
                         sdcardUri = sdcardUri
@@ -409,7 +412,7 @@ object DownloadUtil {
                 } else Result.failure(th)
             }
             return onFinishDownloading(
-                this,
+                preferences = this,
                 videoInfo = videoInfo,
                 downloadPath = pathBuilder.toString(),
                 sdcardUri = sdcardUri

@@ -16,10 +16,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,11 +47,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
@@ -64,9 +69,11 @@ private const val TAG = "FormatPage"
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     if (videoInfo.formats.isNullOrEmpty()) return
-    FormatPageImpl(videoInfo = videoInfo, onBackPressed = onBackPressed) { formatList, videoClips ->
+    FormatPageImpl(
+        videoInfo = videoInfo, onBackPressed = onBackPressed
+    ) { formatList, videoClips, title ->
         Log.d(TAG, formatList.toString())
-        Downloader.downloadVideoWithFormatId(videoInfo, formatList, videoClips)
+        Downloader.downloadVideoWithFormatId(videoInfo, formatList, videoClips, title)
         onBackPressed()
     }
 }
@@ -80,7 +87,7 @@ private const val NOT_SELECTED = -1
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (List<Format>, List<VideoClip>) -> Unit = { _, _ -> }
+    onDownloadPressed: (List<Format>, List<VideoClip>, String) -> Unit = { _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -111,7 +118,11 @@ fun FormatPageImpl(
     var isClipEnabled by remember { mutableStateOf(false) }
     val videoDuration = 0f..(videoInfo.duration?.toFloat() ?: 0f)
     var showVideoClipDialog by remember { mutableStateOf(false) }
+    var showRenameDialog by remember { mutableStateOf(false) }
+
     var videoClipDuration by remember { mutableStateOf(videoDuration) }
+    var videoTitle by remember { mutableStateOf("") }
+
 
     LaunchedEffect(isClipEnabled) {
         delay(200)
@@ -149,7 +160,8 @@ fun FormatPageImpl(
                 TextButton(onClick = {
                     onDownloadPressed(
                         formatList,
-                        if (isClipEnabled) listOf(VideoClip(videoClipDuration)) else emptyList()
+                        if (isClipEnabled) listOf(VideoClip(videoClipDuration)) else emptyList(),
+                        videoTitle
                     )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
@@ -167,28 +179,28 @@ fun FormatPageImpl(
         ) {
             videoInfo.run {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatVideoPreview(
-                        title = title,
+                    FormatVideoPreview(title = videoTitle.ifEmpty { title },
                         author = uploader ?: channel.toString(),
                         thumbnailUrl = thumbnail.toHttpsUrl(),
                         duration = (duration ?: .0).roundToInt(),
                         showButton = (duration ?: .0) >= 0,
                         isClipEnabled = isClipEnabled,
-                        onButtonClick = { isClipEnabled = it }
-                    )
+                        onTitleClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            showRenameDialog = true
+                        },
+                        onButtonClick = { isClipEnabled = it })
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column {
                         AnimatedVisibility(visible = isClipEnabled) {
                             Column {
-                                VideoSelectionSlider(
-                                    modifier = Modifier.fillMaxWidth(),
+                                VideoSelectionSlider(modifier = Modifier.fillMaxWidth(),
                                     value = videoClipDuration,
                                     duration = duration?.roundToInt() ?: 0,
                                     onDiscard = { isClipEnabled = false },
                                     onValueChange = { videoClipDuration = it },
-                                    onDurationClick = { showVideoClipDialog = true }
-                                )
+                                    onDurationClick = { showVideoClipDialog = true })
                                 HorizontalDivider()
                             }
                         }
@@ -199,8 +211,7 @@ fun FormatPageImpl(
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatItem(
-                        formatDesc = format.toString(),
+                    FormatItem(formatDesc = format.toString(),
                         resolution = resolution.toString(),
                         codec = connectWithBlank(
                             vcodec.toString().substringBefore("."),
@@ -210,8 +221,7 @@ fun FormatPageImpl(
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: 0,
                         selected = isSuggestedFormatSelected,
-                        onLongClick = {}
-                    ) {
+                        onLongClick = {}) {
                         isSuggestedFormatSelected = true
                         selectedAudioOnlyFormat = NOT_SELECTED
                         selectedVideoAudioFormat = NOT_SELECTED
@@ -224,11 +234,9 @@ fun FormatPageImpl(
                 FormatSubtitle(text = stringResource(R.string.video))
             }
             itemsIndexed(videoAudioFormats) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
+                FormatItem(formatInfo = formatInfo,
                     selected = selectedVideoAudioFormat == index,
-                    onLongClick = { formatInfo.url.share() }
-                ) {
+                    onLongClick = { formatInfo.url.share() }) {
                     selectedVideoAudioFormat =
                         if (selectedVideoAudioFormat == index) NOT_SELECTED else {
                             selectedAudioOnlyFormat = NOT_SELECTED
@@ -246,8 +254,7 @@ fun FormatPageImpl(
                 )
             }
             itemsIndexed(audioOnlyFormats) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
+                FormatItem(formatInfo = formatInfo,
                     selected = selectedAudioOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     outlineColor = MaterialTheme.colorScheme.secondary,
@@ -272,15 +279,13 @@ fun FormatPageImpl(
                 )
             }
             itemsIndexed(videoOnlyFormats) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
+                FormatItem(formatInfo = formatInfo,
                     selected = selectedVideoOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     outlineColor = MaterialTheme.colorScheme.tertiary,
                     onLongClick = {
                         formatInfo.url.share()
-                    }
-                ) {
+                    }) {
                     selectedVideoOnlyFormat =
                         if (selectedVideoOnlyFormat == index) NOT_SELECTED else {
                             selectedVideoAudioFormat = NOT_SELECTED
@@ -289,25 +294,60 @@ fun FormatPageImpl(
                         }
                 }
             }
-            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    PreferenceInfo(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
-                        text = stringResource(R.string.abs_hint),
-                        applyPaddings = false
-                    )
-                }
+            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty()) item(span = {
+                GridItemSpan(
+                    maxLineSpan
+                )
+            }) {
+                PreferenceInfo(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
+                    text = stringResource(R.string.abs_hint),
+                    applyPaddings = false
+                )
+            }
             item {
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
         }
     }
-    if (showVideoClipDialog)
-        VideoClipDialog(
-            onDismissRequest = { showVideoClipDialog = false },
-            initialValue = videoClipDuration,
-            valueRange = videoDuration,
-            onConfirm = { videoClipDuration = it }
+    if (showVideoClipDialog) VideoClipDialog(onDismissRequest = { showVideoClipDialog = false },
+        initialValue = videoClipDuration,
+        valueRange = videoDuration,
+        onConfirm = { videoClipDuration = it })
+
+    if (showRenameDialog)
+        RenameDialog(
+            initialValue = videoInfo.title,
+            onDismissRequest = { showRenameDialog = false }) {
+            videoTitle = it
+        }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RenameDialog(initialValue: String, onDismissRequest: () -> Unit, onConfirm: (String) -> Unit) {
+    var filename by remember { mutableStateOf(initialValue) }
+    SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
+        ConfirmButton {
+            onConfirm(filename)
+            onDismissRequest()
+        }
+    }, dismissButton = {
+        DismissButton { onDismissRequest() }
+    }, title = { Text(text = stringResource(id = R.string.rename)) }, icon = {
+        Icon(
+            imageVector = Icons.Outlined.Edit,
+            contentDescription = null
         )
+    }, text = {
+        Column {
+            OutlinedTextField(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                value = filename,
+                onValueChange = { filename = it },
+                label = { Text(text = stringResource(id = R.string.title)) }
+            )
+        }
+    })
 }
