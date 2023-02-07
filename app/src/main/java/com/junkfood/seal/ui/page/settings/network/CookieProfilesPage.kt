@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings.network
 
+import android.webkit.CookieManager
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ContentPasteGo
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material3.AlertDialog
@@ -20,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,11 +40,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
@@ -58,8 +64,11 @@ import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.COOKIES
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,9 +84,9 @@ fun CookieProfilePage(
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
-
+    val clipboardManager = LocalClipboardManager.current
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
-
+    var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
 
     var showHelpDialog by remember { mutableStateOf(false) }
@@ -135,11 +144,33 @@ fun CookieProfilePage(
                     }, onLongClickLabel = stringResource(R.string.remove)
                 )
             }
+
             item {
                 PreferenceItemVariant(
                     title = stringResource(id = R.string.generate_new_cookies),
                     icon = Icons.Outlined.Add
                 ) { cookiesViewModel.showEditCookieDialog() }
+            }
+            item {
+                PreferenceItemVariant(
+                    title = stringResource(id = R.string.export_to_clipboard),
+                    icon = Icons.Outlined.ContentPasteGo
+                ) {
+                    scope.launch(Dispatchers.IO) {
+                        DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                            clipboardManager.setText(AnnotatedString(it))
+                        }
+                    }
+                }
+            }
+            item {
+                PreferenceItemVariant(
+                    title = stringResource(id = R.string.clear_all_cookies),
+                    icon = Icons.Outlined.DeleteForever
+                ) {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    showClearCookieDialog = true
+                }
             }
         }
 
@@ -160,6 +191,13 @@ fun CookieProfilePage(
     if (showHelpDialog) {
         HelpDialog(text = stringResource(id = R.string.cookies_usage_msg)) {
             showHelpDialog = false
+        }
+    }
+    if (showClearCookieDialog) {
+        ClearCookiesDialog(onDismissRequest = { showClearCookieDialog = false }) {
+            scope.launch(Dispatchers.IO) {
+                CookieManager.getInstance().removeAllCookies(null)
+            }
         }
     }
 }
@@ -188,8 +226,7 @@ fun CookieGeneratorDialog(
             val softwareKeyboardController = LocalSoftwareKeyboardController.current
             OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .fillMaxWidth(),
                 value = url, label = { Text("URL") },
                 onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
                     PasteFromClipBoardButton {
@@ -201,15 +238,15 @@ fun CookieGeneratorDialog(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 12.dp),
-                value = content,
-                label = { Text(stringResource(R.string.cookies_file_name)) },
-                onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
-            )
+            /*            OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp, bottom = 12.dp),
+                            value = content,
+                            label = { Text(stringResource(R.string.cookies_file_name)) },
+                            onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                        )*/
             TextButtonWithIcon(
                 onClick = { navigateToCookieGeneratorPage() },
                 icon = Icons.Outlined.GeneratingTokens,
@@ -222,7 +259,7 @@ fun CookieGeneratorDialog(
             onDismissRequest()
         }
     }, confirmButton = {
-        ConfirmButton(enabled = url.isNotEmpty() && content.isNotEmpty()) {
+        ConfirmButton(enabled = url.isNotEmpty()) {
             cookiesViewModel.updateCookieProfile()
             onDismissRequest()
         }
@@ -256,4 +293,29 @@ fun DeleteCookieDialog(
                 onDismissRequest()
             }
         }, icon = { Icon(Icons.Outlined.Delete, null) })
+}
+
+@Composable
+fun ClearCookiesDialog(
+    onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text(stringResource(R.string.clear_all_cookies)) },
+        text = {
+            Text(
+                stringResource(R.string.clear_all_cookies_desc),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        dismissButton = {
+            DismissButton {
+                onDismissRequest()
+            }
+        }, confirmButton = {
+            ConfirmButton {
+                onConfirm()
+                onDismissRequest()
+            }
+        }, icon = { Icon(Icons.Outlined.DeleteForever, null) })
 }

@@ -163,12 +163,12 @@ object DownloadUtil {
 //        }
 
 
-    fun getCookiesContentFromDatabase(): String {
-        val db = SQLiteDatabase.openDatabase(
-            "/data/data/com.junkfood.seal/app_webview/Default/Cookies",
-            null,
-            0
-        )
+    @CheckResult
+    fun getCookiesContentFromDatabase(): Result<String> = SQLiteDatabase.openDatabase(
+        "/data/data/com.junkfood.seal/app_webview/Default/Cookies",
+        null,
+        0
+    ).runCatching {
         val projection = arrayOf(
             CookieScheme.HOST,
             CookieScheme.EXPIRY,
@@ -178,7 +178,7 @@ object DownloadUtil {
             CookieScheme.SECURE
         )
         val cookieList = mutableListOf<Cookie>()
-        db.query(
+        query(
             "cookies",
             projection,
             null,
@@ -209,13 +209,14 @@ object DownloadUtil {
             }
             close()
         }
-        return cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
+        cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
             acc.append(cookie.toNetscapeCookieString()).append("\n")
         }.toString()
     }
 
+
     private fun YoutubeDLRequest.enableCookiesFromDatabase(): YoutubeDLRequest = this.apply {
-        getCookiesContentFromDatabase().run {
+        getCookiesContentFromDatabase().getOrNull()?.run {
             addOption(
                 "--cookies", FileUtil.writeContentToFile(
                     this, context.getCookiesFile()

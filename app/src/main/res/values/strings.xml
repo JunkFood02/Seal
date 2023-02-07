@@ -320,5 +320,7 @@
     <string name="rename">Rename</string>
     <string name="second">second</string>
     <string name="minute">minute</string>
+    <string name="clear_all_cookies">Clear all cookies</string>
+    <string name="clear_all_cookies_desc">Delete all the cookies stored in the app for good?</string>
 
 </resources>
