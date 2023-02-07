@@ -65,6 +65,8 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
@@ -128,6 +130,11 @@ fun CookieProfilePage(
                         else {
                             isCookieEnabled = !isCookieEnabled
                             PreferenceUtil.updateValue(COOKIES, isCookieEnabled)
+                        }
+                        scope.launch(Dispatchers.IO) {
+                            DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                                FileUtil.writeContentToFile(it, context.getCookiesFile())
+                            }
                         }
                     })
             }

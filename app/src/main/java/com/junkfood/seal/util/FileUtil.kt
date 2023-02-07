@@ -174,8 +174,8 @@ object FileUtil {
     fun Context.getConfigFile(suffix: String = "") =
         File(getConfigDirectory(), "config$suffix.txt")
 
-    fun Context.getCookiesFile(suffix: String = "") =
-        File(getConfigDirectory(), "cookies$suffix.txt")
+    fun Context.getCookiesFile() =
+        File(getConfigDirectory(), "cookies.txt")
 
     fun Context.getTempDir() = File(filesDir, "tmp")
 
@@ -189,10 +189,7 @@ object FileUtil {
     }.onFailure { it.printStackTrace() }
 
 
-    fun writeContentToFile(content: String, file: File): File {
-        file.writeText(content)
-        return file
-    }
+    fun writeContentToFile(content: String, file: File): File = file.apply { writeText(content) }
 
     fun getRealPath(treeUri: Uri): String {
         val path: String = treeUri.path.toString()

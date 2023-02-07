@@ -1,6 +1,7 @@
 package com.junkfood.seal.util
 
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabase.OPEN_READONLY
 import android.os.Build
 import android.util.Log
 import androidx.annotation.CheckResult
@@ -66,7 +67,6 @@ object DownloadUtil {
         with(request) {
             addOption("--compat-options", "no-youtube-unavailable-videos")
             addOption("--flat-playlist")
-//                addOption("--playlist-items", "1:200")
             addOption("-J")
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
@@ -130,7 +130,7 @@ object DownloadUtil {
         val maxFileSize: String = MAX_FILE_SIZE.getString(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
-        val cookies: Boolean = PreferenceUtil.getValue(COOKIES),
+        val cookies: Boolean = COOKIES.getBoolean(),
         val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
         val audioFormat: Int = AUDIO_FORMAT.getInt(),
         val audioQuality: Int = AUDIO_QUALITY.getInt(),
@@ -153,21 +153,14 @@ object DownloadUtil {
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest =
-        this.enableCookiesFromDatabase()
-//        PreferenceUtil.getCookies().run {
-//            if (isNotEmpty()) addOption(
-//                "--cookies", FileUtil.writeContentToFile(
-//                    this, context.getCookiesFile()
-//                ).absolutePath
-//            )
-//        }
+        this.addOption("--cookies", context.getCookiesFile().absolutePath)
 
 
     @CheckResult
     fun getCookiesContentFromDatabase(): Result<String> = SQLiteDatabase.openDatabase(
         "/data/data/com.junkfood.seal/app_webview/Default/Cookies",
         null,
-        0
+        OPEN_READONLY
     ).runCatching {
         val projection = arrayOf(
             CookieScheme.HOST,
@@ -214,16 +207,6 @@ object DownloadUtil {
         }.toString()
     }
 
-
-    private fun YoutubeDLRequest.enableCookiesFromDatabase(): YoutubeDLRequest = this.apply {
-        getCookiesContentFromDatabase().getOrNull()?.run {
-            addOption(
-                "--cookies", FileUtil.writeContentToFile(
-                    this, context.getCookiesFile()
-                ).absolutePath
-            )
-        }
-    }
 
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")
