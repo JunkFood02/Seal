@@ -30,7 +30,7 @@ import com.junkfood.seal.util.connectWithDelimiter
 
 private const val TAG = "WebViewPage"
 
-private data class Cookie(
+data class Cookie(
     val domain: String = "",
     val name: String = "",
     val value: String = "",
@@ -44,21 +44,20 @@ private data class Cookie(
         name: String,
         value: String
     ) : this(domain = url.toDomain(), name = name, value = value)
-
+    fun toNetscapeCookieString(): String {
+        return connectWithDelimiter(
+            domain,
+            includeSubdomains.toString().uppercase(),
+            path,
+            secure.toString().uppercase(),
+            expiry.toString(),
+            name,
+            value,
+            delimiter = "\u0009"
+        )
+    }
 }
 
-private fun Cookie.toNetscapeCookieString(): String {
-    return connectWithDelimiter(
-        domain,
-        includeSubdomains.toString().uppercase(),
-        path,
-        secure.toString().uppercase(),
-        expiry.toString(),
-        name,
-        value,
-        delimiter = "\u0009"
-    )
-}
 
 private val domainRegex = Regex("""http(s)?://(\w*(www|m|account|sso))?|/.*""")
 private fun String.toDomain(): String {

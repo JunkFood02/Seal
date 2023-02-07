@@ -1,5 +1,6 @@
 package com.junkfood.seal.util
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import android.util.Log
 import androidx.annotation.CheckResult
@@ -17,11 +18,13 @@ import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.ui.page.settings.network.Cookie
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
+import com.junkfood.seal.util.PreferenceUtil.COOKIE_HEADER
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.getString
@@ -32,6 +35,15 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.math.roundToInt
+
+object CookieScheme {
+    const val NAME = "name"
+    const val VALUE = "value"
+    const val SECURE = "is_secure"
+    const val EXPIRY = "expires_utc"
+    const val HOST = "host_key"
+    const val PATH = "path"
+}
 
 object DownloadUtil {
 
@@ -140,9 +152,71 @@ object DownloadUtil {
         val newTitle: String = ""
     )
 
-    private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest = this.apply {
-        PreferenceUtil.getCookies().run {
-            if (isNotEmpty()) addOption(
+    private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest =
+        this.enableCookiesFromDatabase()
+//        PreferenceUtil.getCookies().run {
+//            if (isNotEmpty()) addOption(
+//                "--cookies", FileUtil.writeContentToFile(
+//                    this, context.getCookiesFile()
+//                ).absolutePath
+//            )
+//        }
+
+
+    fun getCookiesContentFromDatabase(): String {
+        val db = SQLiteDatabase.openDatabase(
+            "/data/data/com.junkfood.seal/app_webview/Default/Cookies",
+            null,
+            0
+        )
+        val projection = arrayOf(
+            CookieScheme.HOST,
+            CookieScheme.EXPIRY,
+            CookieScheme.PATH,
+            CookieScheme.NAME,
+            CookieScheme.VALUE,
+            CookieScheme.SECURE
+        )
+        val cookieList = mutableListOf<Cookie>()
+        db.query(
+            "cookies",
+            projection,
+            null,
+            null,
+            null,
+            null,
+            null
+        ).run {
+            while (moveToNext()) {
+                val expiry = getLong(getColumnIndexOrThrow(CookieScheme.EXPIRY))
+                val name = getString(getColumnIndexOrThrow(CookieScheme.NAME))
+                val value = getString(getColumnIndexOrThrow(CookieScheme.VALUE))
+                val path = getString(getColumnIndexOrThrow(CookieScheme.PATH))
+                val secure = getLong(getColumnIndexOrThrow(CookieScheme.SECURE)) == 1L
+                val hostKey = getString(getColumnIndexOrThrow(CookieScheme.HOST))
+
+                val host = if (hostKey[0] != '.') ".$hostKey" else hostKey
+                cookieList.add(
+                    Cookie(
+                        domain = host,
+                        name = name,
+                        value = value,
+                        path = path,
+                        secure = secure,
+                        expiry = expiry
+                    )
+                )
+            }
+            close()
+        }
+        return cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
+            acc.append(cookie.toNetscapeCookieString()).append("\n")
+        }.toString()
+    }
+
+    private fun YoutubeDLRequest.enableCookiesFromDatabase(): YoutubeDLRequest = this.apply {
+        getCookiesContentFromDatabase().run {
+            addOption(
                 "--cookies", FileUtil.writeContentToFile(
                     this, context.getCookiesFile()
                 ).absolutePath

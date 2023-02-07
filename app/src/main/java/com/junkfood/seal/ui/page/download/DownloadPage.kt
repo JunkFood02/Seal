@@ -32,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
+import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
@@ -94,11 +95,14 @@ import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
 import com.junkfood.seal.util.DISABLE_PREVIEW
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.WELCOME_DIALOG
 import com.junkfood.seal.util.matchUrlFromClipboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @OptIn(
@@ -529,9 +533,19 @@ fun FABs(
     downloadCallback: () -> Unit = {},
     pasteCallback: () -> Unit = {},
 ) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
     Column(
         modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
     ) {
+        FloatingActionButton(onClick = {
+            scope.launch(Dispatchers.IO) {
+                clipboardManager.setText(AnnotatedString(DownloadUtil.getCookiesContentFromDatabase()))
+            }
+        }) {
+            Icon(imageVector = Icons.Outlined.Cookie, contentDescription = null)
+        }
         FloatingActionButton(
             onClick = pasteCallback,
             content = {
