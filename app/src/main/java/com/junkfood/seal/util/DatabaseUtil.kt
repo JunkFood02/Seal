@@ -81,12 +81,12 @@ object DatabaseUtil {
                 templates.filterNot {
                     templateList.contains(it)
                 }.run {
-                    dao.importTemplates(this)
+                    dao.importTemplates(this.map { it.copy(id = 0) })
                     cnt += size
                 }
                 dao.insertAllShortcuts(shortcuts.filterNot {
                     shortcutList.contains(it)
-                }.apply { cnt += size })
+                }.map { it.copy(id = 0) }.apply { cnt += size })
             }
 
         } catch (e: Exception) {
