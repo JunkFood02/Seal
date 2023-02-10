@@ -14,7 +14,6 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Environment
 import android.os.IBinder
-import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
@@ -29,6 +28,7 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
@@ -75,13 +75,13 @@ class App : Application() {
                 YoutubeDL.init(this@App)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
-                DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                DownloadUtil.getCookiesContentFromDatabase().getOrThrow().let {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 clipboard.setPrimaryClip(ClipData.newPlainText(null, e.message))
-                Toast.makeText(this@App, e.message, Toast.LENGTH_LONG).show()
+                ToastUtil.makeToastSuspend(e.message.toString())
             }
         }
 

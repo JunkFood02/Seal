@@ -125,6 +125,7 @@ fun WebViewPage(
                             cookieSet.add(makeCookie(url, cookieString))
                         }
                     }
+                    cookieManager
                     Log.d(TAG, "onPageFinished: $url, cookieSize=${cookieSet.size}")
                 }
             }

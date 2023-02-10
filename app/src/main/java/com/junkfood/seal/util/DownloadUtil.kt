@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.OPEN_READONLY
 import android.os.Build
 import android.util.Log
+import android.webkit.CookieManager
 import androidx.annotation.CheckResult
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.audioDownloadDir
@@ -157,54 +158,49 @@ object DownloadUtil {
 
 
     @CheckResult
-    fun getCookiesContentFromDatabase(): Result<String> = SQLiteDatabase.openDatabase(
-        "/data/data/com.junkfood.seal/app_webview/Default/Cookies",
-        null,
-        OPEN_READONLY
-    ).runCatching {
-        val projection = arrayOf(
-            CookieScheme.HOST,
-            CookieScheme.EXPIRY,
-            CookieScheme.PATH,
-            CookieScheme.NAME,
-            CookieScheme.VALUE,
-            CookieScheme.SECURE
-        )
-        val cookieList = mutableListOf<Cookie>()
-        query(
-            "cookies",
-            projection,
-            null,
-            null,
-            null,
-            null,
-            null
+    fun getCookiesContentFromDatabase(): Result<String> = runCatching {
+        CookieManager.getInstance().flush()
+        SQLiteDatabase.openDatabase(
+            "/data/data/com.junkfood.seal/app_webview/Default/Cookies", null, OPEN_READONLY
         ).run {
-            while (moveToNext()) {
-                val expiry = getLong(getColumnIndexOrThrow(CookieScheme.EXPIRY))
-                val name = getString(getColumnIndexOrThrow(CookieScheme.NAME))
-                val value = getString(getColumnIndexOrThrow(CookieScheme.VALUE))
-                val path = getString(getColumnIndexOrThrow(CookieScheme.PATH))
-                val secure = getLong(getColumnIndexOrThrow(CookieScheme.SECURE)) == 1L
-                val hostKey = getString(getColumnIndexOrThrow(CookieScheme.HOST))
+            val projection = arrayOf(
+                CookieScheme.HOST,
+                CookieScheme.EXPIRY,
+                CookieScheme.PATH,
+                CookieScheme.NAME,
+                CookieScheme.VALUE,
+                CookieScheme.SECURE
+            )
+            val cookieList = mutableListOf<Cookie>()
+            query(
+                "cookies", projection, null, null, null, null, null
+            ).run {
+                while (moveToNext()) {
+                    val expiry = getLong(getColumnIndexOrThrow(CookieScheme.EXPIRY))
+                    val name = getString(getColumnIndexOrThrow(CookieScheme.NAME))
+                    val value = getString(getColumnIndexOrThrow(CookieScheme.VALUE))
+                    val path = getString(getColumnIndexOrThrow(CookieScheme.PATH))
+                    val secure = getLong(getColumnIndexOrThrow(CookieScheme.SECURE)) == 1L
+                    val hostKey = getString(getColumnIndexOrThrow(CookieScheme.HOST))
 
-                val host = if (hostKey[0] != '.') ".$hostKey" else hostKey
-                cookieList.add(
-                    Cookie(
-                        domain = host,
-                        name = name,
-                        value = value,
-                        path = path,
-                        secure = secure,
-                        expiry = expiry
+                    val host = if (hostKey[0] != '.') ".$hostKey" else hostKey
+                    cookieList.add(
+                        Cookie(
+                            domain = host,
+                            name = name,
+                            value = value,
+                            path = path,
+                            secure = secure,
+                            expiry = expiry
+                        )
                     )
-                )
+                }
+                close()
             }
-            close()
+            cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
+                acc.append(cookie.toNetscapeCookieString()).append("\n")
+            }.toString()
         }
-        cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
-            acc.append(cookie.toNetscapeCookieString()).append("\n")
-        }.toString()
     }
 
 
@@ -231,8 +227,7 @@ object DownloadUtil {
                     addOption("--write-subs")
                 }
             }
-            if (videoClips.isEmpty())
-                addOption("--embed-chapters")
+            if (videoClips.isEmpty()) addOption("--embed-chapters")
         }
     }
 
@@ -278,11 +273,9 @@ object DownloadUtil {
     }
 
     private fun YoutubeDLRequest.applyFormatSorter(
-        preferences: DownloadPreferences,
-        sorter: String
+        preferences: DownloadPreferences, sorter: String
     ) = preferences.run {
-        if (formatSorting && sortingFields.isNotEmpty())
-            addOption("-S", sortingFields)
+        if (formatSorting && sortingFields.isNotEmpty()) addOption("-S", sortingFields)
         else {
             if (sorter.isNotEmpty()) addOption("-S", sorter) else {
             }
@@ -290,12 +283,9 @@ object DownloadUtil {
     }
 
     @CheckResult
-    fun DownloadPreferences.toFormatSorter(): String =
-        connectWithDelimiter(
-            this.toVideoFormatSorter(),
-            this.toAudioFormatSorter(),
-            delimiter = ","
-        )
+    fun DownloadPreferences.toFormatSorter(): String = connectWithDelimiter(
+        this.toVideoFormatSorter(), this.toAudioFormatSorter(), delimiter = ","
+    )
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String, preferences: DownloadPreferences, playlistUrl: String
