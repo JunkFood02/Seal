@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change the operation of open link to long pressing the link button in `VideoDetailDrawer`
 
+### Fixed
+
+- Fix errors when using cookies with YouTube
+
 ## [v1.8.2][1.8.2] - 2023-02-10
 
 ### Fixed
