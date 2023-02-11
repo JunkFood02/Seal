@@ -159,7 +159,10 @@ object DownloadUtil {
 
     @CheckResult
     fun getCookiesContentFromDatabase(): Result<String> = runCatching {
-        CookieManager.getInstance().flush()
+        CookieManager.getInstance().run {
+            if (!hasCookies()) throw Exception("There is no cookies in the database!")
+            flush()
+        }
         SQLiteDatabase.openDatabase(
             "/data/data/com.junkfood.seal/app_webview/Default/Cookies", null, OPEN_READONLY
         ).run {
