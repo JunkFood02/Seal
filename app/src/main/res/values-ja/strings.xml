@@ -157,4 +157,18 @@
     <string name="open_file">ファイルを開く</string>
     <string name="restart">リスタート</string>
     <string name="copy_link">リンクをコピー</string>
+    <string name="sponsorblock_desc">SponsorBlock APIでセグメントを動画から削除</string>
+    <string name="sponsorblock_categories">SponsorBlockのカテゴリ</string>
+    <string name="import_from_clipboard">クリップボードから貼り付け</string>
+    <string name="export_to_clipboard">クリップボードに送る</string>
+    <string name="template_exported">%1$dつのテンプレートを出力しました</string>
+    <string name="template_imported">%1$dつのテンプレートを読み込みました</string>
+    <string name="video_resolution">動画の解像度</string>
+    <string name="video_file_size">動画ファイルのサイズ</string>
+    <string name="download_task_count">%1$dつのダウンロード待ち</string>
+    <string name="recently_added">最近追加された項目</string>
+    <string name="multiselect_item_count">%1$dつの動画、%2$dつの音声ファイル</string>
+    <string name="delete_multiple_items_msg">%1$dつの項目をダウンロード履歴から永久に削除してよろしいですか？</string>
+    <string name="sponsorblock_categories_desc">動画ファイルから削除されるSponsorBlockのカテゴリを設定</string>
+    <string name="check_for_updates">更新を確認</string>
 </resources>

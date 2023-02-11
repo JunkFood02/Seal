@@ -250,7 +250,7 @@
     <string name="filesize_gb">%.2f Gb</string>
     <string name="filesize_mb">%.2f Mb</string>
     <string name="stable_channel">Стабільний</string>
-    <string name="pre_release_channel">Пре-реліз</string>
+    <string name="pre_release_channel">Прев\'ю</string>
     <string name="share">Поділитися</string>
     <string name="update_channel">Оновити канал</string>
     <string name="auto_update">Автоматичне оновлення</string>
@@ -258,4 +258,9 @@
 \n
 \nУ цих версіях буде спостерігатися деяка нестабільність, тому, будь ласка, не соромтеся повідомляти нам про будь-які проблеми, щоб допомогти нам покращити додаток у майбутньому.</string>
     <string name="enable_auto_update">Увімкнути автоматичне оновлення</string>
+    <string name="apply">Застосувати</string>
+    <string name="clip_video">Відеокліп</string>
+    <string name="clip_start">Початок</string>
+    <string name="clip_end">Кінець</string>
+    <string name="discard">Відхилити</string>
 </resources>

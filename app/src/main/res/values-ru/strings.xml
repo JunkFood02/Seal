@@ -158,7 +158,7 @@
     <string name="status_error">Ошибка</string>
     <string name="copy_link">Скопировать ссылку</string>
     <string name="video_resolution">Разрешение видео</string>
-    <string name="video_file_size">Размер видеофайла</string>
+    <string name="video_file_size">Размер файла</string>
     <string name="import_from_clipboard">Импорт из буфера обмена</string>
     <string name="template_exported">Экспортировано %1$d шаблон(а/ов)</string>
     <string name="template_imported">Импортировано %1$d шаблон(а/ов)</string>
@@ -258,4 +258,9 @@
     <string name="auto_update">Автообновление</string>
     <string name="enable_auto_update">Включить автообновление</string>
     <string name="abs_hint">Большинство стриминговых сервисов поставляют аудио и видео раздельно. Вы можете выбрать и объединить форматы только аудио с только видео в одно видео.</string>
+    <string name="clip_end">Конец</string>
+    <string name="clip_video">Обрезать видео</string>
+    <string name="discard">Отменить</string>
+    <string name="apply">Применить</string>
+    <string name="clip_start">Начало</string>
 </resources>

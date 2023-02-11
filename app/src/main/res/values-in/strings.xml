@@ -253,9 +253,14 @@
     <string name="share">Bagikan</string>
     <string name="auto_update">Pembaruan otomatis</string>
     <string name="stable_channel">Stabil</string>
-    <string name="pre_release_channel">Prarilis</string>
+    <string name="pre_release_channel">Pratinjau</string>
     <string name="update_channel_desc">Pasang bangunan prarilis untuk melihat fitur dan perubahan baru.
 \n
 \nAda ketidakstabilan dalam versi ini, jadi jangan ragu untuk memberi kami masukan jika Anda mengalami masalah apa pun untuk membantu kami meningkatkan aplikasi untuk masa depan.</string>
     <string name="enable_auto_update">Aktifkan pembaruan</string>
+    <string name="discard">Abaikan</string>
+    <string name="clip_video">Klip video</string>
+    <string name="clip_end">Akhir</string>
+    <string name="clip_start">Awal</string>
+    <string name="apply">Terapkan</string>
 </resources>

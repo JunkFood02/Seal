@@ -10,7 +10,7 @@
     <string name="create_thumbnail">Guardar miniatura</string>
     <string name="settings">Ajustes</string>
     <string name="download_settings_desc">Ajustes en general, formato y comandos personalizados</string>
-    <string name="download">Descargas</string>
+    <string name="download">Descargar</string>
     <string name="url_empty">El hueco del enlace no debería estar vacío</string>
     <string name="extract_audio_summary">Descargar y guardar audio en vez de vídeo</string>
     <string name="create_thumbnail_summary">Guardar la miniatura del vídeo como un archivo aparte</string>
@@ -55,7 +55,7 @@
     <string name="start_execute">Iniciar la ejecución del comando</string>
     <string name="advanced_settings">Avanzado</string>
     <string name="print_details">Salida detallada</string>
-    <string name="print_details_desc">Muestra en pantalla mensajes relevantes durante la descarga</string>
+    <string name="print_details_desc">Mostrar en pantalla mensajes relevantes durante la descarga</string>
     <string name="display">Aspecto</string>
     <string name="display_settings">Modo oscuro, colores dinámicos, idioma</string>
     <string name="dark_theme">Tema oscuro</string>
@@ -253,9 +253,14 @@
     <string name="update_channel">Actualizar el canal</string>
     <string name="auto_update">Actualizar automáticamente</string>
     <string name="enable_auto_update">Habilitar la actualización automática</string>
-    <string name="pre_release_channel">Prelanzamiento</string>
+    <string name="pre_release_channel">Vista previa</string>
     <string name="update_channel_desc">Instala versiones preliminares para probar nuevas funciones y cambios.
 \n
 \nHabrá cierta inestabilidad en estas versiones, así que no dudes en hacernos llegar tus comentarios si experimentas algún problema para ayudarnos a mejorar la aplicación en el futuro.</string>
     <string name="stable_channel">Estable</string>
+    <string name="discard">Descartar</string>
+    <string name="apply">Aplicar</string>
+    <string name="clip_video">Videoclip</string>
+    <string name="clip_start">Iniciar</string>
+    <string name="clip_end">Finalizar</string>
 </resources>
