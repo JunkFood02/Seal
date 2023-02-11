@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to update to Nightly builds of yt-dlp
 - Make video/audio clip in `FormatSelectionPage`
 - Edit title of the video in `FormatSelectionPage` before downloading
+- Implement a new method to extract cookies from the database of WebView
 
 ### Changed
 
@@ -21,7 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix errors when using cookies with YouTube
+- Fix a bug causing high-quality audio not downloaded with YT Premium cookies & YT Music URLs
+
+### Known issues
+
+- Cookies may not work as expected in some devices, please try to re-generate cookies after this occurs. File an issue on GitHub with your device info when experience errors.
 
 ## [v1.8.2][1.8.2] - 2023-02-10
 
