@@ -212,4 +212,6 @@
     <string name="select_all">සියල්ල තෝරන්න</string>
     <string name="selected_item_count">%1$d තෝරාගන්නා ලදී</string>
     <string name="download_selection_desc">\"%1$s\" ධාවන ලැයිස්තුවෙන් වීඩියෝ බාගැනීම සදහා තෝරන්න</string>
+    <string name="sdcard_directory">SD card ගොනුව</string>
+    <string name="title_activity_share">ඉක්මන් බාගත කිරීම්</string>
 </resources>

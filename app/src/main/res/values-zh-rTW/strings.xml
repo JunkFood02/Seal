@@ -249,4 +249,18 @@
     <string name="embed_subtitles_mkv_msg">視訊將在嵌入字幕時重新混合至 MKV 容器中。</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
+    <string name="share">分享</string>
+    <string name="stable_channel">穩定</string>
+    <string name="pre_release_channel">預覽</string>
+    <string name="update_channel_desc">安裝預先發行版組建以預覽最新功能和變更。
+\n
+\n此版本可能會有不穩定的情況發生，如在使用過程中有任何問題，請不要吝嗇於給予回饋，以協助我們改進應用程式。</string>
+    <string name="update_channel">更新頻道</string>
+    <string name="auto_update">自動更新</string>
+    <string name="enable_auto_update">啟用自動更新</string>
+    <string name="apply">套用</string>
+    <string name="clip_video">剪裁視訊</string>
+    <string name="clip_start">開始時間</string>
+    <string name="clip_end">結束時間</string>
+    <string name="discard">捨棄</string>
 </resources>

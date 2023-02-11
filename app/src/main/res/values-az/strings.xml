@@ -253,9 +253,14 @@
     <string name="update_channel">Kanalı yenilə</string>
     <string name="enable_auto_update">Avtomatik yeniləməni aktivləşdir</string>
     <string name="stable_channel">Stabil</string>
-    <string name="pre_release_channel">İlkin buraxılış</string>
+    <string name="pre_release_channel">Önizləmə</string>
     <string name="update_channel_desc">Yeni xüsusiyyətlər və dəyişikliklərə ilkin baxış üçün ilkin buraxılış quruluşları quraşdır. 
 \n
 \nBu versiyalarda müəyyən dəyişkənlik olacaq, ona görə də gələcək müddətdə tətbiqi təkmilləşdirmək,bizə kömək etmək üçün hər hansı problemlərlə qarşılaşsanız, bizə rəy bildirməkdən çəkinməyin.</string>
     <string name="auto_update">Avtomatik yeniləmək</string>
+    <string name="apply">Tətbiq et</string>
+    <string name="clip_video">Videonu kəs</string>
+    <string name="clip_end">Son</string>
+    <string name="discard">Sil</string>
+    <string name="clip_start">Başlanğıc</string>
 </resources>

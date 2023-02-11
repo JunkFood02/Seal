@@ -12,7 +12,7 @@
     <string name="general_settings">Vanleg</string>
     <string name="language">Visingsmål</string>
     <string name="language_settings">Vel visingsmål</string>
-    <string name="paste_msg">Lim inn ei lenke ifrå utklippstavla</string>
+    <string name="paste_msg">Limde inn ei lenke ifrå utklippstavla</string>
     <string name="delete_info">Tak bort\?</string>
     <string name="confirm">Stadfest</string>
     <string name="audio">Ljod</string>
@@ -86,7 +86,7 @@
     <string name="custom_output_path_desc">Mal for namngjeving av undermapper</string>
     <string name="custom_output_path">Undermappenamn</string>
     <string name="edit_custom_path_template_desc">Namngjeva undermapper med yt-dlp sine påbodstrengar</string>
-    <string name="embed_subtitles">Bygg inn undertekster</string>
+    <string name="embed_subtitles">Bygg inn teksting</string>
     <string name="embed_subtitles_desc">Om tilgjengelege, bygg gjevne undertekster inn i videoar</string>
     <string name="template_label">Malnamn</string>
     <string name="remove_template">Tak bort\?</string>
@@ -125,7 +125,7 @@
     <string name="open_file">Opne fila</string>
     <string name="copy_link">Kopier lenka</string>
     <string name="copy_error_report">Mistakrapport</string>
-    <string name="video_file_size">Filstorleik på videoar</string>
+    <string name="video_file_size">Videofilstorleik</string>
     <string name="export_to_clipboard">Utfør til utklippstavla</string>
     <string name="import_from_clipboard">Innfør ifrå utklippstavla</string>
     <string name="template_exported">Utførte %1$d mal(ar)</string>
@@ -133,7 +133,7 @@
     <string name="sponsorblock_categories_desc">Oppgjev kva slags SponsorBlock-slag som skal verte tekne bort ifrå videofila</string>
     <string name="aria2_desc">Bruk aria2c som den ytre hentaren</string>
     <string name="clear_temp_files_desc">Slett alle mellombels filer ifrå hentingsmappa</string>
-    <string name="clear_temp_files_info">Mellombels filer kan verte bruka til å halde fram med avbrotne hentingar. Er du trygg på at du vil slette alle desse filene\?</string>
+    <string name="clear_temp_files_info">Mellombels filer kan verta nytta til å halde fram med avbrotne hentingar. Er du trygg på at du vil slette alle desse filene\?</string>
     <string name="private_mode_desc">Slå av hentingshistorikk</string>
     <string name="download_with_cellular">Hent med mobildata</string>
     <string name="file_unavailable">Fila er ikkje lenger tilgjengeleg</string>
@@ -144,7 +144,7 @@
     <string name="download_disabled_with_cellular">Henting på mobildata er slått av ifylgje dine innstillingar</string>
     <string name="lowest_quality">Lægst kvalitet</string>
     <string name="disable_preview_desc">Slå av førehandsvising på hentingar</string>
-    <string name="format_settings_desc">Filformat, videokvalitet, undertekster</string>
+    <string name="format_settings_desc">Filformat, videokvalitet, teksting</string>
     <string name="display_settings">Mørk vising, skiftande létar, mål</string>
     <string name="dark_theme">Mørk vising</string>
     <string name="private_directory">Privat mappe</string>
@@ -206,7 +206,7 @@
     <string name="battery_settings_desc">Om du vil hente i bakgrunnen, sett denne appens batteribruk til «uavgrensa» i systeminnstillingane.</string>
     <string name="sponsorblock_desc">Tak bort stødde delar ifrå videoar med SponsorBlocks API</string>
     <string name="check_for_updates">Sjå etter oppdateringar</string>
-    <string name="high_contrast">Høg motsetnad</string>
+    <string name="high_contrast">Svart vising</string>
     <string name="use_cookies">Bruk infokapslar</string>
     <string name="remove_cookie_profile_desc">Tak bort infokapslar for «%1$s»\?</string>
     <string name="custom_command_enabled_hint">Nokre val er utilgjengelege når « bruk eigne påbod» er slegen på</string>
@@ -225,4 +225,32 @@
     <string name="rate_limit">Rateavgrensing</string>
     <string name="max_rate">Øvre rategrense</string>
     <string name="network_settings_desc">Rategrense, hentar, infokapslar</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="subtitle_sponsorblock">Ved borttaking av SponsorBlock-delar vert kan henda tekstingar ikkje tidfeste rett.</string>
+    <string name="share">Del</string>
+    <string name="stable_channel">Stødug</string>
+    <string name="pre_release_channel">Førehandsvising</string>
+    <string name="logs">Logg</string>
+    <string name="subtitle_language">Tekstingsmål</string>
+    <string name="subtitle_desc">Mål, bygg inn tekstingar, direktetekstingar</string>
+    <string name="copy_log">Kopier loggen</string>
+    <string name="title_activity_share">Kvik henting</string>
+    <string name="clear">Tøm</string>
+    <string name="add">Legg til</string>
+    <string name="sdcard_directory">Mappa til ytre gøyme</string>
+    <string name="video_title_sample_text">Videonamn</string>
+    <string name="video_creator_sample_text">Videoskapar</string>
+    <string name="subtitle">Teksting</string>
+    <string name="download_subtitles">Hent tekstingar</string>
+    <string name="running_tasks">Køyrande føreloger</string>
+    <string name="show_logs">Vis loggen</string>
+    <string name="embed_subtitles_mkv_msg">Videoar vert satt inn i mkv-kar når tekstingar vert bygde inn.</string>
+    <string name="clip_start">Byrjing</string>
+    <string name="clip_end">Ende</string>
+    <string name="clip_video">Klipp video</string>
+    <string name="abs_hint">Dei fleste videostraumingsplattformer sender åtskilde ljodar og videoar. Vel eit ljodformat og eit videoformat utan ljod for å slå dei saman til ei videofil.</string>
+    <string name="edit_shortcuts">Brigd snarpåbod</string>
+    <string name="shortcuts">Snarpåbod</string>
+    <string name="edit_shortcuts_desc">Brigd snare påbod. Desse kan du nytte når du ritar påbodmalar.</string>
 </resources>
