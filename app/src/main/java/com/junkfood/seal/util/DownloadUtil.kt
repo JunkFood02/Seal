@@ -36,6 +36,7 @@ import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.util.Locale
 import kotlin.math.roundToInt
 
 object CookieScheme {
@@ -432,7 +433,10 @@ object DownloadUtil {
                 }
 
                 videoClips.forEach {
-                    addOption("--download-sections", "*%d-%d".format(it.start, it.end))
+                    addOption(
+                        "--download-sections",
+                        "*%d-%d".format(locale = Locale.US, it.start, it.end)
+                    )
                 }
                 if (newTitle.isNotEmpty()) {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
