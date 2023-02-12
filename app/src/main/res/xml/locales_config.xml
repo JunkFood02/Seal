@@ -3,8 +3,8 @@
     <locale android:name="nb" />
     <locale android:name="cs" />
     <locale android:name="de" />
-    <locale android:name="zh_CN" />
-    <locale android:name="en_US" />
+    <locale android:name="zh-Hans-CN" />
+    <locale android:name="en-US" />
     <locale android:name="fr" />
     <locale android:name="da" />
     <locale android:name="es" />
@@ -17,13 +17,13 @@
     <locale android:name="fil" />
     <locale android:name="it" />
     <locale android:name="nl" />
-    <locale android:name="pt_BR" />
+    <locale android:name="pt-BR" />
     <locale android:name="ja" />
     <locale android:name="pl" />
     <locale android:name="hu" />
     <locale android:name="be" />
     <locale android:name="ms" />
-    <locale android:name="zh_TW" />
+    <locale android:name="zh-Hant-TW" />
     <locale android:name="vi" />
     <locale android:name="hr" />
     <locale android:name="eu" />
