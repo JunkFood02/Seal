@@ -62,6 +62,8 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
@@ -86,8 +88,16 @@ fun CookieProfilePage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
-
+    val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.showEditDialog) {
+        withContext(Dispatchers.IO) {
+            DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                FileUtil.writeContentToFile(it, context.getCookiesFile())
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -121,7 +131,7 @@ fun CookieProfilePage(
                     icon = null,
                     isChecked = isCookieEnabled,
                     onClick = {
-                        if (cookies.isEmpty() && !isCookieEnabled)
+                        if (cookies.isEmpty() || (!cookieManager.hasCookies()) && !isCookieEnabled)
                             showHelpDialog = true
                         else {
                             isCookieEnabled = !isCookieEnabled

@@ -201,6 +201,7 @@ object DownloadUtil {
                 }
                 close()
             }
+            Log.d(TAG, "Loaded ${cookieList.size} cookies from database!")
             cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
                 acc.append(cookie.toNetscapeCookieString()).append("\n")
             }.toString()
