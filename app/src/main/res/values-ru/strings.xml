@@ -91,7 +91,7 @@
     <string name="start_execute">Выполнить команду</string>
     <string name="thumbnail">Миниатюра</string>
     <string name="paste">Вставить</string>
-    <string name="follow_system">Системная</string>
+    <string name="follow_system">Как в системе</string>
     <string name="convert_to">Преобразовать в %1$s</string>
     <string name="convert_audio_format">Преобразование аудиоформата</string>
     <string name="not_convert">Не преобразовывать</string>
@@ -263,4 +263,15 @@
     <string name="discard">Отменить</string>
     <string name="apply">Применить</string>
     <string name="clip_start">Начало</string>
+    <string name="audio_quality">Качество аудио</string>
+    <string name="unlimited">Без ограничений</string>
+    <string name="audio_format_preference">Предпочитаемый формат аудио</string>
+    <string name="rename">Переименовать</string>
+    <string name="import_from_preferences">Импортировать</string>
+    <string name="title">Название</string>
+    <string name="format_sorting">Сортировка форматов</string>
+    <string name="format_sorting_desc">Сортировка форматов с помощью параметра -S в yt-dlp</string>
+    <string name="clear_all_cookies">Очистить все файлы cookies</string>
+    <string name="lowest_bitrate">Самый низкий битрейт</string>
+    <string name="clear_all_cookies_desc">Удалить все файлы cookies, хранящиеся в приложении, навсегда\?</string>
 </resources>

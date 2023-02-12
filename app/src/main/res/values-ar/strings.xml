@@ -250,8 +250,8 @@
     <string name="filesize_mb">%.2f م.ب</string>
     <string name="filesize_gb">%.2f ج.ب</string>
     <string name="share">شارك</string>
-    <string name="stable_channel">مستقر</string>
-    <string name="pre_release_channel">معاينه</string>
+    <string name="stable_channel">مستقرة</string>
+    <string name="pre_release_channel">مسبقة</string>
     <string name="update_channel_desc">قم بتثبيت إصدارات مسبقة لمعاينة الميزات والتغييرات الجديدة. 
 \n
 \nسيكون هناك بعض عدم الاستقرار في هذه الإصدارات ، لذا يرجى عدم التردد في تزويدنا بتعليقات إذا واجهت أي مشاكل لمساعدتنا في تحسين التطبيق للمستقبل.</string>
@@ -263,4 +263,18 @@
     <string name="clip_video">قص الفيديو</string>
     <string name="clip_start">البداية</string>
     <string name="clip_end">النهاية</string>
+    <string name="second">ثانية</string>
+    <string name="clear_all_cookies">حذف جميع ملفات تعريف الارتباط</string>
+    <string name="audio_format_preference">صيغة الصوت المفضلة</string>
+    <string name="unlimited">غير محدود</string>
+    <string name="audio_quality">جودة الصوت</string>
+    <string name="lowest_bitrate">أدنى معدل بت</string>
+    <string name="audio_quality_desc">حدد معدل بت الصوت في حال تواجد العديد من الدقات</string>
+    <string name="format_sorting">فرز الصيغ</string>
+    <string name="format_sorting_desc">فرز الصيغ باستخدام الخيار S- من yt-dlp</string>
+    <string name="minute">دقيقة</string>
+    <string name="import_from_preferences">استيراد</string>
+    <string name="title">العنوان</string>
+    <string name="rename">إعادة التسمية</string>
+    <string name="clear_all_cookies_desc">هل تريد حذف جميع ملفات تعريف الارتباط المحفوظة في التطبيق؟</string>
 </resources>
