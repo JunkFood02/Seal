@@ -130,7 +130,7 @@
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="translate">Traduire</string>
     <string name="translate_desc">Aidez à traduire cette application sur Hosted Weblate</string>
-    <string name="download_path_template">Modèle de chemin</string>
+    <string name="prefix">Modèle de chemin</string>
     <string name="custom_output_path">Sous-répertoire personnalisé</string>
     <string name="custom_output_path_desc">Utiliser le modèle pour le sous-répertoire</string>
     <string name="edit_custom_path_template_desc">Spécifier le sous-répertoire avec les champs disponibles fournis par yt-dlp</string>

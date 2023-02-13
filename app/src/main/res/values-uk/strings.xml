@@ -130,7 +130,7 @@
     <string name="unknown_error">Невідома помилка</string>
     <string name="translate">Перекласти</string>
     <string name="translate_desc">Допомогти перекласти Seal iншою мовою на Weblate</string>
-    <string name="download_path_template">Шаблон шляху</string>
+    <string name="prefix">Шаблон шляху</string>
     <string name="custom_output_path">Свій підкаталог</string>
     <string name="custom_output_path_desc">Використовувати шаблон для підкаталогів</string>
     <string name="edit_custom_path_template_desc">Вкажіть підкаталог, використовуючи доступні параметри yt-dlp</string>

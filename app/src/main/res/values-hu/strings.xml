@@ -76,7 +76,7 @@
     <string name="unknown_error">Ismeretlen hiba</string>
     <string name="translate">Fordítás</string>
     <string name="translate_desc">Segits fordítani ezt az appot a Hosted Weblate-n</string>
-    <string name="download_path_template">Elérési út sablon</string>
+    <string name="prefix">Elérési út sablon</string>
     <string name="custom_output_path_desc">Használjon sablont az alkönyvtárhoz</string>
     <string name="download">Letöltés</string>
     <string name="download_start_msg">Letöltés \"%1$s\"</string>

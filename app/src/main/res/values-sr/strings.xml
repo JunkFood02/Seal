@@ -103,7 +103,7 @@
     <string name="battery_configuration">Конфигурација батерије</string>
     <string name="service_title">Seal преузима…</string>
     <string name="translate">Преведите</string>
-    <string name="download_path_template">Шаблон путање</string>
+    <string name="prefix">Шаблон путање</string>
     <string name="custom_output_path_desc">Користите шаблон за поддиректоријум</string>
     <string name="embed_subtitles">Уграђивање титлова</string>
     <string name="embed_subtitles_desc">Уградите титлове у видее, ако су доступни</string>

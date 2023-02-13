@@ -196,7 +196,7 @@
     <string name="download_history_desc">යෙදුමේ බාගැනීම් හසුරුවන්න, වීඩියෝ සහ ශ්‍රව්‍ය ගොනු ඇතුලුව.</string>
     <string name="defaults">පෙරනිමිය</string>
     <string name="concurrent_download_num">DASH/HLS වීඩියෝ සමගාමීව බාගැනීමට ත්‍රෙඩ් %d ක් භාවිතා කරනු ඇත.</string>
-    <string name="download_path_template">ආචයන ටෙම්ප්ලේට ස්ථානය</string>
+    <string name="prefix">ආචයන ටෙම්ප්ලේට ස්ථානය</string>
     <string name="custom_output_path_desc">උප ඩිරෙක්ටරි සදහා ටෙම්ප්ලේට් යොදාගන්න</string>
     <string name="edit_custom_path_template_desc">yt-dlp මගින් සපයන ලද පවතින ක්ෂේත්‍ර සහිත උප ඩිරෙක්ටරිය සඳහන් කරන්න</string>
     <string name="new_template">නව ටෙම්ප්ලේටයක්</string>

@@ -119,7 +119,7 @@
     <string name="service_title">Seal sedang memuat turun…</string>
     <string name="translate">Terjemah</string>
     <string name="translate_desc">Bantu terjemah aplikasi ini on Hosted Weblate</string>
-    <string name="download_path_template">Templat laluan</string>
+    <string name="prefix">Templat laluan</string>
     <string name="custom_output_path">Suai anak folder</string>
     <string name="custom_output_path_desc">Gunakan templat untuk anak folder</string>
     <string name="edit_custom_path_template_desc">Nyatakan anak folder dengan bidang yang tersedia yang disediakan oleh yt-dlp</string>

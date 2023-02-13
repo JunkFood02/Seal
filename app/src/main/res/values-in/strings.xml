@@ -130,7 +130,7 @@
     <string name="service_title">Seal sedang mengunduh…</string>
     <string name="unknown_error">Kesalahan tidak diketahui</string>
     <string name="translate_desc">Bantu terjemahkan aplikasi ini di Hosted Weblate</string>
-    <string name="download_path_template">Jalur templat</string>
+    <string name="prefix">Jalur templat</string>
     <string name="custom_output_path">Direktori khusus</string>
     <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
     <string name="edit_custom_path_template_desc">Tentukan subdirektori dengan opsi yang tersedia menggunakan yt-dlp</string>

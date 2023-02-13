@@ -130,7 +130,7 @@
     <string name="unknown_error">Onbekende fout</string>
     <string name="translate">Vertalen</string>
     <string name="translate_desc">Help deze app te vertalen op Hosted Weblate</string>
-    <string name="download_path_template">Path template</string>
+    <string name="prefix">Path template</string>
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>

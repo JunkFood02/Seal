@@ -82,7 +82,7 @@
     <string name="unknown_error">Ukjent mistak</string>
     <string name="translate">Omsett</string>
     <string name="translate_desc">Hjelp til med å omsetja denne appen hos Hosted Weblate</string>
-    <string name="download_path_template">Stigmal</string>
+    <string name="prefix">Stigmal</string>
     <string name="custom_output_path_desc">Mal for namngjeving av undermapper</string>
     <string name="custom_output_path">Undermappenamn</string>
     <string name="edit_custom_path_template_desc">Namngjeva undermapper med yt-dlp sine påbodstrengar</string>

@@ -170,7 +170,7 @@
     <string name="playlist_indicator_text">പ്ലേലിസ്റ്റ് ഡൗൺലോഡ് ചെയ്യുന്നു (%1$d/%2$d), നിർത്താൻ ടാപ്പ് ചെയ്യുക.</string>
     <string name="download_directory">ഡയറക്ടറി ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="subdirectory_desc">ബന്ധപ്പെട്ട വെബ്സൈറ്റുകളായി നാമകരണം ചെയ്തിട്ടുള്ള ഫോൾഡറുകളിൽ ഫയലുകൾ സൂക്ഷിക്കുക</string>
-    <string name="download_path_template">പാത്ത് ടെംപ്ലേറ്റ്</string>
+    <string name="prefix">പാത്ത് ടെംപ്ലേറ്റ്</string>
     <string name="edit_custom_path_template_desc">yt-dlp നൽകുന്ന ലഭ്യമായ ഫീൽഡുകളുള്ള ഉപഡയറക്‌ടറി വ്യക്തമാക്കുക</string>
     <string name="downloading_indicator_text">ഡൗൺലോഡ് പുരോഗതിയിലാണ്, റദ്ദാക്കാൻ ടാപ്പ് ചെയ്യുക.</string>
     <string name="embed_subtitles_desc">ലഭ്യമെങ്കിൽ വീഡിയോകളിൽ സബ്‌ടൈറ്റിലുകൾ ഉൾച്ചേർക്കുക</string>

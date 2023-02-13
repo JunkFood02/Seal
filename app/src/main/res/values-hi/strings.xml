@@ -131,7 +131,7 @@
     <string name="service_title">सील डाउनलोड कर रही है…</string>
     <string name="unknown_error">अज्ञात त्रुटि</string>
     <string name="translate">अनुवाद करें</string>
-    <string name="download_path_template">पथ टेम्पलेट</string>
+    <string name="prefix">पथ टेम्पलेट</string>
     <string name="custom_output_path">कस्टम उपनिर्देशिका</string>
     <string name="custom_output_path_desc">उपनिर्देशिका के लिए टेम्पलेट का प्रयोग करें</string>
     <string name="edit_custom_path_template_desc">yt-dlp द्वारा उपलब्ध फ़ील्ड के साथ उपनिर्देशिका निर्दिष्ट करें</string>

@@ -108,7 +108,7 @@
     <string name="unknown_error">未知錯誤</string>
     <string name="translate">翻譯</string>
     <string name="translate_desc">在 Hosted Weblate 上協助翻譯此應用程式</string>
-    <string name="download_path_template">路徑範本</string>
+    <string name="prefix">路徑範本</string>
     <string name="custom_output_path_desc">使用範本以配置子目錄</string>
     <string name="edit_custom_path_template_desc">以 yt-dlp 提供可用之變數指定子目錄</string>
     <string name="new_template">新增範本</string>

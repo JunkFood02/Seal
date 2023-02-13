@@ -140,7 +140,7 @@
     <string name="unknown_error">Lỗi không xác định</string>
     <string name="translate">Dịch</string>
     <string name="translate_desc">Giúp dịch ứng dụng này trên Hosted Weblate</string>
-    <string name="download_path_template">Mẫu đường dẫn</string>
+    <string name="prefix">Mẫu đường dẫn</string>
     <string name="custom_output_path">Thư mục con tùy chỉnh</string>
     <string name="custom_output_path_desc">Sử dụng mẫu cho thư mục con</string>
     <string name="embed_subtitles">Nhúng phụ đề</string>

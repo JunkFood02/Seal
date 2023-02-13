@@ -130,7 +130,7 @@
     <string name="permission_issue_desc">Le directory al di fuori di Download/ e Documenti/ non sono supportate</string>
     <string name="concurrent_download">Scarica più parti</string>
     <string name="concurrent_download_num">I thread %d sarebbero utilizzati per scaricare video nativi DASH/HLS in parallelo.</string>
-    <string name="download_path_template">Modello di percorso</string>
+    <string name="prefix">Modello di percorso</string>
     <string name="custom_output_path">Sottodirectory personalizzata</string>
     <string name="custom_output_path_desc">Usa il modello per la sottodirectory</string>
     <string name="edit_custom_path_template_desc">Specifica la sottodirectory con i campi disponibili forniti da yt-dlp</string>

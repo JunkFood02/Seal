@@ -130,7 +130,7 @@
     <string name="permission_issue">May issue sa paghingi ng permisso para sa storage</string>
     <string name="service_title">Nag da-download si Seal…</string>
     <string name="battery_configuration">Configuration ng baterya</string>
-    <string name="download_path_template">Path template</string>
+    <string name="prefix">Path template</string>
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>

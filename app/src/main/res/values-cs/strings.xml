@@ -130,7 +130,7 @@
     <string name="service_title">Seal stahuje…</string>
     <string name="translate">Překládat</string>
     <string name="translate_desc">Pomozte přeložit tuto aplikaci na Hosted Weblate</string>
-    <string name="download_path_template">Předloha cesty</string>
+    <string name="prefix">Předloha cesty</string>
     <string name="custom_output_path">Vlastní podsložka</string>
     <string name="custom_output_path_desc">Použít předlohu pro podsložku</string>
     <string name="edit_custom_path_template_desc">Specifikujte podsložku s dostupnými poli poskytnutými yt-dlp</string>

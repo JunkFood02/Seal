@@ -91,7 +91,7 @@
     <string name="service_title">Seal preuzima…</string>
     <string name="unknown_error">Nepoznata greška</string>
     <string name="translate_desc">Pomozite nam prevesti ovu aplikaciju pomoću Hosted Weblate</string>
-    <string name="download_path_template">Predložak puta</string>
+    <string name="prefix">Predložak puta</string>
     <string name="custom_output_path">Prilagođen poddirekorij</string>
     <string name="custom_output_path_desc">Koristi predloške za poddirektorij</string>
     <string name="embed_subtitles_desc">Ugradi podnaslov u video ako je dostupan</string>

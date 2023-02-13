@@ -130,7 +130,7 @@
     <string name="unknown_error">出现不可预知的错误</string>
     <string name="translate">翻译</string>
     <string name="translate_desc">在 Weblate 上帮助我们翻译此应用</string>
-    <string name="download_path_template">输出路径模板</string>
+    <string name="prefix">输出路径模板</string>
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
     <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>

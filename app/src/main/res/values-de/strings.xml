@@ -130,7 +130,7 @@
     <string name="permission_issue_desc">Ordner außerhalb von Download/ und Dokumente/ werden nicht unterstützt</string>
     <string name="convert_audio_format_desc">Die Neukodierung von Audiodateien führt zu einem Verlust an Audioqualität und einer Vergrößerung der Datei.</string>
     <string name="from">Start</string>
-    <string name="download_path_template">Ordnervorlage</string>
+    <string name="prefix">Ordnervorlage</string>
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
     <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
     <string name="edit_custom_path_template_desc">Unterordner mit den von yt-dlp bereitgestellten Feldern angeben</string>
