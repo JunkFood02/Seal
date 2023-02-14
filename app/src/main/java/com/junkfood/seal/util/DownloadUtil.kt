@@ -36,6 +36,7 @@ import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.util.Locale
 import kotlin.math.roundToInt
 
 object CookieScheme {
@@ -159,7 +160,10 @@ object DownloadUtil {
 
     @CheckResult
     fun getCookiesContentFromDatabase(): Result<String> = runCatching {
-        CookieManager.getInstance().flush()
+        CookieManager.getInstance().run {
+            if (!hasCookies()) throw Exception("There is no cookies in the database!")
+            flush()
+        }
         SQLiteDatabase.openDatabase(
             "/data/data/com.junkfood.seal/app_webview/Default/Cookies", null, OPEN_READONLY
         ).run {
@@ -197,6 +201,7 @@ object DownloadUtil {
                 }
                 close()
             }
+            Log.d(TAG, "Loaded ${cookieList.size} cookies from database!")
             cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
                 acc.append(cookie.toNetscapeCookieString()).append("\n")
             }.toString()
@@ -429,7 +434,10 @@ object DownloadUtil {
                 }
 
                 videoClips.forEach {
-                    addOption("--download-sections", "*%d-%d".format(it.start, it.end))
+                    addOption(
+                        "--download-sections",
+                        "*%d-%d".format(locale = Locale.US, it.start, it.end)
+                    )
                 }
                 if (newTitle.isNotEmpty()) {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))

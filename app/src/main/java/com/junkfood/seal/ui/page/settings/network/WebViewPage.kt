@@ -44,6 +44,7 @@ data class Cookie(
         name: String,
         value: String
     ) : this(domain = url.toDomain(), name = name, value = value)
+
     fun toNetscapeCookieString(): String {
         return connectWithDelimiter(
             domain,
@@ -81,18 +82,15 @@ fun WebViewPage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     Log.d(TAG, state.editingCookieProfile.url)
 
-    val onConfirmationCallback: (Set<Cookie>) -> Unit = { cookieSet ->
-        cookieSet.fold(StringBuilder()) { acc: StringBuilder, cookie: Cookie ->
-            acc.append(cookie.toNetscapeCookieString()).append("\n")
-        }.toString().run { cookiesViewModel.generateNewCookies(this) }
-    }
 
     val cookieManager = CookieManager.getInstance()
     val cookieSet = remember { mutableSetOf<Cookie>() }
     val websiteUrl = state.editingCookieProfile.url
     val webViewState = rememberWebViewState(websiteUrl)
 
-
+    val onConfirmationCallback: () -> Unit = {
+        cookieManager.flush()
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(
@@ -108,7 +106,7 @@ fun WebViewPage(
             },
             actions = {
                 TextButton(onClick = {
-                    onConfirmationCallback(cookieSet)
+                    onConfirmationCallback()
                     onDismissRequest()
                 }) {
                     Text(stringResource(androidx.appcompat.R.string.abc_action_mode_done))
@@ -120,13 +118,12 @@ fun WebViewPage(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
                     if (url.isNullOrEmpty()) return
-                    cookieManager.getCookie(url)?.let { cookies ->
-                        cookies.split("; ").forEach { cookieString ->
-                            cookieSet.add(makeCookie(url, cookieString))
-                        }
-                    }
-                    cookieManager
-                    Log.d(TAG, "onPageFinished: $url, cookieSize=${cookieSet.size}")
+                    /*                    cookieManager.getCookie(url)?.let { cookies ->
+                                            cookies.split("; ").forEach { cookieString ->
+                                                cookieSet.add(makeCookie(url, cookieString))
+                                            }
+                                        }
+                                        Log.d(TAG, "onPageFinished: $url, cookieSize=${cookieSet.size}")*/
                 }
             }
         }

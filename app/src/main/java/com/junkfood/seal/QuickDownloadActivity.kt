@@ -79,11 +79,19 @@ class QuickDownloadActivity : ComponentActivity() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
-        window.setBackgroundDrawable(ColorDrawable(0))
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
+
+        window.run {
+            setBackgroundDrawable(ColorDrawable(0))
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
+            } else {
+                setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+            }
+        }
         handleShareIntent(intent)
         runBlocking {
             if (Build.VERSION.SDK_INT < 33)

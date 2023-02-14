@@ -137,7 +137,7 @@
     <string name="unknown_error">Невядомая памылка</string>
     <string name="translate">Перакласці</string>
     <string name="translate_desc">Дапамажыце перакласці гэтую праграму на Hosted Weblate</string>
-    <string name="download_path_template">Шаблон шляху</string>
+    <string name="prefix">Шаблон шляху</string>
     <string name="custom_output_path_desc">Выкарыстоўвайце шаблон для падкаталогу</string>
     <string name="embed_subtitles">Убудаваць субтытры</string>
     <string name="template_label">Загаловак</string>

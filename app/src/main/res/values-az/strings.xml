@@ -127,7 +127,7 @@
     <string name="translate">Tərcümə et</string>
     <string name="translate_desc">Hosted Weblate-də bu tətbiqi tərcümə etməyə kömək et</string>
     <string name="permission_issue_desc">Download/ və Documents/ xaricindəki kataloqlar dəstəklənmir</string>
-    <string name="download_path_template">Yol şablonu</string>
+    <string name="prefix">Yol şablonu</string>
     <string name="downloading_indicator_text">Endirmə davam edir, ləğv etmək üçün bas.</string>
     <string name="custom_output_path">Fərdi alt kataloq</string>
     <string name="edit_custom_path_template_desc">yt-dlp tərəfindən təmin edilən mövcud sahələrlə alt kataloqu müəyyənləşdir</string>

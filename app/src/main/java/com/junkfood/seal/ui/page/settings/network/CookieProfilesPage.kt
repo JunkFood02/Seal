@@ -30,24 +30,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
@@ -65,10 +62,13 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,8 +88,16 @@ fun CookieProfilePage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
-
+    val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.showEditDialog) {
+        withContext(Dispatchers.IO) {
+            DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                FileUtil.writeContentToFile(it, context.getCookiesFile())
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -123,7 +131,7 @@ fun CookieProfilePage(
                     icon = null,
                     isChecked = isCookieEnabled,
                     onClick = {
-                        if (cookies.isEmpty() && !isCookieEnabled)
+                        if (cookies.isEmpty() || (!cookieManager.hasCookies()) && !isCookieEnabled)
                             showHelpDialog = true
                         else {
                             isCookieEnabled = !isCookieEnabled
@@ -203,8 +211,7 @@ fun CookieProfilePage(
 }
 
 @OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalComposeUiApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun CookieGeneratorDialog(
@@ -216,14 +223,16 @@ fun CookieGeneratorDialog(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     val profile = state.editingCookieProfile
     val url = profile.url
-    val content = profile.content
 
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            CookieManager.getInstance().flush()
+        }
+    }
     AlertDialog(onDismissRequest = onDismissRequest, icon = {
         Icon(Icons.Outlined.Cookie, null)
     }, title = { Text(stringResource(R.string.cookies)) }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            val focusManager = LocalFocusManager.current
-            val softwareKeyboardController = LocalSoftwareKeyboardController.current
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -238,15 +247,6 @@ fun CookieGeneratorDialog(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
 
-            /*            OutlinedTextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp, bottom = 12.dp),
-                            value = content,
-                            label = { Text(stringResource(R.string.cookies_file_name)) },
-                            onValueChange = { cookiesViewModel.updateContent(it) }, minLines = 8, maxLines = 8,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
-                        )*/
             TextButtonWithIcon(
                 onClick = { navigateToCookieGeneratorPage() },
                 icon = Icons.Outlined.GeneratingTokens,
@@ -267,7 +267,6 @@ fun CookieGeneratorDialog(
 
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun DeleteCookieDialog(
     cookiesViewModel: CookiesViewModel = viewModel(),

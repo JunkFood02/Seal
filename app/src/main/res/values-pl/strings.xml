@@ -130,7 +130,7 @@
     <string name="battery_configuration_desc">Ignoruj optymalizację baterii dla tej aplikacji, aby pobierać w tle</string>
     <string name="service_title">Seal pobiera…</string>
     <string name="download_range_desc">Określ zakres filmów z playlisty „%3$s”, które chcesz pobrać (od %1$d do %2$d).</string>
-    <string name="download_path_template">Szablon folderu wyjściowego</string>
+    <string name="prefix">Szablon folderu wyjściowego</string>
     <string name="custom_output_path">Niestandardowy podfolder</string>
     <string name="custom_output_path_desc">Używaj szablonu dla podfolderu</string>
     <string name="edit_custom_path_template_desc">Określ podkatalog z dostępnymi polami dostarczonymi przez yt-dlp</string>

@@ -133,7 +133,7 @@
     <string name="custom_output_path">Özel alt dizin</string>
     <string name="custom_output_path_desc">Alt dizin için şablon kullan</string>
     <string name="edit_custom_path_template_desc">yt-dlp tarafından sağlanan kullanılabilir alanlara alt dizini belirtin</string>
-    <string name="download_path_template">Path şablonu</string>
+    <string name="prefix">Path şablonu</string>
     <string name="embed_subtitles">Altyazıları göm</string>
     <string name="new_template">Yeni şablon</string>
     <string name="template_label">Etiket</string>

@@ -107,7 +107,7 @@
     <string name="additional_settings">ਵਾਧੂ ਸੈਟਿੰਗਾਂ</string>
     <string name="download_directory_desc">ਚੁਣੋ ਕਿ ਵੀਡੀਓ ਅਤੇ ਆਡੀਓ ਫਾਈਲਾਂ ਕਿੱਥੇ ਸਟੋਰ ਕਰਨੀਆਂ ਹਨ</string>
     <string name="translate_desc">ਹੋਸਟਡ ਵੈਬਲੇਟ \'ਤੇ ਇਸ ਐਪ ਦਾ ਅਨੁਵਾਦ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰੋ</string>
-    <string name="download_path_template">ਮਾਰਗ ਟੈਮਪਲੇਟ</string>
+    <string name="prefix">ਮਾਰਗ ਟੈਮਪਲੇਟ</string>
     <string name="custom_output_path">ਕਸਟਮ ਸਬ-ਡਾਇਰੈਕਟਰੀ</string>
     <string name="edit_custom_path_template_desc">yt-dlp ਦੁਆਰਾ ਪ੍ਰਦਾਨ ਕੀਤੇ ਉਪਲਬਧ ਖੇਤਰਾਂ ਦੇ ਨਾਲ ਉਪ-ਡਾਇਰੈਕਟਰੀ ਨਿਰਧਾਰਤ ਕਰੋ</string>
     <string name="embed_subtitles">ਉਪਸਿਰਲੇਖ ਸ਼ਾਮਲ ਕਰੋ</string>

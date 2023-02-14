@@ -130,7 +130,7 @@
     <string name="fetching_playlist_info">Henter spillelisteinfo …</string>
     <string name="download_notification">Meddelelse om nedlastning</string>
     <string name="battery_configuration">Konfiguration af batteri</string>
-    <string name="download_path_template">Path template</string>
+    <string name="prefix">Path template</string>
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>

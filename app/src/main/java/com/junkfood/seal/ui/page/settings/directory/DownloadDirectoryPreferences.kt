@@ -52,8 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -395,8 +393,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 }
             }, icon = { Icon(Icons.Outlined.Edit, null) },
             text = {
-                val focusManager = LocalFocusManager.current
-                val softwareKeyboardController = LocalSoftwareKeyboardController.current
                 Column {
                     Text(
                         stringResource(R.string.edit_custom_path_template_desc),
@@ -413,7 +409,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                                 clipboardManager.getText()?.let { pathTemplateText = it.text }
                             }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
                         },
-                        label = { Text(stringResource(R.string.download_path_template)) },
+                        label = { Text(stringResource(R.string.prefix)) },
                         maxLines = 1,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                     )

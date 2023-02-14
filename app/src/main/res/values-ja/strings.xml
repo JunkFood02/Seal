@@ -125,7 +125,7 @@
     <string name="battery_configuration">バッテリー設定</string>
     <string name="unknown_error">未知のエラー</string>
     <string name="translate_desc">Hosted Weblateでこのアプリの翻訳を手伝って下さい</string>
-    <string name="download_path_template">パスのテンプレート</string>
+    <string name="prefix">パスのテンプレート</string>
     <string name="custom_output_path">カスタムサブディレクトリ</string>
     <string name="embed_subtitles">字幕を組み込む</string>
     <string name="embed_subtitles_desc">利用可能であれば動画に字幕を組み込む</string>
