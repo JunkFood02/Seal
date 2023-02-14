@@ -88,8 +88,8 @@ Seal
 علاقه مند به کمک به ما هستید ؟ برای کمک در ترجمه برنامه می توانید به [Hosted Weblate](https://hosted.weblate.org/projects/seal/) مراجعه کنید و مارا در ترجمه برنامه یاری کنید
 
 <p align="right">
-<a href="https://hosted.weblate.org/engage/seal/ar/">
-<img src="https://hosted.weblate.org/widgets/seal/ar/strings/multi-auto.svg" alt="وضعیت ترجمه" />
+<a href="https://hosted.weblate.org/engage/seal/fa/">
+<img src="https://hosted.weblate.org/widgets/seal/fa/strings/multi-auto.svg" alt="وضعیت ترجمه" />
 </a>
 
 >**نکته**
