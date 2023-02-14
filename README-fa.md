@@ -77,11 +77,61 @@ Seal
 ## ⬇️ دانلود 
 
 برای اکثر دستگاه ها پیشنهاد می شود نسخه **arm64-v8a** را دانلود کنید.
+
 -دانلود آخرین نسخه برنامه [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
--نسخه آزمایشی](https://github.com/JunkFood02/Seal/releases/) را جهت تست و کمک به ما در توسعه دانلود کنید
+
+-[نسخه آزمایشی](https://github.com/JunkFood02/Seal/releases/) را جهت تست و کمک به ما در توسعه دانلود کنید
+
 - دانلود آخرین نسخه از F-Droid :
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/)
      
+## 💬 تماس با ما
+
+جهت گفتگو و با خبر شدن از آخرین بروزرسانی به کانال ما در تلگرام به [@seal_app](https://t.me/seal_app) و در فضای ماتریکس به آدرس [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) بپیوندید
+
+## 🤝 همکاری
+
+علاقه مند به کمک به ما هستید ؟ برای کمک در ترجمه برنامه می توانید به [Hosted Weblate](https://hosted.weblate.org/projects/seal/) مراجعه کنید و مارا در ترجمه برنامه یاری کنید
+
+<p align="right">
+<a href="https://hosted.weblate.org/engage/seal/ar/">
+<img src="https://hosted.weblate.org/widgets/seal/ar/strings/multi-auto.svg" alt="وضعیت ترجمه" />
+</a>
+
+>**نکته**
+
+جهت ارسال هرگونه گزارش مشکل, سوالات, ایده ها و کمک در توسعه برنامه ابتدا دستورالعمل را به آدرس [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) مطالعه کنید
+
+## ⭐️تاریخچه امتیاز
+<p align="right">
+<a href="https://star-history.com/#JunkFood02/Seal&Timeline">
+<img src="https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline" alt="Star History Chart" />
+</p>
+	
+## 🧱 منابع
+
+برنامه Seal یک نسخه گرافیکی از [yt-dlp](https://github.com/yt-dlp/yt-dlp) می باشد و بر پایه [youtubedl-android](https://github.com/yausername/youtubedl-android) توسعه داده شده است
+
+برخی از کد های برنامه از [Read You](https://github.com/Ashinch/ReadYou) و [Music You](https://github.com/Kyant0/MusicYou) قرض گرفته شده است
+<p align="right">
+<a href="https://github.com/yausername/dvd">dvd</a>
+</p>
+<p align="right">
+<a href="https://github.com/material-foundation/material-color-utilities">Material color utilities</a>
+</p>
+<p align="right">
+<a href="https://github.com/Kyant0/Monet">Monet</a>
+</p>
+
+## 📃 لایسنس
+
+[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+
+<div align="right">
+<table><td>
+<a href="#start-of-content">رفتن به بالا</a>
+</td></table>
+</div>
