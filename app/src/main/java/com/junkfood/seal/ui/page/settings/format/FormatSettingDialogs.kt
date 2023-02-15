@@ -54,6 +54,7 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
+import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.DEFAULT
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
@@ -84,7 +85,7 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
             Text(stringResource(R.string.convert_audio_format))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.encodeInt(AUDIO_CONVERSION_FORMAT, audioFormat)
+                AUDIO_CONVERSION_FORMAT.updateInt(audioFormat)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -100,7 +101,7 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
                     text = stringResource(R.string.convert_audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in 0..1)
+                for (i in CONVERT_MP3..CONVERT_MP3)
                     SingleChoiceItem(
                         modifier = Modifier.padding(horizontal = 12.dp),
                         text = PreferenceUtil.getAudioConvertDesc(i),

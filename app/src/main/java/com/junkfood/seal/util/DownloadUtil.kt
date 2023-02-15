@@ -300,11 +300,11 @@ object DownloadUtil {
             if (formatId.isNotEmpty()) addOption("-f", formatId)
             else if (convertAudio) {
                 when (audioConvertFormat) {
-                    1 -> {
+                    CONVERT_MP3 -> {
                         addOption("--audio-format", "mp3")
                     }
 
-                    2 -> {
+                    CONVERT_M4A -> {
                         addOption("--audio-format", "m4a")
                     }
                 }
