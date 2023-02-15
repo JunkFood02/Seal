@@ -10,7 +10,7 @@ androidxActivity = "1.6.1"
 
 androidxLifecycle = "2.6.0-alpha05"
 androidxNavigation = "2.5.3"
-androidxComposeMaterial3 = "1.1.0-alpha05"
+androidxComposeMaterial3 = "1.1.0-alpha06"
 
 androidxEspresso = "3.5.0"
 androidxHiltNavigationCompose = "1.0.0"

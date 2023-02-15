@@ -82,6 +82,8 @@ const val DISABLE_PREVIEW = "disable_preview"
 const val PRIVATE_DIRECTORY = "private_directory"
 const val CROP_ARTWORK = "crop_artwork"
 const val FORMAT_SELECTION = "format_selection"
+const val VIDEO_CLIP = "video_clip"
+const val TEMP_DIRECTORY = "temp_dir"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
