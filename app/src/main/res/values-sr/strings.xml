@@ -76,7 +76,7 @@
     <string name="error_copied">Извештај о грешци је копиран у привремену меморију</string>
     <string name="thumbnail">сличица</string>
     <string name="convert_audio_format_desc">Поновно кодирање аудио фајлова узроковаће губитак квалитета звука и повећање величине фајла.</string>
-    <string name="video_quality">Квалитет видеа</string>
+    <string name="video_quality">Видео квалитет</string>
     <string name="video_quality_desc">Ограничите квалитет формата и величину фајла</string>
     <string name="convert_audio">Претворите</string>
     <string name="user_guide">Упутство за употребу</string>
@@ -195,7 +195,7 @@
     <string name="yt_dlp_docs">Yt-dlp референце о употреби</string>
     <string name="edit_template_desc">Апликација ће додати излазну путању и URL.</string>
     <string name="convert_to">Претворите у %1$s</string>
-    <string name="video_format_preference">Жељени формат видеа</string>
+    <string name="video_format_preference">Жељени видео формат</string>
     <string name="not_convert">Непретворено</string>
     <string name="video_format">Формат видеа</string>
     <string name="best_quality">Најбољи квалитет (подразумевано)</string>
@@ -263,4 +263,18 @@
     <string name="clip_video">Исеците видео</string>
     <string name="clip_end">Крај</string>
     <string name="clip_start">Почетак</string>
+    <string name="audio_format_preference">Жељени аудио формат</string>
+    <string name="audio_quality">Аудио квалитет</string>
+    <string name="audio_quality_desc">Ограничите аудио битрејт када је доступно више квалитета</string>
+    <string name="unlimited">Неограничено</string>
+    <string name="format_sorting">Сортирање формата</string>
+    <string name="second">друго</string>
+    <string name="format_sorting_desc">Сортирање формата са -S опцијом од yt-dlp</string>
+    <string name="minute">минут</string>
+    <string name="lowest_bitrate">Најнижи битрејт</string>
+    <string name="title">Наслов</string>
+    <string name="import_from_preferences">Увезите</string>
+    <string name="clear_all_cookies_desc">Заувек избришите све колачиће сачуване у апликацији\?</string>
+    <string name="rename">Преименујте</string>
+    <string name="clear_all_cookies">Избришите све колачиће</string>
 </resources>

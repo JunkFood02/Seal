@@ -263,4 +263,18 @@
     <string name="clip_end">Akhir</string>
     <string name="clip_start">Awal</string>
     <string name="apply">Terapkan</string>
+    <string name="lowest_bitrate">Kecepatan bit terendah</string>
+    <string name="audio_format_preference">Format audio yang disukai</string>
+    <string name="unlimited">Tidak terbatas</string>
+    <string name="audio_quality">Kualitas audio</string>
+    <string name="format_sorting">Urutan format</string>
+    <string name="format_sorting_desc">Mengurut format dengan opsi -S yt-dlp</string>
+    <string name="title">Judul</string>
+    <string name="rename">Ubah nama</string>
+    <string name="second">detik</string>
+    <string name="clear_all_cookies_desc">Hapus semua kuki tersimpan dalam aplikasi selamanya\?</string>
+    <string name="audio_quality_desc">Batasi kecepatan bit audio ketika beberapa kualitas tersedia</string>
+    <string name="import_from_preferences">Impor</string>
+    <string name="clear_all_cookies">Hapus semua kuki</string>
+    <string name="minute">menit</string>
 </resources>

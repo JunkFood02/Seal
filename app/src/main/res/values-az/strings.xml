@@ -263,4 +263,18 @@
     <string name="clip_end">Son</string>
     <string name="discard">Sil</string>
     <string name="clip_start">Başlanğıc</string>
+    <string name="audio_format_preference">Üstünlük verilən səs formatı</string>
+    <string name="format_sorting_desc">Yt-dlp -S seçimi ilə formatlar çeşidlənməsi</string>
+    <string name="clear_all_cookies_desc">Tətbiqdə saxlanılan bütün məlumatlar həmişəlik silinsin\?</string>
+    <string name="unlimited">Limitsiz</string>
+    <string name="lowest_bitrate">Ən aşağı bit sürəti</string>
+    <string name="audio_quality">Səs keyfiyyəti</string>
+    <string name="audio_quality_desc">Çoxsaylı keyfiyyətlər mövcud olduqda səs bit sürətin məhdudlaşdır</string>
+    <string name="format_sorting">Format çeşidlənməsi</string>
+    <string name="import_from_preferences">İdxal</string>
+    <string name="title">Başlıq</string>
+    <string name="rename">Adını dəyişdir</string>
+    <string name="second">saniyə</string>
+    <string name="minute">dəqiqə</string>
+    <string name="clear_all_cookies">Bütün məlumat bazaların sil</string>
 </resources>

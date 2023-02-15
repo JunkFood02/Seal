@@ -263,4 +263,18 @@
     <string name="apply">Anwenden</string>
     <string name="clip_video">Video schneiden</string>
     <string name="clip_start">Anfang</string>
+    <string name="lowest_bitrate">Niedrigste Bitrate</string>
+    <string name="audio_quality">Audioqualität</string>
+    <string name="audio_quality_desc">Audio-Bitrate begrenzen, wenn mehrere Qualitäten vorhanden sind</string>
+    <string name="format_sorting">Formatsortierung</string>
+    <string name="import_from_preferences">Importieren</string>
+    <string name="title">Titel</string>
+    <string name="second">Sekunde</string>
+    <string name="minute">Minute</string>
+    <string name="clear_all_cookies_desc">Alle in der App gespeicherten Cookies für immer löschen\?</string>
+    <string name="audio_format_preference">Bevorzugtes Audioformat</string>
+    <string name="unlimited">Unbegrenzt</string>
+    <string name="format_sorting_desc">Sortieren von Formaten mit der Option -S von yt-dlp</string>
+    <string name="rename">Umbenennen</string>
+    <string name="clear_all_cookies">Alle Cookies löschen</string>
 </resources>

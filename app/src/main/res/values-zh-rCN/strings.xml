@@ -261,4 +261,18 @@
     <string name="clip_video">剪辑视频</string>
     <string name="clip_start">开始时间</string>
     <string name="clip_end">结束时间</string>
+    <string name="audio_format_preference">音频格式偏好</string>
+    <string name="lowest_bitrate">最低质量</string>
+    <string name="unlimited">无限制</string>
+    <string name="audio_quality">音频质量</string>
+    <string name="second">秒</string>
+    <string name="format_sorting">格式排序</string>
+    <string name="audio_quality_desc">当有多种音质可选时所要下载的音频码率</string>
+    <string name="title">标题</string>
+    <string name="format_sorting_desc">使用 yt-dlp 的 -S 命令对格式进行排序</string>
+    <string name="import_from_preferences">从设置导入</string>
+    <string name="rename">重命名</string>
+    <string name="minute">分</string>
+    <string name="clear_all_cookies">清除所有 Cookies</string>
+    <string name="clear_all_cookies_desc">确定要删除储存在应用中的所有 Cookies 吗？</string>
 </resources>
