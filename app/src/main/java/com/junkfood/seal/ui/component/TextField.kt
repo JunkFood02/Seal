@@ -7,7 +7,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
@@ -35,6 +34,8 @@ fun SealTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    prefix: @Composable (() -> Unit)? = null,
+    suffix: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -58,6 +59,8 @@ fun SealTextField(
         placeholder,
         leadingIcon,
         trailingIcon,
+        prefix,
+        suffix,
         supportingText,
         isError,
         visualTransformation,
@@ -84,6 +87,8 @@ fun SealTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    prefix: @Composable (() -> Unit)? = null,
+    suffix: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -107,58 +112,9 @@ fun SealTextField(
         placeholder,
         leadingIcon,
         trailingIcon,
+        prefix,
+        suffix,
         supportingText,
-        isError,
-        visualTransformation,
-        keyboardOptions,
-        keyboardActions,
-        singleLine,
-        maxLines,
-        minLines,
-        interactionSource,
-        shape, colors
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AccessibleOutlinedTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
-    labelText: String,
-    label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    minLines: Int = 1,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = TextFieldDefaults.outlinedShape,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
-) {
-    OutlinedTextField(
-        value,
-        onValueChange,
-        modifier,
-        enabled,
-        readOnly,
-        textStyle,
-        label,
-        placeholder,
-        leadingIcon,
-        trailingIcon,
-        supportingText = {
-            Text(text = labelText, color = Color.Transparent)
-        },
         isError,
         visualTransformation,
         keyboardOptions,

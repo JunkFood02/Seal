@@ -201,6 +201,7 @@ object DownloadUtil {
                 }
                 close()
             }
+            close()
             Log.d(TAG, "Loaded ${cookieList.size} cookies from database!")
             cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
                 acc.append(cookie.toNetscapeCookieString()).append("\n")
@@ -281,9 +282,7 @@ object DownloadUtil {
         preferences: DownloadPreferences, sorter: String
     ) = preferences.run {
         if (formatSorting && sortingFields.isNotEmpty()) addOption("-S", sortingFields)
-        else {
-            if (sorter.isNotEmpty()) addOption("-S", sorter) else {
-            }
+        else if (sorter.isNotEmpty()) addOption("-S", sorter) else {
         }
     }
 

@@ -235,7 +235,8 @@ fun CookieGeneratorDialog(
         Column(Modifier.verticalScroll(rememberScrollState())) {
             OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
                 value = url, label = { Text("URL") },
                 onValueChange = { cookiesViewModel.updateUrl(it) }, trailingIcon = {
                     PasteFromClipBoardButton {

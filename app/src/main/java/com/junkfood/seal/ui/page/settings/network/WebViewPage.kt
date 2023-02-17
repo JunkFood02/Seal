@@ -25,8 +25,10 @@ import com.google.accompanist.web.AccompanistWebChromeClient
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
+import com.junkfood.seal.App.Companion.userAgentHeader
 import com.junkfood.seal.R
 import com.junkfood.seal.util.connectWithDelimiter
+
 
 private const val TAG = "WebViewPage"
 
@@ -118,14 +120,9 @@ fun WebViewPage(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
                     if (url.isNullOrEmpty()) return
-                    /*                    cookieManager.getCookie(url)?.let { cookies ->
-                                            cookies.split("; ").forEach { cookieString ->
-                                                cookieSet.add(makeCookie(url, cookieString))
-                                            }
-                                        }
-                                        Log.d(TAG, "onPageFinished: $url, cookieSize=${cookieSet.size}")*/
                 }
             }
+
         }
         val webViewChromeClient = remember {
             object : AccompanistWebChromeClient() {
@@ -138,7 +135,12 @@ fun WebViewPage(
                 .fillMaxSize(),
             captureBackPresses = true, factory = { context ->
                 WebView(context).apply {
-                    settings.javaScriptEnabled = true
+                    settings.run {
+                        userAgentString = userAgentHeader
+                        javaScriptCanOpenWindowsAutomatically = true
+                        javaScriptEnabled = true
+                        domStorageEnabled = true
+                    }
                     cookieManager.setAcceptThirdPartyCookies(this, true)
                 }
             }
