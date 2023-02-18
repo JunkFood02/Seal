@@ -18,7 +18,10 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -114,11 +117,45 @@ fun CookieProfilePage(
                     onBackPressed()
                 }
             }, actions = {
+                var expanded by remember { mutableStateOf(false) }
                 IconButton(onClick = { showHelpDialog = true }) {
                     Icon(
                         imageVector = Icons.Outlined.HelpOutline,
                         contentDescription = stringResource(R.string.how_does_it_work)
                     )
+                }
+                IconButton(onClick = { expanded = true }) {
+                    Icon(
+                        Icons.Outlined.MoreVert,
+                        contentDescription = stringResource(
+                            R.string.show_more_actions
+                        )
+                    )
+                }
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    DropdownMenuItem(
+                        leadingIcon = { Icon(Icons.Outlined.ContentPasteGo, null) },
+                        text = {
+                            Text(stringResource(id = R.string.export_to_clipboard))
+                        },
+                        onClick = {
+                            expanded = false
+                            scope.launch(Dispatchers.IO) {
+                                DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                                    clipboardManager.setText(AnnotatedString(it))
+                                }
+                            }
+                        })
+                    DropdownMenuItem(
+                        leadingIcon = { Icon(Icons.Outlined.DeleteForever, null) },
+                        text = {
+                            Text(stringResource(id = R.string.clear_all_cookies))
+                        },
+                        onClick = {
+                            expanded = false
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            showClearCookieDialog = true
+                        })
                 }
             }, scrollBehavior = scrollBehavior)
         },
@@ -159,27 +196,15 @@ fun CookieProfilePage(
                     icon = Icons.Outlined.Add
                 ) { cookiesViewModel.showEditCookieDialog() }
             }
-            item {
-                PreferenceItemVariant(
-                    title = stringResource(id = R.string.export_to_clipboard),
-                    icon = Icons.Outlined.ContentPasteGo
-                ) {
-                    scope.launch(Dispatchers.IO) {
-                        DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
-                            clipboardManager.setText(AnnotatedString(it))
-                        }
-                    }
-                }
-            }
-            item {
-                PreferenceItemVariant(
-                    title = stringResource(id = R.string.clear_all_cookies),
-                    icon = Icons.Outlined.DeleteForever
-                ) {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    showClearCookieDialog = true
-                }
-            }
+/*            item {
+                Spacer(modifier = Modifier.height(12.dp))
+                HorizontalDivider()
+                PreferenceInfo(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    icon = Icons.Outlined.HelpOutline,
+                    text = stringResource(id = R.string.cookies_usage_msg)
+                )
+            }*/
         }
 
     }
