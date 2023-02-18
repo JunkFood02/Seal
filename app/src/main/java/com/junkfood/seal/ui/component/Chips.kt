@@ -5,11 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
@@ -25,10 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.android.material.chip.ChipDrawable
 import com.junkfood.seal.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,7 +172,7 @@ fun ShortcutChip(
     AssistChip(
         modifier = modifier.padding(horizontal = 4.dp),
         onClick = { onClick?.invoke() },
-        label = { Text(text = text) },
+        label = { Text(text = text, maxLines = 1, overflow = TextOverflow.Ellipsis) },
         trailingIcon = {
             onRemove?.let {
                 IconButton(
@@ -186,7 +182,8 @@ fun ShortcutChip(
                     Icon(
                         imageVector = Icons.Outlined.Clear,
                         contentDescription = stringResource(id = R.string.remove),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(InputChipDefaults.IconSize)
                     )
                 }
             }

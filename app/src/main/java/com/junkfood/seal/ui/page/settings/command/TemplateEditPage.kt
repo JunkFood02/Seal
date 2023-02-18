@@ -203,8 +203,9 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                         shortcuts.forEach { item ->
                             ShortcutChip(text = item.option, onClick = {
                                 templateText = templateText.run {
-                                    if (isEmpty()) "$this${item.option}"
-                                    else this.removeSuffix(" ") + " ${item.option}"
+                                    if (isEmpty()) item.option
+                                    else this.removeSuffix(" ")
+                                        .removeSuffix("\n") + "\n${item.option}"
                                 }
                             })
                         }
