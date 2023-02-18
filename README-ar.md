@@ -1,22 +1,13 @@
-<p align="center"> 
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
-</p>
-<h1 align="center">
-Seal
-</h1>
-
 <div align="center">
+	
+<img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
 
-[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
-[![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=flat-square)](https://github.com/JunkFood02/Seal/releases)
-[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?style=flat-square)](https://github.com/JunkFood02/Seal/releases)
-[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat-square)](https://github.com/JunkFood02/Seal/stargazers)
-[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+# Seal
 
-تطبيق لتحميل ملفات الفيديو والصوت من الإنترنت لنظام تشغيل اندرويد
+### تطبيق لتحميل ملفات الفيديو والصوت من الإنترنت لنظام تشغيل اندرويد
 
-<p align="center">
-<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
+
+English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
@@ -24,55 +15,72 @@ Seal
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-Українська
-</p>
-</div>
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
+
+
+[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=brightgreen&label=F-Droid&logo=fdroid&logoColor=informational)](https://f-droid.org/en/packages/com.junkfood.seal)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)
+![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)
+![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?color=informational&label=Stars)
+[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+[![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat&logo=telegram)](https://t.me/seal_app)
+[![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
+
+</a>
+
+<div align="right">
 
 ## 📱 لقطات شاشة
 
-<p align="right">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
-</p>
-
-<br>
-
+<div align="center">
+<div>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
+</div>
+</div>
 
 ## 📖 الميزات
 
-- تحميل مقاطع الفيديو والملفات الصوتية من منصات الفيديو المدعومة من [yt-dlp](https://github.com/yt-dlp/yt-dlp) (سابقا [youtube-dl](https://github.com/ytdl-org/youtube-dl)).
-
-- قم بتضمين البيانات الوصفية وصورة الفيديو المصغرة في ملفات الصوت المستخرجة التي يدعمها [mutagen](https://github.com/quodlibet/mutagen).
-
-- قم بتنزيل جميع مقاطع الفيديو في قائمة التشغيل بنقرة واحدة.
-
-- استخدم [aria2c](https://github.com/aria2/aria2) المدمج كبرنامج تنزيل خارجي لجميع التنزيلات الخاصة بك
-
-- دمج ملفات الترجمة في مقاطع الفيديو التي تم تنزيلها.
-
-- تنفيذ أوامر [yt-dlp](https://github.com/yt-dlp/yt-dlp#usage-and-options) المخصصة باستخدام القوالب.
-
-- إدارة التنزيلات داخل التطبيق وقوالب الأوامر المخصصة.
-
-- سهل الاستخدام.
-
-- واجهة مستخدم بنمط تصميم [Material Design 3](https://m3.material.io/) ، مع سمة ألوان ديناميكية [Dynamic color](https://m3.material.io/foundations/customization).
-- واجهة المستخدم والمنطق مكتوبة باستخدام لغة Kotlin. نشاط فردي ، بدون أجزاء ، وجهات قابلة للتكوين فقط.
-
+<div dir="rtl" align="rtl">
+	<ul dir=rtl>
+		<li>  تحميل مقاطع الفيديو والملفات الصوتية من منصات الفيديو المدعومة من <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> 
+			<a href="https://github.com/ytdl-org/youtube-dl">سابقا youtube-dl</a>. </li>
+		<li> قم بتضمين البيانات الوصفية وصورة الفيديو المصغرة في ملفات الصوت المستخرجة التي يدعمها <a href="https://github.com/quodlibet/mutagen">mutagen</a>. </li>
+		<li> استخدم <a href="https://github.com/aria2/aria2">aria2c</a> المدمج كبرنامج تنزيل خارجي لجميع التنزيلات الخاصة بك. </li>
+		<li> دمج ملفات الترجمة في مقاطع الفيديو التي تم تنزيلها. </li>
+		<li>  تنفيذ أوامر <a href="https://github.com/yt-dlp/yt-dlp#usage-and-options">yt-dlp</a> المخصصة باستخدام القوالب. </li>
+		<li>  إدارة التنزيلات داخل التطبيق وقوالب الأوامر المخصصة. </li>
+		<li>  سهل الاستخدام. </li>
+		<li>  واجهة مستخدم بنمط تصميم <a href="https://m3.material.io/">Material Design 3</a> ، مع سمة ألوان ديناميكية <a href="https://m3.material.io/foundations/customization">Dynamic color</a>. </li>
+		<li> واجهة المستخدم والمنطق مكتوبة باستخدام لغة Kotlin. نشاط فردي ، بدون أجزاء ، وجهات قابلة للتكوين فقط. </li>
+	
+</div>
+		
 ## ⬇️ تحميل
+	
+بالنسبة لمعظم الأجهزة ، يوصى بتثبيت إصدار **arm64-va** من التطبيق
+
+   قم بتنزيل أحدث <a href="https://github.com/JunkFood02/Seal/releases/latest">إصدار مستقر</a> من إصدارات GitHub
+    
+قم بتثبيت <a href="https://github.com/JunkFood02/Seal/releases/">الإصدارات المسبقة</a> لمساعدتنا في اختبار الميزات والتغييرات الجديدة
+  الإصدارات المستقرة متاحة أيضًا على F-Droid
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-ar.png"
     alt="Get it on F-Droid"
     height="70">](https://f-droid.org/packages/com.junkfood.seal/)
-
-أو قم بتنزيل أحدث ملفات apk من صفحة [الإصدارات](https://github.com/JunkFood02/Seal/releases/)
-
 
 
 ## 🤝 المساهمة
@@ -107,7 +115,10 @@ Seal
 <p align="right">
 <a href=https://github.com/material-foundation/material-color-utilities>Material color utilities</a>
 </p>
-
+<p align="right">
+<a href=https://github.com/Kyant0/Monet>Monet</a>
+</p>
+	
 ## 📃 رخصة
 
 
@@ -116,7 +127,7 @@ Seal
 <img src="https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge" alt="GitHub" />
 </a>
 
-<div align="right">
+<div align="left">
 <table><td>
 <a href="#start-of-content">👆 انتقل إلى أعلى</a>
 </td></table>
