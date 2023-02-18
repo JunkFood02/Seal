@@ -220,7 +220,7 @@ fun FormatPageImpl(
                         ).run { if (isNotBlank()) "($this)" else this },
                         ext = ext,
                         bitRate = tbr?.toFloat() ?: 0f,
-                        fileSize = fileSize ?: fileSizeApprox ?: 0,
+                        fileSize = fileSize ?: fileSizeApprox ?: .0,
                         selected = isSuggestedFormatSelected,
                         onLongClick = {}) {
                         isSuggestedFormatSelected = true

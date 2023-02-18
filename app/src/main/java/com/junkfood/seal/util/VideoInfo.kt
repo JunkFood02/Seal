@@ -49,8 +49,8 @@ data class VideoInfo(
     val ext: String = "",
     val protocol: String? = null,
     @SerialName("format_note") val formatNote: String? = null,
-    @SerialName("filesize_approx") val fileSizeApprox: Long? = null,
-    @SerialName("filesize") val fileSize: Long? = null,
+    @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
+    @SerialName("filesize") val fileSize: Double? = null,
     val tbr: Double? = null,
     val width: Int? = null,
     val height: Int? = null,
@@ -84,8 +84,8 @@ data class Format(
     val vbr: Double? = null,
     val abr: Double? = null,
     val tbr: Double? = null,
-    @SerialName("filesize") val fileSize: Long? = null,
-    @SerialName("filesize_approx") val fileSizeApprox: Long? = null,
+    @SerialName("filesize") val fileSize: Double? = null,
+    @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
 )
 
 data class VideoClip(
@@ -116,7 +116,7 @@ data class RequestedDownload(
     @SerialName("ext") val ext: String? = null,
     @SerialName("protocol") val protocol: String? = null,
     @SerialName("format_note") val formatNote: String? = null,
-    @SerialName("filesize_approx") val fileSizeApprox: Long? = null,
+    @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
     @SerialName("tbr") val tbr: Double? = null,
     @SerialName("width") val width: Int? = null,
     @SerialName("height") val height: Int? = null,

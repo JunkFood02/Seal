@@ -125,7 +125,7 @@ object Downloader {
         val title: String = "",
         val uploader: String = "",
         val duration: Int = 0,
-        val fileSizeApprox: Long = 0,
+        val fileSizeApprox: Double = .0,
         val progress: Float = 0f,
         val progressText: String = "",
         val thumbnailUrl: String = "",
@@ -266,7 +266,7 @@ object Downloader {
             duration = duration?.roundToInt() ?: 0,
             taskId = id + preferencesHash,
             thumbnailUrl = thumbnail.toHttpsUrl(),
-            fileSizeApprox = fileSize ?: fileSizeApprox ?: 0,
+            fileSizeApprox = fileSize ?: fileSizeApprox ?: .0,
             playlistIndex = playlistIndex
         )
 
@@ -394,12 +394,12 @@ object Downloader {
         newTitle: String
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
-            val fileSize = formatList.fold(0L) { acc, format ->
-                acc + (format.fileSize ?: format.fileSizeApprox ?: 0L)
+            val fileSize = formatList.fold(.0) { acc, format ->
+                acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
             }
 
             val info =
-                videoInfo.run { if (fileSize != 0L) copy(fileSize = fileSize) else this }
+                videoInfo.run { if (fileSize != .0) copy(fileSize = fileSize) else this }
 
             val audioOnly =
                 formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
