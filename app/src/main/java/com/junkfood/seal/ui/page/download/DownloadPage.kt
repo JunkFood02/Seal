@@ -23,12 +23,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BadgedBox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -37,6 +39,7 @@ import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
+import androidx.compose.material3.Badge
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -131,6 +134,7 @@ fun DownloadPage(
     val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     val errorState by Downloader.errorState.collectAsStateWithLifecycle()
+    val processCount by Downloader.processCount.collectAsStateWithLifecycle()
 
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -196,6 +200,7 @@ fun DownloadPage(
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             onNavigateToTaskList = onNavigateToTaskList,
+            processCount = processCount,
             showVideoCard = showVideoCard,
             showOutput = showOutput,
             showDownloadProgress = taskState.taskId.isNotEmpty(),
@@ -237,6 +242,7 @@ fun DownloadPageImpl(
     showVideoCard: Boolean = false,
     showOutput: Boolean = false,
     showDownloadProgress: Boolean = false,
+    processCount: Int = 0,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
@@ -259,12 +265,21 @@ fun DownloadPageImpl(
                 )
             }
         }, actions = {
-
-            IconButton(onClick = { onNavigateToTaskList() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Terminal,
-                    contentDescription = stringResource(id = R.string.running_tasks)
-                )
+            BadgedBox(badge = {
+                if (processCount > 0)
+                    Badge(
+                        modifier = Modifier.offset(
+                            x = (-16).dp,
+                            y = (16).dp
+                        )
+                    ) { Text("$processCount") }
+            }) {
+                IconButton(onClick = { onNavigateToTaskList() }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Terminal,
+                        contentDescription = stringResource(id = R.string.running_tasks)
+                    )
+                }
             }
 
             IconButton(onClick = { navigateToDownloads() }) {
@@ -563,6 +578,7 @@ fun DownloadPagePreview() {
                 taskState = Downloader.DownloadTaskItem(),
                 viewState = DownloadViewModel.ViewState(),
                 errorState = Downloader.ErrorState(),
+                processCount = 99,
                 isPreview = true,
                 showDownloadProgress = true,
                 showVideoCard = true
