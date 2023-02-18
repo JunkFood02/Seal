@@ -145,6 +145,8 @@ private val IntPreferenceDefaults = mapOf(
     UPDATE_CHANNEL to STABLE,
 )
 
+fun String.getStringDefault() = StringPreferenceDefaults.getOrDefault(this, "")
+
 object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
 
