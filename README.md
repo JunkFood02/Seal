@@ -1,29 +1,12 @@
 <div align="center">
-<p align="center"> 
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 >
-</p>
-<h1 align="center">
-Seal
-</h1>
-</div>
+	
+<img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
+
+# Seal
+
+### Video/Audio Downloader for Android
 
 
-
-[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
-[![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&label=stable&style=flat-square)](https://github.com/JunkFood02/Seal/releases/latest)
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=preview&logo=github)](https://github.com/JunkFood02/Seal/releases)
-[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?style=flat-square)](https://github.com/JunkFood02/Seal/releases)
-[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat-square)](https://github.com/JunkFood02/Seal/stargazers)
-[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat-square)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
-[![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat-square&logo=telegram)](https://t.me/seal_app)
-[![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat-square&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
-
-
-<p align="center">
-Video/Audio Downloader for Android
-</p>
-
-<p align="center">
 English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
@@ -37,24 +20,36 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
-</p>
-</div>
+
+
+[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=brightgreen&label=F-Droid&logo=fdroid&logoColor=informational)](https://f-droid.org/en/packages/com.junkfood.seal)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)
+![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)
+![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?color=informational&label=Stars)
+[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+[![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat&logo=telegram)](https://t.me/seal_app)
+[![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
+
+
+<div align="left">
 
 ## 📱 Screenshots
 
+<div align="center">
 <div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
 </div>
-
-
+</div>
 
 <br>
 
@@ -104,16 +99,17 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 Contributions are welcome!
 
 You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
-
+	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
-
+	
 >**Note**
-
-For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
+>
+>For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
 ## ⭐️ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+
 
 ## 🧱 Credits
 
