@@ -147,7 +147,7 @@ private val IntPreferenceDefaults = mapOf(
     UPDATE_CHANNEL to STABLE,
 )
 
-fun String.getStringDefault() = StringPreferenceDefaults.getOrDefault(this, "")
+fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
 object PreferenceUtil {
     private val kv = MMKV.defaultMMKV()
@@ -255,9 +255,8 @@ object PreferenceUtil {
     fun getConcurrentFragments(level: Int = CONCURRENT.getInt()): Float {
         return when (level) {
             1 -> 0f
-            4 -> 0.25f
-            8 -> 0.5f
-            12 -> 0.75f
+            8 -> 0.33f
+            16 -> 0.66f
             else -> 1f
         }
     }

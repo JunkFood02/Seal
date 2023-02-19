@@ -37,7 +37,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.Locale
-import kotlin.math.roundToInt
 
 object CookieScheme {
     const val NAME = "name"
@@ -128,7 +127,7 @@ object DownloadUtil {
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
-        val concurrentFragments: Float = PreferenceUtil.getConcurrentFragments(),
+        val concurrentFragments: Int = CONCURRENT.getInt(),
         val maxFileSize: String = MAX_FILE_SIZE.getString(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
@@ -400,8 +399,8 @@ object DownloadUtil {
 
                 if (aria2c) {
                     enableAria2c()
-                } else if (concurrentFragments > 0f) {
-                    addOption("--concurrent-fragments", (concurrentFragments * 16).roundToInt())
+                } else if (concurrentFragments > 1) {
+                    addOption("--concurrent-fragments", concurrentFragments)
                 }
 
                 if (extractAudio || (videoInfo.vcodec == "none")) {
