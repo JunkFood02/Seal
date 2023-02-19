@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.SealDialog
 
 @Composable
@@ -43,7 +43,7 @@ fun RemoveItemDialog(
                         text = stringResource(R.string.delete_info_msg)
                             .format(detailState.value.title),// textAlign = TextAlign.Center
                     )
-                    MultiChoiceItem(
+                    CheckBoxItem(
                         modifier = Modifier.padding(horizontal = 12.dp),
                         text = stringResource(R.string.delete_file),
                         checked = deleteFile

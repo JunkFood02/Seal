@@ -62,7 +62,7 @@ import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
-import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.AUDIO_REGEX
@@ -361,7 +361,7 @@ fun VideoListPage(
                             selectedItemIds.size
                         )
                     )
-                    MultiChoiceItem(
+                    CheckBoxItem(
                         modifier = Modifier.padding(horizontal = 12.dp),
                         text = stringResource(R.string.delete_file) + " (${selectedFileSizeSum.toFileSizeText()})",
                         checked = deleteFile

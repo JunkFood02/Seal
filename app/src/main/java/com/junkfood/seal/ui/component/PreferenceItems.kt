@@ -776,7 +776,7 @@ fun PreferenceInfo(
             modifier = Modifier.padding(), imageVector = icon, contentDescription = null
         )
         Text(
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier.padding(top = 16.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium
         )

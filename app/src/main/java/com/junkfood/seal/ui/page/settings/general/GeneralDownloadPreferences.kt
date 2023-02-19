@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.os.Build
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.outlined.SyncAlt
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +48,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -61,6 +62,9 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -85,6 +89,7 @@ import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.YT_DLP
 import com.junkfood.seal.util.YT_DLP_NIGHTLY
+import com.junkfood.seal.util.YT_DLP_UPDATE
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.launch
 
@@ -105,7 +110,6 @@ fun GeneralDownloadPreferences(
     var isUpdating by remember { mutableStateOf(false) }
 
     val downloadSubtitle by SUBTITLE.booleanState
-    var ytdlpNightly by YT_DLP_NIGHTLY.booleanState
 
     var displayErrorReport by DEBUG.booleanState
     var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
@@ -355,13 +359,27 @@ fun GeneralDownloadPreferences(
         }
     }
     if (showYtdlpDialog) {
+        var ytdlpNightly by YT_DLP_NIGHTLY.booleanState
+        var ytdlpAutoUpdate by YT_DLP_UPDATE.booleanState
         SealDialog(
             onDismissRequest = { showYtdlpDialog = false },
-            confirmButton = {},
+            confirmButton = {
+                ConfirmButton {
+                    YT_DLP_NIGHTLY.updateBoolean(ytdlpNightly)
+                    YT_DLP_UPDATE.updateBoolean(ytdlpAutoUpdate)
+                    showYtdlpDialog = false
+                }
+            },
+            dismissButton = {
+                DismissButton {
+                    showYtdlpDialog = false
+                }
+            },
             title = { Text(text = stringResource(id = R.string.update_channel)) },
             icon = { Icon(Icons.Outlined.SyncAlt, null) },
             text = {
                 LazyColumn() {
+                    item { HorizontalDivider(Modifier.padding(horizontal = 16.dp).padding(vertical = 4.dp)) }
                     item {
                         DialogSingleChoiceItem(
                             text = "yt-dlp/yt-dlp",
@@ -369,8 +387,6 @@ fun GeneralDownloadPreferences(
                             label = "Stable"
                         ) {
                             ytdlpNightly = false
-                            YT_DLP_NIGHTLY.updateBoolean(false)
-                            showYtdlpDialog = false
                         }
                     }
                     item {
@@ -381,13 +397,20 @@ fun GeneralDownloadPreferences(
                             labelContainerColor = MaterialTheme.colorScheme.tertiary
                         ) {
                             ytdlpNightly = true
-                            YT_DLP_NIGHTLY.updateBoolean(true)
-                            showYtdlpDialog = false
-
+                        }
+                    }
+                    item { HorizontalDivider(Modifier.padding(horizontal = 16.dp).padding(vertical = 4.dp)) }
+                    item {
+                        DialogCheckBoxItem(
+                            text = stringResource(id = R.string.auto_update),
+                            checked = ytdlpAutoUpdate
+                        ) {
+                            ytdlpAutoUpdate = !ytdlpAutoUpdate
                         }
                     }
                 }
-            })
+            },
+        )
     }
 
 
@@ -404,15 +427,14 @@ private fun DialogSingleChoiceItem(
 ) {
     Row(
         modifier = modifier
-            .padding(horizontal = 12.dp)
-            .padding(vertical = 2.dp)
-            .clip(CircleShape)
+            .fillMaxWidth()
             .selectable(
                 selected = selected,
                 enabled = true,
                 onClick = onClick,
-            )
-            .fillMaxWidth(),
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ).padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -434,5 +456,36 @@ private fun DialogSingleChoiceItem(
                 style = MaterialTheme.typography.labelSmall
             )
         }
+    }
+}
+
+@Composable
+fun DialogCheckBoxItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    checked: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectable(selected = checked,
+                enabled = true,
+                onClick = onClick,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            )
+            .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            modifier = Modifier.clearAndSetSemantics { },
+            checked = checked, onCheckedChange = { onClick() },
+        )
+        Text(
+            modifier = Modifier.weight(1f),
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }

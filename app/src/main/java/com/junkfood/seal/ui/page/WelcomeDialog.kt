@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.MultiChoiceItem
+import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.WELCOME_DIALOG
@@ -81,7 +81,7 @@ fun WelcomeDialog(onClick: () -> Unit) {
                     description = stringResource(R.string.check_download_settings_desc)
                 )
                 if ((showWelcomeDialog > 1))
-                    MultiChoiceItem(
+                    CheckBoxItem(
                         text = stringResource(id = R.string.close_never_show_again),
                         checked = disableDialog, onClick = { disableDialog = !disableDialog })
             }
