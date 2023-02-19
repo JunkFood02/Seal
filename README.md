@@ -38,16 +38,15 @@ English
 
 <div align="center">
 <div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
 </div>
 </div>
 
