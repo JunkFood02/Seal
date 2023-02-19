@@ -263,4 +263,18 @@
     <string name="clip_start">Початок</string>
     <string name="clip_end">Кінець</string>
     <string name="discard">Відхилити</string>
+    <string name="audio_format_preference">Бажаний аудіоформат</string>
+    <string name="lowest_bitrate">Найнижчий бітрейт</string>
+    <string name="audio_quality">Якість звуку</string>
+    <string name="audio_quality_desc">Обмежувати бітрейт аудіо при наявності кількох якостей</string>
+    <string name="format_sorting">Сортування форматів</string>
+    <string name="format_sorting_desc">Сортування форматів за допомогою опції -S для yt-dlp</string>
+    <string name="import_from_preferences">Імпортувати</string>
+    <string name="title">Назва</string>
+    <string name="rename">Перейменувати</string>
+    <string name="second">секунди</string>
+    <string name="minute">хвилини</string>
+    <string name="clear_all_cookies">Очистити всі файли cookie</string>
+    <string name="unlimited">Без обмежень</string>
+    <string name="clear_all_cookies_desc">Назавжди видалити всі файли cookie, які зберігаються у застосунку\?</string>
 </resources>

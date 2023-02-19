@@ -207,4 +207,17 @@
     <string name="cookies_desc">ダウンロードにネットスケープ形式のクッキーを利用する</string>
     <string name="lowest_quality">最低クオリティ</string>
     <string name="disable_preview_desc">ダウンロードのプレビューを無効にする</string>
+    <string name="format_selection">ファイル形式の選択</string>
+    <string name="format_selection_desc">ダウンロード開始前にファイル形式を選択する</string>
+    <string name="private_directory_desc">隠しディレクトリにダウンロードする</string>
+    <string name="suggested">推薦</string>
+    <string name="generate_new_cookies">新たなクッキーを生成する</string>
+    <string name="select_all">全選択</string>
+    <string name="download_selection_desc">プレイリスト「%1$s」からダウンロードする動画を選択する</string>
+    <string name="selected_item_count">%1$d件選択済み</string>
+    <string name="use_cookies">クッキーを使用する</string>
+    <string name="remove_cookie_profile_desc">「%1$s」のクッキーを削除しますか？</string>
+    <string name="video_only">動画（音声なし）</string>
+    <string name="crop_artwork">アートワークを切り抜く</string>
+    <string name="crop_artwork_desc">組み込み画像を正方形に切り抜く</string>
 </resources>

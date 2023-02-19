@@ -247,4 +247,34 @@
     <string name="edit_shortcuts">ਸ਼ਾਰਟਕੱਟ ਸੋਧ</string>
     <string name="subtitle_sponsorblock">ਸਪਾਂਸਰ-ਬਲਾਕ ਖੰਡਾਂ ਨੂੰ ਹਟਾਉਂਦੇ ਸਮੇਂ ਸਬ-ਟਾਈਟਲ ਗਲਤ ਸਮੇਂ ਤੇ ਹੋ ਸਕਦੇ ਹਨ।</string>
     <string name="embed_subtitles_mkv_msg">ਉਪਸਿਰਲੇਖਾਂ ਨੂੰ ਏਮਬੈਡ ਕਰਨ ਲਈ, ਵੀਡੀਓ ਨੂੰ mkv ਕੰਟੇਨਰ ਵਿੱਚ ਰੀਮਕਸ ਕੀਤਾ ਜਾਵੇਗਾ।</string>
+    <string name="audio_format_preference">ਤਰਜੀਹੀ ਆਡੀਓ ਫਾਰਮੈਟ</string>
+    <string name="unlimited">ਅਸੀਮਤ</string>
+    <string name="lowest_bitrate">ਸਭ ਤੋਂ ਘੱਟ ਬਿਟਰੇਟ</string>
+    <string name="audio_quality">ਆਡੀਓ ਕੁਆਲਿਟੀ</string>
+    <string name="audio_quality_desc">ਕਈ ਕੁਆਲਿਟੀਆਂ ਮੌਜੂਦ ਹੋਣ \'ਤੇ ਆਡੀਓ ਬਿੱਟਰੇਟ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
+    <string name="format_sorting">ਫਾਰਮੈਟ ਛਾਂਟੀ</string>
+    <string name="format_sorting_desc">yt-dlp ਦੇ -S ਵਿਕਲਪ ਨਾਲ ਫਾਰਮੈਟਾਂ ਨੂੰ ਛਾਂਟਣਾ</string>
+    <string name="import_from_preferences">ਆਯਾਤ ਕਰੋ</string>
+    <string name="title">ਸਿਰਲੇਖ</string>
+    <string name="rename">ਨਾਮ ਬਦਲੋ</string>
+    <string name="second">ਸਕਿੰਟ</string>
+    <string name="minute">ਮਿੰਟ</string>
+    <string name="share">ਸਾਂਝਾ ਕਰੋ</string>
+    <string name="stable_channel">ਸਥਿਰ</string>
+    <string name="pre_release_channel">ਪੂਰਵ-ਝਲਕ</string>
+    <string name="update_channel">ਅੱਪਡੇਟ ਚੈਨਲ</string>
+    <string name="auto_update">ਆਟੋ ਅੱਪਡੇਟ</string>
+    <string name="enable_auto_update">ਆਟੋ ਅੱਪਡੇਟ ਚਾਲੂ ਕਰੋ</string>
+    <string name="discard">ਰੱਦ ਕਰੋ</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f M</string>
+    <string name="update_channel_desc">ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਅਤੇ ਤਬਦੀਲੀਆਂ ਦੀ ਪੂਰਵ-ਝਲਕ ਦੇਖਣ ਲਈ ਪ੍ਰੀ-ਰਿਲੀਜ਼ ਬਿਲਡ ਇੰਸਟਾਲ ਕਰੋ।
+\n
+\n ਇਹਨਾਂ ਸੰਸਕਰਣਾਂ ਵਿੱਚ ਕੁਝ ਅਸਥਿਰਤਾ ਹੋਵੇਗੀ, ਇਸ ਲਈ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਸਮੱਸਿਆ ਆਉਂਦੀ ਹੈ ਅਤੇ ਭਵਿੱਖ ਲਈ ਐਪ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਸਾਨੂੰ ਫੀਡਬੈਕ ਦੇਣ ਵਿੱਚ ਸੰਕੋਚ ਨਾ ਕਰੋ ।</string>
+    <string name="apply">ਲਾਗੂ ਕਰੋ</string>
+    <string name="clear_all_cookies">ਸਾਰੇ ਕੂਕੀਜ਼ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
+    <string name="clip_video">ਕਲਿੱਪ ਵੀਡੀਓ</string>
+    <string name="clip_start">ਸ਼ੁਰੂਆਤ</string>
+    <string name="clip_end">ਅੰਤ</string>
+    <string name="clear_all_cookies_desc">ਕੀ ਐਪ ਵਿੱਚ ਸਟੋਰ ਕੀਤੇ ਸਾਰੀਆਂ ਕੂਕੀਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ\?</string>
 </resources>
