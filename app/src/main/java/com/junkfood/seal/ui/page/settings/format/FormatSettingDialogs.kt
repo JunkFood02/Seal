@@ -54,6 +54,7 @@ import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
+import com.junkfood.seal.util.CONVERT_M4A
 import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.DEFAULT
 import com.junkfood.seal.util.DownloadUtil
@@ -101,7 +102,7 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
                     text = stringResource(R.string.convert_audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in CONVERT_MP3..CONVERT_MP3)
+                for (i in CONVERT_MP3..CONVERT_M4A)
                     SingleChoiceItem(
                         modifier = Modifier.padding(horizontal = 12.dp),
                         text = PreferenceUtil.getAudioConvertDesc(i),
