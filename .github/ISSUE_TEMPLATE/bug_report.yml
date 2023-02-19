@@ -1,10 +1,28 @@
 name: Bug Report
 description: Create a report to help us improve
-title: "[Bug Report]"
 labels: [bug]
 body:
 
 
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: |
+        Carefully read and work through this check list in order to prevent the most common mistakes and misuse of Seal/Yt-dlp:
+      options:
+        - label: I'm reporting a bug unrelated to a specific site.
+          required: true
+        - label: I've verified that I'm running the [**latest version**](https://github.com/yt-dlp/yt-dlp/releases/latest) of yt-dlp.
+          required: true
+        - label: I've verified that I'm running the latest [**stable version**](https://github.com/JunkFood02/Seal/releases/latest/) of Seal or any later [**preview versions**](https://github.com/JunkFood02/Seal/releases).
+          required: true
+        - label: I've read the [**Contributing guidelines**](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) and [**Code Of Conduct.**](https://github.com/JunkFood02/Seal/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+        - label: I've checkd that the site i'm trying to download from is in the [**Supported Sites**](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) list from yt-dlp
+          required: true
+        - label: I understand that the issue will be (ignored/closed) if I intentionally remove or skip any mandatory field.
+          required: true
 
   - type: textarea
     attributes:
@@ -29,13 +47,19 @@ body:
 
   - type: textarea
     attributes:
-      label: Error reports & Screenshots
+      label: Error reports
       placeholder: |
-        Please go to Settings - Download - Turn on 'Detailed output', then reproduced the bug and paste the error report below.
-        If applicable, add screenshots or screen recordings to help explain your problem.
+        Click on the displayed error report to copy it.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Screenshots & Screen Records
+      placeholder: |
+        Screenshots & Screen Records can amp up bug reports.
     validations:
       required: false
-
 
   - type: textarea
     attributes:
@@ -49,7 +73,10 @@ body:
         4) Click "Version"
         5) Paste the info below.
       placeholder: |
-        [e.g. 1.0.4 (API 29)]
+        App version: x.x.x (XxXxX)
+        Device information: Android XX (API XX)
+        Supported ABIs: [arm64-v8a, armeabi-v7a, armeabi]
+        Yt-dlp version: 20XX.XX.XX
     validations:
       required: false
 
