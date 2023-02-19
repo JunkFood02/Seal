@@ -11,18 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add share file operation in `VideoDetailDrawer`
 - Add pre-release channel for auto-updating
-- Option to update to Nightly builds of yt-dlp
+- Add an option to update to Nightly builds of yt-dlp
+- Add a switch for auto updating yt-dlp
 - Make video/audio clip in `FormatSelectionPage`
 - Edit title of the video in `FormatSelectionPage` before downloading
 - Implement a new method to extract cookies from the database of WebView
+- Add `Badge` on the icon to indicate the count of running process
+- Add legacy app icon
 
 ### Changed
 
 - Change the operation of open link to long pressing the link button in `VideoDetailDrawer`
+- Change the thread number range of multi-threaded download to 1-24
+- Change status bar icon to filled icon
 
 ### Fixed
 
 - Fix a bug causing high-quality audio not downloaded with YT Premium cookies & YT Music URLs
+- UI bug in `ShortcutChip` with long template
+- Empty subtitle language breaks downloads
+- Languages not visible in system settings
 
 ### Known issues
 
