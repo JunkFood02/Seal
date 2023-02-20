@@ -139,7 +139,7 @@
     <string name="prefix">Prefix</string>
     <string name="custom_output_path">Custom subdirectory</string>
     <string name="custom_output_path_desc">Use template for subdirectory</string>
-    <string name="edit_custom_path_template_desc">Specify subdirectory with available fields provided by yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Add custom prefix to the -o option with available fields provided by yt-dlp</string>
     <string name="embed_subtitles">Embed subtitles</string>
     <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
     <string name="new_template">New template</string>
@@ -322,5 +322,7 @@
     <string name="minute">minute</string>
     <string name="clear_all_cookies">Clear all cookies</string>
     <string name="clear_all_cookies_desc">Delete all the cookies stored in the app for good?</string>
+    <string name="temporary_directory">Temporary directory</string>
+    <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
 
 </resources>

@@ -123,7 +123,7 @@ private val StringPreferenceDefaults =
         SPONSORBLOCK_CATEGORIES to "default",
         MAX_RATE to "1000",
         OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
-        SUBTITLE_LANGUAGE to "en.*,.*-orig"
+        SUBTITLE_LANGUAGE to "en.*,.*-orig",
     )
 
 private val BooleanPreferenceDefaults =
@@ -131,7 +131,8 @@ private val BooleanPreferenceDefaults =
         FORMAT_SELECTION to true,
         CONFIGURE to true,
         CELLULAR_DOWNLOAD to true,
-        YT_DLP_UPDATE to true
+        YT_DLP_UPDATE to true,
+        TEMP_DIRECTORY to true,
     )
 
 private val IntPreferenceDefaults = mapOf(

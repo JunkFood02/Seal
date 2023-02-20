@@ -20,8 +20,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
-import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderDelete
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.VideoLibrary
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -62,6 +61,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -83,9 +83,11 @@ import com.junkfood.seal.util.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SDCARD_DOWNLOAD
 import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.SUBDIRECTORY
+import com.junkfood.seal.util.TEMP_DIRECTORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -140,6 +142,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var sdcardDownload by remember {
         mutableStateOf(PreferenceUtil.getValue(SDCARD_DOWNLOAD))
     }
+    var temporaryDirectory by TEMP_DIRECTORY.booleanState
 
     var pathTemplateText by remember { mutableStateOf(PreferenceUtil.getOutputPathTemplate()) }
 
@@ -335,13 +338,28 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     )
                 }
                 item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.temporary_directory),
+                        icon = Icons.Outlined.Folder,
+                        description = stringResource(
+                            id = R.string.temporary_directory_desc
+                        ),
+                        isChecked = temporaryDirectory,
+                        onClick = {
+                            temporaryDirectory = !temporaryDirectory
+                            TEMP_DIRECTORY.updateBoolean(temporaryDirectory)
+                        },
+                        enabled = !isCustomCommandEnabled
+                    )
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(R.string.clear_temp_files),
                         description = stringResource(
                             R.string.clear_temp_files_desc
                         ),
                         icon = Icons.Outlined.FolderDelete,
-                        onClick = { showClearTempDialog = true }
+                        onClick = { showClearTempDialog = true },
                     )
                 }
             }
@@ -404,11 +422,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             .padding(vertical = 12.dp),
                         value = pathTemplateText,
                         onValueChange = { pathTemplateText = it },
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                clipboardManager.getText()?.let { pathTemplateText = it.text }
-                            }) { Icon(Icons.Outlined.ContentPaste, stringResource(R.string.paste)) }
-                        },
+//                        prefix = { Text("-o") },
+//                        suffix = { Text(OUTPUT_TEMPLATE) },
                         label = { Text(stringResource(R.string.prefix)) },
                         maxLines = 1,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)

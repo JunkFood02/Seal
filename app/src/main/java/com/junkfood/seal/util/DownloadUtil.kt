@@ -122,6 +122,7 @@ object DownloadUtil {
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PLAYLIST),
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
+        val tempDirectory: Boolean = TEMP_DIRECTORY.getBoolean(),
         val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
         val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
@@ -442,7 +443,7 @@ object DownloadUtil {
                 if (newTitle.isNotEmpty()) {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                 }
-                if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
+                if (Build.VERSION.SDK_INT > 23 && !sdcard && tempDirectory) addOption(
                     "-P", "temp:" + context.getTempDir()
                 )
                 val outputFileName =
