@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.junkfood.seal.App.Companion.userAgentHeader
 import com.junkfood.seal.R
 
 
@@ -43,7 +42,7 @@ fun AsyncImageImpl(
     )
     else coil.compose.AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .addHeader("user-agent", userAgentHeader).data(model)
+            .data(model)
             .crossfade(true)
             .build(),
         contentDescription = contentDescription,

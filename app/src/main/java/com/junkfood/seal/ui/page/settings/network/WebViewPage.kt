@@ -25,7 +25,6 @@ import com.google.accompanist.web.AccompanistWebChromeClient
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
-import com.junkfood.seal.App.Companion.userAgentHeader
 import com.junkfood.seal.R
 import com.junkfood.seal.util.connectWithDelimiter
 
@@ -136,7 +135,6 @@ fun WebViewPage(
             captureBackPresses = true, factory = { context ->
                 WebView(context).apply {
                     settings.run {
-                        userAgentString = userAgentHeader
                         javaScriptCanOpenWindowsAutomatically = true
                         javaScriptEnabled = true
                         domStorageEnabled = true
