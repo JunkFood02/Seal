@@ -274,4 +274,7 @@
     <string name="clear_all_cookies">Очистить все файлы cookies</string>
     <string name="lowest_bitrate">Самый низкий битрейт</string>
     <string name="clear_all_cookies_desc">Удалить все файлы cookies, хранящиеся в приложении, навсегда\?</string>
+    <string name="audio_quality_desc">Ограничить битрейт, когда несколько качеств доступны</string>
+    <string name="second">секунда</string>
+    <string name="minute">минута</string>
 </resources>

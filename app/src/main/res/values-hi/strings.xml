@@ -247,4 +247,34 @@
     <string name="auto_subtitle_desc">स्वत: जनरेट किए गए कैप्शन डाउनलोड करें</string>
     <string name="logs">लॉग</string>
     <string name="embed_subtitles_mkv_msg">उपशीर्षक एम्बेड करने के लिए, वीडियो को एमकेवी कंटेनर में रीमक्स किया जाएगा।</string>
+    <string name="audio_format_preference">पसंदीदा ऑडियो प्रारूप</string>
+    <string name="unlimited">असीमित</string>
+    <string name="lowest_bitrate">सबसे कम बिटरेट</string>
+    <string name="format_sorting">प्रारूप छँटाई</string>
+    <string name="format_sorting_desc">yt-dlp के -S विकल्प के साथ स्वरूपों को क्रमबद्ध करना</string>
+    <string name="import_from_preferences">आयात करें</string>
+    <string name="title">शीर्षक</string>
+    <string name="rename">नाम बदलें</string>
+    <string name="second">दूसरा</string>
+    <string name="minute">मिनट</string>
+    <string name="clear_all_cookies">सभी कुकी साफ़ करें</string>
+    <string name="clear_all_cookies_desc">ऐप में संगृहीत सभी कुकी हमेशा के लिए हटा दें\?</string>
+    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f G</string>
+    <string name="share">साझा करें</string>
+    <string name="stable_channel">स्थिर</string>
+    <string name="pre_release_channel">पूर्व दर्शन</string>
+    <string name="update_channel">अपडेट चैनल</string>
+    <string name="auto_update">ऑटो अपडेट</string>
+    <string name="enable_auto_update">ऑटो अपडेट सक्षम करें</string>
+    <string name="discard">खारिज करें</string>
+    <string name="apply">लागू करें</string>
+    <string name="clip_start">शुरू</string>
+    <string name="clip_end">अंत</string>
+    <string name="update_channel_desc">नई सुविधाओं और परिवर्तनों का पूर्वावलोकन करने के लिए रिलीज़-पूर्व बिल्ड स्थापित करें।
+\n
+\n इन संस्करणों में कुछ अस्थिरता होगी, इसलिए यदि आपको कोई समस्या आती है और भविष्य के लिए ऐप को बेहतर बनाने में हमारी मदद करने के लिए कृपया हमें प्रतिक्रिया देने में संकोच न करें।</string>
+    <string name="clip_video">क्लिप वीडियो</string>
+    <string name="audio_quality">ऑडियो गुणवत्ता</string>
+    <string name="audio_quality_desc">एकाधिक कुआलिटी मौजूद होने पर ऑडियो बिटरेट सीमित करें</string>
 </resources>
