@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 
@@ -25,19 +23,22 @@ fun SingleChoiceItem(
 ) {
     Row(
         modifier = modifier
-            .padding(vertical = 2.dp)
-            .clip(CircleShape)
             .selectable(
                 selected = selected,
                 enabled = true,
                 onClick = onClick,
             )
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
         RadioButton(
-            modifier = Modifier.clearAndSetSemantics { }, selected = selected, onClick = onClick
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .clearAndSetSemantics { },
+            selected = selected,
+            onClick = onClick
         )
         Text(text = text, style = MaterialTheme.typography.bodyLarge)
     }
@@ -63,7 +64,7 @@ fun CheckBoxItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
-            modifier = Modifier.clearAndSetSemantics {  },
+            modifier = Modifier.clearAndSetSemantics { },
             checked = checked, onCheckedChange = { onClick() },
         )
         Text(

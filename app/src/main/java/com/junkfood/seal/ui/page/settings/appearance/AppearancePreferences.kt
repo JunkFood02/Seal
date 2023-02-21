@@ -23,7 +23,6 @@ import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +37,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,16 +60,12 @@ import com.junkfood.seal.ui.common.LocalPaletteStyleIndex
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.ConfirmButton
-import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
-import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
-import com.junkfood.seal.util.DarkThemePreference.Companion.FOLLOW_SYSTEM
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
@@ -110,9 +104,6 @@ fun AppearancePreferences(
         rememberTopAppBarState(),
         canScroll = { true }
     )
-    var showDarkThemeDialog by remember { mutableStateOf(false) }
-    val darkTheme = LocalDarkTheme.current
-    var darkThemeValue by remember { mutableStateOf(darkTheme.darkThemeValue) }
     val image by remember {
         mutableStateOf(
             listOf(
@@ -207,43 +198,6 @@ fun AppearancePreferences(
                     ) { navController.navigate(Route.LANGUAGES) }
             }
         })
-    if (showDarkThemeDialog)
-        AlertDialog(onDismissRequest = {
-            showDarkThemeDialog = false
-            darkThemeValue = darkTheme.darkThemeValue
-        }, confirmButton = {
-            ConfirmButton {
-                showDarkThemeDialog = false
-                PreferenceUtil.modifyDarkThemePreference(darkThemeValue)
-            }
-        }, dismissButton = {
-            DismissButton {
-                showDarkThemeDialog = false
-                darkThemeValue = darkTheme.darkThemeValue
-            }
-        }, icon = { Icon(Icons.Outlined.DarkMode, null) },
-            title = { Text(stringResource(R.string.dark_theme)) }, text = {
-                Column {
-                    SingleChoiceItem(
-                        text = stringResource(R.string.follow_system),
-                        selected = darkThemeValue == FOLLOW_SYSTEM
-                    ) {
-                        darkThemeValue = FOLLOW_SYSTEM
-                    }
-                    SingleChoiceItem(
-                        text = stringResource(R.string.on),
-                        selected = darkThemeValue == ON
-                    ) {
-                        darkThemeValue = ON
-                    }
-                    SingleChoiceItem(
-                        text = stringResource(R.string.off),
-                        selected = darkThemeValue == OFF
-                    ) {
-                        darkThemeValue = OFF
-                    }
-                }
-            })
 }
 
 @Composable

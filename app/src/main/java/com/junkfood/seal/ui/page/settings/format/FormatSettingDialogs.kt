@@ -102,7 +102,7 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
                 )
                 for (i in CONVERT_MP3..CONVERT_M4A)
                     SingleChoiceItem(
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier,
                         text = PreferenceUtil.getAudioConvertDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
@@ -143,7 +143,7 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                 )
                 for (i in 0..3)
                     SingleChoiceItem(
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier,
                         text = PreferenceUtil.getVideoFormatDesc(i),
                         selected = videoFormat == i
                     ) { videoFormat = i }
@@ -180,7 +180,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                 )
                 for (i in DEFAULT..M4A)
                     SingleChoiceItem(
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier,
                         text = PreferenceUtil.getAudioFormatDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
@@ -215,7 +215,7 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
                 )
                 for (i in NOT_SPECIFIED..LOW)
                     SingleChoiceItem(
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier,
                         text = PreferenceUtil.getAudioQualityDesc(i),
                         selected = audioQuality == i
                     ) { audioQuality = i }
@@ -288,6 +288,7 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
 fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
 
+
     @Composable
     fun videoResolutionSelectField(modifier: Modifier = Modifier) {
         var expanded by remember { mutableStateOf(false) }
@@ -327,7 +328,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
         }
     }
 
-    AlertDialog(
+    SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
@@ -350,12 +351,23 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp),
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
                     text = stringResource(R.string.video_quality_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 LazyColumn() {
-                    item { videoResolutionSelectField() }
+//                    item { videoResolutionSelectField() }
+                    for (i in 0..7) {
+                        item {
+                            SingleChoiceItem(
+                                text = PreferenceUtil.getVideoResolutionDesc(i),
+                                selected = videoResolution == i
+                            ) {
+                                videoResolution = i
+                            }
+                        }
+                    }
                 }
             }
         })
