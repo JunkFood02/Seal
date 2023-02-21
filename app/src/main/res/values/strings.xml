@@ -78,7 +78,7 @@
     <string name="convert_audio_format_desc">Re-encoding audio files will cause loss in audio quality and increase in file size.</string>
     <string name="video_quality">Video quality</string>
     <string name="best_quality">Best quality (default)</string>
-    <string name="video_quality_desc">Limit the format quality and the file size</string>
+    <string name="video_quality_desc">Limit the video quality when multiple are present</string>
     <string name="not_specified">Not specified (default)</string>
     <string name="video_format_preference">Preferred video format</string>
     <string name="preferred_format_desc">Chosen format when multiple are provided</string>

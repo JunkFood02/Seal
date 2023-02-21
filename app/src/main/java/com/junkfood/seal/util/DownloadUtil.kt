@@ -129,7 +129,6 @@ object DownloadUtil {
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
         val concurrentFragments: Int = CONCURRENT.getInt(),
-        val maxFileSize: String = MAX_FILE_SIZE.getString(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
         val cookies: Boolean = COOKIES.getBoolean(),
@@ -258,9 +257,6 @@ object DownloadUtil {
 
     @CheckResult
     private fun DownloadPreferences.toVideoFormatSorter(): String = this.run {
-        val fileSize = if (maxFileSize.isNumberInRange(1, 4096)) {
-            "size:${maxFileSize}M"
-        } else ""
         val format = when (videoFormat) {
             1 -> "ext"
             2 -> "vcodec:vp9.2"
@@ -277,7 +273,7 @@ object DownloadUtil {
             7 -> "+res"
             else -> ""
         }
-        return@run connectWithDelimiter(fileSize, format, res, delimiter = ",")
+        return@run connectWithDelimiter(format, res, delimiter = ",")
     }
 
     private fun YoutubeDLRequest.applyFormatSorter(

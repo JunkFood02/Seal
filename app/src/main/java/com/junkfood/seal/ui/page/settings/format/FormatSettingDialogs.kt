@@ -41,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
@@ -61,7 +60,6 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
-import com.junkfood.seal.util.MAX_FILE_SIZE
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
@@ -289,7 +287,6 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
 @Composable
 fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
     var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
-    var fileSize by MAX_FILE_SIZE.stringState
 
     @Composable
     fun videoResolutionSelectField(modifier: Modifier = Modifier) {
@@ -330,39 +327,6 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
         }
     }
 
-    @Composable
-    fun videoSizeTextField(modifier: Modifier = Modifier) {
-        var expanded by remember { mutableStateOf(false) }
-        val notSpecified = stringResource(R.string.not_specified)
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
-            OutlinedTextField(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = fileSize,
-                onValueChange = {
-                    fileSize =
-                        if (it.isDigitsOnly() || it == notSpecified) it else ""
-                },
-                leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
-                trailingIcon = { Text("MB") },
-                label = { Text(stringResource(id = R.string.video_file_size)) }
-            )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                DropdownMenuItem(
-                    text = { Text(notSpecified) },
-                    onClick = {
-                        fileSize = notSpecified
-                        expanded = false
-                    })
-            }
-        }
-    }
-
     AlertDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -376,7 +340,6 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
         }, confirmButton = {
             TextButton(onClick = {
                 PreferenceUtil.encodeInt(VIDEO_QUALITY, videoResolution)
-                PreferenceUtil.encodeString(MAX_FILE_SIZE, fileSize)
                 onConfirm()
                 onDismissRequest()
             }) {
@@ -393,7 +356,6 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                 )
                 LazyColumn() {
                     item { videoResolutionSelectField() }
-                    item { videoSizeTextField(modifier = Modifier.padding(top = 12.dp)) }
                 }
             }
         })
