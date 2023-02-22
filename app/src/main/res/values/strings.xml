@@ -224,7 +224,7 @@
     <string name="cookies_desc">Use Netscape formatted cookies for downloads</string>
     <string name="cookies_file_name" translatable="false">cookies.txt</string>
     <string name="clear_temp_files">Clear temporary files</string>
-    <string name="clear_temp_files_desc">Delete all temporary files from the download directory</string>
+    <string name="clear_temp_files_desc">Delete all temporary files from the internal directory</string>
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
     <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
     <string name="multiselect_mode">Multiselect mode</string>
@@ -324,5 +324,8 @@
     <string name="clear_all_cookies_desc">Delete all the cookies stored in the app for good?</string>
     <string name="temporary_directory">Temporary directory</string>
     <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
+    <string name="donate">Donate</string>
+    <string name="donate_desc">Support the development of this app by sponsoring on GitHub</string>
+    <string name="donate_msg">Hi there! Thanks for using Seal. As the sole developer of Seal, I\'ve invested a lot of time and effort into creating an app that is both user-friendly and functional. If you\'re enjoying using Seal and would like to support its ongoing development, please consider making a donation through GitHub Sponsors. Every little bit helps and will go a long way in helping me continue to provide the best possible user experience while keeping the app free and open source for everyone to use. Thank you for your support!</string>
 
 </resources>
