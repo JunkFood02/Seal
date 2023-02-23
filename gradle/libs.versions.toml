@@ -35,7 +35,7 @@ room = "2.5.0"
 youtubedlAndroid = "7222fe9637"
 
 mmkv = "1.2.15"
-
+androidSvg = "1.4"
 [libraries]
 
 
@@ -73,6 +73,7 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
+caverock-androidsvg = { group = "com.caverock", name = "androidsvg-aar", version.ref = "androidSvg" }
 
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 

@@ -207,7 +207,7 @@ dependencies {
     implementation(libs.youtubedl.android.library)
     implementation(libs.youtubedl.android.ffmpeg)
     implementation(libs.youtubedl.android.aria2c)
-
+    implementation(libs.caverock.androidsvg)
 //    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
 //    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
 //    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
