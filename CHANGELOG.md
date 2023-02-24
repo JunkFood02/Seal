@@ -5,6 +5,13 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [v1.8.3][1.8.3] - 2023-02-25
+
+### Fixed
+
+- Bump up yt-dlp version to 2023.02.17
+
 ## [v1.8.2][1.8.2] - 2023-02-10
 
 ### Fixed
@@ -73,3 +80,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.8.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.8.1
 
 [1.8.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.8.2
+
+[1.8.3]: https://github.com/JunkFood02/Seal/releases/tag/v1.8.3

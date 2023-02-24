@@ -143,6 +143,7 @@ fun WebViewPage(
             captureBackPresses = true, factory = { context ->
                 WebView(context).apply {
                     settings.javaScriptEnabled = true
+                    settings.domStorageEnabled = true
                     cookieManager.setAcceptThirdPartyCookies(this, true)
                 }
             }
