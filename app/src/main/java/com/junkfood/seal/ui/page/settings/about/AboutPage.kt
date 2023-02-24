@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.UpdateDisabled
+import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,7 +54,8 @@ private const val TAG = "AboutPage"
 fun AboutPage(
     onBackPressed: () -> Unit,
     onNavigateToCreditsPage: () -> Unit,
-    onNavigateToUpdatePage: () -> Unit
+    onNavigateToUpdatePage: () -> Unit,
+    onNavigateToDonatePage: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -115,6 +117,15 @@ fun AboutPage(
                     description = stringResource(R.string.github_issue_desc),
                     icon = Icons.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(id = R.string.donate),
+                    description = stringResource(id = R.string.donate_desc),
+                    icon = Icons.Outlined.VolunteerActivism
+                ){
+                    onNavigateToDonatePage()
+                }
             }
             item {
                 PreferenceItem(

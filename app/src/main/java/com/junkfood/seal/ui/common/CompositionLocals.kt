@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.common
 
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -7,6 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.DarkThemePreference
 import com.junkfood.seal.util.PreferenceUtil
@@ -28,7 +30,10 @@ fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Compo
         LocalDarkTheme provides appSettingsState.darkTheme,
         LocalSeedColor provides appSettingsState.seedColor,
         LocalPaletteStyleIndex provides appSettingsState.paletteStyleIndex,
-        LocalTonalPalettes provides Color(appSettingsState.seedColor).toTonalPalettes(
+        LocalTonalPalettes provides if (appSettingsState.isDynamicColorEnabled) dynamicLightColorScheme(
+            LocalContext.current
+        ).toTonalPalettes()
+        else Color(appSettingsState.seedColor).toTonalPalettes(
             palettesMap.getOrElse(appSettingsState.paletteStyleIndex) { PaletteStyle.TonalSpot }
         ),
         LocalWindowWidthState provides windowWidthSizeClass,

@@ -50,6 +50,7 @@ import com.junkfood.seal.ui.page.download.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
+import com.junkfood.seal.ui.page.settings.about.DonatePage
 import com.junkfood.seal.ui.page.settings.about.UpdatePage
 import com.junkfood.seal.ui.page.settings.appearance.AppearancePreferences
 import com.junkfood.seal.ui.page.settings.appearance.DarkThemePreferences
@@ -269,9 +270,10 @@ fun NavGraphBuilder.settingsGraph(
             AboutPage(
                 onBackPressed = { onBackPressed() },
                 onNavigateToCreditsPage = { navController.navigate(Route.CREDITS) },
-                onNavigateToUpdatePage = { navController.navigate(Route.AUTO_UPDATE) })
-
+                onNavigateToUpdatePage = { navController.navigate(Route.AUTO_UPDATE) },
+                onNavigateToDonatePage = { navController.navigate(Route.DONATE) })
         }
+        animatedComposable(Route.DONATE) { DonatePage { onBackPressed() } }
         animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
         animatedComposable(Route.AUTO_UPDATE) { UpdatePage { onBackPressed() } }
         animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }

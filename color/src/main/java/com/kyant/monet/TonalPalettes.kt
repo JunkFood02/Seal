@@ -1,5 +1,6 @@
 package com.kyant.monet
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import com.kyant.monet.Cam16.Companion.toCam16
 
@@ -54,14 +55,33 @@ class TonalPalettes(
             )
         }
 
+        fun Color.toTonalPalette(
+            tonalValues: DoubleArray = M3TonalValues
+        ): TonalPalette {
+            return tonalValues.associateWith { transform(it, ColorSpec()) }
+        }
+
+        fun ColorScheme.toTonalPalettes(
+            tonalValues: DoubleArray = M3TonalValues
+        ):TonalPalettes {
+            return TonalPalettes(
+                keyColor = this.primary,
+                accent1 = tonalValues.associateWith { primary.transform(it, ColorSpec()) },
+                accent2 = tonalValues.associateWith { secondary.transform(it, ColorSpec()) },
+                accent3 = tonalValues.associateWith { tertiary.transform(it, ColorSpec()) },
+                neutral1 = tonalValues.associateWith { surface.transform(it, ColorSpec()) },
+                neutral2 = tonalValues.associateWith { surfaceVariant.transform(it, ColorSpec()) }
+            )
+        }
+
         private fun Color.transform(tone: Double, spec: ColorSpec): Color {
             val cam = toSrgb().toCieXyz().toCam16()
             return Hct(
                 h = cam.h + spec.hueShift(cam.h),
                 c = (
-                    if (tone >= 90.0) spec.chroma(cam.c).coerceAtMost(40.0)
-                    else spec.chroma(cam.c)
-                    ) * 2.0 / 3.0,
+                        if (tone >= 90.0) spec.chroma(cam.c).coerceAtMost(40.0)
+                        else spec.chroma(cam.c)
+                        ) * 2.0 / 3.0,
                 t = tone
             ).toSrgb().toColor()
         }

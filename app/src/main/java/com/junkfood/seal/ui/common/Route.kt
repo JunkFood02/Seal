@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.common
 
 object Route {
+
     const val HOME = "home"
     const val DOWNLOADS = "download_history"
     const val PLAYLIST = "playlist"
@@ -27,6 +28,7 @@ object Route {
     const val COOKIE_GENERATOR_WEBVIEW = "cookie_webview"
     const val SUBTITLE_PREFERENCES = "subtitle_preferences"
     const val AUTO_UPDATE = "auto_update"
+    const val DONATE = "donate"
 
     const val TASK_HASHCODE = "task_hashcode"
     const val TEMPLATE_ID = "template_id"
