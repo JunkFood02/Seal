@@ -3,11 +3,13 @@ package com.junkfood.seal.ui.common
 import android.graphics.drawable.PictureDrawable
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -15,14 +17,18 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntSize
 import coil.compose.AsyncImagePainter
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.caverock.androidsvg.SVG
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.parseDynamicColor
+import com.kyant.monet.LocalTonalPalettes
+import com.kyant.monet.TonalPalettes
 
 
 @Composable
@@ -37,29 +43,49 @@ fun SVGImage(
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
-    colorScheme: ColorScheme = MaterialTheme.colorScheme
+    tonalPalettes: TonalPalettes = LocalTonalPalettes.current,
+    isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme()
 ) {
-    val pi = remember(colorScheme.primary) {
+
+    var size by remember { mutableStateOf(IntSize.Zero) }
+
+    val pi by remember(tonalPalettes, isDarkTheme, size) {
         mutableStateOf(
             PictureDrawable(
-                SVG.getFromString(SVGString.parseDynamicColor(colorScheme)).renderToPicture()
+                SVG.getFromString(
+                    SVGString.parseDynamicColor(
+                        tonalPalettes = tonalPalettes,
+                        isDarkTheme = isDarkTheme
+                    )
+                ).renderToPicture(size.width, size.height)
             )
         )
     }
-    Crossfade(targetState = pi.value) {
-        AsyncImageImpl(
-            it,
-            contentDescription,
-            modifier,
-            transform,
-            onState,
-            alignment,
-            contentScale,
-            alpha,
-            colorFilter,
-            filterQuality
-        )
+    Row(
+        modifier = modifier
+            .aspectRatio(1.38f)
+            .onGloballyPositioned {
+                if (it.size != IntSize.Zero) {
+                    size = it.size
+                }
+            },
+    ) {
+        Crossfade(targetState = pi) {
+            AsyncImageImpl(
+                it,
+                contentDescription,
+                Modifier,
+                transform,
+                onState,
+                alignment,
+                contentScale,
+                alpha,
+                colorFilter,
+                filterQuality
+            )
+        }
     }
+
 }
 
 @Composable
@@ -86,10 +112,7 @@ fun AsyncImageImpl(
         colorFilter = colorFilter,
     )
     else coil.compose.AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(model)
-            .crossfade(true)
-            .build(),
+        model = ImageRequest.Builder(LocalContext.current).data(model).crossfade(true).build(),
         contentDescription = contentDescription,
         imageLoader = LocalContext.current.imageLoader,
         modifier = modifier,

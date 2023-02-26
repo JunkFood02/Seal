@@ -55,24 +55,23 @@ class TonalPalettes(
             )
         }
 
-        fun Color.toTonalPalette(
+        private fun Color.toTonalPalette(
             tonalValues: DoubleArray = M3TonalValues
-        ): TonalPalette {
-            return tonalValues.associateWith { transform(it, ColorSpec()) }
-        }
+        ): TonalPalette =
+            tonalValues.associateWith { transform(it, ColorSpec()) }
+
 
         fun ColorScheme.toTonalPalettes(
             tonalValues: DoubleArray = M3TonalValues
-        ):TonalPalettes {
-            return TonalPalettes(
-                keyColor = this.primary,
-                accent1 = tonalValues.associateWith { primary.transform(it, ColorSpec()) },
-                accent2 = tonalValues.associateWith { secondary.transform(it, ColorSpec()) },
-                accent3 = tonalValues.associateWith { tertiary.transform(it, ColorSpec()) },
-                neutral1 = tonalValues.associateWith { surface.transform(it, ColorSpec()) },
-                neutral2 = tonalValues.associateWith { surfaceVariant.transform(it, ColorSpec()) }
-            )
-        }
+        ): TonalPalettes = TonalPalettes(
+            keyColor = primary,
+            accent1 = primary.toTonalPalette(tonalValues),
+            accent2 = secondary.toTonalPalette(tonalValues),
+            accent3 = tertiary.toTonalPalette(tonalValues),
+            neutral1 = surface.toTonalPalette(tonalValues),
+            neutral2 = surfaceVariant.toTonalPalette(tonalValues),
+        )
+
 
         private fun Color.transform(tone: Double, spec: ColorSpec): Color {
             val cam = toSrgb().toCieXyz().toCam16()
