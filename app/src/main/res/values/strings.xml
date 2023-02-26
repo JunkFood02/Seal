@@ -325,7 +325,7 @@
     <string name="temporary_directory">Temporary directory</string>
     <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
     <string name="donate">Donate</string>
-    <string name="donate_desc">Support the development of this app by sponsoring on GitHub</string>
-    <string name="donate_msg">Hi there! Thanks for using Seal. As the sole developer of Seal, I\'ve invested a lot of time and effort into creating an app that is both user-friendly and functional. If you\'re enjoying using Seal and would like to support its ongoing development, please consider making a donation through GitHub Sponsors. Every little bit helps and will go a long way in helping me continue to provide the best possible user experience while keeping the app free and open source for everyone to use. Thank you for your support!</string>
+    <string name="donate_desc">Support this app by sponsoring on GitHub</string>
+    <string name="donate_msg">Thanks for using Seal! As the sole developer of Seal, I\'ve invested a lot of time and effort into creating an app that is both user-friendly and functional. If you\'re enjoying Seal and would like to support its ongoing development, please consider making a donation through GitHub Sponsors. Every little bit helps and will go a long way in helping me continue to provide the best possible user experience while keeping the app free and open source for everyone. Thank you for your support!</string>
 
 </resources>
