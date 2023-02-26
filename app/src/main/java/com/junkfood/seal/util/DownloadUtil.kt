@@ -58,7 +58,7 @@ object DownloadUtil {
     private const val OUTPUT_TEMPLATE_CLIPS =
         "%(title).200B [%(id)s][%(section_start)d-%(section_end)d].%(ext)s"
     private const val CROP_ARTWORK_COMMAND =
-        """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
+        "--ppa \"ffmpeg: -c:v mjpeg -vf crop=\\\"if(gt(ih,iw),iw,ih):if(gt(iw,ih),ih,iw)\\\"\""
 
 
     @CheckResult
