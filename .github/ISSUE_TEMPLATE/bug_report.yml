@@ -12,7 +12,7 @@ body:
         Carefully read and work through this check list in order to prevent the most common mistakes and misuse of Seal/Yt-dlp:
       options:
         - label: I'm reporting a bug unrelated to a specific site.
-          required: true
+          required: false
         - label: I've verified that I'm running the [**latest version**](https://github.com/yt-dlp/yt-dlp/releases/latest) of yt-dlp.
           required: true
         - label: I've verified that I'm running the latest [**stable version**](https://github.com/JunkFood02/Seal/releases/latest/) of Seal or any later [**preview versions**](https://github.com/JunkFood02/Seal/releases).
