@@ -31,7 +31,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -66,6 +65,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.ui.theme.autoDark
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
@@ -79,6 +79,7 @@ import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
+import com.kyant.monet.n2
 import com.kyant.monet.toColor
 
 val colorList = listOf(
@@ -220,6 +221,7 @@ fun RowScope.ColorButton(
     ColorButtonImpl(
         modifier = modifier,
         tonalPalettes = tonalPalettes,
+        cardColor = 95.autoDark(LocalDarkTheme.current.isDarkTheme()).n2,
         isSelected = { isSelect }
     ) {
         PreferenceUtil.switchDynamicColor(enabled = false)
@@ -234,26 +236,26 @@ fun RowScope.ColorButtonImpl(
     modifier: Modifier = Modifier,
     isSelected: () -> Boolean = { false },
     tonalPalettes: TonalPalettes,
+    cardColor: Color,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     onClick: () -> Unit = {}
 ) {
 
-    CompositionLocalProvider(LocalTonalPalettes provides tonalPalettes) {
-        val color1 = 80.a1
-        val color2 = 90.a2
-        val color3 = 60.a3
+    val containerSize by animateDpAsState(targetValue = if (isSelected.invoke()) 28.dp else 0.dp)
+    val iconSize by animateDpAsState(targetValue = if (isSelected.invoke()) 16.dp else 0.dp)
 
-        val containerSize by animateDpAsState(targetValue = if (isSelected.invoke()) 28.dp else 0.dp)
-        val iconSize by animateDpAsState(targetValue = if (isSelected.invoke()) 16.dp else 0.dp)
-        val containerColor = MaterialTheme.colorScheme.primaryContainer
-
-        Surface(modifier = modifier
-            .padding(4.dp)
-            .sizeIn(maxHeight = 80.dp, maxWidth = 80.dp, minHeight = 64.dp, minWidth = 64.dp)
-            .weight(1f, false)
-            .aspectRatio(1f),
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-            onClick = { onClick() }) {
+    Surface(modifier = modifier
+        .padding(4.dp)
+        .sizeIn(maxHeight = 80.dp, maxWidth = 80.dp, minHeight = 64.dp, minWidth = 64.dp)
+        .weight(1f, false)
+        .aspectRatio(1f),
+        shape = RoundedCornerShape(16.dp),
+        color = cardColor,
+        onClick = { onClick() }) {
+        CompositionLocalProvider(LocalTonalPalettes provides tonalPalettes) {
+            val color1 = 80.a1
+            val color2 = 90.a2
+            val color3 = 60.a3
             Box(Modifier.fillMaxSize()) {
                 Box(
                     modifier = modifier
