@@ -665,12 +665,14 @@ fun CreditItem(
                         style = typography.titleMedium,
                         color = colorScheme.onSurface.applyOpacity(enabled)
                     )
-                    Text(
-                        text = license.toString(),
-                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                    license?.let {
+                        Text(
+                            text = it,
+                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            style = typography.bodyMedium,
+                        )
+                    }
                 }
             }
         }

@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.UpdateDisabled
-import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -118,15 +117,15 @@ fun AboutPage(
                     icon = Icons.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
             }
-            item {
-                PreferenceItem(
-                    title = stringResource(id = R.string.donate),
-                    description = stringResource(id = R.string.donate_desc),
-                    icon = Icons.Outlined.VolunteerActivism
-                ){
-                    onNavigateToDonatePage()
-                }
-            }
+//            item {
+//                PreferenceItem(
+//                    title = stringResource(id = R.string.donate),
+//                    description = stringResource(id = R.string.donate_desc),
+//                    icon = Icons.Outlined.VolunteerActivism
+//                ){
+//                    onNavigateToDonatePage()
+//                }
+//            }
             item {
                 PreferenceItem(
                     title = stringResource(R.string.telegram_channel),

@@ -471,3 +471,4 @@ const val ThanksSVG = """<svg xmlns="http://www.w3.org/2000/svg"
         transform="translate(-51.21 -102.69)"
         opacity="0.1" />
 </svg>"""
+
