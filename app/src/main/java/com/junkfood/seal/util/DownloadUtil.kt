@@ -482,11 +482,11 @@ object DownloadUtil {
         if (privateMode) {
             Result.success(emptyList())
         } else if (sdcard) {
-            Result.success(moveFilesToSdcard(
+            moveFilesToSdcard(
                 sdcardUri = sdcardUri, tempPath = context.getSdcardTempDir(videoInfo.id)
             ).apply {
-                insertInfoIntoDownloadHistory(videoInfo, this)
-            })
+                this.getOrNull()?.let { insertInfoIntoDownloadHistory(videoInfo, it) }
+            }
         } else {
             Result.success(
                 scanVideoIntoDownloadHistory(
