@@ -7,7 +7,9 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
+kotlin {
+    jvmToolchain(8)
+}
 android {
     compileSdk = 33
     defaultConfig {

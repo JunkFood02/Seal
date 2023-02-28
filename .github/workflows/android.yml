@@ -18,6 +18,8 @@ jobs:
           cache: gradle
 
       - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 7.5
       - run: gradle assembleRelease
 
       - uses: ilharp/sign-android-release@v1

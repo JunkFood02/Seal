@@ -18,6 +18,9 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 7.5
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle

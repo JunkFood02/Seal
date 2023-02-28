@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -52,6 +54,10 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
+//kotlin {
+//    jvmToolchain(8)
+//}
+
 android {
     if (keystorePropertiesFile.exists()) {
         val keystoreProperties = Properties()
@@ -85,6 +91,7 @@ android {
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
+                arg("room.incremental", "true")
             }
             correctErrorTypes = true
         }
