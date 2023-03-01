@@ -37,7 +37,7 @@
     <string name="remove">Remove</string>
     <string name="delete_file">Delete</string>
     <string name="about">About</string>
-    <string name="about_page">Version, releases, credits</string>
+    <string name="about_page">Version, feedback, auto update</string>
     <string name="back">Back</string>
     <string name="version">Version</string>
     <string name="release_desc">Look for changelogs and new versions</string>
@@ -324,8 +324,9 @@
     <string name="clear_all_cookies_desc">Delete all the cookies stored in the app for good?</string>
     <string name="temporary_directory">Temporary directory</string>
     <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
-    <string name="donate">Donate</string>
-    <string name="donate_desc">Support this app by sponsoring on GitHub</string>
-    <string name="donate_msg">Thanks for using Seal! If you like it and want to keep it free and open source for everyone, consider sponsoring me on GitHub</string>
-
+    <string name="sponsor">Sponsor</string>
+    <string name="sponsor_desc">Support this app by sponsoring on GitHub</string>
+    <string name="sponsor_msg">Seal will be always free and open source for everyone. If you like it, Please consider sponsoring me on GitHub!</string>
+    <string name="feedback">Feedback</string>
+    <string name="sponsors">Sponsors</string>
 </resources>

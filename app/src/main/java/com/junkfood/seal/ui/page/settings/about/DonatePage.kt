@@ -39,7 +39,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                 title = {
                     Text(
                         modifier = Modifier,
-                        text = stringResource(id = R.string.donate),
+                        text = stringResource(id = R.string.sponsor),
                     )
                 }, navigationIcon = {
                     BackButton {
