@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.videolist
 
+import VideoStreamSVG
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -68,7 +69,6 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.VideoFilterChip
-import com.junkfood.seal.ui.svg.EmptySVG
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
@@ -309,7 +309,7 @@ fun VideoListPage(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     SVGImage(
-                        SVGString = EmptySVG,
+                        SVGString = VideoStreamSVG,
                         contentDescription = null,
                         modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
                     )
