@@ -346,6 +346,7 @@ fun DownloadPageImpl(
                         onDone = downloadCallback,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
+                        modifier = Modifier.fillMaxWidth(),
                         enter = expandVertically() + fadeIn(),
                         exit = shrinkVertically() + fadeOut(),
                         visible = progressText.isNotEmpty() && showOutput

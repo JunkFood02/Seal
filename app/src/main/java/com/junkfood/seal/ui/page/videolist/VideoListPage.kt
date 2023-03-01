@@ -300,25 +300,26 @@ fun VideoListPage(
             }
         }
     ) { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            Column(
-                modifier = Modifier.align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
+        if (videoList.isEmpty())
+            Box(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                SVGImage(
-                    SVGString = EmptySVG,
-                    contentDescription = null,
-                    modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
-                )
-                Text(
-                    text = "No downloaded media",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    SVGImage(
+                        SVGString = EmptySVG,
+                        contentDescription = null,
+                        modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
+                    )
+                    Text(
+                        text = "No downloaded media",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
-        }
 
         val cellCount = when (LocalWindowWidthState.current) {
             WindowWidthSizeClass.Expanded -> 2
