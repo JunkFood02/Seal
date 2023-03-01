@@ -86,7 +86,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("aria2", GPL_V2, aria2),
         Credit("OkHttp", APACHE_V2, okhttp),
         Credit("Android SVG", APACHE_V2, androidSvg),
-        Credit("UnDraw", null, unDraw),
+        Credit("unDraw", null, unDraw),
         Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
     )
     val uriHandler = LocalUriHandler.current

@@ -7,8 +7,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,14 +59,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.common.LocalWindowWidthState
+import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.MediaListItem
-import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.ui.svg.EmptySVG
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
@@ -100,10 +104,12 @@ fun VideoListPage(
     val videoListFlow = videoListViewModel.videoListFlow
 
     val videoList = videoListFlow.collectAsState(ArrayList()).value
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+//    val videoList = emptyList<DownloadedVideoInfo>()
+    val scrollBehavior =
+        if (videoList.isNotEmpty()) TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true }
+        ) else TopAppBarDefaults.pinnedScrollBehavior()
     val scope = rememberCoroutineScope()
 
     val fileSizeMap = remember(videoList.size) {
@@ -216,8 +222,7 @@ fun VideoListPage(
     }
 
     Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = {
@@ -231,16 +236,17 @@ fun VideoListPage(
                         onBackPressed()
                     }
                 }, actions = {
-                    IconToggleButton(
-                        modifier = Modifier,
-                        onCheckedChange = { isSelectEnabled = !isSelectEnabled },
-                        checked = isSelectEnabled
-                    ) {
-                        Icon(
-                            Icons.Outlined.Checklist,
-                            contentDescription = stringResource(R.string.multiselect_mode)
-                        )
-                    }
+                    if (videoList.isNotEmpty())
+                        IconToggleButton(
+                            modifier = Modifier,
+                            onCheckedChange = { isSelectEnabled = !isSelectEnabled },
+                            checked = isSelectEnabled
+                        ) {
+                            Icon(
+                                Icons.Outlined.Checklist,
+                                contentDescription = stringResource(R.string.multiselect_mode)
+                            )
+                        }
                 }, scrollBehavior = scrollBehavior
             )
         }, bottomBar = {
@@ -294,6 +300,26 @@ fun VideoListPage(
             }
         }
     ) { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SVGImage(
+                    SVGString = EmptySVG,
+                    contentDescription = null,
+                    modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
+                )
+                Text(
+                    text = "No downloaded media",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
         val cellCount = when (LocalWindowWidthState.current) {
             WindowWidthSizeClass.Expanded -> 2
             else -> 1
@@ -303,9 +329,10 @@ fun VideoListPage(
             modifier = Modifier
                 .padding(innerPadding), columns = GridCells.Fixed(cellCount)
         ) {
-            item(span = span) {
-                FilterChips(Modifier.fillMaxWidth())
-            }
+            if (videoList.isNotEmpty())
+                item(span = span) {
+                    FilterChips(Modifier.fillMaxWidth())
+                }
             for (info in videoList) {
                 val fileSize =
                     fileSizeMap.getOrElse(info.id) { File(info.videoPath).length() }
@@ -355,8 +382,7 @@ fun VideoListPage(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                        ,
+                            .padding(horizontal = 24.dp),
                         text = stringResource(R.string.delete_multiple_items_msg).format(
                             selectedItemIds.size
                         )

@@ -1,6 +1,8 @@
 package com.junkfood.seal.ui.page.command
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -22,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
 import com.junkfood.seal.ui.component.TaskStatus
+import com.junkfood.seal.ui.svg.TaskSVG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,6 +80,29 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                     )
                 }
             }
+        }
+        if (Downloader.mutableTaskList.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    SVGImage(
+                        SVGString = TaskSVG,
+                        contentDescription = null,
+                        modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
+                    )
+                    Text(
+                        text = "No custom command tasks",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+        }
 //            item {
 //                CustomCommandTaskItem(status = TaskStatus.RUNNING)
 //            }
@@ -87,7 +115,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
 //            item {
 //                CustomCommandTaskItem(status = TaskStatus.CANCELED)
 //            }
-        }
+
 
     }
 }
