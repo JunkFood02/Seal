@@ -54,6 +54,7 @@ import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.component.AdjacentLabel
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ClearButton
+import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.ui.component.TextButtonWithIcon
@@ -152,10 +153,11 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                                                 }),
                                                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)*/
                     )
+                    LinkButton(modifier = Modifier.padding(vertical = 12.dp))
                     Divider(
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = 48.dp, bottom = 24.dp)
+                            .padding(bottom = 24.dp)
                             .size(DividerDefaults.Thickness)
                             .clip(CircleShape),
                         color = MaterialTheme.colorScheme.outlineVariant,

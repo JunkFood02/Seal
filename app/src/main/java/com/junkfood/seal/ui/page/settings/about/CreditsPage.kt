@@ -116,7 +116,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
                     Surface(
                         modifier = Modifier
                             .fillParentMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 16.dp)
+                            .padding(horizontal = 12.dp, vertical = 12.dp)
                             .clip(MaterialTheme.shapes.large)
                             .clickable { }
                             .clearAndSetSemantics { },

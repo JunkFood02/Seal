@@ -315,7 +315,7 @@ fun VideoListPage(
                     )
                     Text(
                         text = "No downloaded media",
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
