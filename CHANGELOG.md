@@ -9,15 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add share file operation in `VideoDetailDrawer`
-- Add pre-release channel for auto-updating
-- Add an option to update to Nightly builds of yt-dlp
-- Add a switch for auto updating yt-dlp
-- Make video/audio clip in `FormatSelectionPage`
-- Edit title of the video in `FormatSelectionPage` before downloading
-- Implement a new method to extract cookies from the database of WebView
-- Add `Badge` on the icon to indicate the count of running process
-- Add legacy app icon
+* Add the ability to share files in `VideoDetailDrawer`
+* Add a pre-release channel for auto-updating
+* Add an option to update to Nightly builds of yt-dlp
+* Add a switch for auto-updating yt-dlp
+* Add the ability to clip video and audio in `FormatSelectionPage`
+* Add the ability to edit video titles in `FormatSelectionPage` before downloading
+* Implement a new method to extract cookies from the `WebView` database
+* Add a badge to the icon to indicate the count of running processes
+* Add legacy app icons
+* Add a switch for disabling the temporary directory
 
 ### Changed
 
@@ -29,8 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix a bug causing high-quality audio not downloaded with YT Premium cookies & YT Music URLs
 - UI bug in `ShortcutChip` with long template
-- Empty subtitle language breaks downloads
-- Languages not visible in system settings
+- Fix a bug causing empty subtitle language breaks downloads
+- Fix an issue causing specific languages not visible in system settings on Android 13+
 
 ### Known issues
 
