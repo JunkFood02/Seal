@@ -349,7 +349,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             temporaryDirectory = !temporaryDirectory
                             TEMP_DIRECTORY.updateBoolean(temporaryDirectory)
                         },
-                        enabled = !isCustomCommandEnabled
                     )
                 }
                 item {

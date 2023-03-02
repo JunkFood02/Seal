@@ -516,6 +516,9 @@ object DownloadUtil {
                 "-P",
                 if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
             )
+            if (Build.VERSION.SDK_INT > 23 && TEMP_DIRECTORY.getBoolean()) addOption(
+                "-P", "temp:" + context.getTempDir()
+            )
             if (PreferenceUtil.getValue(ARIA2C)) {
                 enableAria2c()
             }
@@ -524,7 +527,6 @@ object DownloadUtil {
                     template.template, context.getConfigFile()
                 ).absolutePath
             )
-//            addOption("-v")
             if (PreferenceUtil.getValue(COOKIES)) {
                 enableCookies()
             }
