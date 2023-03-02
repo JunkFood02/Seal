@@ -78,4 +78,9 @@
     <string name="dark_theme">கருப்பு தீம்</string>
     <string name="error_copied">பிழை அறிக்கை கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
     <string name="release">சமீபத்திய வெளியீடு</string>
+    <string name="readme_desc">"GitHub repository ஐயும் README ஐயும்  பாறுங்கள்"</string>
+    <string name="custom_command_desc">தனிப்பயன் டெம்ப்ளேட்டுடன் yt-dlp கட்டளையை இயக்கவும்</string>
+    <string name="custom_command">தனிப்பயன் கட்டளை</string>
+    <string name="checked">சரிபார்க்கப்பட்டது</string>
+    <string name="credits_desc">கடன்கள் மற்றும் இலவச மென்பொருள்</string>
 </resources>

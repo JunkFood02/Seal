@@ -77,7 +77,7 @@
     <string name="convert_to">Converti in %1$s</string>
     <string name="video_quality">Qualità video</string>
     <string name="not_specified">Non specificato (predefinito)</string>
-    <string name="video_quality_desc">Limitare la qualità del formato e le dimensioni del file</string>
+    <string name="video_quality_desc">Limita la qualità del video quando sono presenti più video</string>
     <string name="thumbnail">miniatura</string>
     <string name="preferred_format_desc">Formato predefinito quando ne sono forniti molteplici</string>
     <string name="video_format">Formato video</string>
@@ -128,7 +128,7 @@
     <string name="battery_configuration_desc">Ignora l\'ottimizzazione della batteria per lo scaricamento dell\'app in sfondo</string>
     <string name="translate">Traduci</string>
     <string name="permission_issue_desc">Le directory al di fuori di Download/ e Documenti/ non sono supportate</string>
-    <string name="concurrent_download">Scarica più parti</string>
+    <string name="concurrent_download">Download multi-thread</string>
     <string name="concurrent_download_num">I thread %d sarebbero utilizzati per scaricare video nativi DASH/HLS in parallelo.</string>
     <string name="prefix">Modello di percorso</string>
     <string name="custom_output_path">Sottodirectory personalizzata</string>

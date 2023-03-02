@@ -79,7 +79,7 @@
     <string name="close">Schließen</string>
     <string name="preferred_format_desc">Bevorzugtes Videoformat, wenn mehrere vorhanden sind</string>
     <string name="not_specified">Nicht angegeben (Standard)</string>
-    <string name="video_quality_desc">Begrenzung der Formatqualität und der Dateigröße</string>
+    <string name="video_quality_desc">Einschränken der Videoqualität, wenn mehrere vorhanden sind</string>
     <string name="custom_command_desc">yt-dlp-Befehl mit benutzerdefinierter Vorlage ausführen</string>
     <string name="custom_command_template">Befehlsvorlage</string>
     <string name="start_execute">Befehl ausführen</string>
@@ -88,7 +88,7 @@
     <string name="yt_dlp_docs">Yt-dlp-Verwendungshinweise</string>
     <string name="convert_to">In %1$s konvertieren</string>
     <string name="convert_audio_format">Audioformat konvertieren</string>
-    <string name="concurrent_download">Mehrere Teile herunterladen</string>
+    <string name="concurrent_download">Multithread-Download</string>
     <string name="concurrent_download_desc">Mehrere Teile von M3U8/MPD-Videos parallel herunterladen</string>
     <string name="show_more_actions">Weitere Aktionen anzeigen</string>
     <string name="download_notification">Benachrichtigung beim Herunterladen</string>
@@ -111,7 +111,7 @@
     <string name="audio_directory">Audioordner</string>
     <string name="battery_settings_desc">Bitte setze die Akkunutzung dieser App in den Systemeinstellungen auf „Uneingeschränkt“, um im Hintergrund herunterzuladen.</string>
     <string name="share_fail_msg">URL aus geteilten Inhalt kann nicht zugeordnet werden</string>
-    <string name="download_directory">Download-Verzeichnis</string>
+    <string name="download_directory">Downloadordner</string>
     <string name="unknown_error">Unbekannter Fehler</string>
     <string name="execute_command_notification">Benutzerdefinierte Befehlen ausführen …</string>
     <string name="translate">Übersetzen</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Ordnervorlage</string>
     <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
     <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
-    <string name="edit_custom_path_template_desc">Unterordner mit den von yt-dlp bereitgestellten Feldern angeben</string>
+    <string name="edit_custom_path_template_desc">Hinzufügen eines benutzerdefinierten Präfixes zur Option -o mit verfügbaren Feldern, die von yt-dlp bereitgestellt werden</string>
     <string name="embed_subtitles">Untertitel einbetten</string>
     <string name="embed_subtitles_desc">Einbetten von Untertiteln in Videos, sofern vorhanden</string>
     <string name="new_template">Neue Vorlage</string>
@@ -205,8 +205,8 @@
     <string name="general_settings_desc">Yt-dlp Version, Benachrichtigung, Wiedergabeliste</string>
     <string name="network_settings_desc">Ratenbegrenzung, Downloader, Cookies</string>
     <string name="disable_preview_desc">Vorschau bei Downloads deaktivieren</string>
-    <string name="private_directory">Privates Verzeichnis</string>
-    <string name="private_directory_desc">Downloads in einem versteckten Verzeichnis speichern</string>
+    <string name="private_directory">Privater Ordner</string>
+    <string name="private_directory_desc">Downloads in einem versteckten Ordner speichern</string>
     <string name="crop_artwork">Bild zuschneiden</string>
     <string name="crop_artwork_desc">Eingebettetes Bild auf ein Quadrat zuschneiden</string>
     <string name="select_all">Alle auswählen</string>
@@ -277,4 +277,6 @@
     <string name="format_sorting_desc">Sortieren von Formaten mit der Option -S von yt-dlp</string>
     <string name="rename">Umbenennen</string>
     <string name="clear_all_cookies">Alle Cookies löschen</string>
+    <string name="temporary_directory">Temporärer Ordner</string>
+    <string name="temporary_directory_desc">Temporäre Dateien im internen Ordner speichern</string>
 </resources>

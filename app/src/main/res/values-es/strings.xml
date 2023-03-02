@@ -77,7 +77,7 @@
     <string name="convert_audio_format_desc">La recodificación de archivos de audio conlleva una pérdida de calidad de sonido y un aumento en el tamaño del archivo final.</string>
     <string name="video_quality">Calidad del vídeo</string>
     <string name="best_quality">Mejor calidad (por defecto)</string>
-    <string name="video_quality_desc">Limita la calidad y el tamaño del archivo</string>
+    <string name="video_quality_desc">Limitar la calidad de vídeo cuando hay varios vídeos</string>
     <string name="not_specified">Sin especificar (por defecto)</string>
     <string name="video_format_preference">Preferencia de formato de vídeo</string>
     <string name="preferred_format_desc">Formato de vídeo preferido cuando varios formatos sean posibles</string>
@@ -97,7 +97,7 @@
     <string name="channel_name">Descargar</string>
     <string name="channel_description">Mostrar el progreso de las descargas y un mensaje de finalización</string>
     <string name="video_url">Enlace del vídeo</string>
-    <string name="concurrent_download">Descarga concurrente</string>
+    <string name="concurrent_download">Descarga con múltiples hilos</string>
     <string name="concurrent_download_desc">Descargar múltiples fragmentos de vídeos m3u8/mpd en paralelo</string>
     <string name="options">Opciones</string>
     <string name="additional_settings">Ajustes adicionales</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Plantilla de ruta</string>
     <string name="custom_output_path">Subdirectorio personalizado</string>
     <string name="custom_output_path_desc">Utilizar la plantilla para el subdirectorio</string>
-    <string name="edit_custom_path_template_desc">Especifique el subdirectorio con los campos disponibles proporcionados por yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Añade prefijos personalizados para usar con la opción -o con los campos disponibles y proporcionados por yt-dlp</string>
     <string name="embed_subtitles">Agregar subtítulos</string>
     <string name="embed_subtitles_desc">Agregar subtítulos proporcionados en videos, si están disponibles</string>
     <string name="new_template">Nueva plantilla</string>
@@ -277,4 +277,6 @@
     <string name="import_from_preferences">Importar</string>
     <string name="second">segundo</string>
     <string name="clear_all_cookies_desc">¿Borrar definitivamente todas las cookies almacenadas en la aplicación\?</string>
+    <string name="temporary_directory">Directorio temporal</string>
+    <string name="temporary_directory_desc">Almacena archivos temporales en el directorio seleccionado</string>
 </resources>

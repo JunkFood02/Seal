@@ -36,13 +36,13 @@
     <string name="start_download">Начать загрузку</string>
     <string name="user_guide">Руководство пользователя</string>
     <string name="open_settings">Открыть настройки</string>
-    <string name="video_quality_desc">Ограничьте качество и размер файла этими настройками</string>
+    <string name="video_quality_desc">Ограничить качество видео, если доступны несколько</string>
     <string name="preferred_format_desc">Выбранный формат, если доступны несколько</string>
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
     <string name="channel_description">Уведомлять о загруженных файлах и прогрессе</string>
     <string name="battery_settings_desc">Пожалуйста, установите в настройках системы значение «Неограниченное использование батареи» для загрузки в фоновом режиме.</string>
-    <string name="concurrent_download">Количество одновременно загружаемых частей</string>
+    <string name="concurrent_download">Многопоточная загрузка</string>
     <string name="share_fail_msg">Невозможно сопоставить URL-адрес из общего содержимого</string>
     <string name="share_success_msg">Чтение ссылки на видео из общего контента…</string>
     <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе загрузки</string>
@@ -95,8 +95,8 @@
     <string name="convert_to">Преобразовать в %1$s</string>
     <string name="convert_audio_format">Преобразование аудиоформата</string>
     <string name="not_convert">Не преобразовывать</string>
-    <string name="on">Включено</string>
-    <string name="off">Отключено</string>
+    <string name="on">Включена</string>
+    <string name="off">Отключена</string>
     <string name="convert_audio_format_desc">Перекодирование аудиофайлов создаст потерю качества и увеличит размер файла.</string>
     <string name="video_format">Формат видео</string>
     <string name="best_quality">Наилучшее качество (по умолчанию)</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Шаблон пути</string>
     <string name="custom_output_path">Свой подкаталог</string>
     <string name="custom_output_path_desc">Используйте шаблон для подкаталога</string>
-    <string name="edit_custom_path_template_desc">Укажите подкаталог, используя доступные параметры yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Добавьте свой префикс к опции -o, используя доступные параметры yt-dlp</string>
     <string name="embed_subtitles">Встраивание субтитров</string>
     <string name="embed_subtitles_desc">Встраивать субтитры, если они доступны</string>
     <string name="new_template">Новый шаблон</string>
@@ -277,4 +277,6 @@
     <string name="audio_quality_desc">Ограничить битрейт, когда несколько качеств доступны</string>
     <string name="second">секунда</string>
     <string name="minute">минута</string>
+    <string name="temporary_directory_desc">Хранить временные файлы во внутреннем каталоге</string>
+    <string name="temporary_directory">Временный каталог</string>
 </resources>

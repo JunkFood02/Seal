@@ -47,7 +47,7 @@
     <string name="convert_to">التحويل إلى%1$s</string>
     <string name="format">الصيغ</string>
     <string name="convert_audio_format">تحويل صيغة الصوت</string>
-    <string name="video_quality_desc">حد جودة الفيديو وحجم الملف</string>
+    <string name="video_quality_desc">قم بالحد من جودة الفيديو عند تواجد العديد</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
     <string name="preferred_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
     <string name="video_format">صيغة الفيديو</string>
@@ -115,7 +115,7 @@
     <string name="download_history_desc">التحقق من التنزيلات داخل التطبيق وإدارتها ، بما في ذلك ملفات الفيديو والصوت.</string>
     <string name="check_download_settings_desc">ألق نظرة على إعدادات التنزيل وتأكد من أن لديك أحدث إصدار من yt-dlp قبل استخدامه.</string>
     <string name="video_url">رابط الفيديو</string>
-    <string name="concurrent_download">تنزيل أجزاء متعددة</string>
+    <string name="concurrent_download">تنزيل متعدد الأجزاء</string>
     <string name="subdirectory_desc">احفظ الملفات في مجلدات بأسماء المواقع المعنية</string>
     <string name="unknown_error">خطأ غير معروف</string>
     <string name="share_fail_msg">تعذر مطابقة عنوان URL من المحتوى المشارك</string>
@@ -133,7 +133,7 @@
     <string name="prefix">قالب المسار</string>
     <string name="custom_output_path">مجلد فرعي مخصص</string>
     <string name="custom_output_path_desc">استخدم نموذجاً للمجلد الفرعي</string>
-    <string name="edit_custom_path_template_desc">حدد مجلد فرعي بالحقول المتاحة التي يوفرها yt-dlp</string>
+    <string name="edit_custom_path_template_desc">أضف سابقة مخصصة إلى الخيار -o مع الحقول المتاحة التي يوفرها yt-dlp</string>
     <string name="embed_subtitles">دمج الترجمة</string>
     <string name="embed_subtitles_desc">سيقوم هذا الخيار بدمج الترجمة من المصدر ان توفرت</string>
     <string name="new_template">قالب جديد</string>
@@ -277,4 +277,6 @@
     <string name="title">العنوان</string>
     <string name="rename">إعادة التسمية</string>
     <string name="clear_all_cookies_desc">هل تريد حذف جميع ملفات تعريف الارتباط المحفوظة في التطبيق؟</string>
+    <string name="temporary_directory">مجلد مؤقت</string>
+    <string name="temporary_directory_desc">خزن الملفات المؤقتة في المجلد الداخلي</string>
 </resources>

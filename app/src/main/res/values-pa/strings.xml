@@ -76,7 +76,7 @@
     <string name="format">ਫਾਰਮੈਟ</string>
     <string name="paste">ਪੇਸਟ ਕਰੋ</string>
     <string name="best_quality">ਵਧੀਆ ਕੁਆਲਿਟੀ (ਡਿਫ਼ਾਲਟ)</string>
-    <string name="video_quality_desc">ਫਾਰਮੈਟ ਗੁਣਵੱਤਾ ਅਤੇ ਫਾਈਲ ਆਕਾਰ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
+    <string name="video_quality_desc">ਕਈ ਕੁਆਲਿਟੀਆਂ ਮੌਜੂਦ ਹੋਣ \'ਤੇ ਵੀਡੀਓ ਕੁਆਲਿਟੀ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
     <string name="not_specified">ਅਣਨਿਰਦੇਸ਼ਤ (ਡਿਫ਼ਾਲਟ)</string>
     <string name="video_format_preference">ਪਸੰਦੀਦਾ ਵੀਡੀਓ ਫਾਰਮੈਟ</string>
     <string name="preferred_format_desc">ਇੱਕ ਤੋਂ ਵੱਧ ਪ੍ਰਦਾਨ ਕੀਤੇ ਜਾਣ \'ਤੇ ਫਾਰਮੈਟ ਚੁਣਿਆ ਗਿਆ</string>
@@ -100,7 +100,7 @@
     <string name="download_finish_notification">ਡਾਊਨਲੋਡ ਪੂਰਾ ਹੋਇਆ, ਖੋਲ੍ਹਣ ਲਈ ਟੈਪ ਕਰੋ।</string>
     <string name="execute_command_notification">ਕਸਟਮ ਕਮਾਂਡਾਂ ਚੱਲ ਰਹੀਆਂ ਹਨ…</string>
     <string name="battery_settings_desc">ਕਿਰਪਾ ਕਰਕੇ ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਇਸ ਐਪ ਦੀ ਬੈਟਰੀ ਵਰਤੋਂ ਨੂੰ \"ਅਪ੍ਰਬੰਧਿਤ\" \'ਤੇ ਸੈੱਟ ਕਰੋ।</string>
-    <string name="concurrent_download">ਕਈ ਭਾਗਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="concurrent_download">ਮਲਟੀ-ਥਰੈੱਡਡ ਡਾਊਨਲੋਡ</string>
     <string name="concurrent_download_desc">ਸਮਾਨਾਂਤਰ ਵਿੱਚ M3U8/MPD ਵੀਡੀਓ ਦੇ ਹੋਰ ਭਾਗਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="concurrent_download_num">%d ਥ੍ਰੈੱਡ(s) ਨੂੰ ਇੱਕੋ ਸਮੇਂ DASH/HLS ਮੂਲ ਵੀਡੀਓ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਵੇਗਾ।</string>
     <string name="options">ਵਿਕਲਪ</string>
@@ -109,7 +109,7 @@
     <string name="translate_desc">ਹੋਸਟਡ ਵੈਬਲੇਟ \'ਤੇ ਇਸ ਐਪ ਦਾ ਅਨੁਵਾਦ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰੋ</string>
     <string name="prefix">ਮਾਰਗ ਟੈਮਪਲੇਟ</string>
     <string name="custom_output_path">ਕਸਟਮ ਸਬ-ਡਾਇਰੈਕਟਰੀ</string>
-    <string name="edit_custom_path_template_desc">yt-dlp ਦੁਆਰਾ ਪ੍ਰਦਾਨ ਕੀਤੇ ਉਪਲਬਧ ਖੇਤਰਾਂ ਦੇ ਨਾਲ ਉਪ-ਡਾਇਰੈਕਟਰੀ ਨਿਰਧਾਰਤ ਕਰੋ</string>
+    <string name="edit_custom_path_template_desc">yt-dlp ਦੁਆਰਾ ਪ੍ਰਦਾਨ ਕੀਤੇ ਉਪਲਬਧ ਖੇਤਰਾਂ ਦੇ ਨਾਲ -o ਵਿਕਲਪ ਵਿੱਚ ਕਸਟਮ ਪ੍ਰੀਫਿਕਸ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="embed_subtitles">ਉਪਸਿਰਲੇਖ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="new_template">ਨਵਾਂ ਟੈਮਪਲੇਟ</string>
     <string name="template_label">ਲੇਬਲ</string>
@@ -277,4 +277,6 @@
     <string name="clip_start">ਸ਼ੁਰੂਆਤ</string>
     <string name="clip_end">ਅੰਤ</string>
     <string name="clear_all_cookies_desc">ਕੀ ਐਪ ਵਿੱਚ ਸਟੋਰ ਕੀਤੇ ਸਾਰੀਆਂ ਕੂਕੀਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ\?</string>
+    <string name="temporary_directory">ਅਸਥਾਈ ਡਾਇਰੈਕਟਰੀ</string>
+    <string name="temporary_directory_desc">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਅੰਦਰੂਨੀ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਟੋਰ ਕਰੋ</string>
 </resources>

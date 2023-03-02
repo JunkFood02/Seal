@@ -22,7 +22,7 @@
     <string name="subdirectory_desc">Сачувајте фајлове у фасцикле које се називају као одговарајући веб-сајтови</string>
     <string name="permission_issue_desc">Директоријуми изван Преузимања/ и Документа/ нису подржани</string>
     <string name="unknown_error">Непозната грешка</string>
-    <string name="edit_custom_path_template_desc">Наведите поддиректоријум с доступним пољима које обезбеђује yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Додајте прилагођени префикс опцији -o с доступним пољима које обезбеђује yt-dlp</string>
     <string name="translate_desc">Помозите да преведете ову апликацију на Hosted Weblate</string>
     <string name="custom_output_path">Прилагођени поддиректоријум</string>
     <string name="template_label">Ознака</string>
@@ -37,7 +37,7 @@
     <string name="status_canceled">Отказано</string>
     <string name="github_issue">GitHub пријава проблема</string>
     <string name="github_issue_desc">Пријавите проблем или пошаљите захтев за нову функцију</string>
-    <string name="clear_temp_files_desc">Избришите све привремене фајлове из директоријума преузимања</string>
+    <string name="clear_temp_files_desc">Избришите све привремене фајлове из интерног директоријума</string>
     <string name="dynamic_color">Динамична боја</string>
     <string name="general_settings_desc">Yt-dlp верзија, обавештење, плејлиста</string>
     <string name="rate_limit_desc">Ограничите максималну брзину преузимања</string>
@@ -57,7 +57,7 @@
     <string name="downloads_history">Преузимања</string>
     <string name="open_url">Отворите везу</string>
     <string name="delete_file">Избришите</string>
-    <string name="about_page">Верзија, издања, кредити</string>
+    <string name="about_page">Верзија, повратне информације, аутоматско ажурирање</string>
     <string name="credits_desc">Кредити и софтвер отвореног кода</string>
     <string name="custom_command">Прилагођена команда</string>
     <string name="custom_command_desc">Покрените команду yt-dlp с прилагођеним шаблоном</string>
@@ -77,14 +77,14 @@
     <string name="thumbnail">сличица</string>
     <string name="convert_audio_format_desc">Поновно кодирање аудио фајлова узроковаће губитак квалитета звука и повећање величине фајла.</string>
     <string name="video_quality">Видео квалитет</string>
-    <string name="video_quality_desc">Ограничите квалитет формата и величину фајла</string>
+    <string name="video_quality_desc">Ограничите квалитет видеа када их је доступно више</string>
     <string name="convert_audio">Претворите</string>
     <string name="user_guide">Упутство за употребу</string>
     <string name="open_settings">Отворите подешавања</string>
     <string name="paste_desc">Кликните на „Налепи“ да бисте добили видео везу из привремене меморије.</string>
     <string name="download_history_desc">Проверите преузимања у апликацији и управљајте њима, укључујући видео и аудио фајлове.</string>
     <string name="video_url">Видео веза</string>
-    <string name="concurrent_download">Преузимање више делова</string>
+    <string name="concurrent_download">Вишеструко преузимање</string>
     <string name="concurrent_download_desc">Преузмите више делова M3U8/MPD видеа паралелно</string>
     <string name="concurrent_download_num">%d нит(и) би се користило за истовремено преузимање DASH/HLS изворних видеа.</string>
     <string name="share_fail_msg">Грешка при подударању URL-a из дељеног садржаја</string>
@@ -121,8 +121,8 @@
     <string name="multiselect_item_count">%1$d видео, %2$d аудио фајлова</string>
     <string name="sponsorblock_desc">Уклоните сегменте из видеа помоћу SponsorBlock API</string>
     <string name="sponsorblock_categories">SponsorBlock категорије</string>
-    <string name="check_for_updates">Проверите ажурирања</string>
-    <string name="check_for_updates_desc">Аутоматски провери најновију верзију на GitHub</string>
+    <string name="check_for_updates">Провера ажурирања</string>
+    <string name="check_for_updates_desc">Аутоматски провери најновију верзију на GitHub-u</string>
     <string name="app_up_to_date">Тренутна верзија је ажурна</string>
     <string name="update">Ажурирајте</string>
     <string name="clear_temp_files">Избришите привремене фајлове</string>
@@ -277,4 +277,11 @@
     <string name="clear_all_cookies_desc">Заувек избришите све колачиће сачуване у апликацији\?</string>
     <string name="rename">Преименујте</string>
     <string name="clear_all_cookies">Избришите све колачиће</string>
+    <string name="temporary_directory_desc">Чувајте привремене фајлове у интерном директоријуму</string>
+    <string name="temporary_directory">Привремени директоријум</string>
+    <string name="feedback">Повратне информације</string>
+    <string name="sponsors">Спонзори</string>
+    <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако вам се свиђа, размислите о томе да ме спонзоришете на GitHub-u!</string>
+    <string name="sponsor">Спонзоришите</string>
+    <string name="sponsor_desc">Подржите ову апликацију спонзорисањем на GitHub-u</string>
 </resources>

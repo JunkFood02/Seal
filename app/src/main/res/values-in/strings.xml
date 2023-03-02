@@ -99,13 +99,13 @@
     <string name="video_format_preference">Format video pilihan</string>
     <string name="close">Tutup</string>
     <string name="convert_to">Ubah ke %1$s</string>
-    <string name="video_quality_desc">Batasi kualitas format dan ukuran file</string>
+    <string name="video_quality_desc">Batasi kualitas video ketika ada beberapa yang tersedia</string>
     <string name="not_specified">Tidak ditentukan (bawaan)</string>
     <string name="close_never_show_again">Jangan tampilkan lagi</string>
     <string name="paste_desc">Tekan \"Tempel\" untuk mendapatkan link video dari papan klip Anda.</string>
     <string name="download_desc">Kemudian tekan \"Unduh\" setelah menyesuaikan pengaturannya.</string>
     <string name="check_download_settings_desc">Lihat pengaturan unduhan dan pastikan Anda memiliki yt-dlp versi terbaru sebelum menggunakannya.</string>
-    <string name="concurrent_download">Unduh beberapa bagian</string>
+    <string name="concurrent_download">Unduhan multiutas</string>
     <string name="additional_settings">Pengaturan tambahan</string>
     <string name="share_fail_msg">Tidak dapat mencocokkan URL dari konten yang dibagikan</string>
     <string name="share_success_msg">Membaca link video dari konten yang dibagikan…</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Jalur templat</string>
     <string name="custom_output_path">Direktori khusus</string>
     <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
-    <string name="edit_custom_path_template_desc">Tentukan subdirektori dengan opsi yang tersedia menggunakan yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Tambahkan awalan kustom ke opsi -o dengan bidang yang tersedia yang disediakan oleh yt-dlp</string>
     <string name="embed_subtitles">Sematkan subtitle</string>
     <string name="embed_subtitles_desc">Sematkan subtitle yang disediakan ke dalam video jika tersedia</string>
     <string name="new_template">Templat baru</string>
@@ -277,4 +277,6 @@
     <string name="import_from_preferences">Impor</string>
     <string name="clear_all_cookies">Hapus semua kuki</string>
     <string name="minute">menit</string>
+    <string name="temporary_directory">Direktori sementara</string>
+    <string name="temporary_directory_desc">Simpan file sementara di direktori internal</string>
 </resources>

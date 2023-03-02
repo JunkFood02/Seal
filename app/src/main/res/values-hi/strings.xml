@@ -78,7 +78,7 @@
     <string name="format">प्रारूप</string>
     <string name="convert_audio_format_desc">ऑडियो फ़ाइलों को पुनः इनकोड करने से ऑडियो गुणवत्ता में कमी आएगी और फ़ाइल आकार में वृद्धि होगी।</string>
     <string name="video_quality">चलचित्र गुणवत्ता</string>
-    <string name="video_quality_desc">फ़ाइल का प्रारूप गुणवत्ता और आकार सीमित करें</string>
+    <string name="video_quality_desc">एकाधिक मौजूद होने पर वीडियो की गुणवत्ता सीमित करें</string>
     <string name="not_specified">अनिर्दिष्ट (default)</string>
     <string name="video_format_preference">पसंदीदा चलचित्र प्रारूप</string>
     <string name="preferred_format_desc">एकाधिक विकल्प दिए जाने पर चुना गया प्रारूप</string>
@@ -105,7 +105,7 @@
     <string name="download_finish_notification">डाउनलोड समाप्त। खोलने के लिए टैप करें।</string>
     <string name="execute_command_notification">कस्टम कमांड चल रहा है…</string>
     <string name="battery_settings_desc">कृपया पृष्ठभूमि में डाउनलोड करने के लिए सिस्टम सेटिंग्स में इस ऐप के बैटरी उपयोग को \"अप्रतिबंधित\" पर सेट करें।</string>
-    <string name="concurrent_download">कई भागों को डाउनलोड करें</string>
+    <string name="concurrent_download">मल्टी थ्रेडेड डाउनलोड</string>
     <string name="concurrent_download_desc">समानांतर में M3U8/MPD वीडियो के और हिस्से डाउनलोड करें</string>
     <string name="options">विकल्प</string>
     <string name="additional_settings">अतिरिक्त सेटिंग्स</string>
@@ -134,7 +134,7 @@
     <string name="prefix">पथ टेम्पलेट</string>
     <string name="custom_output_path">कस्टम उपनिर्देशिका</string>
     <string name="custom_output_path_desc">उपनिर्देशिका के लिए टेम्पलेट का प्रयोग करें</string>
-    <string name="edit_custom_path_template_desc">yt-dlp द्वारा उपलब्ध फ़ील्ड के साथ उपनिर्देशिका निर्दिष्ट करें</string>
+    <string name="edit_custom_path_template_desc">yt-dlp द्वारा उपलब्ध कराए गए फ़ील्ड के साथ -o विकल्प में कस्टम उपसर्ग जोड़ें</string>
     <string name="embed_subtitles">उपशीर्षक अंतःस्थापित करें</string>
     <string name="embed_subtitles_desc">उपशीर्षक अंतःस्थापित करें अगर वीडियो में उपलब्ध हों</string>
     <string name="new_template">नया टेम्पलेट</string>
@@ -277,4 +277,6 @@
     <string name="clip_video">क्लिप वीडियो</string>
     <string name="audio_quality">ऑडियो गुणवत्ता</string>
     <string name="audio_quality_desc">एकाधिक कुआलिटी मौजूद होने पर ऑडियो बिटरेट सीमित करें</string>
+    <string name="temporary_directory">अस्थायी निर्देशिका</string>
+    <string name="temporary_directory_desc">अस्थायी फ़ाइलों को आंतरिक निर्देशिका में संग्रहीत करें</string>
 </resources>
