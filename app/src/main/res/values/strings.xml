@@ -188,6 +188,7 @@
     <string name="la_az" translatable="false">Azərbaycanca</string>
     <string name="la_nn" translatable="false">Nynorsk</string>
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
+    <string name="la_ta" translatable="false">தமிழ்</string>
 
     <string name="status_enqueued">Enqueued</string>
     <string name="status_completed">Completed</string>

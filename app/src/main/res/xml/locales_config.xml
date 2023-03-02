@@ -34,4 +34,5 @@
     <locale android:name="az" />
     <locale android:name="nn" />
     <locale android:name="pa" />
+    <locale android:name="ta" />
 </locale-config>
