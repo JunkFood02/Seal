@@ -14,7 +14,7 @@
     <string name="remove">移除</string>
     <string name="delete_file">刪除</string>
     <string name="about">關於</string>
-    <string name="about_page">版本、更新、來源</string>
+    <string name="about_page">版本、意見反應、自動更新</string>
     <string name="back">返回</string>
     <string name="version">版本</string>
     <string name="release_desc">查看更新日誌和最新版本</string>
@@ -72,7 +72,7 @@
     <string name="format">格式</string>
     <string name="convert_audio_format_desc">音訊重新編碼將造成品質下降和檔案大小增加。</string>
     <string name="best_quality">最佳品質 (預設)</string>
-    <string name="video_quality_desc">限制格式品質和檔案大小</string>
+    <string name="video_quality_desc">當存在多種選項時限縮視訊品質</string>
     <string name="not_specified">不指定 (預設)</string>
     <string name="video_quality">視訊品質</string>
     <string name="video_format">視訊格式</string>
@@ -110,7 +110,7 @@
     <string name="translate_desc">在 Hosted Weblate 上協助翻譯此應用程式</string>
     <string name="prefix">路徑範本</string>
     <string name="custom_output_path_desc">使用範本以配置子目錄</string>
-    <string name="edit_custom_path_template_desc">以 yt-dlp 提供可用之變數指定子目錄</string>
+    <string name="edit_custom_path_template_desc">新增由 yt-dlp 提供的可用變數以自訂前置詞至 -o 選項</string>
     <string name="new_template">新增範本</string>
     <string name="embed_subtitles_desc">如有提供可用字幕則將其內嵌至視訊中</string>
     <string name="permission_issue">儲存權限有已知問題</string>
@@ -174,7 +174,7 @@
     <string name="app_up_to_date">已是最新版本</string>
     <string name="app_update_failed">更新到最新版本失敗</string>
     <string name="update">更新</string>
-    <string name="clear_temp_files_desc">從下載目錄中刪除全數暫存檔案</string>
+    <string name="clear_temp_files_desc">從內部目錄中刪除全數暫存檔案</string>
     <string name="clear_temp_files_count">已刪除 %1$d 個暫存檔案</string>
     <string name="aria2_desc">使用 aria2c 作為外部下載程式</string>
     <string name="cookies_desc">使用 Netscape 格式的 Cookies 檔案進行下載</string>
@@ -270,11 +270,18 @@
     <string name="rename">重新命名</string>
     <string name="second">秒</string>
     <string name="import_from_preferences">匯入</string>
-    <string name="audio_quality_desc">當存在多種品質時欲選取的音訊位元速率</string>
+    <string name="audio_quality_desc">當存在多種品質時限縮音訊位元速率</string>
     <string name="minute">分</string>
     <string name="clear_all_cookies">清除所有 Cookies</string>
     <string name="clear_all_cookies_desc">確定要刪除在應用程式中所有 Cookies 嗎？</string>
     <string name="format_sorting">格式排序</string>
     <string name="format_sorting_desc">使用 yt-dlp 的 -S 選項對格式進行排序</string>
     <string name="title">標題</string>
+    <string name="temporary_directory">暫存目錄</string>
+    <string name="temporary_directory_desc">在內部目錄儲存暫存檔案</string>
+    <string name="sponsor">贊助者</string>
+    <string name="sponsor_desc">透過在 GitHub 上贊助以支持此應用程式</string>
+    <string name="feedback">意見反應</string>
+    <string name="sponsors">贊助人</string>
+    <string name="sponsor_msg">Seal 永遠提供眾人免費使用並開放原始碼。若您悅納，請考慮在 GitHub 上贊助我！</string>
 </resources>

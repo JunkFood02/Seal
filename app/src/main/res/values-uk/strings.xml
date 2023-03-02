@@ -76,7 +76,7 @@
     <string name="convert_audio_format_desc">Перекодування аудіофайлів може погіршити якість звуку та збільшити розмір файлу.</string>
     <string name="video_quality">Якiсть вiдео</string>
     <string name="best_quality">Найкраща якiсть (за замовчуванням)</string>
-    <string name="video_quality_desc">Виберіть якість та розмір файлу</string>
+    <string name="video_quality_desc">Обмежте якість відео за наявності кількох</string>
     <string name="not_specified">За замовчуванням</string>
     <string name="video_format_preference">Формат вiдео</string>
     <string name="preferred_format_desc">Вибирати цей формат по можливості</string>
@@ -100,7 +100,7 @@
     <string name="download_finish_notification">Завантаження завершено. Натисніть, щоб відкрити.</string>
     <string name="execute_command_notification">Виконання користувацьких команд…</string>
     <string name="battery_settings_desc">Вимкніть оптимізації батареї, щоб фонові завантаження працювали. Не бійтеся, на батареї це не позначиться.</string>
-    <string name="concurrent_download">Завантажувати декількома частинами</string>
+    <string name="concurrent_download">Багатопотокове завантаження</string>
     <string name="concurrent_download_desc">Завантажувати більше частин M3U8/MPD відео паралельно</string>
     <string name="concurrent_download_num">%d потоків буде використано для завантаження DASH/HLS вiдео.</string>
     <string name="options">Опції</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Шаблон шляху</string>
     <string name="custom_output_path">Свій підкаталог</string>
     <string name="custom_output_path_desc">Використовувати шаблон для підкаталогів</string>
-    <string name="edit_custom_path_template_desc">Вкажіть підкаталог, використовуючи доступні параметри yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Вкажіть свій префікс для опції -o, використовуючи доступні параметри yt-dlp</string>
     <string name="embed_subtitles">Вбудувати субтитри</string>
     <string name="embed_subtitles_desc">Вбудовувати субтитри, якщо вони доступні</string>
     <string name="new_template">Новий шаблон</string>
@@ -277,4 +277,6 @@
     <string name="clear_all_cookies">Очистити всі файли cookie</string>
     <string name="unlimited">Без обмежень</string>
     <string name="clear_all_cookies_desc">Назавжди видалити всі файли cookie, які зберігаються у застосунку\?</string>
+    <string name="temporary_directory">Тимчасовий каталог</string>
+    <string name="temporary_directory_desc">Зберігати тимчасові файли у внутрішньому каталозі</string>
 </resources>
