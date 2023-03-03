@@ -119,7 +119,7 @@ English
 <a href=https://github.com/Kyant0/Monet>Monet</a>
 </p>
 	
-## 📃 رخصة
+## 📃 الرُخصة
 
 
 <p align="right">
