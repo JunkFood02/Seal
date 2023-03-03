@@ -126,6 +126,13 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
+>**Warning**
+>
+>Except for the source code licensed under the GPLv3 license,
+>all other parties are prohibited from using Seal's name as a downloader app,
+>and the same is true for Seal's derivatives.
+>Derivatives include but are not limited to forks and unofficial builds.
+
 <div align="right">
 <table><td>
 <a href="#start-of-content">👆 Scroll to top</a>
