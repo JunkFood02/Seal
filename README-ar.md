@@ -127,7 +127,9 @@ English
 <img src="https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge" alt="GitHub" />
 </a>
 
-## **تحذير**
+	
+
+## ⚠️ تحذير
 
 <div dir="rtl" align="rtl">
 	<ul dir=rtl>
