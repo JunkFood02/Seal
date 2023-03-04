@@ -22,11 +22,12 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
 
 
-[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=brightgreen&label=F-Droid&logo=fdroid&logoColor=informational)](https://f-droid.org/en/packages/com.junkfood.seal)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)
-![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)
-![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?color=informational&label=Stars)
+[![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
+[![Keep a Changelog](https://img.shields.io/badge/Changelog-lightgray?style=flat&color=gray&logo=keep-a-changelog)](https://github.com/JunkFood02/Seal/blob/main/CHANGELOG.md)
+[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)](https://github.com/JunkFood02/Seal/releases/)
+[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?color=informational&label=Stars)](https://github.com/JunkFood02/Seal/stargazers)
 [![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 [![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat&logo=telegram)](https://t.me/seal_app)
 [![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
@@ -118,13 +119,22 @@ English
 <a href=https://github.com/Kyant0/Monet>Monet</a>
 </p>
 	
-## 📃 رخصة
+## 📃 الرُخصة
 
 
 <p align="right">
 <a href="https://github.com/JunkFood02/Seal/blob/main/LICENSE">
 <img src="https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge" alt="GitHub" />
 </a>
+
+	
+
+## ⚠️ تحذير
+
+<div dir="rtl" align="rtl">
+	<ul dir=rtl>
+<p>باستثناء الرمز المصدري المرخص بموجب ترخيص GPLv3، يُحظر على جميع الأطراف الأخرى استخدام اسم Seal كتطبيق تنزيل، وينطبق الشيء نفسه على مشتقات\نسخ Seal. المشتقات على سبيل المثال ليست حَصْرًا النسخ (Forks) والبنيات غير الرسمية (Unofficial Builds).<i>
+</div>
 
 <div align="left">
 <table><td>
