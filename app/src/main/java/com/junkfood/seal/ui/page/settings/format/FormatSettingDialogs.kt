@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -223,7 +222,6 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
         })
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormatSortingDialog(onDismissRequest: () -> Unit) {
     var sortingFields by SORTING_FIELDS.stringState
@@ -376,7 +374,6 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
 private const val subtitleOptions = "https://github.com/yt-dlp/yt-dlp#subtitle-options"
 private const val sortingFormats = "https://github.com/yt-dlp/yt-dlp#sorting-formats"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
     var languages by SUBTITLE_LANGUAGE.stringState

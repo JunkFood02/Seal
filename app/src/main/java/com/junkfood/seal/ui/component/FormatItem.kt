@@ -61,7 +61,7 @@ fun FormatVideoPreview(
     thumbnailUrl: String,
     duration: Int,
     showButton: Boolean = true,
-    isClipEnabled: Boolean = false,
+    isClippingVideo: Boolean = false,
     onTitleClick: () -> Unit = {},
     onButtonClick: ((Boolean) -> Unit)? = {}
 ) {
@@ -141,7 +141,7 @@ fun FormatVideoPreview(
                 IconToggleButton(
                     modifier = Modifier.align(Alignment.BottomEnd),
                     onCheckedChange = onButtonClick,
-                    checked = isClipEnabled
+                    checked = isClippingVideo
                 ) {
                     Icon(
                         modifier = Modifier.size(18.dp),
