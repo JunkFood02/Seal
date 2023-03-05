@@ -379,7 +379,13 @@ fun GeneralDownloadPreferences(
             icon = { Icon(Icons.Outlined.SyncAlt, null) },
             text = {
                 LazyColumn() {
-                    item { HorizontalDivider(Modifier.padding(horizontal = 16.dp).padding(vertical = 4.dp)) }
+                    item {
+                        HorizontalDivider(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 4.dp)
+                        )
+                    }
                     item {
                         DialogSingleChoiceItem(
                             text = "yt-dlp/yt-dlp",
@@ -391,7 +397,7 @@ fun GeneralDownloadPreferences(
                     }
                     item {
                         DialogSingleChoiceItem(
-                            text = "ytdl-patched/yt-dlp",
+                            text = "yt-dlp/yt-dlp-nightly-builds",
                             selected = ytdlpNightly,
                             label = "Nightly",
                             labelContainerColor = MaterialTheme.colorScheme.tertiary
@@ -399,7 +405,13 @@ fun GeneralDownloadPreferences(
                             ytdlpNightly = true
                         }
                     }
-                    item { HorizontalDivider(Modifier.padding(horizontal = 16.dp).padding(vertical = 4.dp)) }
+                    item {
+                        HorizontalDivider(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 4.dp)
+                        )
+                    }
                     item {
                         DialogCheckBoxItem(
                             text = stringResource(id = R.string.auto_update),
@@ -434,7 +446,8 @@ private fun DialogSingleChoiceItem(
                 onClick = onClick,
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ).padding(horizontal = 12.dp),
+            )
+            .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
