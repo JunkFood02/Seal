@@ -314,7 +314,7 @@ fun VideoListPage(
                         modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
                     )
                     Text(
-                        text = "No downloaded media",
+                        text = stringResource(R.string.no_downloaded_media),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

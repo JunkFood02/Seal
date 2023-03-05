@@ -208,19 +208,19 @@ fun DownloadSettingDialog(
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     ButtonChip(
                         onClick = {
-                            showAudioFormatEditDialog = true
-                        },
-                        enabled = audio && !customCommand,
-                        label = stringResource(R.string.audio_format),
-                        icon = if (audio) Icons.Outlined.AudioFile else Icons.Outlined.VideoFile
-                    )
-                    ButtonChip(
-                        onClick = {
                             showVideoFormatDialog = true
                         },
                         enabled = !customCommand,
                         label = stringResource(R.string.video_format),
                         icon = Icons.Outlined.VideoFile
+                    )
+                    ButtonChip(
+                        onClick = {
+                            showAudioFormatEditDialog = true
+                        },
+                        enabled = audio && !customCommand,
+                        label = stringResource(R.string.audio_format),
+                        icon = Icons.Outlined.AudioFile
                     )
                     ButtonChip(
                         onClick = {
