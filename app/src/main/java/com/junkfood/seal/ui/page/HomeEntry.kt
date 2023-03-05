@@ -182,7 +182,9 @@ fun HomeEntry(
             navController.navigate(Route.SETTINGS)
         }
         LaunchedEffect(Unit) {
-            if (!YT_DLP_UPDATE.getBoolean()) return@LaunchedEffect
+            if (!YT_DLP_UPDATE.getBoolean()
+                && YT_DLP.getString().isNotEmpty()
+            ) return@LaunchedEffect
             runCatching {
                 withContext(Dispatchers.IO) {
                     val res = UpdateUtil.updateYtDlp()

@@ -30,6 +30,7 @@ import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
+import com.junkfood.seal.util.YT_DLP
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
@@ -173,7 +174,7 @@ class App : Application() {
             return StringBuilder().append("App version: $versionName ($versionCode)\n")
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
-                .append("Yt-dlp version: ${YoutubeDL.version(context.applicationContext)}\n")
+                .append("Yt-dlp version: ${YT_DLP.getString()}\n")
                 .toString()
         }
 

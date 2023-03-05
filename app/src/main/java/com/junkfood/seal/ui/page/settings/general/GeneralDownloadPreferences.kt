@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.os.Build
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DoneAll
@@ -64,7 +64,6 @@ import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -375,20 +374,33 @@ fun GeneralDownloadPreferences(
                     showYtdlpDialog = false
                 }
             },
-            title = { Text(text = stringResource(id = R.string.update_channel)) },
+            title = { Text(text = stringResource(id = R.string.update)) },
             icon = { Icon(Icons.Outlined.SyncAlt, null) },
             text = {
                 LazyColumn() {
+//                    item {
+//                        HorizontalDivider(
+//                            Modifier
+//                                .padding(horizontal = 16.dp)
+//                                .padding(vertical = 4.dp)
+//                        )
+//                    }
                     item {
-                        HorizontalDivider(
-                            Modifier
-                                .padding(horizontal = 16.dp)
-                                .padding(vertical = 4.dp)
+                        Text(
+                            text = stringResource(id = R.string.update_channel),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp)
+                                .padding(top = 16.dp, bottom = 8.dp),
+                            color = MaterialTheme.colorScheme.run {
+                                if (ytdlpNightly) tertiary else primary
+                            },
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                     item {
                         DialogSingleChoiceItem(
-                            text = "yt-dlp/yt-dlp",
+                            text = "yt-dlp",
                             selected = !ytdlpNightly,
                             label = "Stable"
                         ) {
@@ -397,7 +409,7 @@ fun GeneralDownloadPreferences(
                     }
                     item {
                         DialogSingleChoiceItem(
-                            text = "yt-dlp/yt-dlp-nightly-builds",
+                            text = "yt-dlp-nightly-builds",
                             selected = ytdlpNightly,
                             label = "Nightly",
                             labelContainerColor = MaterialTheme.colorScheme.tertiary
@@ -406,10 +418,14 @@ fun GeneralDownloadPreferences(
                         }
                     }
                     item {
-                        HorizontalDivider(
-                            Modifier
-                                .padding(horizontal = 16.dp)
-                                .padding(vertical = 4.dp)
+                        Text(
+                            text = stringResource(id = R.string.additional_settings),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp)
+                                .padding(top = 16.dp, bottom = 8.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                     item {
@@ -444,8 +460,6 @@ private fun DialogSingleChoiceItem(
                 selected = selected,
                 enabled = true,
                 onClick = onClick,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
             )
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -482,11 +496,10 @@ fun DialogCheckBoxItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .selectable(selected = checked,
+            .toggleable(
+                value = checked,
                 enabled = true,
-                onClick = onClick,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
+                onValueChange = { onClick() },
             )
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
