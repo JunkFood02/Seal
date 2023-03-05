@@ -226,7 +226,7 @@ fun FormatPageImpl(
                         isSuggestedFormatSelected = true
                         selectedAudioOnlyFormat = NOT_SELECTED
                         selectedVideoAudioFormat = NOT_SELECTED
-                        selectedAudioOnlyFormat = NOT_SELECTED
+                        selectedVideoOnlyFormat = NOT_SELECTED
                     }
                 }
             }
