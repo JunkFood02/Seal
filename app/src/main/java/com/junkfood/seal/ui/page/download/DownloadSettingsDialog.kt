@@ -210,7 +210,7 @@ fun DownloadSettingDialog(
                         onClick = {
                             showVideoFormatDialog = true
                         },
-                        enabled = !customCommand,
+                        enabled = !customCommand && !audio,
                         label = stringResource(R.string.video_format),
                         icon = Icons.Outlined.VideoFile
                     )
@@ -218,7 +218,7 @@ fun DownloadSettingDialog(
                         onClick = {
                             showAudioFormatEditDialog = true
                         },
-                        enabled = audio && !customCommand,
+                        enabled = !customCommand,
                         label = stringResource(R.string.audio_format),
                         icon = Icons.Outlined.AudioFile
                     )
