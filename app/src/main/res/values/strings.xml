@@ -330,4 +330,5 @@
     <string name="sponsor_msg">Seal will be always free and open source for everyone. If you like it, Please consider sponsoring me on GitHub!</string>
     <string name="feedback">Feedback</string>
     <string name="sponsors">Sponsors</string>
+    <string name="audio_format">Audio format</string>
 </resources>
