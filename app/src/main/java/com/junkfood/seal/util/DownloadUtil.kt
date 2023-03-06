@@ -149,6 +149,7 @@ object DownloadUtil {
         val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
         val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
         val sdcardUri: String = SDCARD_URI.getString(),
+        val embedThumbnail: Boolean = EMBED_THUMBNAIL.getBoolean(),
         val videoClips: List<VideoClip> = emptyList(),
         val newTitle: String = ""
     )
@@ -233,6 +234,9 @@ object DownloadUtil {
                 } else {
                     addOption("--write-subs")
                 }
+            }
+            if (embedThumbnail) {
+                addOption("--embed-thumbnail")
             }
             if (videoClips.isEmpty()) addOption("--embed-chapters")
         }

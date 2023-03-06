@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
@@ -44,6 +45,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.EMBED_THUMBNAIL
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.FORMAT_SORTING
@@ -199,6 +201,20 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         icon = Icons.Outlined.HighQuality,
                         enabled = !audioSwitch && !isCustomCommandEnabled
                     ) { showVideoQualityDialog = true }
+                }
+                item {
+                    var embedThumbnail by EMBED_THUMBNAIL.booleanState
+
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.embed_thumbnail),
+                        description = stringResource(id = R.string.embed_thumbnail_desc),
+                        icon = Icons.Outlined.Photo,
+                        isChecked = embedThumbnail,
+                        enabled = !isCustomCommandEnabled && !audioSwitch
+                    ) {
+                        embedThumbnail = !embedThumbnail
+                        EMBED_THUMBNAIL.updateBoolean(embedThumbnail)
+                    }
                 }
 
                 item {
