@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Feature Updates:
 * Add the ability to share files in `VideoDetailDrawer`
 * Add a pre-release channel for auto-updating
 * Add an option to update to Nightly builds of yt-dlp
 * Add a switch for auto-updating yt-dlp
-* Add the ability to clip video and audio in `FormatSelectionPage`
+* Add the ability to clip video and audio in `FormatSelectionPage` (experimental)
 * Add the ability to edit video titles in `FormatSelectionPage` before downloading
+* Add the ability to share the thumbnail url in `FormatSelectionPage`
 * Implement a new method to extract cookies from the `WebView` database
 * Add a badge to the icon to indicate the count of running processes
 * Add legacy app icons
@@ -24,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change the operation of open link to long pressing the link button in `VideoDetailDrawer`
 - Change the thread number range of multi-threaded download to 1-24
-- Change status bar icon to filled icon
+- Change the status bar icon to filled icon
+- Change the quick settings for media format in the configuration dialog
 
 ### Fixed
 
@@ -32,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - UI bug in `ShortcutChip` with long template
 - Fix a bug causing empty subtitle language breaks downloads
 - Fix an issue causing specific languages not visible in system settings on Android 13+
+- Fix a UI bug in the format selection page
 
 ### Known issues
 
