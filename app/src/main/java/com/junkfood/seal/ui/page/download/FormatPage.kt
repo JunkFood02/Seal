@@ -193,6 +193,10 @@ fun FormatPageImpl(
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             showRenameDialog = true
                         },
+                        onImageClicked = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            thumbnail.toHttpsUrl().share()
+                        },
                         onButtonClick = { isClippingVideo = it })
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
@@ -215,7 +219,8 @@ fun FormatPageImpl(
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatItem(formatDesc = format.toString(),
+                    FormatItem(
+                        formatDesc = format.toString(),
                         resolution = resolution.toString(),
                         codec = connectWithBlank(
                             vcodec.toString().substringBefore("."),
@@ -225,7 +230,7 @@ fun FormatPageImpl(
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: .0,
                         selected = isSuggestedFormatSelected,
-                        onLongClick = {}) {
+                    ) {
                         isSuggestedFormatSelected = true
                         selectedAudioOnlyFormat = NOT_SELECTED
                         selectedVideoAudioFormat = NOT_SELECTED

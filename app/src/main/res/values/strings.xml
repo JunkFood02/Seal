@@ -336,6 +336,6 @@
     <string name="enable_experimental_feature">Enable experimental feature?</string>
     <string name="clip_video_dialog_msg">Downloads using this feature will be delegated to FFmpeg to download selected sections of the video, this feature is still experimental and the cutting will not be completely accurate, not all formats support this feature and you may experience slower download speeds.</string>
     <string name="clip_video_desc">Make video clips in the format selection page</string>
-    <string name="embed_thumbnail">Embed thumbnail</string>
-    <string name="embed_thumbnail_desc">Embed thumbnails into videos</string>
+    <string name="embed_thumbnail" translatable="false">Embed thumbnail</string>
+    <string name="embed_thumbnail_desc" translatable="false">Embed thumbnails into videos</string>
 </resources>

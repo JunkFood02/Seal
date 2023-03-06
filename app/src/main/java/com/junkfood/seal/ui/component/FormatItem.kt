@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,6 +64,7 @@ fun FormatVideoPreview(
     showButton: Boolean = true,
     isClippingVideo: Boolean = false,
     onTitleClick: () -> Unit = {},
+    onImageClicked: () -> Unit = {},
     onButtonClick: ((Boolean) -> Unit)? = {}
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
@@ -70,7 +72,7 @@ fun FormatVideoPreview(
         WindowWidthSizeClass.Medium -> 0.30f
         else -> 0.45f
     }
-
+    val uriHandler = LocalUriHandler.current
     Box(
         modifier = modifier.fillMaxWidth(),
     ) {
@@ -84,7 +86,17 @@ fun FormatVideoPreview(
                     .weight(imageWeight)
             ) {
                 MediaImage(
-                    modifier = Modifier, imageModel = thumbnailUrl, isAudio = false
+                    modifier = Modifier.clickable(
+                        onClick = onImageClicked,
+                        onClickLabel = stringResource(
+                            id = R.string.share
+                        ),
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ),
+                    imageModel = thumbnailUrl, isAudio = false, contentDescription = stringResource(
+                        id = R.string.thumbnail
+                    )
                 )
                 Surface(
                     modifier = Modifier
@@ -118,8 +130,7 @@ fun FormatVideoPreview(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                    ,
+                        .padding(horizontal = 12.dp),
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -127,7 +138,9 @@ fun FormatVideoPreview(
                     overflow = TextOverflow.Ellipsis,
                 )
                 if (author != "playlist" && author != "null") Text(
-                    modifier = Modifier.padding(horizontal = 12.dp).padding(top = 3.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .padding(top = 3.dp),
                     text = author,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -212,7 +225,7 @@ fun FormatItem(
     selected: Boolean = false,
     outlineColor: Color = MaterialTheme.colorScheme.primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    onLongClick: () -> Unit = {},
+    onLongClick: (() -> Unit)? = null,
     onClick: () -> Unit = {}
 ) {
     val animatedOutlineColor by animateColorAsState(

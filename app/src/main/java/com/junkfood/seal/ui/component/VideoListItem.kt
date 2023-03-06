@@ -183,7 +183,12 @@ fun MediaListItem(
 }
 
 @Composable
-fun MediaImage(modifier: Modifier = Modifier, imageModel: String, isAudio: Boolean = false) {
+fun MediaImage(
+    modifier: Modifier = Modifier,
+    imageModel: String,
+    isAudio: Boolean = false,
+    contentDescription: String? = null
+) {
     AsyncImageImpl(
         modifier = modifier
             .aspectRatio(
@@ -191,7 +196,7 @@ fun MediaImage(modifier: Modifier = Modifier, imageModel: String, isAudio: Boole
             )
             .clip(MaterialTheme.shapes.extraSmall),
         model = imageModel,
-        contentDescription = null,
+        contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
     )
 }
