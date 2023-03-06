@@ -37,7 +37,7 @@
     <string name="remove">移除</string>
     <string name="delete_file">同时删除文件</string>
     <string name="about">关于</string>
-    <string name="about_page">版本、更新</string>
+    <string name="about_page">版本、意见反馈、自动更新</string>
     <string name="back">返回</string>
     <string name="version">当前版本</string>
     <string name="release">版本发布</string>
@@ -75,7 +75,7 @@
     <string name="convert_audio_format_desc">重新编码音频文件将会降低音质并增大文件大小</string>
     <string name="video_quality">视频画质</string>
     <string name="best_quality">最高画质（默认）</string>
-    <string name="video_quality_desc">下载画质不大于所选分辨率与文件大小的最清晰视频</string>
+    <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
     <string name="not_specified">默认</string>
     <string name="video_format_preference">视频格式偏好</string>
     <string name="preferred_format_desc">当多种格式可供下载时的偏好选项</string>
@@ -133,7 +133,7 @@
     <string name="prefix">输出路径模板</string>
     <string name="custom_output_path">自定义输出路径</string>
     <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
-    <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值指定保存文件的子文件夹</string>
+    <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值为 -o 选项的模板添加前缀，可用于指定自定义子目录或文件名前缀</string>
     <string name="embed_subtitles">封装字幕</string>
     <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
     <string name="new_template">新建命令模板</string>
@@ -179,7 +179,7 @@
     <string name="cookies">Cookies</string>
     <string name="cookies_desc">使用 Netscape 规范的 Cookies 文件进行下载</string>
     <string name="clear_temp_files">清除临时文件</string>
-    <string name="clear_temp_files_desc">删除当前下载目录下的所有临时文件</string>
+    <string name="clear_temp_files_desc">删除当前临时目录下的所有文件</string>
     <string name="clear_temp_files_count">共清除了 %1$d 个临时文件</string>
     <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？</string>
     <string name="multiselect_mode">多选模式</string>
@@ -282,4 +282,10 @@
     <string name="sponsor_msg">Seal 将永远保持免费与开源，如果你想要支持它的持续开发与改进，请考虑在 GitHub 上赞助我！</string>
     <string name="feedback">反馈</string>
     <string name="sponsors">赞助者</string>
+    <string name="no_downloaded_media">下载记录空空如也</string>
+    <string name="beta_features">测试</string>
+    <string name="enable_experimental_feature">启用试验性功能</string>
+    <string name="clip_video_desc">在格式选择页面进行视频剪辑</string>
+    <string name="clip_video_dialog_msg">该功能将使用 FFmpeg 以下载选定部分的视频，该功能仍处于试验阶段，剪辑不会完全准确，且并非所有格式都支持该功能，使用该功能时的下载速度将会显著减慢。</string>
+    <string name="audio_format">音频格式</string>
 </resources>

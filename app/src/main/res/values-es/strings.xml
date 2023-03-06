@@ -36,7 +36,7 @@
     <string name="remove">Eliminar</string>
     <string name="delete_file">Eliminar archivo</string>
     <string name="about">Acerca de</string>
-    <string name="about_page">Versión, lanzamientos, créditos</string>
+    <string name="about_page">Versión, comentarios, actualización automática</string>
     <string name="back">Ir atrás</string>
     <string name="version">Versión</string>
     <string name="release_desc">Buscar actualizaciones e historial de cambios</string>
@@ -180,7 +180,7 @@
     <string name="clear_temp_files">Limpiar archivos temporales</string>
     <string name="clear_temp_files_count">%1$d archivo(s) temporales eliminados</string>
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
-    <string name="clear_temp_files_desc">Elimina todos los archivos temporales de la carpeta de descargas</string>
+    <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio interno</string>
     <string name="multiselect_mode">Modo de multiselección</string>
     <string name="private_mode">Modo privado</string>
     <string name="private_mode_desc">Desactiva el almacenamiento de carátulas/miniaturas</string>
@@ -279,4 +279,15 @@
     <string name="clear_all_cookies_desc">¿Borrar definitivamente todas las cookies almacenadas en la aplicación\?</string>
     <string name="temporary_directory">Directorio temporal</string>
     <string name="temporary_directory_desc">Almacena archivos temporales en el directorio seleccionado</string>
+    <string name="sponsor">Patrocinador</string>
+    <string name="sponsor_desc">Apoya esta aplicación patrocinando en GitHub</string>
+    <string name="sponsor_msg">Seal siempre será gratuito y de código abierto para todos. Si te gusta, ¡considera patrocinarme en GitHub!</string>
+    <string name="feedback">Comentario</string>
+    <string name="sponsors">Patrocinadores</string>
+    <string name="audio_format">Formato del audio</string>
+    <string name="no_downloaded_media">Ningún medio descargado</string>
+    <string name="beta_features">Beta</string>
+    <string name="enable_experimental_feature">¿Habilitar la función experimental\?</string>
+    <string name="clip_video_desc">Hacer videoclips en la página de selección del formato</string>
+    <string name="clip_video_dialog_msg">Las descargas que utilicen esta función serán delegadas a FFmpeg para que descargue las secciones seleccionadas del vídeo, esta función es todavía experimental y el corte no será completamente preciso, no todos los formatos soportan esta función y puede que experimentes velocidades de descarga más lentas.</string>
 </resources>

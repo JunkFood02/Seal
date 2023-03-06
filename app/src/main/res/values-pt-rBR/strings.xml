@@ -50,13 +50,13 @@
     <string name="convert_to">Converter para %1$s</string>
     <string name="format">Formato</string>
     <string name="best_quality">Melhor qualidade (padrão)</string>
-    <string name="video_quality_desc">Limitar a qualidade do formato e o tamanho do arquivo</string>
+    <string name="video_quality_desc">Limitar a qualidade do vídeo quanto mútiplas estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
     <string name="start_download">Download</string>
     <string name="settings_before_download">Configurar antes de baixar</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
-    <string name="about_page">Versão, lançamentos, créditos</string>
+    <string name="about_page">Versão, feedback, atualização automática</string>
     <string name="settings_before_download_desc">Configure as preferências antes de baixar</string>
     <string name="convert_audio">Converter</string>
     <string name="paste_fail_msg">Não foi possível corresponder ao URL na área de transferência</string>
@@ -65,7 +65,7 @@
     <string name="video_format">Formato de vídeo</string>
     <string name="release_desc">Procure por changelogs e novas versões</string>
     <string name="edit_template_desc">O caminho de saída e a URL serão adicionados pelo aplicativo.</string>
-    <string name="convert_audio_format_desc">Áudio em MP3 ou M4A funciona na maioria dos dispositivos</string>
+    <string name="convert_audio_format_desc">Re-encodar arquivos de áudio resultará na perda da qualidade de áudio e aumentará o tamanho do arquivo.</string>
     <string name="video_quality">Qualidade de vídeo</string>
     <string name="preferred_format_desc">Formato escolhido quando vários são fornecidos</string>
     <string name="language">Idioma de exibição</string>
@@ -80,9 +80,9 @@
     <string name="channel_name">Download</string>
     <string name="channel_description">Notificar sobre arquivos baixados e progresso</string>
     <string name="video_url">Link do vídeo</string>
-    <string name="download_finish_notification">Download concluído. Clique para abrir.</string>
+    <string name="download_finish_notification">Download concluído. Toque para abrir.</string>
     <string name="execute_command_notification">Executando comandos personalizados…</string>
-    <string name="concurrent_download">Baixe várias partes</string>
+    <string name="concurrent_download">Múltiplas threads de download</string>
     <string name="options">Opções</string>
     <string name="share_success_msg">Lendo o link do vídeo do conteúdo compartilhado…</string>
     <string name="show_more_actions">Mostrar mais ações</string>
@@ -92,7 +92,7 @@
     <string name="from">Início</string>
     <string name="to">Fim</string>
     <string name="invalid_index_range">Intervalo de índice inválido</string>
-    <string name="playlist_indicator_text">Baixando playlist (%1$d/%2$d), clique para parar.</string>
+    <string name="playlist_indicator_text">Baixando playlist (%1$d/%2$d), toque para parar.</string>
     <string name="audio_directory">Pasta de áudio</string>
     <string name="download_directory">Diretório de download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Template de caminho</string>
     <string name="custom_output_path">Subdiretório customizado</string>
     <string name="custom_output_path_desc">Usar template para subdiretório</string>
-    <string name="edit_custom_path_template_desc">Especificar subdiretório com campos disponíveis fornecidos pelo yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Adicionar prefixo personalizado à opção -o com campos disponíveis fornecidos pelo yt-dlp</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="restart">Reiniciar</string>
     <string name="status_downloading">Baixando</string>
@@ -152,7 +152,7 @@
     <string name="remove_template_desc">Remover %1$s dos templates de comandos para sempre\?</string>
     <string name="template_selection">Seleção de modelos</string>
     <string name="custom_command_template_desc">Editar e gerenciar modelos de comandos</string>
-    <string name="downloading_indicator_text">Download em andamento, clique para cancelar.</string>
+    <string name="downloading_indicator_text">Download em andamento, toque para cancelar.</string>
     <string name="task_canceled">Tarefa de download cancelada</string>
     <string name="github_issue">GitHub issue</string>
     <string name="github_issue_desc">Enviar um issue para reportar um bug ou pedir uma feature</string>
@@ -175,7 +175,7 @@
     <string name="aria2_desc">Usar aria2c como downloader externo</string>
     <string name="cookies_desc">Usar cookies formatados do Netscape para download</string>
     <string name="clear_temp_files">Limpar arquivos temporários</string>
-    <string name="clear_temp_files_desc">Apagar todos os arquivos temporários do diretório de downloads</string>
+    <string name="clear_temp_files_desc">Apagar todos os arquivos temporários do diretório interno</string>
     <string name="clear_temp_files_count">%1$d arquivo(s) temporário(s) apagado(s)</string>
     <string name="multiselect_mode">Modo multi-seleção</string>
     <string name="clear_temp_files_info">Arquivos temporários podem ser usados para retomar downloads cancelados. Você tem certeza que quer apagar estes arquivos\?</string>
@@ -227,7 +227,7 @@
     <string name="format_selection">Seleção de formato</string>
     <string name="generate_new_cookies">Gerar novos cookies</string>
     <string name="video_only">Vídeo (sem áudio)</string>
-    <string name="format_selection_desc">Selecione o formato para baixar antes de iniciar o download</string>
+    <string name="format_selection_desc">Selecione o formato a ser baixado antes de iniciar o download</string>
     <string name="subtitle_sponsorblock">As legendas podem ser mal cronometradas ao remover segmentos do SponsorBlock.</string>
     <string name="share">Compartilhar</string>
     <string name="stable_channel">Estável</string>
@@ -277,4 +277,11 @@
     <string name="audio_format_preference">Formato de áudio preferido</string>
     <string name="audio_quality">Qualidade de áudio</string>
     <string name="format_sorting">Classificação de formatos</string>
+    <string name="temporary_directory">Diretório temporário</string>
+    <string name="sponsors">Patrocinadores</string>
+    <string name="sponsor_desc">Apoie este app patrocinando no GitHub</string>
+    <string name="sponsor">Patrocinador</string>
+    <string name="temporary_directory_desc">Armazenar arquivos temporários no diretório interno</string>
+    <string name="feedback">Feedback</string>
+    <string name="sponsor_msg">Seal sempre será livre e de código aberto para todos. Se você gostou, por favor, considere me patrocinar no GitHub!</string>
 </resources>

@@ -17,7 +17,7 @@
     <string name="audio">Audio</string>
     <string name="open_url">Buka tautan</string>
     <string name="remove">Hapus</string>
-    <string name="about_page">Versi, rilis, kredit</string>
+    <string name="about_page">Versi, masukan, pembaruan otomatis</string>
     <string name="back">Kembali</string>
     <string name="version">Versi</string>
     <string name="release">Versi terbaru</string>
@@ -173,7 +173,7 @@
     <string name="cookies_desc">Gunakan cookie berformat Netscape untuk pengunduhan</string>
     <string name="clear_temp_files">Bersihkan file sementara</string>
     <string name="clear_temp_files_count">%1$d file sementara telah dihapus</string>
-    <string name="clear_temp_files_desc">Hapus semua file sementara dari direktori unduhan</string>
+    <string name="clear_temp_files_desc">Hapus semua berkas sementara dari direktori internal</string>
     <string name="clear_temp_files_info">File sementara dapat digunakan untuk melanjutkan unduhan yang dibatalkan. Apakah Anda yakin akan menghapus semua file sementara\?</string>
     <string name="recently_added">Baru-baru ini ditambahkan</string>
     <string name="multiselect_item_count">%1$d video, %2$d file audio</string>
@@ -279,4 +279,15 @@
     <string name="minute">menit</string>
     <string name="temporary_directory">Direktori sementara</string>
     <string name="temporary_directory_desc">Simpan file sementara di direktori internal</string>
+    <string name="sponsor">Sponsor</string>
+    <string name="sponsor_desc">Dukung aplikasi ini dengan mensponsori di GitHub</string>
+    <string name="sponsor_msg">Seal akan selalu bebas dan sumber terbuka untuk semuanya. Jika Anda menyukainya, silakan sponsori saya di GitHub!</string>
+    <string name="feedback">Masukan</string>
+    <string name="sponsors">Sponsor</string>
+    <string name="no_downloaded_media">Tidak ada media yang terunduh</string>
+    <string name="beta_features">Beta</string>
+    <string name="enable_experimental_feature">Aktifkan fitur eksperimental\?</string>
+    <string name="audio_format">Format audio</string>
+    <string name="clip_video_desc">Buat klip video dalam halaman pemilihan format</string>
+    <string name="clip_video_dialog_msg">Pengunduhan menggunakan fitur ini akan didelegasikan ke FFmpeg untuk mengunduh bagian video yang dipilih, fitur ini masih dalam tahap percobaan dan pemotongan tidak akan sepenuhnya akurat, tidak semua format mendukung fitur ini dan Anda mungkin akan mengalami kecepatan pengunduhan yang lebih lambat.</string>
 </resources>
