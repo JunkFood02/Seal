@@ -22,7 +22,6 @@ import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.EditNote
-import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.AlertDialog
@@ -57,11 +56,9 @@ import com.junkfood.seal.ui.component.FilterChipWithIcons
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
-import com.junkfood.seal.ui.page.settings.format.AudioFormatDialog
-import com.junkfood.seal.ui.page.settings.format.AudioQualityDialog
+import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
-import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
-import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
+import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
@@ -93,9 +90,9 @@ fun DownloadSettingDialog(
     var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
     var formatSelection by FORMAT_SELECTION.booleanState
 
-    var showAudioFormatEditDialog by remember { mutableStateOf(false) }
+    var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
-    var showVideoFormatDialog by remember { mutableStateOf(false) }
+    var showVideoSettingsDialog by remember { mutableStateOf(false) }
     var showSubtitleDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
     var showAudioQualityDialog by remember { mutableStateOf(false) }
@@ -208,7 +205,7 @@ fun DownloadSettingDialog(
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     ButtonChip(
                         onClick = {
-                            showVideoFormatDialog = true
+                            showVideoSettingsDialog = true
                         },
                         enabled = !customCommand && !audio,
                         label = stringResource(R.string.video_format),
@@ -216,20 +213,11 @@ fun DownloadSettingDialog(
                     )
                     ButtonChip(
                         onClick = {
-                            showAudioFormatEditDialog = true
+                            showAudioSettingsDialog = true
                         },
                         enabled = !customCommand,
                         label = stringResource(R.string.audio_format),
                         icon = Icons.Outlined.AudioFile
-                    )
-                    ButtonChip(
-                        onClick = {
-                            if (audio) showAudioQualityDialog = true
-                            else showVideoQualityDialog = true
-                        },
-                        enabled = !customCommand,
-                        label = stringResource(if (audio) R.string.audio_quality else R.string.video_quality),
-                        icon = Icons.Outlined.HighQuality
                     )
                     ButtonChip(
                         onClick = { showSubtitleDialog = true },
@@ -322,17 +310,11 @@ fun DownloadSettingDialog(
 
 
 
-    if (showAudioFormatEditDialog) {
-        AudioFormatDialog(onDismissRequest = { showAudioFormatEditDialog = false })
+    if (showAudioSettingsDialog) {
+        AudioQuickSettingsDialog(onDismissRequest = { showAudioSettingsDialog = false })
     }
-    if (showAudioQualityDialog) {
-        AudioQualityDialog { showAudioQualityDialog = false }
-    }
-    if (showVideoQualityDialog) {
-        VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false })
-    }
-    if (showVideoFormatDialog) {
-        VideoFormatDialog(onDismissRequest = { showVideoFormatDialog = false })
+    if (showVideoSettingsDialog) {
+        VideoQuickSettingsDialog(onDismissRequest = { showVideoSettingsDialog = false })
     }
     when (showCustomCommandDialog) {
         (-1) -> CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = 0 },

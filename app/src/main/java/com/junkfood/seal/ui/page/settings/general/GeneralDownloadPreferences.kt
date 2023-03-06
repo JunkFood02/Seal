@@ -338,15 +338,6 @@ fun GeneralDownloadPreferences(
                         onClick = { showSponsorBlockDialog = true })
                 }
 
-//                item {
-//                    PreferenceItem(
-//                        title = stringResource(R.string.custom_command_template),
-//                        icon = Icons.Outlined.Code,
-//                        description = stringResource(R.string.custom_command_template_desc),
-//                    ) {
-//                        navigateToTemplate()
-//                    }
-//                }
                 if (downloadSubtitle) item {
                     PreferenceInfo(text = stringResource(id = R.string.subtitle_sponsorblock))
                 }
