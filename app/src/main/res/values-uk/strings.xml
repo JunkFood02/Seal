@@ -36,7 +36,7 @@
     <string name="remove">Прибрати</string>
     <string name="delete_file">Видалити</string>
     <string name="about">Про застосунок</string>
-    <string name="about_page">Версія, релізи, автори</string>
+    <string name="about_page">Версія, зворотний зв\'язок, автоматичне оновлення</string>
     <string name="back">Назад</string>
     <string name="version">Версiя</string>
     <string name="release_desc">Переглянути історію змін та нові версії</string>
@@ -159,7 +159,7 @@
     <string name="copy_error_report">Повідомити про помилку</string>
     <string name="video_file_size">Розмір відео</string>
     <string name="video_resolution">Роздільна здатність</string>
-    <string name="clear_temp_files_desc">Видалити всі тимчасові файли з каталогу завантажень</string>
+    <string name="clear_temp_files_desc">Видаліть усі тимчасові файли з внутрішнього каталогу</string>
     <string name="clear_temp_files_count">Видалено %1$d тимчасовий(і/их) файл(и/ів)</string>
     <string name="sponsorblock_categories_desc">Вкажіть категорії SponsorBlock, що будуть видалені з відеофайла</string>
     <string name="check_for_updates">Перевірити наявність оновлень</string>
@@ -279,4 +279,15 @@
     <string name="clear_all_cookies_desc">Назавжди видалити всі файли cookie, які зберігаються у застосунку\?</string>
     <string name="temporary_directory">Тимчасовий каталог</string>
     <string name="temporary_directory_desc">Зберігати тимчасові файли у внутрішньому каталозі</string>
+    <string name="sponsor">Спонсор</string>
+    <string name="feedback">Зворотний зв\'язок</string>
+    <string name="sponsors">Спонсори</string>
+    <string name="sponsor_desc">Підтримайте цей застосунок, спонсоруючи на GitHub</string>
+    <string name="sponsor_msg">Seal завжди буде безплатним і відкритим для всіх. Якщо вам це подобається, подумайте про те, щоб стати моїм спонсором на GitHub!</string>
+    <string name="no_downloaded_media">Немає завантажених медіа</string>
+    <string name="beta_features">Бета</string>
+    <string name="clip_video_desc">Створення відеокліпів на сторінці вибору формату</string>
+    <string name="audio_format">Аудіо формат</string>
+    <string name="enable_experimental_feature">Увімкнути експериментальну функцію\?</string>
+    <string name="clip_video_dialog_msg">Завантаження за допомогою цієї функції буде делеговано FFmpeg для завантаження вибраних фрагментів відео, ця функція все ще експериментальна і розрізання не буде повністю точним, не всі формати підтримують цю функцію, і ви можете відчути повільну швидкість завантаження.</string>
 </resources>

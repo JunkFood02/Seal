@@ -284,4 +284,10 @@
     <string name="sponsors">Sponsorlar</string>
     <string name="sponsor_desc">GitHub-da sponsorluq edərək bu tətbiqi dəstəklə</string>
     <string name="sponsor_msg">Seal həmişə, hamı üçün pulsuz və açıq mənbə olacaqdır. Əgər bəyənirsinizsə, GitHub-da mənə sponsorluq etməyi düşünün!</string>
+    <string name="audio_format">Səs format</string>
+    <string name="no_downloaded_media">Endirilən media yoxdur</string>
+    <string name="beta_features">Beta</string>
+    <string name="enable_experimental_feature">Təcrübi xüsusiyyət aktivləşdirilsin\?</string>
+    <string name="clip_video_desc">Format seçim səhifəsində video kliplər yarat</string>
+    <string name="clip_video_dialog_msg">Bu xüsusiyyəti işlədən yükləmələr, videonun seçilmiş hissələrin endirmək üçün FFmpeg-yə həvalə olunacaq, bu xüsusiyyət hələ təcrübidir və kəsmə tamamilə dəqiq olmayacaq, bütün formatlar bu xüsusiyyəti dəstəkləmir və daha yavaş yükləmə sürəti görə bilərsiniz.</string>
 </resources>

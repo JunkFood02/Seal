@@ -52,7 +52,7 @@
     <string name="language">Језик</string>
     <string name="paste_fail_msg">Грешка при налепљивању URL-a из привремене меморије</string>
     <string name="delete_info_msg">Заувек уклоните \"%1$s\" из ваше историје преузимања\?</string>
-    <string name="delete_info">Уклоните\?</string>
+    <string name="delete_info">Уклонити\?</string>
     <string name="dismiss">Откажите</string>
     <string name="downloads_history">Преузимања</string>
     <string name="open_url">Отворите везу</string>
@@ -284,4 +284,10 @@
     <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако вам се свиђа, размислите о томе да ме спонзоришете на GitHub-u!</string>
     <string name="sponsor">Спонзоришите</string>
     <string name="sponsor_desc">Подржите ову апликацију спонзорисањем на GitHub-u</string>
+    <string name="audio_format">Аудио формат</string>
+    <string name="beta_features">Бета</string>
+    <string name="clip_video_desc">Направите исечке видеа на страници за избор формата</string>
+    <string name="no_downloaded_media">Нема преузетих медија</string>
+    <string name="enable_experimental_feature">Омогућити експерименталну функцију\?</string>
+    <string name="clip_video_dialog_msg">Преузимања која користе ову функцију биће делегирана на FFmpeg да преузму изабране делове видеа, ова функција је и даље експериментална и сечење неће бити потпуно тачно, не подржавају сви формати ову функцију и можда ћете имати спорије брзине преузимања.</string>
 </resources>

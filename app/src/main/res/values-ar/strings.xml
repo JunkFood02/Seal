@@ -22,8 +22,8 @@
     <string name="open_url">افتح الرابط</string>
     <string name="remove">إزالة</string>
     <string name="delete_file">حذف</string>
-    <string name="about">حول</string>
-    <string name="about_page">الإصدار ، الإصدارات ، الاعتمادات</string>
+    <string name="about">نُبذة</string>
+    <string name="about_page">الإصدار ، الملاحظات، التحديث التلقائي</string>
     <string name="version">الإصدار</string>
     <string name="release_desc">إلق نظرة على الإصدارات الجديدة و سجل التغييرات</string>
     <string name="release">أحدث إصدار</string>
@@ -180,7 +180,7 @@
     <string name="clear_temp_files">امسح الملفات المؤقتة</string>
     <string name="clear_temp_files_count">تم حذف %1$d ملف(ات) مؤقت(ة)</string>
     <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
-    <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من مجلد التنزيل</string>
+    <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من المجلد الداخلي</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
     <string name="private_mode">وضع خاص</string>
     <string name="private_mode_desc">إيقاف سجل التنزيلات</string>
@@ -213,8 +213,8 @@
     <string name="crop_artwork">قص الغلاف</string>
     <string name="crop_artwork_desc">قص الصورة المدمجة على شكل مربع</string>
     <string name="suggested">موصى به</string>
-    <string name="format_selection">اختيار الصيغة</string>
-    <string name="format_selection_desc">حدد الصيغة المراد تنزيلها قبل بدء العملية</string>
+    <string name="format_selection">اختيار التنسيق</string>
+    <string name="format_selection_desc">حدد التنسيق المراد تنزيله قبل بدء العملية</string>
     <string name="video_only">فيديو (بدون صوت)</string>
     <string name="generate_new_cookies">إنشاء ملفات تعريف ارتباط جديدة</string>
     <string name="use_cookies">استخدام ملفات تعريف الارتباط</string>
@@ -279,4 +279,15 @@
     <string name="clear_all_cookies_desc">هل تريد حذف جميع ملفات تعريف الارتباط المحفوظة في التطبيق؟</string>
     <string name="temporary_directory">مجلد مؤقت</string>
     <string name="temporary_directory_desc">خزن الملفات المؤقتة في المجلد الداخلي</string>
+    <string name="sponsor">الراعي</string>
+    <string name="sponsor_desc">ادعم هذا التطبيق من خلال الرعاية على GitHub</string>
+    <string name="sponsor_msg">سيكون Seal دائما مجانيا ومفتوح المصدر للجميع. إذ كان التطبيق قد نال إعجابك، رجاءً إعتبرْ رعايتي على GitHub!</string>
+    <string name="feedback">التعقيبات</string>
+    <string name="sponsors">الراعي</string>
+    <string name="audio_format">صيغة الصوت</string>
+    <string name="no_downloaded_media">لا توجد وسائط منزلة</string>
+    <string name="beta_features">بيتا</string>
+    <string name="enable_experimental_feature">تفعيل الميزة التجريبية ؟</string>
+    <string name="clip_video_dialog_msg">سيتم تفويض التنزيلات باستخدام هذه الميزة إلى FFmpeg لتنزيل أقسام محددة من الفيديو، لا تزال هذه الميزة تجريبية ولن يكون القطع دقيقًا تمامًا، بالإضافة إلى ان هذه الميزة لا تدعم جميع التنسيقات وقد تواجه سرعات تنزيل أبطأ.</string>
+    <string name="clip_video_desc">اصنع مقاطع فيديو في صفحة اختيار التنسيق</string>
 </resources>

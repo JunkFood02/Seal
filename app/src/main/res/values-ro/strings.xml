@@ -53,4 +53,7 @@
     <string name="advanced_settings">Avansat</string>
     <string name="display_settings">Temă întunecată, culoare dinamică, limbi</string>
     <string name="yt_dlp_docs">Referințe de utilizare YT-dlp</string>
+    <string name="print_details">Ieșire detaliată</string>
+    <string name="custom_command_desc">Rulați comanda yt-dlp cu șablon personalizat</string>
+    <string name="video_directory">Dosar video</string>
 </resources>

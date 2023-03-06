@@ -20,7 +20,7 @@
     <string name="remove">Удалить</string>
     <string name="delete_file">Удалить</string>
     <string name="back">Назад</string>
-    <string name="about_page">Версия, релиз, благодарности</string>
+    <string name="about_page">Версия, обратная связь, автообновление</string>
     <string name="release">Новейшая версия</string>
     <string name="checked">Проверен</string>
     <string name="custom_command">Своя команда</string>
@@ -111,7 +111,7 @@
     <string name="concurrent_download_desc">Параллельно загружайте другие части видео M3U8/MPD</string>
     <string name="download_range_selection">Выбор в плейлисте</string>
     <string name="concurrent_download_num">%d Поток(ов) будут использоваться для одновременной загрузки видео DASH/HLS.</string>
-    <string name="additional_settings">Дополнительный параметры</string>
+    <string name="additional_settings">Дополнительные параметры</string>
     <string name="options">Параметры</string>
     <string name="show_more_actions">Показать больше действий</string>
     <string name="download_notification">Уведомление о загрузке</string>
@@ -178,7 +178,7 @@
     <string name="aria2_desc">Используйте aria2c как внешний загрузчик</string>
     <string name="cookies_desc">Используйте файлы cookie в формате Netscape для загрузки</string>
     <string name="clear_temp_files">Очистить временные файлы</string>
-    <string name="clear_temp_files_desc">Удалите все временные файлы из каталога загрузки</string>
+    <string name="clear_temp_files_desc">Удалите все временные файлы из внутреннего каталога</string>
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
@@ -279,4 +279,9 @@
     <string name="minute">минута</string>
     <string name="temporary_directory_desc">Хранить временные файлы во внутреннем каталоге</string>
     <string name="temporary_directory">Временный каталог</string>
+    <string name="sponsor">Спонсировать</string>
+    <string name="sponsor_desc">Поддержать приложение путем спонсирования на GitHub</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="sponsors">Спонсоры</string>
+    <string name="sponsor_msg">Seal всегда будет бесплатным и с открытым исходным кодом для всех. Если вам нравится это приложение, пожалуйста, подумайте о спонсорстве на GitHub!</string>
 </resources>
