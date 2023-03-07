@@ -200,20 +200,20 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         enabled = !audioSwitch && !isCustomCommandEnabled
                     ) { showVideoQualityDialog = true }
                 }
-/*                item {
-                    var embedThumbnail by EMBED_THUMBNAIL.booleanState
+                /*                item {
+                                    var embedThumbnail by EMBED_THUMBNAIL.booleanState
 
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.embed_thumbnail),
-                        description = stringResource(id = R.string.embed_thumbnail_desc),
-                        icon = Icons.Outlined.Photo,
-                        isChecked = embedThumbnail,
-                        enabled = !isCustomCommandEnabled && !audioSwitch
-                    ) {
-                        embedThumbnail = !embedThumbnail
-                        EMBED_THUMBNAIL.updateBoolean(embedThumbnail)
-                    }
-                }*/
+                                    PreferenceSwitch(
+                                        title = stringResource(id = R.string.embed_thumbnail),
+                                        description = stringResource(id = R.string.embed_thumbnail_desc),
+                                        icon = Icons.Outlined.Photo,
+                                        isChecked = embedThumbnail,
+                                        enabled = !isCustomCommandEnabled && !audioSwitch
+                                    ) {
+                                        embedThumbnail = !embedThumbnail
+                                        EMBED_THUMBNAIL.updateBoolean(embedThumbnail)
+                                    }
+                                }*/
 
                 item {
 
@@ -299,6 +299,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
             confirmButton = {
                 ConfirmButton {
                     isVideoClipEnabled = true
+                    VIDEO_CLIP.updateBoolean(true)
                     showVideoClipDialog = false
                 }
             }, dismissButton = {
