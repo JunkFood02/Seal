@@ -33,6 +33,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
@@ -70,6 +71,7 @@ fun UpdatePage(onBackPressed: () -> Unit) {
 
     var latestRelease by remember { mutableStateOf(UpdateUtil.LatestRelease()) }
     var showUpdateDialog by remember { mutableStateOf(false) }
+    var showUnavailableDialog by remember { mutableStateOf(App.isFDroidBuild()) }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -174,6 +176,13 @@ fun UpdatePage(onBackPressed: () -> Unit) {
     })
     if (showUpdateDialog)
         UpdateDialog(onDismissRequest = { showUpdateDialog = false }, latestRelease = latestRelease)
+
+    if (showUnavailableDialog) {
+        AutoUpdateUnavailableDialog {
+            showUnavailableDialog = false
+            onBackPressed()
+        }
+    }
 }
 
 @Composable

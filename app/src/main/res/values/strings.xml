@@ -338,4 +338,9 @@
     <string name="clip_video_desc">Make video clips in the format selection page</string>
     <string name="embed_thumbnail" translatable="false">Embed thumbnail</string>
     <string name="embed_thumbnail_desc" translatable="false">Embed thumbnails into videos</string>
+    <string name="auto_update_disabled_msg">Auto-update is not available for %1$s builds. If you don\'t have %1$s installed on your device, or would like to preview upcoming new features in Seal, please consider %2$s.</string>
+    <string name="switch_to_github_builds">switching to GitHub builds</string>
+    <string name="okay">Okay</string>
+    <string name="got_it">Got it</string>
+    <string name="feature_unavailable">Feature not available</string>
 </resources>
