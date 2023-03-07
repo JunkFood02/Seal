@@ -142,7 +142,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         title = stringResource(id = R.string.audio_format_preference),
                         description = audioFormat,
                         icon = Icons.Outlined.AudioFile,
-                        enabled = !isCustomCommandEnabled,
+                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled,
                         onClick = { showAudioFormatDialog = true }
                     )
                 }
@@ -152,7 +152,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         description = audioQuality,
                         icon = Icons.Outlined.HighQuality,
                         onClick = { showAudioQualityDialog = true },
-                        enabled = !isCustomCommandEnabled
+                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled
                     )
                 }
                 item {
@@ -189,7 +189,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         title = stringResource(R.string.video_format_preference),
                         description = videoFormat,
                         icon = Icons.Outlined.VideoFile,
-                        enabled = !audioSwitch && !isCustomCommandEnabled
+                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
                     ) { showVideoFormatDialog = true }
                 }
                 item {
@@ -197,7 +197,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         title = stringResource(id = R.string.video_quality),
                         description = videoResolution,
                         icon = Icons.Outlined.HighQuality,
-                        enabled = !audioSwitch && !isCustomCommandEnabled
+                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
                     ) { showVideoQualityDialog = true }
                 }
                 /*                item {
