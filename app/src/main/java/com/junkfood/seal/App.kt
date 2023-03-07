@@ -29,6 +29,7 @@ import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.ToastUtil
+import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.junkfood.seal.util.YT_DLP
 import com.tencent.mmkv.MMKV
@@ -79,6 +80,7 @@ class App : Application() {
                 DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }
+                UpdateUtil.deleteOutdatedApk()
             } catch (e: Exception) {
                 e.printStackTrace()
                 clipboard.setPrimaryClip(ClipData.newPlainText(null, e.message))

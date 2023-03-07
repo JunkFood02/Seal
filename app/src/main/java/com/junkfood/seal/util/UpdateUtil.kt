@@ -140,6 +140,21 @@ object UpdateUtil {
         }
     }
 
+    suspend fun deleteOutdatedApk(
+        context: Context = App.context,
+    ) = context.runCatching {
+        val apkFile = getLatestApk()
+        if (apkFile.exists()) {
+            val apkVersion = context.packageManager.getPackageArchiveInfo(
+                apkFile.absolutePath, 0
+            )?.versionName.toVersion()
+            if (apkVersion <= context.getCurrentVersion()) {
+                apkFile.delete()
+            }
+        }
+    }
+
+
     suspend fun downloadApk(
         context: Context = App.context,
         latestRelease: LatestRelease
