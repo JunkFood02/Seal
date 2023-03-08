@@ -263,7 +263,10 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         enabled = !isCustomCommandEnabled && isFormatSelectionEnabled
                     ) {
                         if (!isVideoClipEnabled) showVideoClipDialog = true
-                        else isVideoClipEnabled = false
+                        else {
+                            isVideoClipEnabled = false
+                            VIDEO_CLIP.updateBoolean(false)
+                        }
                     }
                 }
             }
