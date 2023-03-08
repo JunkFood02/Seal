@@ -144,8 +144,8 @@ fun UpdatePage(onBackPressed: () -> Unit) {
                         isLoading = isLoading
                     ) {
                         if (!isLoading)
-                            scope.runCatching {
-                                launch {
+                            scope.launch {
+                                runCatching {
                                     isLoading = true
                                     withContext(Dispatchers.IO) {
                                         UpdateUtil.checkForUpdate()?.let {
@@ -156,10 +156,11 @@ fun UpdatePage(onBackPressed: () -> Unit) {
                                     }
                                     isLoading = false
                                 }
-                            }.onFailure {
-                                it.printStackTrace()
-                                ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
-                                isLoading = false
+                                    .onFailure {
+                                        it.printStackTrace()
+                                        ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
+                                        isLoading = false
+                                    }
                             }
                     }
                 }

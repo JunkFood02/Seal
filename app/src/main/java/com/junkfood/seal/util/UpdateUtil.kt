@@ -23,18 +23,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import okhttp3.ResponseBody
-import okio.IOException
 import java.io.File
 import java.util.regex.Pattern
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 object UpdateUtil {
 
@@ -74,31 +67,21 @@ object UpdateUtil {
         }
 
 
-    private suspend fun getLatestRelease(): LatestRelease {
-        return suspendCoroutine { continuation ->
-            client.newCall(requestForReleases).enqueue(object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    val responseData = response.body.string()
-//                    val latestRelease = jsonFormat.decodeFromString<LatestRelease>(responseData)
-                    val releaseList =
-                        jsonFormat.decodeFromString<List<LatestRelease>>(responseData)
-                    val latestRelease =
-                        releaseList.filter { if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable else true }
-                            .maxByOrNull { it.name.toVersion() }
-                            ?: throw Exception("null response")
-                    releaseList.sortedBy { it.name.toVersion() }.forEach {
-                        Log.d(TAG, it.tagName.toString())
-                    }
-                    response.body.close()
-                    continuation.resume(latestRelease)
-                }
-
-                override fun onFailure(call: Call, e: IOException) {
-                    continuation.resumeWithException(e)
-                }
-            })
+    private suspend fun getLatestRelease(): LatestRelease =
+        client.newCall(requestForReleases).execute().run {
+            val releaseList =
+                jsonFormat.decodeFromString<List<LatestRelease>>(this.body.string())
+            val latestRelease =
+                releaseList.filter { if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable else true }
+                    .maxByOrNull { it.name.toVersion() }
+                    ?: throw Exception("null response")
+            releaseList.sortedBy { it.name.toVersion() }.forEach {
+                Log.d(TAG, it.tagName.toString())
+            }
+            body.close()
+            latestRelease
         }
-    }
+
 
     suspend fun checkForUpdate(context: Context = App.context): LatestRelease? {
         val currentVersion = context.getCurrentVersion()
