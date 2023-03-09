@@ -3,8 +3,11 @@ package com.junkfood.seal.ui.common
 import android.graphics.drawable.PictureDrawable
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +24,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.imageLoader
 import coil.request.ImageRequest
@@ -46,7 +50,8 @@ fun SVGImage(
     tonalPalettes: TonalPalettes = LocalTonalPalettes.current,
     isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme()
 ) {
-
+    val horizontalPadding =
+        PaddingValues(horizontal = if (LocalWindowWidthState.current != WindowWidthSizeClass.Compact) 100.dp else 0.dp)
     var size by remember { mutableStateOf(IntSize.Zero) }
 
     val pi by remember(tonalPalettes, isDarkTheme, size) {
@@ -63,6 +68,7 @@ fun SVGImage(
     }
     Row(
         modifier = modifier
+            .padding(horizontalPadding)
             .aspectRatio(1.38f)
             .onGloballyPositioned {
                 if (it.size != IntSize.Zero) {
