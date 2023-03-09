@@ -290,4 +290,9 @@
     <string name="audio_format">Аудіо формат</string>
     <string name="enable_experimental_feature">Увімкнути експериментальну функцію\?</string>
     <string name="clip_video_dialog_msg">Завантаження за допомогою цієї функції буде делеговано FFmpeg для завантаження вибраних фрагментів відео, ця функція все ще експериментальна і розрізання не буде повністю точним, не всі формати підтримують цю функцію, і ви можете відчути повільну швидкість завантаження.</string>
+    <string name="auto_update_disabled_msg">Автоматичне оновлення недоступне для %1$s збірок. Якщо на вашому пристрої не встановлено %1$s або ви хочете попередньо переглянути майбутні нові функції в Seal, розгляньте %2$s.</string>
+    <string name="switch_to_github_builds">перехід на збірки GitHub</string>
+    <string name="okay">Ок</string>
+    <string name="got_it">Зрозумів</string>
+    <string name="feature_unavailable">Функція недоступна</string>
 </resources>

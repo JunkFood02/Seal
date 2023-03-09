@@ -17,7 +17,7 @@
     <string name="paste_msg">Incolla l\'URL dagli appunti</string>
     <string name="paste_fail_msg">Impossibile confrontare l\'URL negli appunti</string>
     <string name="ytdlp_version">Versione yt-dlp</string>
-    <string name="about_page">Versione, release, crediti</string>
+    <string name="about_page">Versione, commenti, aggiornamento automatico</string>
     <string name="back">Indietro</string>
     <string name="version">Versione</string>
     <string name="release_desc">Scopri i changelog e le nuove versioni</string>
@@ -59,8 +59,8 @@
     <string name="dismiss">Annulla</string>
     <string name="audio">Audio</string>
     <string name="downloads_history">Scaricamenti</string>
-    <string name="link_copied">Link copiato negli appunti</string>
-    <string name="open_url">Apri il link</string>
+    <string name="link_copied">Collegamento copiato negli appunti</string>
+    <string name="open_url">Apri il collegamento</string>
     <string name="remove">Rimuovi</string>
     <string name="delete_file">Elimina</string>
     <string name="credits_desc">Crediti e software liberi</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Modello di percorso</string>
     <string name="custom_output_path">Sottodirectory personalizzata</string>
     <string name="custom_output_path_desc">Usa il modello per la sottodirectory</string>
-    <string name="edit_custom_path_template_desc">Specifica la sottodirectory con i campi disponibili forniti da yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Aggiungi un prefisso personalizzato all\'opzione -o con le opzioni disponibili da yt-dlp</string>
     <string name="embed_subtitles">Incorpora i sottotitoli</string>
     <string name="embed_subtitles_desc">Se sono disponibili, incorpora i sottotitoli nel video</string>
     <string name="new_template">Nuovo modello</string>
@@ -173,7 +173,7 @@
     <string name="clear_temp_files_info">I file temporanei possono essere utilizzati per riprendere gli scaricamenti annullati. Sei sicuro/sicura di eliminare tutti questi file\?</string>
     <string name="app_up_to_date">La versione attuale è aggiornata</string>
     <string name="clear_temp_files">Cancella i file temporanei</string>
-    <string name="clear_temp_files_desc">Elimina tutti i file temporanei dalla directory di scaricamento</string>
+    <string name="clear_temp_files_desc">Elimina tutti i file temporanei dalla directory interna</string>
     <string name="app_update_failed">Impossibile eseguire l\'aggiornamento alla versione più recente</string>
     <string name="update">Aggiorna</string>
     <string name="sponsorblock_categories">Categorie SponsorBlock</string>
@@ -249,4 +249,45 @@
     <string name="embed_subtitles_mkv_msg">Per incorporare i sottotitoli, i video verranno rimuxati in un contenitore mkv.</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="filesize_gb">%.2f G</string>
+    <string name="lowest_bitrate">Bitrate minore</string>
+    <string name="format_sorting">Assortimento formato</string>
+    <string name="audio_format">Formato audio</string>
+    <string name="no_downloaded_media">Nessun media scaricato</string>
+    <string name="beta_features">Beta</string>
+    <string name="enable_experimental_feature">Attivare la funzione sperimentale\?</string>
+    <string name="clip_video_dialog_msg">I download che utilizzano questa funzione saranno delegati a FFmpeg per scaricare sezioni selezionate del video; questa funzione è ancora sperimentale e il taglio non sarà completamente accurato, non tutti i formati supportano questa funzione e si potrebbero verificare velocità di scaricamento più basse.</string>
+    <string name="update_channel">Canale aggiornamento</string>
+    <string name="auto_update">Aggiornamento automatico</string>
+    <string name="enable_auto_update">Abilita l\'aggiornamento automatico</string>
+    <string name="audio_format_preference">Formato audio preferito</string>
+    <string name="rename">Rinomina</string>
+    <string name="clear_all_cookies_desc">Eliminare tutti i cookie salvati nell\'app\?</string>
+    <string name="update_channel_desc">Installa build pre-rilascio per vedere in anteprima nuove funzioni e cambiamenti.
+\n
+\nPossono esserci delle instabilità in queste versioni, quindi perfavore non esitare a darci un commento se trovi qualche problema per aiutarci a migliorare l\'applicazione in futuro.</string>
+    <string name="clip_start">Inizio</string>
+    <string name="share">Condividi</string>
+    <string name="stable_channel">Stabile</string>
+    <string name="pre_release_channel">Anteprima</string>
+    <string name="clip_end">Fine</string>
+    <string name="unlimited">Illimitato</string>
+    <string name="audio_quality_desc">Limita bitrate audio quando multiple qualità sono presenti</string>
+    <string name="audio_quality">Qualità audio</string>
+    <string name="format_sorting_desc">Assortimento formati con la opzione -S di yt-dlp</string>
+    <string name="title">Titolo</string>
+    <string name="minute">minuto</string>
+    <string name="clear_all_cookies">Cancella tutti i cookie</string>
+    <string name="second">secondo</string>
+    <string name="sponsor">Sponsor</string>
+    <string name="feedback">Commenti</string>
+    <string name="sponsors">Sponsor</string>
+    <string name="clip_video_desc">Crea videoclip nella pagina di selezione del formato</string>
+    <string name="discard">Scarta</string>
+    <string name="apply">Applica</string>
+    <string name="clip_video">Clip video</string>
+    <string name="sponsor_desc">Sostieni questa applicazione sponsorizzando su GitHub</string>
+    <string name="sponsor_msg">Seal sarà sempre libero e gratuito per tutti. Se ti piace, considera la possibilità di sponsorizzarmi su GitHub!</string>
+    <string name="import_from_preferences">Importa</string>
+    <string name="temporary_directory">Directory temporanea</string>
+    <string name="temporary_directory_desc">Salva file temporanei nella directory interna</string>
 </resources>

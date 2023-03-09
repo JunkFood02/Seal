@@ -290,4 +290,9 @@
     <string name="audio_format">Format audio</string>
     <string name="clip_video_desc">Buat klip video dalam halaman pemilihan format</string>
     <string name="clip_video_dialog_msg">Pengunduhan menggunakan fitur ini akan didelegasikan ke FFmpeg untuk mengunduh bagian video yang dipilih, fitur ini masih dalam tahap percobaan dan pemotongan tidak akan sepenuhnya akurat, tidak semua format mendukung fitur ini dan Anda mungkin akan mengalami kecepatan pengunduhan yang lebih lambat.</string>
+    <string name="got_it">Mengerti</string>
+    <string name="feature_unavailable">Fitur tidak tersedia</string>
+    <string name="auto_update_disabled_msg">Pembaruan otomatis tidak tersedia untuk versi %1$s. Jika Anda belum menginstal %1$s di perangkat Anda, atau ingin melihat pratinjau fitur-fitur baru yang akan datang di Seal, silakan kunjungi %2$s.</string>
+    <string name="switch_to_github_builds">beralih ke build GitHub</string>
+    <string name="okay">Oke</string>
 </resources>

@@ -24,7 +24,7 @@
     <string name="link_copied">Link in die Zwischenablage kopiert</string>
     <string name="open_url">Link öffnen</string>
     <string name="remove">Entfernen</string>
-    <string name="about_page">Version, Feedback, Auto-Update</string>
+    <string name="about_page">Version, Rückmeldung, Automatisches Update</string>
     <string name="back">Zurück</string>
     <string name="version">Version</string>
     <string name="release_desc">Siehe Änderungsprotokolle und neue Versionen</string>
@@ -281,8 +281,8 @@
     <string name="temporary_directory_desc">Temporäre Dateien im internen Ordner speichern</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Unterstütze diese App durch Sponsoring auf GitHub</string>
-    <string name="sponsor_msg">Seal wird immer frei und Open Source für alle sein. Wenn du es magst, bitte denke bitte darüber nach, mich auf GitHub zu sponsern!</string>
-    <string name="feedback">Feedback</string>
+    <string name="sponsor_msg">Seal wird immer frei und kostenlos für alle sein. Wenn du es magst, bitte denke bitte darüber nach, mich auf GitHub zu sponsern!</string>
+    <string name="feedback">Rückmeldung</string>
     <string name="sponsors">Sponsoren</string>
     <string name="no_downloaded_media">Keine heruntergeladenen Medien</string>
     <string name="beta_features">Beta</string>

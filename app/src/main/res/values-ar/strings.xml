@@ -290,4 +290,9 @@
     <string name="enable_experimental_feature">تفعيل الميزة التجريبية ؟</string>
     <string name="clip_video_dialog_msg">سيتم تفويض التنزيلات باستخدام هذه الميزة إلى FFmpeg لتنزيل أقسام محددة من الفيديو، لا تزال هذه الميزة تجريبية ولن يكون القطع دقيقًا تمامًا، بالإضافة إلى ان هذه الميزة لا تدعم جميع التنسيقات وقد تواجه سرعات تنزيل أبطأ.</string>
     <string name="clip_video_desc">اصنع مقاطع فيديو في صفحة اختيار التنسيق</string>
+    <string name="auto_update_disabled_msg">التحديث التلقائي غير متاح لنسخة%1$s. إذا لم يكن لديك %1$s مثبت على جهازك، أو ترغب في معاينة الميزات الجديدة القادمة في Seal، يرجى التفكير في%2$s.</string>
+    <string name="switch_to_github_builds">التحويل إلى إصدارات GitHub</string>
+    <string name="okay">حَسَنًا</string>
+    <string name="got_it">فهمت</string>
+    <string name="feature_unavailable">الميزة غير متوفرة</string>
 </resources>

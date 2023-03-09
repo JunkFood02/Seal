@@ -284,4 +284,15 @@
     <string name="feedback">Обратная связь</string>
     <string name="sponsors">Спонсоры</string>
     <string name="sponsor_msg">Seal всегда будет бесплатным и с открытым исходным кодом для всех. Если вам нравится это приложение, пожалуйста, подумайте о спонсорстве на GitHub!</string>
+    <string name="audio_format">Формат аудио</string>
+    <string name="beta_features">Бета</string>
+    <string name="enable_experimental_feature">Включить экспериментальную функцию\?</string>
+    <string name="feature_unavailable">Функция недоступна</string>
+    <string name="no_downloaded_media">Нет скачанных медиафайлов</string>
+    <string name="clip_video_desc">Создание видеороликов на странице выбора формата</string>
+    <string name="switch_to_github_builds">переход на сборки с GitHub</string>
+    <string name="okay">Ок</string>
+    <string name="got_it">Понятно</string>
+    <string name="clip_video_dialog_msg">Загрузки с использованием этой функции будут делегированы FFmpeg для загрузки выбранных фрагментов видео, эта функция все ещё является экспериментальной, и нарезка будет не совсем точной, не все форматы поддерживают эту функцию, и вы можете столкнуться с более низкой скоростью загрузки.</string>
+    <string name="auto_update_disabled_msg">Автообновление недоступно для сборок %1$s. Если на вашем устройстве не установлено приложение %1$s или вы хотите предварительно ознакомиться с новыми функциями Seal, рассмотрите вариант %2$s.</string>
 </resources>

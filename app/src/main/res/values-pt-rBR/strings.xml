@@ -2,10 +2,10 @@
 <resources>
     <string name="video_directory">Pasta de vídeo</string>
     <string name="create_thumbnail">Salvar miniatura</string>
-    <string name="download_settings_desc">Geral, formato, comando customizado</string>
+    <string name="download_settings_desc">Geral, formato, comando personalizado</string>
     <string name="download">Baixar</string>
     <string name="url_empty">O link não pode estar vazio</string>
-    <string name="extract_audio_summary">Baixar e salvar o audio ao invés do vídeo</string>
+    <string name="extract_audio_summary">Baixar e salvar o áuudio ao invés do vídeo</string>
     <string name="create_thumbnail_summary">Salvar a miniatura do vídeo como um arquivo</string>
     <string name="yt_dlp_up_to_date">Usando a última versão do yt-dlp</string>
     <string name="fetching_info">Buscando informações do vídeo…</string>
@@ -14,10 +14,10 @@
     <string name="download_start_msg">Baixar “%1$s”</string>
     <string name="fetch_info_error_msg">As informações do video não foram encontradas</string>
     <string name="general_settings">Geral</string>
-    <string name="extract_audio">Salvar como audio</string>
+    <string name="extract_audio">Salvar como áudio</string>
     <string name="settings">Configurações</string>
     <string name="yt_dlp_update_fail">A última versão do yt-dlp não pode ser instalada. Por favor verifique sua conexão com a internet.</string>
-    <string name="download_success_msg">Download finalizado</string>
+    <string name="download_success_msg">Download concluído</string>
     <string name="paste_msg">Colar URL da área de transferência</string>
     <string name="ytdlp_version">Versão do Yt-dlp</string>
     <string name="delete_info">Remover\?</string>
@@ -37,7 +37,7 @@
     <string name="credits">Créditos</string>
     <string name="credits_desc">Créditos e software livre</string>
     <string name="custom_command">Comando personalizado</string>
-    <string name="print_details_desc">Imprima mensagens detalhadas ao fazer o download</string>
+    <string name="print_details_desc">Mostrar mensagens detalhadas ao fazer o download</string>
     <string name="display_settings">Tema escuro, cor dinâmica, idiomas</string>
     <string name="dark_theme">Tema escuro</string>
     <string name="follow_system">Sistema</string>
@@ -53,7 +53,7 @@
     <string name="video_quality_desc">Limitar a qualidade do vídeo quanto mútiplas estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
-    <string name="start_download">Download</string>
+    <string name="start_download">Baixar</string>
     <string name="settings_before_download">Configurar antes de baixar</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
     <string name="about_page">Versão, feedback, atualização automática</string>
@@ -77,7 +77,7 @@
     <string name="download_playlist">Baixar lista de reprodução</string>
     <string name="download_playlist_desc">Baixe vários vídeos de uma lista de reprodução</string>
     <string name="defaults">Padrão</string>
-    <string name="channel_name">Download</string>
+    <string name="channel_name">Baixar</string>
     <string name="channel_description">Notificar sobre arquivos baixados e progresso</string>
     <string name="video_url">Link do vídeo</string>
     <string name="download_finish_notification">Download concluído. Toque para abrir.</string>
@@ -121,7 +121,7 @@
     <string name="start_execute">Iniciar a execução do comando</string>
     <string name="advanced_settings">Avançado</string>
     <string name="print_details">Saída detalhada</string>
-    <string name="display">Exibir</string>
+    <string name="display">Exibição</string>
     <string name="on">Ligado</string>
     <string name="off">Desligado</string>
     <string name="cancel">Cancelar</string>
@@ -284,4 +284,15 @@
     <string name="temporary_directory_desc">Armazenar arquivos temporários no diretório interno</string>
     <string name="feedback">Feedback</string>
     <string name="sponsor_msg">Seal sempre será livre e de código aberto para todos. Se você gostou, por favor, considere me patrocinar no GitHub!</string>
+    <string name="audio_format">Formato de áudio</string>
+    <string name="no_downloaded_media">Nenhuma mídia baixada</string>
+    <string name="beta_features">Beta</string>
+    <string name="enable_experimental_feature">Ativar recurso experimental\?</string>
+    <string name="clip_video_desc">Faça cortes nos vídeos na página de seleção de formato</string>
+    <string name="clip_video_dialog_msg">Downloads usando este recurso serão delegados ao FFmpeg para baixar seções selecionadas do vídeo, este recurso ainda é experimental e o corte não será totalmente preciso, nem todos os formatos.</string>
+    <string name="switch_to_github_builds">Mudando para versões no GitHub</string>
+    <string name="okay">Certo</string>
+    <string name="got_it">Entendi</string>
+    <string name="feature_unavailable">Recurso não disponível</string>
+    <string name="auto_update_disabled_msg">A atualização automática não está disponível para as versões do %1$s. Se você não tem o %1$s instalado em seu dispositivo, ou gostaria de visualizar novos recursos em desenvolvimento no aplicativo Seal, por favor, considere %2$s.</string>
 </resources>

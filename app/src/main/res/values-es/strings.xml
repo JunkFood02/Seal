@@ -290,4 +290,9 @@
     <string name="enable_experimental_feature">¿Habilitar la función experimental\?</string>
     <string name="clip_video_desc">Hacer videoclips en la página de selección del formato</string>
     <string name="clip_video_dialog_msg">Las descargas que utilicen esta función serán delegadas a FFmpeg para que descargue las secciones seleccionadas del vídeo, esta función es todavía experimental y el corte no será completamente preciso, no todos los formatos soportan esta función y puede que experimentes velocidades de descarga más lentas.</string>
+    <string name="switch_to_github_builds">cambiando a las compilaciones de GitHub</string>
+    <string name="okay">De acuerdo</string>
+    <string name="got_it">Entendido</string>
+    <string name="auto_update_disabled_msg">La actualización automática no está disponible para %1$s builds. Si no tienes %1$s instalado en tu dispositivo, o te gustaría tener una vista previa de las próximas novedades de Seal, considera %2$s.</string>
+    <string name="feature_unavailable">Característica no disponible</string>
 </resources>
