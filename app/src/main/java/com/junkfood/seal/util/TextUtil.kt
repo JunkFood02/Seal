@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 
 object ToastUtil {
     fun makeToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context.applicationContext, text, Toast.LENGTH_SHORT).show()
     }
 
     fun makeToastSuspend(text: String) {
@@ -25,7 +25,7 @@ object ToastUtil {
     }
 
     fun makeToast(stringId: Int) {
-        Toast.makeText(context, context.getString(stringId), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context.applicationContext, context.getString(stringId), Toast.LENGTH_SHORT).show()
     }
 }
 
