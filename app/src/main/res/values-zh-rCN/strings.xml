@@ -288,4 +288,9 @@
     <string name="clip_video_desc">在格式选择页面进行视频剪辑</string>
     <string name="clip_video_dialog_msg">该功能将使用 FFmpeg 以下载选定部分的视频，该功能仍处于试验阶段，剪辑不会完全准确，且并非所有格式都支持该功能，使用该功能时的下载速度将会显著减慢。</string>
     <string name="audio_format">音频格式</string>
+    <string name="auto_update_disabled_msg">%1$s 版本无法使用自动更新，如果你并未安装有 %1$s，或想要升级到测试版本以提前体验 Seal 中即将加入的新功能，请考虑 %2$s</string>
+    <string name="switch_to_github_builds">切换至 GitHub 版本</string>
+    <string name="okay">好</string>
+    <string name="got_it">好</string>
+    <string name="feature_unavailable">此功能不可用</string>
 </resources>

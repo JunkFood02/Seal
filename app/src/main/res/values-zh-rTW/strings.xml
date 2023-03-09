@@ -290,4 +290,9 @@
     <string name="clip_video_desc">在格式選取頁中裁剪視訊</string>
     <string name="audio_format">音訊格式</string>
     <string name="clip_video_dialog_msg">使用此功能以將任務委派給 FFmpeg，以下載選取的影片區段。此功能仍在實驗性階段，裁剪並非完全精確且並非支援全部格式，下載速率可能較慢。</string>
+    <string name="auto_update_disabled_msg">自動更新不適用於 %1$s 組建。如果您的裝置尚未安裝 %1$s，或想要預覽 Seal 即將推出的新功能，請考慮使用 %2$s。</string>
+    <string name="switch_to_github_builds">切換至 GitHub 組建</string>
+    <string name="okay">確定</string>
+    <string name="got_it">瞭解</string>
+    <string name="feature_unavailable">此功能無法使用</string>
 </resources>

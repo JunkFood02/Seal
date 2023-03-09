@@ -250,7 +250,7 @@
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="share">Paylaş</string>
-    <string name="update_channel">Kanalı yenilə</string>
+    <string name="update_channel">Yeniləmə kanalı</string>
     <string name="enable_auto_update">Avtomatik yeniləməni aktivləşdir</string>
     <string name="stable_channel">Stabil</string>
     <string name="pre_release_channel">Önizləmə</string>
@@ -290,4 +290,9 @@
     <string name="enable_experimental_feature">Təcrübi xüsusiyyət aktivləşdirilsin\?</string>
     <string name="clip_video_desc">Format seçim səhifəsində video kliplər yarat</string>
     <string name="clip_video_dialog_msg">Bu xüsusiyyəti işlədən yükləmələr, videonun seçilmiş hissələrin endirmək üçün FFmpeg-yə həvalə olunacaq, bu xüsusiyyət hələ təcrübidir və kəsmə tamamilə dəqiq olmayacaq, bütün formatlar bu xüsusiyyəti dəstəkləmir və daha yavaş yükləmə sürəti görə bilərsiniz.</string>
+    <string name="auto_update_disabled_msg">Avtomatik yeniləmə %1$s quruluşlar üçün əlçatan deyil. Cihazınızda quraşdırılmış %1$s yoxdursa və ya Seal-da növbəti yeni xüsusiyyətləri nəzərdən keçirmək istəyirsinizsə, zəhmət olmasa %2$s-ı nəzərdən keçirin.</string>
+    <string name="switch_to_github_builds">GitHub quruluşlarına keçid</string>
+    <string name="okay">Oldu</string>
+    <string name="got_it">Anladım</string>
+    <string name="feature_unavailable">Xüsusiyyət mövcud deyil</string>
 </resources>

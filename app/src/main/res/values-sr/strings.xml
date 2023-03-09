@@ -290,4 +290,9 @@
     <string name="no_downloaded_media">Нема преузетих медија</string>
     <string name="enable_experimental_feature">Омогућити експерименталну функцију\?</string>
     <string name="clip_video_dialog_msg">Преузимања која користе ову функцију биће делегирана на FFmpeg да преузму изабране делове видеа, ова функција је и даље експериментална и сечење неће бити потпуно тачно, не подржавају сви формати ову функцију и можда ћете имати спорије брзине преузимања.</string>
+    <string name="switch_to_github_builds">прелазак на GitHub верзије</string>
+    <string name="auto_update_disabled_msg">Аутоматско ажурирање није доступно за %1$s верзије. Ако немате инсталирано %1$s на свом уређају или бисте желели да прегледате предстојеће нове функције у Seal-u, размислите о %2$s.</string>
+    <string name="got_it">Разумем</string>
+    <string name="okay">У реду</string>
+    <string name="feature_unavailable">Функција није доступна</string>
 </resources>
