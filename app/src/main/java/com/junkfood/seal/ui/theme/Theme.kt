@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextDirection
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.material.color.DynamicColors
@@ -80,7 +81,8 @@ fun SealTheme(
 
     ProvideTextStyle(
         value = LocalTextStyle.current.copy(
-            lineBreak = LineBreak.Paragraph
+            lineBreak = LineBreak.Paragraph,
+            textDirection = TextDirection.Content
         )
     ) {
         MaterialTheme(
