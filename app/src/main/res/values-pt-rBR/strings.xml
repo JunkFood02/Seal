@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="video_directory">Pasta de vídeo</string>
+    <string name="video_directory">Pasta para Vídeos</string>
     <string name="create_thumbnail">Salvar miniatura</string>
     <string name="download_settings_desc">Geral, formato, comando personalizado</string>
     <string name="download">Baixar</string>
@@ -22,7 +22,7 @@
     <string name="ytdlp_version">Versão do Yt-dlp</string>
     <string name="delete_info">Remover\?</string>
     <string name="delete_info_msg">Remover “%1$s” do seu histórico de downloads definitivamente\?</string>
-    <string name="confirm">Confirme</string>
+    <string name="confirm">Confirmar</string>
     <string name="downloads_history">Transferências</string>
     <string name="audio">Áudio</string>
     <string name="link_copied">Link copiado para a área de transferência</string>
@@ -93,7 +93,7 @@
     <string name="to">Fim</string>
     <string name="invalid_index_range">Intervalo de índice inválido</string>
     <string name="playlist_indicator_text">Baixando playlist (%1$d/%2$d), toque para parar.</string>
-    <string name="audio_directory">Pasta de áudio</string>
+    <string name="audio_directory">Pasta para Áudios</string>
     <string name="download_directory">Diretório de download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
     <string name="subdirectory">Salvar no subdiretório</string>
@@ -115,7 +115,7 @@
     <string name="translate_desc">Ajude a traduzir este aplicativo no Hosted Weblate</string>
     <string name="back">Voltar</string>
     <string name="checked">Verificado</string>
-    <string name="custom_command_desc">Rodar o comando yt-dlp com um modelo customizado</string>
+    <string name="custom_command_desc">Executar o comando yt-dlp com um modelo personalizado</string>
     <string name="custom_command_template">Modelo de comando</string>
     <string name="edit">Editar</string>
     <string name="start_execute">Iniciar a execução do comando</string>
@@ -130,9 +130,9 @@
     <string name="download_notification">Notificação de transferência</string>
     <string name="download_range_selection">Seleção de lista de reprodução</string>
     <string name="service_title">Seal está baixando…</string>
-    <string name="prefix">Template de caminho</string>
-    <string name="custom_output_path">Subdiretório customizado</string>
-    <string name="custom_output_path_desc">Usar template para subdiretório</string>
+    <string name="prefix">Prefixo</string>
+    <string name="custom_output_path">Subdiretório personalizado</string>
+    <string name="custom_output_path_desc">Usar um modelo de subdiretório</string>
     <string name="edit_custom_path_template_desc">Adicionar prefixo personalizado à opção -o com campos disponíveis fornecidos pelo yt-dlp</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="restart">Reiniciar</string>
@@ -146,7 +146,7 @@
     <string name="status_completed">Concluído</string>
     <string name="embed_subtitles">Adicionar legendas</string>
     <string name="embed_subtitles_desc">Adicionar legendas em vídeos, se disponíveis</string>
-    <string name="new_template">Novo template</string>
+    <string name="new_template">Novo modelo</string>
     <string name="template_label">Etiqueta</string>
     <string name="remove_template">Remover\?</string>
     <string name="remove_template_desc">Remover %1$s dos templates de comandos para sempre\?</string>
@@ -239,7 +239,7 @@
     <string name="auto_update">Atualização automática</string>
     <string name="enable_auto_update">Ativar atualização automática</string>
     <string name="logs">Log</string>
-    <string name="matrix_space">Espaço da matriz</string>
+    <string name="matrix_space">Espaço no matrix</string>
     <string name="abs_hint">A maioria das plataformas de streaming de vídeo oferece áudio e vídeo separadamente, você pode selecionar e mesclar um formato somente de áudio com um formato somente de vídeo em um único vídeo.</string>
     <string name="discard">Descartar</string>
     <string name="apply">Aplicar</string>
