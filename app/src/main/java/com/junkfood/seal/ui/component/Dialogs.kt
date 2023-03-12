@@ -28,7 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.google.accompanist.flowlayout.FlowRow
 import com.junkfood.seal.R
 
-private val DialogVerticlePadding = PaddingValues(vertical = 24.dp)
+private val DialogVerticalPadding = PaddingValues(vertical = 24.dp)
 private val IconPadding = PaddingValues(bottom = 16.dp)
 private val DialogHorizontalPadding = PaddingValues(horizontal = 24.dp)
 private val TitlePadding = PaddingValues(bottom = 16.dp)
@@ -43,7 +43,7 @@ fun HelpDialog(text: String, onDismissRequest: () -> Unit = {}) {
         title = { Text(text = stringResource(id = R.string.how_does_it_work)) },
         icon = { Icon(Icons.Outlined.HelpOutline, null) },
         text = { Text(text = text) },
-        confirmButton = { ConfirmButton { onDismissRequest() } },
+        confirmButton = { ConfirmButton(text = stringResource(id = R.string.got_it)) { onDismissRequest() } },
     )
 }
 
@@ -77,7 +77,7 @@ fun SealDialog(
             tonalElevation = tonalElevation,
         ) {
             Column(
-                modifier = Modifier.padding(DialogVerticlePadding)
+                modifier = Modifier.padding(DialogVerticalPadding)
             ) {
                 icon?.let {
                     CompositionLocalProvider(LocalContentColor provides iconContentColor) {
@@ -129,9 +129,11 @@ fun SealDialog(
                         }
                     }
                 }
-                Box(modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(DialogHorizontalPadding)) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(DialogHorizontalPadding)
+                ) {
                     val textStyle =
                         MaterialTheme.typography.labelLarge
                     ProvideTextStyle(value = textStyle) {
