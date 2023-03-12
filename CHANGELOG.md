@@ -5,7 +5,7 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.9.0][1.9.0] - unreleased
+## [v1.9.0][1.9.0] - 2023-03-12
 
 ### Added
 
@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix an issue causing specific languages not visible in system settings on Android 13+
 - Fix a UI bug in the format selection page
 - Fix a bug causing app to crash when toasting in Android 5.0
+- Fix a UI bug causing LTR texts to display incorrectly in RTL locale environment
+- Add legacy app icon for API 21~25
 
 ### Known issues
 
@@ -109,3 +111,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.8.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.8.1
 
 [1.8.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.8.2
+
+[1.9.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.9.0
