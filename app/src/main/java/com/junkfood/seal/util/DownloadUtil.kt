@@ -151,6 +151,7 @@ object DownloadUtil {
         val sdcardUri: String = SDCARD_URI.getString(),
         val embedThumbnail: Boolean = EMBED_THUMBNAIL.getBoolean(),
         val videoClips: List<VideoClip> = emptyList(),
+        val debug: Boolean = DEBUG.getBoolean(),
         val newTitle: String = ""
     )
 
@@ -385,6 +386,9 @@ object DownloadUtil {
 //                addOption("-v")
                 if (cookies) {
                     enableCookies()
+                }
+                if(debug){
+                    addOption("-v")
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {

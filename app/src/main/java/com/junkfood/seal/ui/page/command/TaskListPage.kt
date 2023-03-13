@@ -95,7 +95,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                         modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
                     )
                     Text(
-                        text = "No custom command tasks",
+                        text = stringResource(R.string.no_custom_command_tasks),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
