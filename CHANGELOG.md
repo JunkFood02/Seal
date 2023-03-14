@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add the ability to share files in `VideoDetailDrawer`
 * Add a badge to the icon to indicate the count of running processes
 * Add a switch for disabling the temporary directory
+* Add format & quality preference for audio
+* Add custom format sorter
 * Add the ability to clip video and audio in `FormatSelectionPage` (experimental)
 * Add the ability to edit video titles in `FormatSelectionPage` before downloading
 * Add the ability to share the thumbnail url in `FormatSelectionPage`
