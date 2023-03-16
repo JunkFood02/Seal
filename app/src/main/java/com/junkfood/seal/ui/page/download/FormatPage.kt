@@ -194,7 +194,6 @@ fun FormatPageImpl(
                             showRenameDialog = true
                         },
                         onImageClicked = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             thumbnail.toHttpsUrl().share()
                         },
                         onButtonClick = { isClippingVideo = it })
