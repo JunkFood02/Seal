@@ -77,8 +77,6 @@ import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.CUSTOM_PATH
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
-import com.junkfood.seal.util.FileUtil.getSdcardTempDir
-import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
@@ -384,9 +382,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     showClearTempDialog = false
                     scope.launch(Dispatchers.IO) {
                         FileUtil.clearTempFiles(context.getConfigDirectory())
-                        val count =
-                            FileUtil.clearTempFiles(context.getTempDir()) +
-                                    FileUtil.clearTempFiles(context.getSdcardTempDir(null))
+                        val count = FileUtil.run {
+                            clearTempFiles(context.getTempDir()) + clearTempFiles(
+                                context.getSdcardTempDir(null)
+                            ) + clearTempFiles(context.getLegacyTempDir())
+
+                        }
+
                         withContext(Dispatchers.Main) {
                             snackbarHostState.showSnackbar(
                                 context.getString(R.string.clear_temp_files_count).format(count)
