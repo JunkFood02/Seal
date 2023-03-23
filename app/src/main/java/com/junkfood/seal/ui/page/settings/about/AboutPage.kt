@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.UpdateDisabled
+import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -60,6 +61,7 @@ const val weblate = "https://hosted.weblate.org/engage/seal/"
 private const val githubIssueUrl = "https://github.com/JunkFood02/Seal/issues/new/choose"
 private const val telegramChannelUrl = "https://t.me/seal_app"
 private const val matrixSpaceUrl = "https://matrix.to/#/#seal-space:matrix.org"
+private const val githubSponsor = "https://github.com/sponsors/JunkFood02"
 private const val TAG = "AboutPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,15 +133,15 @@ fun AboutPage(
                     icon = Icons.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
             }
-//            item {
-//                PreferenceItem(
-//                    title = stringResource(id = R.string.donate),
-//                    description = stringResource(id = R.string.donate_desc),
-//                    icon = Icons.Outlined.VolunteerActivism
-//                ){
-//                    onNavigateToDonatePage()
-//                }
-//            }
+            item {
+                PreferenceItem(
+                    title = stringResource(id = R.string.sponsor),
+                    description = stringResource(id = R.string.sponsor_desc),
+                    icon = Icons.Outlined.VolunteerActivism
+                ) {
+                    openUrl(githubSponsor)
+                }
+            }
             item {
                 PreferenceItem(
                     title = stringResource(R.string.telegram_channel),
