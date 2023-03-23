@@ -387,7 +387,7 @@ object DownloadUtil {
                 if (cookies) {
                     enableCookies()
                 }
-                if(debug){
+                if (debug) {
                     addOption("-v")
                 }
 
@@ -498,15 +498,12 @@ object DownloadUtil {
                 }
             }
         } else {
-            if (privateMode) {
-                Result.success(emptyList())
-            } else {
-                Result.success(
-                    scanVideoIntoDownloadHistory(
-                        videoInfo = videoInfo,
-                        downloadPath = downloadPath,
-                    )
-                )
+            scanVideoIntoDownloadHistory(
+                videoInfo = videoInfo,
+                downloadPath = downloadPath,
+                ).run {
+                if (privateMode) Result.success(emptyList())
+                else Result.success(this)
             }
         }
     }
