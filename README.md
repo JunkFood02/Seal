@@ -95,7 +95,7 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 
 ## 💖 Sponsors
 
-<!-- sponsors --><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/Jas0n2k"><img src="https://github.com/Jas0n2k.png" width="60px" alt="Jas0n2k" /></a><!-- sponsors -->
 
 Seal will be always free and open source for everyone. If you like it, Please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
 
