@@ -93,6 +93,12 @@ For most devices, it is recommended to install the **arm64-v8a** version of the 
 
 Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
 
+## 💖 Sponsors
+
+<!-- sponsors --><!-- sponsors -->
+
+Seal will be always free and open source for everyone. If you like it, Please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+
 ## 🤝 Contributing
 
 Contributions are welcome!
