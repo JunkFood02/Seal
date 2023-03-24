@@ -83,11 +83,11 @@ For most devices, it is recommended to install the **arm64-v8a** version of the 
 - Download the latest stable version from [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
   - Install the [pre-release](https://github.com/JunkFood02/Seal/releases/) versions to help us test out new features & changes
 
-- Stable releases are also available on F-Droid
+- Stable releases are also available on [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+<!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
-     height="70">](https://f-droid.org/packages/com.junkfood.seal/)
+     height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
 ## 💬 Contact
 
@@ -95,9 +95,10 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 
 ## 💖 Sponsors
 
-<!-- sponsors --><a href="https://github.com/Jas0n2k"><img src="https://github.com/Jas0n2k.png" width="60px" alt="Jas0n2k" /></a><!-- sponsors -->
+<p><!-- sponsors --><a href="https://github.com/Jas0n2k"><img src="https://github.com/Jas0n2k.png" width="60px" alt="Jas0n2k" /></a><!-- sponsors --></p>
 
-Seal will be always free and open source for everyone. If you like it, Please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+
+Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
 
 ## 🤝 Contributing
 
