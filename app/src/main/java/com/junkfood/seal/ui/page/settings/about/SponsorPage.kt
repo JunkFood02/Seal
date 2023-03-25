@@ -13,13 +13,15 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.svg.ThanksSVG
+import com.junkfood.seal.ui.component.SponsorItem
+import com.junkfood.seal.ui.svg.SponsorSVG
 import com.junkfood.seal.ui.theme.autoDark
 import com.kyant.monet.n1
 
@@ -30,6 +32,8 @@ fun DonatePage(onBackPressed: () -> Unit) {
         rememberTopAppBarState(),
         canScroll = { true }
     )
+    val uriHandler = LocalUriHandler.current
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +43,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                 title = {
                     Text(
                         modifier = Modifier,
-                        text = stringResource(id = R.string.sponsor),
+                        text = stringResource(id = R.string.sponsors),
                     )
                 }, navigationIcon = {
                     BackButton {
@@ -55,16 +59,28 @@ fun DonatePage(onBackPressed: () -> Unit) {
                             .fillParentMaxWidth()
                             .padding(16.dp),
                         shape = MaterialTheme.shapes.extraLarge,
-                        color = 95.autoDark().n1
+                        color = 95.autoDark().n1,
+                        onClick = {
+                            uriHandler.openUri("https://github.com/sponsors/JunkFood02")
+                        }
                     ) {
                         SVGImage(
-                            SVGString = ThanksSVG,
+                            SVGString = SponsorSVG,
                             contentDescription = null,
-                            modifier = Modifier.padding(all = 60.dp)
+                            modifier = Modifier.padding(horizontal = 72.dp, vertical = 60.dp)
                         )
                     }
                 }
+                //todo: use GraphQL to query the sponsors
                 item {
+                    SponsorItem(
+                        userName = "mohammed_9456",
+                        avatarUrl = "https://github.com/Marco-9456.png",
+                        userLogin = "@Marco-9456",
+                        profileUrl = "https://github.com/Marco-9456"
+                    ) {
+                        uriHandler.openUri("https://github.com/Marco-9456")
+                    }
                 }
             }
         })

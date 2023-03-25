@@ -139,7 +139,8 @@ fun AboutPage(
                     description = stringResource(id = R.string.sponsor_desc),
                     icon = Icons.Outlined.VolunteerActivism
                 ) {
-                    openUrl(githubSponsor)
+//                    openUrl(githubSponsor)
+                    onNavigateToDonatePage()
                 }
             }
             item {
