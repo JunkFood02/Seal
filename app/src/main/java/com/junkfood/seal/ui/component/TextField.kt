@@ -16,11 +16,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+/**
+ * @param contentDescription Text label of the `TextField` for the accessibility service
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SealTextField(
@@ -30,7 +35,7 @@ fun SealTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = LocalTextStyle.current,
-    label: @Composable (() -> Unit)? = null,
+    contentDescription: String,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -49,28 +54,28 @@ fun SealTextField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent)
 ) {
     TextField(
-        value,
-        onValueChange,
-        modifier,
-        enabled,
-        readOnly,
-        textStyle,
-        label,
-        placeholder,
-        leadingIcon,
-        trailingIcon,
-        prefix,
-        suffix,
-        supportingText,
-        isError,
-        visualTransformation,
-        keyboardOptions,
-        keyboardActions,
-        singleLine,
-        maxLines,
-        minLines,
-        interactionSource,
-        shape, colors
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.semantics { this.contentDescription = contentDescription },
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle,
+        label = null,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        prefix = prefix,
+        suffix = suffix,
+        supportingText = supportingText,
+        isError = isError,
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
+        interactionSource = interactionSource,
+        shape = shape, colors = colors
     )
 }
 

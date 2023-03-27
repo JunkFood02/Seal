@@ -31,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -221,12 +220,7 @@ fun OptionChipsDialog(onDismissRequest: () -> Unit = {}) {
                     }),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     maxLines = 2,
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.shortcuts),
-                            color = Color.Transparent
-                        )
-                    }
+                    contentDescription = stringResource(id = R.string.shortcuts)
                 )
             }
 
