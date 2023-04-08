@@ -750,6 +750,7 @@ fun TemplateItem(
 @Composable
 fun PreferenceSubtitle(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(start = 18.dp, top = 24.dp, bottom = 12.dp),
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -757,7 +758,7 @@ fun PreferenceSubtitle(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 18.dp, top = 24.dp, bottom = 12.dp),
+            .padding(contentPadding),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )

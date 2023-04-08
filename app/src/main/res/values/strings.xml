@@ -327,7 +327,7 @@
     <string name="temporary_directory_desc">Store temporary files in the internal directory</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Support this app by sponsoring on GitHub</string>
-    <string name="sponsor_msg">Seal will be always free and open source for everyone. If you like it, Please consider sponsoring me on GitHub!</string>
+    <string name="sponsor_msg">Seal will be always free and open source for everyone. If you like it, please consider sponsoring me on GitHub!</string>
     <string name="feedback">Feedback</string>
     <string name="sponsors">Sponsors</string>
     <string name="audio_format">Audio format</string>
@@ -344,4 +344,6 @@
     <string name="got_it">Got it</string>
     <string name="feature_unavailable">Feature not available</string>
     <string name="no_custom_command_tasks">No custom command tasks</string>
+    <string name="msg_from_developer">Message from developer</string>
+    <string name="sponsor_msg2">Thank you very much!</string>
 </resources>

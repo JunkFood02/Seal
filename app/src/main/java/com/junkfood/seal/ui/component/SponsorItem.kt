@@ -1,17 +1,14 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,47 +21,53 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 
+fun gitHubAvatar(userLogin: String): String = "https://github.com/${userLogin}.png"
+fun gitHubProfile(userLogin: String): String = "https://github.com/${userLogin}"
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SponsorItem(
     modifier: Modifier = Modifier,
     userName: String,
-    avatarUrl: Any,
     userLogin: String,
-    profileUrl: String,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+    avatarUrl: Any = gitHubAvatar(userLogin),
+    profileUrl: String = gitHubProfile(userLogin),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 0.dp, vertical = 12.dp),
     onClick: () -> Unit,
 ) {
-    Surface(
-        modifier = Modifier.clickable { onClick() }
+    Column(
     ) {
-        Row(
+        Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(contentPadding),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+                .padding()
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImageImpl(
                 modifier = Modifier
-                    .size(48.dp)
+                    .fillMaxWidth()
                     .aspectRatio(1f, true)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .clickable { onClick() },
                 model = avatarUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
-            Column(modifier = Modifier.padding(start = 16.dp)) {
+            Column(
+                modifier = Modifier.padding(contentPadding),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = userName,
                     maxLines = 1,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = userLogin,
+                    text = "@$userLogin",
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -80,7 +83,7 @@ fun SponsorItem(
 fun SponsorItemPreview() {
     SponsorItem(
         userName = "junkfood",
-        userLogin = "@JunkFood02",
+        userLogin = "JunkFood02",
         avatarUrl = R.drawable.sample1,
         profileUrl = ""
     ) {
