@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings.about
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VolunteerActivism
@@ -27,6 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +48,13 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SponsorItem
 import com.junkfood.seal.ui.component.gitHubAvatar
+import com.junkfood.seal.util.Node
+import com.junkfood.seal.util.SponsorUtil
+import com.kyant.monet.n1
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+private const val TAG = "SponsorPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +64,14 @@ fun DonatePage(onBackPressed: () -> Unit) {
         canScroll = { true }
     )
     val uriHandler = LocalUriHandler.current
-
+    val sponsorList = remember { mutableStateListOf<Node>() }
+    LaunchedEffect(Unit) {
+        launch(Dispatchers.IO) {
+            SponsorUtil.getSponsors().onFailure { Log.e(TAG, "DonatePage: ", it) }.onSuccess {
+                sponsorList.addAll(it.data.user.sponsorshipsAsMaintainer.nodes.filter { node -> node.tier.monthlyPriceInDollars >= 10 })
+            }
+        }
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -80,45 +98,19 @@ fun DonatePage(onBackPressed: () -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-/*                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = 95.autoDark().n1,
-                        onClick = {
-                            uriHandler.openUri("https://github.com/sponsors/JunkFood02")
-                        }
-                    ) {
-                        SVGImage(
-                            SVGString = SponsorSVG,
-                            contentDescription = null,
-                            modifier = Modifier.padding(horizontal = 72.dp, vertical = 60.dp)
-                        )
-                    }
-                }*/
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     PreferenceSubtitle(
                         text = stringResource(id = R.string.sponsors),
                         contentPadding = PaddingValues(start = 12.dp, top = 24.dp, bottom = 12.dp)
                     )
                 }
-                //todo: use GraphQL to query the sponsors
-                item {
+
+                items(sponsorList) { user ->
                     SponsorItem(
-                        userName = "mohammed_9456",
-                        userLogin = "Marco-9456",
+                        userName = user.sponsorEntity.name,
+                        userLogin = user.sponsorEntity.login,
                     ) {
-                        uriHandler.openUri("https://github.com/Marco-9456")
-                    }
-                }
-                item {
-                    SponsorItem(
-                        userName = "mohammed_9456",
-                        userLogin = "Marco-9456",
-                    ) {
-                        uriHandler.openUri("https://github.com/Marco-9456")
+                        uriHandler.openUri("https://github.com/${user.sponsorEntity.login}")
                     }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
@@ -164,7 +156,9 @@ fun DonatePage(onBackPressed: () -> Unit) {
                             }
 
                             FilledTonalButton(
-                                onClick = {},
+                                onClick = {
+                                    uriHandler.openUri("https://github.com/sponsors/JunkFood02")
+                                },
                                 contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
                                 modifier = Modifier.align(Alignment.End)
                             ) {
@@ -199,7 +193,7 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
         modifier = modifier
             .padding(horizontal = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(MaterialTheme.colorScheme.surface)
+            .background(99.n1)
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(
