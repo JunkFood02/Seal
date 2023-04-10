@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -56,6 +57,7 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SHOW_SPONSOR_MSG
 
+@SuppressLint("BatteryLife")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsPage(navController: NavController) {
@@ -185,17 +187,6 @@ fun SettingsPage(navController: NavController) {
                     }
                 }
             }
-            /*            item {
-                            SettingItem(
-                                title = stringResource(id = R.string.subtitle), description = stringResource(
-                                    id = R.string.subtitle_desc
-                                ), icon = Icons.Outlined.Subtitles
-                            ) {
-                                navController.navigate(Route.SUBTITLE_PREFERENCES) {
-                                    launchSingleTop = true
-                                }
-                            }
-                        }*/
             item {
                 SettingItem(
                     title = stringResource(id = R.string.network),

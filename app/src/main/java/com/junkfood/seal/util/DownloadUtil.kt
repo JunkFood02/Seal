@@ -501,7 +501,7 @@ object DownloadUtil {
             scanVideoIntoDownloadHistory(
                 videoInfo = videoInfo,
                 downloadPath = downloadPath,
-                ).run {
+            ).run {
                 if (privateMode) Result.success(emptyList())
                 else Result.success(this)
             }
@@ -524,6 +524,7 @@ object DownloadUtil {
             if (Build.VERSION.SDK_INT > 23 && TEMP_DIRECTORY.getBoolean()) addOption(
                 "-P", "temp:" + context.getTempDir()
             )
+            addOption("--newline")
             if (PreferenceUtil.getValue(ARIA2C)) {
                 enableAria2c()
             }
@@ -555,7 +556,7 @@ object DownloadUtil {
                     template = template, url = url, line = text, progress = progress
                 )
             }
-            onTaskEnded(template, url, response.out)
+            onTaskEnded(template, url, response.out + "\n" + response.err)
         }.onFailure {
             it.printStackTrace()
             if (it is YoutubeDL.CanceledException) return@onFailure
