@@ -26,7 +26,7 @@
     <string name="translate_desc">Помозите да преведете ову апликацију на Hosted Weblate</string>
     <string name="custom_output_path">Прилагођени поддиректоријум</string>
     <string name="template_label">Ознака</string>
-    <string name="remove_template_desc">Заувек уклоните \"%1$s\" из командних шаблона\?</string>
+    <string name="remove_template_desc">Заувек уклонити \"%1$s\" из командних шаблона\?</string>
     <string name="aria2_desc">Користите aria2c као спољни програм за преузимање</string>
     <string name="clear_temp_files_info">Привремени фајлови се могу користити за наставак отказаних преузимања. Да ли сте сигурни да желите да избришете све ове фајлове\?</string>
     <string name="template_selection">Избор шаблона</string>
@@ -51,7 +51,7 @@
     <string name="fetch_info_error_msg">Није могуће преузети информације о видеу</string>
     <string name="language">Језик</string>
     <string name="paste_fail_msg">Грешка при налепљивању URL-a из привремене меморије</string>
-    <string name="delete_info_msg">Заувек уклоните \"%1$s\" из ваше историје преузимања\?</string>
+    <string name="delete_info_msg">Заувек уклонити \"%1$s\" из ваше историје преузимања\?</string>
     <string name="delete_info">Уклонити\?</string>
     <string name="dismiss">Откажите</string>
     <string name="downloads_history">Преузимања</string>
@@ -108,7 +108,7 @@
     <string name="embed_subtitles">Уграђивање титлова</string>
     <string name="embed_subtitles_desc">Уградите титлове у видее, ако су доступни</string>
     <string name="new_template">Нови шаблон</string>
-    <string name="remove_template">Уклоните\?</string>
+    <string name="remove_template">Уклонити\?</string>
     <string name="custom_command_template_desc">Уредите и управљајте командним шаблонима</string>
     <string name="status_completed">Завршено</string>
     <string name="status_downloading">Преузимање</string>
@@ -197,7 +197,7 @@
     <string name="convert_to">Претворите у %1$s</string>
     <string name="video_format_preference">Жељени видео формат</string>
     <string name="not_convert">Непретворено</string>
-    <string name="video_format">Формат видеа</string>
+    <string name="video_format">Видео формат</string>
     <string name="best_quality">Најбољи квалитет (подразумевано)</string>
     <string name="export_to_clipboard">Извезите у привремену меморију</string>
     <string name="import_from_clipboard">Увезите из привремене меморије</string>
@@ -206,7 +206,7 @@
     <string name="close_never_show_again">Не приказуј поново</string>
     <string name="start_download">Преузмите</string>
     <string name="cookies_desc">Користите Netscape форматиране колачиће за преузимања</string>
-    <string name="delete_multiple_items_msg">Заувек уклоните ставку %1$d из историје преузимања\?</string>
+    <string name="delete_multiple_items_msg">Заувек уклонити ставку %1$d из историје преузимања\?</string>
     <string name="sponsorblock_categories_desc">Наведите SponsorBlock категорије које ће бити уклоњене из видео фајла</string>
     <string name="download_with_cellular_desc">Дозволите преузимање медија када сте повезани на мреже с ограничењем</string>
     <string name="network_settings_desc">Ограничење брзине, програм за преузимање, колачићи</string>
@@ -221,7 +221,7 @@
     <string name="custom_command_enabled_hint">Неке опције су недоступне када користите прилагођену команду</string>
     <string name="how_does_it_work">Како то функционише\?</string>
     <string name="telegram_channel">Telegram канал</string>
-    <string name="remove_cookie_profile_desc">Уклоните колачиће за \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Уклонити колачиће за \"%1$s\"\?</string>
     <string name="cookies_usage_msg">Преузимање с неких сајтова захтева информације о аутентификацији налога. Кликните на „Генеришите нове колачиће“, унесите URL веб-сајта, а затим се пријавите са својим налогом на страници у претраживачу и апликација ће их генерисати за Вас.</string>
     <string name="cookies">Колачићи</string>
     <string name="matrix_space">Matrix простор</string>
@@ -295,4 +295,5 @@
     <string name="got_it">Разумем</string>
     <string name="okay">У реду</string>
     <string name="feature_unavailable">Функција није доступна</string>
+    <string name="no_custom_command_tasks">Нема прилагођених командних задатака</string>
 </resources>

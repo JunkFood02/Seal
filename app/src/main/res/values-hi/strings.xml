@@ -25,7 +25,7 @@
     <string name="remove">हटाएं</string>
     <string name="delete_file">मिटाएं</string>
     <string name="about">हमारे बारे में</string>
-    <string name="about_page">संस्करण, रिलीज़, क्रेडिट</string>
+    <string name="about_page">संस्करण, प्रतिक्रिया, ऑटो अपडेट</string>
     <string name="back">पीछे</string>
     <string name="version">संस्करण</string>
     <string name="release_desc">चैंज और नए संस्करणों की तलाश करें</string>
@@ -178,7 +178,7 @@
     <string name="update">अपडेट करें</string>
     <string name="cookies_desc">डाउनलोड के लिए नेटस्केप स्वरूपित कुकीज़ का प्रयोग करें</string>
     <string name="clear_temp_files">अस्थायी फ़ाइलें साफ़ करें</string>
-    <string name="clear_temp_files_desc">डाउनलोड निर्देशिका से सभी अस्थायी फ़ाइलें हटाएं</string>
+    <string name="clear_temp_files_desc">आंतरिक निर्देशिका से सभी अस्थायी फ़ाइलें हटाएं</string>
     <string name="clear_temp_files_count">हटाई गई %1$d अस्थायी फ़ाइल(फ़ाइलें)</string>
     <string name="clear_temp_files_info">रद्द किए गए डाउनलोड को फिर से शुरू करने के लिए अस्थायी फ़ाइलों का उपयोग किया जा सकता है। क्या आप वाकई इन सभी फ़ाइलों को मिटाना चाहते हैं\?</string>
     <string name="multiselect_mode">बहुचयन मोड</string>
@@ -279,4 +279,21 @@
     <string name="audio_quality_desc">एकाधिक कुआलिटी मौजूद होने पर ऑडियो बिटरेट सीमित करें</string>
     <string name="temporary_directory">अस्थायी निर्देशिका</string>
     <string name="temporary_directory_desc">अस्थायी फ़ाइलों को आंतरिक निर्देशिका में संग्रहीत करें</string>
+    <string name="audio_format">ऑडियो प्रारूप</string>
+    <string name="no_downloaded_media">कोई डाउनलोड मीडिया नहीं</string>
+    <string name="enable_experimental_feature">प्रयोगात्मक सुविधा सक्षम करें\?</string>
+    <string name="clip_video_desc">प्रारूप चयन पृष्ठ में वीडियो क्लिप बनाएं</string>
+    <string name="switch_to_github_builds">GitHub बिल्ड पर स्विच करना</string>
+    <string name="sponsor_msg">सील हमेशा सभी के लिए स्वतंत्र और खुला स्रोत होगा। यदि आप इसे पसंद करते हैं, तो कृपया मुझे GitHub पर प्रायोजित करने पर विचार करें!</string>
+    <string name="got_it">समझ गया</string>
+    <string name="sponsors">प्रायोजक</string>
+    <string name="auto_update_disabled_msg">%1$s बिल्ड के लिए ऑटो-अपडेट उपलब्ध नहीं है। यदि आपके डिवाइस पर %1$s स्थापित नहीं है, या सील में आने वाली नई सुविधाओं का पूर्वावलोकन करना चाहते हैं, तो कृपया %2$s पर विचार करें।</string>
+    <string name="clip_video_dialog_msg">इस सुविधा का उपयोग करने वाले डाउनलोड वीडियो के चयनित अनुभागों को डाउनलोड करने के लिए FFmpeg को सौंपे जाएंगे, यह सुविधा अभी भी प्रायोगिक है और कटिंग पूरी तरह से सटीक नहीं होगी, सभी प्रारूप इस सुविधा का समर्थन नहीं करते हैं और आपको धीमी डाउनलोड गति का अनुभव हो सकता है।</string>
+    <string name="okay">ठीक</string>
+    <string name="feature_unavailable">सुविधा उपलब्ध नहीं है</string>
+    <string name="sponsor">प्रायोजक</string>
+    <string name="beta_features">बीटा</string>
+    <string name="no_custom_command_tasks">कोई कस्टम कमांड कार्य नहीं</string>
+    <string name="sponsor_desc">GitHub पर प्रायोजित करके इस ऐप का समर्थन करें</string>
+    <string name="feedback">प्रतिक्रिया</string>
 </resources>
