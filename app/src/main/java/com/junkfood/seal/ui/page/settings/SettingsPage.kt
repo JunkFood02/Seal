@@ -64,15 +64,30 @@ fun SettingsPage(navController: NavController) {
     var showBatteryHint by remember {
         mutableStateOf(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                !pm.isIgnoringBatteryOptimizations(context.packageName) && context.packageManager.queryIntentActivities(
-                    Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS),
-                    PackageManager.MATCH_ALL
-                ).isNotEmpty()
+                !pm.isIgnoringBatteryOptimizations(context.packageName)
             } else {
                 false
             }
         )
     }
+    val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+            data = Uri.parse("package:${context.packageName}")
+        }
+    } else {
+        Intent()
+    }
+    val isActivityAvailable: Boolean = if (Build.VERSION.SDK_INT < 23) false
+    else if (Build.VERSION.SDK_INT < 33) context.packageManager.queryIntentActivities(
+        intent,
+        PackageManager.MATCH_ALL
+    ).isNotEmpty()
+    else context.packageManager.queryIntentActivities(
+        intent,
+        PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_SYSTEM_ONLY.toLong())
+    ).isNotEmpty()
+
+
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -103,10 +118,12 @@ fun SettingsPage(navController: NavController) {
             item {
                 SettingTitle(text = stringResource(id = R.string.settings))
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            ) {
                 item {
                     AnimatedVisibility(
-                        visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
+                        visible = showBatteryHint && isActivityAvailable,
+                        exit = shrinkVertically() + fadeOut()
                     ) {
                         PreferencesHintCard(
                             title = stringResource(R.string.battery_configuration),
@@ -114,9 +131,7 @@ fun SettingsPage(navController: NavController) {
                             description = stringResource(R.string.battery_configuration_desc),
                             isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                         ) {
-                            launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                                data = Uri.parse("package:${context.packageName}")
-                            })
+                            launcher.launch(intent)
                             showBatteryHint =
                                 !pm.isIgnoringBatteryOptimizations(context.packageName)
                         }
