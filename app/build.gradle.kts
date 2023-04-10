@@ -46,7 +46,7 @@ sealed class Version(
 val currentVersion: Version = Version.Stable(
     versionMajor = 1,
     versionMinor = 9,
-    versionPatch = 0,
+    versionPatch = 1,
 )
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -77,7 +77,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 33
-        versionCode = 10900
+        versionCode = 10910
 
         versionName = currentVersion.toVersionName().run {
             if (!splitApks) "$this-(F-Droid)"
