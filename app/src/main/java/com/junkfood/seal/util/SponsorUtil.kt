@@ -28,10 +28,12 @@ object SponsorUtil {
 
     private val client = OkHttpClient()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
+    private var sponsorData: SponsorData? = null
 
     @CheckResult
-    fun getSponsors() = client.runCatching {
-        val string = newCall(request).execute().body.string()
-        jsonFormat.decodeFromString<SponsorData>(string)
+    fun getSponsors(): Result<SponsorData> = client.runCatching {
+        sponsorData
+            ?: jsonFormat.decodeFromString<SponsorData>(newCall(request).execute().body.string())
+                .apply { sponsorData = this }
     }
 }

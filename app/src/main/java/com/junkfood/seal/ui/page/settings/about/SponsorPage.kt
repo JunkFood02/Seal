@@ -19,12 +19,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -48,7 +49,10 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SponsorItem
 import com.junkfood.seal.ui.component.gitHubAvatar
+import com.junkfood.seal.ui.theme.autoDark
 import com.junkfood.seal.util.Node
+import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.SHOW_SPONSOR_MSG
 import com.junkfood.seal.util.SponsorUtil
 import com.kyant.monet.n1
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +71,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
     val sponsorList = remember { mutableStateListOf<Node>() }
     LaunchedEffect(Unit) {
         launch(Dispatchers.IO) {
+            SHOW_SPONSOR_MSG.updateInt(0)
             SponsorUtil.getSponsors().onFailure { Log.e(TAG, "DonatePage: ", it) }.onSuccess {
                 sponsorList.addAll(it.data.user.sponsorshipsAsMaintainer.nodes.filter { node -> node.tier.monthlyPriceInDollars >= 10 })
             }
@@ -114,7 +119,11 @@ fun DonatePage(onBackPressed: () -> Unit) {
                     }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    ElevatedCard(modifier = Modifier.padding(vertical = 12.dp)) {
+                    Surface(
+                        shape = CardDefaults.shape,
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        color = 95.autoDark().n1
+                    ) {
                         Column(
                             modifier = Modifier
                                 .padding(12.dp)
@@ -193,7 +202,7 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
         modifier = modifier
             .padding(horizontal = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(99.n1)
+            .background(90.autoDark().n1)
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(

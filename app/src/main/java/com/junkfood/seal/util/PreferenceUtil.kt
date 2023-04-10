@@ -86,6 +86,7 @@ const val EMBED_THUMBNAIL = "embed_thumbnail"
 const val FORMAT_SELECTION = "format_selection"
 const val VIDEO_CLIP = "video_clip"
 const val TEMP_DIRECTORY = "temp_dir"
+const val SHOW_SPONSOR_MSG = "sponsor_msg_v1"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
@@ -151,6 +152,7 @@ private val IntPreferenceDefaults = mapOf(
     VIDEO_QUALITY to NOT_SPECIFIED,
     VIDEO_FORMAT to NOT_SPECIFIED,
     UPDATE_CHANNEL to STABLE,
+    SHOW_SPONSOR_MSG to 0
 )
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }

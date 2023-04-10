@@ -2,7 +2,7 @@ package com.junkfood.seal.ui.page.settings
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager.MATCH_ALL
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
@@ -26,10 +26,12 @@ import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
+import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +45,7 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.Route
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SettingItem
@@ -50,6 +53,8 @@ import com.junkfood.seal.ui.component.SettingTitle
 import com.junkfood.seal.ui.component.SmallTopAppBar
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.SHOW_SPONSOR_MSG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +64,10 @@ fun SettingsPage(navController: NavController) {
     var showBatteryHint by remember {
         mutableStateOf(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                !pm.isIgnoringBatteryOptimizations(context.packageName)
+                !pm.isIgnoringBatteryOptimizations(context.packageName) && context.packageManager.queryIntentActivities(
+                    Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS),
+                    PackageManager.MATCH_ALL
+                ).isNotEmpty()
             } else {
                 false
             }
@@ -73,6 +81,11 @@ fun SettingsPage(navController: NavController) {
         }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    val showSponsorMessage by SHOW_SPONSOR_MSG.intState
+
+    LaunchedEffect(Unit) {
+        SHOW_SPONSOR_MSG.updateInt(showSponsorMessage + 1)
+    }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -91,30 +104,35 @@ fun SettingsPage(navController: NavController) {
                 SettingTitle(text = stringResource(id = R.string.settings))
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (context.packageManager.queryIntentActivities(
-                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS),
-                        MATCH_ALL
-                    ).isNotEmpty()
-                )
-                    item {
-                        AnimatedVisibility(
-                            visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
+                item {
+                    AnimatedVisibility(
+                        visible = showBatteryHint, exit = shrinkVertically() + fadeOut()
+                    ) {
+                        PreferencesHintCard(
+                            title = stringResource(R.string.battery_configuration),
+                            icon = Icons.Rounded.EnergySavingsLeaf,
+                            description = stringResource(R.string.battery_configuration_desc),
+                            isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                         ) {
-                            PreferencesHintCard(
-                                title = stringResource(R.string.battery_configuration),
-                                icon = Icons.Rounded.EnergySavingsLeaf,
-                                description = stringResource(R.string.battery_configuration_desc),
-                                isDarkTheme = LocalDarkTheme.current.isDarkTheme()
-                            ) {
-                                launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                                    data = Uri.parse("package:${context.packageName}")
-                                })
-                                showBatteryHint =
-                                    !pm.isIgnoringBatteryOptimizations(context.packageName)
-                            }
+                            launcher.launch(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                data = Uri.parse("package:${context.packageName}")
+                            })
+                            showBatteryHint =
+                                !pm.isIgnoringBatteryOptimizations(context.packageName)
                         }
                     }
+                }
             }
+            if (!showBatteryHint && showSponsorMessage > 30)
+                item {
+                    PreferencesHintCard(
+                        title = stringResource(id = R.string.sponsor),
+                        icon = Icons.Rounded.VolunteerActivism,
+                        description = stringResource(id = R.string.sponsor_desc)
+                    ) {
+                        navController.navigate(Route.DONATE)
+                    }
+                }
             item {
                 SettingItem(
                     title = stringResource(id = R.string.general_settings),
