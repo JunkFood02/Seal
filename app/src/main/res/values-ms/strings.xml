@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_directory">Folder video</string>
-    <string name="create_thumbnail">Simpan muka paparan</string>
+    <string name="create_thumbnail">Simpan lakaran kenit</string>
     <string name="settings">Tetapan</string>
     <string name="download_settings_desc">Umum, format, arahan tersuai</string>
-    <string name="extract_audio_summary">Muat turun dan simpan audio, bukannya sebagai video</string>
-    <string name="create_thumbnail_summary">Simpan muka paparan video sebagai fail</string>
-    <string name="yt_dlp_update_fail">Tidak dapat memasang versi yt-dlp yang terkini. Sila pastikan bahawa internet anda berfungsi.</string>
+    <string name="extract_audio_summary">Muat turun dan simpan audio, bukannya video</string>
+    <string name="create_thumbnail_summary">Simpan lakaran kenit video sebagai fail</string>
+    <string name="yt_dlp_update_fail">Tidak dapat memasang versi yt-dlp terkini. Sila pastikan bahawa anda disambungkan ke Internet.</string>
     <string name="fetching_info">Mengumpul maklumat video…</string>
     <string name="download_success_msg">Muat turun selesai</string>
     <string name="download_error_msg">Tidak dapat memuat turun fail</string>
     <string name="download_start_msg">Muat turun \"%1$s\"</string>
     <string name="fetch_info_error_msg">Tidak dapat mengumpul maklumat video</string>
     <string name="general_settings">Umum</string>
-    <string name="task_running">Terdapat tugas memuat turun yang sedang berjalan</string>
+    <string name="task_running">Tugas muat turun sedia ada sedang berjalan</string>
     <string name="paste_fail_msg">Tidak dapat memadankan URL dalam papan keratan</string>
-    <string name="ytdlp_update">Tekan untuk memasang versi yt-dlp yang terkini</string>
+    <string name="ytdlp_update">Tekan untuk memasang versi yt-dlp terkini</string>
     <string name="delete_info">Buang\?</string>
     <string name="delete_file">Padam</string>
     <string name="about">Perihal</string>
@@ -40,15 +40,15 @@
     <string name="extract_audio">Simpan sebagai audio</string>
     <string name="url_empty">Pautan tidak boleh dibiarkan kosong</string>
     <string name="download">Muat turun</string>
-    <string name="yt_dlp_up_to_date">Menggunakan versi yt-dlp yang terkini</string>
-    <string name="permission_denied">Kebenaran ditolak</string>
+    <string name="yt_dlp_up_to_date">Menggunakan versi yt-dlp terkini</string>
+    <string name="permission_denied">Kebenaran dinafikan</string>
     <string name="language_settings">Tetapkan bahasa paparan</string>
     <string name="language">Bahasa paparan</string>
     <string name="ytdlp_version">Versi yt-dlp</string>
     <string name="paste_msg">Tampal URL daripada papan keratan</string>
     <string name="delete_info_msg">Buang \"%1$s\" daripada sejarah muat turun anda selama-lamanya\?</string>
     <string name="confirm">Sahkan</string>
-    <string name="dismiss">Batal</string>
+    <string name="dismiss">Batalkan</string>
     <string name="downloads_history">Muat turun</string>
     <string name="audio">Audio</string>
     <string name="link_copied">Pautan disalin ke papan keratan</string>

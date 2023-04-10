@@ -290,4 +290,7 @@
     <string name="clip_video_dialog_msg">Downloads, die diese Funktion nutzen, werden an FFmpeg delegiert, um ausgewählte Abschnitte des Videos herunterzuladen. Diese Funktion ist noch experimentell und der Schnitt wird nicht ganz genau sein, nicht alle Formate unterstützen diese Funktion und es kann sein, dass du langsamere Downloadgeschwindigkeiten hast.</string>
     <string name="audio_format">Audioformat</string>
     <string name="clip_video_desc">Videoclips auf der Formatauswahlseite erstellen</string>
+    <string name="okay">Okay</string>
+    <string name="feature_unavailable">Funktion nicht verfügbar</string>
+    <string name="auto_update_disabled_msg">Automatische Updates sind für %1$s builds nicht verfügbar. Wenn du %1$s nicht auf ihrem Gerät installiert hast, oder eine Vorschau kommender Funktionen in Seal möchtest, ziehe bitte %2$s in Erwägung.</string>
 </resources>

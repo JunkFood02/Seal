@@ -295,4 +295,5 @@
     <string name="okay">حَسَنًا</string>
     <string name="got_it">فهمت</string>
     <string name="feature_unavailable">الميزة غير متوفرة</string>
+    <string name="no_custom_command_tasks">لا توجد مهام أوامر مخصصة</string>
 </resources>
