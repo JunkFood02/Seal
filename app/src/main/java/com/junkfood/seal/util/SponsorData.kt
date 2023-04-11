@@ -24,7 +24,7 @@ data class Data(
 
 @Serializable
 data class SponsorEntity(
-    val login: String, val name: String
+    val login: String, val name: String?
 )
 
 @Serializable

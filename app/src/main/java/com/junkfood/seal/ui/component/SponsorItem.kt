@@ -27,7 +27,7 @@ fun gitHubProfile(userLogin: String): String = "https://github.com/${userLogin}"
 @Composable
 fun SponsorItem(
     modifier: Modifier = Modifier,
-    userName: String,
+    userName: String?,
     userLogin: String,
     avatarUrl: Any = gitHubAvatar(userLogin),
     profileUrl: String = gitHubProfile(userLogin),
@@ -58,13 +58,15 @@ fun SponsorItem(
                 modifier = Modifier.padding(contentPadding),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = userName,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    overflow = TextOverflow.Ellipsis
-                )
+                userName?.let {
+                    Text(
+                        text = it,
+                        maxLines = 1,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
                 Text(
                     text = "@$userLogin",
                     maxLines = 1,
