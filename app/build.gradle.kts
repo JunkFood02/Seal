@@ -205,6 +205,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    //TODO: Migrate to KSP
     kapt(libs.room.compiler)
 
     // okhttp
