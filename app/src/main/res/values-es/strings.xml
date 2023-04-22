@@ -281,7 +281,7 @@
     <string name="temporary_directory_desc">Almacena archivos temporales en el directorio seleccionado</string>
     <string name="sponsor">Patrocinador</string>
     <string name="sponsor_desc">Apoya esta aplicación patrocinando en GitHub</string>
-    <string name="sponsor_msg">Seal siempre será gratuito y de código abierto para todos. Si te gusta, ¡considera patrocinarme en GitHub!</string>
+    <string name="sponsor_msg">Seal será siempre gratuito y de código abierto para todos. Si te gusta, ¡considera la posibilidad de patrocinarme en GitHub!</string>
     <string name="feedback">Comentario</string>
     <string name="sponsors">Patrocinadores</string>
     <string name="audio_format">Formato del audio</string>
@@ -296,4 +296,6 @@
     <string name="auto_update_disabled_msg">La actualización automática no está disponible para %1$s builds. Si no tienes %1$s instalado en tu dispositivo, o te gustaría tener una vista previa de las próximas novedades de Seal, considera %2$s.</string>
     <string name="feature_unavailable">Característica no disponible</string>
     <string name="no_custom_command_tasks">No hay tareas de comando personalizadas</string>
+    <string name="msg_from_developer">Mensaje del desarrollador</string>
+    <string name="sponsor_msg2">¡Muchas gracias!</string>
 </resources>

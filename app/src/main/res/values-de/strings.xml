@@ -292,5 +292,10 @@
     <string name="clip_video_desc">Videoclips auf der Formatauswahlseite erstellen</string>
     <string name="okay">Okay</string>
     <string name="feature_unavailable">Funktion nicht verfügbar</string>
-    <string name="auto_update_disabled_msg">Automatische Updates sind für %1$s builds nicht verfügbar. Wenn du %1$s nicht auf ihrem Gerät installiert hast, oder eine Vorschau kommender Funktionen in Seal möchtest, ziehe bitte %2$s in Erwägung.</string>
+    <string name="auto_update_disabled_msg">Automatische Updates sind für %1$s Builds nicht verfügbar. Wenn du %1$s nicht auf deinem Gerät installiert hast, oder eine Vorschau kommender Funktionen in Seal möchtest, ziehe bitte %2$s in Erwägung.</string>
+    <string name="msg_from_developer">Nachricht vom Entwickler</string>
+    <string name="sponsor_msg2">Vielen Dank!</string>
+    <string name="switch_to_github_builds">Wechseln zu GitHub-Builds</string>
+    <string name="no_custom_command_tasks">Keine benutzerdefinierten Befehlsaufgaben</string>
+    <string name="got_it">Verstanden</string>
 </resources>

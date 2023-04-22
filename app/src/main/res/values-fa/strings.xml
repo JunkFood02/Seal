@@ -19,7 +19,7 @@
     <string name="link_copied">پیوند در کلیپ بورد کپی شد</string>
     <string name="delete_file">حذف</string>
     <string name="about">درباره</string>
-    <string name="about_page">نسخه، انتشار، سازندگان</string>
+    <string name="about_page">نسخه ،بازخورد، بروزرسانی خودکار</string>
     <string name="back">برگشت</string>
     <string name="version">نسخه</string>
     <string name="release">آخرین نسخه</string>
@@ -82,7 +82,7 @@
     <string name="defaults">پیش‌فرض</string>
     <string name="channel_name">دانلود</string>
     <string name="battery_settings_desc">لطفاً برای بارگیری در پس‌زمینه، بهینه ساز باتری این برنامه را در تنظیمات سیستم روی \"بدون محدودیت\" تنظیم کنید.</string>
-    <string name="concurrent_download">دانلود چند قسمت</string>
+    <string name="concurrent_download">دانلود چند قسمتی</string>
     <string name="concurrent_download_desc">قسمت های بیشتری از ویدیوهای M3U8/MPD را به صورت موازی دانلود کنید</string>
     <string name="share_success_msg">خواندن پیوند ویدیو از محتوای اشتراک‌گذاری شده…</string>
     <string name="show_more_actions">نمایش اقدامات بیشتر</string>
@@ -104,7 +104,7 @@
     <string name="edit_template_desc">مسیر خروجی و پیوند توسط برنامه اضافه خواهد شد.</string>
     <string name="not_convert">تبدیل نشده</string>
     <string name="video_quality">کیفیت ویدئو</string>
-    <string name="video_quality_desc">محدود کردن کیفیت و حجم فرمت در این محدوده</string>
+    <string name="video_quality_desc">در صورت وجود چندگانه، کیفیت فرمت ویدئو و اندازه فایل را محدود کنید</string>
     <string name="not_specified">مشخص نشده (پیش فرض)</string>
     <string name="convert_audio">تبدیل</string>
     <string name="battery_configuration_desc">بهینه سازی باتری را برای دانلود در پس زمینه این برنامه نادیده بگیرید</string>
@@ -132,7 +132,7 @@
     <string name="battery_configuration">پیکربندی باتری</string>
     <string name="custom_output_path">زیرپوشه سفارشی</string>
     <string name="custom_output_path_desc">از الگو برای زیر شاخه استفاده کنید</string>
-    <string name="edit_custom_path_template_desc">دایرکتوری فرعی را با فیلدهای موجود ارائه شده توسط yt-dlp مشخص کنید</string>
+    <string name="edit_custom_path_template_desc">با فیلدهای موجود که توسط yt-dlp ارائه شده است، پیشوند سفارشی را به گزینه -o اضافه کنید</string>
     <string name="audio_format_preference">فرمت صوتی ترجیحی</string>
     <string name="unlimited">نامحدود</string>
     <string name="lowest_bitrate">کمترین میزان بیت ریت</string>
@@ -201,7 +201,7 @@
     <string name="new_template">ساخت الگو جدید</string>
     <string name="copy_link">کپی پیوند</string>
     <string name="app_up_to_date">نسخه فعلی به روز است</string>
-    <string name="clear_temp_files_desc">تمام فایل های موقت را از فهرست دانلود حذف کنید</string>
+    <string name="clear_temp_files_desc">تمام فایل های موقت را از فهرست داخلی حذف کنید</string>
     <string name="disable_preview">غیرفعال کردن پیش نمایش</string>
     <string name="privacy">حریم خصوصی</string>
     <string name="use_custom_command">انتخاب دستور سفارشی</string>
@@ -276,4 +276,26 @@
     <string name="edit_shortcuts_desc">میانبرهای سفارشی را ویرایش کنید که می توان از آنها برای نوشتن الگوهای فرمان استفاده کرد.</string>
     <string name="running_tasks">عملیات های در حال اجرا</string>
     <string name="embed_subtitles_mkv_msg">برای جاسازی زیرنویس‌ها، فیلم‌ها به فرمتmkv تبدیل می‌شوند.</string>
+    <string name="beta_features">آزمایشی</string>
+    <string name="enable_experimental_feature">ویژگی آزمایشی فعال شود؟</string>
+    <string name="clip_video_desc">در صفحه انتخاب فرمت کلیپ های ویدیویی بسازید</string>
+    <string name="sponsor_msg2">بسیار از شما متشکرم!</string>
+    <string name="audio_format">فرمت صوتی</string>
+    <string name="no_downloaded_media">رسانه دانلود شده ای وجود ندارد</string>
+    <string name="auto_update_disabled_msg">به‌روزرسانی خودکار برای ساخت‌های %1$s در دسترس نیست. اگر %1$s را روی دستگاه خود نصب نکرده‌اید، یا می‌خواهید ویژگی‌های جدید آینده را در Seal پیش‌نمایش کنید، لطفاً %2$s را در نظر بگیرید.</string>
+    <string name="clip_video_dialog_msg">دانلودهایی که از این ویژگی استفاده می کنند به FFmpeg واگذار می شود تا بخش های انتخابی ویدیو را دانلود کند، این ویژگی همچنان آزمایشی است و برش کاملاً دقیق نخواهد بود، همه فرمت ها از این ویژگی پشتیبانی نمی کنند و ممکن است سرعت دانلود پایین تری را تجربه کنید.</string>
+    <string name="msg_from_developer">پیام از طرف توسعه دهنده</string>
+    <string name="switch_to_github_builds">تغییر به نسخه گیتهاب</string>
+    <string name="okay">بسیار خب</string>
+    <string name="got_it">فهمیدم</string>
+    <string name="feature_unavailable">ویژگی در دسترس نیست</string>
+    <string name="prefix">پیشوند</string>
+    <string name="no_custom_command_tasks">بدون وظایف دستوری سفارشی</string>
+    <string name="sponsor">حامی مالی</string>
+    <string name="sponsor_desc">با حمایت مالی در GitHub از این برنامه حمایت کنید</string>
+    <string name="sponsor_msg">Seal همیشه رایگان و منبع باز برای همه خواهد بود. اگر دوست دارید، لطفاً در GitHub از من حمایت کنید!</string>
+    <string name="feedback">بازخورد</string>
+    <string name="sponsors">حامیان</string>
+    <string name="temporary_directory">دایرکتوری موقت</string>
+    <string name="temporary_directory_desc">دخیره فایل های موقت را در دایرکتوری داخلی</string>
 </resources>

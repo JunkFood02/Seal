@@ -44,7 +44,7 @@
     <string name="remove">ਹਟਾਓ</string>
     <string name="delete_file">ਮਿਟਾਓ</string>
     <string name="about">ਦੇ ਬਾਰੇ</string>
-    <string name="about_page">ਸੰਸਕਰਣ, ਰਿਲੀਜ਼, ਕ੍ਰੈਡਿਟ</string>
+    <string name="about_page">ਸੰਸਕਰਣ, ਸੁਝਾਅ, ਆਟੋ-ਅੱਪਡੇਟ</string>
     <string name="back">ਵਾਪਸ</string>
     <string name="version">ਸੰਸਕਰਣ</string>
     <string name="release_desc">ਚੇਂਜਲੌਗ ਅਤੇ ਨਵੇਂ ਸੰਸਕਰਣਾਂ ਦੀ ਭਾਲ ਕਰੋ</string>
@@ -143,7 +143,7 @@
     <string name="aria2_desc">aria2c ਨੂੰ ਬਾਹਰੀ ਡਾਊਨਲੋਡਰ ਵਜੋਂ ਵਰਤੋ</string>
     <string name="cookies_desc">ਡਾਉਨਲੋਡਸ ਲਈ ਨੈੱਟਸਕੇਪ ਫਾਰਮੈਟਡ ਕੂਕੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="clear_temp_files">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="clear_temp_files_desc">ਡਾਉਨਲੋਡ ਡਾਇਰੈਕਟਰੀ ਤੋਂ ਸਾਰੀਆਂ ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
+    <string name="clear_temp_files_desc">ਅੰਦਰੂਨੀ ਡਾਇਰੈਕਟਰੀ ਤੋਂ ਸਾਰੀਆਂ ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
     <string name="clear_temp_files_count">%1$d ਅਸਥਾਈ ਫ਼ਾਈਲ(ਫ਼ਾਈਲਾਂ) ਮਿਟਾਈਆਂ ਗਈਆਂ</string>
     <string name="clear_temp_files_info">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਰੱਦ ਕੀਤੇ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ \'ਤੇ ਇਹਨਾਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ\?</string>
     <string name="multiselect_mode">ਬਹੁ-ਚੋਣ ਮੋਡ</string>
@@ -279,4 +279,23 @@
     <string name="clear_all_cookies_desc">ਕੀ ਐਪ ਵਿੱਚ ਸਟੋਰ ਕੀਤੇ ਸਾਰੀਆਂ ਕੂਕੀਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ\?</string>
     <string name="temporary_directory">ਅਸਥਾਈ ਡਾਇਰੈਕਟਰੀ</string>
     <string name="temporary_directory_desc">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਅੰਦਰੂਨੀ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਟੋਰ ਕਰੋ</string>
+    <string name="audio_format">ਆਡੀਓ ਫਾਰਮੈਟ</string>
+    <string name="no_downloaded_media">ਕੋਈ ਡਾਊਨਲੋਡ ਕੀਤਾ ਮੀਡੀਆ ਨਹੀਂ ਹੈ</string>
+    <string name="beta_features">ਬੀਟਾ</string>
+    <string name="enable_experimental_feature">ਕੀ ਪ੍ਰਯੋਗਾਤਮਕ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣਾ ਹੈ\?</string>
+    <string name="clip_video_desc">ਫਾਰਮੈਟ ਚੋਣ ਪੰਨੇ ਵਿੱਚ ਵੀਡੀਓ ਕਲਿੱਪ ਬਣਾਓ</string>
+    <string name="sponsor_msg">ਸੀਲ ਹਮੇਸ਼ਾ ਹਰ ਕਿਸੇ ਲਈ ਮੁਫ਼ਤ ਅਤੇ ਓਪਨ ਸੋਰਸ ਹੋਵੇਗੀ। ਜੇ ਤੁਹਾਨੂੰ ਇਹ ਪਸੰਦ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਮੈਨੂੰ GitHub \'ਤੇ ਸਪਾਂਸਰ ਕਰਨ ਬਾਰੇ ਵਿਚਾਰ ਕਰੋ!</string>
+    <string name="msg_from_developer">ਡਿਵੈਲਪਰ ਤੋਂ ਸੁਨੇਹਾ</string>
+    <string name="okay">ਠੀਕ ਹੈ</string>
+    <string name="switch_to_github_builds">GitHub ਬਿਲਡਸ \'ਤੇ ਸਵਿੱਚ ਕਰਨਾ</string>
+    <string name="got_it">ਸਮਝ ਗਿਆ</string>
+    <string name="sponsor_desc">GitHub \'ਤੇ ਸਪਾਂਸਰ ਕਰਕੇ ਇਸ ਐਪ ਦਾ ਸਮਰਥਨ ਕਰੋ</string>
+    <string name="clip_video_dialog_msg">ਵੀਡੀਓ ਦੇ ਚੁਣੇ ਹੋਏ ਭਾਗਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇਸ ਵਿਸ਼ੇਸ਼ਤਾ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਡਾਊਨਲੋਡਾਂ ਨੂੰ FFmpeg ਨੂੰ ਸੌਂਪਿਆ ਜਾਵੇਗਾ, ਇਹ ਵਿਸ਼ੇਸ਼ਤਾ ਅਜੇ ਵੀ ਪ੍ਰਯੋਗਾਤਮਕ ਹੈ ਅਤੇ ਕੱਟਣਾ ਪੂਰੀ ਤਰ੍ਹਾਂ ਸਹੀ ਨਹੀਂ ਹੋਵੇਗਾ, ਸਾਰੇ ਫਾਰਮੈਟ ਇਸ ਵਿਸ਼ੇਸ਼ਤਾ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦੇ ਹਨ ਅਤੇ ਤੁਸੀਂ ਹੌਲੀ ਡਾਊਨਲੋਡ ਸਪੀਡ ਦਾ ਅਨੁਭਵ ਕਰ ਸਕਦੇ ਹੋ।</string>
+    <string name="auto_update_disabled_msg">%1$s ਬਿਲਡਾਂ ਲਈ ਸਵੈ-ਅੱਪਡੇਟ ਉਪਲਬਧ ਨਹੀਂ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਆਪਣੀ ਡਿਵਾਈਸ \'ਤੇ %1$s ਨੂੰ ਸਥਾਪਿਤ ਨਹੀਂ ਕੀਤਾ ਹੈ, ਜਾਂ ਤੁਸੀਂ ਸੀਲ ਵਿੱਚ ਆਉਣ ਵਾਲੀਆਂ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਦਾ ਪੂਰਵਦਰਸ਼ਨ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ %2$s \'ਤੇ ਵਿਚਾਰ ਕਰੋ।</string>
+    <string name="feature_unavailable">ਵਿਸ਼ੇਸ਼ਤਾ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
+    <string name="sponsor_msg2">ਤੁਹਾਡਾ ਬਹੁਤ ਧੰਨਵਾਦ!</string>
+    <string name="no_custom_command_tasks">ਕੋਈ ਕਸਟਮ ਕਮਾਂਡ ਕਾਰਜ ਨਹੀਂ</string>
+    <string name="sponsors">ਪ੍ਰਾਯੋਜਕ</string>
+    <string name="feedback">ਸੁਝਾਅ</string>
+    <string name="sponsor">ਪ੍ਰਾਯੋਜਿਤ ਕਰੋ</string>
 </resources>

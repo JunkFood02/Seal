@@ -6,16 +6,16 @@
     <string name="url_empty">لا يمكن أن يكون الحقل فارغا</string>
     <string name="extract_audio_summary">قم بتنزيل الصوت وحفظه بدلا من الفيديو</string>
     <string name="create_thumbnail_summary">حفظ الصورة المصغرة للفيديو كملف</string>
-    <string name="fetching_info">جارٍ إحضار معلومات الفيديو …</string>
-    <string name="download_success_msg">انْتَهَى التحميل</string>
+    <string name="fetching_info">جارٍ جلب معلومات الفيديو…</string>
+    <string name="download_success_msg">اكتمل التحميل</string>
     <string name="general_settings">عام</string>
-    <string name="language">لغة العرض</string>
+    <string name="language">لغة الواجهة</string>
     <string name="download_start_msg">تحميل\"%1$s\"</string>
-    <string name="paste_msg">ألصق رابط من الحافظة</string>
-    <string name="paste_fail_msg">تعذر مطابقة الرابط في الحافظة</string>
+    <string name="paste_msg">ألصق الرابط الموجود في الحافظة</string>
+    <string name="paste_fail_msg">تعذر مطابقة الرابط الموجود في الحافظة</string>
     <string name="ytdlp_version">إصدار Yt-dlp</string>
     <string name="delete_info">إزالة من السجل ؟</string>
-    <string name="delete_info_msg">هل أنت متأكد من أنك تريد إزالة \"%1$s\" من السجل ؟</string>
+    <string name="delete_info_msg">هل تريد إزالة \"%1$s\" من سجل التنزيلات بشكل دائم؟</string>
     <string name="confirm">نعم</string>
     <string name="dismiss">إلغاء</string>
     <string name="downloads_history">التحميلات</string>
@@ -23,7 +23,7 @@
     <string name="remove">إزالة</string>
     <string name="delete_file">حذف</string>
     <string name="about">نُبذة</string>
-    <string name="about_page">الإصدار ، الملاحظات، التحديث التلقائي</string>
+    <string name="about_page">الإصدار، التعليقات، التحديث التلقائي</string>
     <string name="version">الإصدار</string>
     <string name="release_desc">إلق نظرة على الإصدارات الجديدة و سجل التغييرات</string>
     <string name="release">أحدث إصدار</string>
@@ -83,13 +83,13 @@
     <string name="settings">الإعدادات</string>
     <string name="download">تحميل</string>
     <string name="yt_dlp_up_to_date">أنت على أحدث إصدار من yt-dlp</string>
-    <string name="yt_dlp_update_fail">تعذر تثبيت أحدث إصدار من yt-dlp. يرجى التأكد من أنك متصل بالإنترنت.</string>
+    <string name="yt_dlp_update_fail">تعذر تثبيت أحدث إصدار من yt-dlp. يرجى التحقق من اتصالك بالإنترنت.</string>
     <string name="permission_denied">تم رفض الإذن</string>
     <string name="download_error_msg">تعذر تحميل الملف</string>
-    <string name="fetch_info_error_msg">تعذر جلب معلومات الفيديو</string>
+    <string name="fetch_info_error_msg">فشل جلب معلومات الفيديو</string>
     <string name="language_settings">تعيين لغة العرض</string>
-    <string name="task_running">هناك مهمة تنزيل موجودة قيد التشغيل بالفعل</string>
-    <string name="ytdlp_update">انقر لتثبيت أحدث إصدار من Yt-dlp</string>
+    <string name="task_running">هناك مهمة تنزيل جارية بالفعل</string>
+    <string name="ytdlp_update">انقر هنا لتثبيت آخر إصدار من yt-dlp</string>
     <string name="link_copied">تم نسخ الرابط إلى الحافظة</string>
     <string name="audio">الصوت</string>
     <string name="back">رجوع</string>
@@ -281,7 +281,7 @@
     <string name="temporary_directory_desc">خزن الملفات المؤقتة في المجلد الداخلي</string>
     <string name="sponsor">الراعي</string>
     <string name="sponsor_desc">ادعم هذا التطبيق من خلال الرعاية على GitHub</string>
-    <string name="sponsor_msg">سيكون Seal دائما مجانيا ومفتوح المصدر للجميع. إذ كان التطبيق قد نال إعجابك، رجاءً إعتبرْ رعايتي على GitHub!</string>
+    <string name="sponsor_msg">Seal سيبقى دائمًا مجانيًا ومفتوح المصدر للجميع. إذا أعجبك، يُرجى التفكير في دعمي كراعًا على GitHub!</string>
     <string name="feedback">التعقيبات</string>
     <string name="sponsors">الراعي</string>
     <string name="audio_format">صيغة الصوت</string>
@@ -296,4 +296,6 @@
     <string name="got_it">فهمت</string>
     <string name="feature_unavailable">الميزة غير متوفرة</string>
     <string name="no_custom_command_tasks">لا توجد مهام أوامر مخصصة</string>
+    <string name="msg_from_developer">رسالة من المطور</string>
+    <string name="sponsor_msg2">شكرًا جزيلا!</string>
 </resources>

@@ -296,4 +296,6 @@
     <string name="got_it">Зрозумів</string>
     <string name="feature_unavailable">Функція недоступна</string>
     <string name="no_custom_command_tasks">Немає спеціальних командних завдань</string>
+    <string name="msg_from_developer">Допис від розробника</string>
+    <string name="sponsor_msg2">Велике спасибі!</string>
 </resources>
