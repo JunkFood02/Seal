@@ -57,7 +57,7 @@ object UpdateUtil {
         withContext(Dispatchers.IO) {
             YoutubeDL.getInstance().updateYoutubeDL(
                 context,
-                if (YT_DLP_NIGHTLY.getBoolean()) ytdlpNightlyBuildRelease else null
+                if (YT_DLP_NIGHTLY.getBoolean()) YoutubeDL.UpdateChannel.NIGHTLY else YoutubeDL.UpdateChannel.STABLE
             ).apply {
                 if (this == YoutubeDL.UpdateStatus.DONE)
                     YoutubeDL.getInstance().version(context)?.let {
