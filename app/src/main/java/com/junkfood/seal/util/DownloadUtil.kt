@@ -33,6 +33,8 @@ import com.junkfood.seal.util.PreferenceUtil.getString
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.util.Locale
@@ -534,7 +536,9 @@ object DownloadUtil {
         }
 
         onProcessStarted()
-        onTaskStarted(template, url)
+        withContext(Dispatchers.Main) {
+            onTaskStarted(template, url)
+        }
         kotlin.runCatching {
             val response = YoutubeDL.getInstance().execute(
                 request = request, processId = taskId

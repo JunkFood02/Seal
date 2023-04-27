@@ -10,6 +10,7 @@ import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
 
 private const val TAG = "VideoListViewModel"
@@ -100,6 +100,7 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
             _detailViewState.update {
                 VideoDetailViewState(item)
             }
+            delay(50)
             _detailViewState.value.drawerState.show()
         }
     }

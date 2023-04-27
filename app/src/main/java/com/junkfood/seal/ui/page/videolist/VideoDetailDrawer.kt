@@ -85,7 +85,7 @@ fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) 
 @Composable
 @Preview
 fun VideoDetailDrawerImpl(
-    drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Expanded),
+    drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden),
     title: String = stringResource(id = R.string.video_title_sample_text),
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
