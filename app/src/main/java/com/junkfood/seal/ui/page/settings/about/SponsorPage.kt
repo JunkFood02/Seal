@@ -49,12 +49,11 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SponsorItem
 import com.junkfood.seal.ui.component.gitHubAvatar
-import com.junkfood.seal.ui.theme.autoDark
+import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.Node
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SHOW_SPONSOR_MSG
 import com.junkfood.seal.util.SponsorUtil
-import com.kyant.monet.n1
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -122,7 +121,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                     Surface(
                         shape = CardDefaults.shape,
                         modifier = Modifier.padding(vertical = 12.dp),
-                        color = 95.autoDark().n1
+                        color = Surfaces.surfaceContainer(Surfaces.LOW)
                     ) {
                         Column(
                             modifier = Modifier
@@ -202,7 +201,7 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
         modifier = modifier
             .padding(horizontal = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(90.autoDark().n1)
+            .background(Surfaces.surfaceContainer(Surfaces.HIGH))
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(

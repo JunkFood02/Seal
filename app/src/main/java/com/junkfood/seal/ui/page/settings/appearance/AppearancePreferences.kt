@@ -65,7 +65,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
-import com.junkfood.seal.ui.theme.autoDark
+import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
@@ -79,7 +79,6 @@ import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
-import com.kyant.monet.n2
 import com.kyant.monet.toColor
 
 val colorList = listOf(
@@ -221,7 +220,7 @@ fun RowScope.ColorButton(
     ColorButtonImpl(
         modifier = modifier,
         tonalPalettes = tonalPalettes,
-        cardColor = 95.autoDark(LocalDarkTheme.current.isDarkTheme()).n2,
+        cardColor = Surfaces.surfaceContainer,
         isSelected = { isSelect }
     ) {
         PreferenceUtil.switchDynamicColor(enabled = false)

@@ -181,6 +181,7 @@ fun GeneralDownloadPreferences(
                                     UpdateUtil.updateYtDlp()
                                     ytdlpVersion = YT_DLP.getString()
                                 }.onFailure {
+                                    it.printStackTrace()
                                     ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                                 }.onSuccess {
                                     ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))

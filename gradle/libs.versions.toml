@@ -4,7 +4,7 @@ androidGradlePlugin = "7.4.0"
 androidxComposeBom = "2023.04.01"
 androidxComposeCompiler = "1.4.0"
 androidxCore = "1.10.0"
-androidMaterial = "1.9.0-alpha01"
+androidMaterial = "1.9.0-rc01"
 androidxAppCompat = "1.7.0-alpha02"
 androidxActivity = "1.7.1"
 
