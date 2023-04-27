@@ -34,7 +34,6 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.Locale
 
@@ -62,7 +61,10 @@ object DownloadUtil {
 
 
     @CheckResult
-    fun getPlaylistOrVideoInfo(playlistURL: String): Result<YoutubeDLInfo> = YoutubeDL.runCatching {
+    fun getPlaylistOrVideoInfo(
+        playlistURL: String,
+        downloadPreferences: DownloadPreferences = DownloadPreferences()
+    ): Result<YoutubeDLInfo> = YoutubeDL.runCatching {
         ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
         with(request) {
@@ -71,13 +73,18 @@ object DownloadUtil {
             addOption("-J")
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
-            if (PreferenceUtil.getValue(COOKIES)) {
-                enableCookies()
+            downloadPreferences.run {
+                if (extractAudio) {
+                    addOption("-x")
+                }
+                applyFormatSorter(this, toFormatSorter())
+                if (cookies) {
+                    enableCookies()
+                }
             }
         }
         execute(request, playlistURL).out.run {
             val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
-            Log.d(TAG, "getPlaylistInfo: " + Json.encodeToString(playlistInfo))
             if (playlistInfo.type != "playlist") {
                 jsonFormat.decodeFromString<VideoInfo>(this)
             } else playlistInfo
