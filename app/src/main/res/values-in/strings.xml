@@ -296,4 +296,6 @@
     <string name="switch_to_github_builds">beralih ke build GitHub</string>
     <string name="okay">Oke</string>
     <string name="no_custom_command_tasks">Tidak ada tugas perintah kustom</string>
+    <string name="msg_from_developer">Pesan dari pengembang</string>
+    <string name="sponsor_msg2">Terima kasih banyak!</string>
 </resources>

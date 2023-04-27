@@ -296,4 +296,6 @@
     <string name="no_custom_command_tasks">Aucune tâche de commande personnalisée</string>
     <string name="auto_update_disabled_msg">La mise à jour automatique n\'est pas disponible pour les versions %1$s. Si vous n\'avez pas installé %1$s sur votre appareil, ou si vous souhaitez avoir un aperçu des nouvelles fonctionnalités de Seal, veuillez consulter %2$s.</string>
     <string name="switch_to_github_builds">passer aux moutures GitHub</string>
+    <string name="msg_from_developer">Message du développeur</string>
+    <string name="sponsor_msg2">Merci beaucoup !</string>
 </resources>

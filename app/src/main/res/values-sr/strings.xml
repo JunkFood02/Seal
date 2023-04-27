@@ -281,7 +281,7 @@
     <string name="temporary_directory">Привремени директоријум</string>
     <string name="feedback">Повратне информације</string>
     <string name="sponsors">Спонзори</string>
-    <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако вам се свиђа, размислите о томе да ме спонзоришете на GitHub-u!</string>
+    <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако Вам се свиђа, размислите о томе да ме спонзоришете на GitHub-u!</string>
     <string name="sponsor">Спонзоришите</string>
     <string name="sponsor_desc">Подржите ову апликацију спонзорисањем на GitHub-u</string>
     <string name="audio_format">Аудио формат</string>
@@ -296,4 +296,6 @@
     <string name="okay">У реду</string>
     <string name="feature_unavailable">Функција није доступна</string>
     <string name="no_custom_command_tasks">Нема прилагођених командних задатака</string>
+    <string name="msg_from_developer">Порука од програмера</string>
+    <string name="sponsor_msg2">Хвала много!</string>
 </resources>

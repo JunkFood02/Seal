@@ -296,4 +296,6 @@
     <string name="no_custom_command_tasks">कोई कस्टम कमांड कार्य नहीं</string>
     <string name="sponsor_desc">GitHub पर प्रायोजित करके इस ऐप का समर्थन करें</string>
     <string name="feedback">प्रतिक्रिया</string>
+    <string name="msg_from_developer">डेवलपर से संदेश</string>
+    <string name="sponsor_msg2">आपका बहुत-बहुत धन्यवाद!</string>
 </resources>

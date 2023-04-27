@@ -296,4 +296,6 @@
     <string name="got_it">Anladım</string>
     <string name="feature_unavailable">Xüsusiyyət mövcud deyil</string>
     <string name="no_custom_command_tasks">Xüsusi əmr tapşırıqları yoxdur</string>
+    <string name="msg_from_developer">Tərtibatçıdan mesaj</string>
+    <string name="sponsor_msg2">Çox sağ olun!</string>
 </resources>
