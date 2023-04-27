@@ -110,7 +110,7 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
                         text = { Text(PreferenceUtil.getAudioQualityDesc(i)) },
                         onClick = {
                             audioQualityText =
-                                PreferenceUtil.getVideoResolutionDesc(i)
+                                PreferenceUtil.getAudioQualityDesc(i)
                             audioQuality = i
                             expanded = false
                         })
