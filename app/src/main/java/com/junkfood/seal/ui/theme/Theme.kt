@@ -8,19 +8,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextDirection
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
 import com.kyant.monet.dynamicColorScheme
 
@@ -52,24 +48,14 @@ fun SealTheme(
     isDynamicColorEnabled: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        DynamicColors.isDynamicColorAvailable() && isDynamicColorEnabled -> {
-            val context = LocalContext.current
-            if (darkTheme) {
-                dynamicDarkColorScheme(context)
-            } else {
-                dynamicLightColorScheme(context)
-            }
+    val colorScheme =
+        dynamicColorScheme(!darkTheme).run {
+            if (isHighContrastModeEnabled && darkTheme) copy(
+                surface = Color.Black,
+                background = Color.Black,
+            )
+            else this
         }
-
-        else -> dynamicColorScheme(!darkTheme)
-    }.run {
-        if (isHighContrastModeEnabled && darkTheme) copy(
-            surface = Color.Black,
-            background = Color.Black,
-        )
-        else this
-    }
     val window = LocalView.current.context.findWindow()
     val view = LocalView.current
 
