@@ -229,7 +229,7 @@
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
     <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
     <string name="multiselect_mode">Multiselect mode</string>
-    <string name="private_mode">Private mode</string>
+    <string name="private_mode">Incognito mode</string>
     <string name="private_mode_desc">Disable download history</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
@@ -250,7 +250,7 @@
     <string name="general_settings_desc">Yt-dlp version, notification, playlist</string>
     <string name="network_settings_desc">Rate limit, downloader, cookies</string>
     <string name="disable_preview">Disable preview</string>
-    <string name="disable_preview_desc">Disable preview on downloads</string>
+    <string name="disable_preview_desc">No display of thumbnails during download</string>
     <string name="privacy">Privacy</string>
     <string name="use_custom_command">Use custom command</string>
     <string name="private_directory">Private directory</string>

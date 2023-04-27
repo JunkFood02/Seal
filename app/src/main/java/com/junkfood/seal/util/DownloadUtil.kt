@@ -343,17 +343,6 @@ object DownloadUtil {
         }
     }
 
-    @CheckResult
-    private fun scanVideoIntoDownloadHistory(
-        videoInfo: VideoInfo,
-        downloadPath: String,
-    ): List<String> = FileUtil.scanFileToMediaLibraryPostDownload(
-        title = videoInfo.id, downloadDir = downloadPath
-    ).apply {
-        insertInfoIntoDownloadHistory(videoInfo, this)
-    }
-
-
     private fun insertInfoIntoDownloadHistory(videoInfo: VideoInfo, filePaths: List<String>) =
         filePaths.forEach {
             DatabaseUtil.insertInfo(
@@ -497,20 +486,19 @@ object DownloadUtil {
         if (sdcard) {
             moveFilesToSdcard(
                 sdcardUri = sdcardUri, tempPath = context.getSdcardTempDir(videoInfo.id)
-            ).run {
+            ).onSuccess {
                 if (privateMode) {
-                    Result.success(emptyList())
-                } else this.apply {
-                    getOrNull()?.let { insertInfoIntoDownloadHistory(videoInfo, it) }
+                    return Result.success(emptyList())
+                } else {
+                    insertInfoIntoDownloadHistory(videoInfo, it)
                 }
             }
         } else {
-            scanVideoIntoDownloadHistory(
-                videoInfo = videoInfo,
-                downloadPath = downloadPath,
+            FileUtil.scanFileToMediaLibraryPostDownload(
+                title = videoInfo.id, downloadDir = downloadPath
             ).run {
                 if (privateMode) Result.success(emptyList())
-                else Result.success(this)
+                else Result.success(this.apply { insertInfoIntoDownloadHistory(videoInfo, this) })
             }
         }
     }
