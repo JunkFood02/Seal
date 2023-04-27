@@ -11,7 +11,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 object SponsorUtil {
     private const val TAG = "SponsorUtil"
-    private const val MAGIC_STRING = "Z2hwX2Myd3hubms5RkVERWQ2bkNUVFM1UjBrWDlpNHJ5azFvUWlMcA"
+    private const val MAGIC_STRING = "Z2hwX3hmUDYzWDhGZ2l5Q3c5aUVoV1NHd05udWZrNlFwYjFFZVZEbA"
 
     // pls don't abuse
     private val magicString = Base64.decode(MAGIC_STRING, Base64.DEFAULT).toString(Charsets.UTF_8)
