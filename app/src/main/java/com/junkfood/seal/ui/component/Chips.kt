@@ -99,7 +99,7 @@ fun OutlinedButtonChip(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterChipWithIcons(
+fun SingleChoiceChip(
     modifier: Modifier = Modifier,
     selected: Boolean,
     onClick: () -> Unit,
@@ -136,7 +136,6 @@ fun VideoFilterChip(
     enabled: Boolean = true,
     onClick: () -> Unit,
     label: String,
-    animated: Boolean = false
 ) {
     FilterChip(
         modifier = modifier.padding(horizontal = 4.dp),
@@ -144,19 +143,6 @@ fun VideoFilterChip(
         onClick = onClick,
         label = {
             Text(text = label)
-        },
-        trailingIcon = {
-            Row {
-                if (animated)
-                    AnimatedVisibility(visible = selected) {
-                        Icon(
-                            Icons.Outlined.Check,
-                            stringResource(R.string.checked),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(FilterChipDefaults.IconSize)
-                        )
-                    }
-            }
         }
     )
 }

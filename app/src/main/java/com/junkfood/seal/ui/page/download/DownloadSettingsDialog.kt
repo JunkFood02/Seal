@@ -52,7 +52,7 @@ import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.FilterChipWithIcons
+import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
@@ -230,7 +230,7 @@ fun DownloadSettingDialog(
             AnimatedVisibility(visible = customCommand) {
                 LazyRow(state = scrollState, modifier = Modifier.selectableGroup()) {
                     items(templateList) { item ->
-                        FilterChipWithIcons(
+                        SingleChoiceChip(
                             selected = item.id == selectedTemplateId, onClick = {
                                 selectedTemplateId = item.id
                                 updatePreferences()
