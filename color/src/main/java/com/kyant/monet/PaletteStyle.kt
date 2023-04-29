@@ -58,7 +58,7 @@ class PaletteStyle(
             accent1Spec = ColorSpec({ 36.0 }) { 0.0 },
             accent2Spec = ColorSpec({ 16.0 }) { 0.0 },
             accent3Spec = ColorSpec({ 24.0 }) { 60.0 },
-            neutral1Spec = ColorSpec({ 4.0 }) { 0.0 },
+            neutral1Spec = ColorSpec({ 6.0 }) { 0.0 },
             neutral2Spec = ColorSpec({ 8.0 }) { 0.0 }
         )
         val Spritz: PaletteStyle = PaletteStyle(
