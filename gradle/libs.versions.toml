@@ -32,7 +32,7 @@ okhttp = "5.0.0-alpha.10"
 
 room = "2.5.0"
 
-youtubedlAndroid = "e4b3575834"
+youtubedlAndroid = "23b26d55f8"
 
 mmkv = "1.2.15"
 androidSvg = "1.4"
