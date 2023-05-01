@@ -64,8 +64,7 @@ object DownloadUtil {
 
     @CheckResult
     fun getPlaylistOrVideoInfo(
-        playlistURL: String,
-        downloadPreferences: DownloadPreferences = DownloadPreferences()
+        playlistURL: String, downloadPreferences: DownloadPreferences = DownloadPreferences()
     ): Result<YoutubeDLInfo> = YoutubeDL.runCatching {
         ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
@@ -124,7 +123,6 @@ object DownloadUtil {
         addOption("--socket-timeout", "5")
     }.run { getVideoInfo(this) }
 
-
     data class DownloadPreferences(
         val extractAudio: Boolean = PreferenceUtil.getValue(EXTRACT_AUDIO),
         val createThumbnail: Boolean = PreferenceUtil.getValue(THUMBNAIL),
@@ -137,6 +135,7 @@ object DownloadUtil {
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
+        val convertSubtitle: Int = CONVERT_SUBTITLE.getInt(),
         val concurrentFragments: Int = CONCURRENT.getInt(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
         val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
@@ -235,14 +234,20 @@ object DownloadUtil {
                     addOption("--write-auto-subs")
                     addOption("--extractor-args", "youtube:skip=translated_subs")
                 }
-                addOption(
-                    "--sub-langs",
+                addOption("--sub-langs",
                     subtitleLanguage.ifEmpty { SUBTITLE_LANGUAGE.getStringDefault() })
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
                 } else {
                     addOption("--write-subs")
+                }
+                when (convertSubtitle) {
+                    CONVERT_ASS -> addOption("--convert-subs", "ass")
+                    CONVERT_SRT -> addOption("--convert-subs", "srt")
+                    CONVERT_VTT -> addOption("--convert-subs", "vtt")
+                    CONVERT_LRC -> addOption("--convert-subs", "lrc")
+                    else -> {}
                 }
             }
             if (embedThumbnail) {
@@ -438,8 +443,7 @@ object DownloadUtil {
 
                 videoClips.forEach {
                     addOption(
-                        "--download-sections",
-                        "*%d-%d".format(locale = Locale.US, it.start, it.end)
+                        "--download-sections", "*%d-%d".format(locale = Locale.US, it.start, it.end)
                     )
                 }
                 if (newTitle.isNotEmpty()) {

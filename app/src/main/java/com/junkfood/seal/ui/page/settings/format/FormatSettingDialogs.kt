@@ -57,11 +57,14 @@ import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.AV1
 import com.junkfood.seal.util.CONVERT_M4A
 import com.junkfood.seal.util.CONVERT_MP3
+import com.junkfood.seal.util.CONVERT_SUBTITLE
+import com.junkfood.seal.util.CONVERT_VTT
 import com.junkfood.seal.util.DEFAULT
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
+import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
@@ -598,6 +601,47 @@ fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
         }, dismissButton = {
             DismissButton() {
                 onDismissRequest()
+            }
+        })
+}
+
+@Composable
+fun SubtitleConversionDialog(onDismissRequest: () -> Unit) {
+    var currentFormat by CONVERT_SUBTITLE.intState
+    SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
+        ConfirmButton {
+            CONVERT_SUBTITLE.updateInt(currentFormat)
+            onDismissRequest()
+        }
+    }, dismissButton = {
+        DismissButton { onDismissRequest() }
+    }, title = { Text(text = stringResource(id = R.string.convert_subtitle)) },
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Sync,
+                contentDescription = null
+            )
+        }, text = {
+            LazyColumn {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.convert_subtitle_desc),
+                        modifier = Modifier
+                            .padding(horizontal = 24.dp)
+                            .padding(bottom = 12.dp),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+                for (format in NOT_CONVERT..CONVERT_VTT) {
+                    item {
+                        SingleChoiceItem(
+                            text = PreferenceUtil.getSubtitleConversionFormat(format),
+                            selected = currentFormat == format
+                        ) {
+                            currentFormat = format
+                        }
+                    }
+                }
             }
         })
 }

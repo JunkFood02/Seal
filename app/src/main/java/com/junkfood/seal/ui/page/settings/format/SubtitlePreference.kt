@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Subtitles
+import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +32,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.EMBED_SUBTITLE
+import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SPONSORBLOCK
@@ -49,12 +51,21 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
 //    var keepSubtitleFile by KEEP_SUBTITLE_FILES.booleanState
     var embedSubtitle by EMBED_SUBTITLE.booleanState
     var autoSubtitle by AUTO_SUBTITLE.booleanState
-    var showLanguageDialog by remember { mutableStateOf(false) }
 
+    var showLanguageDialog by remember { mutableStateOf(false) }
+    var showConversionDialog by remember { mutableStateOf(false) }
+
+    val subtitleFormatText by remember(showConversionDialog) {
+        mutableStateOf(
+            PreferenceUtil.getSubtitleConversionFormat()
+        )
+    }
 
     val subtitleLang by remember(showLanguageDialog) { mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
     val sponsorBlockText = stringResource(id = R.string.subtitle_sponsorblock)
     val embedSubtitleText = stringResource(R.string.embed_subtitles_mkv_msg)
+
+
     val hint by remember(sponsorBlock, embedSubtitle) {
         derivedStateOf {
             StringBuilder().apply {
@@ -129,6 +140,15 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                         }, icon = Icons.Outlined.Subtitles
                     )
                 }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.convert_subtitle),
+                        description = subtitleFormatText,
+                        icon = Icons.Outlined.Sync,
+                    ) {
+                        showConversionDialog = true
+                    }
+                }
 
 
                 item {
@@ -141,6 +161,10 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
     if (showLanguageDialog)
         SubtitleLanguageDialog {
             showLanguageDialog = false
+        }
+    if (showConversionDialog)
+        SubtitleConversionDialog {
+            showConversionDialog = false
         }
 }
 

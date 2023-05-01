@@ -64,6 +64,7 @@ const val EMBED_SUBTITLE = "embed_subtitle"
 const val KEEP_SUBTITLE_FILES = "keep_subtitle"
 const val SUBTITLE_LANGUAGE = "sub_lang"
 const val AUTO_SUBTITLE = "auto_subtitle"
+const val CONVERT_SUBTITLE = "convert_subtitle"
 
 const val TEMPLATE_ID = "template_id"
 const val MAX_FILE_SIZE = "max_file_size"
@@ -91,6 +92,13 @@ const val SHOW_SPONSOR_MSG = "sponsor_msg_v1"
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
 const val SYSTEM_DEFAULT = 0
+const val NOT_CONVERT = 0
+
+const val CONVERT_ASS = 1
+const val CONVERT_LRC = 2
+const val CONVERT_SRT = 3
+const val CONVERT_VTT = 4
+
 
 const val STABLE = 0
 const val PRE_RELEASE = 1
@@ -152,7 +160,8 @@ private val IntPreferenceDefaults = mapOf(
     VIDEO_QUALITY to NOT_SPECIFIED,
     VIDEO_FORMAT to NOT_SPECIFIED,
     UPDATE_CHANNEL to STABLE,
-    SHOW_SPONSOR_MSG to 0
+    SHOW_SPONSOR_MSG to 0,
+    CONVERT_SUBTITLE to NOT_SPECIFIED,
 )
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
@@ -230,6 +239,16 @@ object PreferenceUtil {
     }
 
     private fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
+
+
+    fun getSubtitleConversionFormat(subtitleFormat: Int = CONVERT_SUBTITLE.getInt()): String =
+        when (subtitleFormat) {
+            CONVERT_LRC -> context.getString(R.string.convert_to, "lrc")
+            CONVERT_ASS -> context.getString(R.string.convert_to, "ass")
+            CONVERT_SRT -> context.getString(R.string.convert_to, "srt")
+            CONVERT_VTT -> context.getString(R.string.convert_to, "vtt")
+            else -> context.getString(R.string.not_convert)
+        }
 
     fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String =
         when (audioFormatCode) {

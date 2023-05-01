@@ -347,4 +347,6 @@
     <string name="msg_from_developer">Message from developer</string>
     <string name="sponsor_msg2">Thank you very much!</string>
     <string name="download_video_desc">Download videos from the URL</string>
+    <string name="convert_subtitle">Convert subtitles</string>
+    <string name="convert_subtitle_desc">Convert the subtitles to another format</string>
 </resources>
