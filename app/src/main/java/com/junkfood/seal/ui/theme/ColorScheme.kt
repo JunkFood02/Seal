@@ -35,7 +35,7 @@ object Surfaces {
     const val HIGHEST = 4
 
     @Composable
-    inline fun isDark() = LocalDarkTheme.current.isDarkTheme()
+    fun isDark() = LocalDarkTheme.current.isDarkTheme()
 
     @Composable
     fun surfaceContainer(level: Int = STANDARD): Color =

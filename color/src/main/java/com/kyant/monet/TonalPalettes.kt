@@ -39,6 +39,33 @@ class TonalPalettes(
         private val M3TonalValues = doubleArrayOf(
             0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 85.0, 90.0, 95.0, 99.0, 100.0
         )
+        private val M3SurfaceTonalValues = doubleArrayOf(
+            0.0,
+            4.0,
+            6.0,
+            10.0,
+            12.0,
+            17.0,
+            20.0,
+            22.0,
+            24.0,
+            30.0,
+            40.0,
+            50.0,
+            60.0,
+            70.0,
+            80.0,
+            85.0,
+            87.0,
+            90.0,
+            92.0,
+            94.0,
+            95.0,
+            96.0,
+            98.0,
+            99.0,
+            100.0
+        )
 
         fun Color.toTonalPalettes(
             style: PaletteStyle = PaletteStyle.TonalSpot,
@@ -61,6 +88,14 @@ class TonalPalettes(
             tonalValues.associateWith { transform(it, ColorSpec()) }
 
 
+        /**
+         * Convert an existing `ColorScheme` to an MD3 `TonalPalettes`
+         *
+         * Notice: This function is `PaletteStyle` independent
+         *
+         * @see ColorScheme
+         * @see TonalPalettes
+         */
         fun ColorScheme.toTonalPalettes(
             tonalValues: DoubleArray = M3TonalValues
         ): TonalPalettes = TonalPalettes(
@@ -68,7 +103,7 @@ class TonalPalettes(
             accent1 = primary.toTonalPalette(tonalValues),
             accent2 = secondary.toTonalPalette(tonalValues),
             accent3 = tertiary.toTonalPalette(tonalValues),
-            neutral1 = surface.toTonalPalette(tonalValues),
+            neutral1 = surface.toTonalPalette(M3SurfaceTonalValues),
             neutral2 = surfaceVariant.toTonalPalette(tonalValues),
         )
 
