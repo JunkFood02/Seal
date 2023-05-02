@@ -12,11 +12,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -24,6 +24,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCut
+import androidx.compose.material.icons.outlined.VerticalSplit
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
@@ -62,10 +65,14 @@ fun FormatVideoPreview(
     thumbnailUrl: String,
     duration: Int,
     showButton: Boolean = true,
-    isClippingVideo: Boolean = false,
+    isSplittingVideo: Boolean,
+    isClippingVideo: Boolean,
+    isClippingAvailable: Boolean = false,
+    isSplitByChapterAvailable: Boolean = false,
     onTitleClick: () -> Unit = {},
     onImageClicked: () -> Unit = {},
-    onButtonClick: ((Boolean) -> Unit)? = {}
+    onClippingToggled: () -> Unit = {},
+    onSplittingToggled: () -> Unit = {},
 ) {
     val imageWeight = when (LocalWindowWidthState.current) {
         WindowWidthSizeClass.Expanded -> 0.25f
@@ -74,12 +81,13 @@ fun FormatVideoPreview(
     }
     val uriHandler = LocalUriHandler.current
     Box(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .wrapContentHeight(Alignment.Top, unbounded = false),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(8.dp))
+            modifier = Modifier.fillMaxWidth()
         ) {
             Box(
                 modifier = Modifier
@@ -149,12 +157,27 @@ fun FormatVideoPreview(
                 )
             }
         }
-        if (showButton)
-            onButtonClick?.let {
+        if (showButton) {
+            var expanded by remember { mutableStateOf(false) }
+            Box(
+                modifier = Modifier.align(Alignment.BottomEnd)
+            ) {
                 IconToggleButton(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    onCheckedChange = onButtonClick,
-                    checked = isClippingVideo
+                    modifier = Modifier.size(36.dp),
+                    onCheckedChange = {
+                        if (isClippingVideo) {
+                            onClippingToggled()
+                        } else if (isSplittingVideo) {
+                            onSplittingToggled()
+                        } else if (isClippingAvailable && isSplitByChapterAvailable) {
+                            expanded = true
+                        } else if (isSplitByChapterAvailable) {
+                            onSplittingToggled()
+                        } else if (isClippingAvailable) {
+                            onClippingToggled()
+                        }
+                    },
+                    checked = isClippingVideo || isSplittingVideo
                 ) {
                     Icon(
                         modifier = Modifier.size(18.dp),
@@ -162,7 +185,29 @@ fun FormatVideoPreview(
                         contentDescription = stringResource(id = R.string.clip_video)
                     )
                 }
+
+                DropdownMenu(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }) {
+                    DropdownMenuItem(
+                        leadingIcon = { Icon(Icons.Outlined.ContentCut, null) },
+                        text = { Text(text = stringResource(id = R.string.clip_video)) },
+                        onClick = {
+                            onClippingToggled()
+                            expanded = false
+                        })
+                    DropdownMenuItem(
+                        leadingIcon = { Icon(Icons.Outlined.VerticalSplit, null) },
+                        text = { Text(text = stringResource(id = R.string.split_video)) },
+                        onClick = {
+                            onSplittingToggled()
+                            expanded = false
+                        })
+                }
             }
+        }
+
 
     }
 }
@@ -172,14 +217,20 @@ fun FormatVideoPreview(
 fun VideoInfoPreview() {
     SealTheme {
         Surface {
-            FormatVideoPreview(
-                title = stringResource(id = R.string.video_title_sample_text),
-                author = stringResource(
-                    id = R.string.video_creator_sample_text
-                ),
-                thumbnailUrl = "",
-                duration = 7890
-            )
+            Column {
+                FormatVideoPreview(
+                    title = stringResource(id = R.string.video_title_sample_text),
+                    author = stringResource(
+                        id = R.string.video_creator_sample_text
+                    ),
+                    thumbnailUrl = "",
+                    duration = 7890,
+                    isSplittingVideo = false,
+                    isClippingVideo = false,
+                    isSplitByChapterAvailable = true,
+                    isClippingAvailable = true
+                )
+            }
         }
     }
 }

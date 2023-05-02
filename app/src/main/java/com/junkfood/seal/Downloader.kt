@@ -391,6 +391,7 @@ object Downloader {
         videoInfo: VideoInfo,
         formatList: List<Format>,
         videoClips: List<VideoClip>,
+        splitByChapter: Boolean,
         newTitle: String
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
@@ -414,6 +415,7 @@ object Downloader {
                     extractAudio = extractAudio || audioOnly,
                     formatId = formatId,
                     videoClips = videoClips,
+                    splitByChapter = splitByChapter,
                     newTitle = newTitle
                 )
             }

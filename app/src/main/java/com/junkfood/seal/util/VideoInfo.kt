@@ -27,7 +27,7 @@ data class VideoInfo(
     @SerialName("live_status") val liveStatus: String? = null,
 //    @SerialName("release_timestamp") val releaseTimestamp: Int? = null,
     @SerialName("comment_count") val commentCount: Int? = null,
-    val chapters: List<Chapter>? = emptyList(),
+    val chapters: List<Chapter>? = null,
     @SerialName("like_count") val likeCount: Int? = null,
     val channel: String? = null,
 //    @SerialName("channel_follower_count") val channelFollowerCount: Int? = null,

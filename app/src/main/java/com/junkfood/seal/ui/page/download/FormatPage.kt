@@ -4,18 +4,22 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -56,6 +61,7 @@ import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -74,9 +80,15 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
     if (videoInfo.formats.isNullOrEmpty()) return
     FormatPageImpl(
         videoInfo = videoInfo, onBackPressed = onBackPressed
-    ) { formatList, videoClips, title ->
+    ) { formatList, videoClips, splitByChapter, title ->
         Log.d(TAG, formatList.toString())
-        Downloader.downloadVideoWithFormatId(videoInfo, formatList, videoClips, title)
+        Downloader.downloadVideoWithFormatId(
+            videoInfo = videoInfo,
+            formatList = formatList,
+            videoClips = videoClips,
+            splitByChapter = splitByChapter,
+            newTitle = title
+        )
         onBackPressed()
     }
 }
@@ -90,7 +102,7 @@ private const val NOT_SELECTED = -1
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (List<Format>, List<VideoClip>, String) -> Unit = { _, _, _ -> }
+    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String) -> Unit = { _, _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -119,6 +131,11 @@ fun FormatPageImpl(
     }
 
     var isClippingVideo by remember { mutableStateOf(false) }
+    var isSplittingVideo by remember { mutableStateOf(false) }
+
+    val isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0
+    val isSplitByChapterAvailable = !videoInfo.chapters.isNullOrEmpty()
+
     val videoDuration = 0f..(videoInfo.duration?.toFloat() ?: 0f)
     var showVideoClipDialog by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
@@ -145,7 +162,7 @@ fun FormatPageImpl(
 
 
     val clipboardManager = LocalClipboardManager.current
-    val isClippingEnabled = VIDEO_CLIP.getBoolean()
+
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -165,6 +182,7 @@ fun FormatPageImpl(
                     onDownloadPressed(
                         formatList,
                         if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
+                        isSplittingVideo,
                         videoTitle
                     )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
@@ -183,20 +201,32 @@ fun FormatPageImpl(
         ) {
             videoInfo.run {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatVideoPreview(title = videoTitle.ifEmpty { title },
-                        author = uploader ?: channel.toString(),
-                        thumbnailUrl = thumbnail.toHttpsUrl(),
-                        duration = (duration ?: .0).roundToInt(),
-                        showButton = isClippingEnabled && (duration ?: .0) >= 0,
-                        isClippingVideo = isClippingVideo,
-                        onTitleClick = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            showRenameDialog = true
-                        },
-                        onImageClicked = {
-                            thumbnail.toHttpsUrl().share()
-                        },
-                        onButtonClick = { isClippingVideo = it })
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.TopEnd)
+                    ) {
+                        FormatVideoPreview(
+                            title = videoTitle.ifEmpty { title },
+                            author = uploader ?: channel.toString(),
+                            thumbnailUrl = thumbnail.toHttpsUrl(),
+                            duration = (duration ?: .0).roundToInt(),
+                            showButton = isClippingAvailable || isSplitByChapterAvailable,
+                            isClippingVideo = isClippingVideo,
+                            isSplittingVideo = isSplittingVideo,
+                            isClippingAvailable = isClippingAvailable,
+                            isSplitByChapterAvailable = isSplitByChapterAvailable,
+                            onClippingToggled = { isClippingVideo = !isClippingVideo },
+                            onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
+                            onTitleClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                showRenameDialog = true
+                            },
+                            onImageClicked = {
+                                thumbnail.toHttpsUrl().share()
+                            },
+                        )
+                    }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column {
@@ -214,6 +244,36 @@ fun FormatPageImpl(
                     }
 
                 }
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Column {
+                        AnimatedVisibility(visible = isSplittingVideo) {
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(
+                                            id = R.string.split_video_msg, chapters?.size ?: 0
+                                        ),
+                                        style = MaterialTheme.typography.labelMedium,
+                                        modifier = Modifier.padding(horizontal = 12.dp)
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    TextButtonWithIcon(
+                                        onClick = { isSplittingVideo = false },
+                                        icon = Icons.Outlined.Delete,
+                                        text = stringResource(id = R.string.discard),
+                                        contentColor = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                                HorizontalDivider()
+                            }
+                        }
+                    }
+
+                }
+
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }
@@ -324,12 +384,10 @@ fun FormatPageImpl(
         valueRange = videoDuration,
         onConfirm = { videoClipDuration = it })
 
-    if (showRenameDialog)
-        RenameDialog(
-            initialValue = videoTitle.ifEmpty { videoInfo.title },
-            onDismissRequest = { showRenameDialog = false }) {
-            videoTitle = it
-        }
+    if (showRenameDialog) RenameDialog(initialValue = videoTitle.ifEmpty { videoInfo.title },
+        onDismissRequest = { showRenameDialog = false }) {
+        videoTitle = it
+    }
 }
 
 @Composable
@@ -344,18 +402,15 @@ fun RenameDialog(initialValue: String, onDismissRequest: () -> Unit, onConfirm: 
         DismissButton { onDismissRequest() }
     }, title = { Text(text = stringResource(id = R.string.rename)) }, icon = {
         Icon(
-            imageVector = Icons.Outlined.Edit,
-            contentDescription = null
+            imageVector = Icons.Outlined.Edit, contentDescription = null
         )
     }, text = {
         Column {
-            OutlinedTextField(
-                modifier = Modifier.padding(horizontal = 24.dp),
+            OutlinedTextField(modifier = Modifier.padding(horizontal = 24.dp),
                 value = filename,
                 onValueChange = { filename = it },
                 label = { Text(text = stringResource(id = R.string.title)) },
-                trailingIcon = { if (filename == initialValue) ClearButton { filename = "" } }
-            )
+                trailingIcon = { if (filename == initialValue) ClearButton { filename = "" } })
         }
     })
 }

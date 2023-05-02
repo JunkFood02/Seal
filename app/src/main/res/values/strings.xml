@@ -349,4 +349,6 @@
     <string name="download_video_desc">Download videos from the URL</string>
     <string name="convert_subtitle">Convert subtitles</string>
     <string name="convert_subtitle_desc">Convert the subtitles to another format</string>
+    <string name="split_video">Split video</string>
+    <string name="split_video_msg">Video will be split into %1$d chapters</string>
 </resources>

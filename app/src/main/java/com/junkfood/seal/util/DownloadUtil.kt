@@ -23,6 +23,7 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.page.settings.network.Cookie
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getFileName
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
 import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
@@ -58,6 +59,10 @@ object DownloadUtil {
     private const val OUTPUT_TEMPLATE = "%(title).200B [%(id)s].%(ext)s"
     private const val OUTPUT_TEMPLATE_CLIPS =
         "%(title).200B [%(id)s][%(section_start)d-%(section_end)d].%(ext)s"
+    private const val OUTPUT_TEMPLATE_CHAPTERS =
+        "chapter:%(title).200B [%(id)s]/%(section_number)d - %(section_title).200B.%(ext)s"
+    private const val OUTPUT_TEMPLATE_SPLIT =
+        "%(title).200B [%(id)s]/%(title).200B.%(ext)s"
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
 
@@ -159,6 +164,7 @@ object DownloadUtil {
         val sdcardUri: String = SDCARD_URI.getString(),
         val embedThumbnail: Boolean = EMBED_THUMBNAIL.getBoolean(),
         val videoClips: List<VideoClip> = emptyList(),
+        val splitByChapter: Boolean = false,
         val debug: Boolean = DEBUG.getBoolean(),
         val newTitle: String = ""
     )
@@ -351,11 +357,26 @@ object DownloadUtil {
     }
 
     private fun insertInfoIntoDownloadHistory(videoInfo: VideoInfo, filePaths: List<String>) =
-        filePaths.forEach {
+        filePaths.onEach {
             DatabaseUtil.insertInfo(
                 DownloadedVideoInfo(
                     id = 0,
                     videoTitle = videoInfo.title,
+                    videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
+                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
+                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
+                    videoPath = it,
+                    extractor = videoInfo.extractorKey
+                )
+            )
+        }
+
+    private fun insertSplitChapterIntoHistory(videoInfo: VideoInfo, filePaths: List<String>) =
+        filePaths.onEach {
+            DatabaseUtil.insertInfo(
+                DownloadedVideoInfo(
+                    id = 0,
+                    videoTitle = it.getFileName(),
                     videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
                     videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
                     thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
@@ -435,11 +456,13 @@ object DownloadUtil {
                 if (subdirectory) {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
+
                 if (sdcard) {
                     addOption("-P", context.getSdcardTempDir(videoInfo.id).absolutePath)
                 } else {
                     addOption("-P", pathBuilder.toString())
                 }
+
 
                 videoClips.forEach {
                     addOption(
@@ -453,10 +476,15 @@ object DownloadUtil {
                     "-P", "temp:" + context.getTempDir()
                 )
                 val outputFileName =
-                    if (videoClips.isEmpty()) OUTPUT_TEMPLATE else OUTPUT_TEMPLATE_CLIPS
+                    if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) OUTPUT_TEMPLATE else OUTPUT_TEMPLATE_CLIPS
 
                 if (customPath) addOption("-o", outputPathTemplate + outputFileName)
                 else addOption("-o", outputFileName)
+
+                if (splitByChapter) {
+                    addOption("-o", OUTPUT_TEMPLATE_CHAPTERS)
+                    addOption("--split-chapters")
+                }
 
                 for (s in request.buildCommand()) Log.d(TAG, s)
             }.runCatching {
@@ -495,6 +523,8 @@ object DownloadUtil {
             ).onSuccess {
                 if (privateMode) {
                     return Result.success(emptyList())
+                } else if (splitByChapter) {
+                    insertSplitChapterIntoHistory(videoInfo, it)
                 } else {
                     insertInfoIntoDownloadHistory(videoInfo, it)
                 }
@@ -504,7 +534,13 @@ object DownloadUtil {
                 title = videoInfo.id, downloadDir = downloadPath
             ).run {
                 if (privateMode) Result.success(emptyList())
-                else Result.success(this.apply { insertInfoIntoDownloadHistory(videoInfo, this) })
+                else Result.success(
+                    if (splitByChapter) {
+                        insertSplitChapterIntoHistory(videoInfo, this)
+                    } else {
+                        insertInfoIntoDownloadHistory(videoInfo, this)
+                    }
+                )
             }
         }
     }

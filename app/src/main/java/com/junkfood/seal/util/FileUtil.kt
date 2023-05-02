@@ -86,6 +86,15 @@ object FileUtil {
         else length
     }
 
+    fun String.getFileName(): String = this.run {
+        File(this).nameWithoutExtension.ifEmpty {
+            DocumentFile.fromSingleUri(
+                context,
+                Uri.parse(this)
+            )?.name ?: "video"
+        }
+    }
+
     fun deleteFile(path: String) =
         path.runCatching {
             if (!File(path).delete())
@@ -96,7 +105,7 @@ object FileUtil {
     fun scanFileToMediaLibraryPostDownload(title: String, downloadDir: String): List<String> =
         File(downloadDir)
             .walkTopDown()
-            .filter { it.isFile && it.path.contains(title) }
+            .filter { it.isFile && it.absolutePath.contains(title) }
             .map { it.absolutePath }
             .toMutableList()
             .apply {
