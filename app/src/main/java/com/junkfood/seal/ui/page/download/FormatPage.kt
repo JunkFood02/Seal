@@ -298,23 +298,6 @@ fun FormatPageImpl(
                 }
             }
 
-            if (videoAudioFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(text = stringResource(R.string.video))
-            }
-            itemsIndexed(videoAudioFormats) { index, formatInfo ->
-                FormatItem(formatInfo = formatInfo,
-                    selected = selectedVideoAudioFormat == index,
-                    onLongClick = { formatInfo.url.share() }) {
-                    selectedVideoAudioFormat =
-                        if (selectedVideoAudioFormat == index) NOT_SELECTED else {
-                            selectedAudioOnlyFormat = NOT_SELECTED
-                            selectedVideoOnlyFormat = NOT_SELECTED
-                            isSuggestedFormatSelected = false
-                            index
-                        }
-                }
-            }
-
             if (audioOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
                 FormatSubtitle(
                     text = stringResource(R.string.audio),
@@ -362,10 +345,28 @@ fun FormatPageImpl(
                         }
                 }
             }
+
+            if (videoAudioFormats.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatSubtitle(text = stringResource(R.string.video))
+                }
+                itemsIndexed(videoAudioFormats) { index, formatInfo ->
+                    FormatItem(formatInfo = formatInfo,
+                        selected = selectedVideoAudioFormat == index,
+                        onLongClick = { formatInfo.url.share() }) {
+                        selectedVideoAudioFormat =
+                            if (selectedVideoAudioFormat == index) NOT_SELECTED else {
+                                selectedAudioOnlyFormat = NOT_SELECTED
+                                selectedVideoOnlyFormat = NOT_SELECTED
+                                isSuggestedFormatSelected = false
+                                index
+                            }
+                    }
+                }
+            }
+
             if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty()) item(span = {
-                GridItemSpan(
-                    maxLineSpan
-                )
+                GridItemSpan(maxLineSpan)
             }) {
                 PreferenceInfo(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
