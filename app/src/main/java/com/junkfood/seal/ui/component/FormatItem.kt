@@ -82,7 +82,6 @@ fun FormatVideoPreview(
     val uriHandler = LocalUriHandler.current
     Box(
         modifier = modifier
-            .padding(8.dp)
             .fillMaxWidth()
             .wrapContentHeight(Alignment.Top, unbounded = false),
     ) {
@@ -126,7 +125,6 @@ fun FormatVideoPreview(
             Column(
                 modifier = Modifier
                     .weight(1f - imageWeight)
-                    .fillMaxWidth()
                     .clickable(
                         onClick = onTitleClick,
                         onClickLabel = stringResource(id = R.string.rename),
@@ -142,7 +140,7 @@ fun FormatVideoPreview(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 3,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
                 if (author != "playlist" && author != "null") Text(

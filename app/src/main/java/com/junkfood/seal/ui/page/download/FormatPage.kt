@@ -4,15 +4,14 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -192,42 +191,37 @@ fun FormatPageImpl(
         }) { paddingValues ->
 
         LazyVerticalGrid(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = 8.dp),
+            modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            columns = GridCells.Adaptive(150.dp)
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(8.dp)
         ) {
             videoInfo.run {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.TopEnd)
-                    ) {
-                        FormatVideoPreview(
-                            title = videoTitle.ifEmpty { title },
-                            author = uploader ?: channel.toString(),
-                            thumbnailUrl = thumbnail.toHttpsUrl(),
-                            duration = (duration ?: .0).roundToInt(),
-                            showButton = isClippingAvailable || isSplitByChapterAvailable,
-                            isClippingVideo = isClippingVideo,
-                            isSplittingVideo = isSplittingVideo,
-                            isClippingAvailable = isClippingAvailable,
-                            isSplitByChapterAvailable = isSplitByChapterAvailable,
-                            onClippingToggled = { isClippingVideo = !isClippingVideo },
-                            onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
-                            onTitleClick = {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                showRenameDialog = true
-                            },
-                            onImageClicked = {
-                                thumbnail.toHttpsUrl().share()
-                            },
-                        )
-                    }
+                    FormatVideoPreview(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        title = videoTitle.ifEmpty { title },
+                        author = uploader ?: channel.toString(),
+                        thumbnailUrl = thumbnail.toHttpsUrl(),
+                        duration = (duration ?: .0).roundToInt(),
+                        showButton = isClippingAvailable || isSplitByChapterAvailable,
+                        isClippingVideo = isClippingVideo,
+                        isSplittingVideo = isSplittingVideo,
+                        isClippingAvailable = isClippingAvailable,
+                        isSplitByChapterAvailable = isSplitByChapterAvailable,
+                        onClippingToggled = { isClippingVideo = !isClippingVideo },
+                        onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
+                        onTitleClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            showRenameDialog = true
+                        },
+                        onImageClicked = {
+                            thumbnail.toHttpsUrl().share()
+                        },
+                    )
                 }
+
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column {
                         AnimatedVisibility(visible = isClippingVideo) {
@@ -241,11 +235,7 @@ fun FormatPageImpl(
                                 HorizontalDivider()
                             }
                         }
-                    }
 
-                }
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Column {
                         AnimatedVisibility(visible = isSplittingVideo) {
                             Column {
                                 Row(
