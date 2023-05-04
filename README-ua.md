@@ -26,6 +26,8 @@ Seal
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 Українська
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
 </div>
 

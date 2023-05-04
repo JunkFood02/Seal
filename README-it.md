@@ -4,10 +4,10 @@
 
 # Seal
 
-### Video/Audio Downloader for Android
+### Video/Audio Downloader per Android
 
-
-English
+<p align="center">
+  <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
@@ -17,11 +17,10 @@ English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
+Italiano
+</p>
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
@@ -54,59 +53,59 @@ English
 
 <br>
 
-## 📖 Features
+## 📖 Funzionalità
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly youtube-dl).
+- Scarica video e audio da tutte le piattaforme supportate da [yt-dlp](https://github.com/yt-dlp/yt-dlp) (conosciuto precedentemente come youtube-dl).
 
-- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
+- Integra i metadati e le anteprime degli audio attraverso [mutagen](https://github.com/quodlibet/mutagen).
 
-- Download all videos in the playlist with one click.
+- Scarica tutti i video in una playlist con un solo click.
 
-- Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+- Usa [aria2c](https://github.com/aria2/aria2) integrato per tutti i tuoi download esterni.
 
-- Embed subtitles into the downloaded videos.
+- Integra i sottotitoli nel video scaricato.
 
-- Execute custom yt-dlp commands with templates.
+- Esegui comandi di yt-dlp personalizzati.
 
-- Manage in-app downloads and custom command templates.
+- Gestisci i download in-app e i template di comandi personalizzati.
 
-- Easy to use and user-friendly.
+- Facile da usare.
 
-- [Material Design 3](https://m3.material.io/) style UI, with dynamic color theme.
+- UI a tema dinamico [Material Design 3](https://m3.material.io/).
 
-- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
+- MAD: UI e logica scritti interamente in Kotlin. Attività singola, niente frammentazioni, solo destinazioni componibili.
 
 
 
 ## ⬇️ Download
 
-For most devices, it is recommended to install the **arm64-v8a** version of the apks
+Per la maggior parte dei dispositivi, é consigliato installare la versione **arm64-v8a** dell'apk.
 
-- Download the latest stable version from [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
-  - Install the [pre-release](https://github.com/JunkFood02/Seal/releases/) versions to help us test out new features & changes
+- Scarica l'ultima versione stabile dalle [release di GitHub](https://github.com/JunkFood02/Seal/releases/latest)
+  - Installa la versione [pre-release](https://github.com/JunkFood02/Seal/releases/) per aiutarci a testare nuove funzionalità e trovare bug.
 
-- Stable releases are also available on [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+- Le versioni stabili sono disponibili anche su [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
 
 <!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
-## 💬 Contact
+## 💬 Contatti
 
-Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
+Entra nel nostro [Canale Telegram](https://t.me/seal_app) o nel nostro [spazio Matrix](https://matrix.to/#/#seal-space:matrix.org) per discussioni, annunci e molto altro!
 
-## 💖 Sponsors
+## 💖 Sponsor
 
 <p><!-- sponsors --><a href="https://github.com/Marco-9456"><img src="https://github.com/Marco-9456.png" width="60px" alt="mohammed_9456" /></a><a href="https://github.com/Jas0n2k"><img src="https://github.com/Jas0n2k.png" width="60px" alt="Jas0n2k" /></a><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><!-- sponsors --></p>
 
 
-Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+Seal rimarra sempre gratis e open-source per tutti. Se ti piace, considera [diventare uno sponsor](https://github.com/sponsors/JunkFood02)!
 
-## 🤝 Contributing
+## 🤝 Contribuire
 
-Contributions are welcome!
+Tutte le contribuzioni sono ben accette!
 
-You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
+Puoi aiutare a tradurre Seal su [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 	
@@ -114,16 +113,16 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 >
 >For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
 
-## ⭐️ Star History
+## ⭐️ Storia delle Stelle
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
 
-## 🧱 Credits
+## 🧱 Crediti
 
-Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
+Seal é una semplice GUI per [yt-dlp](https://github.com/yt-dlp/yt-dlp), basata su [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+Alcune parti del design UI sono prese da [Read You](https://github.com/Ashinch/ReadYou) e [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
 
@@ -131,7 +130,7 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Monet](https://github.com/Kyant0/Monet)
 
-## 📃 License
+## 📃 Licenza
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
@@ -144,6 +143,6 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 <div align="right">
 <table><td>
-<a href="#start-of-content">👆 Scroll to top</a>
+<a href="#start-of-content">👆 Torna su</a>
 </td></table>
 </div>
