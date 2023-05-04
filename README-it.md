@@ -109,9 +109,9 @@ Puoi aiutare a tradurre Seal su [Hosted Weblate](https://hosted.weblate.org/proj
 	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 	
->**Note**
+>**Nota Bene**
 >
->For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
+>Per inviare report di bug, richieste di feature, domande o qualsiasi altra idea per migliorare, perfavore leggi [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) per istruzioni e linee guida.
 
 ## ⭐️ Storia delle Stelle
 
@@ -134,12 +134,10 @@ Alcune parti del design UI sono prese da [Read You](https://github.com/Ashinch/R
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
->**Warning**
+>**Avvertimento**
 >
->Except for the source code licensed under the GPLv3 license,
->all other parties are prohibited from using Seal's name as a downloader app,
->and the same is true for Seal's derivatives.
->Derivatives include but are not limited to forks and unofficial builds.
+>Eccetto per le parti di codice sotto licenza GPLv3, é proibito da parte di terzi di usare il nome di Seal come il nome per un app di download e lo stesso vale per tutti i lavori derivati di Seal.
+>I derivati includono ma non sono limitati a fork del progetto o build non ufficiali.
 
 <div align="right">
 <table><td>
