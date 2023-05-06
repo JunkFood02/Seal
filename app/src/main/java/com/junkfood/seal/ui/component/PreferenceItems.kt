@@ -52,7 +52,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.PreviewThemeLight
+import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
@@ -518,7 +520,7 @@ fun PreferencesHintCard(
     description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
     isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme(),
-    backgroundColor: Color = MaterialTheme.colorScheme.run { if (isDarkTheme) onPrimaryContainer else secondaryContainer },
+    backgroundColor: Color = FixedAccentColors.secondaryFixed,
     contentColor: Color = MaterialTheme.colorScheme.run { if (isDarkTheme) surface else onSecondaryContainer },
     onClick: () -> Unit = {},
 ) {
@@ -602,20 +604,22 @@ fun PreferenceSwitchWithContainer(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(with(MaterialTheme.colorScheme) {
-                if (isChecked) primaryContainer else outline
-            })
+            .background(
+                if (isChecked) FixedAccentColors.primaryFixed else MaterialTheme.colorScheme.outline
+            )
             .toggleable(value = isChecked) { onClick() }
             .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon?.let {
-            Icon(imageVector = icon,
+            Icon(
+                imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = with(MaterialTheme.colorScheme) { if (isChecked) onSurfaceVariant else surface })
+                tint = if (isChecked) FixedAccentColors.onPrimaryFixed else Surfaces.surface
+            )
         }
         Column(
             modifier = Modifier
@@ -627,7 +631,7 @@ fun PreferenceSwitchWithContainer(
                     text = title,
                     maxLines = 2,
                     style = preferenceTitle,
-                    color = if (isChecked) colorScheme.onSurface else colorScheme.surface
+                    color = if (isChecked) FixedAccentColors.onPrimaryFixed else colorScheme.surface
                 )
             }
         }

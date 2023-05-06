@@ -563,7 +563,7 @@ fun FABs(
                     Icons.Outlined.FileDownload,
                     contentDescription = stringResource(R.string.download)
                 )
-            }, modifier = Modifier.padding(vertical = 12.dp)
+            }, modifier = Modifier.padding(vertical = 12.dp),
         )
     }
 
