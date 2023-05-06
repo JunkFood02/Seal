@@ -60,7 +60,6 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -234,7 +233,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                             title = stringResource(R.string.permission_issue),
                             description = stringResource(R.string.permission_issue_desc),
                             icon = Icons.Filled.SdCardAlert,
-                            isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                         ) {
                             if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
                                 Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {

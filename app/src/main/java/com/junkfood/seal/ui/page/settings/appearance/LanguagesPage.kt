@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.MainActivity
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
@@ -80,7 +79,6 @@ fun LanguagePage(onBackPressed: () -> Unit) {
                         title = stringResource(R.string.translate),
                         description = stringResource(R.string.translate_desc),
                         icon = Icons.Outlined.Translate,
-                        isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                     ) { uriHandler.openUri(weblate) }
                 }
                 item {

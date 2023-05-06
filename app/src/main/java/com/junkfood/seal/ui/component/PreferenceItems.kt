@@ -51,7 +51,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.Surfaces
@@ -519,9 +518,8 @@ fun PreferencesHintCard(
     title: String = "Title ".repeat(2),
     description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
-    isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme(),
     backgroundColor: Color = FixedAccentColors.secondaryFixed,
-    contentColor: Color = MaterialTheme.colorScheme.run { if (isDarkTheme) surface else onSecondaryContainer },
+    contentColor: Color = FixedAccentColors.onSecondaryFixed,
     onClick: () -> Unit = {},
 ) {
     Row(
@@ -639,7 +637,13 @@ fun PreferenceSwitchWithContainer(
             checked = isChecked,
             onCheckedChange = null,
             modifier = Modifier.padding(start = 12.dp, end = 6.dp),
-            thumbContent = thumbContent
+            thumbContent = thumbContent,
+            colors = SwitchDefaults.colors(
+                checkedIconColor = FixedAccentColors.onPrimaryFixed,
+                checkedThumbColor = FixedAccentColors.primaryFixed,
+                checkedTrackColor = FixedAccentColors.onPrimaryFixedVariant,
+                uncheckedBorderColor = Color.Transparent
+            )
         )
     }
 }

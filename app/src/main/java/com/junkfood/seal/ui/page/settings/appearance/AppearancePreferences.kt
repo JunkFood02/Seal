@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -136,8 +137,8 @@ fun AppearancePreferences(
                     modifier = Modifier.padding(18.dp), thumbnailUrl = image
                 )
                 val pagerState = rememberPagerState(initialPage = colorList.indexOf(
-                        Color(LocalSeedColor.current)
-                    ).run { if (equals(-1)) 1 else this })
+                    Color(LocalSeedColor.current)
+                ).run { if (equals(-1)) 1 else this })
                 HorizontalPager(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -172,7 +173,7 @@ fun AppearancePreferences(
                 }
                 val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                 PreferenceSwitchWithDivider(title = stringResource(id = R.string.dark_theme),
-                    icon = Icons.Outlined.DarkMode,
+                    icon = if (isDarkTheme) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
                     isChecked = isDarkTheme,
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },

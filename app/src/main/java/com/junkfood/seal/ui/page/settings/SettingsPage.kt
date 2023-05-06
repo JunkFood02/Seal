@@ -44,7 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.junkfood.seal.App
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
@@ -131,7 +130,6 @@ fun SettingsPage(navController: NavController) {
                             title = stringResource(R.string.battery_configuration),
                             icon = Icons.Rounded.EnergySavingsLeaf,
                             description = stringResource(R.string.battery_configuration_desc),
-                            isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                         ) {
                             launcher.launch(intent)
                             showBatteryHint =
