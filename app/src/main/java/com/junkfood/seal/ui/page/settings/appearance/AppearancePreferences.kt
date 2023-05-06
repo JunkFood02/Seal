@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,10 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -93,46 +92,40 @@ val colorList = listOf(
 )
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
-    ExperimentalPagerApi::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun AppearancePreferences(
     navController: NavHostController
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
+            canScroll = { true })
     val image by remember {
         mutableStateOf(
             listOf(
-                R.drawable.sample,
-                R.drawable.sample1,
-                R.drawable.sample2,
-                R.drawable.sample3
+                R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
             ).random()
         )
     }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier,
-                        text = stringResource(id = R.string.display),
-                    )
-                }, navigationIcon = {
-                    BackButton {
-                        navController.popBackStack()
-                    }
-                }, scrollBehavior = scrollBehavior
+            LargeTopAppBar(title = {
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.display),
+                )
+            }, navigationIcon = {
+                BackButton {
+                    navController.popBackStack()
+                }
+            }, scrollBehavior = scrollBehavior
             )
-        }, content = {
+        },
+        content = {
             Column(
                 Modifier
                     .padding(it)
@@ -140,23 +133,22 @@ fun AppearancePreferences(
             ) {
 
                 VideoCard(
-                    modifier = Modifier.padding(18.dp),
-                    thumbnailUrl = image
+                    modifier = Modifier.padding(18.dp), thumbnailUrl = image
                 )
-                val pagerState =
-                    rememberPagerState(
-                        initialPage = colorList.indexOf(Color(LocalSeedColor.current))
-                            .run { if (equals(-1)) 1 else this })
+                val pagerState = rememberPagerState(initialPage = colorList.indexOf(
+                        Color(LocalSeedColor.current)
+                    ).run { if (equals(-1)) 1 else this })
                 HorizontalPager(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clearAndSetSemantics { }, state = pagerState,
-                    count = colorList.size, contentPadding = PaddingValues(horizontal = 12.dp)
+                        .clearAndSetSemantics { },
+                    state = pagerState,
+                    pageCount = colorList.size,
+                    contentPadding = PaddingValues(horizontal = 12.dp)
                 ) {
                     Row() { ColorButtons(colorList[it]) }
                 }
-                HorizontalPagerIndicator(
-                    pagerState = pagerState,
+                HorizontalPagerIndicator(pagerState = pagerState,
                     pageCount = colorList.size,
                     modifier = Modifier
                         .clearAndSetSemantics { }
@@ -165,12 +157,10 @@ fun AppearancePreferences(
                     activeColor = MaterialTheme.colorScheme.primary,
                     inactiveColor = MaterialTheme.colorScheme.outlineVariant,
                     indicatorHeight = 6.dp,
-                    indicatorWidth = 6.dp
-                )
+                    indicatorWidth = 6.dp)
 
                 if (DynamicColors.isDynamicColorAvailable()) {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.dynamic_color),
+                    PreferenceSwitch(title = stringResource(id = R.string.dynamic_color),
                         description = stringResource(
                             id = R.string.dynamic_color_desc
                         ),
@@ -178,24 +168,20 @@ fun AppearancePreferences(
                         isChecked = LocalDynamicColorSwitch.current,
                         onClick = {
                             PreferenceUtil.switchDynamicColor()
-                        }
-                    )
+                        })
                 }
                 val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
-                PreferenceSwitchWithDivider(
-                    title = stringResource(id = R.string.dark_theme),
+                PreferenceSwitchWithDivider(title = stringResource(id = R.string.dark_theme),
                     icon = Icons.Outlined.DarkMode,
                     isChecked = isDarkTheme,
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },
-                    onClick = { navController.navigate(Route.DARK_THEME) }
-                )
-                if (Build.VERSION.SDK_INT >= 24)
-                    PreferenceItem(
-                        title = stringResource(R.string.language),
-                        icon = Icons.Outlined.Language,
-                        description = getLanguageDesc()
-                    ) { navController.navigate(Route.LANGUAGES) }
+                    onClick = { navController.navigate(Route.DARK_THEME) })
+                if (Build.VERSION.SDK_INT >= 24) PreferenceItem(
+                    title = stringResource(R.string.language),
+                    icon = Icons.Outlined.Language,
+                    description = getLanguageDesc()
+                ) { navController.navigate(Route.LANGUAGES) }
             }
         })
 }
@@ -214,22 +200,21 @@ fun RowScope.ColorButton(
     index: Int = 0,
     tonalStyle: PaletteStyle = PaletteStyle.TonalSpot,
 ) {
-    val tonalPalettes = color.toTonalPalettes(tonalStyle)
+    val tonalPalettes = remember {
+        color.toTonalPalettes(tonalStyle)
+    }
     val isSelect =
         !LocalDynamicColorSwitch.current && LocalSeedColor.current == color.toArgb() && LocalPaletteStyleIndex.current == index
-    ColorButtonImpl(
-        modifier = modifier,
+    ColorButtonImpl(modifier = modifier,
         tonalPalettes = tonalPalettes,
         cardColor = Surfaces.surfaceContainer,
-        isSelected = { isSelect }
-    ) {
+        isSelected = { isSelect }) {
         PreferenceUtil.switchDynamicColor(enabled = false)
         PreferenceUtil.modifyThemeSeedColor(color.toArgb(), index)
     }
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RowScope.ColorButtonImpl(
     modifier: Modifier = Modifier,
@@ -256,22 +241,18 @@ fun RowScope.ColorButtonImpl(
             val color2 = 90.a2
             val color3 = 60.a3
             Box(Modifier.fillMaxSize()) {
-                Box(
-                    modifier = modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .drawBehind { drawCircle(color1) }
-                        .align(Alignment.Center)
-                ) {
+                Box(modifier = modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .drawBehind { drawCircle(color1) }
+                    .align(Alignment.Center)) {
                     Surface(
-                        color = color2,
-                        modifier = Modifier
+                        color = color2, modifier = Modifier
                             .align(Alignment.BottomStart)
                             .size(24.dp)
                     ) {}
                     Surface(
-                        color = color3,
-                        modifier = Modifier
+                        color = color3, modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .size(24.dp)
                     ) {}
