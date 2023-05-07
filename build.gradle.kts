@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kotlin.gradlePlugin) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.ksp) apply false
 }
 
 tasks.register("clean", Delete::class) {

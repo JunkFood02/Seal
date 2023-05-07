@@ -6,6 +6,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("com.google.devtools.ksp")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization")
@@ -88,12 +89,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-                arg("room.incremental", "true")
-            }
-            correctErrorTypes = true
+        ksp {
+            arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+            arg("room.incremental", "true")
         }
         if (!splitApks)
             ndk {
@@ -206,7 +204,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     //TODO: Migrate to KSP
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     // okhttp
     implementation(libs.okhttp)
@@ -232,4 +230,15 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 
+}
+
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File
+) : CommandLineArgumentProvider {
+
+    override fun asArguments(): Iterable<String> {
+        return listOf("room.schemaLocation=${schemaDir.path}")
+    }
 }
