@@ -1,39 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="../../../../layout/compose-model-1651485741994.xml" value="0.9422382671480144" />
-        <entry key="../../../../layout/compose-model-1651732459930.xml" value="0.22314814814814815" />
-        <entry key="../../../../layout/compose-model-1651739120146.xml" value="0.1787037037037037" />
-        <entry key="../../../../layout/compose-model-1651828828315.xml" value="0.25" />
-        <entry key="app/src/main/java/com/junkfood/seal/ui/page/download/DownloadPage.kt" value="0.375" />
-        <entry key="app/src/main/java/com/junkfood/seal/ui/page/download/PlaylistSelectionDialog.kt" value="0.27954545454545454" />
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/seal.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19653727213541666" />
-        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.22135416666666666" />
-        <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.20729166666666668" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23585510253906253" />
-        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/fragment_settings_list.xml" value="0.32135416666666666" />
-        <entry key="app/src/main/res/menu/settings_toolbar.xml" value="0.22135416666666666" />
-        <entry key="app/src/main/res/menu/toolbar.xml" value="2.125" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.223" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
-        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.3098958333333333" />
-      </map>
-    </option>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
   </component>
 </project>

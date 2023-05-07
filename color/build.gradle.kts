@@ -4,25 +4,19 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
-kotlin {
-    jvmToolchain(8)
-}
+
 android {
     compileSdk = 33
     defaultConfig {
         minSdk = 21
         targetSdk = 33
     }
-    namespace = "com.junkfood.seal.color"
+    namespace = "com.junkfood02.seal.color"
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        sourceCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
         compose = true
@@ -35,6 +29,14 @@ android {
             isMinifyEnabled = true
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 dependencies {
     api(platform(libs.androidx.compose.bom))
@@ -43,5 +45,4 @@ dependencies {
     api(libs.androidx.core.ktx)
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.material3)
-
 }
