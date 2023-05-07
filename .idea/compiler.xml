@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
-      <module name="Seal.app" target="17" />
+      <module name="Seal.app" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

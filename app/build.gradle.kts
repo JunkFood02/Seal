@@ -7,7 +7,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.devtools.ksp")
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization")
 }
@@ -55,9 +55,7 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
-//kotlin {
-//    jvmToolchain(8)
-//}
+
 
 android {
     if (keystorePropertiesFile.exists()) {
@@ -124,13 +122,13 @@ android {
                 signingConfig = signingConfigs.getByName("debug")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_11
+//        targetCompatibility = JavaVersion.VERSION_11
+//    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
     buildFeatures {
         compose = true
     }
@@ -152,13 +150,17 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
         jniLibs.useLegacyPackaging = true
     }
     namespace = "com.junkfood.seal"
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 dependencies {
