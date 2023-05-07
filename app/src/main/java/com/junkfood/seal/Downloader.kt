@@ -131,6 +131,7 @@ object Downloader {
         val thumbnailUrl: String = "",
         val taskId: String = "",
         val playlistIndex: Int = 0,
+        val fullLog: String = "",
     )
 
     private var currentJob: Job? = null
@@ -474,7 +475,7 @@ object Downloader {
         ) { progress, _, line ->
             Log.d(TAG, line)
             mutableTaskState.update {
-                it.copy(progress = progress, progressText = line)
+                it.copy(progress = progress, progressText = line, fullLog = it.fullLog + line + "\n")
             }
             NotificationUtil.notifyProgress(
                 notificationId = notificationId,

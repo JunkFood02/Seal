@@ -22,11 +22,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,6 +55,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -95,6 +98,7 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.ui.component.download.ConsoleOutputCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
@@ -375,20 +379,13 @@ fun DownloadPageImpl(
                     )
                 }
                 content()
-//                val output = Downloader.mutableProcessOutput
-//                LazyRow() {
-//                    items(output.toList()) { entry ->
-//                        TextField(
-//                            value = entry.second,
-//                            label = { Text(entry.first) },
-//                            onValueChange = {},
-//                            readOnly = true,
-//                            minLines = 10,
-//                            maxLines = 10,
-//                        )
-//                    }
-//                }
-//                    PreviewFormat()
+                /*ConsoleOutputCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 16.dp, max = 200.dp),
+                    downloadLog = taskState.fullLog
+                )*/
+
                 NavigationBarSpacer()
                 Spacer(modifier = Modifier.height(160.dp))
             }
@@ -438,7 +435,8 @@ fun InputUrl(
         ) {
             val progressAnimationValue by animateFloatAsState(
                 targetValue = progress / 100f,
-                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+                label = "Progress Bar Animation"
             )
             if (progressAnimationValue < 0) LinearProgressIndicator(
                 modifier = Modifier
@@ -551,8 +549,8 @@ fun FABs(
     modifier: Modifier = Modifier,
     downloadCallback: () -> Unit = {},
     pasteCallback: () -> Unit = {},
-    cancelCallback : () -> Unit = {},
-    cancelAvailable : Boolean = true,
+    cancelCallback: () -> Unit = {},
+    cancelAvailable: Boolean = true,
 ) {
     Column(
         modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
