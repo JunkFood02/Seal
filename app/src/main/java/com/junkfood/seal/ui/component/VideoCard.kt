@@ -3,6 +3,8 @@ package com.junkfood.seal.ui.component
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -61,7 +64,17 @@ fun VideoCard(
                         .clip(MaterialTheme.shapes.small)
                         .shimmerEffect()
                         .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                )
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.BottomEnd)
+                            .height(12.dp)
+                            .width(42.dp)
+                            .clip(MaterialTheme.shapes.extraSmall)
+                            .background(Color.Black.copy(alpha = 0.4f))
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -71,8 +84,8 @@ fun VideoCard(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(18.dp)
-                            .clip(MaterialTheme.shapes.small)
+                            .height(16.dp)
+                            .clip(MaterialTheme.shapes.extraSmall)
                             .shimmerEffect()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -80,10 +93,16 @@ fun VideoCard(
                         modifier = Modifier
                             .fillMaxWidth(0.7f)
                             .height(12.dp)
-                            .clip(MaterialTheme.shapes.small)
+                            .clip(MaterialTheme.shapes.extraSmall)
                             .shimmerEffect()
                     )
                 }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(4.dp)
+                        .shimmerEffect()
+                )
             }
         }
 
@@ -156,8 +175,14 @@ fun VideoCard(
                     )
             }
         }
-        Crossfade(targetState = isLoading, label = "Crossfade between states") { isLoading ->
-            if(isLoading)
+        Crossfade(
+            targetState = isLoading,
+            label = "Crossfade between download states",
+            animationSpec = tween(
+                durationMillis = 150
+            )
+        ) { isLoading ->
+            if (isLoading)
                 loadingContent()
             else
                 loadedContent()
@@ -171,5 +196,14 @@ fun VideoCard(
 fun VideoCardPreview() {
     SealTheme() {
         VideoCard(isPreview = true)
+    }
+}
+
+@Composable
+@Preview
+@Preview(name = "Dark Mode Loaded", uiMode = Configuration.UI_MODE_NIGHT_YES)
+fun VideoCardPreviewLoaded() {
+    SealTheme() {
+        VideoCard(isPreview = true, isLoading = false)
     }
 }
