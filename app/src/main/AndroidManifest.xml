@@ -40,6 +40,11 @@
         android:supportsRtl="true"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".CrashReportActivity"
+            android:exported="false"
+            android:label="CrashReportActivity"
+            android:theme="@style/Theme.Seal" />
+        <activity
             android:name=".QuickDownloadActivity"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -48,7 +53,9 @@
             android:theme="@style/Theme.Seal.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
@@ -78,6 +85,7 @@
             android:theme="@style/Theme.Seal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>

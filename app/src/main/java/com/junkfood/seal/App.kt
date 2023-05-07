@@ -61,11 +61,6 @@ class App : Application() {
         clipboard = getSystemService()!!
         connectivityManager = getSystemService()!!
 
-        Thread.setDefaultUncaughtExceptionHandler { _, e ->
-            e.printStackTrace()
-            clipboard.setPrimaryClip(ClipData.newPlainText("Error report", e.message))
-        }
-
         applicationScope.launch((Dispatchers.IO)) {
             try {
                 if (!PreferenceUtil.containsKey(TEMPLATE_ID)) {
@@ -103,6 +98,15 @@ class App : Application() {
         audioDownloadDir = AUDIO_DIRECTORY.getString(File(videoDownloadDir, "Audio").absolutePath)
 
         if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
+
+
+        Thread.setDefaultUncaughtExceptionHandler { _, e ->
+            e.printStackTrace()
+            startActivity(Intent(this, CrashReportActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra("error_report", getVersionReport() + "\n" + e.stackTraceToString())
+            })
+        }
     }
 
 

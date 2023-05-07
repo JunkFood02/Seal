@@ -302,7 +302,7 @@ fun DownloadPageImpl(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            TitleWithProgressIndicator(showProgressIndicator = downloaderState !is Downloader.State.Idle,
+            TitleWithProgressIndicator(showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
                 isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
                 showCancelOperation = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
                 currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
@@ -558,12 +558,14 @@ fun FABs(
             modifier = Modifier.padding(vertical = 12.dp),
         )
         FloatingActionButton(
-            onClick = downloadCallback, content = {
+            onClick = downloadCallback,
+            content = {
                 Icon(
                     Icons.Outlined.FileDownload,
                     contentDescription = stringResource(R.string.download)
                 )
-            }, modifier = Modifier.padding(vertical = 12.dp),
+            },
+            modifier = Modifier.padding(vertical = 12.dp),
         )
     }
 

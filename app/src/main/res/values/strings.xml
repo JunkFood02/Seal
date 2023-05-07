@@ -352,4 +352,6 @@
     <string name="convert_subtitle_desc">Convert the subtitles to another format</string>
     <string name="split_video">Split video</string>
     <string name="split_video_msg">Video will be split into %1$d chapters</string>
+    <string name="unknown_error_title">Oops! Something went wrong</string>
+    <string name="copy_and_exit">Copy and exit</string>
 </resources>
