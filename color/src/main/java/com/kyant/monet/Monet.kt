@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
-import kotlin.math.roundToInt
 
 val LocalTonalPalettes = staticCompositionLocalOf {
     Color(0xFF007FAC).toTonalPalettes()
@@ -87,20 +86,4 @@ fun dynamicColorScheme(isLight: Boolean = !isSystemInDarkTheme()): ColorScheme {
             tertiaryContainer = 30.a3
         )
     }
-}
-
-fun Srgb.toColor(): Color {
-    return Color(
-        (r * 255).roundToInt(),
-        (g * 255).roundToInt(),
-        (b * 255).roundToInt()
-    )
-}
-
-fun Color.toSrgb(): Srgb {
-    return Srgb(
-        red.toDouble(),
-        green.toDouble(),
-        blue.toDouble()
-    )
 }

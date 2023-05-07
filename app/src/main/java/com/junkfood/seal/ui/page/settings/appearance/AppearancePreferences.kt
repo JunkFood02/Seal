@@ -64,14 +64,12 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.getLanguageDesc
 import com.junkfood.seal.util.palettesMap
-import com.kyant.monet.Hct
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.PaletteStyle
 import com.kyant.monet.TonalPalettes
@@ -79,18 +77,20 @@ import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
-import com.kyant.monet.toColor
+import io.material.hct.Hct
 
-val colorList = listOf(
-    Color(DEFAULT_SEED_COLOR),
-    Color.Blue,
-    Hct(60.0, 100.0, 70.0).toSrgb().toColor(),
-    Hct(125.0, 50.0, 60.0).toSrgb().toColor(),
-    Color.Cyan,
-    Color.Red,
-    Color.Yellow,
-    Color.Magenta
-)
+val colorList = (1..10).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
+
+//    listOf(
+//    Color(DEFAULT_SEED_COLOR),
+//    Color.Blue,
+//    Color(Hct.from(60.0, 100.0, 70.0).toInt()),
+//    Color(Hct.from(125.0, 50.0, 60.0).toInt()),
+//    Color.Cyan,
+//    Color.Red,
+//    Color.Yellow,
+//    Color.Magenta
+//)
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
