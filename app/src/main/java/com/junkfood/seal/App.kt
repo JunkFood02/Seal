@@ -61,6 +61,11 @@ class App : Application() {
         clipboard = getSystemService()!!
         connectivityManager = getSystemService()!!
 
+        Thread.setDefaultUncaughtExceptionHandler { _, e ->
+            e.printStackTrace()
+            clipboard.setPrimaryClip(ClipData.newPlainText("Error report", e.message))
+        }
+
         applicationScope.launch((Dispatchers.IO)) {
             try {
                 if (!PreferenceUtil.containsKey(TEMPLATE_ID)) {
