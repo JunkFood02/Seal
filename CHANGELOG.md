@@ -5,6 +5,21 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.0][1.10.0] - unreleased
+
+### Added
+* Convert subtitles to another format
+* Split video by chapters
+
+### Fixed
+* App crashes when being opened in the system share sheet
+
+### Changed
+* Update `ColorScheme`s and components to reflect the new MD3 color roles
+* Update youtubedl-android version, added pycryptodomex to the library
+* Move Video formats to the bottom of the `FormatPage`
+
+
 ## [v1.9.2][1.9.2] - 2023-04-27
 
 ### Fixed
