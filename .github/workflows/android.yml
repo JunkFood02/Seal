@@ -19,7 +19,7 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 7.5
+          gradle-version: 8.0
       - run: gradle assembleRelease
 
       - uses: ilharp/sign-android-release@v1
