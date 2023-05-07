@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,6 +34,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
@@ -42,6 +44,7 @@ import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.Badge
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -293,7 +296,9 @@ fun DownloadPageImpl(
         FABs(
             modifier = with(receiver = Modifier) { if (showDownloadProgress) this else this.imePadding() },
             downloadCallback = downloadCallback,
-            pasteCallback = pasteCallback
+            pasteCallback = pasteCallback,
+            cancelCallback = cancelCallback,
+            cancelAvailable = downloaderState is Downloader.State.DownloadingVideo || downloaderState is Downloader.State.DownloadingPlaylist,
         )
     }) {
         Column(
@@ -546,6 +551,8 @@ fun FABs(
     modifier: Modifier = Modifier,
     downloadCallback: () -> Unit = {},
     pasteCallback: () -> Unit = {},
+    cancelCallback : () -> Unit = {},
+    cancelAvailable : Boolean = true,
 ) {
     Column(
         modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End
@@ -559,14 +566,31 @@ fun FABs(
             },
             modifier = Modifier.padding(vertical = 12.dp),
         )
-        FloatingActionButton(
-            onClick = downloadCallback, content = {
-                Icon(
-                    Icons.Outlined.FileDownload,
-                    contentDescription = stringResource(R.string.download)
-                )
-            }, modifier = Modifier.padding(vertical = 12.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AnimatedVisibility(visible = cancelAvailable) {
+                ExtendedFloatingActionButton(onClick = cancelCallback) {
+                    Icon(
+                        Icons.Outlined.Cancel,
+                        contentDescription = stringResource(R.string.cancel)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+            FloatingActionButton(
+                onClick = downloadCallback, content = {
+                    Icon(
+                        Icons.Outlined.FileDownload,
+                        contentDescription = stringResource(R.string.download)
+                    )
+                }, modifier = Modifier
+                    .padding(vertical = 12.dp)
+                    .padding(start = 12.dp)
+            )
+        }
+
     }
 
 }
