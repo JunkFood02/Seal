@@ -21,6 +21,9 @@
 #-renamesourcefileattribute SourceFile
 
 #noinspection ShrinkerUnresolvedReference
+
+-dontobfuscate
+
 -keep class com.yausername.** { *; }
 
 # Keep `Companion` object fields of serializable classes.

@@ -2,7 +2,6 @@ package com.junkfood.seal
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
@@ -28,7 +27,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
-import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.junkfood.seal.util.YT_DLP
@@ -41,6 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 @HiltAndroidApp
@@ -82,9 +81,9 @@ class App : Application() {
                 }
                 UpdateUtil.deleteOutdatedApk()
             } catch (e: Exception) {
-                e.printStackTrace()
-                clipboard.setPrimaryClip(ClipData.newPlainText(null, e.message))
-                ToastUtil.makeToastSuspend(e.message.toString())
+                withContext(Dispatchers.Main) {
+                    startCrashReportActivity(e)
+                }
             }
         }
 
@@ -101,14 +100,17 @@ class App : Application() {
 
 
         Thread.setDefaultUncaughtExceptionHandler { _, e ->
-            e.printStackTrace()
-            startActivity(Intent(this, CrashReportActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                putExtra("error_report", getVersionReport() + "\n" + e.stackTraceToString())
-            })
+            startCrashReportActivity(e)
         }
     }
 
+    private fun startCrashReportActivity(th: Throwable) {
+        th.printStackTrace()
+        startActivity(Intent(this, CrashReportActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
+        })
+    }
 
     companion object {
         private const val PRIVATE_DIRECTORY_SUFFIX = ".Seal"
