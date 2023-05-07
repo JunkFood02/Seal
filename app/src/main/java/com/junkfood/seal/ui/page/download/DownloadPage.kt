@@ -203,7 +203,7 @@ fun DownloadPage(
             processCount = processCount,
             showVideoCard = showVideoCard,
             showOutput = showOutput,
-            showDownloadProgress = taskState.taskId.isNotEmpty(),
+            showDownloadProgress = downloaderState !is Downloader.State.Idle || taskState.taskId.isNotEmpty(),
             pasteCallback = {
                 matchUrlFromClipboard(
                     string = clipboardManager.getText().toString(),
@@ -302,7 +302,8 @@ fun DownloadPageImpl(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            TitleWithProgressIndicator(showProgressIndicator = downloaderState !is Downloader.State.Idle,
+            TitleWithProgressIndicator(
+                showProgressIndicator = downloaderState !is Downloader.State.Idle,
                 isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
                 showCancelOperation = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
                 currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
@@ -335,7 +336,8 @@ fun DownloadPageImpl(
                             fileSizeApprox = fileSizeApprox,
                             duration = duration,
                             onClick = onVideoCardClicked,
-                            isPreview = isPreview
+                            isPreview = isPreview,
+                            isLoading = downloaderState is Downloader.State.FetchingInfo,
                         )
                     }
                     InputUrl(

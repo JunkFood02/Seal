@@ -1,11 +1,14 @@
 package com.junkfood.seal.ui.component
 
 import android.content.res.Configuration
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,78 +45,122 @@ fun VideoCard(
     progress: Float = 100f,
     fileSizeApprox: Double = 1024 * 1024 * 69.0,
     duration: Int = 359,
-    isPreview: Boolean = false
+    isPreview: Boolean = false,
+    isLoading: Boolean = true
 ) {
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(),
         onClick = { onClick() }, shape = MaterialTheme.shapes.small
     ) {
-        Column {
-            Box(Modifier.fillMaxWidth()) {
-                AsyncImageImpl(
-                    modifier = Modifier
-                        .padding()
+        val loadingContent: @Composable () -> Unit = {
+            Column {
+                Box(
+                    Modifier
                         .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.small)
+                        .shimmerEffect()
                         .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                        .clip(MaterialTheme.shapes.small),
-                    model = thumbnailUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    isPreview = isPreview
                 )
-                Surface(
+                Column(
                     modifier = Modifier
-                        .padding(4.dp)
-                        .align(Alignment.BottomEnd),
-                    color = Color.Black.copy(alpha = 0.68f),
-                    shape = MaterialTheme.shapes.extraSmall
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    val fileSizeText = fileSizeApprox.toFileSizeText()
-                    val durationText = duration.toDurationText()
-                    Text(
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        text = "$fileSizeText · $durationText",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color.White
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(18.dp)
+                            .clip(MaterialTheme.shapes.small)
+                            .shimmerEffect()
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            .height(12.dp)
+                            .clip(MaterialTheme.shapes.small)
+                            .shimmerEffect()
                     )
                 }
             }
+        }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+        val loadedContent: @Composable () -> Unit = {
+            Column {
+                Box(Modifier.fillMaxWidth()) {
+                    AsyncImageImpl(
+                        modifier = Modifier
+                            .padding()
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                            .clip(MaterialTheme.shapes.small),
+                        model = thumbnailUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        isPreview = isPreview
+                    )
+                    Surface(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.BottomEnd),
+                        color = Color.Black.copy(alpha = 0.68f),
+                        shape = MaterialTheme.shapes.extraSmall
+                    ) {
+                        val fileSizeText = fileSizeApprox.toFileSizeText()
+                        val durationText = duration.toDurationText()
+                        Text(
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            text = "$fileSizeText · $durationText",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                val progressAnimationValue by animateFloatAsState(
+                    targetValue = progress,
+                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                    label = "Download Progress Bar"
                 )
-                Text(
-                    modifier = Modifier.padding(top = 3.dp),
-                    text = author,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (progress < 0f)
+                    LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                else
+                    LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth(),
+                        progress = progressAnimationValue / 100f,
+                    )
             }
-            val progressAnimationValue by animateFloatAsState(
-                targetValue = progress,
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-            )
-            if (progress < 0f)
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
-                )
+        }
+        Crossfade(targetState = isLoading, label = "Crossfade between states") { isLoading ->
+            if(isLoading)
+                loadingContent()
             else
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
-                    progress = progressAnimationValue / 100f,
-                )
+                loadedContent()
         }
     }
 }

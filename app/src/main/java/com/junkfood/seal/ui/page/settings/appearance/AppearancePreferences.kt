@@ -141,7 +141,8 @@ fun AppearancePreferences(
 
                 VideoCard(
                     modifier = Modifier.padding(18.dp),
-                    thumbnailUrl = image
+                    thumbnailUrl = image,
+                    isLoading = false
                 )
                 val pagerState =
                     rememberPagerState(

@@ -270,7 +270,10 @@ object Downloader {
             playlistIndex = playlistIndex
         )
 
-    fun updateState(state: State) = mutableDownloaderState.update { state }
+    fun updateState(state: State) {
+        Log.i("DownloadService", "updateState: $state")
+        mutableDownloaderState.update { state }
+    }
 
     fun clearErrorState() {
         mutableErrorState.update { ErrorState() }
@@ -384,6 +387,7 @@ object Downloader {
                         preferences = downloadPreferences
                     )
                 }
+            updateState(State.Idle)
         }
     }
 
