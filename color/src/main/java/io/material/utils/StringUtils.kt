@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.material.utils
 
-package io.material.utils;
-
-/** Utility methods for string representations of colors. */
-final class StringUtils {
-  private StringUtils() {}
-
-  /**
-   * Hex string representing color, ex. #ff0000 for red.
-   *
-   * @param argb ARGB representation of a color.
-   */
-  public static String hexFromArgb(int argb) {
-    int red = ColorUtils.redFromArgb(argb);
-    int blue = ColorUtils.blueFromArgb(argb);
-    int green = ColorUtils.greenFromArgb(argb);
-    return String.format("#%02x%02x%02x", red, green, blue);
-  }
+/** Utility methods for string representations of colors.  */
+internal object StringUtils {
+    /**
+     * Hex string representing color, ex. #ff0000 for red.
+     *
+     * @param argb ARGB representation of a color.
+     */
+    fun hexFromArgb(argb: Int): String {
+        val red = ColorUtils.redFromArgb(argb)
+        val blue = ColorUtils.blueFromArgb(argb)
+        val green = ColorUtils.greenFromArgb(argb)
+        return String.format("#%02x%02x%02x", red, green, blue)
+    }
 }

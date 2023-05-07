@@ -79,7 +79,9 @@ import com.kyant.monet.a2
 import com.kyant.monet.a3
 import io.material.hct.Hct
 
-val colorList = (1..10).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
+val colorList = ((4..10) + (1..3))
+    .map { it * 35.0 }
+    .map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
 
 //    listOf(
 //    Color(DEFAULT_SEED_COLOR),

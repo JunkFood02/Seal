@@ -110,9 +110,9 @@ class TonalPalettes(
 
         private fun Color.transform(tone: Double, spec: ColorSpec): Color {
             return Color(Hct.fromInt(this.toArgb()).apply {
-                this.tone = tone
-                this.chroma = spec.chroma(this.chroma)
-                this.hue = spec.hueShift(this.hue) + this.hue
+                setTone(tone)
+                setChroma(spec.chroma(this.chroma))
+                setHue(spec.hueShift(this.hue) + this.hue)
             }.toInt())
         }
 
