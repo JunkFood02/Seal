@@ -156,6 +156,10 @@ android {
         }
         jniLibs.useLegacyPackaging = true
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     namespace = "com.junkfood.seal"
 }
 
@@ -205,7 +209,6 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    //TODO: Migrate to KSP
     ksp(libs.room.compiler)
 
     // okhttp
