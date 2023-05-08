@@ -145,7 +145,7 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                             }
                             else ClearButton { templateText = "" }
                         },
-                        maxLines = 6,
+                        maxLines = 12,
                         minLines = 6,
                         /*                        keyboardActions = KeyboardActions(onDone = {
                                                     softwareKeyboardController?.hide()
