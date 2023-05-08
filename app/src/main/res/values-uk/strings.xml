@@ -185,7 +185,7 @@
     <string name="invalid_input">Неправильні дані</string>
     <string name="lowest_quality">Найгірша якість</string>
     <string name="multiselect_mode">Режим множинного вибору</string>
-    <string name="private_mode">Приватний режим</string>
+    <string name="private_mode">Анонімний режим</string>
     <string name="private_mode_desc">Вимкнути історію завантажень</string>
     <string name="dynamic_color">Динамічний колір</string>
     <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми застосунку</string>
@@ -200,7 +200,7 @@
     <string name="selected_item_count">%1$d вибрано</string>
     <string name="general_settings_desc">Yt-dlp версія, сповіщення, список відтворення</string>
     <string name="network_settings_desc">Обмеження швидкості, завантажувач, cookies</string>
-    <string name="disable_preview_desc">Вимкнути попередній перегляд для завантажень</string>
+    <string name="disable_preview_desc">Не відображати прев\'ю під час завантаження</string>
     <string name="privacy">Конфіденційність</string>
     <string name="use_custom_command">Використати користувацьку команду</string>
     <string name="private_directory">Приватний каталог</string>

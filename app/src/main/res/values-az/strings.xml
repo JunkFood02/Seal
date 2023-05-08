@@ -165,7 +165,7 @@
     <string name="update">Yenilə</string>
     <string name="aria2_desc">Xarici endirici kimi aria2c istifadə et</string>
     <string name="clear_temp_files_count">%1$d müvəqqəti fayl silindi</string>
-    <string name="private_mode">Şəxsi rejim</string>
+    <string name="private_mode">Gizli rejim</string>
     <string name="dynamic_color">Dinamikalı rəng</string>
     <string name="dynamic_color_desc">Rəngləri divar kağızlarından tətbiq mövzusuna tətbiq et</string>
     <string name="download_with_cellular">Mobil istifadə edərək endir</string>
@@ -181,7 +181,7 @@
     <string name="general_settings_desc">Yt-dlp versiyası, bildiriş, pleylist</string>
     <string name="network_settings_desc">Sürət limiti, endirici, məlumat bazası</string>
     <string name="disable_preview">Önizləməni deaktiv et</string>
-    <string name="disable_preview_desc">Endirmələrdə önizləməni deaktiv et</string>
+    <string name="disable_preview_desc">Yükləmə əsnasında miniatürlər göstərilmir</string>
     <string name="privacy">Məxfilik</string>
     <string name="private_directory">Şəxsi kataloq</string>
     <string name="private_directory_desc">Endirmələri gizli kataloqda saxla</string>
@@ -298,4 +298,5 @@
     <string name="no_custom_command_tasks">Xüsusi əmr tapşırıqları yoxdur</string>
     <string name="msg_from_developer">Tərtibatçıdan mesaj</string>
     <string name="sponsor_msg2">Çox sağ olun!</string>
+    <string name="download_video_desc">Videoları URL-dən yüklə</string>
 </resources>

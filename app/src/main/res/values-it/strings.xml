@@ -181,7 +181,7 @@
     <string name="sponsorblock_desc">Rimuovi i segmenti dai video con l\'API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere dal file video</string>
     <string name="cookies_desc">Utilizzare i cookie formattati Netscape per i download</string>
-    <string name="private_mode">Modalità privata</string>
+    <string name="private_mode">Modalità incognito</string>
     <string name="private_mode_desc">Disattiva la cronologia degli scaricamenti</string>
     <string name="multiselect_mode">Modalità multiselezione</string>
     <string name="dynamic_color">Colore dinamico</string>
@@ -204,7 +204,7 @@
     <string name="crop_artwork">Ritaglia l\'immagine</string>
     <string name="crop_artwork_desc">Ritaglia l\'immagine incorporata in un quadrato</string>
     <string name="network_settings_desc">Limite di velocità, scaricatore, cookie</string>
-    <string name="disable_preview_desc">Disattiva l\'anteprima degli scaricamenti</string>
+    <string name="disable_preview_desc">Nessuna visualizzazione delle miniature durante il download</string>
     <string name="privacy">Privacy</string>
     <string name="use_custom_command">Usa un comando personalizzato</string>
     <string name="private_directory">Directory privata</string>
@@ -290,4 +290,10 @@
     <string name="import_from_preferences">Importa</string>
     <string name="temporary_directory">Directory temporanea</string>
     <string name="temporary_directory_desc">Salva file temporanei nella directory interna</string>
+    <string name="msg_from_developer">Messaggio dello sviluppatore</string>
+    <string name="sponsor_msg2">Grazie mille!</string>
+    <string name="auto_update_disabled_msg">L\'aggiornamento automatico non è disponibile per le build %1$s. Se non hai installato %1$s sul dispositivo, o se vorresti provare in anteprima le nuove funzionalità di Seal, considera %2$s.</string>
+    <string name="okay">Va bene</string>
+    <string name="got_it">Ho capito</string>
+    <string name="feature_unavailable">Funzione non disponibile</string>
 </resources>

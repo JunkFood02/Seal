@@ -182,7 +182,7 @@
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
-    <string name="private_mode">Приватный режим</string>
+    <string name="private_mode">Режим инкогнито</string>
     <string name="private_mode_desc">Отключить историю загрузок</string>
     <string name="dynamic_color">Динамические цвета</string>
     <string name="dynamic_color_desc">Примените цвета из обоев к теме приложения</string>
@@ -200,7 +200,7 @@
     <string name="general_settings_desc">Версия Yt-dlp, уведомление, плейлист</string>
     <string name="network_settings_desc">Ограничить скорость, загрузчик, файлы cookie</string>
     <string name="disable_preview">Отключить миниатюру</string>
-    <string name="disable_preview_desc">Отключить миниатюру в загружаемом</string>
+    <string name="disable_preview_desc">Не отображать миниатюры во время загрузки</string>
     <string name="use_custom_command">Использовать свою команду</string>
     <string name="privacy">Конфиденциальность</string>
     <string name="crop_artwork">Обрезать изображение</string>

@@ -182,7 +182,7 @@
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
     <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio interno</string>
     <string name="multiselect_mode">Modo de multiselección</string>
-    <string name="private_mode">Modo privado</string>
+    <string name="private_mode">Modo incognito</string>
     <string name="private_mode_desc">Desactiva el almacenamiento de carátulas/miniaturas</string>
     <string name="dynamic_color">Color dinámico</string>
     <string name="dynamic_color_desc">Aplicar los colores de los fondos de pantalla al tema de la aplicación</string>
@@ -207,7 +207,7 @@
     <string name="crop_artwork">Recortar carátulas</string>
     <string name="crop_artwork_desc">Recortar la imagen incrustada en un cuadrado</string>
     <string name="disable_preview">Deshabilitar vista previa</string>
-    <string name="disable_preview_desc">Deshabilitar la vista previa en las descargas</string>
+    <string name="disable_preview_desc">No se muestran miniaturas durante la descarga</string>
     <string name="private_directory">Directorio privado</string>
     <string name="select_all">Seleccionar todo</string>
     <string name="download_selection_desc">Seleccione los vídeos que desea descargar de la lista de reproducción \"%1$s\"</string>
@@ -298,4 +298,5 @@
     <string name="no_custom_command_tasks">No hay tareas de comando personalizadas</string>
     <string name="msg_from_developer">Mensaje del desarrollador</string>
     <string name="sponsor_msg2">¡Muchas gracias!</string>
+    <string name="download_video_desc">Descargar los vídeos desde la URL</string>
 </resources>

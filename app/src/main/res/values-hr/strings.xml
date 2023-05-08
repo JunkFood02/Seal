@@ -51,7 +51,7 @@
     <string name="error_copied">Izvješće o pogrešci kopirano u međuspremnik</string>
     <string name="yt_dlp_docs">Reference korištenja yt-dlp</string>
     <string name="not_convert">Nepromijenjeno</string>
-    <string name="convert_audio_format_desc">Zvuk u MP3 ili M4A formatu funkcionira na većini uređaja</string>
+    <string name="convert_audio_format_desc">Ponovno kodiranje audio datoteka će prouzročiti gubitak kvalitete zvuka i povećati veličinu datoteke.</string>
     <string name="best_quality">Najbolja kvaliteta (zadano)</string>
     <string name="video_format_preference">Prioritetni oblik videa</string>
     <string name="start_download">Preuzmi</string>

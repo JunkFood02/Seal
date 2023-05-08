@@ -6,7 +6,7 @@
     <string name="download_settings_desc">General, format, comandă personalizată</string>
     <string name="download">Descarcă</string>
     <string name="yt_dlp_up_to_date">Folosind cea mai recentă versiune de yt-dlp</string>
-    <string name="fetching_info">Preluarea info video …</string>
+    <string name="fetching_info">Preluand informatiile video-ului …</string>
     <string name="permission_denied">Permisiunea refuzată</string>
     <string name="download_start_msg">Descarcă \"%1$s\"</string>
     <string name="ytdlp_version">Versiunea YT-dlp</string>
@@ -24,7 +24,7 @@
     <string name="edit">Editați</string>
     <string name="dark_theme">Temă întunecată</string>
     <string name="follow_system">Sistem</string>
-    <string name="off">Off</string>
+    <string name="off">Oprire</string>
     <string name="cancel">Anulează</string>
     <string name="settings_before_download">Configurați înainte de a descărca</string>
     <string name="error_copied">Raport de eroare copiat în clipboard</string>
@@ -37,7 +37,7 @@
     <string name="download_success_msg">Descărcarea s-a terminat</string>
     <string name="paste_msg">Lipiți URL-ul din clipboard</string>
     <string name="download_error_msg">Nu s-a putut descărca fișierul</string>
-    <string name="fetch_info_error_msg">Nu a putut prelua informații video</string>
+    <string name="fetch_info_error_msg">Nu s-a putut prelua informații video</string>
     <string name="general_settings">General</string>
     <string name="paste_fail_msg">Nu s-a putut potrivi URL-ul din clipboard</string>
     <string name="downloads_history">Descărcări</string>
@@ -54,7 +54,7 @@
     <string name="display_settings">Temă întunecată, culoare dinamică, limbi</string>
     <string name="yt_dlp_docs">Referințe de utilizare YT-dlp</string>
     <string name="print_details">Ieșire detaliată</string>
-    <string name="custom_command_desc">Rulați comanda yt-dlp cu șablon personalizat</string>
+    <string name="custom_command_desc">Rulați comanda yt-dlp cu template personalizat</string>
     <string name="video_directory">Dosar video</string>
     <string name="select_all">Selectează tot</string>
     <string name="template_selection">Selectarea șablonului</string>
@@ -79,7 +79,7 @@
     <string name="lowest_quality">Cea mai scăzută calitate</string>
     <string name="network_settings_desc">Limită de rată, descărcare, cookie-uri</string>
     <string name="disable_preview">Dezactivați previzualizarea</string>
-    <string name="disable_preview_desc">Dezactivați previzualizarea la descărcări</string>
+    <string name="disable_preview_desc">Fără afișarea miniaturilor în timpul descărcării</string>
     <string name="privacy">Confidențialitate</string>
     <string name="use_custom_command">Utilizați comanda personalizată</string>
     <string name="private_directory">Director privat</string>
@@ -107,7 +107,7 @@
     <string name="app_up_to_date">Versiunea curentă este actualizată</string>
     <string name="update">Actualizare</string>
     <string name="video_file_size">Dimensiunea fișierului video</string>
-    <string name="multiselect_item_count">%1$d video(uri), %2$d fișier(e) audio(e)</string>
+    <string name="multiselect_item_count">%1$d video(uri), %2$d fișier(e) audio</string>
     <string name="remove_cookie_profile_desc">Elimină cookie-urile pentru \"%1$s\"\?</string>
     <string name="new_template">Șablon nou</string>
     <string name="status_fetching_video_info">Preluare informații</string>
@@ -130,7 +130,7 @@
     <string name="status_completed">Efectuat</string>
     <string name="export_to_clipboard">Exportați în clipboard</string>
     <string name="clear_temp_files_desc">Ștergeți toate fișierele temporare din directorul intern</string>
-    <string name="private_mode">Modul privat</string>
+    <string name="private_mode">Modul incognito</string>
     <string name="download_disabled_with_cellular">Descărcarea cu rețeaua celulară este dezactivată conform setărilor dvs</string>
     <string name="format_selection_desc">Selectați formatul de descărcat înainte de a începe descărcarea</string>
     <string name="github_issue_desc">Trimiteți o problemă pentru raportul de eroare sau cererea de funcții</string>
@@ -182,7 +182,7 @@
     <string name="unlimited">Nelimitat</string>
     <string name="sponsor_msg">Seal va fi întotdeauna gratuit și open source pentru toată lumea. Dacă îți place, te rog să mă sponsorizezi pe GitHub!</string>
     <string name="convert_audio_format_desc">Recodificarea fișierelor audio va duce la pierderea calității audio și la creșterea dimensiunii fișierului.</string>
-    <string name="clip_video">Clip video</string>
+    <string name="clip_video">Clipează video</string>
     <string name="convert_audio_format">Convertiți formatul audio</string>
     <string name="audio_format">Format audio</string>
     <string name="no_downloaded_media">Nu există medii descărcate</string>
@@ -286,4 +286,16 @@
     <string name="sponsors">Sponsori</string>
     <string name="temporary_directory">Director temporar</string>
     <string name="temporary_directory_desc">Stocați fișierele temporare în directorul intern</string>
+    <string name="format">Format</string>
+    <string name="download_range_desc">Specifica intervalul de videoclipuri pentru a descarca din playlist-ul \"%3$s\" (de la %1$d pana la %2$d).</string>
+    <string name="msg_from_developer">Mesaj de la dezvoltator</string>
+    <string name="sponsor_msg2">Mulțumesc foarte mult!</string>
+    <string name="concurrent_download_num">%d din thread-uri v-or fi folosit pentru a descărca video nativ DASH/HLS concurent.</string>
+    <string name="crop_artwork">Decupeaza arta</string>
+    <string name="permission_issue_desc">Locatiile din afara Download/ si Documents/ nu sunt suportate</string>
+    <string name="clear">Sterge</string>
+    <string name="video_creator_sample_text">Exemplu text creator video</string>
+    <string name="video_title_sample_text">Exemplu text titlu video</string>
+    <string name="edit_shortcuts">Editează scurtături</string>
+    <string name="running_tasks">Rularea activităților</string>
 </resources>

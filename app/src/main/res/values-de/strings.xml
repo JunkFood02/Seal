@@ -183,7 +183,7 @@
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
     <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
     <string name="private_mode_desc">Download-Verlauf deaktivieren</string>
-    <string name="private_mode">Privater Modus</string>
+    <string name="private_mode">Inkognito-Modus</string>
     <string name="dynamic_color">Dynamische Farbe</string>
     <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das Farbschema anwenden</string>
     <string name="download_with_cellular">Herunterladen über Mobilfunk</string>
@@ -204,7 +204,7 @@
     <string name="use_custom_command">Benutzerdefinierten Befehl verwenden</string>
     <string name="general_settings_desc">Yt-dlp Version, Benachrichtigung, Wiedergabeliste</string>
     <string name="network_settings_desc">Ratenbegrenzung, Downloader, Cookies</string>
-    <string name="disable_preview_desc">Vorschau bei Downloads deaktivieren</string>
+    <string name="disable_preview_desc">Keine Anzeige von Vorschaubildern während des Downloads</string>
     <string name="private_directory">Privater Ordner</string>
     <string name="private_directory_desc">Downloads in einem versteckten Ordner speichern</string>
     <string name="crop_artwork">Bild zuschneiden</string>
@@ -298,4 +298,5 @@
     <string name="switch_to_github_builds">Wechseln zu GitHub-Builds</string>
     <string name="no_custom_command_tasks">Keine benutzerdefinierten Befehlsaufgaben</string>
     <string name="got_it">Verstanden</string>
+    <string name="download_video_desc">Videos von der URL herunterladen</string>
 </resources>
