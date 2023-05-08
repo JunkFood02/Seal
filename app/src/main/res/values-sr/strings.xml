@@ -128,7 +128,7 @@
     <string name="clear_temp_files">Избришите привремене фајлове</string>
     <string name="clear_temp_files_count">Избрисано је %1$d привремених фајлова</string>
     <string name="multiselect_mode">Режим вишеструког избора</string>
-    <string name="private_mode">Приватни режим</string>
+    <string name="private_mode">Инкогнито режим</string>
     <string name="dynamic_color_desc">Примените боје с позадина на тему апликације</string>
     <string name="download_with_cellular">Преузимање помоћу мобилних података</string>
     <string name="download_disabled_with_cellular">Преузимање путем мобилних података је онемогућено у складу с Вашим подешавањима</string>
@@ -210,7 +210,7 @@
     <string name="sponsorblock_categories_desc">Наведите SponsorBlock категорије које ће бити уклоњене из видео фајла</string>
     <string name="download_with_cellular_desc">Дозволите преузимање медија када сте повезани на мреже с ограничењем</string>
     <string name="network_settings_desc">Ограничење брзине, програм за преузимање, колачићи</string>
-    <string name="disable_preview_desc">Онемогућите преглед преузимања</string>
+    <string name="disable_preview_desc">Нема приказа сличица током преузимања</string>
     <string name="private_directory_desc">Чувајте преузимања у скривеном директоријуму</string>
     <string name="suggested">Предложено</string>
     <string name="format_selection_desc">Изаберите формат за преузимање пре него што започнете преузимање</string>
@@ -298,4 +298,5 @@
     <string name="no_custom_command_tasks">Нема прилагођених командних задатака</string>
     <string name="msg_from_developer">Порука од програмера</string>
     <string name="sponsor_msg2">Хвала много!</string>
+    <string name="download_video_desc">Преузмите видее са URL-a</string>
 </resources>

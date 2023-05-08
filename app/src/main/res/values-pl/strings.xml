@@ -210,7 +210,7 @@
     <string name="aria2_desc">Użyj aria2c jako zewnętrzny program do pobierania</string>
     <string name="embed_subtitles_desc">Osadź dostarczone napisy w filmach, jeśli są dostępne</string>
     <string name="status_canceled">Przerwane</string>
-    <string name="disable_preview_desc">Wyłącz podgląd pobrań</string>
+    <string name="disable_preview_desc">Brak wyświetlania miniatur podczas pobierania</string>
     <string name="unavailable">Niedostępne</string>
     <string name="selected_item_count">%1$d wybrane</string>
     <string name="telegram_channel">Kanał Telegram</string>

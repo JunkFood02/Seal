@@ -182,7 +182,7 @@
     <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من المجلد الداخلي</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
-    <string name="private_mode">وضع خاص</string>
+    <string name="private_mode">وضع التخفي</string>
     <string name="private_mode_desc">إيقاف سجل التنزيلات</string>
     <string name="dynamic_color">لون ديناميكي</string>
     <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
@@ -205,7 +205,7 @@
     <string name="general_settings_desc">إصدار Yt-dlp، إشعار، قائمة تشغيل</string>
     <string name="network_settings_desc">حدود المعدل، مدير التنزيلات، ملفات تعريف الارتباط</string>
     <string name="disable_preview">تعطيل المعاينة</string>
-    <string name="disable_preview_desc">تعطيل المعاينة على التنزيلات</string>
+    <string name="disable_preview_desc">عدم عرض الصور المصغرة أثناء التنزيل</string>
     <string name="privacy">الخصوصية</string>
     <string name="use_custom_command">أستخدم أمر مخصص</string>
     <string name="private_directory">مجلد خاص</string>

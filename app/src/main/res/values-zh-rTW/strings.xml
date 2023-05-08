@@ -199,7 +199,7 @@
     <string name="lowest_quality">最低畫質</string>
     <string name="unavailable">不可用</string>
     <string name="network_settings_desc">速率限制、下載程式、Cookies</string>
-    <string name="disable_preview_desc">停用下載時預覽</string>
+    <string name="disable_preview_desc">下載時不顯示縮圖</string>
     <string name="disable_preview">停用預覽</string>
     <string name="privacy">隱私</string>
     <string name="use_custom_command">使用自訂命令</string>
@@ -298,4 +298,5 @@
     <string name="no_custom_command_tasks">沒有自訂命令的任務</string>
     <string name="msg_from_developer">來自開發者的訊息</string>
     <string name="sponsor_msg2">非常感謝您！</string>
+    <string name="download_video_desc">從 URL 下載視訊</string>
 </resources>

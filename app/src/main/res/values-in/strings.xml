@@ -185,7 +185,7 @@
     <string name="rate_limit">Batasan</string>
     <string name="network">Jaringan</string>
     <string name="max_rate">Kecepatan maksimum</string>
-    <string name="private_mode">Mode pribadi</string>
+    <string name="private_mode">Mode samaran</string>
     <string name="private_mode_desc">Nonaktifkan riwayat unduhan</string>
     <string name="dynamic_color">Warna dinamis</string>
     <string name="dynamic_color_desc">Terapkan warna dari wallpaper ke tema aplikasi</string>
@@ -207,7 +207,7 @@
     <string name="crop_artwork_desc">Potong gambar tersemat menjadi kotak</string>
     <string name="format_settings_desc">Format berkas, kualitas video, takarir</string>
     <string name="privacy">Privasi</string>
-    <string name="disable_preview_desc">Nonaktifkan pratinjau di unduhan</string>
+    <string name="disable_preview_desc">Jangan tampilkan gambar kecil saat mengunduh</string>
     <string name="private_directory_desc">Menyimpan unduhan di dalam direktori tersembunyi</string>
     <string name="select_all">Pilih semua</string>
     <string name="download_selection_desc">Pilih video untuk diunduh dari daftar putar \"%1$s\"</string>
