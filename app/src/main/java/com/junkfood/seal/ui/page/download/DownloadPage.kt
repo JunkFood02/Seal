@@ -48,6 +48,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -258,12 +259,20 @@ fun DownloadPageImpl(
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {}, modifier = Modifier.padding(horizontal = 8.dp), navigationIcon = {
-            IconButton(onClick = { navigateToSettings() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Settings,
-                    contentDescription = stringResource(id = R.string.settings)
-                )
+            PlainTooltipBox(tooltip = {
+                Text(text = stringResource(id = R.string.settings))
+            }) {
+                IconButton(
+                    onClick = { navigateToSettings() },
+                    modifier = Modifier.tooltipAnchor()
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = stringResource(id = R.string.settings)
+                    )
+                }
             }
+
         }, actions = {
             BadgedBox(badge = {
                 if (processCount > 0)
@@ -274,19 +283,32 @@ fun DownloadPageImpl(
                         )
                     ) { Text("$processCount") }
             }) {
-                IconButton(onClick = { onNavigateToTaskList() }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Terminal,
-                        contentDescription = stringResource(id = R.string.running_tasks)
-                    )
+                PlainTooltipBox(tooltip = {
+                    Text(text = stringResource(id = R.string.running_tasks))
+                }) {
+                    IconButton(
+                        onClick = { onNavigateToTaskList() },
+                        modifier = Modifier.tooltipAnchor()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Terminal,
+                            contentDescription = stringResource(id = R.string.running_tasks)
+                        )
+                    }
                 }
             }
-
-            IconButton(onClick = { navigateToDownloads() }) {
-                Icon(
-                    imageVector = Icons.Outlined.Subscriptions,
-                    contentDescription = stringResource(id = R.string.downloads_history)
-                )
+            PlainTooltipBox(tooltip = {
+                Text(text = stringResource(id = R.string.downloads_history))
+            }) {
+                IconButton(
+                    onClick = { navigateToDownloads() },
+                    modifier = Modifier.tooltipAnchor()
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Subscriptions,
+                        contentDescription = stringResource(id = R.string.downloads_history)
+                    )
+                }
             }
         })
     }, floatingActionButton = {
