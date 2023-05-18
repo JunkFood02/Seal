@@ -24,7 +24,7 @@
 
 -dontobfuscate
 
--keep class com.yausername.** { *; }
+#-keep class com.yausername.** { *; }
 
 # Keep `Companion` object fields of serializable classes.
 # This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
