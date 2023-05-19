@@ -88,23 +88,31 @@ jobs:
 
           script: |
 
-            const q = 'instagram in:body label:bug repo:${{ github.repository }} OR facebook in:body label:bug repo:${{ github.repository }}';
+            const q = 'instagram in:body label:bug repo:${{ github.repository }} OR facebook in:body label:bug repo:${{ github.repository }} state:open';
 
             github.paginate(github.search.issuesAndPullRequests, { q }, (response) => {
 
               response.data.forEach(async issue => {
 
-                await github.issues.addLabels({
+                const labels = issue.labels.map(label => label.name);
 
-                  issue_number: issue.number,
+              
 
-                  owner: context.repo.owner,
+                if (!labels.includes('wontfix')) {
 
-                  repo: context.repo.repo,
+                  await github.issues.addLabels({
 
-                  labels: ['wontfix']
+                    issue_number: issue.number,
 
-                });
+                    owner: context.repo.owner,
+
+                    repo: context.repo.repo,
+
+                    labels: ['wontfix']
+
+                  });
+
+                }
 
                 await github.issues.update({
 
@@ -133,3 +141,4 @@ jobs:
               })
 
             })
+
