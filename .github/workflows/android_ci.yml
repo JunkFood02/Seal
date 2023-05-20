@@ -19,8 +19,6 @@ jobs:
         cache: gradle
 
     - uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: 8.0
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
