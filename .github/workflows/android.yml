@@ -1,4 +1,4 @@
-name: Android CI
+name: Build Release APK
 
 on:
   workflow_dispatch:
@@ -16,6 +16,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
       - uses: gradle/gradle-build-action@v2
       - run: gradle assembleRelease
