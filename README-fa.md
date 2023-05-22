@@ -19,19 +19,7 @@ Seal
 <p align="center">
   <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
-  &nbsp;&nbsp;| &nbsp;&nbsp;
 فارسی
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
 
 ## 📱 اسکرین شات ها
@@ -49,7 +37,7 @@ Seal
 </div>
 
 <br>
-  
+
 ## 📖 امکانات
 
 <div dir="rtl" align="rtl">
@@ -64,7 +52,7 @@ Seal
 		<li>سادگی در استفاده و کاربرپسند</li>
 		<li> طراحی رابط کاربری <a href="https://m3.material.io/">Material Design 3</a> با رنگ پویا</li>
 		<li> ظاهر برنامه و شرط ها با زبان کاتلین نوشته شده است</li>
-	
+
 </div>
 
 ## ⬇️ دانلود 
@@ -103,7 +91,7 @@ Seal
 <a href="https://star-history.com/#JunkFood02/Seal&Timeline">
 <img src="https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline" alt="Star History Chart" />
 </p>
-	
+
 ## 🧱 منابع
 
 برنامه Seal یک نسخه گرافیکی از [yt-dlp](https://github.com/yt-dlp/yt-dlp) می باشد و بر پایه [youtubedl-android](https://github.com/yausername/youtubedl-android) توسعه داده شده است
