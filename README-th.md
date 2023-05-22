@@ -8,7 +8,6 @@ Seal
 </div>
 
 
-
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&label=stable&style=flat-square)](https://github.com/JunkFood02/Seal/releases/latest)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=preview&logo=github)](https://github.com/JunkFood02/Seal/releases)
@@ -22,20 +21,12 @@ Seal
 <p align="center">
 แอพดาวน์โหลดวิดิโอสำหรับ Android
 </p>
-
 <p align="center">
 <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
 ภาษาไทย
 </p>
+
 </div>
 
 ## 📱 Screenshots

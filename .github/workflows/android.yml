@@ -1,4 +1,4 @@
-name: Android CI
+name: Build Release APK
 
 on:
   workflow_dispatch:
@@ -17,9 +17,10 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       - uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: 8.0
       - run: gradle assembleRelease
 
       - uses: ilharp/sign-android-release@v1
