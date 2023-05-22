@@ -11,9 +11,8 @@
 <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 简体中文
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
+
 
 ## 屏幕截图
 

@@ -1,28 +1,14 @@
 <div align="center">
-	
+
 <img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
 
 # Seal
 
 ### تطبيق لتحميل ملفات الفيديو والصوت من الإنترنت لنظام تشغيل اندرويد
 
-
-English
+<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
-
+العربية
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
@@ -68,11 +54,11 @@ English
 		<li>  سهل الاستخدام. </li>
 		<li>  واجهة مستخدم بنمط تصميم <a href="https://m3.material.io/">Material Design 3</a> ، مع سمة ألوان ديناميكية <a href="https://m3.material.io/foundations/customization">Dynamic color</a>. </li>
 		<li> واجهة المستخدم والمنطق مكتوبة باستخدام لغة Kotlin. نشاط فردي ، بدون أجزاء ، وجهات قابلة للتكوين فقط. </li>
-	
+
 </div>
 		
 ## ⬇️ تحميل
-	
+
 بالنسبة لمعظم الأجهزة ، يوصى بتثبيت إصدار **arm64-va** من التطبيق
 
    قم بتنزيل أحدث <a href="https://github.com/JunkFood02/Seal/releases/latest">إصدار مستقر</a> من إصدارات GitHub
@@ -120,7 +106,7 @@ English
 <p align="right">
 <a href=https://github.com/Kyant0/Monet>Monet</a>
 </p>
-	
+
 ## 📃 الرُخصة
 
 
@@ -129,7 +115,7 @@ English
 <img src="https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge" alt="GitHub" />
 </a>
 
-	
+​	
 
 ## ⚠️ تحذير
 

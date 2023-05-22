@@ -6,7 +6,6 @@ Seal
 </h1>
 
 <div align="center">
-
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal.svg?logo=F-Droid&color=green&style=flat-square)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![Releases](https://img.shields.io/github/release/JunkFood02/Seal.svg?logo=github&color=171515&style=flat-square)](https://github.com/JunkFood02/Seal/releases)
 [![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?style=flat-square)](https://github.com/JunkFood02/Seal/releases)
@@ -19,16 +18,9 @@ Seal
 <p align="center">
 <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh.md">简体中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
 Українська
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
+
 </div>
 
 ## 📱 Скріншоти
