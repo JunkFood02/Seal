@@ -20,6 +20,8 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)

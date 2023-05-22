@@ -35,6 +35,8 @@ Seal
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-ua.md">Українська</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 ภาษาไทย
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
 </div>
 

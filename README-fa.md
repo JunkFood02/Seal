@@ -30,6 +30,8 @@ Seal
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-th.md">ภาษาไทย</a>
   &nbsp;&nbsp;| &nbsp;&nbsp;
 فارسی
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
 </p>
 
 ## 📱 اسکرین شات ها
