@@ -125,13 +125,13 @@ You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/proje
 
 Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/GuihongWang/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
-[Monet](https://github.com/Kyant0/Monet)
+[M3color](https://github.com/Kyant0/M3color)
 
 ## 📃 License
 
