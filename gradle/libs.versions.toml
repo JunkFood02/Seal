@@ -121,3 +121,9 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[bundles]
+accompanist = ["accompanist-navigation-animation", "accompanist-permissions", "accompanist-systemuicontroller", "accompanist-webview", "accompanist-pager-layouts", "accompanist-pager-indicators", "accompanist-flowlayout"]
+androidxCompose = ["androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-compose-material-iconsExtended", "androidx-compose-material3", "androidx-compose-material3-windowSizeClass", "androidx-compose-foundation", "androidx-navigation-compose"]
+youtubedlAndroid = ["youtubedl-android-library", "youtubedl-android-ffmpeg", "youtubedl-android-aria2c"]
+core = ["androidx-activity-compose", "android-material", "androidx-appcompat", "androidx-core-ktx"]
