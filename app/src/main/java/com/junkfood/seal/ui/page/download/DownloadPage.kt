@@ -32,6 +32,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Error
@@ -177,7 +178,7 @@ fun DownloadPage(
         downloadCallback()
     }
 
-    BackHandler(viewState.drawerState.isVisible) {
+    BackHandler(viewState.drawerState.targetValue == ModalBottomSheetValue.Expanded) {
         downloadViewModel.hideDialog(scope, useDialog)
     }
 

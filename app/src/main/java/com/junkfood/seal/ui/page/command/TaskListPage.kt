@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -52,13 +56,17 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
             }, actions = {
             }, scrollBehavior = scrollBehavior
             )
+        }, floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(Icons.Outlined.Add, stringResource(id = R.string.new_task))
+            }
         }) { paddings ->
         val clipboardManager = LocalClipboardManager.current
         LazyColumn(
             modifier = Modifier.padding(paddings), contentPadding = PaddingValues(24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(Downloader.mutableTaskList.values.toList()) {
+            items(Downloader.mutableTaskList.values.toList().sortedBy { it.state.toStatus() }) {
                 it.run {
                     CustomCommandTaskItem(
                         status = state.toStatus(),

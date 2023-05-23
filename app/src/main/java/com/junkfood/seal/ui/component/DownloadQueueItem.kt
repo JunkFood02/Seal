@@ -17,9 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.RestartAlt
@@ -62,7 +60,6 @@ import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.harmonizeWith
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.kyant.monet.LocalTonalPalettes
-import com.kyant.monet.PaletteStyle
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.dynamicColorScheme
 
@@ -170,7 +167,7 @@ fun TaskItemPreview() {
 }
 
 enum class TaskStatus {
-    FINISHED, CANCELED, RUNNING, ERROR
+    RUNNING, ERROR, CANCELED, FINISHED,
 }
 
 val greenTonalPalettes = Color.Green.toTonalPalettes()
