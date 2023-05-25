@@ -22,8 +22,10 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-fa.md">فارسی</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README-it.md">Italiano</a>
-
-
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/README-az.md">Azərbaycanca</a>
+	
+	
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
