@@ -2,7 +2,7 @@ name: Generate Sponsors README
 on:
   workflow_dispatch:
   schedule:
-    - cron: 30 15 1 * *
+    - cron: 30 15 * * 1
   
 jobs:
   deploy:
@@ -16,6 +16,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           file: 'README.md'
+          minimum: 5
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
