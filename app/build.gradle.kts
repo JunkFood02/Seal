@@ -170,69 +170,55 @@ kotlin {
 dependencies {
 
     implementation(project(":color"))
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.android.material)
-    implementation(libs.androidx.activity.compose)
 
+    //Core libs for the app
+    implementation(libs.bundles.core)
+
+    //Lifecycle support for Jetpack Compose
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
+    //Material UI, Accompanist...
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.androidxCompose)
+    implementation(libs.bundles.accompanist)
 
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material3.windowSizeClass)
-    implementation(libs.androidx.compose.foundation)
-
-
-    implementation(libs.androidx.navigation.compose)
-
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
-    implementation(libs.accompanist.navigation.animation)
-    implementation(libs.accompanist.webview)
-    implementation(libs.accompanist.pager.indicators)
-    implementation(libs.accompanist.flowlayout)
-
+    //Coil (For Jetpack Compose)
     implementation(libs.coil.kt.compose)
 
+    //Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    //DI (Dependency Injection - Hilt)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.ext.compiler)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    //Database powered by Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
-    // okhttp
+    // Network requests (OkHttp)
     implementation(libs.okhttp)
 
-    implementation(libs.youtubedl.android.library)
-    implementation(libs.youtubedl.android.ffmpeg)
-    implementation(libs.youtubedl.android.aria2c)
+    //YoutubeDl for Android (youtubedl-android)
+    implementation(libs.bundles.youtubedlAndroid)
+
+    //SVG implementation (AndroidSVG by Caverock)
     implementation(libs.caverock.androidsvg)
-//    implementation("com.github.xibr.youtubedl-android:library:$youtubedlAndroidVersion")
-//    implementation("com.github.xibr.youtubedl-android:ffmpeg:$youtubedlAndroidVersion")
-//    implementation("com.github.xibr.youtubedl-android:aria2c:$youtubedlAndroidVersion")
 
-//    implementation("com.github.JunkFood02.youtubedl-android:ffmpeg:-SNAPSHOT")
-//    implementation("com.github.JunkFood02.youtubedl-android:library:-SNAPSHOT")
-
+    //MMKV (Ultrafast Key-Value storage)
     implementation(libs.mmkv)
 
-
+    //Unit testing libraries
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
-//    androidTestImplementation(libs.androidx.compose.ui.test)
+//  androidTestImplementation(libs.androidx.compose.ui.test)
 
+    //UI debugging library for Jetpack Compose
     debugImplementation(libs.androidx.compose.ui.tooling)
 
 }
