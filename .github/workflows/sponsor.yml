@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           file: 'README.md'
-          minimum: 5
+          minimum: 500
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
