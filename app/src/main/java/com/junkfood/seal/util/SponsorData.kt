@@ -34,5 +34,5 @@ data class Tier(
 
 @Serializable
 data class Node(
-    val sponsorEntity: SponsorEntity, val tier: Tier
+    val sponsorEntity: SponsorEntity, val tier: Tier?
 )

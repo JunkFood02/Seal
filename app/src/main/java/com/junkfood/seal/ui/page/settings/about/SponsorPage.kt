@@ -72,7 +72,9 @@ fun DonatePage(onBackPressed: () -> Unit) {
         launch(Dispatchers.IO) {
             SHOW_SPONSOR_MSG.updateInt(0)
             SponsorUtil.getSponsors().onFailure { Log.e(TAG, "DonatePage: ", it) }.onSuccess {
-                sponsorList.addAll(it.data.user.sponsorshipsAsMaintainer.nodes.filter { node -> node.tier.monthlyPriceInDollars >= 10 })
+                sponsorList.addAll(it.data.user.sponsorshipsAsMaintainer.nodes.filter { node ->
+                    (node.tier?.monthlyPriceInDollars ?: 0) >= 10
+                })
             }
         }
     }
