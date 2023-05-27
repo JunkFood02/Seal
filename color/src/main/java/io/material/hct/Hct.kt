@@ -109,7 +109,7 @@ class Hct private constructor(argb: Int) {
 
         // 2. Create CAM16 of those XYZ coordinates in default VC.
         val recastInVc: Cam16 = Cam16.Companion.fromXyzInViewingConditions(
-            viewedInVc!![0], viewedInVc[1], viewedInVc[2], ViewingConditions.Companion.DEFAULT
+            viewedInVc[0], viewedInVc[1], viewedInVc[2], ViewingConditions.Companion.DEFAULT
         )
 
         // 3. Create HCT from:

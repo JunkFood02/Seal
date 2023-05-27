@@ -18,6 +18,15 @@ package io.material.hct
 
 import io.material.utils.ColorUtils
 import io.material.utils.MathUtils
+import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 /** A class that solves the HCT equation.  */
 object HctSolver {
@@ -305,7 +314,7 @@ object HctSolver {
      * @return A coterminal angle between 0 and 2pi.
      */
     fun sanitizeRadians(angle: Double): Double {
-        return (angle + Math.PI * 8) % (Math.PI * 2)
+        return (angle + kotlin.math.PI * 8) % (kotlin.math.PI * 2)
     }
 
     /**
@@ -320,13 +329,13 @@ object HctSolver {
         delinearized = if (normalized <= 0.0031308) {
             normalized * 12.92
         } else {
-            1.055 * Math.pow(normalized, 1.0 / 2.4) - 0.055
+            1.055 * normalized.pow(1.0 / 2.4) - 0.055
         }
         return delinearized * 255.0
     }
 
     fun chromaticAdaptation(component: Double): Double {
-        val af = Math.pow(Math.abs(component), 0.42)
+        val af = abs(component).pow(0.42)
         return MathUtils.signum(component) * 400.0 * af / (af + 27.13)
     }
 
@@ -338,14 +347,14 @@ object HctSolver {
      */
     fun hueOf(linrgb: DoubleArray): Double {
         val scaledDiscount = MathUtils.matrixMultiply(linrgb, SCALED_DISCOUNT_FROM_LINRGB)
-        val rA = chromaticAdaptation(scaledDiscount!![0])
+        val rA = chromaticAdaptation(scaledDiscount[0])
         val gA = chromaticAdaptation(scaledDiscount[1])
         val bA = chromaticAdaptation(scaledDiscount[2])
         // redness-greenness
         val a = (11.0 * rA + -12.0 * gA + bA) / 11.0
         // yellowness-blueness
         val b = (rA + gA - 2.0 * bA) / 9.0
-        return Math.atan2(b, a)
+        return atan2(b, a)
     }
 
     fun areInCyclicOrder(a: Double, b: Double, c: Double): Boolean {
@@ -395,7 +404,7 @@ object HctSolver {
     }
 
     fun isBounded(x: Double): Boolean {
-        return 0.0 <= x && x <= 100.0
+        return x in 0.0..100.0
     }
 
     /**
@@ -487,11 +496,11 @@ object HctSolver {
     }
 
     fun criticalPlaneBelow(x: Double): Int {
-        return Math.floor(x - 0.5).toInt()
+        return floor(x - 0.5).toInt()
     }
 
     fun criticalPlaneAbove(x: Double): Int {
-        return Math.ceil(x - 0.5).toInt()
+        return ceil(x - 0.5).toInt()
     }
 
     /**
@@ -534,10 +543,10 @@ object HctSolver {
                     )
                 }
                 for (i in 0..7) {
-                    if (Math.abs(rPlane - lPlane) <= 1) {
+                    if (abs(rPlane - lPlane) <= 1) {
                         break
                     } else {
-                        val mPlane = Math.floor((lPlane + rPlane) / 2.0).toInt()
+                        val mPlane = floor((lPlane + rPlane) / 2.0).toInt()
                         val midPlaneCoordinate = CRITICAL_PLANES[mPlane]
                         val mid = setCoordinate(left, midPlaneCoordinate, right, axis)
                         val midHue = hueOf(mid)
@@ -557,9 +566,9 @@ object HctSolver {
     }
 
     fun inverseChromaticAdaptation(adapted: Double): Double {
-        val adaptedAbs = Math.abs(adapted)
-        val base = Math.max(0.0, 27.13 * adaptedAbs / (400.0 - adaptedAbs))
-        return MathUtils.signum(adapted) * Math.pow(base, 1.0 / 0.42)
+        val adaptedAbs = abs(adapted)
+        val base = max(0.0, 27.13 * adaptedAbs / (400.0 - adaptedAbs))
+        return MathUtils.signum(adapted) * base.pow(1.0 / 0.42)
     }
 
     /**
@@ -572,25 +581,25 @@ object HctSolver {
      */
     fun findResultByJ(hueRadians: Double, chroma: Double, y: Double): Int {
         // Initial estimate of j.
-        var j = Math.sqrt(y) * 11.0
+        var j = sqrt(y) * 11.0
         // ===========================================================
         // Operations inlined from Cam16 to avoid repeated calculation
         // ===========================================================
         val viewingConditions: ViewingConditions = ViewingConditions.Companion.DEFAULT
-        val tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, viewingConditions.n), 0.73)
-        val eHue = 0.25 * (Math.cos(hueRadians + 2.0) + 3.8)
+        val tInnerCoeff = 1 / (1.64 - 0.29.pow(viewingConditions.n)).pow(0.73)
+        val eHue = 0.25 * (cos(hueRadians + 2.0) + 3.8)
         val p1 = eHue * (50000.0 / 13.0) * viewingConditions.nc * viewingConditions.ncb
-        val hSin = Math.sin(hueRadians)
-        val hCos = Math.cos(hueRadians)
+        val hSin = sin(hueRadians)
+        val hCos = cos(hueRadians)
         for (iterationRound in 0..4) {
             // ===========================================================
             // Operations inlined from Cam16 to avoid repeated calculation
             // ===========================================================
             val jNormalized = j / 100.0
-            val alpha = if (chroma == 0.0 || j == 0.0) 0.0 else chroma / Math.sqrt(jNormalized)
-            val t = Math.pow(alpha * tInnerCoeff, 1.0 / 0.9)
+            val alpha = if (chroma == 0.0 || j == 0.0) 0.0 else chroma / sqrt(jNormalized)
+            val t = (alpha * tInnerCoeff).pow(1.0 / 0.9)
             val ac = (viewingConditions.aw
-                    * Math.pow(jNormalized, 1.0 / viewingConditions.c / viewingConditions.z))
+                    * jNormalized.pow(1.0 / viewingConditions.c / viewingConditions.z))
             val p2 = ac / viewingConditions.nbb
             val gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * hCos + 108.0 * t * hSin)
             val a = gamma * hCos
@@ -608,7 +617,7 @@ object HctSolver {
             // ===========================================================
             // Operations inlined from Cam16 to avoid repeated calculation
             // ===========================================================
-            if (linrgb!![0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
+            if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
                 return 0
             }
             val kR = Y_FROM_LINRGB[0]
@@ -618,14 +627,14 @@ object HctSolver {
             if (fnj <= 0) {
                 return 0
             }
-            if (iterationRound == 4 || Math.abs(fnj - y) < 0.002) {
+            if (iterationRound == 4 || abs(fnj - y) < 0.002) {
                 return if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
                     0
                 } else ColorUtils.argbFromLinrgb(linrgb)
             }
             // Iterates with Newton method,
             // Using 2 * fn(j) / j as the approximation of fn'(j)
-            j = j - (fnj - y) * j / (2 * fnj)
+            j -= (fnj - y) * j / (2 * fnj)
         }
         return 0
     }
@@ -646,7 +655,7 @@ object HctSolver {
             return ColorUtils.argbFromLstar(lstar)
         }
         hueDegrees = MathUtils.sanitizeDegreesDouble(hueDegrees)
-        val hueRadians = hueDegrees / 180 * Math.PI
+        val hueRadians = hueDegrees / 180 * kotlin.math.PI
         val y = ColorUtils.yFromLstar(lstar)
         val exactAnswer = findResultByJ(hueRadians, chroma, y)
         if (exactAnswer != 0) {
