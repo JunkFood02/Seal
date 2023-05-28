@@ -68,6 +68,7 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -168,11 +169,15 @@ fun CookieProfilePage(
                     icon = null,
                     isChecked = isCookieEnabled,
                     onClick = {
-                        if (cookies.isEmpty() || (!cookieManager.hasCookies()) && !isCookieEnabled)
+                        if (isCookieEnabled) {
+                            isCookieEnabled = false
+                            COOKIES.updateBoolean(false)
+                        }
+                        if ((cookies.isEmpty() || !cookieManager.hasCookies()) && !isCookieEnabled)
                             showHelpDialog = true
                         else {
-                            isCookieEnabled = !isCookieEnabled
-                            PreferenceUtil.updateValue(COOKIES, isCookieEnabled)
+                            isCookieEnabled = true
+                            COOKIES.updateBoolean(true)
                         }
                     })
             }
@@ -196,15 +201,15 @@ fun CookieProfilePage(
                     icon = Icons.Outlined.Add
                 ) { cookiesViewModel.showEditCookieDialog() }
             }
-/*            item {
-                Spacer(modifier = Modifier.height(12.dp))
-                HorizontalDivider()
-                PreferenceInfo(
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                    icon = Icons.Outlined.HelpOutline,
-                    text = stringResource(id = R.string.cookies_usage_msg)
-                )
-            }*/
+            /*            item {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            HorizontalDivider()
+                            PreferenceInfo(
+                                modifier = Modifier.padding(horizontal = 4.dp),
+                                icon = Icons.Outlined.HelpOutline,
+                                text = stringResource(id = R.string.cookies_usage_msg)
+                            )
+                        }*/
         }
 
     }
