@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.30.1"
-androidGradlePlugin = "8.2.0-alpha04"
+androidGradlePlugin = "8.2.0-alpha05"
 androidxComposeBom = "2023.05.00"
 androidxComposeCompiler = "1.4.7"
 androidxCore = "1.10.0"
@@ -18,7 +18,7 @@ androidxHiltNavigationCompose = "1.0.0"
 
 androidxTestExt = "1.1.4"
 
-
+markdown = "0.3.3"
 coil = "2.2.2"
 hilt = "2.45"
 hiltExt = "1.0.0"
@@ -97,7 +97,6 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
-
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -105,6 +104,9 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 youtubedl-android-library = { group = "com.github.yausername.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
 youtubedl-android-ffmpeg = { group = "com.github.yausername.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
 youtubedl-android-aria2c = { group = "com.github.yausername.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
+
+#Markdown parser
+markdown = { group = "com.github.jeziellago", name = "compose-markdown", version.ref = "markdown" }
 
 #youtubedl-android-library = { group = "com.github.JunkFood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
 #youtubedl-android-ffmpeg = { group = "com.github.JunkFood02.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }

@@ -209,6 +209,9 @@ dependencies {
     //SVG implementation (AndroidSVG by Caverock)
     implementation(libs.caverock.androidsvg)
 
+    //Markdown parser
+    implementation(libs.markdown)
+
     //MMKV (Ultrafast Key-Value storage)
     implementation(libs.mmkv)
 

@@ -11,6 +11,7 @@ object Route {
     const val TASK_LOG = "task_log"
 
     const val SETTINGS_PAGE = "settings_page"
+    const val UPDATE_PAGE = "update_page"
 
     const val APPEARANCE = "appearance"
     const val GENERAL_DOWNLOAD_PREFERENCES = "general_download_preferences"

@@ -171,6 +171,38 @@ fun HomeEntry(
                 )
             }
 
+            animatedComposable(Route.UPDATE_PAGE) {
+                UpdatePage(
+                    onDismissRequest = {
+                        navController.popBackStack()
+                        showUpdateDialog = false
+                        updateJob?.cancel()
+                    },
+                    onConfirmUpdate = {
+                        updateJob = scope.launch(Dispatchers.IO) {
+                            runCatching {
+                                UpdateUtil.downloadApk(latestRelease = latestRelease)
+                                    .collect { downloadStatus ->
+                                        currentDownloadStatus = downloadStatus
+                                        if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                launcher.launch(Manifest.permission.REQUEST_INSTALL_PACKAGES)
+                                            }
+                                        }
+                                    }
+                            }.onFailure {
+                                it.printStackTrace()
+                                currentDownloadStatus = UpdateUtil.DownloadStatus.NotYet
+                                ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
+                                return@launch
+                            }
+                        }
+                    },
+                    latestRelease = latestRelease,
+                    downloadStatus = currentDownloadStatus
+                )
+            }
+
 //            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
@@ -213,35 +245,7 @@ fun HomeEntry(
         }
 
         if (showUpdateDialog) {
-            UpdateDialogImpl(
-                onDismissRequest = {
-                    showUpdateDialog = false
-                    updateJob?.cancel()
-                },
-                title = latestRelease.name.toString(),
-                onConfirmUpdate = {
-                    updateJob = scope.launch(Dispatchers.IO) {
-                        runCatching {
-                            UpdateUtil.downloadApk(latestRelease = latestRelease)
-                                .collect { downloadStatus ->
-                                    currentDownloadStatus = downloadStatus
-                                    if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                            launcher.launch(Manifest.permission.REQUEST_INSTALL_PACKAGES)
-                                        }
-                                    }
-                                }
-                        }.onFailure {
-                            it.printStackTrace()
-                            currentDownloadStatus = UpdateUtil.DownloadStatus.NotYet
-                            ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
-                            return@launch
-                        }
-                    }
-                },
-                releaseNote = latestRelease.body.toString(),
-                downloadStatus = currentDownloadStatus
-            )
+            navController.navigate(Route.UPDATE_PAGE)
         }
     }
 }
