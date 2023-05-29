@@ -265,7 +265,7 @@ fun DownloadPageImpl(
             }) {
                 IconButton(
                     onClick = { navigateToSettings() },
-                    modifier = Modifier.tooltipAnchor()
+                    modifier = Modifier.tooltipTrigger()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Settings,
@@ -289,7 +289,7 @@ fun DownloadPageImpl(
                 }) {
                     IconButton(
                         onClick = { onNavigateToTaskList() },
-                        modifier = Modifier.tooltipAnchor()
+                        modifier = Modifier.tooltipTrigger()
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Terminal,
@@ -303,7 +303,7 @@ fun DownloadPageImpl(
             }) {
                 IconButton(
                     onClick = { navigateToDownloads() },
-                    modifier = Modifier.tooltipAnchor()
+                    modifier = Modifier.tooltipTrigger()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Subscriptions,
