@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -151,17 +153,21 @@ fun UpdatePage(
                     )
                 }
             }
-            MarkdownText(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                markdown = latestRelease.body.toString(),
-                textAlign = TextAlign.Justify,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                onLinkClicked = { url ->
-                    openUrl(url)
-                }
-            )
+            Column(modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()) {
+                MarkdownText(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    markdown = latestRelease.body.toString(),
+                    textAlign = TextAlign.Justify,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    onLinkClicked = { url ->
+                        openUrl(url)
+                    }
+                )
+            }
         }
     }
 }
