@@ -7,7 +7,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,10 +28,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.navigation
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.navigation
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -81,13 +80,12 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "HomeEntry"
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeEntry(
     downloadViewModel: DownloadViewModel,
     isUrlShared: Boolean
 ) {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
     val context = LocalContext.current
     var showUpdateDialog by rememberSaveable { mutableStateOf(false) }
     var currentDownloadStatus by remember { mutableStateOf(UpdateUtil.DownloadStatus.NotYet as UpdateUtil.DownloadStatus) }
@@ -131,7 +129,7 @@ fun HomeEntry(
             .background(MaterialTheme.colorScheme.background)
     ) {
         val cookiesViewModel: CookiesViewModel = viewModel()
-        AnimatedNavHost(
+        NavHost(
             modifier = Modifier
                 .fillMaxWidth(
                     when (LocalWindowWidthState.current) {
@@ -249,7 +247,6 @@ fun HomeEntry(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.settingsGraph(
     navController: NavHostController,
     cookiesViewModel: CookiesViewModel,

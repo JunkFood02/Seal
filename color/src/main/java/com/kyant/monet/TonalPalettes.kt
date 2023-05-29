@@ -71,17 +71,16 @@ class TonalPalettes(
         fun Color.toTonalPalettes(
             style: PaletteStyle = PaletteStyle.TonalSpot,
             tonalValues: DoubleArray = M3TonalValues
-        ): TonalPalettes {
-            return TonalPalettes(
-                keyColor = this,
-                style = style,
-                accent1 = tonalValues.associateWith { transform(it, style.accent1Spec) },
-                accent2 = tonalValues.associateWith { transform(it, style.accent2Spec) },
-                accent3 = tonalValues.associateWith { transform(it, style.accent3Spec) },
-                neutral1 = tonalValues.associateWith { transform(it, style.neutral1Spec) },
-                neutral2 = tonalValues.associateWith { transform(it, style.neutral2Spec) }
-            )
-        }
+        ): TonalPalettes = TonalPalettes(
+            keyColor = this,
+            style = style,
+            accent1 = tonalValues.associateWith { transform(it, style.accent1Spec) },
+            accent2 = tonalValues.associateWith { transform(it, style.accent2Spec) },
+            accent3 = tonalValues.associateWith { transform(it, style.accent3Spec) },
+            neutral1 = tonalValues.associateWith { transform(it, style.neutral1Spec) },
+            neutral2 = tonalValues.associateWith { transform(it, style.neutral2Spec) }
+        )
+
 
         private fun Color.toTonalPalette(
             tonalValues: DoubleArray = M3TonalValues
