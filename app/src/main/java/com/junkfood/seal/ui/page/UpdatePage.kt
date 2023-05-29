@@ -106,7 +106,7 @@ fun UpdatePage(
         Column(
             modifier = Modifier
                 .padding(it)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize(),
         ) {
             Column(
