@@ -136,7 +136,6 @@ fun UpdatePage(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            HorizontalDivider()
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
