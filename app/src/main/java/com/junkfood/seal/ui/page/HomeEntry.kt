@@ -229,8 +229,7 @@ fun HomeEntry(
             }
         }
         LaunchedEffect(Unit) {
-            if (!PreferenceUtil.isNetworkAvailableForDownload() || !PreferenceUtil.isAutoUpdateEnabled()
-            )
+            if (!PreferenceUtil.isNetworkAvailableForDownload() || !PreferenceUtil.isAutoUpdateEnabled())
                 return@LaunchedEffect
             launch(Dispatchers.IO) {
                 runCatching {
@@ -244,7 +243,7 @@ fun HomeEntry(
             }
         }
 
-        if (showUpdateDialog) {
+        if (showUpdateDialog && navController.currentBackStackEntry?.destination?.route != Route.UPDATE_PAGE) {
             navController.navigate(Route.UPDATE_PAGE)
         }
     }

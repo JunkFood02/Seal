@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -37,9 +38,12 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.component.ChangelogTag
+import com.junkfood.seal.ui.component.CustomTag
 import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.util.TimeUtil
 import com.junkfood.seal.util.UpdateUtil
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
@@ -57,59 +61,14 @@ fun UpdatePage(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .padding(top = 12.dp, bottom = 8.dp)
-            ) {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    imageVector = Icons.Outlined.NewReleases,
-                    contentDescription = "New release icon for update page",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = stringResource(id = R.string.update_available),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                        .alpha(0.8f),
-                    text = latestRelease.name.toString(),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            Spacer(modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .padding(bottom = 12.dp))
-            MarkdownText(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.9f)
-                    .padding(horizontal = 8.dp), // Adjusted weight to approximately 90%
-                markdown = latestRelease.body.toString(),
-                textAlign = TextAlign.Justify,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                onLinkClicked = { url ->
-                    openUrl(url)
-                }
-            )
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            HorizontalDivider()
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(horizontal = 12.dp)
-                    .weight(0.2f), // Adjusted weight to approximately 20%
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -128,7 +87,6 @@ fun UpdatePage(
                 }
                 FilledTonalButtonWithIcon(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxWidth(),
                     onClick = onConfirmUpdate,
                     icon = Icons.Outlined.Download,
@@ -137,14 +95,74 @@ fun UpdatePage(
                 OutlinedButtonWithIcon(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f)
                         .padding(top = 6.dp),
                     onClick = onDismissRequest,
                     icon = Icons.Outlined.Cancel,
                     text = stringResource(R.string.cancel)
                 )
-                Spacer(modifier = Modifier.height(12.dp))
             }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .padding(horizontal = 8.dp)
+                .fillMaxSize(),
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(top = 12.dp, bottom = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(52.dp)
+                        .padding(vertical = 6.dp),
+                    imageVector = Icons.Outlined.NewReleases,
+                    contentDescription = "New release icon for update page",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(id = R.string.update_available),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 6.dp)
+                        .alpha(0.8f),
+                    text = latestRelease.name.toString(),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            HorizontalDivider()
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                item {
+                    ChangelogTag()
+                }
+                item {
+                    CustomTag(
+                        text = latestRelease.publishedAt.toString(),
+                    )
+                }
+            }
+            MarkdownText(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                markdown = latestRelease.body.toString(),
+                textAlign = TextAlign.Justify,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                onLinkClicked = { url ->
+                    openUrl(url)
+                }
+            )
         }
     }
 }
@@ -164,6 +182,8 @@ fun UpdatePage(
 //    }
 //    .build()
 
+
+//Thx ChatGPT
 val fakeData = UpdateUtil.LatestRelease(
     htmlUrl = "https://github.com/username/repo/releases/tag/v1.0",
     tagName = "v1.0",
