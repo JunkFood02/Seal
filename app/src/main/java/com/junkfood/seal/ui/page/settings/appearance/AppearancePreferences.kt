@@ -138,15 +138,19 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp), thumbnailUrl = image
                 )
-                val pagerState = rememberPagerState(initialPage = colorList.indexOf(
-                    Color(LocalSeedColor.current)
-                ).run { if (equals(-1)) 1 else this })
+                val pagerState = rememberPagerState(
+                    initialPage = colorList.indexOf(
+                        Color(LocalSeedColor.current)
+                    ).run { if (equals(-1)) 1 else this },
+                    initialPageOffsetFraction = 0f
+                ) {
+                    colorList.size
+                }
                 HorizontalPager(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clearAndSetSemantics { },
                     state = pagerState,
-                    pageCount = colorList.size,
                     contentPadding = PaddingValues(horizontal = 12.dp)
                 ) {
                     Row() { ColorButtons(colorList[it]) }

@@ -1,16 +1,17 @@
 [versions]
 accompanist = "0.30.1"
 androidGradlePlugin = "8.2.0-alpha04"
-androidxComposeBom = "2023.05.00"
+androidxComposeBom = "2023.05.01"
 androidxComposeCompiler = "1.4.7"
 androidxCore = "1.10.0"
 androidMaterial = "1.9.0-rc01"
 androidxAppCompat = "1.7.0-alpha02"
-androidxActivity = "1.7.1"
+androidxActivity = "1.7.2"
 
 androidxLifecycle = "2.6.1"
-androidxNavigation = "2.5.3"
-androidxComposeMaterial3 = "1.1.0-rc01"
+androidxNavigation = "2.7.0-alpha01"
+androidxComposeMaterial3 = "1.2.0-alpha02"
+androidxComposeAnimation = "1.5.0-beta.1"
 
 androidxEspresso = "3.5.0"
 androidxHiltNavigationCompose = "1.0.0"
@@ -19,7 +20,7 @@ androidxHiltNavigationCompose = "1.0.0"
 androidxTestExt = "1.1.4"
 
 
-coil = "2.2.2"
+coil = "2.4.0"
 hilt = "2.45"
 hiltExt = "1.0.0"
 
@@ -59,7 +60,7 @@ accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
-androidx-compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics" }
+androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
@@ -123,7 +124,31 @@ kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotl
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
-accompanist = ["accompanist-navigation-animation", "accompanist-permissions", "accompanist-systemuicontroller", "accompanist-webview", "accompanist-pager-layouts", "accompanist-pager-indicators", "accompanist-flowlayout"]
-androidxCompose = ["androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-compose-material-iconsExtended", "androidx-compose-material3", "androidx-compose-material3-windowSizeClass", "androidx-compose-foundation", "androidx-navigation-compose"]
-youtubedlAndroid = ["youtubedl-android-library", "youtubedl-android-ffmpeg", "youtubedl-android-aria2c"]
-core = ["androidx-activity-compose", "android-material", "androidx-appcompat", "androidx-core-ktx"]
+accompanist = [
+    #    "accompanist-navigation-animation",
+    "accompanist-permissions",
+    "accompanist-systemuicontroller",
+    "accompanist-webview",
+    "accompanist-pager-layouts",
+    "accompanist-pager-indicators",
+    "accompanist-flowlayout"]
+
+androidxCompose = ["androidx-compose-ui",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material",
+    "androidx-compose-material-iconsExtended",
+    "androidx-compose-material3",
+    "androidx-compose-material3-windowSizeClass",
+    "androidx-compose-foundation",
+    "androidx-navigation-compose",
+    "androidx-compose-animation"
+]
+
+youtubedlAndroid = ["youtubedl-android-library",
+    "youtubedl-android-ffmpeg",
+    "youtubedl-android-aria2c"]
+
+core = ["androidx-activity-compose",
+    "android-material",
+    "androidx-appcompat",
+    "androidx-core-ktx"]

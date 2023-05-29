@@ -4,12 +4,9 @@ package com.junkfood.seal.ui.common
 import android.graphics.Path
 import android.view.animation.PathInterpolator
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
@@ -17,10 +14,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOut
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
@@ -29,7 +24,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.fadeThroughComposable(
@@ -80,6 +75,7 @@ private val path = Path().apply {
 
 private val emphasizePathInterpolator = PathInterpolator(path)
 private val emphasizeEasing = emphasizePathInterpolator.toEasing()
+private val emphasizeEasingVariant = CubicBezierEasing(.2f, 0f, 0f, 1f)
 private val emphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
 private val emphasizedAccelerate = CubicBezierEasing(0.3f, 0f, 1f, 1f)
 
@@ -102,7 +98,6 @@ private val fadeTween = tween<Float>(durationMillis = DURATION_EXIT)
 
 private val fadeSpec = fadeTween
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.animatedComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
@@ -135,7 +130,6 @@ fun NavGraphBuilder.animatedComposable(
     content = content
 )
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.animatedComposableVariant(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
