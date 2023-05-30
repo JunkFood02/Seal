@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.appearance
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -144,12 +145,18 @@ fun AppearancePreferences(
                     contentPadding = PaddingValues(horizontal = 12.dp)
                 ) { page ->
                     if (page < pageCount - 1) {
-                        Row { ColorButtons(colorList[page]) }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) { ColorButtons(colorList[page]) }
                     } else {
                         // ColorButton for Monochrome theme
                         val isSelected =
                             LocalPaletteStyleIndex.current == STYLE_MONOCHROME && !LocalDynamicColorSwitch.current
-                        Row {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
                             ColorButtonImpl(modifier = Modifier,
                                 isSelected = { isSelected },
                                 tonalPalettes = Color.Black.toTonalPalettes(PaletteStyle.Monochrome),
