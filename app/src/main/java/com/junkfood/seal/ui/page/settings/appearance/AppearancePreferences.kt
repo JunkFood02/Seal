@@ -207,9 +207,8 @@ fun RowScope.ColorButton(
     index: Int = 0,
     tonalStyle: PaletteStyle = PaletteStyle.TonalSpot,
 ) {
-    val tonalPalettes = remember {
-        color.toTonalPalettes(tonalStyle)
-    }
+    val tonalPalettes = color.toTonalPalettes(tonalStyle)
+
     val isSelect =
         !LocalDynamicColorSwitch.current && LocalSeedColor.current == color.toArgb() && LocalPaletteStyleIndex.current == index
     ColorButtonImpl(modifier = modifier,
