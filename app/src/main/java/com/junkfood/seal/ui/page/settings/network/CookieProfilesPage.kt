@@ -172,10 +172,9 @@ fun CookieProfilePage(
                         if (isCookieEnabled) {
                             isCookieEnabled = false
                             COOKIES.updateBoolean(false)
-                        }
-                        if ((cookies.isEmpty() || !cookieManager.hasCookies()) && !isCookieEnabled)
+                        } else if ((cookies.isEmpty() || !cookieManager.hasCookies()) && !isCookieEnabled) {
                             showHelpDialog = true
-                        else {
+                        } else {
                             isCookieEnabled = true
                             COOKIES.updateBoolean(true)
                         }
