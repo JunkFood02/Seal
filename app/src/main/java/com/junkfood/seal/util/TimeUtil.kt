@@ -9,7 +9,7 @@ import java.util.TimeZone
 object TimeUtil {
     //Zulu time to local time parser
     @SuppressLint("SimpleDateFormat")
-    fun parseDateStringToLocalTime(dateString: String): Date? {
+    fun parseDateStringToLocalTime(dateString: String): String? {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
@@ -17,8 +17,8 @@ object TimeUtil {
 
         return try {
             val parsedDate = inputFormat.parse(dateString)
-            val localTimeString = outputFormat.format(parsedDate)
-            outputFormat.parse(localTimeString)
+            val localTimeString = outputFormat.format(parsedDate!!)
+            localTimeString
         } catch (e: Exception) {
             e.printStackTrace()
             null

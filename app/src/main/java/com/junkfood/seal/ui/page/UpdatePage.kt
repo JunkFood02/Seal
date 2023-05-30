@@ -17,14 +17,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.Label
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -48,6 +51,9 @@ import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.util.TimeUtil
 import com.junkfood.seal.util.UpdateUtil
 import dev.jeziellago.compose.markdowntext.MarkdownText
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+
 
 @Composable
 fun UpdatePage(
@@ -113,7 +119,7 @@ fun UpdatePage(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(top = 12.dp, bottom = 8.dp)
+                    .padding(top = 4.dp, bottom = 8.dp)
                     .fillMaxWidth()
             ) {
                 Icon(
@@ -130,32 +136,36 @@ fun UpdatePage(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                        .alpha(0.8f),
-                    text = latestRelease.name.toString(),
-                    style = MaterialTheme.typography.titleMedium
-                )
             }
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
+                item {
+                    CustomTag(
+                        text = latestRelease.tagName.toString(),
+                        icon = Icons.Outlined.Label,
+                    )
+                }
                 item {
                     ChangelogTag()
                 }
                 item {
                     CustomTag(
-                        text = latestRelease.publishedAt.toString(),
+                        text = TimeUtil.parseDateStringToLocalTime(latestRelease.publishedAt.toString())
+                            ?: latestRelease.publishedAt.toString(),
+                        icon = Icons.Outlined.CalendarMonth,
                     )
                 }
             }
-            Column(modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()) {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
+            ) {
                 MarkdownText(
                     modifier = Modifier
                         .fillMaxWidth(),
