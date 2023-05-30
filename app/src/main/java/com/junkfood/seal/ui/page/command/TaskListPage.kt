@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.command
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +24,6 @@ import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.NewLabel
-import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -47,7 +47,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -72,7 +71,10 @@ import com.junkfood.seal.ui.svg.TaskSVG
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
@@ -111,9 +113,12 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
             contentPadding = PaddingValues(24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(Downloader.mutableTaskList.values.toList().sortedBy { it.state.toStatus() }) {
+            items(
+                Downloader.mutableTaskList.values.toList().sortedBy { it.state.toStatus() },
+                key = { it.toKey() }) {
                 it.run {
-                    CustomCommandTaskItem(status = state.toStatus(),
+                    CustomCommandTaskItem(
+                        status = state.toStatus(),
                         progress = if (state is Downloader.CustomCommandTask.State.Running) state.progress / 100f else 0f,
                         progressText = currentLine,
                         url = url,
@@ -130,7 +135,8 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                         },
                         onShowLog = {
                             onNavigateToDetail(hashCode())
-                        })
+                        }, modifier = Modifier.animateItemPlacement()
+                    )
                 }
             }
         }
@@ -162,59 +168,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
         Column(
             Modifier.fillMaxWidth()
         ) {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                imageVector = Icons.Outlined.Add,
-                contentDescription = null
-            )
-            Text(
-                text = "New download task",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Center
-            )
-            var value = remember {
-                TextFieldValue(
-                    "https://www.example.com"
-                )
-            }
-            OutlinedTextField(value = value, onValueChange = {
-                value = it
-            }, label = {
-                Text(text = stringResource(id = R.string.video_url))
-            }, modifier = Modifier.fillMaxWidth())
-
-
-            LazyRow(
-                modifier = Modifier.padding(top = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item {
-                    OutlinedButtonChip(icon = Icons.Outlined.Terminal, label = "Template 1") {
-                        showDialog = true
-                    }
-                }
-                item {
-                    OutlinedButtonChip(
-                        icon = Icons.Outlined.NewLabel,
-                        label = stringResource(id = R.string.new_template)
-                    ) {
-
-                    }
-                }
-                item {
-                    OutlinedButtonChip(
-                        icon = Icons.Outlined.Edit, label = stringResource(id = R.string.edit)
-                    ) {
-
-                    }
-                }
-
-            }
+            TaskCreatorDialogContent()
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -224,11 +178,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                 item {
                     OutlinedButtonWithIcon(
                         modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = {
-                            scope.launch {
-                                sheetState.hide()
-                            }
-                        },
+                        onClick = {},
                         icon = Icons.Outlined.Cancel,
                         text = stringResource(R.string.cancel)
                     )
@@ -237,7 +187,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                     FilledButtonWithIcon(
                         onClick = {},
                         icon = Icons.Outlined.DownloadDone,
-                        text = stringResource(R.string.start_download)
+                        text = stringResource(R.string.start)
                     )
                 }
             }
@@ -278,7 +228,7 @@ fun ColumnScope.TaskCreatorDialogContent() {
         contentDescription = null
     )
     Text(
-        text = "New download task",
+        text = stringResource(id = R.string.new_task),
         style = MaterialTheme.typography.headlineSmall,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -287,24 +237,29 @@ fun ColumnScope.TaskCreatorDialogContent() {
         overflow = TextOverflow.Ellipsis,
         textAlign = TextAlign.Center
     )
-    var value = remember {
-        TextFieldValue(
-            "https://www.example.com"
-        )
-    }
+    Text(
+        text = stringResource(R.string.custom_command_desc),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(bottom = 16.dp)
+    )
+    var value by remember { mutableStateOf("https://www.example.com") }
     OutlinedTextField(value = value, onValueChange = {
         value = it
     }, label = {
         Text(text = stringResource(id = R.string.video_url))
-    }, modifier = Modifier.fillMaxWidth())
+    }, modifier = Modifier.fillMaxWidth(), minLines = 3, maxLines = 3)
 
 
     LazyRow(
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = Modifier.padding(top = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            OutlinedButtonChip(icon = Icons.Outlined.Terminal, label = "Template 1") {
+            OutlinedButtonChip(icon = Icons.Outlined.Code, label = "Template 1") {
 
             }
         }
@@ -318,7 +273,8 @@ fun ColumnScope.TaskCreatorDialogContent() {
         }
         item {
             OutlinedButtonChip(
-                icon = Icons.Outlined.Edit, label = stringResource(id = R.string.edit)
+                icon = Icons.Outlined.Edit,
+                label = stringResource(id = R.string.edit_template, "Template 1")
             ) {
 
             }
@@ -360,7 +316,7 @@ fun TaskCreatorDialog() {
                         FilledButtonWithIcon(
                             onClick = {},
                             icon = Icons.Outlined.DownloadDone,
-                            text = stringResource(R.string.start_download)
+                            text = stringResource(R.string.start)
                         )
                     }
                 }

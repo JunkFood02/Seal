@@ -355,5 +355,7 @@
     <string name="unknown_error_title">Oops! Something went wrong</string>
     <string name="copy_and_exit">Copy and exit</string>
     <string name="expand">Expand</string>
-    <string name="new_task">New task</string>
+    <string name="new_task">New download task</string>
+    <string name="start">Start</string>
+    <string name="edit_template">Edit \"%1$s\"</string>
 </resources>
