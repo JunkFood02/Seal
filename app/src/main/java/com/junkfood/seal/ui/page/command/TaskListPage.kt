@@ -1,11 +1,11 @@
 package com.junkfood.seal.ui.page.command
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -36,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,10 +54,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.common.SVGImage
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
@@ -67,12 +71,17 @@ import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.TaskStatus
+import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.svg.TaskSVG
-import com.junkfood.seal.util.TEMPLATE_EXAMPLE
+import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.TEMPLATE_ID
+import com.junkfood.seal.util.matchUrlFromString
 import kotlinx.coroutines.launch
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterialApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -103,7 +112,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                 scope.launch {
                     sheetState.show()
                 }
-            }) {
+            }, modifier = Modifier.padding(vertical = 18.dp, horizontal = 6.dp)) {
                 Icon(Icons.Outlined.Add, stringResource(id = R.string.new_task))
             }
         }) { paddings ->
@@ -113,8 +122,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
             contentPadding = PaddingValues(24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(
-                Downloader.mutableTaskList.values.toList().sortedBy { it.state.toStatus() },
+            items(Downloader.mutableTaskList.values.toList().sortedBy { it.state.toStatus() },
                 key = { it.toKey() }) {
                 it.run {
                     CustomCommandTaskItem(
@@ -135,7 +143,8 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                         },
                         onShowLog = {
                             onNavigateToDetail(hashCode())
-                        }, modifier = Modifier.animateItemPlacement()
+                        },
+                        modifier = Modifier.animateItemPlacement()
                     )
                 }
             }
@@ -163,12 +172,46 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
 
         }
     }
+    BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) {
+        scope.launch { sheetState.hide() }
+    }
     BottomDrawer(drawerState = sheetState, sheetContent = {
-        var showDialog by remember { mutableStateOf(false) }
+        val clipboardManager = LocalClipboardManager.current
+
+        var showTemplateSelectionDialog by remember { mutableStateOf(false) }
+        var showTemplateCreatorDialog by remember { mutableStateOf(false) }
+        var showTemplateEditorDialog by remember { mutableStateOf(false) }
+
+        val template by remember(
+            showTemplateCreatorDialog,
+            showTemplateSelectionDialog,
+            showTemplateEditorDialog
+        ) {
+            mutableStateOf(PreferenceUtil.getTemplate())
+        }
+
+        var url by remember { mutableStateOf("") }
+
+        LaunchedEffect(sheetState.targetValue) {
+            if (sheetState.targetValue == ModalBottomSheetValue.Expanded)
+                url = matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
+
+        }
+
+
         Column(
             Modifier.fillMaxWidth()
         ) {
-            TaskCreatorDialogContent()
+            TaskCreatorDialogContent(
+                url = url,
+                onValueChange = {
+                    url = it
+                },
+                template = template,
+                onTemplateSelectionClicked = { showTemplateSelectionDialog = true },
+                onNewTemplateClicked = { showTemplateCreatorDialog = true },
+                onEditClicked = { showTemplateEditorDialog = true }
+            )
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -178,37 +221,44 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                 item {
                     OutlinedButtonWithIcon(
                         modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = {},
+                        onClick = {
+                            scope.launch { sheetState.hide() }
+                        },
                         icon = Icons.Outlined.Cancel,
                         text = stringResource(R.string.cancel)
                     )
                 }
                 item {
                     FilledButtonWithIcon(
-                        onClick = {},
+                        onClick = {
+                            Downloader.executeCommandWithUrl(url)
+                            scope.launch { sheetState.hide() }
+                        },
                         icon = Icons.Outlined.DownloadDone,
                         text = stringResource(R.string.start)
                     )
                 }
             }
         }
-        if (showDialog) {
-            TemplatePickerDialog() { showDialog = false }
+        if (showTemplateSelectionDialog) {
+            TemplatePickerDialog() { showTemplateSelectionDialog = false }
+        }
+        if (showTemplateCreatorDialog) {
+            CommandTemplateDialog(
+                onDismissRequest = { showTemplateCreatorDialog = false },
+                confirmationCallback = {
+                    scope.launch {
+                        TEMPLATE_ID.updateInt(it)
+                    }
+                })
+        }
+        if (showTemplateEditorDialog) {
+            CommandTemplateDialog(
+                commandTemplate = template,
+                onDismissRequest = { showTemplateEditorDialog = false }
+            )
         }
     }) {}
-//            item {
-//                CustomCommandTaskItem(status = TaskStatus.RUNNING)
-//            }
-//            item {
-//                CustomCommandTaskItem(status = TaskStatus.FINISHED)
-//            }
-//            item {
-//                CustomCommandTaskItem(status = TaskStatus.ERROR)
-//            }
-//            item {
-//                CustomCommandTaskItem(status = TaskStatus.CANCELED)
-//            }
-
 
 }
 
@@ -221,7 +271,14 @@ private fun Downloader.CustomCommandTask.State.toStatus(): TaskStatus = when (th
 }
 
 @Composable
-fun ColumnScope.TaskCreatorDialogContent() {
+fun ColumnScope.TaskCreatorDialogContent(
+    url: String,
+    onValueChange: (String) -> Unit = {},
+    template: CommandTemplate,
+    onTemplateSelectionClicked: () -> Unit = {},
+    onNewTemplateClicked: () -> Unit = {},
+    onEditClicked: () -> Unit = {},
+) {
     Icon(
         modifier = Modifier.align(Alignment.CenterHorizontally),
         imageVector = Icons.Outlined.Add,
@@ -244,45 +301,40 @@ fun ColumnScope.TaskCreatorDialogContent() {
         textAlign = TextAlign.Center,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 16.dp)
+            .padding(bottom = 24.dp)
     )
-    var value by remember { mutableStateOf("https://www.example.com") }
-    OutlinedTextField(value = value, onValueChange = {
-        value = it
-    }, label = {
+    OutlinedTextField(value = url, onValueChange = onValueChange, label = {
         Text(text = stringResource(id = R.string.video_url))
     }, modifier = Modifier.fillMaxWidth(), minLines = 3, maxLines = 3)
 
 
     LazyRow(
-        modifier = Modifier.padding(top = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            OutlinedButtonChip(icon = Icons.Outlined.Code, label = "Template 1") {
-
-            }
+            OutlinedButtonChip(
+                icon = Icons.Outlined.Code,
+                label = template.name,
+                onClick = onTemplateSelectionClicked
+            )
         }
         item {
             OutlinedButtonChip(
                 icon = Icons.Outlined.NewLabel,
-                label = stringResource(id = R.string.new_template)
-            ) {
-
-            }
+                label = stringResource(id = R.string.new_template),
+                onClick = onNewTemplateClicked
+            )
         }
         item {
             OutlinedButtonChip(
                 icon = Icons.Outlined.Edit,
-                label = stringResource(id = R.string.edit_template, "Template 1")
-            ) {
-
-            }
+                label = stringResource(id = R.string.edit_template, template.name),
+                onClick = onEditClicked
+            )
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun TaskCreatorDialog() {
@@ -296,7 +348,11 @@ fun TaskCreatorDialog() {
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
             ) {
-                TaskCreatorDialogContent()
+                TaskCreatorDialogContent(
+                    url = "https://www.example.com",
+                    template = CommandTemplate(0, "Template Sample", ""),
+
+                    )
 
                 LazyRow(
                     modifier = Modifier
@@ -328,35 +384,39 @@ fun TaskCreatorDialog() {
 
 
 @Composable
-@Preview
 fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
+    val templateList by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
+    var selectedId by TEMPLATE_ID.intState
+    val scrollState =
+        rememberLazyListState(initialFirstVisibleItemIndex = templateList
+            .indexOfFirst { it.id == selectedId }
+            .run {
+                if (this == -1) 0 else this
+            })
+
     SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
         DismissButton(onClick = onDismissRequest)
     }, title = {
         Text(text = stringResource(id = R.string.template_selection))
-    }, icon = { Icon(imageVector = Icons.Outlined.Code, contentDescription = null) },
-        text = {
-            Box() {
-                HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
-                LazyColumn {
-                    repeat(20) {
-                        item {
-                            TemplateSingleChoiceItem(
-                                text = "Template $it",
-                                supportingText = TEMPLATE_EXAMPLE,
-                                selected = false
-                            ) {
-
-                            }
-                        }
+    }, icon = { Icon(imageVector = Icons.Outlined.Code, contentDescription = null) }, text = {
+        Box() {
+            HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
+            LazyColumn(state = scrollState) {
+                items(templateList) {
+                    TemplateSingleChoiceItem(
+                        text = it.name,
+                        supportingText = it.template,
+                        selected = it.id == selectedId
+                    ) {
+                        selectedId = it.id
+                        TEMPLATE_ID.updateInt(it.id)
+                        onDismissRequest()
                     }
                 }
-                HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
             }
-
-
+            HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
         }
-    )
+    })
 
 }
 
@@ -395,7 +455,7 @@ private fun TemplateSingleChoiceItem(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = supportingText,
+                text = supportingText.replace("\n", " "),
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

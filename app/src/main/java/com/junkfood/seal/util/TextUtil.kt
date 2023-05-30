@@ -81,7 +81,7 @@ fun matchUrlFromSharedText(s: String): String {
     }
 }
 
-private fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String {
+fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String {
     val builder = StringBuilder()
     val pattern =
         Pattern.compile("(http|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?")
