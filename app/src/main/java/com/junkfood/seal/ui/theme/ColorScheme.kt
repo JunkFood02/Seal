@@ -91,5 +91,5 @@ object Surfaces {
 
 }
 
-const val DEFAULT_SEED_COLOR = 0xFF415f76.toInt()
+const val DEFAULT_SEED_COLOR = 0xa3d48d
 

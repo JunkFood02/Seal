@@ -38,6 +38,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -95,7 +96,7 @@ fun AppearancePreferences(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
             canScroll = { true })
     val image by remember {
-        mutableStateOf(
+        mutableIntStateOf(
             listOf(
                 R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
             ).random()
