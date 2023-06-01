@@ -1,0 +1,65 @@
+name: Close Matching Issues
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  close_issues:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup GitHub CLI
+      run: |
+        curl -sSL https://github.com/cli/cli/releases/download/v2.3.0/gh_2.3.0_linux_amd64.deb -o gh.deb
+        sudo dpkg -i gh.deb
+        rm gh.deb
+    - id: close_issues_step
+      name: Close matching issues
+      run: |
+        # Authenticate with GitHub
+        unset GITHUB_TOKEN
+        echo "${{ secrets.PERSONAL_ACCESS_TOKEN }}" | gh auth login --with-token
+        # Get version of the new release
+        version=${GITHUB_REF#refs/tags/}
+        # Construct the URL for the release
+        release_url="https://github.com/${{ github.repository }}/releases/tag/$version"
+        # Initialize counters
+        bugs_fixed=0
+        enhancements_added=0
+        # Loop over all open issues with matching label
+        issues=$(gh issue list --label $version --state open --json number,labels -q '.[] | {number: .number, labels: [.labels[].name]}')
+        for issue in $issues; do
+            id=$(echo $issue | jq -r '.number')
+            labels=$(echo $issue | jq -r '.labels')
+            echo "Closing issue $id with label $version"
+            
+            if echo "$labels" | grep -q "bug"; then
+                gh issue comment $id --body "Fixed in [$version]($release_url)"
+                bugs_fixed=$((bugs_fixed+1))
+            fi
+            if echo "$labels" | grep -q "enhancement"; then
+                gh issue comment $id --body "Added in [$version]($release_url)"
+                enhancements_added=$((enhancements_added+1))
+            fi
+            
+            gh issue close $id
+        done
+        # Store the counters as output variables
+        echo "bugs_fixed=$bugs_fixed" >> $GITHUB_ENV
+        echo "enhancements_added=$enhancements_added" >> $GITHUB_ENV
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+    - name: Summarize actions
+      run: |
+        echo "Bugs fixed: ${{ env.bugs_fixed }}"
+        echo "Enhancements added: ${{ env.enhancements_added }}"
+    - name: Re-checkout current repository
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
