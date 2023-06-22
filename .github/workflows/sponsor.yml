@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'JunkFood02/Seal' }}
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
