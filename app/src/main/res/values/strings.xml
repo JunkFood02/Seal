@@ -190,6 +190,7 @@
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
     <string name="la_ta" translatable="false">தமிழ்</string>
     <string name="la_ko" translatable="false">한국어</string>
+    <string name="la_sv" translatable="false">Svenska</string>
 
     <string name="status_enqueued">Enqueued</string>
     <string name="status_completed">Completed</string>
