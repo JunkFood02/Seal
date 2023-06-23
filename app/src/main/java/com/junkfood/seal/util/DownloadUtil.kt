@@ -36,7 +36,6 @@ import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.util.Locale
 
@@ -74,7 +73,7 @@ object DownloadUtil {
         ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
         with(request) {
-            addOption("--compat-options", "no-youtube-unavailable-videos")
+//            addOption("--compat-options", "no-youtube-unavailable-videos")
             addOption("--flat-playlist")
             addOption("-J")
             addOption("-R", "1")
@@ -119,7 +118,7 @@ object DownloadUtil {
                 enableCookies()
             }
             if (downloadPlaylist) {
-                addOption("--compat-options", "no-youtube-unavailable-videos")
+//                addOption("--compat-options", "no-youtube-unavailable-videos")
             }
         }
         addOption("-R", "1")
@@ -421,7 +420,7 @@ object DownloadUtil {
 
                 if (playlistItem != 0 && downloadPlaylist) {
                     addOption("--playlist-items", playlistItem)
-                    addOption("--compat-options", "no-youtube-unavailable-videos")
+//                    addOption("--compat-options", "no-youtube-unavailable-videos")
                 } else {
                     addOption("--no-playlist")
                 }
