@@ -298,4 +298,11 @@
     <string name="no_custom_command_tasks">Нет пользовательских командных задач</string>
     <string name="sponsor_msg2">Большое спасибо!</string>
     <string name="msg_from_developer">Сообщение от разработчика</string>
+    <string name="download_video_desc">Скачать видео с URL-адреса</string>
+    <string name="convert_subtitle">Конвертировать субтитры</string>
+    <string name="convert_subtitle_desc">Конвертировать субтитры в другой формат</string>
+    <string name="split_video">Разделить видео</string>
+    <string name="split_video_msg">Видео будет разделено на %1$d глав</string>
+    <string name="unknown_error_title">Ой! Что-то пошло не так</string>
+    <string name="copy_and_exit">Скопировать и выйти</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="extract_audio">I-save bilang audio</string>
     <string name="create_thumbnail">I-save ang thumbnail</string>
-    <string name="settings">Mga setting</string>
+    <string name="settings">Mga Settings</string>
     <string name="download_settings_desc">General, pormat, pasadyang utos</string>
     <string name="download">Download</string>
     <string name="url_empty">Hindi pwedeng walang laman ang link</string>
@@ -166,4 +166,35 @@
     <string name="copy_link">Kopyahin ang link</string>
     <string name="copy_error_report">Report ng error</string>
     <string name="recently_added">Kamakailang Idinagdag</string>
+    <string name="share">Ibahagi</string>
+    <string name="sponsor_msg2">Maraming salamat!</string>
+    <string name="msg_from_developer">Mensahe mula sa developer</string>
+    <string name="rename">Baguhin ang pangalan</string>
+    <string name="select_all">Lahat</string>
+    <string name="aria2_desc">Gamitin ang aria2c bilang external na downloader</string>
+    <string name="cookies_desc">Gamitin ang Netscape Formatted cookies para sa mga downloads</string>
+    <string name="file_unavailable">Ang file na ito ay hindi na pwede o nawawala</string>
+    <string name="copy_log">Kopyahin ang log</string>
+    <string name="download_subtitles">I download ang subtitles</string>
+    <string name="subtitle_language">lenguahe ng subtitles</string>
+    <string name="disable_preview">I off ang preview</string>
+    <string name="crop_artwork">I crop ang artwork</string>
+    <string name="crop_artwork_desc">I crop ang image at gawin itong square</string>
+    <string name="format_selection">pagpili ng format</string>
+    <string name="video_title_sample_text">Title ng video</string>
+    <string name="use_custom_command">Gumamit Ng custom command</string>
+    <string name="unavailable">Hindi pwede</string>
+    <string name="use_cookies">Gumamit ng cookies</string>
+    <string name="disable_preview_desc">Huwag i-display ang thumbnail habang nag da-download</string>
+    <string name="generate_new_cookies">Gumawa ng bagong cookies</string>
+    <string name="sponsorblock_desc">Alisin ang mga segment mula sa mga video gamit ang SponsorBlock API</string>
+    <string name="app_update_failed">Nabigong i-update sa pinakabagong bersyon</string>
+    <string name="sponsorblock_categories_desc">Tukuyin ang mga kategorya ng SponsorBlock na aalisin sa video file</string>
+    <string name="sponsorblock_categories">Mga kategorya ng SponsorBlock</string>
+    <string name="check_for_updates_desc">Awtomatikong tingnan ang pinakabagong bersyon sa GitHub</string>
+    <string name="check_for_updates">Tingnan kung may update</string>
+    <string name="app_up_to_date">Ang bersyon na ito ay up to date</string>
+    <string name="clear_temp_files">Tangalin ang Temporary files</string>
+    <string name="clear_temp_files_desc">Tanggalin ang lahat ng pansamantalang file mula sa panloob na direktoryo</string>
+    <string name="clear_temp_files_info">Maaaring gamitin ang mga pansamantalang file upang ipagpatuloy ang mga nakanselang pag-download. Sigurado ka bang tatanggalin ang lahat ng mga file na ito\?</string>
 </resources>

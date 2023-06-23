@@ -299,4 +299,10 @@
     <string name="no_custom_command_tasks">Keine benutzerdefinierten Befehlsaufgaben</string>
     <string name="got_it">Verstanden</string>
     <string name="download_video_desc">Videos von der URL herunterladen</string>
+    <string name="convert_subtitle">Untertitel konvertieren</string>
+    <string name="convert_subtitle_desc">Konvertiert die Untertitel in ein anderes Format</string>
+    <string name="split_video">Video aufteilen</string>
+    <string name="split_video_msg">Video wird in %1$d Kapitel aufgeteilt</string>
+    <string name="unknown_error_title">Hoppla! Etwas ist schief gelaufen</string>
+    <string name="copy_and_exit">Kopieren und beenden</string>
 </resources>

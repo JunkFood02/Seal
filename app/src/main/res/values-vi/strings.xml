@@ -36,7 +36,7 @@
     <string name="remove">Gỡ bỏ</string>
     <string name="delete_file">Xóa</string>
     <string name="about">Thông tin</string>
-    <string name="about_page">Phiên bản, phát hành, danh đề</string>
+    <string name="about_page">Phiên bản, phản hồi, cập nhật tự động</string>
     <string name="back">Quay lại</string>
     <string name="version">Phiên bản</string>
     <string name="release_desc">Các thay đổi và phiên bản mới</string>
@@ -69,7 +69,7 @@
     <string name="not_convert">Không đổi</string>
     <string name="convert_to">Chuyển đổi sang %1$s</string>
     <string name="format">Định dạng</string>
-    <string name="convert_audio_format_desc">Âm thanh định dạng MP3 hoặc M4A hoạt động trên hầu hết các thiết bị</string>
+    <string name="convert_audio_format_desc">Mã hóa lại các tệp âm thanh sẽ làm giảm chất lượng âm thanh và tăng kích thước tệp.</string>
     <string name="video_quality">Chất lượng video</string>
     <string name="best_quality">Tốt nhất (mặc định)</string>
     <string name="video_format_preference">Định dạng video ưa thích</string>
@@ -91,7 +91,7 @@
     <string name="video_url">Đường dẫn video</string>
     <string name="download_finish_notification">Đã hoàn thành tải xuống. Nhấn để mở.</string>
     <string name="concurrent_download">Tải xuống nhiều phần</string>
-    <string name="concurrent_download_desc">Tải xuống song song các phần khác của các video M3U8/MPD</string>
+    <string name="concurrent_download_desc">Tải xuống song song nhiều phần của video M3U8/MPD</string>
     <string name="concurrent_download_num">%d chuỗi sẽ được sử dụng cùng lúc để tải xuống video gốc DASH/HLS.</string>
     <string name="options">Tùy chọn</string>
     <string name="share_fail_msg">Không thể khớp URL từ nội dung được chia sẻ</string>
@@ -182,4 +182,21 @@
     <string name="sponsorblock_categories_desc">Chỉ định các danh mục SponsorBlock sẽ bị xóa khỏi tệp video</string>
     <string name="sponsorblock_categories">Danh mục SponsorBlock</string>
     <string name="multiselect_mode">Chế độ đa lựa chọn</string>
+    <string name="select_all">Chọn tất cả</string>
+    <string name="private_mode_desc">Tắt lịch sử tải xuống</string>
+    <string name="download_with_cellular">Tải xuống bằng di động</string>
+    <string name="private_mode">Chế độ ẩn danh</string>
+    <string name="download_disabled_with_cellular">Tải xuống bằng mạng di động bị tắt theo cài đặt của bạn</string>
+    <string name="file_unavailable">Tập tin này không còn khả dụng nữa</string>
+    <string name="rate_limit_desc">Giới hạn tỷ lệ tối đa cho lượt tải xuống</string>
+    <string name="dynamic_color">Màu động</string>
+    <string name="dynamic_color_desc">Áp dụng màu từ hình nền cho chủ đề ứng dụng</string>
+    <string name="download_with_cellular_desc">Cho phép tải xuống phương tiện khi được kết nối với mạng có đồng hồ đo</string>
+    <string name="network">Mạng</string>
+    <string name="rate_limit">Giới hạn tỷ lệ</string>
+    <string name="max_rate">Tỷ lệ tối đa</string>
+    <string name="clip_start">Bắt đầu</string>
+    <string name="clip_end">Kết thúc</string>
+    <string name="temporary_directory">Thư mục tạm</string>
+    <string name="unknown_error_title">Oops! Có cái gì đó không đúng</string>
 </resources>
