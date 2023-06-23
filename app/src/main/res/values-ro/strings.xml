@@ -298,4 +298,11 @@
     <string name="video_title_sample_text">Exemplu text titlu video</string>
     <string name="edit_shortcuts">Editează scurtături</string>
     <string name="running_tasks">Rularea activităților</string>
+    <string name="download_video_desc">Descărcați videoclipuri de la URL</string>
+    <string name="convert_subtitle">Convertiți subtitrări</string>
+    <string name="convert_subtitle_desc">Convertiți subtitrările într-un alt format</string>
+    <string name="split_video">Împărțiți videoclipul</string>
+    <string name="split_video_msg">Videoclipul va fi împărțit în %1$d capitole</string>
+    <string name="unknown_error_title">Hopa! Ceva n-a mers bine</string>
+    <string name="copy_and_exit">Copiați și ieșiți</string>
 </resources>

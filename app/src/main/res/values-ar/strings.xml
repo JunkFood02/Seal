@@ -234,7 +234,7 @@
     <string name="title_activity_share">تنزيل سريع</string>
     <string name="video_title_sample_text">نص نموذجي لعنوان الفيديو</string>
     <string name="subtitle_language">لغات الترجمة</string>
-    <string name="subtitle_desc">اللغات، دمج الترجمة، الترجمة التلقائية</string>
+    <string name="subtitle_desc">اللغات، دمج العناوين الفرعية، والترجمة التلقائية</string>
     <string name="copy_log">نسخ السجل</string>
     <string name="clear">إزالة</string>
     <string name="add">إضافة</string>
@@ -298,4 +298,11 @@
     <string name="no_custom_command_tasks">لا توجد مهام أوامر مخصصة</string>
     <string name="msg_from_developer">رسالة من المطور</string>
     <string name="sponsor_msg2">شكرًا جزيلا!</string>
+    <string name="convert_subtitle">تحويل الترجمة</string>
+    <string name="unknown_error_title">أوبس! حدث خطأ ما</string>
+    <string name="copy_and_exit">انسخ واخرج</string>
+    <string name="convert_subtitle_desc">تحويل الترجمات إلى صيغة أخرى</string>
+    <string name="split_video">تقسيم الفيديو</string>
+    <string name="split_video_msg">سيتم تقسيم الفيديو إلى %1$d فصلاً</string>
+    <string name="download_video_desc">تنزيل مقاطع الفيديو من الرابط</string>
 </resources>

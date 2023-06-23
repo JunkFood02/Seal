@@ -295,4 +295,14 @@
     <string name="got_it">Entendi</string>
     <string name="feature_unavailable">Recurso não disponível</string>
     <string name="auto_update_disabled_msg">A atualização automática não está disponível para as versões do %1$s. Se você não tem o %1$s instalado em seu dispositivo, ou gostaria de visualizar novos recursos em desenvolvimento no aplicativo Seal, por favor, considere %2$s.</string>
+    <string name="sponsor_msg2">Muito obrigado!</string>
+    <string name="msg_from_developer">Mensagem do desenvolvedor</string>
+    <string name="convert_subtitle">Converter legendas</string>
+    <string name="convert_subtitle_desc">Converter legendas para outro formato</string>
+    <string name="split_video">Dividir vídeo</string>
+    <string name="split_video_msg">O vídeo será dividido em %1$d capítulos</string>
+    <string name="unknown_error_title">Oops! Algo deu errado</string>
+    <string name="copy_and_exit">Copiar e sair</string>
+    <string name="no_custom_command_tasks">Não existem tarefas de comando personalizadas</string>
+    <string name="download_video_desc">Fazer download dos vídeos do URL</string>
 </resources>
