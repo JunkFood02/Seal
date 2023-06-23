@@ -10,14 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * Convert subtitles to another format
 * Split video by chapters
+* Create custom command tasks in the Running Tasks page
+* Show `PlainToolTip` when long-press on `PlaylistItem`
+* Add monochrome theme
+* Add Swedish translations
+
 
 ### Fixed
 * App crashes when being opened in the system share sheet
+* Video not shown in YouTube playlist results
+* Cookies cannot be disabled after clearing cookies
 
 ### Changed
 * Update `ColorScheme`s and components to reflect the new MD3 color roles
 * Update youtubedl-android version, added pycryptodomex to the library
 * Move Video formats to the bottom of the `FormatPage`
+* Upgrade target API level to 34 (Android 14)
 
 
 ## [v1.9.2][1.9.2] - 2023-04-27
