@@ -213,8 +213,8 @@
     <string name="multiselect_item_count">%1$d video(s), %2$d audio file(s)</string>
     <string name="delete_multiple_items_msg">Remove %1$d item(s) from your download history for good?</string>
     <string name="sponsorblock" translatable="false">SponsorBlock</string>
-    <string name="sponsorblock_desc">Remove segments from videos with SponsorBlock API</string>
-    <string name="sponsorblock_categories_desc">Specify SponsorBlock categories to be removed from the video file</string>
+    <string name="sponsorblock_desc">Remove or mark segments in videos with SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">Specify the SponsorBlock categories to remove or mark in the video file</string>
     <string name="sponsorblock_categories">SponsorBlock categories</string>
     <string name="check_for_updates">Check for updates</string>
     <string name="check_for_updates_desc">Automatically check for the latest version on GitHub</string>
