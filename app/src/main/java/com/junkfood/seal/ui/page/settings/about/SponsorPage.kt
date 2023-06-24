@@ -49,7 +49,6 @@ import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SponsorItem
 import com.junkfood.seal.ui.component.gitHubAvatar
-import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.Node
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SHOW_SPONSOR_MSG
@@ -123,7 +122,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                     Surface(
                         shape = CardDefaults.shape,
                         modifier = Modifier.padding(vertical = 12.dp),
-                        color = Surfaces.surfaceContainer(Surfaces.LOW)
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
                     ) {
                         Column(
                             modifier = Modifier
@@ -203,7 +202,7 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
         modifier = modifier
             .padding(horizontal = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(Surfaces.surfaceContainer(Surfaces.HIGH))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(

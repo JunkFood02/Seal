@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.PreviewThemeLight
-import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
@@ -616,7 +615,7 @@ fun PreferenceSwitchWithContainer(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
                     .size(24.dp),
-                tint = if (isChecked) FixedAccentColors.onPrimaryFixed else Surfaces.surface
+                tint = if (isChecked) FixedAccentColors.onPrimaryFixed else MaterialTheme.colorScheme.surface
             )
         }
         Column(

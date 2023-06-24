@@ -66,7 +66,6 @@ import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
@@ -240,7 +239,7 @@ fun RowScope.ColorButtonImpl(
     modifier: Modifier = Modifier,
     isSelected: () -> Boolean = { false },
     tonalPalettes: TonalPalettes,
-    cardColor: Color = Surfaces.surfaceContainer,
+    cardColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     onClick: () -> Unit = {}
 ) {

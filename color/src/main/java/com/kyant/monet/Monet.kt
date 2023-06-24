@@ -56,7 +56,14 @@ fun dynamicColorScheme(isLight: Boolean = !isSystemInDarkTheme()): ColorScheme {
             surface = 98.n1,
             surfaceVariant = 90.n2,
             tertiary = 40.a3,
-            tertiaryContainer = 90.a3
+            tertiaryContainer = 90.a3,
+            surfaceBright = 98.n1,
+            surfaceDim = 87.n1,
+            surfaceContainerLowest = 100.n1,
+            surfaceContainerLow = 96.n1,
+            surfaceContainer = 94.n1,
+            surfaceContainerHigh = 92.n1,
+            surfaceContainerHighest = 90.n1,
         )
     } else {
         darkColorScheme(
@@ -83,7 +90,14 @@ fun dynamicColorScheme(isLight: Boolean = !isSystemInDarkTheme()): ColorScheme {
             surface = 6.n1,
             surfaceVariant = 30.n2,
             tertiary = 80.a3,
-            tertiaryContainer = 30.a3
+            tertiaryContainer = 30.a3,
+            surfaceBright = 24.n1,
+            surfaceDim = 6.n1,
+            surfaceContainerLowest = 4.n1,
+            surfaceContainerLow = 10.n1,
+            surfaceContainer = 12.n1,
+            surfaceContainerHigh = 17.n1,
+            surfaceContainerHighest = 22.n1,
         )
     }
 }
