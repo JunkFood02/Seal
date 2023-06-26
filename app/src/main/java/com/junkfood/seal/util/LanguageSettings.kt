@@ -60,6 +60,7 @@ fun getLanguageDesc(language: Int = getLanguageNumber()): String {
             PUNJABI -> R.string.la_pa
             TAMIL -> R.string.la_ta
             KOREAN -> R.string.la_ko
+            SWEDISH -> R.string.la_sv
             else -> R.string.follow_system
         }
     )
@@ -102,6 +103,7 @@ private const val NORWEGIAN_NYNORSK = 33
 private const val PUNJABI = 34
 private const val TAMIL = 35
 private const val KOREAN = 36
+private const val SWEDISH = 37
 
 // Sorted alphabetically
 val languageMap: Map<Int, String> = mapOf(
@@ -137,6 +139,7 @@ val languageMap: Map<Int, String> = mapOf(
     SERBIAN to "sr",
     SINHALA to "si",
     SPANISH to "es",
+    SWEDISH to "sv",
     TAMIL to "ta",
     TURKISH to "tr",
     UKRAINIAN to "uk",

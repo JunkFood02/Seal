@@ -180,7 +180,7 @@
     <string name="clear_temp_files_desc">Выдаліце ўсе часовыя файлы з унутранага каталога</string>
     <string name="clear_temp_files_count">Выдалена %1$d часовых файл(ы)</string>
     <string name="multiselect_mode">Рэжым множнага выбару</string>
-    <string name="private_mode">Прыватны рэжым</string>
+    <string name="private_mode">Рэжым інкогніта</string>
     <string name="private_mode_desc">Адключыць гісторыю загрузак</string>
     <string name="clear_temp_files_info">Часовыя файлы можна выкарыстоўваць для аднаўлення скасаваных загрузак. Вы ўпэўнены, што хочаце выдаліць усе гэтыя файлы\?</string>
     <string name="dynamic_color">Дынамічныя колеры</string>
@@ -212,7 +212,7 @@
     <string name="general_settings_desc">Версія yt-dlp, апавяшчэнне, плэйліст</string>
     <string name="cookies">Cookies</string>
     <string name="disable_preview">Адключыць папярэдні прагляд</string>
-    <string name="disable_preview_desc">Адключыць папярэдні прагляд спамповак</string>
+    <string name="disable_preview_desc">Не адлюстроўваюцца мініяцюры падчас загрузкі</string>
     <string name="private_directory_desc">Захоўвайце загрузкі ў схаваным каталогу</string>
     <string name="privacy">Прыватнасць</string>
     <string name="telegram_channel">Telegram канал</string>
@@ -298,4 +298,11 @@
     <string name="no_custom_command_tasks">Няма карыстацкіх камандных задач</string>
     <string name="msg_from_developer">Паведамленне ад распрацоўніка</string>
     <string name="sponsor_msg2">Вялікі дзякуй!</string>
+    <string name="download_video_desc">Спампаваць відэа з URL-адрасу</string>
+    <string name="convert_subtitle">Канвертаваць субтытры</string>
+    <string name="convert_subtitle_desc">Канвертаваць субтытры ў іншы фармат</string>
+    <string name="copy_and_exit">Капіяваць і выйсці</string>
+    <string name="split_video">Раздзяліць відэа</string>
+    <string name="split_video_msg">Відэа будзе падзелена на %1$d раздзелаў</string>
+    <string name="unknown_error_title">Ой! Нешта пайшло не так</string>
 </resources>

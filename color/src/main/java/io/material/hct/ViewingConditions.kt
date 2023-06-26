@@ -17,6 +17,10 @@ package io.material.hct
 
 import io.material.utils.ColorUtils
 import io.material.utils.MathUtils
+import kotlin.math.exp
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * In traditional color spaces, a color can be identified solely by the observer's measurement of
@@ -82,7 +86,7 @@ class ViewingConditions
             // A background of pure black is non-physical and leads to infinities that represent the idea
             // that any color viewed in pure black can't be seen.
             var backgroundLstar = backgroundLstar
-            backgroundLstar = Math.max(0.1, backgroundLstar)
+            backgroundLstar = max(0.1, backgroundLstar)
             // Transform white point XYZ to 'cone'/'rgb' responses
             val matrix: Array<DoubleArray> = Cam16.Companion.XYZ_TO_CAM16RGB
             val rW =
@@ -98,7 +102,7 @@ class ViewingConditions
                 (f - 0.9) * 10.0
             ) else MathUtils.lerp(0.525, 0.59, (f - 0.8) * 10.0)
             var d =
-                if (discountingIlluminant) 1.0 else f * (1.0 - 1.0 / 3.6 * Math.exp((-adaptingLuminance - 42.0) / 92.0))
+                if (discountingIlluminant) 1.0 else f * (1.0 - 1.0 / 3.6 * exp((-adaptingLuminance - 42.0) / 92.0))
             d = MathUtils.clampDouble(0.0, 1.0, d)
             val rgbD = doubleArrayOf(
                 d * (100.0 / rW) + 1.0 - d, d * (100.0 / gW) + 1.0 - d, d * (100.0 / bW) + 1.0 - d
@@ -106,14 +110,14 @@ class ViewingConditions
             val k = 1.0 / (5.0 * adaptingLuminance + 1.0)
             val k4 = k * k * k * k
             val k4F = 1.0 - k4
-            val fl = k4 * adaptingLuminance + 0.1 * k4F * k4F * Math.cbrt(5.0 * adaptingLuminance)
+            val fl = k4 * adaptingLuminance + 0.1 * k4F * k4F * kotlin.math.cbrt(5.0 * adaptingLuminance)
             val n = ColorUtils.yFromLstar(backgroundLstar) / whitePoint[1]
-            val z = 1.48 + Math.sqrt(n)
-            val nbb = 0.725 / Math.pow(n, 0.2)
+            val z = 1.48 + sqrt(n)
+            val nbb = 0.725 / n.pow(0.2)
             val rgbAFactors = doubleArrayOf(
-                Math.pow(fl * rgbD[0] * rW / 100.0, 0.42),
-                Math.pow(fl * rgbD[1] * gW / 100.0, 0.42),
-                Math.pow(fl * rgbD[2] * bW / 100.0, 0.42)
+                (fl * rgbD[0] * rW / 100.0).pow(0.42),
+                (fl * rgbD[1] * gW / 100.0).pow(0.42),
+                (fl * rgbD[2] * bW / 100.0).pow(0.42)
             )
             val rgbA = doubleArrayOf(
                 400.0 * rgbAFactors[0] / (rgbAFactors[0] + 27.13),
@@ -130,7 +134,7 @@ class ViewingConditions
                 f,
                 rgbD,
                 fl,
-                Math.pow(fl, 0.25),
+                fl.pow(0.25),
                 z
             )
         }
@@ -144,7 +148,7 @@ class ViewingConditions
         fun defaultWithBackgroundLstar(lstar: Double): ViewingConditions {
             return make(
                 ColorUtils.whitePointD65(),
-                200.0 / Math.PI * ColorUtils.yFromLstar(50.0) / 100f,
+                200.0 / kotlin.math.PI * ColorUtils.yFromLstar(50.0) / 100f,
                 lstar,
                 2.0,
                 false

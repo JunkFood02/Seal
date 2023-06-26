@@ -183,7 +183,7 @@
     <string name="sponsorblock_categories">Catégories SponsorBlock</string>
     <string name="multiselect_mode">Mode multi-sélection</string>
     <string name="private_mode_desc">Désactiver l\'historique des téléchargements</string>
-    <string name="private_mode">Mode privé</string>
+    <string name="private_mode">Mode Incognito</string>
     <string name="download_with_cellular">Télécharger via le réseau mobile</string>
     <string name="download_with_cellular_desc">Autoriser le téléchargement de médias lorsqu\'ils sont connectés à des réseaux à compteur</string>
     <string name="dynamic_color">Couleur dynamique</string>
@@ -298,4 +298,11 @@
     <string name="switch_to_github_builds">passer aux moutures GitHub</string>
     <string name="msg_from_developer">Message du développeur</string>
     <string name="sponsor_msg2">Merci beaucoup !</string>
+    <string name="convert_subtitle">Convertir les sous-titres</string>
+    <string name="convert_subtitle_desc">Convertir les sous-titres dans un autre format</string>
+    <string name="split_video">Séparer la vidéo</string>
+    <string name="split_video_msg">La vidéo sera divisée en %1$d chapitres</string>
+    <string name="unknown_error_title">Oups ! Quelque chose s\'est mal passé</string>
+    <string name="copy_and_exit">Copier et quitter</string>
+    <string name="download_video_desc">Télécharger des vidéos depuis l\'URL</string>
 </resources>

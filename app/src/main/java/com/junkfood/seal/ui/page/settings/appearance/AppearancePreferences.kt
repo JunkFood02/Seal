@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.appearance
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,6 +38,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -68,8 +70,10 @@ import com.junkfood.seal.ui.theme.Surfaces
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.STYLE_MONOCHROME
+import com.junkfood.seal.util.STYLE_TONAL_SPOT
 import com.junkfood.seal.util.getLanguageDesc
-import com.junkfood.seal.util.palettesMap
+import com.junkfood.seal.util.paletteStyles
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.PaletteStyle
 import com.kyant.monet.TonalPalettes
@@ -79,20 +83,7 @@ import com.kyant.monet.a2
 import com.kyant.monet.a3
 import io.material.hct.Hct
 
-val colorList = ((4..10) + (1..3))
-    .map { it * 35.0 }
-    .map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
-
-//    listOf(
-//    Color(DEFAULT_SEED_COLOR),
-//    Color.Blue,
-//    Color(Hct.from(60.0, 100.0, 70.0).toInt()),
-//    Color(Hct.from(125.0, 50.0, 60.0).toInt()),
-//    Color.Cyan,
-//    Color.Red,
-//    Color.Yellow,
-//    Color.Magenta
-//)
+val colorList = ((4..10) + (1..3)).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
@@ -105,7 +96,7 @@ fun AppearancePreferences(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
             canScroll = { true })
     val image by remember {
-        mutableStateOf(
+        mutableIntStateOf(
             listOf(
                 R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
             ).random()
@@ -138,25 +129,50 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp), thumbnailUrl = image
                 )
-                val pagerState = rememberPagerState(
-                    initialPage = colorList.indexOf(
+                val pageCount = colorList.size + 1
+
+                val pagerState =
+                    rememberPagerState(initialPage = if (LocalPaletteStyleIndex.current == STYLE_MONOCHROME) pageCount else colorList.indexOf(
                         Color(LocalSeedColor.current)
-                    ).run { if (equals(-1)) 1 else this },
-                    initialPageOffsetFraction = 0f
-                ) {
-                    colorList.size
-                }
+                    ).run { if (this == -1) 0 else this }) {
+                        pageCount
+                    }
+
                 HorizontalPager(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clearAndSetSemantics { },
                     state = pagerState,
                     contentPadding = PaddingValues(horizontal = 12.dp)
-                ) {
-                    Row() { ColorButtons(colorList[it]) }
+                ) { page ->
+                    if (page < pageCount - 1) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) { ColorButtons(colorList[page]) }
+                    } else {
+                        // ColorButton for Monochrome theme
+                        val isSelected =
+                            LocalPaletteStyleIndex.current == STYLE_MONOCHROME && !LocalDynamicColorSwitch.current
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            ColorButtonImpl(modifier = Modifier,
+                                isSelected = { isSelected },
+                                tonalPalettes = Color.Black.toTonalPalettes(PaletteStyle.Monochrome),
+                                onClick = {
+                                    PreferenceUtil.switchDynamicColor(enabled = false)
+                                    PreferenceUtil.modifyThemeSeedColor(
+                                        Color.Black.toArgb(), STYLE_MONOCHROME
+                                    )
+                                })
+                        }
+                    }
                 }
+
                 HorizontalPagerIndicator(pagerState = pagerState,
-                    pageCount = colorList.size,
+                    pageCount = pageCount,
                     modifier = Modifier
                         .clearAndSetSemantics { }
                         .align(Alignment.CenterHorizontally)
@@ -195,8 +211,8 @@ fun AppearancePreferences(
 
 @Composable
 fun RowScope.ColorButtons(color: Color) {
-    palettesMap.forEach {
-        ColorButton(color = color, index = it.key, tonalStyle = it.value)
+    paletteStyles.subList(STYLE_TONAL_SPOT, STYLE_MONOCHROME).forEachIndexed { index, style ->
+        ColorButton(color = color, index = index, tonalStyle = style)
     }
 }
 
@@ -212,10 +228,7 @@ fun RowScope.ColorButton(
     }
     val isSelect =
         !LocalDynamicColorSwitch.current && LocalSeedColor.current == color.toArgb() && LocalPaletteStyleIndex.current == index
-    ColorButtonImpl(modifier = modifier,
-        tonalPalettes = tonalPalettes,
-        cardColor = Surfaces.surfaceContainer,
-        isSelected = { isSelect }) {
+    ColorButtonImpl(modifier = modifier, tonalPalettes = tonalPalettes, isSelected = { isSelect }) {
         PreferenceUtil.switchDynamicColor(enabled = false)
         PreferenceUtil.modifyThemeSeedColor(color.toArgb(), index)
     }
@@ -227,7 +240,7 @@ fun RowScope.ColorButtonImpl(
     modifier: Modifier = Modifier,
     isSelected: () -> Boolean = { false },
     tonalPalettes: TonalPalettes,
-    cardColor: Color,
+    cardColor: Color = Surfaces.surfaceContainer,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     onClick: () -> Unit = {}
 ) {
@@ -235,14 +248,16 @@ fun RowScope.ColorButtonImpl(
     val containerSize by animateDpAsState(targetValue = if (isSelected.invoke()) 28.dp else 0.dp)
     val iconSize by animateDpAsState(targetValue = if (isSelected.invoke()) 16.dp else 0.dp)
 
-    Surface(modifier = modifier
-        .padding(4.dp)
-        .sizeIn(maxHeight = 80.dp, maxWidth = 80.dp, minHeight = 64.dp, minWidth = 64.dp)
-        .weight(1f, false)
-        .aspectRatio(1f),
+    Surface(
+        modifier = modifier
+            .padding(4.dp)
+            .sizeIn(maxHeight = 80.dp, maxWidth = 80.dp, minHeight = 64.dp, minWidth = 64.dp)
+            .weight(1f, false)
+            .aspectRatio(1f),
         shape = RoundedCornerShape(16.dp),
         color = cardColor,
-        onClick = { onClick() }) {
+        onClick = onClick
+    ) {
         CompositionLocalProvider(LocalTonalPalettes provides tonalPalettes) {
             val color1 = 80.a1
             val color2 = 90.a2

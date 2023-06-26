@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -57,10 +58,9 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
 
 //    BackHandler { onDismissRequest() }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(title = {
                 Text(
@@ -69,28 +69,25 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                     ).format(selectedItems.size),
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
-            },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { onDismissRequest() }) {
-                        Icon(Icons.Outlined.Close, stringResource(R.string.close))
-                    }
-                }, actions = {
-                    TextButton(
-                        modifier = Modifier.padding(end = 8.dp),
-                        onClick = {
-                            Downloader.downloadVideoInPlaylistByIndexList(
-                                url = playlistInfo.webpageUrl.toString(),
-                                indexList = selectedItems
-                            )
-                            onDismissRequest()
-                        }, enabled = selectedItems.isNotEmpty()
-                    ) {
-                        Text(text = stringResource(R.string.start_download))
-                    }
-                }, scrollBehavior = scrollBehavior
+            }, navigationIcon = {
+                IconButton(onClick = { onDismissRequest() }) {
+                    Icon(Icons.Outlined.Close, stringResource(R.string.close))
+                }
+            }, actions = {
+                TextButton(
+                    modifier = Modifier.padding(end = 8.dp), onClick = {
+                        Downloader.downloadVideoInPlaylistByIndexList(
+                            url = playlistInfo.webpageUrl.toString(), indexList = selectedItems
+                        )
+                        onDismissRequest()
+                    }, enabled = selectedItems.isNotEmpty()
+                ) {
+                    Text(text = stringResource(R.string.start_download))
+                }
+            }, scrollBehavior = scrollBehavior
             )
-        }, bottomBar = {
+        },
+        bottomBar = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,20 +97,15 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
             ) {
                 Divider(modifier = Modifier.fillMaxWidth())
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Row(
-                        modifier = Modifier
-                            .selectable(
-                                selected = selectedItems.size == playlistCount && selectedItems.size != 0,
-                                indication = null,
-                                interactionSource = MutableInteractionSource(),
-                                onClick = {
-                                    if (selectedItems.size == playlistCount) selectedItems.clear() else {
-                                        selectedItems.clear()
-                                        selectedItems.addAll(1..playlistCount)
-                                    }
+                    Row(modifier = Modifier.selectable(selected = selectedItems.size == playlistCount && selectedItems.size != 0,
+                            indication = null,
+                            interactionSource = MutableInteractionSource(),
+                            onClick = {
+                                if (selectedItems.size == playlistCount) selectedItems.clear() else {
+                                    selectedItems.clear()
+                                    selectedItems.addAll(1..playlistCount)
                                 }
-                            ), verticalAlignment = Alignment.CenterVertically
-                    ) {
+                            }), verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                             modifier = Modifier.padding(16.dp),
                             checked = selectedItems.size == playlistCount && selectedItems.size != 0,
@@ -125,8 +117,7 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    IconButton(
-                        modifier = Modifier.padding(end = 4.dp),
+                    IconButton(modifier = Modifier.padding(end = 4.dp),
                         onClick = { showDialog = true }) {
                         Icon(
                             imageVector = Icons.Outlined.PlaylistAdd,
@@ -140,37 +131,42 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
 
         }) { paddings ->
         Column(
-            modifier = Modifier
-                .padding(paddings)
+            modifier = Modifier.padding(paddings)
         ) {
             LazyColumn {
                 item {
                     Text(
-                        modifier = Modifier
-                            .padding(16.dp),
+                        modifier = Modifier.padding(16.dp),
                         text = stringResource(R.string.download_selection_desc).format(playlistInfo.title),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
+
                 itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entry ->
                     val index = _index + 1
-                    PlaylistItem(modifier = Modifier.padding(horizontal = 12.dp),
-                        imageModel = entry.thumbnails?.lastOrNull()?.url ?: "",
-                        title = entry.title ?: index.toString(),
-                        author = entry.channel ?: entry.uploader ?: playlistInfo.channel
-                        ?: playlistInfo.uploader,
-                        selected = selectedItems.contains(index),
-                        onClick = {
-                            if (selectedItems.contains(index)) selectedItems.remove(index)
-                            else selectedItems.add(index)
-                        })
+                    PlainTooltipBox(tooltip = {
+                        Text(text = entry.title ?: index.toString())
+                    }) {
+                        PlaylistItem(modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .tooltipTrigger(),
+                            imageModel = entry.thumbnails?.lastOrNull()?.url ?: "",
+                            title = entry.title ?: index.toString(),
+                            author = entry.channel ?: entry.uploader ?: playlistInfo.channel
+                            ?: playlistInfo.uploader,
+                            selected = selectedItems.contains(index),
+                            onClick = {
+                                if (selectedItems.contains(index)) selectedItems.remove(index)
+                                else selectedItems.add(index)
+                            })
+                    }
+
                 }
             }
         }
     }
     if (showDialog) {
-        PlaylistSelectionDialog(
-            playlistInfo = playlistInfo,
+        PlaylistSelectionDialog(playlistInfo = playlistInfo,
             onDismissRequest = { showDialog = false },
             onConfirm = {
                 selectedItems.clear()

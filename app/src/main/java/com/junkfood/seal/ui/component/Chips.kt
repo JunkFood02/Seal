@@ -88,7 +88,7 @@ fun OutlinedButtonChip(
     label: String,
     onClick: () -> Unit
 ) {
-    AssistChip(modifier = modifier.padding(horizontal = 4.dp), onClick = onClick, leadingIcon = {
+    AssistChip(modifier = modifier, onClick = onClick, leadingIcon = {
         Icon(
             imageVector = icon,
             contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)

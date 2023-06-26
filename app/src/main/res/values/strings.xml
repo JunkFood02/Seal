@@ -190,6 +190,7 @@
     <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
     <string name="la_ta" translatable="false">தமிழ்</string>
     <string name="la_ko" translatable="false">한국어</string>
+    <string name="la_sv" translatable="false">Svenska</string>
 
     <string name="status_enqueued">Enqueued</string>
     <string name="status_completed">Completed</string>
@@ -354,4 +355,8 @@
     <string name="split_video_msg">Video will be split into %1$d chapters</string>
     <string name="unknown_error_title">Oops! Something went wrong</string>
     <string name="copy_and_exit">Copy and exit</string>
+    <string name="expand">Expand</string>
+    <string name="new_task">New download task</string>
+    <string name="start">Start</string>
+    <string name="edit_template">Edit \"%1$s\"</string>
 </resources>

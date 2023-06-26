@@ -16,6 +16,17 @@
 package io.material.hct
 
 import io.material.utils.ColorUtils
+import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.expm1
+import kotlin.math.hypot
+import kotlin.math.ln1p
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.sign
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
  * CAM16, a color appearance model. Colors are not just defined by their hex code, but rather, a hex
@@ -94,6 +105,7 @@ class Cam16
     val bstar: Double
 ) {
 
+
     // Avoid allocations during conversion by pre-allocating an array.
     private val tempArray = doubleArrayOf(0.0, 0.0, 0.0)
 
@@ -106,8 +118,8 @@ class Cam16
         val dJ = jstar - other.jstar
         val dA = astar - other.astar
         val dB = bstar - other.bstar
-        val dEPrime = Math.sqrt(dJ * dJ + dA * dA + dB * dB)
-        return 1.41 * Math.pow(dEPrime, 0.63)
+        val dEPrime = sqrt(dJ * dJ + dA * dA + dB * dB)
+        return 1.41 * dEPrime.pow(0.63)
     }
 
     /**
@@ -133,32 +145,31 @@ class Cam16
         viewingConditions: ViewingConditions,
         returnArray: DoubleArray?
     ): DoubleArray {
-        val alpha = if (chroma == 0.0 || j == 0.0) 0.0 else chroma / Math.sqrt(
+        val alpha = if (chroma == 0.0 || j == 0.0) 0.0 else chroma / sqrt(
             j / 100.0
         )
-        val t = Math.pow(
-            alpha / Math.pow(1.64 - Math.pow(0.29, viewingConditions.n), 0.73), 1.0 / 0.9
-        )
-        val hRad = Math.toRadians(hue)
-        val eHue = 0.25 * (Math.cos(hRad + 2.0) + 3.8)
+        val t = (alpha / (1.64 - 0.29.pow(viewingConditions.n)).pow(0.73)).pow(1.0 / 0.9)
+        val hRad = hue.toRadians()
+
+        val eHue = 0.25 * (cos(hRad + 2.0) + 3.8)
         val ac = (viewingConditions.aw
-                * Math.pow(j / 100.0, 1.0 / viewingConditions.c / viewingConditions.z))
+                * (j / 100.0).pow(1.0 / viewingConditions.c / viewingConditions.z))
         val p1 = eHue * (50000.0 / 13.0) * viewingConditions.nc * viewingConditions.ncb
         val p2 = ac / viewingConditions.nbb
-        val hSin = Math.sin(hRad)
-        val hCos = Math.cos(hRad)
+        val hSin = sin(hRad)
+        val hCos = cos(hRad)
         val gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * hCos + 108.0 * t * hSin)
         val a = gamma * hCos
         val b = gamma * hSin
         val rA = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0
         val gA = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0
         val bA = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0
-        val rCBase = Math.max(0.0, 27.13 * Math.abs(rA) / (400.0 - Math.abs(rA)))
-        val rC = Math.signum(rA) * (100.0 / viewingConditions.fl) * Math.pow(rCBase, 1.0 / 0.42)
-        val gCBase = Math.max(0.0, 27.13 * Math.abs(gA) / (400.0 - Math.abs(gA)))
-        val gC = Math.signum(gA) * (100.0 / viewingConditions.fl) * Math.pow(gCBase, 1.0 / 0.42)
-        val bCBase = Math.max(0.0, 27.13 * Math.abs(bA) / (400.0 - Math.abs(bA)))
-        val bC = Math.signum(bA) * (100.0 / viewingConditions.fl) * Math.pow(bCBase, 1.0 / 0.42)
+        val rCBase = max(0.0, 27.13 * abs(rA) / (400.0 - abs(rA)))
+        val rC = sign(rA) * (100.0 / viewingConditions.fl) * rCBase.pow(1.0 / 0.42)
+        val gCBase = max(0.0, 27.13 * abs(gA) / (400.0 - abs(gA)))
+        val gC = sign(gA) * (100.0 / viewingConditions.fl) * gCBase.pow(1.0 / 0.42)
+        val bCBase = max(0.0, 27.13 * abs(bA) / (400.0 - abs(bA)))
+        val bC = sign(bA) * (100.0 / viewingConditions.fl) * bCBase.pow(1.0 / 0.42)
         val rF = rC / viewingConditions.rgbD[0]
         val gF = gC / viewingConditions.rgbD[1]
         val bF = bC / viewingConditions.rgbD[2]
@@ -238,12 +249,12 @@ class Cam16
             val bD = viewingConditions.rgbD[2] * bT
 
             // Chromatic adaptation
-            val rAF = Math.pow(viewingConditions.fl * Math.abs(rD) / 100.0, 0.42)
-            val gAF = Math.pow(viewingConditions.fl * Math.abs(gD) / 100.0, 0.42)
-            val bAF = Math.pow(viewingConditions.fl * Math.abs(bD) / 100.0, 0.42)
-            val rA = Math.signum(rD) * 400.0 * rAF / (rAF + 27.13)
-            val gA = Math.signum(gD) * 400.0 * gAF / (gAF + 27.13)
-            val bA = Math.signum(bD) * 400.0 * bAF / (bAF + 27.13)
+            val rAF = (viewingConditions.fl * abs(rD) / 100.0).pow(0.42)
+            val gAF = (viewingConditions.fl * abs(gD) / 100.0).pow(0.42)
+            val bAF = (viewingConditions.fl * abs(bD) / 100.0).pow(0.42)
+            val rA = sign(rD) * 400.0 * rAF / (rAF + 27.13)
+            val gA = sign(gD) * 400.0 * gAF / (gAF + 27.13)
+            val bA = sign(bD) * 400.0 * bAF / (bAF + 27.13)
 
             // redness-greenness
             val a = (11.0 * rA + -12.0 * gA + bA) / 11.0
@@ -255,43 +266,40 @@ class Cam16
             val p2 = (40.0 * rA + 20.0 * gA + bA) / 20.0
 
             // hue
-            val atan2 = Math.atan2(b, a)
-            val atanDegrees = Math.toDegrees(atan2)
+            val atan2 = atan2(b, a)
+            val atanDegrees = atan2.toDegrees()
             val hue =
                 if (atanDegrees < 0) atanDegrees + 360.0 else if (atanDegrees >= 360) atanDegrees - 360.0 else atanDegrees
-            val hueRadians = Math.toRadians(hue)
+            val hueRadians = hue.toRadians()
 
             // achromatic response to color
             val ac = p2 * viewingConditions.nbb
 
             // CAM16 lightness and brightness
             val j = (100.0
-                    * Math.pow(
-                ac / viewingConditions.aw,
-                viewingConditions.c * viewingConditions.z
-            ))
+                    * (ac / viewingConditions.aw).pow(viewingConditions.c * viewingConditions.z))
             val q = ((4.0
-                    / viewingConditions.c) * Math.sqrt(j / 100.0)
+                    / viewingConditions.c) * sqrt(j / 100.0)
                     * (viewingConditions.aw + 4.0)
                     * viewingConditions.flRoot)
 
             // CAM16 chroma, colorfulness, and saturation.
             val huePrime = if (hue < 20.14) hue + 360 else hue
-            val eHue = 0.25 * (Math.cos(Math.toRadians(huePrime) + 2.0) + 3.8)
+            val eHue = 0.25 * (cos(huePrime.toRadians() + 2.0) + 3.8)
             val p1 = 50000.0 / 13.0 * eHue * viewingConditions.nc * viewingConditions.ncb
-            val t = p1 * Math.hypot(a, b) / (u + 0.305)
+            val t = p1 * hypot(a, b) / (u + 0.305)
             val alpha =
-                Math.pow(1.64 - Math.pow(0.29, viewingConditions.n), 0.73) * Math.pow(t, 0.9)
+                (1.64 - 0.29.pow(viewingConditions.n)).pow(0.73) * t.pow(0.9)
             // CAM16 chroma, colorfulness, saturation
-            val c = alpha * Math.sqrt(j / 100.0)
+            val c = alpha * sqrt(j / 100.0)
             val m = c * viewingConditions.flRoot
-            val s = 50.0 * Math.sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4.0))
+            val s = 50.0 * sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4.0))
 
             // CAM16-UCS components
             val jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j)
-            val mstar = 1.0 / 0.0228 * Math.log1p(0.0228 * m)
-            val astar = mstar * Math.cos(hueRadians)
-            val bstar = mstar * Math.sin(hueRadians)
+            val mstar = 1.0 / 0.0228 * ln1p(0.0228 * m)
+            val astar = mstar * cos(hueRadians)
+            val bstar = mstar * sin(hueRadians)
             return Cam16(hue, c, j, q, m, s, jstar, astar, bstar)
         }
 
@@ -314,17 +322,17 @@ class Cam16
             j: Double, c: Double, h: Double, viewingConditions: ViewingConditions
         ): Cam16 {
             val q = ((4.0
-                    / viewingConditions.c) * Math.sqrt(j / 100.0)
+                    / viewingConditions.c) * sqrt(j / 100.0)
                     * (viewingConditions.aw + 4.0)
                     * viewingConditions.flRoot)
             val m = c * viewingConditions.flRoot
-            val alpha = c / Math.sqrt(j / 100.0)
-            val s = 50.0 * Math.sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4.0))
-            val hueRadians = Math.toRadians(h)
+            val alpha = c / sqrt(j / 100.0)
+            val s = 50.0 * sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4.0))
+            val hueRadians = h.toRadians()
             val jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j)
-            val mstar = 1.0 / 0.0228 * Math.log1p(0.0228 * m)
-            val astar = mstar * Math.cos(hueRadians)
-            val bstar = mstar * Math.sin(hueRadians)
+            val mstar = 1.0 / 0.0228 * ln1p(0.0228 * m)
+            val astar = mstar * cos(hueRadians)
+            val bstar = mstar * sin(hueRadians)
             return Cam16(h, c, j, q, m, s, jstar, astar, bstar)
         }
 
@@ -359,15 +367,19 @@ class Cam16
         fun fromUcsInViewingConditions(
             jstar: Double, astar: Double, bstar: Double, viewingConditions: ViewingConditions
         ): Cam16 {
-            val m = Math.hypot(astar, bstar)
-            val m2 = Math.expm1(m * 0.0228) / 0.0228
+            val m = hypot(astar, bstar)
+            val m2 = expm1(m * 0.0228) / 0.0228
             val c = m2 / viewingConditions.flRoot
-            var h = Math.atan2(bstar, astar) * (180.0 / Math.PI)
+            var h = atan2(bstar, astar) * (180.0 / kotlin.math.PI)
             if (h < 0.0) {
                 h += 360.0
             }
             val j = jstar / (1.0 - (jstar - 100.0) * 0.007)
             return fromJchInViewingConditions(j, c, h, viewingConditions)
         }
+
+        private inline fun Double.toRadians() = this * kotlin.math.PI / 180.0
+
+        private inline fun Double.toDegrees() = this * 180.0 / kotlin.math.PI
     }
 }

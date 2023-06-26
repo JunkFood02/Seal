@@ -103,6 +103,14 @@ class PaletteStyle(
             neutral1Spec = ColorSpec({ it / 12 }) { 0.0 },
             neutral2Spec = ColorSpec({ it / 6 }) { 0.0 }
         )
+        val Monochrome: PaletteStyle = PaletteStyle(
+            accent1Spec = ColorSpec({ 0.0 }) { 0.0 },
+            accent2Spec = ColorSpec({ 0.0 }) { 0.0 },
+            accent3Spec = ColorSpec({ 0.0 }) { 0.0 },
+            neutral1Spec = ColorSpec({ 0.0 }) { 0.0 },
+            neutral2Spec = ColorSpec({ 0.0 }) { 0.0 },
+        )
+
 
         private fun Double.hueRotation(list: Array<Pair<Int, Int>>): Double {
             var i = 0
@@ -115,6 +123,7 @@ class PaletteStyle(
                         list[i].first <= this && this < intValue -> {
                             return (this + list[i].second.toDouble()).mod(360.0)
                         }
+
                         i == size -> break
                         else -> i = i2
                     }

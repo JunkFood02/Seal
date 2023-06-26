@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version">ସଂସ୍କରଣ</string>
+    <string name="credits">ଶ୍ରେୟ</string>
+    <string name="follow_system">ସିଷ୍ଟମ୍</string>
+    <string name="on">ଚାଲୁ</string>
+    <string name="defaults">ଡିଫଲ୍ଟ</string>
+    <string name="settings">ସେଟିଂ</string>
+    <string name="audio">ଅଡ଼ିଓ</string>
+    <string name="about">ଵିଷୟରେ</string>
+    <string name="general_settings">ସାଧାରଣ</string>
+    <string name="advanced_settings">ଵିକଶିତ</string>
+    <string name="video">ଵିଡ଼ିଓ</string>
+    <string name="edit">ସମ୍ପାଦନା</string>
+    <string name="display">ପ୍ରଦର୍ଶନ</string>
+    <string name="off">ବନ୍ଦ</string>
+    <string name="options">ଵିକଳ୍ପ</string>
+    <string name="translate">ଅନୁଵାଦ କରନ୍ତୁ</string>
+    <string name="status_error">ତ୍ରୁଟି</string>
+    <string name="private_mode">ଅପରିଚିତ ମୋଡ୍</string>
+    <string name="download_error_msg">ଫାଇଲ୍ ଡାଉନଲୋଡ୍ କରିହେଲା ନାହିଁ</string>
+</resources>

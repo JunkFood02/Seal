@@ -78,7 +78,7 @@
     <string name="delete_info_msg">\"%1$s\" adresi indirme geçmişinizden tamamen kaldırılsın mı\?</string>
     <string name="confirm">Onayla</string>
     <string name="about">Hakkında</string>
-    <string name="about_page">Versiyon, sürümler, künye</string>
+    <string name="about_page">Sürüm, geri bildirim, otomatik güncelleme</string>
     <string name="version">Versiyon</string>
     <string name="readme_desc">GitHub deposunu ve README\'yi kontrol et</string>
     <string name="video">Video</string>
@@ -104,10 +104,10 @@
     <string name="start_execute">Yürütme komutunu başlat</string>
     <string name="paste">Yapıştır</string>
     <string name="yt_dlp_docs">Yt-dlp kullanım örnekleri</string>
-    <string name="download_finish_notification">İndirme tamamlandı. Açmak için tıklayın.</string>
+    <string name="download_finish_notification">İndirme tamamlandı. Açmak için dokunun.</string>
     <string name="defaults">Varsayılan</string>
     <string name="download_playlist_desc">Bir oynatma listesinden birden fazla video indir</string>
-    <string name="concurrent_download">Birden fazla parça indir</string>
+    <string name="concurrent_download">Çok iş parçacıklı indirme</string>
     <string name="additional_settings">Ek ayarlar</string>
     <string name="download_notification">İndirme bildirimi</string>
     <string name="download_notification_desc">İndirilen dosyaları ve ilerlemeyi bildir</string>
@@ -117,7 +117,7 @@
     <string name="video_url">Video bağlantısı</string>
     <string name="invalid_index_range">Geçersiz dizin aralığı</string>
     <string name="show_more_actions">Daha fazla işlem göster</string>
-    <string name="video_quality_desc">Format kalitesini ve dosya boyutunu sınırlayın</string>
+    <string name="video_quality_desc">Birden fazla olduğunda video kalitesini sınırlayın</string>
     <string name="video_format">Video formatı</string>
     <string name="playlist_indicator_text">Oynatma listesi indiriliyor (%1$d/%2$d, Durdurmak için tıklayın.</string>
     <string name="close">Kapat</string>
@@ -132,7 +132,7 @@
     <string name="translate">Çeviri</string>
     <string name="custom_output_path">Özel alt dizin</string>
     <string name="custom_output_path_desc">Alt dizin için şablon kullan</string>
-    <string name="edit_custom_path_template_desc">yt-dlp tarafından sağlanan kullanılabilir alanlara alt dizini belirtin</string>
+    <string name="edit_custom_path_template_desc">yt-dlp tarafından sağlanan mevcut alanlarla -o seçeneğine özel önek ekleyin</string>
     <string name="prefix">Path şablonu</string>
     <string name="embed_subtitles">Altyazıları göm</string>
     <string name="new_template">Yeni şablon</string>
@@ -141,7 +141,7 @@
     <string name="remove_template_desc">\"%1$s\" komut şablonundan temelli kaldırılsın mı\?</string>
     <string name="template_selection">Şablon seçimi</string>
     <string name="custom_command_template_desc">Komut şablonlarını düzenle ve yönet</string>
-    <string name="downloading_indicator_text">İndirme işlemi işlemde, iptal etmek için tıklayın.</string>
+    <string name="downloading_indicator_text">İndirme devam ediyor, iptal etmek için dokunun.</string>
     <string name="open_file">Dosyayı aç</string>
     <string name="restart">Yeniden başlat</string>
     <string name="status_enqueued">Sıraya alındı</string>
@@ -162,7 +162,7 @@
     <string name="aria2_desc">Harici indirici olarak aria2c kullanın</string>
     <string name="cookies_desc">İndirmeler için Netscape formatlı çerezleri kullanın</string>
     <string name="clear_temp_files_count">Silinen %1$d geçici dosya</string>
-    <string name="clear_temp_files_desc">İndirme dizinindeki tüm geçici dosyaları silin</string>
+    <string name="clear_temp_files_desc">Tüm geçici dosyaları dahili dizinden silin</string>
     <string name="clear_temp_files">Geçici dosyaları temizleyin</string>
     <string name="clear_temp_files_info">Geçici dosyalar iptal edilen indirmeleri devam ettirmek için kullanılabilir. Bu dosyaların tümünü silmekten emin misiniz\?</string>
     <string name="video_resolution">Video çözünürlüğü</string>
@@ -182,7 +182,7 @@
     <string name="multiselect_item_count">%1$d video, %2$d ses dosyası</string>
     <string name="app_update_failed">En son sürüme güncellenemedi</string>
     <string name="multiselect_mode">Çoklu seçim modu</string>
-    <string name="private_mode">Özel mod</string>
+    <string name="private_mode">Gizli mod</string>
     <string name="dynamic_color">Dinamik renk</string>
     <string name="dynamic_color_desc">Uygulama tema rengini duvar kağıtlarından uygula</string>
     <string name="private_mode_desc">İndirme geçmişini devre dışı bırak</string>
@@ -196,7 +196,7 @@
     <string name="general_settings_desc">Yt-dlp sürümü, bildirim, çalma listesi</string>
     <string name="network_settings_desc">Hız sınırı, indirici, çerezler</string>
     <string name="disable_preview">Önizlemeyi devre dışı bırak</string>
-    <string name="disable_preview_desc">İndirmelerde önizlemeyi devre dışı bırak</string>
+    <string name="disable_preview_desc">İndirme sırasında küçük resimler görüntülenmiyor</string>
     <string name="privacy">Gizlilik</string>
     <string name="use_custom_command">Özel komut kullan</string>
     <string name="private_directory_desc">İndirilenleri gizli dizinde sakla</string>
@@ -290,4 +290,19 @@
     <string name="sponsor_msg">Seal her zaman ücretsiz ve herkes için açık kaynak olacaktır. Beğendiyseniz, lütfen GitHub\'da bana sponsor olmayı düşünün!</string>
     <string name="feedback">Geri bildirim</string>
     <string name="sponsors">Sponsorlar</string>
+    <string name="msg_from_developer">Geliştiriciden Mesaj</string>
+    <string name="sponsor_msg2">Çok teşekkür ederim!</string>
+    <string name="okay">Tamam.</string>
+    <string name="auto_update_disabled_msg">%1$s yapıları için otomatik güncelleme mevcut değildir. Cihazınızda %1$s yüklü değilse veya Seal\'de gelecek yeni özellikleri önizlemek istiyorsanız, lütfen %2$s\'i düşünün.</string>
+    <string name="switch_to_github_builds">GitHub derlemelerine geçiş</string>
+    <string name="got_it">Anladım</string>
+    <string name="feature_unavailable">Özellik mevcut değil</string>
+    <string name="convert_subtitle">Altyazıları dönüştür</string>
+    <string name="convert_subtitle_desc">Altyazıları başka bir formata dönüştürün</string>
+    <string name="split_video">Videoyu böl</string>
+    <string name="split_video_msg">Video %1$d bölümlere ayrılacak</string>
+    <string name="unknown_error_title">Oops! Bir şeyler yanlış gitti</string>
+    <string name="copy_and_exit">Kopyala ve çık</string>
+    <string name="no_custom_command_tasks">Özel komut görevi yok</string>
+    <string name="download_video_desc">Videoları URL\'den indirin</string>
 </resources>

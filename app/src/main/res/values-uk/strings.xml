@@ -298,4 +298,11 @@
     <string name="no_custom_command_tasks">Немає спеціальних командних завдань</string>
     <string name="msg_from_developer">Допис від розробника</string>
     <string name="sponsor_msg2">Велике спасибі!</string>
+    <string name="download_video_desc">Завантажити відео з URL-адреси</string>
+    <string name="convert_subtitle">Конвертувати субтитри</string>
+    <string name="convert_subtitle_desc">Конвертувати субтитри в інший формат</string>
+    <string name="split_video">Розділити відео</string>
+    <string name="copy_and_exit">Скопіювати та вийти</string>
+    <string name="split_video_msg">Відео буде розділене на %1$d частини</string>
+    <string name="unknown_error_title">Ой! Щось пішло не так</string>
 </resources>
