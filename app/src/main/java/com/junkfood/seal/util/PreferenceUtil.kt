@@ -88,6 +88,8 @@ const val FORMAT_SELECTION = "format_selection"
 const val VIDEO_CLIP = "video_clip"
 const val TEMP_DIRECTORY = "temp_dir"
 const val SHOW_SPONSOR_MSG = "sponsor_msg_v1"
+const val PROXY = "proxy"
+const val PROXY_URL = "proxy_url"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0

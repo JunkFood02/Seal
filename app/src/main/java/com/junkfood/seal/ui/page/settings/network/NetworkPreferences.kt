@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.OfflineBolt
 import androidx.compose.material.icons.outlined.SignalCellular4Bar
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet4Bar
 import androidx.compose.material.icons.outlined.Speed
+import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
@@ -37,8 +37,9 @@ import com.junkfood.seal.util.ARIA2C
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
-import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PROXY
 import com.junkfood.seal.util.PreferenceUtil.getValue
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateValue
 import com.junkfood.seal.util.RATE_LIMIT
 
@@ -55,7 +56,9 @@ fun NetworkPreferences(
 
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showRateLimitDialog by remember { mutableStateOf(false) }
+    var showProxyDialog by remember { mutableStateOf(false) }
     var aria2c by remember { mutableStateOf(getValue(ARIA2C)) }
+    var proxy by PROXY.booleanState
     var isCookiesEnabled by COOKIES.booleanState
 
     Scaffold(
@@ -146,6 +149,20 @@ fun NetworkPreferences(
                     )
                 }
                 item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(id = R.string.proxy),
+                        description = stringResource(id = R.string.proxy_desc),
+                        icon = Icons.Outlined.VpnKey,
+                        isChecked = proxy,
+                        onChecked = {
+                            proxy = !proxy
+                            PROXY.updateBoolean(proxy)
+                        },
+                        onClick = { showProxyDialog = true },
+                        enabled = !isCustomCommandEnabled
+                    )
+                }
+                item {
                     PreferenceItem(
                         title = stringResource(id = R.string.concurrent_download),
                         description = stringResource(R.string.concurrent_download_desc),
@@ -172,6 +189,11 @@ fun NetworkPreferences(
     if (showRateLimitDialog) {
         RateLimitDialog {
             showRateLimitDialog = false
+        }
+    }
+    if (showProxyDialog) {
+        ProxyConfigurationDialog {
+            showProxyDialog = false
         }
     }
 }

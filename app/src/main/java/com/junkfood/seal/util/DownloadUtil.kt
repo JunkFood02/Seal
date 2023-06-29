@@ -83,6 +83,9 @@ object DownloadUtil {
                     addOption("-x")
                 }
                 applyFormatSorter(this, toFormatSorter())
+                if (proxy) {
+                    enableProxy(proxyUrl)
+                }
                 if (cookies) {
                     enableCookies()
                 }
@@ -116,6 +119,9 @@ object DownloadUtil {
             applyFormatSorter(preferences, toFormatSorter())
             if (cookies) {
                 enableCookies()
+            }
+            if (proxy) {
+                enableProxy(proxyUrl)
             }
             if (downloadPlaylist) {
 //                addOption("--compat-options", "no-youtube-unavailable-videos")
@@ -165,12 +171,16 @@ object DownloadUtil {
         val videoClips: List<VideoClip> = emptyList(),
         val splitByChapter: Boolean = false,
         val debug: Boolean = DEBUG.getBoolean(),
-        val newTitle: String = ""
+        val proxy: Boolean = PROXY.getBoolean(),
+        val proxyUrl: String = PROXY_URL.getString(),
+        val newTitle: String = "",
     )
 
     private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest =
         this.addOption("--cookies", context.getCookiesFile().absolutePath)
 
+    private fun YoutubeDLRequest.enableProxy(proxyUrl: String): YoutubeDLRequest =
+        this.addOption("--proxy", proxyUrl)
 
     @CheckResult
     fun getCookiesContentFromDatabase(): Result<String> = runCatching {
@@ -410,6 +420,9 @@ object DownloadUtil {
                 if (cookies) {
                     enableCookies()
                 }
+                if (proxy) {
+                    enableProxy(proxyUrl)
+                }
                 if (debug) {
                     addOption("-v")
                 }
@@ -545,66 +558,68 @@ object DownloadUtil {
     }
 
     suspend fun executeCommandInBackground(
-        url: String, template: CommandTemplate = PreferenceUtil.getTemplate()
+        url: String,
+        template: CommandTemplate = PreferenceUtil.getTemplate(),
+        downloadPreferences: DownloadPreferences = DownloadPreferences(),
     ) {
-        val taskId = Downloader.makeKey(url = url, templateName = template.name)
-        val notificationId = taskId.toNotificationId()
-        val urlList = url.split(Regex("[\n ]"))
+        downloadPreferences.run {
+            val taskId = Downloader.makeKey(url = url, templateName = template.name)
+            val notificationId = taskId.toNotificationId()
+            val urlList = url.split(Regex("[\n ]"))
 
-        ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
-        val request = YoutubeDLRequest(urlList).apply {
-            addOption(
-                "-P",
-                if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
-            )
-            if (Build.VERSION.SDK_INT > 23 && TEMP_DIRECTORY.getBoolean()) addOption(
-                "-P", "temp:" + context.getTempDir()
-            )
-            addOption("--newline")
-            if (PreferenceUtil.getValue(ARIA2C)) {
-                enableAria2c()
+            ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
+            val request = YoutubeDLRequest(urlList).apply {
+                addOption(
+                    "-P",
+                    if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
+                )
+                if (Build.VERSION.SDK_INT > 23 && tempDirectory) addOption(
+                    "-P", "temp:" + context.getTempDir()
+                )
+                addOption("--newline")
+                if (aria2c) {
+                    enableAria2c()
+                }
+                addOption(
+                    "--config-locations", FileUtil.writeContentToFile(
+                        template.template, context.getConfigFile()
+                    ).absolutePath
+                )
+                if (cookies) {
+                    enableCookies()
+                }
             }
-            addOption(
-                "--config-locations", FileUtil.writeContentToFile(
-                    template.template, context.getConfigFile()
-                ).absolutePath
-            )
-            if (PreferenceUtil.getValue(COOKIES)) {
-                enableCookies()
-            }
-        }
 
-        onProcessStarted()
-        withContext(Dispatchers.Main) {
-            onTaskStarted(template, url)
-        }
-        kotlin.runCatching {
-            val response = YoutubeDL.getInstance().execute(
-                request = request, processId = taskId
-            ) { progress, _, text ->
-                NotificationUtil.makeNotificationForCustomCommand(
-                    notificationId = notificationId,
-                    taskId = taskId,
-                    progress = progress.toInt(),
-                    templateName = template.name,
-                    taskUrl = url,
-                    text = text
-                )
-                Downloader.updateTaskOutput(
-                    template = template, url = url, line = text, progress = progress
-                )
+            onProcessStarted()
+            withContext(Dispatchers.Main) {
+                onTaskStarted(template, url)
             }
-            onTaskEnded(template, url, response.out + "\n" + response.err)
-        }.onFailure {
-            it.printStackTrace()
-            if (it is YoutubeDL.CanceledException) return@onFailure
-            it.message.run {
-                if (isNullOrEmpty()) onTaskEnded(template, url)
-                else onTaskError(this, template, url)
+            kotlin.runCatching {
+                val response = YoutubeDL.getInstance().execute(
+                    request = request, processId = taskId
+                ) { progress, _, text ->
+                    NotificationUtil.makeNotificationForCustomCommand(
+                        notificationId = notificationId,
+                        taskId = taskId,
+                        progress = progress.toInt(),
+                        templateName = template.name,
+                        taskUrl = url,
+                        text = text
+                    )
+                    Downloader.updateTaskOutput(
+                        template = template, url = url, line = text, progress = progress
+                    )
+                }
+                onTaskEnded(template, url, response.out + "\n" + response.err)
+            }.onFailure {
+                it.printStackTrace()
+                if (it is YoutubeDL.CanceledException) return@onFailure
+                it.message.run {
+                    if (isNullOrEmpty()) onTaskEnded(template, url)
+                    else onTaskError(this, template, url)
+                }
             }
+            onProcessEnded()
         }
-        onProcessEnded()
     }
-
-
 }

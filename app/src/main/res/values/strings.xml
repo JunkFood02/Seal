@@ -25,6 +25,7 @@
     <string name="paste_fail_msg">Could not match the URL in the clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to install the latest yt-dlp version</string>
+    <string name="ytdlp_update_action">Update yt-dlp</string>
     <string name="delete_info">Remove?</string>
     <string name="delete_info_msg">Remove \"%1$s\" from your download history for good?
     </string>
@@ -231,7 +232,7 @@
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
     <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
     <string name="multiselect_mode">Multiselect mode</string>
-    <string name="private_mode">Incognito mode</string>
+    <string name="private_mode">Incognito</string>
     <string name="private_mode_desc">Disable download history</string>
     <string name="dynamic_color">Dynamic color</string>
     <string name="dynamic_color_desc">Apply colors from wallpapers to the app theme</string>
@@ -359,4 +360,6 @@
     <string name="new_task">New download task</string>
     <string name="start">Start</string>
     <string name="edit_template">Edit \"%1$s\"</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_desc">Use proxy for internet connections</string>
 </resources>
