@@ -141,7 +141,7 @@
     <string name="custom_output_path_desc">Use template for subdirectory</string>
     <string name="edit_custom_path_template_desc">Add custom prefix to the -o option with available fields provided by yt-dlp</string>
     <string name="embed_subtitles">Embed subtitles</string>
-    <string name="embed_subtitles_desc">Embed subtitles provided into videos if available</string>
+    <string name="embed_subtitles_desc">Embed provided subtitles into videos if available</string>
     <string name="new_template">New template</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Remove?</string>
