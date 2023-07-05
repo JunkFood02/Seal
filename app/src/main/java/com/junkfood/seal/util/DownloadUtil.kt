@@ -276,7 +276,7 @@ object DownloadUtil {
     @CheckResult
     private fun DownloadPreferences.toAudioFormatSorter(): String = this.run {
         val format = when (audioFormat) {
-            M4A -> "acodec:m4a"
+            M4A -> "acodec:aac"
             OPUS -> "acodec:opus"
             else -> ""
         }
