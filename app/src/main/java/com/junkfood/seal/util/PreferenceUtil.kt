@@ -109,8 +109,7 @@ const val OPUS = 1
 const val M4A = 2
 
 const val MP4 = 1
-const val VP9 = 2
-const val AV1 = 3
+const val AV1 = 2
 
 const val CONVERT_MP3 = 0
 const val CONVERT_M4A = 1
@@ -240,10 +239,18 @@ object PreferenceUtil {
 
     fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
         return when (videoFormatCode) {
-            MP4 -> "MP4"
-            VP9 -> "VP9"
+            MP4 -> "MP4 (H.264)"
             AV1 -> "AV1"
             else -> context.getString(R.string.not_specified)
+        }
+    }
+
+    @Composable
+    fun getVideoFormatLabel(videoFormatCode: Int = getVideoFormat()): String? {
+        return when (videoFormatCode) {
+            MP4 -> stringResource(id = R.string.better_compatibility)
+            AV1 -> stringResource(id = R.string.better_quality)
+            else -> null
         }
     }
 

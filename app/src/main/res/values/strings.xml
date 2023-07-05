@@ -362,4 +362,6 @@
     <string name="edit_template">Edit \"%1$s\"</string>
     <string name="proxy">Proxy</string>
     <string name="proxy_desc">Use proxy for internet connections</string>
+    <string name="better_compatibility">Better compatibility</string>
+    <string name="better_quality">Better quality</string>
 </resources>

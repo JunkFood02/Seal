@@ -51,6 +51,7 @@ import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
+import com.junkfood.seal.ui.component.SingleChoiceItemWithLabel
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
@@ -64,6 +65,7 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
+import com.junkfood.seal.util.MP4
 import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceUtil
@@ -263,7 +265,7 @@ fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit) {
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 expanded = expanded,
                 onDismissRequest = { expanded = false }) {
-                for (i in NOT_SPECIFIED..AV1)
+                for (i in listOf(NOT_SPECIFIED, MP4, AV1))
                     DropdownMenuItem(
                         text = { Text(PreferenceUtil.getVideoFormatDesc(i)) },
                         onClick = {
@@ -380,11 +382,12 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                     text = stringResource(R.string.preferred_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in 0..3)
-                    SingleChoiceItem(
+                for (i in listOf(NOT_SPECIFIED, MP4, AV1))
+                    SingleChoiceItemWithLabel(
                         modifier = Modifier,
                         text = PreferenceUtil.getVideoFormatDesc(i),
-                        selected = videoFormat == i
+                        label = PreferenceUtil.getVideoFormatLabel(i),
+                        selected = videoFormat == i,
                     ) { videoFormat = i }
             }
         })
