@@ -418,7 +418,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                         .padding(bottom = 12.dp)
                         .padding(horizontal = 24.dp),
                     text = stringResource(R.string.preferred_format_desc),
-                    style = MaterialTheme.typography.bodyLarge
+//                    style = MaterialTheme.typography.bodyMedium
                 )
                 for (i in DEFAULT..M4A)
                     SingleChoiceItem(

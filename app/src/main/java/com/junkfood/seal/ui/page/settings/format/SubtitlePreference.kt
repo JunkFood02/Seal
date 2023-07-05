@@ -8,7 +8,9 @@ import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -22,9 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
@@ -54,6 +59,7 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showConversionDialog by remember { mutableStateOf(false) }
+    var showEmbedSubtitleDialog by remember { mutableStateOf(false) }
 
     val subtitleFormatText by remember(showConversionDialog) {
         mutableStateOf(
@@ -135,8 +141,12 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                         ),
                         isChecked = embedSubtitle,
                         onClick = {
-                            embedSubtitle = !embedSubtitle
-                            EMBED_SUBTITLE.updateBoolean(embedSubtitle)
+                            if (embedSubtitle) {
+                                embedSubtitle = false
+                                EMBED_SUBTITLE.updateBoolean(false)
+                            } else {
+                                showEmbedSubtitleDialog = true
+                            }
                         }, icon = Icons.Outlined.Subtitles
                     )
                 }
@@ -166,5 +176,29 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
         SubtitleConversionDialog {
             showConversionDialog = false
         }
+    if (showEmbedSubtitleDialog) {
+        AlertDialog(
+            onDismissRequest = { showEmbedSubtitleDialog = false },
+            icon = { Icon(Icons.Outlined.Subtitles, null) },
+            confirmButton = {
+                ConfirmButton {
+                    embedSubtitle = true
+                    EMBED_SUBTITLE.updateBoolean(true)
+                    showEmbedSubtitleDialog = false
+                }
+            }, dismissButton = {
+                DismissButton {
+                    showEmbedSubtitleDialog = false
+                }
+            }, text = {
+                Text(stringResource(id = R.string.embed_subtitles_mkv_msg))
+            }, title = {
+                Text(
+                    stringResource(id = R.string.enable_experimental_feature),
+                    textAlign = TextAlign.Center
+                )
+            }
+        )
+    }
 }
 
