@@ -98,14 +98,17 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                 Divider(modifier = Modifier.fillMaxWidth())
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Row(modifier = Modifier.selectable(selected = selectedItems.size == playlistCount && selectedItems.size != 0,
-                            indication = null,
-                            interactionSource = MutableInteractionSource(),
-                            onClick = {
-                                if (selectedItems.size == playlistCount) selectedItems.clear() else {
-                                    selectedItems.clear()
-                                    selectedItems.addAll(1..playlistCount)
-                                }
-                            }), verticalAlignment = Alignment.CenterVertically) {
+                        indication = null,
+                        interactionSource = remember {
+                            MutableInteractionSource()
+                        },
+                        onClick = {
+                            if (selectedItems.size == playlistCount) selectedItems.clear() else {
+                                selectedItems.clear()
+                                selectedItems.addAll(1..playlistCount)
+                            }
+                        }), verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Checkbox(
                             modifier = Modifier.padding(16.dp),
                             checked = selectedItems.size == playlistCount && selectedItems.size != 0,
