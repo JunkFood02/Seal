@@ -86,6 +86,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.Downloader
@@ -99,8 +100,10 @@ import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
 import com.junkfood.seal.util.DISABLE_PREVIEW
+import com.junkfood.seal.util.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.WELCOME_DIALOG
 import com.junkfood.seal.util.matchUrlFromClipboard
@@ -129,6 +132,7 @@ fun DownloadPage(
             ToastUtil.makeToast(R.string.permission_denied)
         }
     }
+
     val scope = rememberCoroutineScope()
     val downloaderState by Downloader.downloaderState.collectAsStateWithLifecycle()
     val taskState by Downloader.taskState.collectAsStateWithLifecycle()
@@ -137,6 +141,16 @@ fun DownloadPage(
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     val errorState by Downloader.errorState.collectAsStateWithLifecycle()
     val processCount by Downloader.processCount.collectAsStateWithLifecycle()
+
+    var showNotificationDialog by remember { mutableStateOf(false) }
+    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS) { isGranted: Boolean ->
+            showNotificationDialog = false
+            if (!isGranted) {
+                ToastUtil.makeToast(R.string.permission_denied)
+            }
+        }
+    } else null
 
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -148,7 +162,10 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-    val downloadCallback = {
+    val downloadCallback: () -> Unit = {
+        if (NOTIFICATION.getBoolean() && notificationPermission?.status?.isGranted == false) {
+            showNotificationDialog = true
+        }
         if (CONFIGURE.getBoolean()) downloadViewModel.showDialog(
             scope,
             useDialog
@@ -156,6 +173,15 @@ fun DownloadPage(
         else checkPermissionOrDownload()
         keyboardController?.hide()
     }
+    if (showNotificationDialog) {
+        NotificationPermissionDialog(onDismissRequest = {
+            showNotificationDialog = false
+            NOTIFICATION.updateBoolean(false)
+        }, onPermissionGranted = {
+            notificationPermission?.launchPermissionRequest()
+        })
+    }
+
     DisposableEffect(viewState.showPlaylistSelectionDialog) {
         if (!playlistInfo.entries.isNullOrEmpty() && viewState.showPlaylistSelectionDialog) navigateToPlaylistPage()
         onDispose { downloadViewModel.hidePlaylistDialog() }
@@ -198,7 +224,7 @@ fun DownloadPage(
             taskState = taskState,
             viewState = viewState,
             errorState = errorState,
-            downloadCallback = { downloadCallback() },
+            downloadCallback = downloadCallback,
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             onNavigateToTaskList = onNavigateToTaskList,

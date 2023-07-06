@@ -155,6 +155,7 @@ private val BooleanPreferenceDefaults =
         CELLULAR_DOWNLOAD to true,
         YT_DLP_UPDATE to true,
         TEMP_DIRECTORY to true,
+        NOTIFICATION to true,
     )
 
 private val IntPreferenceDefaults = mapOf(
