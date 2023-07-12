@@ -407,7 +407,7 @@ object DownloadUtil {
 
         with(downloadPreferences) {
             val url = playlistUrl.ifEmpty {
-                videoInfo.originalUrl
+                videoInfo.originalUrl ?: videoInfo.webpageUrl
                     ?: return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
             }
             val request = YoutubeDLRequest(url)
