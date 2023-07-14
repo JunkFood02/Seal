@@ -272,7 +272,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 item {
                     PreferenceSwitchWithDivider(
                         title = stringResource(id = R.string.sdcard_directory),
-                        description = sdcardUri,
+                        description = sdcardUri.ifEmpty { stringResource(id = R.string.set_directory_desc) },
                         isChecked = sdcardDownload,
                         enabled = !isCustomCommandEnabled,
                         isSwitchEnabled = !isCustomCommandEnabled && sdcardUri.isNotBlank(),
