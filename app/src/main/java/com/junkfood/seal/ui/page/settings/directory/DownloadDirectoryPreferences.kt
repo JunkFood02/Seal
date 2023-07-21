@@ -46,7 +46,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -61,6 +60,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
+import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -72,6 +72,7 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesHintCard
+import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.CUSTOM_PATH
 import com.junkfood.seal.util.FileUtil
@@ -97,13 +98,12 @@ private fun String.isValidDirectory(): Boolean {
     return this.contains(Regex(validDirectoryRegex))
 }
 
-private enum class Directory {
-    AUDIO, VIDEO, SDCARD
+enum class Directory {
+    AUDIO, VIDEO, SDCARD, CUSTOM_COMMAND
 }
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class,
-    ExperimentalComposeUiApi::class
+    ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class
 )
 @Composable
 fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
@@ -136,6 +136,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var sdcardUri by remember {
         mutableStateOf(SDCARD_URI.getString())
     }
+    var customCommandDirectory by COMMAND_DIRECTORY.stringState
+
     var sdcardDownload by remember {
         mutableStateOf(PreferenceUtil.getValue(SDCARD_DOWNLOAD))
     }
@@ -146,6 +148,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
 
     var showEditDialog by remember { mutableStateOf(false) }
     var showClearTempDialog by remember { mutableStateOf(false) }
+    var showCustomCommandDirectoryDialog by remember { mutableStateOf(false) }
 
     var editingDirectory by remember { mutableStateOf(Directory.VIDEO) }
 
@@ -159,7 +162,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val showDirectoryAlert =
         Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()
-                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory())
+                && (!audioDirectoryText.isValidDirectory() || !videoDirectoryText.isValidDirectory() || !customCommandDirectory.isValidDirectory())
 
     val launcher =
         rememberLauncherForActivityResult(object : ActivityResultContracts.OpenDocumentTree() {
@@ -171,22 +174,28 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 }
             }
         }) {
-            it?.let {
-                if (editingDirectory == Directory.SDCARD) {
-                    sdcardUri = it.toString()
-                    PreferenceUtil.encodeString(SDCARD_URI, it.toString())
-                    context.contentResolver?.takePersistableUriPermission(
-                        it,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    )
-                    return@let
+            it?.let { uri ->
+                App.updateDownloadDir(uri, editingDirectory)
+                if (editingDirectory != Directory.SDCARD) {
+                    val path = FileUtil.getRealPath(uri)
+                    when (editingDirectory) {
+                        Directory.AUDIO -> {
+                            audioDirectoryText = path
+                        }
+
+                        Directory.VIDEO -> {
+                            videoDirectoryText = path
+                        }
+
+                        Directory.SDCARD -> {
+                            sdcardUri = uri.toString()
+                        }
+
+                        Directory.CUSTOM_COMMAND -> {
+                            customCommandDirectory = path
+                        }
+                    }
                 }
-                val path = FileUtil.getRealPath(it)
-                App.updateDownloadDir(path, isAudio = editingDirectory == Directory.AUDIO)
-                if (editingDirectory == Directory.AUDIO)
-                    audioDirectoryText = path
-                else videoDirectoryText = path
             }
         }
 
@@ -219,34 +228,35 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     }
                 }, scrollBehavior = scrollBehavior
             )
-        }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
+        }) {
+        LazyColumn(modifier = Modifier.padding(it)) {
 
-                if (isCustomCommandEnabled)
-                    item {
-                        PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
-                    }
+            if (isCustomCommandEnabled)
+                item {
+                    PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
+                }
 
-                if (showDirectoryAlert)
-                    item {
-                        PreferencesHintCard(
-                            title = stringResource(R.string.permission_issue),
-                            description = stringResource(R.string.permission_issue_desc),
-                            icon = Icons.Filled.SdCardAlert,
-                        ) {
-                            if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
-                                Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                    data = Uri.parse("package:" + context.packageName)
-                                    if (resolveActivity(context.packageManager) != null)
-                                        context.startActivity(this)
-                                }
+            if (showDirectoryAlert)
+                item {
+                    PreferencesHintCard(
+                        title = stringResource(R.string.permission_issue),
+                        description = stringResource(R.string.permission_issue_desc),
+                        icon = Icons.Filled.SdCardAlert,
+                    ) {
+                        if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+                            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                data = Uri.parse("package:" + context.packageName)
+                                if (resolveActivity(context.packageManager) != null)
+                                    context.startActivity(this)
                             }
                         }
                     }
-                item {
-                    PreferenceSubtitle(text = stringResource(R.string.general_settings))
                 }
+            item {
+                PreferenceSubtitle(text = stringResource(R.string.general_settings))
+            }
+            if (!isCustomCommandEnabled) {
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_directory),
@@ -262,103 +272,114 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     PreferenceItem(
                         title = stringResource(id = R.string.audio_directory),
                         description = audioDirectoryText,
-                        enabled = !isPrivateDirectoryEnabled && !isCustomCommandEnabled && !sdcardDownload,
+                        enabled = !isPrivateDirectoryEnabled && !sdcardDownload,
                         icon = Icons.Outlined.LibraryMusic
                     ) {
                         editingDirectory = Directory.AUDIO
                         openDirectoryChooser()
                     }
                 }
-                item {
-                    PreferenceSwitchWithDivider(
-                        title = stringResource(id = R.string.sdcard_directory),
-                        description = sdcardUri.ifEmpty { stringResource(id = R.string.set_directory_desc) },
-                        isChecked = sdcardDownload,
-                        enabled = !isCustomCommandEnabled,
-                        isSwitchEnabled = !isCustomCommandEnabled && sdcardUri.isNotBlank(),
-                        onChecked = {
-                            sdcardDownload = !sdcardDownload
-                            PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
-                        },
-                        icon = Icons.Outlined.SdCard,
-                        onClick = {
-                            editingDirectory = Directory.SDCARD
-                            openDirectoryChooser()
-                        }
-                    )
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.subdirectory),
-                        description = stringResource(id = R.string.subdirectory_desc),
-                        icon = Icons.Outlined.SnippetFolder,
-                        isChecked = isSubdirectoryEnabled,
-                        enabled = !isCustomCommandEnabled && !sdcardDownload,
-                    ) {
-                        isSubdirectoryEnabled = !isSubdirectoryEnabled
-                        PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
-                    }
-                }
-                item {
-                    PreferenceSubtitle(text = stringResource(R.string.privacy))
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.private_directory),
-                        description = stringResource(
-                            R.string.private_directory_desc
-                        ),
-                        icon = Icons.Outlined.TabUnselected,
-                        enabled = !showDirectoryAlert && !sdcardDownload,
-                        isChecked = isPrivateDirectoryEnabled,
-                        onClick = {
-                            isPrivateDirectoryEnabled = !isPrivateDirectoryEnabled
-                            PreferenceUtil.updateValue(PRIVATE_DIRECTORY, isPrivateDirectoryEnabled)
-                        }
-                    )
-                }
-                item {
-                    PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
-                }
-                item {
-                    PreferenceSwitchWithDivider(title = stringResource(R.string.custom_output_path),
-                        description = stringResource(R.string.custom_output_path_desc),
-                        icon = Icons.Outlined.FolderSpecial,
-                        enabled = !isCustomCommandEnabled && !sdcardDownload,
-                        isChecked = isCustomPathEnabled,
-                        onChecked = {
-                            isCustomPathEnabled = !isCustomPathEnabled
-                            PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
-                        },
-                        onClick = { showEditDialog = true }
-                    )
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.temporary_directory),
-                        icon = Icons.Outlined.Folder,
-                        description = stringResource(
-                            id = R.string.temporary_directory_desc
-                        ),
-                        isChecked = temporaryDirectory,
-                        onClick = {
-                            temporaryDirectory = !temporaryDirectory
-                            TEMP_DIRECTORY.updateBoolean(temporaryDirectory)
-                        },
-                    )
-                }
+            } else {
                 item {
                     PreferenceItem(
-                        title = stringResource(R.string.clear_temp_files),
-                        description = stringResource(
-                            R.string.clear_temp_files_desc
-                        ),
-                        icon = Icons.Outlined.FolderDelete,
-                        onClick = { showClearTempDialog = true },
-                    )
+                        title = stringResource(id = R.string.custom_command_directory),
+                        description = customCommandDirectory.ifEmpty { stringResource(id = R.string.disabled) },
+                        icon = Icons.Outlined.Folder
+                    ) {
+                        showCustomCommandDirectoryDialog = true
+                    }
                 }
             }
-        })
+            item {
+                PreferenceSwitchWithDivider(
+                    title = stringResource(id = R.string.sdcard_directory),
+                    description = sdcardUri.ifEmpty { stringResource(id = R.string.set_directory_desc) },
+                    isChecked = sdcardDownload,
+                    enabled = !isCustomCommandEnabled,
+                    isSwitchEnabled = !isCustomCommandEnabled && sdcardUri.isNotBlank(),
+                    onChecked = {
+                        sdcardDownload = !sdcardDownload
+                        PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
+                    },
+                    icon = Icons.Outlined.SdCard,
+                    onClick = {
+                        editingDirectory = Directory.SDCARD
+                        openDirectoryChooser()
+                    }
+                )
+            }
+            item {
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.subdirectory),
+                    description = stringResource(id = R.string.subdirectory_desc),
+                    icon = Icons.Outlined.SnippetFolder,
+                    isChecked = isSubdirectoryEnabled,
+                    enabled = !isCustomCommandEnabled && !sdcardDownload,
+                ) {
+                    isSubdirectoryEnabled = !isSubdirectoryEnabled
+                    PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
+                }
+            }
+            item {
+                PreferenceSubtitle(text = stringResource(R.string.privacy))
+            }
+            item {
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.private_directory),
+                    description = stringResource(
+                        R.string.private_directory_desc
+                    ),
+                    icon = Icons.Outlined.TabUnselected,
+                    enabled = !showDirectoryAlert && !sdcardDownload,
+                    isChecked = isPrivateDirectoryEnabled,
+                    onClick = {
+                        isPrivateDirectoryEnabled = !isPrivateDirectoryEnabled
+                        PreferenceUtil.updateValue(PRIVATE_DIRECTORY, isPrivateDirectoryEnabled)
+                    }
+                )
+            }
+            item {
+                PreferenceSubtitle(text = stringResource(R.string.advanced_settings))
+            }
+            item {
+                PreferenceSwitchWithDivider(title = stringResource(R.string.custom_output_path),
+                    description = stringResource(R.string.custom_output_path_desc),
+                    icon = Icons.Outlined.FolderSpecial,
+                    enabled = !isCustomCommandEnabled && !sdcardDownload,
+                    isChecked = isCustomPathEnabled,
+                    onChecked = {
+                        isCustomPathEnabled = !isCustomPathEnabled
+                        PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
+                    },
+                    onClick = { showEditDialog = true }
+                )
+            }
+            item {
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.temporary_directory),
+                    icon = Icons.Outlined.Folder,
+                    description = stringResource(
+                        id = R.string.temporary_directory_desc
+                    ),
+                    isChecked = temporaryDirectory,
+                    onClick = {
+                        temporaryDirectory = !temporaryDirectory
+                        TEMP_DIRECTORY.updateBoolean(temporaryDirectory)
+                    },
+                )
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.clear_temp_files),
+                    description = stringResource(
+                        R.string.clear_temp_files_desc
+                    ),
+                    icon = Icons.Outlined.FolderDelete,
+                    onClick = { showClearTempDialog = true },
+                )
+            }
+        }
+    }
 
 
     if (showClearTempDialog) {
@@ -427,7 +448,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         maxLines = 1,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                     )
-                    LinkButton()
+                    LinkButton(link = ytdlpOutputTemplateReference)
                 }
             }
         )

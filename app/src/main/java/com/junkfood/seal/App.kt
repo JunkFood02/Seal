@@ -10,12 +10,14 @@ import android.content.ServiceConnection
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.IBinder
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
@@ -25,6 +27,7 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.UpdateUtil
@@ -162,13 +165,35 @@ class App : Application() {
             }
 
 
-        fun updateDownloadDir(path: String, isAudio: Boolean = false) {
-            if (isAudio) {
-                audioDownloadDir = path
-                PreferenceUtil.encodeString(AUDIO_DIRECTORY, path)
-            } else {
-                videoDownloadDir = path
-                PreferenceUtil.encodeString(VIDEO_DIRECTORY, path)
+        fun updateDownloadDir(uri: Uri, directoryType: Directory) {
+            when (directoryType) {
+                Directory.AUDIO -> {
+                    val path = FileUtil.getRealPath(uri)
+                    audioDownloadDir = path
+                    PreferenceUtil.encodeString(AUDIO_DIRECTORY, path)
+                }
+
+                Directory.VIDEO -> {
+                    val path = FileUtil.getRealPath(uri)
+                    videoDownloadDir = path
+                    PreferenceUtil.encodeString(VIDEO_DIRECTORY, path)
+                }
+
+                Directory.CUSTOM_COMMAND -> {
+                    val path = FileUtil.getRealPath(uri)
+
+
+                }
+
+                Directory.SDCARD -> {
+                    context.contentResolver?.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                    PreferenceUtil.encodeString(SDCARD_URI, uri.toString())
+
+                }
             }
         }
 

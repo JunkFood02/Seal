@@ -368,4 +368,6 @@
     <string name="enable_notifications_desc">The app needs your permission to post notifications about download status and progress.</string>
     <string name="disable">Disable</string>
     <string name="set_directory_desc">Tap to set up directory</string>
+    <string name="custom_command_directory">Custom command directory</string>
+    <string name="disabled">Disabled</string>
 </resources>
