@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -17,5 +18,5 @@ inline val String.stringState
 
 inline val String.intState
     @Composable get() = remember {
-        mutableStateOf(this.getInt())
+        mutableIntStateOf(this.getInt())
     }

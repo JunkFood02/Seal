@@ -293,4 +293,14 @@
     <string name="okay">好</string>
     <string name="got_it">好</string>
     <string name="feature_unavailable">此功能不可用</string>
+    <string name="sponsor_msg2">感激不尽！</string>
+    <string name="convert_subtitle">转换字幕格式</string>
+    <string name="convert_subtitle_desc">将字幕文件转换为另一格式</string>
+    <string name="split_video">切分视频</string>
+    <string name="split_video_msg">视频会被切分为 %1$d 个片段</string>
+    <string name="unknown_error_title">糟糕！出现了不可预知的错误</string>
+    <string name="msg_from_developer">开发者的话</string>
+    <string name="copy_and_exit">复制并退出</string>
+    <string name="no_custom_command_tasks">没有正在执行中的自定义命令任务</string>
+    <string name="download_video_desc">从链接下载视频文件</string>
 </resources>

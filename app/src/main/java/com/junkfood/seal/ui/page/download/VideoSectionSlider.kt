@@ -104,11 +104,11 @@ fun CustomRangeSlider(
                 )
             }
         },
-        track = { sliderPositions ->
+        track = { sliderState ->
             SliderDefaults.Track(
                 colors = colors,
                 enabled = enabled,
-                sliderPositions = sliderPositions
+                rangeSliderState = sliderState
             )
         },
         onValueChangeFinished = onValueChangeFinished

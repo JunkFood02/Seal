@@ -147,7 +147,7 @@
     <string name="clear_temp_files_count">%1$d ਅਸਥਾਈ ਫ਼ਾਈਲ(ਫ਼ਾਈਲਾਂ) ਮਿਟਾਈਆਂ ਗਈਆਂ</string>
     <string name="clear_temp_files_info">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਰੱਦ ਕੀਤੇ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ \'ਤੇ ਇਹਨਾਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ\?</string>
     <string name="multiselect_mode">ਬਹੁ-ਚੋਣ ਮੋਡ</string>
-    <string name="private_mode">ਨਿੱਜੀ ਮੋਡ</string>
+    <string name="private_mode">ਗੁੰਮਨਾਮ ਮੋਡ</string>
     <string name="private_mode_desc">ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="dynamic_color">ਗਤੀਸ਼ੀਲ ਰੰਗ</string>
     <string name="dynamic_color_desc">ਵਾਲਪੇਪਰਾਂ ਤੋਂ ਐਪ ਥੀਮ \'ਤੇ ਰੰਗ ਲਾਗੂ ਕਰੋ</string>
@@ -207,7 +207,7 @@
     <string name="general_settings_desc">Yt-dlp ਸੰਸਕਰਣ, ਸੂਚਨਾ, ਪਲੇਲਿਸਟ</string>
     <string name="network_settings_desc">ਦਰ ਸੀਮਾ, ਡਾਊਨਲੋਡਰ, ਕੁਕੀਜ਼</string>
     <string name="disable_preview">ਝਲਕ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਓ</string>
-    <string name="disable_preview_desc">ਡਾਊਨਲੋਡਾਂ \'ਤੇ ਪੂਰਵਦਰਸ਼ਨ ਨੂੰ ਬੰਦ ਕਰੋ</string>
+    <string name="disable_preview_desc">ਡਾਊਨਲੋਡ \'ਤੇ ਥੰਮਨੇਲ ਨਾਂ ਵਿਖਾਓ</string>
     <string name="privacy">ਗੋਪਨੀਯਤਾ</string>
     <string name="use_custom_command">ਕਸਟਮ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="download_selection_desc">ਪਲੇਲਿਸਟ \"%1$s\" ਤੋਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਵੀਡੀਓ ਚੁਣੋ</string>
@@ -298,4 +298,11 @@
     <string name="sponsors">ਪ੍ਰਾਯੋਜਕ</string>
     <string name="feedback">ਸੁਝਾਅ</string>
     <string name="sponsor">ਪ੍ਰਾਯੋਜਿਤ ਕਰੋ</string>
+    <string name="convert_subtitle">ਸਬ- ਟਾਈਟਲ ਬਦਲੋ</string>
+    <string name="convert_subtitle_desc">ਸਬ- ਟਾਈਟਲਾਂ ਨੂੰ ਹੋਰ ਫਾਰਮੈਟ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="split_video_msg">ਵੀਡੀਓ ਨੂੰ %1$d ਚੈਪਟਰਾਂ ਵਿੱਚ ਵੰਡਿਆ ਜਾਵੇਗਾ</string>
+    <string name="split_video">ਵੀਡੀਓ ਵੰਡੋ</string>
+    <string name="unknown_error_title">ਓਹੋ! ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ ਹੈ</string>
+    <string name="copy_and_exit">ਕਾਪੀ ਕਰੋ ਅਤੇ ਬੰਦ ਕਰੋ</string>
+    <string name="download_video_desc">URL ਤੋਂ ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰੋ</string>
 </resources>

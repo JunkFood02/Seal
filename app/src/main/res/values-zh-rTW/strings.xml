@@ -299,4 +299,10 @@
     <string name="msg_from_developer">來自開發者的訊息</string>
     <string name="sponsor_msg2">非常感謝您！</string>
     <string name="download_video_desc">從 URL 下載視訊</string>
+    <string name="split_video_msg">視訊將被分割成 %1$d 個章節</string>
+    <string name="unknown_error_title">糟糕！發生錯誤</string>
+    <string name="convert_subtitle">轉換字幕</string>
+    <string name="convert_subtitle_desc">轉換字幕至其他格式</string>
+    <string name="split_video">分割視訊</string>
+    <string name="copy_and_exit">複製並離開</string>
 </resources>

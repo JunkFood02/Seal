@@ -124,12 +124,19 @@ const val TEMPLATE_EXAMPLE =
 
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
-val palettesMap = mapOf(
-    0 to PaletteStyle.TonalSpot,
-    1 to PaletteStyle.Spritz,
-    2 to PaletteStyle.FruitSalad,
-    3 to PaletteStyle.Vibrant,
+val paletteStyles = listOf(
+    PaletteStyle.TonalSpot,
+    PaletteStyle.Spritz,
+    PaletteStyle.FruitSalad,
+    PaletteStyle.Vibrant,
+    PaletteStyle.Monochrome
 )
+
+const val STYLE_TONAL_SPOT = 0
+const val STYLE_SPRITZ = 1
+const val STYLE_FRUIT_SALAD = 2
+const val STYLE_VIBRANT = 3
+const val STYLE_MONOCHROME = 4
 
 
 private val StringPreferenceDefaults =

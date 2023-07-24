@@ -77,7 +77,7 @@ class TonalPalettes(
             accent1 = tonalValues.associateWith { transform(it, style.accent1Spec) },
             accent2 = tonalValues.associateWith { transform(it, style.accent2Spec) },
             accent3 = tonalValues.associateWith { transform(it, style.accent3Spec) },
-            neutral1 = tonalValues.associateWith { transform(it, style.neutral1Spec) },
+            neutral1 = M3SurfaceTonalValues.associateWith { transform(it, style.neutral1Spec) },
             neutral2 = tonalValues.associateWith { transform(it, style.neutral2Spec) }
         )
 

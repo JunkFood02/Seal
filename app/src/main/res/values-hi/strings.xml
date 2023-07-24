@@ -182,7 +182,7 @@
     <string name="clear_temp_files_count">हटाई गई %1$d अस्थायी फ़ाइल(फ़ाइलें)</string>
     <string name="clear_temp_files_info">रद्द किए गए डाउनलोड को फिर से शुरू करने के लिए अस्थायी फ़ाइलों का उपयोग किया जा सकता है। क्या आप वाकई इन सभी फ़ाइलों को मिटाना चाहते हैं\?</string>
     <string name="multiselect_mode">बहुचयन मोड</string>
-    <string name="private_mode">निजी मोड</string>
+    <string name="private_mode">गुमनाम मोड</string>
     <string name="dynamic_color">गतिशील रंग</string>
     <string name="download_with_cellular">मोबाइल डेटा का उपयोग कर डाउनलोड करें</string>
     <string name="download_disabled_with_cellular">आपकी सेटिंग के अनुसार सेल्युलर नेटवर्क से डाउनलोड करना अक्षम किया है</string>
@@ -210,7 +210,7 @@
     <string name="download_with_cellular_desc">मीटर्ड नेटवर्क पर मीडिया को डाउनलोड करने की अनुमति दें</string>
     <string name="rate_limit_desc">डाउनलोड के लिए अधिकतम दर सीमित करें</string>
     <string name="general_settings_desc">Yt-dlp वर्शन, सूचना, प्लेलिस्ट</string>
-    <string name="disable_preview_desc">डाउनलोड पर पूर्वावलोकन अक्षम करें</string>
+    <string name="disable_preview_desc">डाउनलोड के समय थंमनेल ना दिखाएं</string>
     <string name="download_selection_desc">प्लेलिस्ट \"%1$s\" से डाउनलोड करने के लिए वीडियो चुनें</string>
     <string name="video_only">वीडियो (कोई ऑडियो नहीं)</string>
     <string name="suggested">सुझावित</string>
@@ -298,4 +298,11 @@
     <string name="feedback">प्रतिक्रिया</string>
     <string name="msg_from_developer">डेवलपर से संदेश</string>
     <string name="sponsor_msg2">आपका बहुत-बहुत धन्यवाद!</string>
+    <string name="convert_subtitle">उपशीर्षक बदलें</string>
+    <string name="convert_subtitle_desc">उपशीर्षक को किसी अन्य प्रारूप में बदलें</string>
+    <string name="split_video">वीडियो विभाजित करें</string>
+    <string name="split_video_msg">वीडियो को %1$d अध्यायों में विभाजित किया जाएगा</string>
+    <string name="unknown_error_title">उफ़! कुछ गलत हो गया</string>
+    <string name="copy_and_exit">कापी करें और बाहर निकलें</string>
+    <string name="download_video_desc">URL से वीडियो डाउनलोड करें</string>
 </resources>

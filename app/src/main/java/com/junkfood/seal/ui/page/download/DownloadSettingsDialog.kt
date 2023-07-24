@@ -52,8 +52,8 @@ import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
@@ -262,7 +262,7 @@ fun DownloadSettingDialog(
             sheetContent()
             val state = rememberLazyListState()
             LaunchedEffect(drawerState.isVisible) {
-                state.scrollToItem(1)
+                state.scrollToItem(0)
             }
             LazyRow(
                 modifier = Modifier

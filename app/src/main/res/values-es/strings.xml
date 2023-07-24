@@ -299,4 +299,10 @@
     <string name="msg_from_developer">Mensaje del desarrollador</string>
     <string name="sponsor_msg2">¡Muchas gracias!</string>
     <string name="download_video_desc">Descargar los vídeos desde la URL</string>
+    <string name="convert_subtitle">Convertir subtítulos</string>
+    <string name="split_video_msg">El video se dividirá en %1$d capítulos</string>
+    <string name="convert_subtitle_desc">Convertir los subtítulos en otro formato</string>
+    <string name="split_video">Dividir video</string>
+    <string name="copy_and_exit">Copiar y salir</string>
+    <string name="unknown_error_title">Oops! Algo salió mal</string>
 </resources>

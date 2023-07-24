@@ -504,7 +504,7 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
                         .padding(horizontal = 4.dp)
                 ) {
                     OutlinedButtonChip(
-                        modifier = Modifier.padding(end = 8.dp),
+                        modifier = Modifier.padding(horizontal = 4.dp),
                         label = stringResource(id = R.string.import_from_preferences),
                         icon = Icons.Outlined.SettingsSuggest
                     ) {

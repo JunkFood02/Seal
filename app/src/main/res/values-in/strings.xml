@@ -298,4 +298,11 @@
     <string name="no_custom_command_tasks">Tidak ada tugas perintah kustom</string>
     <string name="msg_from_developer">Pesan dari pengembang</string>
     <string name="sponsor_msg2">Terima kasih banyak!</string>
+    <string name="download_video_desc">Unduh video dari URL</string>
+    <string name="convert_subtitle">Ubah takarir</string>
+    <string name="split_video">Pisahkan video</string>
+    <string name="unknown_error_title">Aduh! Ada yang salah</string>
+    <string name="copy_and_exit">Salin dan keluar</string>
+    <string name="split_video_msg">Video akan dipisahkan menjadi %1$d bab</string>
+    <string name="convert_subtitle_desc">Ubah takarir ke format lain</string>
 </resources>
