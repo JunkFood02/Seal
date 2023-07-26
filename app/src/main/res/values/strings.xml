@@ -370,4 +370,6 @@
     <string name="set_directory_desc">Tap to set up directory</string>
     <string name="custom_command_directory">Custom command directory</string>
     <string name="disabled">Disabled</string>
+    <string name="folder_picker">Folder picker</string>
+    <string name="custom_command_directory_desc">Specify the output directory when using custom commands</string>
 </resources>

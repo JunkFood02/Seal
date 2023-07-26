@@ -19,6 +19,7 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.util.AUDIO_DIRECTORY
+import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
@@ -27,6 +28,7 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.TEMPLATE_EXAMPLE
 import com.junkfood.seal.util.TEMPLATE_ID
@@ -98,7 +100,9 @@ class App : Application() {
         )
 
         audioDownloadDir = AUDIO_DIRECTORY.getString(File(videoDownloadDir, "Audio").absolutePath)
-
+        if (!PreferenceUtil.containsKey(COMMAND_DIRECTORY)) {
+            COMMAND_DIRECTORY.updateString(videoDownloadDir)
+        }
         if (Build.VERSION.SDK_INT >= 26) NotificationUtil.createNotificationChannel()
 
 

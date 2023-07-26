@@ -140,6 +140,7 @@ object DownloadUtil {
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
         val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
         val tempDirectory: Boolean = TEMP_DIRECTORY.getBoolean(),
+        val commandDirectory: String = COMMAND_DIRECTORY.getString(),
         val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
         val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
@@ -408,7 +409,7 @@ object DownloadUtil {
         with(downloadPreferences) {
             val url = playlistUrl.ifEmpty {
                 videoInfo.originalUrl ?: videoInfo.webpageUrl
-                    ?: return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
+                ?: return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
             }
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
@@ -568,13 +569,9 @@ object DownloadUtil {
 
             ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
             val request = YoutubeDLRequest(urlList).apply {
-                addOption(
-                    "-P",
-                    if (PreferenceUtil.getValue(PRIVATE_DIRECTORY)) App.getPrivateDownloadDirectory() else videoDownloadDir
-                )
-                if (Build.VERSION.SDK_INT > 23 && tempDirectory) addOption(
-                    "-P", "temp:" + context.getTempDir()
-                )
+                commandDirectory.takeIf { it.isNotEmpty() }?.let {
+                    addOption("-P", it)
+                }
                 addOption("--newline")
                 if (aria2c) {
                     enableAria2c()
@@ -593,7 +590,7 @@ object DownloadUtil {
             withContext(Dispatchers.Main) {
                 onTaskStarted(template, url)
             }
-            kotlin.runCatching {
+            runCatching {
                 val response = YoutubeDL.getInstance().execute(
                     request = request, processId = taskId
                 ) { progress, _, text ->

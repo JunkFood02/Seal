@@ -127,7 +127,7 @@ fun PreferenceItem(
                     .padding(end = 8.dp)
             ) {
                 PreferenceItemTitle(text = title, enabled = enabled)
-                if (description != null) PreferenceItemDescription(
+                if (!description.isNullOrEmpty()) PreferenceItemDescription(
                     text = description,
                     enabled = enabled
                 )

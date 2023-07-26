@@ -11,20 +11,26 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderDelete
+import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SdCard
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.TabUnselected
@@ -52,7 +58,9 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -66,6 +74,7 @@ import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.LinkButton
+import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -82,6 +91,7 @@ import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SDCARD_DOWNLOAD
 import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.SUBDIRECTORY
@@ -93,9 +103,10 @@ import kotlinx.coroutines.withContext
 
 private const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
 private const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents)"
+private const val ytdlpFilesystemReference = "https://github.com/yt-dlp/yt-dlp#filesystem-options"
 
 private fun String.isValidDirectory(): Boolean {
-    return this.contains(Regex(validDirectoryRegex))
+    return this.isEmpty() || this.contains(Regex(validDirectoryRegex))
 }
 
 enum class Directory {
@@ -199,7 +210,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             }
         }
 
-    fun openDirectoryChooser() {
+    fun openDirectoryChooser(directory: Directory = Directory.VIDEO) {
+        editingDirectory = directory
         if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted)
             launcher.launch(null)
         else storagePermission.launchPermissionRequest()
@@ -264,8 +276,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         enabled = !isPrivateDirectoryEnabled && !sdcardDownload,
                         icon = Icons.Outlined.VideoLibrary
                     ) {
-                        editingDirectory = Directory.VIDEO
-                        openDirectoryChooser()
+                        openDirectoryChooser(directory = Directory.VIDEO)
                     }
                 }
                 item {
@@ -275,19 +286,17 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         enabled = !isPrivateDirectoryEnabled && !sdcardDownload,
                         icon = Icons.Outlined.LibraryMusic
                     ) {
-                        editingDirectory = Directory.AUDIO
-                        openDirectoryChooser()
+                        openDirectoryChooser(directory = Directory.AUDIO)
                     }
                 }
-            } else {
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.custom_command_directory),
-                        description = customCommandDirectory.ifEmpty { stringResource(id = R.string.disabled) },
-                        icon = Icons.Outlined.Folder
-                    ) {
-                        showCustomCommandDirectoryDialog = true
-                    }
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(id = R.string.custom_command_directory),
+                    description = customCommandDirectory.ifEmpty { stringResource(id = R.string.set_directory_desc) },
+                    icon = Icons.Outlined.Folder
+                ) {
+                    showCustomCommandDirectoryDialog = true
                 }
             }
             item {
@@ -296,15 +305,18 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     description = sdcardUri.ifEmpty { stringResource(id = R.string.set_directory_desc) },
                     isChecked = sdcardDownload,
                     enabled = !isCustomCommandEnabled,
-                    isSwitchEnabled = !isCustomCommandEnabled && sdcardUri.isNotBlank(),
+                    isSwitchEnabled = !isCustomCommandEnabled,
                     onChecked = {
-                        sdcardDownload = !sdcardDownload
-                        PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
+                        if (sdcardUri.isNotEmpty()) {
+                            sdcardDownload = !sdcardDownload
+                            PreferenceUtil.updateValue(SDCARD_DOWNLOAD, sdcardDownload)
+                        } else {
+                            openDirectoryChooser(Directory.SDCARD)
+                        }
                     },
                     icon = Icons.Outlined.SdCard,
                     onClick = {
-                        editingDirectory = Directory.SDCARD
-                        openDirectoryChooser()
+                        openDirectoryChooser(Directory.SDCARD)
                     }
                 )
             }
@@ -330,7 +342,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         R.string.private_directory_desc
                     ),
                     icon = Icons.Outlined.TabUnselected,
-                    enabled = !showDirectoryAlert && !sdcardDownload,
+                    enabled = !showDirectoryAlert && !sdcardDownload && !isCustomCommandEnabled,
                     isChecked = isPrivateDirectoryEnabled,
                     onClick = {
                         isPrivateDirectoryEnabled = !isPrivateDirectoryEnabled
@@ -451,6 +463,68 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     LinkButton(link = ytdlpOutputTemplateReference)
                 }
             }
+        )
+    }
+    if (showCustomCommandDirectoryDialog) {
+        var directory by remember { mutableStateOf(customCommandDirectory) }
+        AlertDialog(
+            onDismissRequest = { showCustomCommandDirectoryDialog = false },
+            icon = { Icon(imageVector = Icons.Outlined.Folder, contentDescription = null) },
+            title = {
+                Text(
+                    text = stringResource(id = R.string.custom_command_directory),
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                ConfirmButton {
+                    COMMAND_DIRECTORY.updateString(directory)
+                    customCommandDirectory = directory
+                    showCustomCommandDirectoryDialog = false
+                }
+            },
+            text = {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        text = stringResource(R.string.custom_command_directory_desc),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    OutlinedTextField(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        value = directory,
+                        onValueChange = { directory = it },
+                        leadingIcon = { Text(text = "-P", fontFamily = FontFamily.Monospace) },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    )
+                    Row(
+                        modifier = Modifier.horizontalScroll(rememberScrollState())
+                    ) {
+                        OutlinedButtonChip(
+                            modifier = Modifier.padding(end = 8.dp),
+                            label = stringResource(id = R.string.folder_picker),
+                            icon = Icons.Outlined.FolderOpen
+                        ) {
+                            openDirectoryChooser(Directory.CUSTOM_COMMAND)
+                        }
+                        OutlinedButtonChip(
+                            label = stringResource(R.string.yt_dlp_docs),
+                            icon = Icons.Outlined.OpenInNew
+                        ) {
+                            uriHandler.openUri(ytdlpFilesystemReference)
+                        }
+                    }
+                }
+            },
+            dismissButton = {
+                DismissButton {
+                    showCustomCommandDirectoryDialog = false
+                }
+            },
         )
     }
 }
