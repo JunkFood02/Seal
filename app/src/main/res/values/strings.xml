@@ -82,7 +82,7 @@
     <string name="video_quality_desc">Limit the video quality when multiple are present</string>
     <string name="not_specified">Not specified (default)</string>
     <string name="video_format_preference">Preferred video format</string>
-    <string name="preferred_format_desc">Chosen format when multiple are provided</string>
+    <string name="preferred_format_desc">Preferred format when multiple are provided</string>
     <string name="video_format">Video format</string>
     <string name="convert_audio">Convert</string>
     <string name="start_download">Download</string>

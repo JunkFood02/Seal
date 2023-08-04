@@ -53,13 +53,17 @@ fun SingleChoiceItemPreview() {
     Surface {
         Column {
             SingleChoiceItemWithLabel(
-                text = "MP4",
-                label = "Better compatibility",
+                text = "Better compatibility",
+                label = "For sharing to other apps",
                 selected = false
             ) {
 
             }
-            SingleChoiceItemWithLabel(text = "AV1", label = "Better quality", selected = true) {
+            SingleChoiceItemWithLabel(
+                text = "Better quality",
+                label = "For watching in compatible apps",
+                selected = true
+            ) {
 
             }
         }
@@ -84,7 +88,7 @@ fun SingleChoiceItemWithLabel(
                 onClick = onClick,
             )
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 2.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -97,7 +101,13 @@ fun SingleChoiceItemWithLabel(
         )
         Column {
             Text(text = text, style = MaterialTheme.typography.bodyLarge)
-            label?.let { Text(text = it, style = MaterialTheme.typography.labelMedium) }
+            label?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+            }
         }
     }
 }

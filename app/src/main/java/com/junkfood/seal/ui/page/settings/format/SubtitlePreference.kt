@@ -37,7 +37,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.EMBED_SUBTITLE
-import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.SPONSORBLOCK
@@ -63,7 +63,7 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
 
     val subtitleFormatText by remember(showConversionDialog) {
         mutableStateOf(
-            PreferenceUtil.getSubtitleConversionFormat()
+            PreferenceStrings.getSubtitleConversionFormat()
         )
     }
 

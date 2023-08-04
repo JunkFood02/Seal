@@ -13,6 +13,7 @@ import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
+import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
@@ -109,8 +110,8 @@ const val PRE_RELEASE = 1
 const val OPUS = 1
 const val M4A = 2
 
-const val MP4 = 1
-const val AV1 = 2
+const val FORMAT_COMPATIBILITY = 1
+const val FORMAT_QUALITY = 2
 
 const val CONVERT_MP3 = 0
 const val CONVERT_M4A = 1
@@ -121,8 +122,7 @@ const val LOW = 3
 const val ULTRA_LOW = 4
 
 
-const val TEMPLATE_EXAMPLE =
-    """--no-mtime -S "ext""""
+const val TEMPLATE_EXAMPLE = """--no-mtime -S "ext""""
 
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
@@ -141,23 +141,21 @@ const val STYLE_VIBRANT = 3
 const val STYLE_MONOCHROME = 4
 
 
-private val StringPreferenceDefaults =
-    mapOf(
-        SPONSORBLOCK_CATEGORIES to "default",
-        MAX_RATE to "1000",
-        OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
-        SUBTITLE_LANGUAGE to "en.*,.*-orig",
-    )
+private val StringPreferenceDefaults = mapOf(
+    SPONSORBLOCK_CATEGORIES to "default",
+    MAX_RATE to "1000",
+    OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
+    SUBTITLE_LANGUAGE to "en.*,.*-orig",
+)
 
-private val BooleanPreferenceDefaults =
-    mapOf(
-        FORMAT_SELECTION to true,
-        CONFIGURE to true,
-        CELLULAR_DOWNLOAD to true,
-        YT_DLP_UPDATE to true,
-        TEMP_DIRECTORY to true,
-        NOTIFICATION to true,
-    )
+private val BooleanPreferenceDefaults = mapOf(
+    FORMAT_SELECTION to true,
+    CONFIGURE to true,
+    CELLULAR_DOWNLOAD to true,
+    YT_DLP_UPDATE to true,
+    TEMP_DIRECTORY to true,
+    NOTIFICATION to true,
+)
 
 private val IntPreferenceDefaults = mapOf(
     TEMPLATE_ID to 0,
@@ -176,9 +174,9 @@ private val IntPreferenceDefaults = mapOf(
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
-object PreferenceUtil {
-    private val kv = MMKV.defaultMMKV()
+private val kv: MMKV = MMKV.defaultMMKV()
 
+object PreferenceUtil {
     fun String.getInt(default: Int = IntPreferenceDefaults.getOrElse(this) { 0 }): Int =
         kv.decodeInt(this, default)
 
@@ -202,78 +200,12 @@ object PreferenceUtil {
 
     fun getAudioConvertFormat(): Int = AUDIO_CONVERSION_FORMAT.getInt()
 
-    fun getAudioConvertDesc(audioFormatCode: Int = getAudioConvertFormat()): String {
-        return when (audioFormatCode) {
-            0 -> context.getString(R.string.convert_to).format("mp3")
-            else -> context.getString(R.string.convert_to).format("m4a")
-        }
-    }
-
-
     fun getVideoResolution(): Int = VIDEO_QUALITY.getInt()
-
-    fun getVideoResolutionDesc(videoQualityCode: Int = getVideoResolution()): String {
-        return when (videoQualityCode) {
-            1 -> "2160p"
-            2 -> "1440p"
-            3 -> "1080p"
-            4 -> "720p"
-            5 -> "480p"
-            6 -> "360p"
-            7 -> context.getString(R.string.lowest_quality)
-            else -> context.getString(R.string.best_quality)
-        }
-    }
-
-    private fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
-
-    fun getAudioQualityDesc(audioQualityCode: Int = getAudioQuality()): String =
-        when (audioQualityCode) {
-            NOT_SPECIFIED -> context.getString(R.string.unlimited)
-            HIGH -> "192 Kbps"
-            MEDIUM -> "128 Kbps"
-            LOW -> "64 Kbps"
-            ULTRA_LOW -> "32 Kbps"
-            else -> context.getString(R.string.lowest_bitrate)
-        }
+    fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
 
     fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()
 
-    fun getVideoFormatDesc(videoFormatCode: Int = getVideoFormat()): String {
-        return when (videoFormatCode) {
-            MP4 -> "MP4 (H.264)"
-            AV1 -> "AV1"
-            else -> context.getString(R.string.not_specified)
-        }
-    }
-
-    @Composable
-    fun getVideoFormatLabel(videoFormatCode: Int = getVideoFormat()): String? {
-        return when (videoFormatCode) {
-            MP4 -> stringResource(id = R.string.better_compatibility)
-            AV1 -> stringResource(id = R.string.better_quality)
-            else -> null
-        }
-    }
-
-    private fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
-
-
-    fun getSubtitleConversionFormat(subtitleFormat: Int = CONVERT_SUBTITLE.getInt()): String =
-        when (subtitleFormat) {
-            CONVERT_LRC -> context.getString(R.string.convert_to, "lrc")
-            CONVERT_ASS -> context.getString(R.string.convert_to, "ass")
-            CONVERT_SRT -> context.getString(R.string.convert_to, "srt")
-            CONVERT_VTT -> context.getString(R.string.convert_to, "vtt")
-            else -> context.getString(R.string.not_convert)
-        }
-
-    fun getAudioFormatDesc(audioFormatCode: Int = getAudioFormat()): String =
-        when (audioFormatCode) {
-            M4A -> "M4A"
-            OPUS -> "OPUS"
-            else -> context.getString(R.string.not_specified)
-        }
+    fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
 
     fun isNetworkAvailableForDownload() =
         CELLULAR_DOWNLOAD.getBoolean() || !App.connectivityManager.isActiveNetworkMetered
@@ -290,10 +222,9 @@ object PreferenceUtil {
 
 
     fun getLanguageNumber(): Int {
-        return if (Build.VERSION.SDK_INT >= 33)
-            getLanguageNumberByCode(
-                LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
-            )
+        return if (Build.VERSION.SDK_INT >= 33) getLanguageNumberByCode(
+            LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
+        )
         else LANGUAGE.getInt()
     }
 
@@ -308,13 +239,15 @@ object PreferenceUtil {
 
     fun getSponsorBlockCategories(): String = SPONSORBLOCK_CATEGORIES.getString()
 
-    const val COOKIE_HEADER = "# Netscape HTTP Cookie File\n" +
-            "# Auto-generated by Seal built-in WebView\n"
+    const val COOKIE_HEADER =
+        "# Netscape HTTP Cookie File\n" + "# Auto-generated by Seal built-in WebView\n"
 
-    val templateStateFlow: StateFlow<List<CommandTemplate>> =
+    val templateStateFlow: StateFlow<List<CommandTemplate>> = runCatching {
         DatabaseUtil.getTemplateFlow().distinctUntilChanged().stateIn(
             applicationScope, started = SharingStarted.Eagerly, emptyList()
         )
+    }.getOrElse { MutableStateFlow(emptyList()) }
+
 
     fun getTemplate(): CommandTemplate {
         return templateStateFlow.value.run {
@@ -335,13 +268,11 @@ object PreferenceUtil {
         AppSettings(
             DarkThemePreference(
                 darkThemeValue = kv.decodeInt(
-                    DARK_THEME_VALUE,
-                    DarkThemePreference.FOLLOW_SYSTEM
+                    DARK_THEME_VALUE, DarkThemePreference.FOLLOW_SYSTEM
                 ), isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)
             ),
             isDynamicColorEnabled = kv.decodeBool(
-                DYNAMIC_COLOR,
-                DynamicColors.isDynamicColorAvailable()
+                DYNAMIC_COLOR, DynamicColors.isDynamicColorAvailable()
             ),
             seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
             paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0)
@@ -391,8 +322,7 @@ object PreferenceUtil {
 }
 
 data class DarkThemePreference(
-    val darkThemeValue: Int = FOLLOW_SYSTEM,
-    val isHighContrastModeEnabled: Boolean = false
+    val darkThemeValue: Int = FOLLOW_SYSTEM, val isHighContrastModeEnabled: Boolean = false
 ) {
     companion object {
         const val FOLLOW_SYSTEM = 1
@@ -402,8 +332,7 @@ data class DarkThemePreference(
 
     @Composable
     fun isDarkTheme(): Boolean {
-        return if (darkThemeValue == FOLLOW_SYSTEM)
-            isSystemInDarkTheme()
+        return if (darkThemeValue == FOLLOW_SYSTEM) isSystemInDarkTheme()
         else darkThemeValue == ON
     }
 
@@ -416,4 +345,83 @@ data class DarkThemePreference(
         }
     }
 
+}
+
+object PreferenceStrings {
+    fun getSubtitleConversionFormat(subtitleFormat: Int = CONVERT_SUBTITLE.getInt()): String =
+        when (subtitleFormat) {
+            CONVERT_LRC -> context.getString(R.string.convert_to, "lrc")
+            CONVERT_ASS -> context.getString(R.string.convert_to, "ass")
+            CONVERT_SRT -> context.getString(R.string.convert_to, "srt")
+            CONVERT_VTT -> context.getString(R.string.convert_to, "vtt")
+            else -> context.getString(R.string.not_convert)
+        }
+
+    fun getAudioFormatDesc(audioFormatCode: Int = PreferenceUtil.getAudioFormat()): String =
+        when (audioFormatCode) {
+            M4A -> "M4A"
+            OPUS -> "OPUS"
+            else -> context.getString(R.string.not_specified)
+        }
+
+    fun getAudioQualityDesc(audioQualityCode: Int = PreferenceUtil.getAudioQuality()): String =
+        when (audioQualityCode) {
+            NOT_SPECIFIED -> context.getString(R.string.unlimited)
+            HIGH -> "192 Kbps"
+            MEDIUM -> "128 Kbps"
+            LOW -> "64 Kbps"
+            ULTRA_LOW -> "32 Kbps"
+            else -> context.getString(R.string.lowest_bitrate)
+        }
+
+    fun getAudioConvertDesc(audioFormatCode: Int = PreferenceUtil.getAudioConvertFormat()): String {
+        return when (audioFormatCode) {
+            0 -> App.Companion.context.getString(R.string.convert_to).format("mp3")
+            else -> App.Companion.context.getString(R.string.convert_to).format("m4a")
+        }
+    }
+
+    fun getVideoFormatDesc(videoFormatCode: Int = PreferenceUtil.getVideoFormat()): String {
+        return when (videoFormatCode) {
+            FORMAT_COMPATIBILITY -> "For sharing to other apps"
+            FORMAT_QUALITY -> "For watching in compatible apps"
+            else -> context.getString(R.string.not_specified)
+        }
+    }
+
+    @Composable
+    fun getVideoResolutionDescRes(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
+        return when (videoQualityCode) {
+            1 -> "2160p"
+            2 -> "1440p"
+            3 -> "1080p"
+            4 -> "720p"
+            5 -> "480p"
+            6 -> "360p"
+            7 -> stringResource(R.string.lowest_quality)
+            else -> stringResource(R.string.best_quality)
+        }
+    }
+
+    fun getVideoResolutionDesc(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
+        return when (videoQualityCode) {
+            1 -> "2160p"
+            2 -> "1440p"
+            3 -> "1080p"
+            4 -> "720p"
+            5 -> "480p"
+            6 -> "360p"
+            7 -> App.Companion.context.getString(R.string.lowest_quality)
+            else -> context.getString(R.string.best_quality)
+        }
+    }
+
+    @Composable
+    fun getVideoFormatLabel(videoFormatPreference: Int = PreferenceUtil.getVideoFormat()): String? {
+        return when (videoFormatPreference) {
+            FORMAT_COMPATIBILITY -> stringResource(id = R.string.better_compatibility)
+            FORMAT_QUALITY -> stringResource(id = R.string.better_quality)
+            else -> null
+        }
+    }
 }

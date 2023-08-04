@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,9 +21,12 @@ import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
+import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material.icons.outlined._4k
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -33,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,6 +46,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
@@ -55,7 +61,6 @@ import com.junkfood.seal.ui.component.SingleChoiceItemWithLabel
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
-import com.junkfood.seal.util.AV1
 import com.junkfood.seal.util.CONVERT_M4A
 import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.CONVERT_SUBTITLE
@@ -63,11 +68,13 @@ import com.junkfood.seal.util.CONVERT_VTT
 import com.junkfood.seal.util.DEFAULT
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
+import com.junkfood.seal.util.FORMAT_COMPATIBILITY
+import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
-import com.junkfood.seal.util.MP4
 import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
+import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -87,7 +94,7 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
     @Composable
     fun audioQualitySelectField(modifier: Modifier = Modifier) {
         var expanded by remember { mutableStateOf(false) }
-        var audioQualityText by remember { mutableStateOf(PreferenceUtil.getAudioQualityDesc()) }
+        var audioQualityText by remember { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -112,10 +119,10 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
                 onDismissRequest = { expanded = false }) {
                 for (i in NOT_SPECIFIED..ULTRA_LOW)
                     DropdownMenuItem(
-                        text = { Text(PreferenceUtil.getAudioQualityDesc(i)) },
+                        text = { Text(PreferenceStrings.getAudioQualityDesc(i)) },
                         onClick = {
                             audioQualityText =
-                                PreferenceUtil.getAudioQualityDesc(i)
+                                PreferenceStrings.getAudioQualityDesc(i)
                             audioQuality = i
                             expanded = false
                         })
@@ -126,7 +133,7 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
     @Composable
     fun audioFormatSelectField(modifier: Modifier = Modifier) {
         var expanded by remember { mutableStateOf(false) }
-        var audioFormatText by remember { mutableStateOf(PreferenceUtil.getAudioFormatDesc()) }
+        var audioFormatText by remember { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -151,10 +158,10 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
                 onDismissRequest = { expanded = false }) {
                 for (i in NOT_SPECIFIED..M4A)
                     DropdownMenuItem(
-                        text = { Text(PreferenceUtil.getAudioFormatDesc(i)) },
+                        text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
                         onClick = {
                             audioFormatText =
-                                PreferenceUtil.getAudioFormatDesc(i)
+                                PreferenceStrings.getAudioFormatDesc(i)
                             audioFormat = i
                             expanded = false
                         })
@@ -196,14 +203,14 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit) {
+fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit = {}) {
     var videoResolution by VIDEO_QUALITY.intState
     var videoFormat by VIDEO_FORMAT.intState
 
     @Composable
     fun videoResolutionSelectField(modifier: Modifier = Modifier) {
         var expanded by remember { mutableStateOf(false) }
-        var videoResolutionText by remember { mutableStateOf(PreferenceUtil.getVideoResolutionDesc()) }
+        var videoResolutionText = PreferenceStrings.getVideoResolutionDesc(videoResolution)
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -228,10 +235,10 @@ fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit) {
                 onDismissRequest = { expanded = false }) {
                 for (i in 0..7)
                     DropdownMenuItem(
-                        text = { Text(PreferenceUtil.getVideoResolutionDesc(i)) },
+                        text = { Text(PreferenceStrings.getVideoResolutionDesc(i)) },
                         onClick = {
-                            videoResolutionText =
-                                PreferenceUtil.getVideoResolutionDesc(i)
+//                            videoResolutionText =
+//                                PreferenceStrings.getVideoResolutionDesc(i)
                             videoResolution = i
                             expanded = false
                         })
@@ -242,7 +249,7 @@ fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit) {
     @Composable
     fun videoFormatSelectField(modifier: Modifier = Modifier) {
         var expanded by remember { mutableStateOf(false) }
-        var videoFormatText by remember { mutableStateOf(PreferenceUtil.getVideoFormatDesc()) }
+        var videoFormatText by remember { mutableStateOf(PreferenceStrings.getVideoFormatDesc()) }
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -265,12 +272,12 @@ fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit) {
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 expanded = expanded,
                 onDismissRequest = { expanded = false }) {
-                for (i in listOf(NOT_SPECIFIED, MP4, AV1))
+                for (i in listOf(NOT_SPECIFIED, FORMAT_COMPATIBILITY, FORMAT_QUALITY))
                     DropdownMenuItem(
-                        text = { Text(PreferenceUtil.getVideoFormatDesc(i)) },
+                        text = { Text(PreferenceStrings.getVideoFormatDesc(i)) },
                         onClick = {
                             videoFormatText =
-                                PreferenceUtil.getVideoFormatDesc(i)
+                                PreferenceStrings.getVideoFormatDesc(i)
                             videoFormat = i
                             expanded = false
                         })
@@ -344,7 +351,7 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
                 for (i in CONVERT_MP3..CONVERT_M4A)
                     SingleChoiceItem(
                         modifier = Modifier,
-                        text = PreferenceUtil.getAudioConvertDesc(i),
+                        text = PreferenceStrings.getAudioConvertDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
             }
@@ -353,21 +360,28 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
 
 
 @Composable
-fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
-    var videoFormat by remember { mutableStateOf(PreferenceUtil.getVideoFormat()) }
+@Preview
+fun VideoFormatDialog(
+    videoFormatPreference: Int = FORMAT_COMPATIBILITY,
+    onDismissRequest: () -> Unit = {},
+    onConfirm: (Int) -> Unit = {}
+) {
+    var preference by remember { mutableIntStateOf(videoFormatPreference) }
     SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
+
             TextButton(onClick = onDismissRequest) {
                 Text(stringResource(R.string.dismiss))
             }
+
+
         }, icon = { Icon(Icons.Outlined.VideoFile, null) },
         title = {
             Text(stringResource(R.string.video_format_preference))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.encodeInt(VIDEO_FORMAT, videoFormat)
-                onConfirm()
+                onConfirm(preference)
                 onDismissRequest()
             }) {
                 Text(text = stringResource(R.string.confirm))
@@ -382,13 +396,13 @@ fun VideoFormatDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) 
                     text = stringResource(R.string.preferred_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in listOf(NOT_SPECIFIED, MP4, AV1))
+                for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
                     SingleChoiceItemWithLabel(
                         modifier = Modifier,
-                        text = PreferenceUtil.getVideoFormatDesc(i),
-                        label = PreferenceUtil.getVideoFormatLabel(i),
-                        selected = videoFormat == i,
-                    ) { videoFormat = i }
+                        text = PreferenceStrings.getVideoFormatLabel(i).toString(),
+                        label = PreferenceStrings.getVideoFormatDesc(i),
+                        selected = preference == i,
+                    ) { preference = i }
             }
         })
 }
@@ -423,7 +437,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                 for (i in DEFAULT..M4A)
                     SingleChoiceItem(
                         modifier = Modifier,
-                        text = PreferenceUtil.getAudioFormatDesc(i),
+                        text = PreferenceStrings.getAudioFormatDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
             }
@@ -458,7 +472,7 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
                 for (i in NOT_SPECIFIED..LOW)
                     SingleChoiceItem(
                         modifier = Modifier,
-                        text = PreferenceUtil.getAudioQualityDesc(i),
+                        text = PreferenceStrings.getAudioQualityDesc(i),
                         selected = audioQuality == i
                     ) { audioQuality = i }
             }
@@ -507,7 +521,7 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
                         .padding(horizontal = 4.dp)
                 ) {
                     OutlinedButtonChip(
-                        modifier = Modifier.padding(horizontal = 4.dp),
+                        modifier = Modifier.padding(end = 8.dp),
                         label = stringResource(id = R.string.import_from_preferences),
                         icon = Icons.Outlined.SettingsSuggest
                     ) {
@@ -561,7 +575,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
                     for (i in 0..7) {
                         item {
                             SingleChoiceItem(
-                                text = PreferenceUtil.getVideoResolutionDesc(i),
+                                text = PreferenceStrings.getVideoResolutionDesc(i),
                                 selected = videoResolution == i
                             ) {
                                 videoResolution = i
@@ -638,7 +652,7 @@ fun SubtitleConversionDialog(onDismissRequest: () -> Unit) {
                 for (format in NOT_CONVERT..CONVERT_VTT) {
                     item {
                         SingleChoiceItem(
-                            text = PreferenceUtil.getSubtitleConversionFormat(format),
+                            text = PreferenceStrings.getSubtitleConversionFormat(format),
                             selected = currentFormat == format
                         ) {
                             currentFormat = format
@@ -646,5 +660,58 @@ fun SubtitleConversionDialog(onDismissRequest: () -> Unit) {
                     }
                 }
             }
+        })
+}
+
+@Composable
+@Preview
+fun VideoQualityPreferenceChip(
+    modifier: Modifier = Modifier,
+    videoQualityPreference: Int = FORMAT_COMPATIBILITY,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    ElevatedAssistChip(
+        modifier = modifier,
+        onClick = onClick,
+        label = {
+            Text(
+                text = when (videoQualityPreference) {
+                    FORMAT_COMPATIBILITY -> stringResource(id = R.string.better_compatibility)
+                    else -> stringResource(id = R.string.better_quality)
+                }
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Outlined.VideoSettings,
+                contentDescription = null,
+                modifier = Modifier.size(AssistChipDefaults.IconSize)
+            )
+        })
+}
+
+@Composable
+@Preview
+fun VideoResolutionChip(
+    modifier: Modifier = Modifier,
+    videoResolution: Int = 0,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    ElevatedAssistChip(
+        modifier = modifier,
+        onClick = onClick,
+        label = {
+            Text(
+                text = PreferenceStrings.getVideoResolutionDesc(videoResolution)
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Outlined.VideoSettings,
+                contentDescription = null,
+                modifier = Modifier.size(AssistChipDefaults.IconSize)
+            )
         })
 }
