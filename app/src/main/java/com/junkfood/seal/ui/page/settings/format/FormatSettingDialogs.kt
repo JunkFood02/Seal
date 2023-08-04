@@ -53,6 +53,7 @@ import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
@@ -388,14 +389,15 @@ fun VideoFormatDialog(
             }
         }, text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp)
-                        .padding(horizontal = 24.dp),
-                    text = stringResource(R.string.preferred_format_desc),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+//                Text(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(bottom = 12.dp)
+//                        .padding(horizontal = 24.dp),
+//                    text = stringResource(R.string.preferred_format_desc),
+//                    style = MaterialTheme.typography.bodyLarge
+//                )
+                HorizontalDivider()
                 for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
                     SingleChoiceItemWithLabel(
                         modifier = Modifier,
@@ -403,6 +405,7 @@ fun VideoFormatDialog(
                         label = PreferenceStrings.getVideoFormatDesc(i),
                         selected = preference == i,
                     ) { preference = i }
+                HorizontalDivider()
             }
         })
 }
@@ -704,7 +707,7 @@ fun VideoResolutionChip(
         onClick = onClick,
         label = {
             Text(
-                text = PreferenceStrings.getVideoResolutionDesc(videoResolution)
+                text = PreferenceStrings.getVideoResolutionDescComp(videoResolution)
             )
         },
         leadingIcon = {

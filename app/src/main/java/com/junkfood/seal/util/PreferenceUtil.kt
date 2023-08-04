@@ -383,8 +383,8 @@ object PreferenceStrings {
 
     fun getVideoFormatDesc(videoFormatCode: Int = PreferenceUtil.getVideoFormat()): String {
         return when (videoFormatCode) {
-            FORMAT_COMPATIBILITY -> "For sharing to other apps"
-            FORMAT_QUALITY -> "For watching in compatible apps"
+            FORMAT_COMPATIBILITY -> context.getString(R.string.prefer_compatibility_desc)
+            FORMAT_QUALITY -> context.getString(R.string.prefer_quality_desc)
             else -> context.getString(R.string.not_specified)
         }
     }
@@ -413,6 +413,20 @@ object PreferenceStrings {
             6 -> "360p"
             7 -> App.Companion.context.getString(R.string.lowest_quality)
             else -> context.getString(R.string.best_quality)
+        }
+    }
+
+    @Composable
+    fun getVideoResolutionDescComp(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
+        return when (videoQualityCode) {
+            1 -> "2160p"
+            2 -> "1440p"
+            3 -> "1080p"
+            4 -> "720p"
+            5 -> "480p"
+            6 -> "360p"
+            7 -> stringResource(R.string.lowest_quality)
+            else -> stringResource(R.string.best_quality)
         }
     }
 

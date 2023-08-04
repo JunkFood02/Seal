@@ -105,7 +105,7 @@ fun SingleChoiceItemWithLabel(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(top = 2.dp)
+                    modifier = Modifier.padding()
                 )
             }
         }
