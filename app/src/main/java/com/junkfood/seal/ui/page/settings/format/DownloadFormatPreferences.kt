@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
+import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -51,10 +52,12 @@ import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VIDEO_FORMAT
+import com.junkfood.seal.util.VIDEO_QUALITY
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,8 +86,8 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     var showFormatSorterDialog by remember { mutableStateOf(false) }
     var showVideoClipDialog by remember { mutableStateOf(false) }
 
-    var videoFormat by remember { mutableStateOf(PreferenceStrings.getVideoFormatDesc()) }
-    var videoResolution by remember { mutableStateOf(PreferenceStrings.getVideoResolutionDesc()) }
+    var videoFormat by VIDEO_FORMAT.intState
+    var videoQuality by VIDEO_QUALITY.intState
     var convertFormat by remember { mutableStateOf(PreferenceStrings.getAudioConvertDesc()) }
     val sortingFields by remember { mutableStateOf(SORTING_FIELDS.getString()) }
     val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
@@ -182,7 +185,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
-                        description = videoFormat,
+                        description = PreferenceStrings.getVideoFormatLabel(videoFormat),
                         icon = Icons.Outlined.VideoFile,
                         enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
                     ) { showVideoFormatDialog = true }
@@ -190,7 +193,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_quality),
-                        description = videoResolution,
+                        description = PreferenceStrings.getVideoResolutionDescComp(videoQuality),
                         icon = Icons.Outlined.HighQuality,
                         enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
                     ) { showVideoQualityDialog = true }
@@ -277,18 +280,21 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
         }
     }
     if (showVideoQualityDialog) {
-        VideoQualityDialog(onDismissRequest = { showVideoQualityDialog = false }) {
-            videoResolution = PreferenceStrings.getVideoResolutionDesc()
+        VideoQualityDialog(
+            videoQuality = videoQuality,
+            onDismissRequest = { showVideoQualityDialog = false }) {
+            videoQuality = it
+            VIDEO_QUALITY.updateInt(it)
         }
     }
     if (showVideoFormatDialog) {
         VideoFormatDialog(
-            videoFormatPreference = PreferenceUtil.getVideoFormat(),
+            videoFormatPreference = videoFormat,
             onDismissRequest = {
                 showVideoFormatDialog = false
             }) {
             PreferenceUtil.encodeInt(VIDEO_FORMAT, it)
-            videoFormat = PreferenceStrings.getVideoFormatDesc()
+            videoFormat = it
         }
     }
     if (showFormatSorterDialog) {

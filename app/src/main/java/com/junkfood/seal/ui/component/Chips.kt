@@ -35,6 +35,7 @@ fun ButtonChip(
     enabled: Boolean = true,
     icon: ImageVector? = null,
     iconColor: Color = MaterialTheme.colorScheme.primary,
+    iconDescription: String? = null,
     onClick: () -> Unit,
 ) {
     ElevatedAssistChip(
@@ -45,7 +46,9 @@ fun ButtonChip(
         enabled = enabled,
         leadingIcon = {
             if (icon != null) Icon(
-                imageVector = icon, null, modifier = Modifier.size(AssistChipDefaults.IconSize)
+                imageVector = icon,
+                contentDescription = iconDescription,
+                modifier = Modifier.size(AssistChipDefaults.IconSize)
             )
         }
     )

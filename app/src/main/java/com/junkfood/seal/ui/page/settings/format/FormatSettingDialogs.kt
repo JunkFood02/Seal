@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.settings.format
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -388,25 +389,24 @@ fun VideoFormatDialog(
                 Text(text = stringResource(R.string.confirm))
             }
         }, text = {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-//                Text(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(bottom = 12.dp)
-//                        .padding(horizontal = 24.dp),
-//                    text = stringResource(R.string.preferred_format_desc),
-//                    style = MaterialTheme.typography.bodyLarge
-//                )
+            Column {
                 HorizontalDivider()
-                for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
-                    SingleChoiceItemWithLabel(
-                        modifier = Modifier,
-                        text = PreferenceStrings.getVideoFormatLabel(i).toString(),
-                        label = PreferenceStrings.getVideoFormatDesc(i),
-                        selected = preference == i,
-                    ) { preference = i }
+                LazyColumn(modifier = Modifier, contentPadding = PaddingValues(vertical = 8.dp)) {
+
+                    for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
+                        item {
+                            SingleChoiceItemWithLabel(
+                                modifier = Modifier,
+                                text = PreferenceStrings.getVideoFormatLabel(i),
+                                label = PreferenceStrings.getVideoFormatDescComp(i),
+                                selected = preference == i,
+                            ) { preference = i }
+                        }
+                }
                 HorizontalDivider()
+
             }
+
         })
 }
 
@@ -542,8 +542,12 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
 }
 
 @Composable
-fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
-    var videoResolution by remember { mutableStateOf(PreferenceUtil.getVideoResolution()) }
+fun VideoQualityDialog(
+    videoQuality: Int = 0,
+    onDismissRequest: () -> Unit = {},
+    onConfirm: (Int) -> Unit = {}
+) {
+    var videoResolution by remember { mutableIntStateOf(videoQuality) }
 
     SealDialog(
         onDismissRequest = onDismissRequest,
@@ -557,8 +561,7 @@ fun VideoQualityDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit 
             Text(stringResource(R.string.video_quality))
         }, confirmButton = {
             TextButton(onClick = {
-                PreferenceUtil.encodeInt(VIDEO_QUALITY, videoResolution)
-                onConfirm()
+                onConfirm(videoResolution)
                 onDismissRequest()
             }) {
                 Text(text = stringResource(R.string.confirm))
@@ -679,10 +682,7 @@ fun VideoQualityPreferenceChip(
         onClick = onClick,
         label = {
             Text(
-                text = when (videoQualityPreference) {
-                    FORMAT_COMPATIBILITY -> stringResource(id = R.string.better_compatibility)
-                    else -> stringResource(id = R.string.better_quality)
-                }
+                text = PreferenceStrings.getVideoFormatLabel(videoQualityPreference)
             )
         },
         leadingIcon = {

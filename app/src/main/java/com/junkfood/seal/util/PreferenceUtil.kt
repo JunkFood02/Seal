@@ -166,7 +166,7 @@ private val IntPreferenceDefaults = mapOf(
     WELCOME_DIALOG to 1,
     AUDIO_CONVERSION_FORMAT to NOT_SPECIFIED,
     VIDEO_QUALITY to NOT_SPECIFIED,
-    VIDEO_FORMAT to NOT_SPECIFIED,
+    VIDEO_FORMAT to FORMAT_QUALITY,
     UPDATE_CHANNEL to STABLE,
     SHOW_SPONSOR_MSG to 0,
     CONVERT_SUBTITLE to NOT_SPECIFIED,
@@ -390,6 +390,15 @@ object PreferenceStrings {
     }
 
     @Composable
+    fun getVideoFormatDescComp(videoFormatCode: Int = PreferenceUtil.getVideoFormat()): String {
+        return when (videoFormatCode) {
+            FORMAT_COMPATIBILITY -> stringResource(R.string.prefer_compatibility_desc)
+            FORMAT_QUALITY -> stringResource(R.string.prefer_quality_desc)
+            else -> stringResource(R.string.not_specified)
+        }
+    }
+
+    @Composable
     fun getVideoResolutionDescRes(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
         return when (videoQualityCode) {
             1 -> "2160p"
@@ -431,11 +440,10 @@ object PreferenceStrings {
     }
 
     @Composable
-    fun getVideoFormatLabel(videoFormatPreference: Int = PreferenceUtil.getVideoFormat()): String? {
+    fun getVideoFormatLabel(videoFormatPreference: Int = PreferenceUtil.getVideoFormat()): String {
         return when (videoFormatPreference) {
-            FORMAT_COMPATIBILITY -> stringResource(id = R.string.better_compatibility)
-            FORMAT_QUALITY -> stringResource(id = R.string.better_quality)
-            else -> null
+            FORMAT_COMPATIBILITY -> stringResource(id = R.string.legacy)
+            else -> stringResource(id = R.string.quality)
         }
     }
 }

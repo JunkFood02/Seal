@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.EditNote
+import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.AlertDialog
@@ -58,17 +59,22 @@ import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.SubtitleLanguageDialog
-import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
+import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
+import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PLAYLIST
+import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.templateStateFlow
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
+import com.junkfood.seal.util.VIDEO_FORMAT
+import com.junkfood.seal.util.VIDEO_QUALITY
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -89,10 +95,12 @@ fun DownloadSettingDialog(
     var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
     var formatSelection by FORMAT_SELECTION.booleanState
+    var videoFormatPreference by VIDEO_FORMAT.intState
+    var videoQuality by VIDEO_QUALITY.intState
 
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
-    var showVideoSettingsDialog by remember { mutableStateOf(false) }
+    var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showSubtitleDialog by remember { mutableStateOf(false) }
     var showCustomCommandDialog by remember { mutableStateOf(0) }
     var showAudioQualityDialog by remember { mutableStateOf(false) }
@@ -205,12 +213,20 @@ fun DownloadSettingDialog(
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     ButtonChip(
                         onClick = {
-                            showVideoSettingsDialog = true
+                            showVideoFormatDialog = true
                         },
                         enabled = !customCommand && !audio,
-                        label = stringResource(R.string.video_format),
-                        icon = Icons.Outlined.VideoFile
+                        label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
+                        icon = Icons.Outlined.VideoFile,
+                        iconDescription = stringResource(id = R.string.video_format_preference)
                     )
+                    ButtonChip(
+                        label = PreferenceStrings.getVideoResolutionDescComp(),
+                        icon = Icons.Outlined.HighQuality,
+                        iconDescription = stringResource(id = R.string.video_quality)
+                    ) {
+                        showVideoQualityDialog = true
+                    }
                     ButtonChip(
                         onClick = {
                             showAudioSettingsDialog = true
@@ -313,9 +329,23 @@ fun DownloadSettingDialog(
     if (showAudioSettingsDialog) {
         AudioQuickSettingsDialog(onDismissRequest = { showAudioSettingsDialog = false })
     }
-    if (showVideoSettingsDialog) {
-        VideoQuickSettingsDialog(onDismissRequest = { showVideoSettingsDialog = false })
+    if (showVideoFormatDialog) {
+        VideoFormatDialog(videoFormatPreference = videoFormatPreference,
+            onDismissRequest = { showVideoFormatDialog = false },
+            onConfirm = {
+                videoFormatPreference = it
+                VIDEO_FORMAT.updateInt(it)
+            })
     }
+    if (showVideoQualityDialog) {
+        VideoQualityDialog(videoQuality = videoQuality,
+            onDismissRequest = { showVideoQualityDialog = false },
+            onConfirm = {
+                VIDEO_QUALITY.updateInt(it)
+                videoQuality = it
+            })
+    }
+
     when (showCustomCommandDialog) {
         (-1) -> CommandTemplateDialog(onDismissRequest = { showCustomCommandDialog = 0 },
             confirmationCallback = {
