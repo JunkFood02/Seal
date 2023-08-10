@@ -161,6 +161,12 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     var showClearTempDialog by remember { mutableStateOf(false) }
     var showCustomCommandDirectoryDialog by remember { mutableStateOf(false) }
 
+    var customCommandDirectoryText by remember(showCustomCommandDirectoryDialog) {
+        mutableStateOf(
+            customCommandDirectory
+        )
+    }
+
     var editingDirectory by remember { mutableStateOf(Directory.VIDEO) }
 
     val isCustomCommandEnabled by remember {
@@ -466,7 +472,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
         )
     }
     if (showCustomCommandDirectoryDialog) {
-        var directory by remember { mutableStateOf(customCommandDirectory) }
         AlertDialog(
             onDismissRequest = { showCustomCommandDirectoryDialog = false },
             icon = { Icon(imageVector = Icons.Outlined.Folder, contentDescription = null) },
@@ -478,8 +483,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             },
             confirmButton = {
                 ConfirmButton {
-                    COMMAND_DIRECTORY.updateString(directory)
-                    customCommandDirectory = directory
+                    COMMAND_DIRECTORY.updateString(customCommandDirectory)
                     showCustomCommandDirectoryDialog = false
                 }
             },
@@ -496,8 +500,8 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     )
                     OutlinedTextField(
                         modifier = Modifier.padding(vertical = 8.dp),
-                        value = directory,
-                        onValueChange = { directory = it },
+                        value = customCommandDirectory,
+                        onValueChange = { customCommandDirectory = it },
                         leadingIcon = { Text(text = "-P", fontFamily = FontFamily.Monospace) },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     )
