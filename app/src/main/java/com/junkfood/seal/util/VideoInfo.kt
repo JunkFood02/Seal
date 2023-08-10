@@ -147,8 +147,8 @@ data class PlaylistResult(
 @Serializable
 data class Thumbnail(
     val url: String,
-    val height: Int = 0,
-    val width: Int = 0,
+    val height: Double = .0,
+    val width: Double = .0,
 )
 
 @Serializable

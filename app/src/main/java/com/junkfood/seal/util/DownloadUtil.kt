@@ -126,6 +126,9 @@ object DownloadUtil {
             if (downloadPlaylist) {
 //                addOption("--compat-options", "no-youtube-unavailable-videos")
             }
+            if (debug) {
+                addOption("-v")
+            }
         }
         addOption("-R", "1")
         if (playlistItem != 0) addOption("--playlist-items", playlistItem)
