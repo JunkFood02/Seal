@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RangeSliderState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -226,12 +227,22 @@ fun FormatPageImpl(
                     Column {
                         AnimatedVisibility(visible = isClippingVideo) {
                             Column {
-                                VideoSelectionSlider(modifier = Modifier.fillMaxWidth(),
-                                    value = videoClipDuration,
-                                    duration = duration?.roundToInt() ?: 0,
+                                var isValueChanging by remember { mutableStateOf(false) }
+                                val state = remember(isClippingVideo, showVideoClipDialog) {
+                                    RangeSliderState(
+                                        initialActiveRangeStart = videoClipDuration.start,
+                                        initialActiveRangeEnd = videoClipDuration.endInclusive,
+                                        valueRange = videoDuration,
+                                    )
+                                }
+                                VideoSelectionSlider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    state = state,
+                                    onValueChangeFinished = { videoClipDuration = it },
+
                                     onDiscard = { isClippingVideo = false },
-                                    onValueChange = { videoClipDuration = it },
-                                    onDurationClick = { showVideoClipDialog = true })
+                                    onDurationClick = { showVideoClipDialog = true },
+                                )
                                 HorizontalDivider()
                             }
                         }

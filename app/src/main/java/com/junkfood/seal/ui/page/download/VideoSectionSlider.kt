@@ -22,12 +22,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RangeSlider
+import androidx.compose.material3.RangeSliderState
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,22 +64,16 @@ private const val TAG = "VideoSectionSlider"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomRangeSlider(
-    value: ClosedFloatingPointRange<Float>,
-    onValueChange: (ClosedFloatingPointRange<Float>) -> Unit,
+    state: RangeSliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
-    onValueChangeFinished: (() -> Unit)? = null,
     colors: SliderColors = SliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumbSize: DpSize = DpSize(12.dp, 12.dp)
 ) {
-    RangeSlider(
-        modifier = modifier,
-        value = value,
-        valueRange = valueRange,
-        onValueChange = onValueChange,
+    RangeSlider(modifier = modifier,
+        state = state,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
         startThumb = {
@@ -106,45 +100,39 @@ fun CustomRangeSlider(
         },
         track = { sliderState ->
             SliderDefaults.Track(
-                colors = colors,
-                enabled = enabled,
-                rangeSliderState = sliderState
+                colors = colors, enabled = enabled, rangeSliderState = sliderState
             )
-        },
-        onValueChangeFinished = onValueChangeFinished
-    )
+        })
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoSelectionSlider(
     modifier: Modifier = Modifier,
-    value: ClosedFloatingPointRange<Float>,
-    duration: Int,
+    onValueChangeFinished: (ClosedFloatingPointRange<Float>) -> Unit,
+    state: RangeSliderState,
     onDurationClick: () -> Unit,
     onDiscard: () -> Unit,
-    onValueChange: (ClosedFloatingPointRange<Float>) -> Unit
 ) {
-    val startText by remember(value) {
-        derivedStateOf {
-            (value.start).roundToInt().toDurationText()
-        }
+
+    val startText by remember(state.activeRangeStart) {
+        mutableStateOf(state.activeRangeStart.roundToInt().toDurationText())
     }
-    val endText by remember(value) {
-        derivedStateOf {
-            (value.endInclusive).roundToInt().toDurationText()
-        }
+    val endText by remember(state.activeRangeEnd) {
+        mutableStateOf(state.activeRangeEnd.roundToInt().toDurationText())
+    }
+    state.onValueChangeFinished = {
+        onValueChangeFinished(state.activeRangeStart..state.activeRangeEnd)
     }
     Column(modifier = modifier) {
+
 
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
 
             CustomRangeSlider(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 12.dp),
-                value = value,
-                valueRange = 0f..duration.toFloat(),
-                onValueChange = onValueChange
+                    .padding(horizontal = 12.dp), state = state
             )
         }
 
@@ -159,8 +147,7 @@ fun VideoSelectionSlider(
                     .height(40.dp)
                     .clip(CircleShape)
                     .clickable(
-                        onClick = onDurationClick,
-                        onClickLabel = stringResource(id = R.string.edit)
+                        onClick = onDurationClick, onClickLabel = stringResource(id = R.string.edit)
                     )
             ) {
                 Text(
@@ -235,11 +222,9 @@ fun VideoClipDialog(
     fun onDone() {
         val startTime = convertToSecs(fromMin.text, fromSec.text)
         val endTime = convertToSecs(toMin.text, toSec.text)
-        if (startTime != -1
-            && endTime != -1
-            && startTime < endTime
-            && valueIntRange.contains(startTime)
-            && valueIntRange.contains(endTime)
+        if (startTime != -1 && endTime != -1 && startTime < endTime && valueIntRange.contains(
+                startTime
+            ) && valueIntRange.contains(endTime)
         ) {
             onConfirm((startTime.toFloat())..endTime.toFloat())
             onDismissRequest()
@@ -247,8 +232,7 @@ fun VideoClipDialog(
     }
 
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    SealDialog(
-        onDismissRequest = onDismissRequest,
+    SealDialog(onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.clip_video)) },
         icon = { Icon(Icons.Outlined.ContentCut, null) },
         confirmButton = { ConfirmButton { onDone() } },
@@ -285,8 +269,7 @@ fun VideoClipDialog(
                                 isError = error,
                             )
                             Text(
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp),
+                                modifier = Modifier.padding(horizontal = 4.dp),
                                 text = ":",
                                 style = MaterialTheme.typography.labelLarge
                             )
@@ -316,7 +299,8 @@ fun VideoClipDialog(
                     Row(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(start = 6.dp), verticalAlignment = Alignment.CenterVertically
+                            .padding(start = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         SealTextField(
                             modifier = Modifier
@@ -336,8 +320,7 @@ fun VideoClipDialog(
                             isError = error,
                         )
                         Text(
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp),
+                            modifier = Modifier.padding(horizontal = 4.dp),
                             text = ":",
                             style = MaterialTheme.typography.labelLarge
                         )
@@ -362,35 +345,37 @@ fun VideoClipDialog(
                     }
                 }
             }
-        }
-    )
+        })
 }
 
 @Composable
 @Preview
 fun VideoClipDialogPreview() {
-    VideoClipDialog(
-        onDismissRequest = {},
+    VideoClipDialog(onDismissRequest = {},
         initialValue = 0f..560f,
         valueRange = 0f..660f,
-        onConfirm = {}
-    )
+        onConfirm = {})
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun SliderPreview() {
     val time = 3700
-    var value by remember {
+    var valueRange by remember {
         mutableStateOf(0f..time.toFloat())
     }
+    val state = remember {
+        RangeSliderState(
+            initialActiveRangeStart = valueRange.start,
+            initialActiveRangeEnd = valueRange.endInclusive,
+            valueRange = 0f..time.toFloat()
+        )
+    }
     Surface() {
-        VideoSelectionSlider(
-            value = value,
-            duration = time,
-            onDiscard = {},
-            onValueChange = { value = it },
-            onDurationClick = {})
+        VideoSelectionSlider(state = state, onDiscard = {}, onValueChangeFinished = {
+            valueRange = it
+        }, onDurationClick = {})
     }
 }
 
