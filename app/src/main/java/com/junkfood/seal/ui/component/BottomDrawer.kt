@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,6 +39,7 @@ fun BottomDrawer(
         ModalBottomSheetValue.Hidden
     ),
     sheetContent: @Composable ColumnScope.() -> Unit = {},
+    horizontalPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
     content: @Composable () -> Unit = {},
 ) {
     androidx.compose.material.ModalBottomSheetLayout(
@@ -57,7 +59,7 @@ fun BottomDrawer(
                     color = MaterialTheme.colorScheme.surface,
                     tonalElevation = 6.dp,
                 ) {
-                    Box(modifier = Modifier.padding(horizontal = 28.dp)) {
+                    Box(modifier = Modifier.padding(horizontalPadding)) {
                         Row(
                             modifier = modifier
                                 .padding(top = 8.dp)

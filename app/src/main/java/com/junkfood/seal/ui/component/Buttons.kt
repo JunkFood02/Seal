@@ -55,7 +55,7 @@ fun OutlinedButtonWithIcon(
     )
     {
         Icon(
-            modifier = Modifier.size(18.dp),
+            modifier = Modifier.size(ButtonDefaults.IconSize),
             imageVector = icon,
             contentDescription = null
         )

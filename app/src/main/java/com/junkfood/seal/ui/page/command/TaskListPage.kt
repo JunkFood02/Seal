@@ -421,11 +421,10 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
             HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
         }
     })
-
 }
 
 @Composable
-private fun TemplateSingleChoiceItem(
+fun TemplateSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     supportingText: String,

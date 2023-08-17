@@ -375,4 +375,9 @@
     <string name="prefer_compatibility_desc">Prefer MP4(H.264) formats for sharing to other apps</string>
     <string name="prefer_quality_desc">Prefer AV1, VP9 or H.265 formats for watching in compatible apps</string>
     <string name="download_type">Download type</string>
+    <string name="custom">Custom</string>
+    <string name="auto">Auto</string>
+    <string name="commands">Commands</string>
+    <string name="format_preference">Format preference</string>
+    <string name="learn_more">Learn more</string>
 </resources>

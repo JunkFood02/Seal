@@ -105,6 +105,7 @@ fun OutlinedButtonChip(
 fun SingleChoiceChip(
     modifier: Modifier = Modifier,
     selected: Boolean,
+    enabled: Boolean = true,
     onClick: () -> Unit,
     label: String,
     leadingIcon: ImageVector = Icons.Outlined.Check
@@ -113,6 +114,8 @@ fun SingleChoiceChip(
         modifier = modifier.padding(horizontal = 4.dp),
         selected = selected,
         onClick = onClick,
+        enabled = enabled,
+        shape = MaterialTheme.shapes.large,
         label = {
             Text(text = label)
         },
@@ -138,7 +141,7 @@ fun VideoFilterChip(
     selected: Boolean,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    label: String,
+    label: String, leadingIcon: ImageVector? = null
 ) {
     FilterChip(
         modifier = modifier.padding(horizontal = 4.dp),
@@ -146,7 +149,8 @@ fun VideoFilterChip(
         onClick = onClick,
         label = {
             Text(text = label)
-        }
+        },
+        leadingIcon = { leadingIcon?.let { Icon(imageVector = it, contentDescription = null) } }
     )
 }
 

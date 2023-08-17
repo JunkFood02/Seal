@@ -52,8 +52,8 @@ data class VideoInfo(
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
     @SerialName("filesize") val fileSize: Double? = null,
     val tbr: Double? = null,
-    val width: Int? = null,
-    val height: Int? = null,
+    val width: Double? = null,
+    val height: Double? = null,
     val resolution: String? = null,
     val fps: Double? = null,
     @SerialName("dynamic_range") val dynamicRange: String? = null,
@@ -63,7 +63,7 @@ data class VideoInfo(
     val abr: Double? = null,
     val asr: Int? = null,
     val epoch: Int? = null,
-    @SerialName("_type") val Type: String? = null,
+    @SerialName("_type") val type: String? = null,
 ) : YoutubeDLInfo
 
 @Serializable

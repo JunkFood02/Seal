@@ -137,7 +137,7 @@ class QuickDownloadActivity : ComponentActivity() {
                     DownloadSettingDialog(
                         useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact,
                         dialogState = showDialog,
-                        isShareActivity = true,
+                        isQuickDownload = true,
                         drawerState = drawerState,
                         confirm = {
                             onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
