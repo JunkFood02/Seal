@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,9 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.VerticalSplit
+import androidx.compose.material.icons.rounded.Audiotrack
+import androidx.compose.material.icons.rounded.QuestionMark
+import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -32,6 +36,8 @@ import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -245,10 +251,8 @@ fun FormatItem(
         FormatItem(
             formatDesc = format.toString(),
             resolution = resolution.toString(),
-            codec = connectWithBlank(
-                vcodec.toString().substringBefore(".").toEmpty(),
-                acodec.toString().substringBefore(".").toEmpty()
-            ).run { if (isNotBlank()) "($this)" else this },
+            vcodec = vcodec.toString().toEmpty(),
+            acodec = acodec.toString().toEmpty(),
             ext = ext.toString(),
             bitRate = tbr?.toFloat() ?: 0f,
             fileSize = fileSize ?: fileSizeApprox ?: .0,
@@ -267,7 +271,8 @@ fun FormatItem(
     modifier: Modifier = Modifier,
     formatDesc: String = "247 - 1280x720 (720p)",
     resolution: String = "1920x1080",
-    codec: String = "h264 aac",
+    vcodec: String? = null,
+    acodec: String? = null,
     ext: String = "mp4",
     bitRate: Float = 745.67f,
     fileSize: Double = 1024 * 1024 * 69.0,
@@ -292,7 +297,7 @@ fun FormatItem(
         animationSpec = tween(100)
     )
 
-    Column(modifier = modifier
+    Box(modifier = modifier
         .clip(MaterialTheme.shapes.medium)
         .selectable(selected = selected) { onClick() }
         .combinedClickable(
@@ -305,6 +310,8 @@ fun FormatItem(
         )
         .background(animatedContainerColor)
     ) {
+        val vcodecText = vcodec.toEmpty().substringBefore(".")
+        val acodecText = acodec.toEmpty().substringBefore(".")
         Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.Start) {
             Text(
                 text = formatDesc,
@@ -313,6 +320,10 @@ fun FormatItem(
                 maxLines = 2,
                 color = animatedTitleColor, overflow = TextOverflow.Clip
             )
+            val codec = connectWithBlank(
+                vcodecText,
+                acodecText
+            ).run { if (isNotBlank()) "($this)" else this }
 
             val bitRateText =
                 if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
@@ -332,6 +343,34 @@ fun FormatItem(
                 color = MaterialTheme.colorScheme.onSurface, maxLines = 1
             )
         }
+        Row(
+            modifier = Modifier
+                .padding(bottom = 6.dp, end = 6.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            if (acodecText.isNotEmpty())
+                Icon(
+                    imageVector = Icons.Rounded.Audiotrack,
+                    tint = outlineColor,
+                    contentDescription = stringResource(id = R.string.audio),
+                    modifier = Modifier.size(16.dp)
+                )
+            if (vcodecText.isNotEmpty())
+                Icon(
+                    imageVector = Icons.Rounded.Videocam,
+                    tint = outlineColor,
+                    contentDescription = stringResource(id = R.string.video),
+                    modifier = Modifier.size(16.dp)
+                )
+            if (acodecText.isEmpty() && vcodecText.isEmpty()) {
+                Icon(
+                    imageVector = Icons.Rounded.QuestionMark,
+                    tint = outlineColor,
+                    contentDescription = stringResource(id = R.string.unknown),
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
     }
 
 }
@@ -342,7 +381,7 @@ fun FormatItem(
 )
 @Preview(name = "Light")
 fun PreviewFormat() {
-    MaterialTheme {
+    MaterialTheme(colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()) {
         var selected by remember { mutableStateOf(-1) }
         Surface {
             Column() {
@@ -364,14 +403,31 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
         FormatSubtitle(text = "Suggested")
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
-        FormatItem(selected = selected == 1) { onClick(1) }
+        FormatItem(selected = selected == 1, acodec = "MP4A", vcodec = "AV01") { onClick(1) }
+    }
+
+    item(span = { GridItemSpan(maxLineSpan) }) {
+        FormatSubtitle(
+            text = stringResource(R.string.audio),
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    }
+    for (i in 0..2) {
+        item {
+            FormatItem(
+                selected = selected == i,
+                outlineColor = MaterialTheme.colorScheme.tertiary,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                vcodec = "", acodec = "OPUS", ext = "OPUS"
+            ) { onClick(i) }
+        }
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
         FormatSubtitle(text = stringResource(R.string.video_only))
     }
-    for (i in 0..4) {
+    for (i in 0..2) {
         item {
-            FormatItem(selected = selected == i) { onClick(i) }
+            FormatItem(selected = selected == i, vcodec = "AVC1", acodec = "none") { onClick(i) }
         }
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
@@ -380,27 +436,14 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
             color = MaterialTheme.colorScheme.secondary
         )
     }
-    for (i in 0..5) {
+    for (i in 0..3) {
         item {
             FormatItem(
                 selected = selected == i,
                 outlineColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            ) { onClick(i) }
-        }
-    }
-    item(span = { GridItemSpan(maxLineSpan) }) {
-        FormatSubtitle(
-            text = stringResource(R.string.audio),
-            color = MaterialTheme.colorScheme.tertiary
-        )
-    }
-    for (i in 0..5) {
-        item {
-            FormatItem(
-                selected = selected == i,
-                outlineColor = MaterialTheme.colorScheme.tertiary,
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                vcodec = "AVC1",
+                acodec = "MP4A"
             ) { onClick(i) }
         }
     }
@@ -422,5 +465,11 @@ fun FormatSubtitle(
     )
 }
 
+@Preview
+@Composable
+fun FormatItemPreview() {
+    FormatItem()
+}
 
-private fun String.toEmpty() = if (equals("none") || equals("null")) "" else this
+
+private fun String?.toEmpty(): String = if (this == null || equals("none")) "" else this

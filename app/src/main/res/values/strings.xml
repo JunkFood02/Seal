@@ -380,4 +380,5 @@
     <string name="commands">Commands</string>
     <string name="format_preference">Format preference</string>
     <string name="learn_more">Learn more</string>
+    <string name="unknown">Unknown</string>
 </resources>

@@ -71,7 +71,6 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
-import com.junkfood.seal.util.connectWithBlank
 import com.junkfood.seal.util.toHttpsUrl
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -313,10 +312,8 @@ fun FormatPageImpl(
                     FormatItem(
                         formatDesc = format.toString(),
                         resolution = resolution.toString(),
-                        codec = connectWithBlank(
-                            vcodec.toString().substringBefore("."),
-                            acodec.toString().substringBefore(".")
-                        ).run { if (isNotBlank()) "($this)" else this },
+                        acodec = acodec,
+                        vcodec = vcodec,
                         ext = ext,
                         bitRate = tbr?.toFloat() ?: 0f,
                         fileSize = fileSize ?: fileSizeApprox ?: .0,
@@ -327,6 +324,7 @@ fun FormatPageImpl(
                         selectedVideoAudioFormat = NOT_SELECTED
                         selectedVideoOnlyFormat = NOT_SELECTED
                     }
+
                 }
             }
 
