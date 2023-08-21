@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.IBinder
+import android.util.Log
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.database.CommandTemplate
@@ -79,6 +80,7 @@ class App : Application() {
                     )
                 }
                 YoutubeDL.init(this@App)
+                Log.d("TAG", applicationInfo.nativeLibraryDir)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
                 DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {

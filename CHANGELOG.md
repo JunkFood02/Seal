@@ -8,11 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v1.10.0][1.10.0] - unreleased
 
 ### Added
+
+**Subtitles**
+
 * Convert subtitles to another format
+* Select subtitle language in format selection
+
+**Format selection**
+
+* Display icons(audio/video) on `FormatItem`s
 * Split video by chapters
+
+**Custom commands**
+
 * Create custom command tasks in the Running Tasks page
+* Configure download directory separately for custom command tasks
+
+**Other New Features & UI Improvements**
+
 * Show `PlainToolTip` when long-press on `PlaylistItem`
 * Add monochrome theme
+* Add proxy configuration for network connections
 * Add Swedish translations
 
 
@@ -20,12 +36,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * App crashes when being opened in the system share sheet
 * Video not shown in YouTube playlist results
 * Cookies cannot be disabled after clearing cookies
+* Hide video only formats when save as audio enabled
+* Parsing error with decimal value in width/height
+* Audio codec preference not works as expected
+* Could not fetch video info when `originalUrl` is null
 
 ### Changed
+
+**Notable Changes**
+* Upgrade target API level to 34 (Android 14)
+* Preferred video format changed to two options: Legacy and Quality
+* UI improvements to the configuration dialog
+
+**Other Changes**
 * Update `ColorScheme`s and components to reflect the new MD3 color roles
 * Update youtubedl-android version, added pycryptodomex to the library
 * Move Video formats to the bottom of the `FormatPage`
-* Upgrade target API level to 34 (Android 14)
+* Notifications now are enabled by default
 
 
 ## [v1.9.2][1.9.2] - 2023-04-27
