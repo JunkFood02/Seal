@@ -104,6 +104,6 @@ fun connectWithDelimiter(vararg strings: String, delimiter: String): String =
 
 
 fun connectWithBlank(s1: String, s2: String): String {
-    val blank = if (s1.isEmpty() || s1.isEmpty()) "" else " "
+    val blank = if (s1.isEmpty() || s2.isEmpty()) "" else " "
     return s1 + blank + s2
 }

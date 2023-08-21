@@ -36,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +65,7 @@ import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -108,6 +110,7 @@ fun FormatPageImpl(
     onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, String) -> Unit = { _, _, _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val audioOnly = EXTRACT_AUDIO.getBoolean()
     if (videoInfo.formats.isNullOrEmpty()) return
     val videoOnlyFormats =
         videoInfo.formats.filter { it.vcodec != "none" && it.acodec == "none" }.reversed()
@@ -117,9 +120,9 @@ fun FormatPageImpl(
         videoInfo.formats.filter { it.acodec != "none" && it.vcodec != "none" }.reversed()
 
     var isSuggestedFormatSelected by remember { mutableStateOf(true) }
-    var selectedVideoAudioFormat by remember { mutableStateOf(NOT_SELECTED) }
-    var selectedVideoOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
-    var selectedAudioOnlyFormat by remember { mutableStateOf(NOT_SELECTED) }
+    var selectedVideoAudioFormat by remember { mutableIntStateOf(NOT_SELECTED) }
+    var selectedVideoOnlyFormat by remember { mutableIntStateOf(NOT_SELECTED) }
+    var selectedAudioOnlyFormat by remember { mutableIntStateOf(NOT_SELECTED) }
     val context = LocalContext.current
 
     val hapticFeedback = LocalHapticFeedback.current
@@ -230,7 +233,6 @@ fun FormatPageImpl(
                     Column {
                         AnimatedVisibility(visible = isClippingVideo) {
                             Column {
-                                var isValueChanging by remember { mutableStateOf(false) }
                                 val state = remember(isClippingVideo, showVideoClipDialog) {
                                     RangeSliderState(
                                         initialActiveRangeStart = videoClipDuration.start,
@@ -352,30 +354,30 @@ fun FormatPageImpl(
             }
 
 
-
-            if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(
-                    text = stringResource(R.string.video_only),
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            }
-            itemsIndexed(videoOnlyFormats) { index, formatInfo ->
-                FormatItem(formatInfo = formatInfo,
-                    selected = selectedVideoOnlyFormat == index,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    outlineColor = MaterialTheme.colorScheme.tertiary,
-                    onLongClick = {
-                        formatInfo.url.share()
-                    }) {
-                    selectedVideoOnlyFormat =
-                        if (selectedVideoOnlyFormat == index) NOT_SELECTED else {
-                            selectedVideoAudioFormat = NOT_SELECTED
-                            isSuggestedFormatSelected = false
-                            index
-                        }
+            if (!audioOnly) {
+                if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatSubtitle(
+                        text = stringResource(R.string.video_only),
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+                itemsIndexed(videoOnlyFormats) { index, formatInfo ->
+                    FormatItem(formatInfo = formatInfo,
+                        selected = selectedVideoOnlyFormat == index,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        outlineColor = MaterialTheme.colorScheme.tertiary,
+                        onLongClick = {
+                            formatInfo.url.share()
+                        }) {
+                        selectedVideoOnlyFormat =
+                            if (selectedVideoOnlyFormat == index) NOT_SELECTED else {
+                                selectedVideoAudioFormat = NOT_SELECTED
+                                isSuggestedFormatSelected = false
+                                index
+                            }
+                    }
                 }
             }
-
             if (videoAudioFormats.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatSubtitle(text = stringResource(R.string.video))
@@ -395,9 +397,10 @@ fun FormatPageImpl(
                 }
             }
 
-            if (audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty()) item(span = {
-                GridItemSpan(maxLineSpan)
-            }) {
+            if (!audioOnly && audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty()) item(
+                span = {
+                    GridItemSpan(maxLineSpan)
+                }) {
                 PreferenceInfo(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
                     text = stringResource(R.string.abs_hint),
