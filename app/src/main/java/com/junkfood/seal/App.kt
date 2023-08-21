@@ -113,10 +113,14 @@ class App : Application() {
 
     private fun startCrashReportActivity(th: Throwable) {
         th.printStackTrace()
-        startActivity(Intent(this, CrashReportActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
-        })
+        startActivity(
+            Intent(
+                this,
+                CrashReportActivity::class.java
+            ).setAction("$packageName.error_report").apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
+            })
     }
 
     companion object {

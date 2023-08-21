@@ -11,11 +11,13 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.startService
 import com.junkfood.seal.App.Companion.stopService
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
@@ -224,7 +226,7 @@ object Downloader {
             }
             this[key] = newValue
         }
-        FileUtil.scanDownloadDirectoryToMediaLibrary(App.videoDownloadDir)
+        FileUtil.scanDownloadDirectoryToMediaLibrary(COMMAND_DIRECTORY.getString())
     }
 
 
