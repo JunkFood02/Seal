@@ -1,7 +1,6 @@
 name: Feature Request
-description: Suggest a new feature for the general download mode
-title: "[Feature Request]"
-labels: [enhancement]
+description: Suggest a new feature for the app
+labels: [ enhancement, new issue ]
 body:
   - type: checkboxes
     id: checklist
@@ -37,7 +36,7 @@ body:
       description:
       placeholder: A clear and concise description of what you want to happen.
     validations:
-      required: false   
+      required: false
   - type: textarea
     id: description_3
     attributes:
@@ -45,7 +44,7 @@ body:
       description:
       placeholder: Please provide us with a link to the video for which this feature might be beneficial.
     validations:
-      required: false  
+      required: false
   - type: textarea
     id: description_4
     attributes:
