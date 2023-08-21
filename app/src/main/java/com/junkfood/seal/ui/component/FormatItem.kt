@@ -251,8 +251,8 @@ fun FormatItem(
         FormatItem(
             formatDesc = format.toString(),
             resolution = resolution.toString(),
-            vcodec = vcodec.toString().toEmpty(),
-            acodec = acodec.toString().toEmpty(),
+            vcodec = vcodec,
+            acodec = acodec,
             ext = ext.toString(),
             bitRate = tbr?.toFloat() ?: 0f,
             fileSize = fileSize ?: fileSizeApprox ?: .0,
