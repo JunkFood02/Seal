@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -35,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,7 +44,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -62,6 +63,7 @@ import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.TextButtonWithIcon
+import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -80,14 +82,15 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
     if (videoInfo.formats.isNullOrEmpty()) return
     FormatPageImpl(
         videoInfo = videoInfo, onBackPressed = onBackPressed
-    ) { formatList, videoClips, splitByChapter, title ->
+    ) { formatList, videoClips, splitByChapter, title, subtitleLanguages ->
         Log.d(TAG, formatList.toString())
-        Downloader.downloadVideoWithFormatId(
+        Downloader.downloadVideoWithConfigurations(
             videoInfo = videoInfo,
             formatList = formatList,
             videoClips = videoClips,
             splitByChapter = splitByChapter,
-            newTitle = title
+            newTitle = title,
+            selectedSubtitleLang = subtitleLanguages,
         )
         onBackPressed()
     }
@@ -102,7 +105,7 @@ private const val NOT_SELECTED = -1
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String) -> Unit = { _, _, _, _ -> }
+    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, String) -> Unit = { _, _, _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -161,8 +164,7 @@ fun FormatPageImpl(
     }
 
 
-    val clipboardManager = LocalClipboardManager.current
-
+    val selectedLanguage = remember { mutableStateListOf("") }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -183,7 +185,8 @@ fun FormatPageImpl(
                         formatList,
                         if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
                         isSplittingVideo,
-                        videoTitle
+                        videoTitle,
+                        selectedLanguage.joinToString(separator = ",") { it }
                     )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
@@ -274,7 +277,31 @@ fun FormatPageImpl(
                     }
 
                 }
+                if (videoInfo.subtitles.isNotEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Column {
+                            FormatSubtitle(text = stringResource(R.string.subtitle_language))
+                            LazyRow(modifier = Modifier.padding()) {
+                                for ((code, formats) in videoInfo.subtitles) {
+                                    item {
+                                        VideoFilterChip(
+                                            selected = selectedLanguage.contains(code),
+                                            onClick = {
+                                                if (selectedLanguage.contains(code)) {
+                                                    selectedLanguage.remove(code)
+                                                } else {
+                                                    selectedLanguage.add(code)
+                                                }
+                                            },
+                                            label = formats.first()
+                                                .run { name ?: protocol ?: "unknown" })
+                                    }
+                                }
+                            }
+                        }
 
+                    }
+                }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatSubtitle(text = stringResource(R.string.suggested))
                 }

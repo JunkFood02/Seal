@@ -253,8 +253,7 @@ object DownloadUtil {
                     addOption("--write-auto-subs")
                     addOption("--extractor-args", "youtube:skip=translated_subs")
                 }
-                addOption("--sub-langs",
-                    subtitleLanguage.ifEmpty { SUBTITLE_LANGUAGE.getStringDefault() })
+                subtitleLanguage.takeIf { it.isNotEmpty() }?.let { addOption("--sub-langs", it) }
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")

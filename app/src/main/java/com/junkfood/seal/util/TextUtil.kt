@@ -7,7 +7,6 @@ import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.toEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
@@ -25,7 +24,8 @@ object ToastUtil {
     }
 
     fun makeToast(stringId: Int) {
-        Toast.makeText(context.applicationContext, context.getString(stringId), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context.applicationContext, context.getString(stringId), Toast.LENGTH_SHORT)
+            .show()
     }
 }
 
@@ -99,21 +99,11 @@ fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String 
 }
 
 
-fun connectWithDelimiter(vararg strings: String, delimiter: String): String {
-    val builder = StringBuilder(strings.first())
-    for (s in strings.asList().subList(1, strings.size)) {
-        if (s.isNotEmpty()) {
-            if (builder.isNotEmpty())
-                builder.append(delimiter)
-            builder.append(s)
-        }
-    }
-    return builder.toString()
-}
+fun connectWithDelimiter(vararg strings: String, delimiter: String): String =
+    strings.toList().joinToString(separator = delimiter) { it }
+
 
 fun connectWithBlank(s1: String, s2: String): String {
-    val f1 = s1.toEmpty()
-    val f2 = s2.toEmpty()
-    val blank = if (f1.isEmpty() || f2.isEmpty()) "" else " "
-    return f1 + blank + f2
+    val blank = if (s1.isEmpty() || s1.isEmpty()) "" else " "
+    return s1 + blank + s2
 }

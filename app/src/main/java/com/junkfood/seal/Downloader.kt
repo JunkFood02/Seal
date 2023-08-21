@@ -387,12 +387,16 @@ object Downloader {
         }
     }
 
-    fun downloadVideoWithFormatId(
+    /**
+     * Triggers a download with extra configurations made by user in the custom format selection page
+     */
+    fun downloadVideoWithConfigurations(
         videoInfo: VideoInfo,
         formatList: List<Format>,
         videoClips: List<VideoClip>,
         splitByChapter: Boolean,
-        newTitle: String
+        newTitle: String,
+        selectedSubtitleLang: String,
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
             val fileSize = formatList.fold(.0) { acc, format ->
@@ -406,18 +410,20 @@ object Downloader {
                 formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
                     acc && (format.vcodec == "none" && format.acodec != "none")
                 }
-            val formatId = formatList.fold("") { s, format ->
-                s + "+" + format.formatId
-            }.removePrefix("+")
 
-            val downloadPreferences = DownloadUtil.DownloadPreferences().run {
-                copy(
-                    extractAudio = extractAudio || audioOnly,
-                    formatId = formatId,
-                    videoClips = videoClips,
-                    splitByChapter = splitByChapter,
-                    newTitle = newTitle
-                )
+            val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
+
+            val downloadPreferences = DownloadUtil.DownloadPreferences(
+                formatId = formatId,
+                videoClips = videoClips,
+                splitByChapter = splitByChapter,
+                newTitle = newTitle
+            ).run {
+                copy(extractAudio = extractAudio || audioOnly)
+            }.run {
+                selectedSubtitleLang.takeIf { it.isEmpty() }
+                    ?.let { copy(downloadSubtitle = true, subtitleLanguage = it) }
+                    ?: this
             }
             downloadResultTemp = downloadVideo(
                 videoInfo = if (newTitle.isNotEmpty()) info.copy(title = newTitle) else info,
@@ -436,7 +442,7 @@ object Downloader {
      * This method is used for download a single video and multiple videos from playlist at the same time.
      * @see downloadVideoInPlaylistByIndexList
      * @see getInfoAndDownload
-     * @see downloadVideoWithFormatId
+     * @see downloadVideoWithConfigurations
      */
     @CheckResult
     private suspend fun downloadVideo(

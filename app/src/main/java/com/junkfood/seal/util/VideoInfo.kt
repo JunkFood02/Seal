@@ -15,6 +15,7 @@ data class VideoInfo(
     val thumbnail: String? = null,
     val description: String? = null,
     val uploader: String? = null,
+    val subtitles: Map<String, List<SubtitleFormat>> = emptyMap(),
 //    @SerialName("uploader_id") val uploaderId: String? = null,
 //    @SerialName("uploader_url") val uploaderUrl: String? = null,
 //    @SerialName("channel_id") val channelId: Int? = null,
@@ -162,4 +163,13 @@ data class Entries(
     val uploader: String? = null,
     val channel: String? = null,
     val thumbnails: List<Thumbnail>? = emptyList(),
+)
+
+
+@Serializable
+data class SubtitleFormat(
+    val ext: String,
+    val url: String,
+    val name: String? = null,
+    val protocol: String? = null
 )

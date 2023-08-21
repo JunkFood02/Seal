@@ -246,8 +246,8 @@ fun FormatItem(
             formatDesc = format.toString(),
             resolution = resolution.toString(),
             codec = connectWithBlank(
-                vcodec.toString().substringBefore("."),
-                acodec.toString().substringBefore(".")
+                vcodec.toString().substringBefore(".").toEmpty(),
+                acodec.toString().substringBefore(".").toEmpty()
             ).run { if (isNotBlank()) "($this)" else this },
             ext = ext.toString(),
             bitRate = tbr?.toFloat() ?: 0f,
