@@ -16,6 +16,8 @@ data class VideoInfo(
     val description: String? = null,
     val uploader: String? = null,
     val subtitles: Map<String, List<SubtitleFormat>> = emptyMap(),
+    @SerialName("automatic_captions")
+    val automaticCaptions: Map<String, List<SubtitleFormat>> = emptyMap(),
 //    @SerialName("uploader_id") val uploaderId: String? = null,
 //    @SerialName("uploader_url") val uploaderUrl: String? = null,
 //    @SerialName("channel_id") val channelId: Int? = null,

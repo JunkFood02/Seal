@@ -423,4 +423,4 @@ fun FormatSubtitle(
 }
 
 
-fun String.toEmpty() = if (equals("none") || equals("null")) "" else this
+private fun String.toEmpty() = if (equals("none") || equals("null")) "" else this

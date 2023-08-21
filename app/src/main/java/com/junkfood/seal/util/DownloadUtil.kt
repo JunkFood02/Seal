@@ -129,6 +129,10 @@ object DownloadUtil {
             if (debug) {
                 addOption("-v")
             }
+            if (autoSubtitle) {
+                addOption("--write-auto-subs")
+                addOption("--extractor-args", "youtube:skip=translated_subs")
+            }
         }
         addOption("-R", "1")
         if (playlistItem != 0) addOption("--playlist-items", playlistItem)

@@ -421,8 +421,14 @@ object Downloader {
             ).run {
                 copy(extractAudio = extractAudio || audioOnly)
             }.run {
-                selectedSubtitleLang.takeIf { it.isEmpty() }
-                    ?.let { copy(downloadSubtitle = true, subtitleLanguage = it) }
+                selectedSubtitleLang.takeIf { it.isNotEmpty() }
+                    ?.let {
+                        copy(
+                            downloadSubtitle = true,
+                            autoSubtitle = selectedSubtitleLang.endsWith("-orig"),
+                            subtitleLanguage = it
+                        )
+                    }
                     ?: this
             }
             downloadResultTemp = downloadVideo(
@@ -452,6 +458,7 @@ object Downloader {
         preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ): Result<List<String>> {
 
+        Log.d(TAG, preferences.subtitleLanguage)
         mutableTaskState.update { videoInfo.toTask(preferencesHash = preferences.hashCode()) }
 
         val isDownloadingPlaylist = downloaderState.value is State.DownloadingPlaylist

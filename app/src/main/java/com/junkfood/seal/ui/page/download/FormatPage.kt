@@ -164,7 +164,7 @@ fun FormatPageImpl(
     }
 
 
-    val selectedLanguage = remember { mutableStateListOf("") }
+    val selectedLanguageList = remember { mutableStateListOf<String>() }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -186,7 +186,7 @@ fun FormatPageImpl(
                         if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
                         isSplittingVideo,
                         videoTitle,
-                        selectedLanguage.joinToString(separator = ",") { it }
+                        selectedLanguageList.joinToString(separator = ",") { it }
                     )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
@@ -277,20 +277,22 @@ fun FormatPageImpl(
                     }
 
                 }
-                if (videoInfo.subtitles.isNotEmpty()) {
+                val subtitleList = videoInfo.subtitles.takeIf { it.isNotEmpty() }
+                    ?: videoInfo.automaticCaptions.filterKeys { it.endsWith("-orig") }
+                if (subtitleList.isNotEmpty()) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         Column {
                             FormatSubtitle(text = stringResource(R.string.subtitle_language))
                             LazyRow(modifier = Modifier.padding()) {
-                                for ((code, formats) in videoInfo.subtitles) {
+                                for ((code, formats) in subtitleList) {
                                     item {
                                         VideoFilterChip(
-                                            selected = selectedLanguage.contains(code),
+                                            selected = selectedLanguageList.contains(code),
                                             onClick = {
-                                                if (selectedLanguage.contains(code)) {
-                                                    selectedLanguage.remove(code)
+                                                if (selectedLanguageList.contains(code)) {
+                                                    selectedLanguageList.remove(code)
                                                 } else {
-                                                    selectedLanguage.add(code)
+                                                    selectedLanguageList.add(code)
                                                 }
                                             },
                                             label = formats.first()
