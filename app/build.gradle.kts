@@ -54,10 +54,10 @@ val currentVersion: Version = Version.Beta(
     versionMajor = 1,
     versionMinor = 10,
     versionPatch = 0,
-    versionBuild = 4
+    versionBuild = 5
 )
 
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
