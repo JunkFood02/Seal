@@ -297,7 +297,7 @@ fun FormatPageImpl(
                                                 }
                                             },
                                             label = formats.first()
-                                                .run { name ?: protocol ?: "unknown" })
+                                                .run { name ?: protocol ?: code })
                                     }
                                 }
                             }
