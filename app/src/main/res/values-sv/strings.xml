@@ -118,4 +118,12 @@
     <string name="audio_directory">Ljudmapp</string>
     <string name="to">Sluta</string>
     <string name="download_range_desc">Ange hur många videor som ska hämtas från spellistan \"%3$s\" (från %1$d till %2$d).</string>
+    <string name="download_directory">Katalog för nedladdningar</string>
+    <string name="download_directory_desc">Välj plats för nedladdade videor och ljudfiler</string>
+    <string name="subdirectory">Spara till underkatalog</string>
+    <string name="subdirectory_desc">Spara filer i kataloger namngivna efter dess respektive webbplatser</string>
+    <string name="permission_issue">Problem med åtkomst till lagringsutrymme</string>
+    <string name="permission_issue_desc">Kataloger annat än Nedladdade filer/ och Dokument/ stödjs inte</string>
+    <string name="battery_configuration">Batterikonfiguration</string>
+    <string name="battery_configuration_desc">Avaktivera appens batterioptimering för att aktivera bakgrundsnedladdning</string>
 </resources>

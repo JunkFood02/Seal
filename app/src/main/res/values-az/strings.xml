@@ -194,7 +194,7 @@
     <string name="subdirectory_desc">Faylları uyğun veb-saytlar kimi adlandırılan qovluqlarda saxla</string>
     <string name="custom_output_path_desc">Alt kataloq üçün şablon istifadə et</string>
     <string name="github_issue_desc">Xəta məlumatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
-    <string name="embed_subtitles_desc">Əgər varsa, videolara təchiz edilən titrləri yerləşdir</string>
+    <string name="embed_subtitles_desc">Təmin olunan titrlər varsa, videolara yerləşdir</string>
     <string name="status_enqueued">Növbəyə salındı</string>
     <string name="status_error">Xəta</string>
     <string name="multiselect_item_count">%1$d video, %2$d səs faylı</string>
@@ -305,4 +305,8 @@
     <string name="split_video_msg">Video %1$d bölməyə bölünəcək</string>
     <string name="unknown_error_title">Vay! Nəsə səhv oldu</string>
     <string name="copy_and_exit">Köçür və çıxış</string>
+    <string name="expand">Genişləndir</string>
+    <string name="new_task">Yeni yükləmə tapşırığı</string>
+    <string name="start">Başlat</string>
+    <string name="edit_template">\"%1$s\" redaktə et</string>
 </resources>

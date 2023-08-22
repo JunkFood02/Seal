@@ -214,4 +214,7 @@
     <string name="download_selection_desc">\"%1$s\" ධාවන ලැයිස්තුවෙන් වීඩියෝ බාගැනීම සදහා තෝරන්න</string>
     <string name="sdcard_directory">SD card ගොනුව</string>
     <string name="title_activity_share">ඉක්මන් බාගත කිරීම්</string>
+    <string name="video_only">වීඩියෝව (ශ්‍රව්‍ය නැත)</string>
+    <string name="cookies">කුකීස්</string>
+    <string name="suggested">යෝජිත</string>
 </resources>

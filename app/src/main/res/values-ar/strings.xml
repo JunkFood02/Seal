@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="extract_audio">حفظ كصوت</string>
-    <string name="create_thumbnail">حفظ الصورة المصغرة</string>
+    <string name="create_thumbnail">تنزيل الصورة المصغرة</string>
     <string name="download_settings_desc">عام ، صيغة ، أمر مخصص</string>
     <string name="url_empty">لا يمكن أن يكون الحقل فارغا</string>
     <string name="extract_audio_summary">قم بتنزيل الصوت وحفظه بدلا من الفيديو</string>
-    <string name="create_thumbnail_summary">حفظ الصورة المصغرة للفيديو كملف</string>
+    <string name="create_thumbnail_summary">تنزيل الصورة المصغرة للفيديو كملف</string>
     <string name="fetching_info">جارٍ جلب معلومات الفيديو…</string>
     <string name="download_success_msg">اكتمل التحميل</string>
     <string name="general_settings">عام</string>
@@ -39,7 +39,7 @@
     <string name="follow_system">نظام</string>
     <string name="on">تشغيل</string>
     <string name="off">إيقاف</string>
-    <string name="settings_before_download">قم بالتخصيص قبل التنزيل</string>
+    <string name="settings_before_download">ضبط الإعدادات قبل التنزيل</string>
     <string name="settings_before_download_text">خصص هذا التحميل</string>
     <string name="thumbnail">صورة مصغرة للفيديو</string>
     <string name="paste">لصق</string>
@@ -49,7 +49,7 @@
     <string name="convert_audio_format">تحويل صيغة الصوت</string>
     <string name="video_quality_desc">قم بالحد من جودة الفيديو عند تواجد العديد</string>
     <string name="video_format_preference">صيغة الفيديو المفضلة</string>
-    <string name="preferred_format_desc">الصيغة المختارة عند توفر صيغ اخرى</string>
+    <string name="preferred_format_desc">التنسيق المُفضل في حال توفر عدة خيارات</string>
     <string name="video_format">صيغة الفيديو</string>
     <string name="convert_audio">تحويل</string>
     <string name="start_download">تحميل</string>
@@ -95,8 +95,8 @@
     <string name="back">رجوع</string>
     <string name="readme_desc">تحقق من مستودع برمجيات GitHub و إقرأني</string>
     <string name="custom_command_desc">أستخدم Yt-dlp بأوامر مخصصة منك</string>
-    <string name="credits">الاعتمادات</string>
-    <string name="credits_desc">الاعتمادات والبرمجيات الحرة</string>
+    <string name="credits">شكر وتقدير</string>
+    <string name="credits_desc">شكر وتقدير والبرمجيات الحرة</string>
     <string name="custom_command">الأوامر المخصصة</string>
     <string name="start_execute">بدء تنفيذ الأمر</string>
     <string name="advanced_settings">أعدادات متقدمة</string>
@@ -105,7 +105,7 @@
     <string name="additional_settings">إعدادات إضافية</string>
     <string name="convert_audio_format_desc">إعادة صياغة ملفات الصوت يسبب انخفاض بجودة الصوت وازدياد حجم الملف.</string>
     <string name="video_quality">جودة الفيديو</string>
-    <string name="best_quality">أفضل جودة (افتراضي)</string>
+    <string name="best_quality">أفضل جودة</string>
     <string name="not_specified">غير محدد (افتراضي)</string>
     <string name="download_desc">ثم انقر فوق \"تنزيل\" بعد ضبط إعداداته.</string>
     <string name="channel_description">اظهر اشعار للملفات التي يتم تحميلها و مستوى التقدم</string>
@@ -126,7 +126,7 @@
     <string name="download_directory_desc">حدد مكان تخزين ملفات الفيديو والصوت</string>
     <string name="cancel">إلغاء</string>
     <string name="service_title">Seal يقوم بالتحميل…</string>
-    <string name="settings_before_download_desc">خصص التفضيلات قبل التنزيل</string>
+    <string name="settings_before_download_desc">اضبط التفضيلات قبل التنزيل</string>
     <string name="error_copied">تم نسخ تقرير الخطأ إلى الحافظة</string>
     <string name="edit_template_desc">سيضيف التطبيق مسار الإخراج وعنوان URL.</string>
     <string name="fetching_playlist_info">جارٍ إحضار معلومات قائمة التشغيل …</string>
@@ -135,7 +135,7 @@
     <string name="custom_output_path_desc">استخدم نموذجاً للمجلد الفرعي</string>
     <string name="edit_custom_path_template_desc">أضف سابقة مخصصة إلى الخيار -o مع الحقول المتاحة التي يوفرها yt-dlp</string>
     <string name="embed_subtitles">دمج الترجمة</string>
-    <string name="embed_subtitles_desc">سيقوم هذا الخيار بدمج الترجمة من المصدر ان توفرت</string>
+    <string name="embed_subtitles_desc">أدمج الترجمة المقدمة في الفيديوهات إذا كانت متوفرة</string>
     <string name="new_template">قالب جديد</string>
     <string name="template_label">إسم القالب</string>
     <string name="remove_template">حذف ؟</string>
@@ -167,8 +167,8 @@
     <string name="import_from_clipboard">الاستيراد من الحافظة</string>
     <string name="delete_multiple_items_msg">هل تريد إزالة%1$d عنصراً (عناصر) من سجل التنزيل للأبد؟</string>
     <string name="multiselect_item_count">%1$d ملف(ات) فيديو، %2$d ملف(ات) صوت</string>
-    <string name="sponsorblock_desc">قم بإزالة جزء من مقطع فيديو باستخدام SponsorBlock API</string>
-    <string name="sponsorblock_categories_desc">حدد فئات الSponsorBlock المراد إزالتها من ملف الفيديو</string>
+    <string name="sponsorblock_desc">إزالة أو وضع علامات على الأقسام في مقاطع الفيديو باستخدام SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">حدد فئات الSponsorBlock المراد إزالتها او تعليمها في ملف الفيديو</string>
     <string name="sponsorblock_categories">تصنيفات الSponsorBlock</string>
     <string name="app_up_to_date">انت على احدث اصدار</string>
     <string name="app_update_failed">فشل التحديث إلى أحدث إصدار</string>
@@ -182,7 +182,7 @@
     <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من المجلد الداخلي</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
-    <string name="private_mode">وضع التخفي</string>
+    <string name="private_mode">وضع الخصوصية</string>
     <string name="private_mode_desc">إيقاف سجل التنزيلات</string>
     <string name="dynamic_color">لون ديناميكي</string>
     <string name="dynamic_color_desc">قم بتطبيق الألوان من الخلفيات على سمة التطبيق</string>
@@ -227,7 +227,7 @@
     <string name="cookies">كوكيز</string>
     <string name="abs_hint">تقدم معظم منصات الفيديو، الصوت والفيديو بشكل منفصل ، يمكنك تحديد ودمج صيغة صوت فقط بصيغة فيديو في فيديو واحد.</string>
     <string name="auto_subtitle_desc">سيقوم هذا الخيار بتحميل الترجمة التلقائية ان توفرت من المصدر</string>
-    <string name="download_subtitles">تحميل الترجمات</string>
+    <string name="download_subtitles">تنزيل الترجمات</string>
     <string name="edit_shortcuts">تعديل الاختصارات</string>
     <string name="sdcard_directory">مجلد كرت الذاكرة</string>
     <string name="auto_subtitle">الترجمة التلقائية</string>
@@ -246,15 +246,15 @@
     <string name="subtitle">الترجمة</string>
     <string name="edit_shortcuts_desc">قم بتعديل الاختصارات المخصصة التي يمكن استخدامها لإنشاء قوالب الأوامر.</string>
     <string name="subtitle_sponsorblock">من الوارد ان يصبح توقيت الترجمة غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
-    <string name="embed_subtitles_mkv_msg">لأجل دمج الترجمة، سيتم إعادة صياغة الفيديو من الحاوية الأصلية إلى حاوية mkv.</string>
+    <string name="embed_subtitles_mkv_msg">لتضمين الترجمات، سيتم إعادة صاغية مقاطع الفيديو في حاوية mkv. يمكنك استخدام مشغل VLC أو تطبيقات متوافقة أخرى لمشاهدة مقاطع الفيديو مع الترجمة المضمنة.</string>
     <string name="filesize_mb">%.2f م.ب</string>
     <string name="filesize_gb">%.2f ج.ب</string>
     <string name="share">شارك</string>
-    <string name="stable_channel">مستقرة</string>
-    <string name="pre_release_channel">مسبقة</string>
-    <string name="update_channel_desc">قم بتثبيت إصدارات مسبقة لمعاينة الميزات والتغييرات الجديدة. 
+    <string name="stable_channel">المستقرة</string>
+    <string name="pre_release_channel">البيتا</string>
+    <string name="update_channel_desc">قم بتثبيت الإصدارات التجريبية لمعاينة الميزات والتغييرات الجديدة.
 \n
-\nسيكون هناك بعض عدم الاستقرار في هذه الإصدارات ، لذا يرجى عدم التردد في تزويدنا بتعليقات إذا واجهت أي مشاكل لمساعدتنا في تحسين التطبيق للمستقبل.</string>
+\nقد تواجه بعض عدم الاستقرار في هذه النسخ، لذا يرجى عدم التردد في تقديم ملاحظاتك إذا واجهت أي مشاكل لمساعدتنا على تحسين التطبيق للمستقبل.</string>
     <string name="update_channel">قناة التحديث</string>
     <string name="auto_update">التحديث التلقائي</string>
     <string name="enable_auto_update">تفعيل التحديث التلقائي</string>
@@ -305,4 +305,16 @@
     <string name="split_video">تقسيم الفيديو</string>
     <string name="split_video_msg">سيتم تقسيم الفيديو إلى %1$d فصلاً</string>
     <string name="download_video_desc">تنزيل مقاطع الفيديو من الرابط</string>
+    <string name="expand">توسيع</string>
+    <string name="new_task">مهمة تحميل جديدة</string>
+    <string name="start">بدأ</string>
+    <string name="edit_template">تعديل \"%1$s\"</string>
+    <string name="ytdlp_update_action">قم بتحديث yt-dlp</string>
+    <string name="proxy">بروكسي</string>
+    <string name="disable">ألغاء التفعيل</string>
+    <string name="legacy">قديم</string>
+    <string name="quality">قديم</string>
+    <string name="enable_notifications">هل ترغب في تفعيل الإشعارات؟</string>
+    <string name="proxy_desc">استخدم بروكسي لاتصالات الإنترنت</string>
+    <string name="enable_notifications_desc">التطبيق يحتاج إلى إذنك لنشر إشعارات حول حالة التنزيل والتقدم.</string>
 </resources>

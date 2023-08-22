@@ -4,7 +4,7 @@
     <string name="extract_audio">ভিডিও আকারে সংরক্ষণ করুন</string>
     <string name="create_thumbnail">থাম্বনেইল সংরক্ষণ করুন</string>
     <string name="settings">সেটিংস</string>
-    <string name="download_settings_desc">সাধারণ, ফর্ম্যাট, কাস্টম কমান্ড</string>
+    <string name="download_settings_desc">সাধারণ, ফর্ম্যাট, সনির্বাচিত নির্দেশ</string>
     <string name="download">ডাউনলোড</string>
     <string name="url_empty">লিংক ফাঁকা রাখা যাবে না</string>
     <string name="extract_audio_summary">ভিডিওর বদলে অডিও ডাইনলোড ও সেভ করুন</string>
@@ -28,7 +28,7 @@
     <string name="remove">সরান</string>
     <string name="delete_file">মুছুন</string>
     <string name="about">সম্পর্কে</string>
-    <string name="about_page">ভার্সন, রিলিজগুলো, ক্রেডিটস</string>
+    <string name="about_page">সংস্করণ, প্রতিক্রিয়া, অটো আপডেট</string>
     <string name="back">পেছনে যান</string>
     <string name="version">ভার্সন</string>
     <string name="edit">সম্পাদনা</string>
@@ -42,7 +42,7 @@
     <string name="settings_before_download">ডাউনলোড করার আগে কনফিগার করুন</string>
     <string name="settings_before_download_desc">ডাউনলোড করার আগে পছন্দগুলি কনফিগার করুন</string>
     <string name="readme_desc">GitHub রিপোজিটরি এবং README চেক করুন</string>
-    <string name="credits">ক্রেডিট</string>
+    <string name="credits">কৃতিত্ব</string>
     <string name="credits_desc">ক্রেডিট এবং libre সফ্টওয়্যার</string>
     <string name="custom_command_desc">কাস্টম টেমপ্লেট সহ yt-dlp কমান্ড চালান</string>
     <string name="custom_command_template">কমান্ড টেমপ্লেট</string>
@@ -51,4 +51,11 @@
     <string name="error_copied">ত্রুটি প্রতিবেদন ক্লিপবোর্ডে অনুলিপি করা হয়েছে</string>
     <string name="thumbnail">থাম্বনেইল</string>
     <string name="paste">পেস্ট করুন</string>
+    <string name="release">সাম্প্রতিক সংস্করণ</string>
+    <string name="ytdlp_update">yt-dlp এর সাম্প্রতিক সংস্করণ নিতে ক্লিক করুন</string>
+    <string name="video">ভিডিও</string>
+    <string name="start_execute">শুরু নির্দেশ চালানো</string>
+    <string name="print_details_desc">বিস্তারিত বার্তা ছাপুন যখন ডাউনলোড হবে</string>
+    <string name="language_settings">ডিসপ্লের ভাষা নির্ধারণ করুন</string>
+    <string name="delete_info">মুছুন\?</string>
 </resources>

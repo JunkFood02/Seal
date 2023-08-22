@@ -2,7 +2,7 @@
 <resources>
     <string name="convert_audio_format_desc">Geluidsbestanden in MP3 of M4A werkt op de meeste apparaten</string>
     <string name="video_quality">Videokwaliteit</string>
-    <string name="best_quality">Beste kwaliteit (standaard)</string>
+    <string name="best_quality">Beste kwaliteit</string>
     <string name="extract_audio">Sla op als geluidsbestand</string>
     <string name="create_thumbnail">Sla voorvertoning op</string>
     <string name="download_settings_desc">Algemeen, bestandstype, aangepaste command</string>
@@ -50,10 +50,10 @@
     <string name="not_convert">Niet converteren</string>
     <string name="convert_to">Converteren naar %1$s</string>
     <string name="format">Bestandstype</string>
-    <string name="video_quality_desc">Beperk de kwaliteit wanneer er meerdere videos zijn</string>
+    <string name="video_quality_desc">Beperk de videokwaliteit wanneer meerdere opties aanwezig zijn</string>
     <string name="not_specified">Niet gespecificeerd (standaard)</string>
     <string name="video_format_preference">Voorkeur type videobestand</string>
-    <string name="preferred_format_desc">Gekozen bestandstype bij meerdere opties</string>
+    <string name="preferred_format_desc">Voorkeur bestandstype bij meerdere opties</string>
     <string name="video_format">Type videobestand</string>
     <string name="convert_audio">Converteren</string>
     <string name="start_download">Downloaden</string>
@@ -121,7 +121,7 @@
     <string name="concurrent_download_num">%d thread(s) worden gebruikt om DASH/HLS native video gelijktijdig te downloaden.</string>
     <string name="share_success_msg">Videolink aan het lezen vanuit gedeelde inhoud…</string>
     <string name="download_notification">Downloadnotificatie</string>
-    <string name="playlist_indicator_text">Playlist aan het downloaden (%1$d/%2$d), klik om te stoppen.</string>
+    <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), klik om te stoppen.</string>
     <string name="permission_issue_desc">Mappen buiten Download/ en Documents/ worden niet ondersteund</string>
     <string name="to">Einde</string>
     <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst ‘%3$s’ (van %1$d tot %2$d).</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Path template</string>
     <string name="custom_output_path">Aangepaste submap</string>
     <string name="custom_output_path_desc">Gebruik sjabloon voor submap</string>
-    <string name="edit_custom_path_template_desc">Voeg eigen index toe tot de -o optie met de beschikbare velden voorzien door yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Voeg eigen voorvoegsel toe tot de -o optie met de beschikbare velden voorzien door yt-dlp</string>
     <string name="app_up_to_date">De huidige versie is up-to-date</string>
     <string name="template_selection">Sjabloon selectie</string>
     <string name="sponsorblock_desc">Haal segmenten weg van videos met SponserBlock API</string>
@@ -151,7 +151,7 @@
     <string name="cookies">Cookies</string>
     <string name="copy_link">Kopieer link</string>
     <string name="video_resolution">Videoresolutie</string>
-    <string name="video_file_size">Videobestands groote</string>
+    <string name="video_file_size">Videobestand groote</string>
     <string name="dynamic_color">Dynamische kleur</string>
     <string name="private_mode">Incognito modus</string>
     <string name="check_for_updates">Controleer op updates</string>
@@ -170,4 +170,21 @@
     <string name="downloading_indicator_text">Download in werking, klik om te stoppen.</string>
     <string name="network">Netwerk</string>
     <string name="rate_limit">Begrenzing</string>
+    <string name="embed_subtitles">Sluit ondertitels in</string>
+    <string name="embed_subtitles_desc">Sluit voorziene ondertitels in video\'s indien beschikbaar</string>
+    <string name="remove_template_desc">Haal \"%1$s\" weg uit commando sjablonen voor altijd\?</string>
+    <string name="sponsorblock_categories_desc">Specificeer SponserBlock categorieën om weg te halen uit het videobestand</string>
+    <string name="download_with_cellular">Download met mobiele data</string>
+    <string name="status_completed">Voltooid</string>
+    <string name="restart">Begin opnieuw</string>
+    <string name="status_enqueued">In de wachtrij geplaatst</string>
+    <string name="cookies_desc">Gebruik Netscape geformatteerde cookies voor downloads</string>
+    <string name="check_for_updates_desc">Controleer voor de laatste versie up GitHub automatisch</string>
+    <string name="clear_temp_files_desc">Verwijder alle tijdelijke bestanden van het interne map</string>
+    <string name="clear_temp_files_count">%1$d tijdelijke bestand(en) verwijderd</string>
+    <string name="info_copied">Info gekopieerd naar klembord</string>
+    <string name="task_canceled">Download taak beïndigt</string>
+    <string name="github_issue_desc">Dien een probleem in voor bug report of functie verzoek</string>
+    <string name="github_issue">GitHub probleem</string>
+    <string name="ytdlp_update_action">Update yt-dlp</string>
 </resources>

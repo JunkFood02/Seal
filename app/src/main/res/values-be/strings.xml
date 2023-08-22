@@ -153,7 +153,7 @@
     <string name="battery_configuration">Канфігурацыя батарэі</string>
     <string name="custom_output_path">Карыстальніцкі падкаталог</string>
     <string name="edit_custom_path_template_desc">Дадайце карыстальніцкі прэфікс да опцыі -o з даступнымі палямі, прадстаўленымі yt-dlp</string>
-    <string name="embed_subtitles_desc">Устаўляйце субтытры ў відэа, калі такія маюцца</string>
+    <string name="embed_subtitles_desc">Устаўляйце прадстаўленыя субтытры ў відэа, калі такія маюцца</string>
     <string name="new_template">Новы шаблон</string>
     <string name="template_selection">Выбар шаблону</string>
     <string name="high_contrast">Цёмная тэма высокай кантраснасці</string>
@@ -305,4 +305,8 @@
     <string name="split_video">Раздзяліць відэа</string>
     <string name="split_video_msg">Відэа будзе падзелена на %1$d раздзелаў</string>
     <string name="unknown_error_title">Ой! Нешта пайшло не так</string>
+    <string name="expand">Разгарнуць</string>
+    <string name="new_task">Новая задача загрузкі</string>
+    <string name="start">Пачаць</string>
+    <string name="edit_template">Рэдагаваць \"%1$s\"</string>
 </resources>

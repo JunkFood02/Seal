@@ -54,7 +54,7 @@
     <string name="video_format_preference">Bevorzugtes Videoformat</string>
     <string name="video_format">Videoformat</string>
     <string name="video_quality">Videoqualität</string>
-    <string name="best_quality">Beste Qualität (Standard)</string>
+    <string name="best_quality">Beste Qualität</string>
     <string name="video_directory">Videoordner</string>
     <string name="settings">Einstellungen</string>
     <string name="yt_dlp_update_fail">Die neueste Version von yt-dlp konnte nicht installiert werden. Bitte stelle sicher, dass du mit dem Internet verbunden bist.</string>
@@ -77,7 +77,7 @@
     <string name="on">Ein</string>
     <string name="off">Aus</string>
     <string name="close">Schließen</string>
-    <string name="preferred_format_desc">Bevorzugtes Videoformat, wenn mehrere vorhanden sind</string>
+    <string name="preferred_format_desc">Bevorzugtes Format, wenn mehrere vorhanden sind</string>
     <string name="not_specified">Nicht angegeben (Standard)</string>
     <string name="video_quality_desc">Einschränken der Videoqualität, wenn mehrere vorhanden sind</string>
     <string name="custom_command_desc">yt-dlp-Befehl mit benutzerdefinierter Vorlage ausführen</string>
@@ -173,8 +173,8 @@
     <string name="update">Aktualisieren</string>
     <string name="aria2_desc">Aria2c als externen Downloader verwenden</string>
     <string name="app_update_failed">Aktualisierung auf die neueste Version fehlgeschlagen</string>
-    <string name="sponsorblock_desc">Segmente aus Videos mit SponsorBlock-API entfernen</string>
-    <string name="sponsorblock_categories_desc">Gib SponsorBlock-Kategorien an, die aus der Videodatei entfernt werden sollen</string>
+    <string name="sponsorblock_desc">Segmente aus Videos mit SponsorBlock-API entfernen oder markieren</string>
+    <string name="sponsorblock_categories_desc">Gib die SponsorBlock-Kategorien an, die aus der Videodatei entfernt oder markiert werden sollen</string>
     <string name="sponsorblock_categories">SponsorBlock-Kategorien</string>
     <string name="cookies_desc">Netscape-formatierte Cookies für Downloads verwenden</string>
     <string name="clear_temp_files">Temporäre Dateien löschen</string>
@@ -183,7 +183,7 @@
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
     <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
     <string name="private_mode_desc">Download-Verlauf deaktivieren</string>
-    <string name="private_mode">Inkognito-Modus</string>
+    <string name="private_mode">Inkognito</string>
     <string name="dynamic_color">Dynamische Farbe</string>
     <string name="dynamic_color_desc">Farben von Hintergrundbildern auf das Farbschema anwenden</string>
     <string name="download_with_cellular">Herunterladen über Mobilfunk</string>
@@ -246,7 +246,7 @@
     <string name="subtitle_language">Untertitelsprachen</string>
     <string name="add">Hinzufügen</string>
     <string name="subtitle_sponsorblock">Untertitel können beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert werden.</string>
-    <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt.</string>
+    <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt. Du kannst den VLC Media Player oder andere kompatible Apps verwenden, um Videos mit eingebetteten Untertiteln anzusehen.</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="pre_release_channel">Vorschau</string>
@@ -305,4 +305,18 @@
     <string name="split_video_msg">Video wird in %1$d Kapitel aufgeteilt</string>
     <string name="unknown_error_title">Hoppla! Etwas ist schief gelaufen</string>
     <string name="copy_and_exit">Kopieren und beenden</string>
+    <string name="start">Starten</string>
+    <string name="edit_template">„%1$s“ bearbeiten</string>
+    <string name="new_task">Neue Download-Aufgabe</string>
+    <string name="expand">Erweitern</string>
+    <string name="ytdlp_update_action">yt-dlp aktualisieren</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_desc">Proxy für Internetverbindungen verwenden</string>
+    <string name="disabled">Deaktiviert</string>
+    <string name="prefer_compatibility_desc">MP4(H.264)-Formate für die Weitergabe an andere Apps bevorzugen</string>
+    <string name="enable_notifications">Benachrichtigungen aktivieren\?</string>
+    <string name="quality">Qualität</string>
+    <string name="enable_notifications_desc">Die App benötigt deine Erlaubnis, um Benachrichtigungen über den Status und den Downloadfortschritt anzuzeigen.</string>
+    <string name="disable">Deaktivieren</string>
+    <string name="prefer_quality_desc">AV1-, VP9- oder H.265-Formate für die Wiedergabe in kompatiblen Apps bevorzugen</string>
 </resources>

@@ -145,7 +145,7 @@
     <string name="status_completed">Tapos na</string>
     <string name="task_canceled">Kinansela ang download task</string>
     <string name="embed_subtitles">I-embed ang mga subtitle</string>
-    <string name="embed_subtitles_desc">I-embed ang mga subtitle na ibinigay sa mga video kapag available</string>
+    <string name="embed_subtitles_desc">I-embed ang mga subtitle na ibinigay sa mga video kung available</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Tanggalin\?</string>
     <string name="remove_template_desc">Tanggalin ang \"%1$s\" sa mga template ng command para sa kabutihan\?</string>
@@ -180,7 +180,7 @@
     <string name="disable_preview">I off ang preview</string>
     <string name="crop_artwork">I crop ang artwork</string>
     <string name="crop_artwork_desc">I crop ang image at gawin itong square</string>
-    <string name="format_selection">pagpili ng format</string>
+    <string name="format_selection">Pagpili ng format</string>
     <string name="video_title_sample_text">Title ng video</string>
     <string name="use_custom_command">Gumamit Ng custom command</string>
     <string name="unavailable">Hindi pwede</string>
@@ -197,4 +197,24 @@
     <string name="clear_temp_files">Tangalin ang Temporary files</string>
     <string name="clear_temp_files_desc">Tanggalin ang lahat ng pansamantalang file mula sa panloob na direktoryo</string>
     <string name="clear_temp_files_info">Maaaring gamitin ang mga pansamantalang file upang ipagpatuloy ang mga nakanselang pag-download. Sigurado ka bang tatanggalin ang lahat ng mga file na ito\?</string>
+    <string name="multiselect_mode">Maramihang Pagpili</string>
+    <string name="private_mode">Private mode</string>
+    <string name="private_mode_desc">I-off ang download history</string>
+    <string name="lowest_quality">Pinakamababang Quality</string>
+    <string name="delete_multiple_items_msg">Tangalin %1$d aytem(s) mula sa iyong download history para sa kabutihan\?</string>
+    <string name="network">Network</string>
+    <string name="remove_cookie_profile_desc">Tangalin ang cookies para sa\"%1$s\"\?</string>
+    <string name="private_directory">Pribado na directory</string>
+    <string name="private_directory_desc">Ilagay ang mga downloads sa isang nakatagong direktoryo</string>
+    <string name="clear_temp_files_count">Tinanggal na ang %1$d temporary file(s)</string>
+    <string name="cookies">Cookies</string>
+    <string name="video_only">Video lang (Walang audio)</string>
+    <string name="update">Update</string>
+    <string name="download_disabled_with_cellular">Ang pag-download gamit ang cellular network ay hindi pwede ayon sa iyong mga setting</string>
+    <string name="download_with_cellular">I-download gamit ang cellular</string>
+    <string name="rate_limit_desc">Limitahan ang maximum na rate para sa mga download</string>
+    <string name="enable_experimental_feature">I-on ang eksperimento feature\?</string>
+    <string name="second">Segundo</string>
+    <string name="minute">minuto</string>
+    <string name="clear_all_cookies">Tangalin lahat ang mga Cookies</string>
 </resources>

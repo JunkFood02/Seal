@@ -305,4 +305,8 @@
     <string name="unknown_error_title">Oups ! Quelque chose s\'est mal passé</string>
     <string name="copy_and_exit">Copier et quitter</string>
     <string name="download_video_desc">Télécharger des vidéos depuis l\'URL</string>
+    <string name="expand">Développer</string>
+    <string name="edit_template">Modifier « %1$s »</string>
+    <string name="new_task">Nouvelle tâche de téléchargement</string>
+    <string name="start">Commencer</string>
 </resources>

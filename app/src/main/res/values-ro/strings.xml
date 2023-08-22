@@ -305,4 +305,8 @@
     <string name="split_video_msg">Videoclipul va fi împărțit în %1$d capitole</string>
     <string name="unknown_error_title">Hopa! Ceva n-a mers bine</string>
     <string name="copy_and_exit">Copiați și ieșiți</string>
+    <string name="expand">Extinde</string>
+    <string name="new_task">Sarcină nouă de descărcare</string>
+    <string name="edit_template">Editați \"%1$s\"</string>
+    <string name="start">Pornire</string>
 </resources>
