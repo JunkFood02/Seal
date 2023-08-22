@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -147,11 +146,12 @@ fun DownloadSettingDialog(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .clickable { }
+//                    .clickable { }
             )
             DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
             Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
+                modifier = Modifier
+//                    .horizontalScroll(rememberScrollState())
 
             ) {
                 val audioSelected by remember { derivedStateOf { audio && !customCommand } }
