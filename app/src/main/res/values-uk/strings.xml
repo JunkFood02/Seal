@@ -75,7 +75,7 @@
     <string name="format">Формат</string>
     <string name="convert_audio_format_desc">Перекодування аудіофайлів може погіршити якість звуку та збільшити розмір файлу.</string>
     <string name="video_quality">Якiсть вiдео</string>
-    <string name="best_quality">Найкраща якiсть (за замовчуванням)</string>
+    <string name="best_quality">Найкраща якiсть</string>
     <string name="video_quality_desc">Обмежте якість відео за наявності кількох</string>
     <string name="not_specified">За замовчуванням</string>
     <string name="video_format_preference">Формат вiдео</string>
@@ -135,7 +135,7 @@
     <string name="custom_output_path_desc">Використовувати шаблон для підкаталогів</string>
     <string name="edit_custom_path_template_desc">Вкажіть свій префікс для опції -o, використовуючи доступні параметри yt-dlp</string>
     <string name="embed_subtitles">Вбудувати субтитри</string>
-    <string name="embed_subtitles_desc">Вбудовувати субтитри, якщо вони доступні</string>
+    <string name="embed_subtitles_desc">Вставляйте надані субтитри у відео, якщо вони доступні</string>
     <string name="new_template">Новий шаблон</string>
     <string name="template_label">Позначка</string>
     <string name="remove_template">Видалити\?</string>
@@ -161,7 +161,7 @@
     <string name="video_resolution">Роздільна здатність</string>
     <string name="clear_temp_files_desc">Видаліть усі тимчасові файли з внутрішнього каталогу</string>
     <string name="clear_temp_files_count">Видалено %1$d тимчасовий(і/их) файл(и/ів)</string>
-    <string name="sponsorblock_categories_desc">Вкажіть категорії SponsorBlock, що будуть видалені з відеофайла</string>
+    <string name="sponsorblock_categories_desc">Вкажіть категорії SponsorBlock, що будуть видалені або позначені у відеофайлі</string>
     <string name="check_for_updates">Перевірити наявність оновлень</string>
     <string name="app_up_to_date">Поточна версія актуальна</string>
     <string name="update">Оновити</string>
@@ -179,13 +179,13 @@
     <string name="recently_added">Нещодавно додані</string>
     <string name="multiselect_item_count">%1$d відеофайл(и/ів), %2$d аудіофайл(и/ів)</string>
     <string name="delete_multiple_items_msg">Видалити %1$d елемент(и/ів) з історії завантажень назавжди\?</string>
-    <string name="sponsorblock_desc">Видалення сегментів з відео за допомогою SponsorBlock API</string>
+    <string name="sponsorblock_desc">Видалення або позначення сегментів у відео за допомогою SponsorBlock API</string>
     <string name="sponsorblock_categories">Категорії SponsorBlock</string>
     <string name="high_contrast">Темна тема з високим контрастом</string>
     <string name="invalid_input">Неправильні дані</string>
     <string name="lowest_quality">Найгірша якість</string>
     <string name="multiselect_mode">Режим множинного вибору</string>
-    <string name="private_mode">Анонімний режим</string>
+    <string name="private_mode">Інкогніто</string>
     <string name="private_mode_desc">Вимкнути історію завантажень</string>
     <string name="dynamic_color">Динамічний колір</string>
     <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми застосунку</string>
@@ -246,7 +246,7 @@
     <string name="edit_shortcuts_desc">Відредагувати власні комбінації клавіш, які можна використовувати для створення шаблонів команд.</string>
     <string name="logs">Журнал</string>
     <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
-    <string name="embed_subtitles_mkv_msg">Відео буде перетворено у mkv контейнер для вбудовування субтитрів.</string>
+    <string name="embed_subtitles_mkv_msg">Для вбудовування субтитрів відео буде перетворено у контейнер mkv. Ви зможете використати VLC Media Player або інші сумісні застосунки для перегляду.</string>
     <string name="filesize_gb">%.2f Gb</string>
     <string name="filesize_mb">%.2f Mb</string>
     <string name="stable_channel">Стабільний</string>
@@ -305,4 +305,23 @@
     <string name="copy_and_exit">Скопіювати та вийти</string>
     <string name="split_video_msg">Відео буде розділене на %1$d частини</string>
     <string name="unknown_error_title">Ой! Щось пішло не так</string>
+    <string name="expand">Розгорнути</string>
+    <string name="new_task">Нове завдання на завантаження</string>
+    <string name="start">Почати</string>
+    <string name="edit_template">Редагувати \"%1$s\"</string>
+    <string name="proxy">Проксі</string>
+    <string name="legacy">Застаріле</string>
+    <string name="quality">Якість</string>
+    <string name="enable_notifications">Увімкнути сповіщення\?</string>
+    <string name="disable">Вимкнути</string>
+    <string name="custom_command_directory">Каталог користувацьких команд</string>
+    <string name="prefer_compatibility_desc">Вибирати MP4 (H.264) для обміну у інших застосунках</string>
+    <string name="prefer_quality_desc">Вибирати AV1, VP9 або H.265 для перегляду у сумісних застосунках</string>
+    <string name="proxy_desc">З\'єднуватися через проксі</string>
+    <string name="ytdlp_update_action">Оновити yt-dlp</string>
+    <string name="enable_notifications_desc">Додатку потрібен ваш дозвіл, щоб надсилати сповіщення про стан завантаження.</string>
+    <string name="set_directory_desc">Натисніть, щоб налаштувати каталог</string>
+    <string name="disabled">Вимкнено</string>
+    <string name="folder_picker">Вибір каталогу</string>
+    <string name="custom_command_directory_desc">Вкажіть вихідний каталог для користувацьких команд</string>
 </resources>

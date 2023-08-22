@@ -37,7 +37,7 @@
     <string name="user_guide">Руководство пользователя</string>
     <string name="open_settings">Открыть настройки</string>
     <string name="video_quality_desc">Ограничить качество видео, если доступны несколько</string>
-    <string name="preferred_format_desc">Выбранный формат, если доступны несколько</string>
+    <string name="preferred_format_desc">Предпочитаемый формат, если доступны несколько</string>
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
     <string name="channel_description">Уведомлять о загруженных файлах и прогрессе</string>
@@ -99,7 +99,7 @@
     <string name="off">Отключена</string>
     <string name="convert_audio_format_desc">Перекодирование аудиофайлов создаст потерю качества и увеличит размер файла.</string>
     <string name="video_format">Формат видео</string>
-    <string name="best_quality">Наилучшее качество (по умолчанию)</string>
+    <string name="best_quality">Наилучшее качество</string>
     <string name="convert_audio">Преобразовать</string>
     <string name="close">Закрыть</string>
     <string name="close_never_show_again">Не показывать снова</string>
@@ -168,8 +168,8 @@
     <string name="delete_multiple_items_msg">Удалить %1$d элемент(а) из Вашей истории загрузок навсегда\?</string>
     <string name="export_to_clipboard">Экспортировать в буфер обмена</string>
     <string name="sponsorblock_categories">Категории SponsorBlock</string>
-    <string name="sponsorblock_desc">Удаление сегментов из видео с помощью SponsorBlock API</string>
-    <string name="sponsorblock_categories_desc">Укажите категории, которые будут удалены из видеофайла</string>
+    <string name="sponsorblock_desc">Удаление или пометка сегментов в видео с помощью SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">Укажите категории SponsorBlock для удаления или отметки в видеофайле</string>
     <string name="check_for_updates">Проверить обновления</string>
     <string name="check_for_updates_desc">Автоматически проверять наличие новейшей версии с GitHub\'а</string>
     <string name="app_up_to_date">Уже установлена новейшая версия</string>
@@ -182,7 +182,7 @@
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
-    <string name="private_mode">Режим инкогнито</string>
+    <string name="private_mode">Инкогнито</string>
     <string name="private_mode_desc">Отключить историю загрузок</string>
     <string name="dynamic_color">Динамические цвета</string>
     <string name="dynamic_color_desc">Примените цвета из обоев к теме приложения</string>
@@ -245,7 +245,7 @@
     <string name="edit_shortcuts_desc">Изменяйте ярлыки, которые могут быть использованы для составления своих команд.</string>
     <string name="video_title_sample_text">Пример названия видео</string>
     <string name="video_creator_sample_text">Пример автора видео</string>
-    <string name="embed_subtitles_mkv_msg">Для встраивания субтитров, контейнер видео будет изменен на mkv.</string>
+    <string name="embed_subtitles_mkv_msg">Чтобы встроить субтитры, контейнер видео будет изменен на mkv. Вы можете использовать Проигрыватель VLC или другие совместимые приложения для просмотра видео с встроенными субтитрами.</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="share">Поделиться</string>
@@ -280,7 +280,7 @@
     <string name="temporary_directory_desc">Хранить временные файлы во внутреннем каталоге</string>
     <string name="temporary_directory">Временный каталог</string>
     <string name="sponsor">Спонсировать</string>
-    <string name="sponsor_desc">Поддержать приложение путем спонсирования на GitHub</string>
+    <string name="sponsor_desc">Поддержать приложение путём спонсирования на GitHub</string>
     <string name="feedback">Обратная связь</string>
     <string name="sponsors">Спонсоры</string>
     <string name="sponsor_msg">Seal всегда будет бесплатным и с открытым исходным кодом для всех. Если вам нравится это приложение, пожалуйста, подумайте о спонсорстве на GitHub!</string>
@@ -305,4 +305,23 @@
     <string name="split_video_msg">Видео будет разделено на %1$d глав</string>
     <string name="unknown_error_title">Ой! Что-то пошло не так</string>
     <string name="copy_and_exit">Скопировать и выйти</string>
+    <string name="expand">Развернуть</string>
+    <string name="new_task">Новая задача на загрузку</string>
+    <string name="start">Начать</string>
+    <string name="edit_template">Редактировать \"%1$s\"</string>
+    <string name="ytdlp_update_action">Обновить yt-dlp</string>
+    <string name="proxy">Прокси</string>
+    <string name="set_directory_desc">Нажмите чтобы задать путь</string>
+    <string name="custom_command_directory">Кастомный путь команды</string>
+    <string name="folder_picker">Выбор папки</string>
+    <string name="proxy_desc">Используйте прокси для соединения с интернетом</string>
+    <string name="legacy">Классический</string>
+    <string name="quality">Высокое разрешение</string>
+    <string name="enable_notifications">Включить уведомления\?</string>
+    <string name="enable_notifications_desc">Приложение требует ваше разрешение на отправку уведомлений для отображения стадии прогресса загрузки.</string>
+    <string name="disable">Отключить</string>
+    <string name="disabled">Отключено</string>
+    <string name="prefer_compatibility_desc">Используется MP4(H.264) формат для взаимодействия с другими приложениями</string>
+    <string name="prefer_quality_desc">Используется AV1, VP9 или H.265 формат для просмотра в совместимых приложениях</string>
+    <string name="custom_command_directory_desc">Укажите путь вывода при использовании кастомных команд</string>
 </resources>

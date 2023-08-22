@@ -305,4 +305,8 @@
     <string name="copy_and_exit">Kopyala ve çık</string>
     <string name="no_custom_command_tasks">Özel komut görevi yok</string>
     <string name="download_video_desc">Videoları URL\'den indirin</string>
+    <string name="expand">Genişlet</string>
+    <string name="new_task">Yeni indirme görevi</string>
+    <string name="start">Başla</string>
+    <string name="edit_template">\"%1$s\"i düzenle</string>
 </resources>

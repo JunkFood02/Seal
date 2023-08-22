@@ -76,11 +76,11 @@
     <string name="format">Formato</string>
     <string name="convert_audio_format_desc">La recodificación de archivos de audio conlleva una pérdida de calidad de sonido y un aumento en el tamaño del archivo final.</string>
     <string name="video_quality">Calidad del vídeo</string>
-    <string name="best_quality">Mejor calidad (por defecto)</string>
+    <string name="best_quality">Mejor calidad</string>
     <string name="video_quality_desc">Limitar la calidad de vídeo cuando hay varios vídeos</string>
     <string name="not_specified">Sin especificar (por defecto)</string>
     <string name="video_format_preference">Preferencia de formato de vídeo</string>
-    <string name="preferred_format_desc">Formato de vídeo preferido cuando varios formatos sean posibles</string>
+    <string name="preferred_format_desc">Formato preferido cuando se facilitan varios</string>
     <string name="video_format">Formato de vídeo</string>
     <string name="convert_audio">Convertir audio</string>
     <string name="start_download">Iniciar descarga</string>
@@ -135,7 +135,7 @@
     <string name="custom_output_path_desc">Utilizar la plantilla para el subdirectorio</string>
     <string name="edit_custom_path_template_desc">Añade prefijos personalizados para usar con la opción -o con los campos disponibles y proporcionados por yt-dlp</string>
     <string name="embed_subtitles">Agregar subtítulos</string>
-    <string name="embed_subtitles_desc">Agregar subtítulos proporcionados en videos, si están disponibles</string>
+    <string name="embed_subtitles_desc">Incrustar los subtítulos proporcionados en los videos si están disponibles</string>
     <string name="new_template">Nueva plantilla</string>
     <string name="template_label">Etiqueta</string>
     <string name="remove_template">¿Eliminar\?</string>
@@ -173,8 +173,8 @@
     <string name="check_for_updates">Buscar actualizaciones</string>
     <string name="aria2_desc">Usa aria2c como descargador externo</string>
     <string name="app_update_failed">Fallo al actualizar a la última versión</string>
-    <string name="sponsorblock_desc">Elimina segmentos de los vídeos con la API de SponsorBlock</string>
-    <string name="sponsorblock_categories_desc">Especifica las categorías de SponsorBlock que quieres eliminar de el archivo de vídeo</string>
+    <string name="sponsorblock_desc">Eliminar o marcar segmentos en los vídeos con la API SponsorBlock</string>
+    <string name="sponsorblock_categories_desc">Especifique las categorías en SponsorBlock que deseas eliminar o marcar en el archivo de vídeo</string>
     <string name="sponsorblock_categories">Categorías de SponsorBlock</string>
     <string name="cookies_desc">Usar cookies formateadas de Netscape para las descargas</string>
     <string name="clear_temp_files">Limpiar archivos temporales</string>
@@ -182,7 +182,7 @@
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
     <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio interno</string>
     <string name="multiselect_mode">Modo de multiselección</string>
-    <string name="private_mode">Modo incognito</string>
+    <string name="private_mode">Incógnito</string>
     <string name="private_mode_desc">Desactiva el almacenamiento de carátulas/miniaturas</string>
     <string name="dynamic_color">Color dinámico</string>
     <string name="dynamic_color_desc">Aplicar los colores de los fondos de pantalla al tema de la aplicación</string>
@@ -246,7 +246,7 @@
     <string name="logs">Registro</string>
     <string name="edit_shortcuts_desc">Edita los accesos directos a los argumentos que puedes usar para crear plantillas de comandos.</string>
     <string name="subtitle_sponsorblock">Los subtítulos pueden estar mal sincronizados cuando se eliminan segmentos del SponsorBlock.</string>
-    <string name="embed_subtitles_mkv_msg">Para incrustar subtítulos, los vídeos se remezclarán en un contenedor mkv.</string>
+    <string name="embed_subtitles_mkv_msg">Para insertar los subtítulos, los vídeos se remezclarán en un contenedor mkv. Puedes utilizar VLC Media Player u otras aplicaciones compatibles para ver los vídeos con los subtítulos añadidos.</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="share">Compartir</string>
@@ -305,4 +305,23 @@
     <string name="split_video">Dividir video</string>
     <string name="copy_and_exit">Copiar y salir</string>
     <string name="unknown_error_title">Oops! Algo salió mal</string>
+    <string name="expand">Expandir</string>
+    <string name="new_task">Nueva tarea de descarga</string>
+    <string name="start">Iniciar</string>
+    <string name="edit_template">Editar \"%1$s\"</string>
+    <string name="ytdlp_update_action">Actualizar yt-dlp</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_desc">Utilizar un proxy para las conexiones a Internet</string>
+    <string name="enable_notifications_desc">La aplicación necesita tu permiso para enviar notificaciones sobre el estado y el progreso de la descarga.</string>
+    <string name="disable">Desactivar</string>
+    <string name="set_directory_desc">Pulsa para configurar el directorio</string>
+    <string name="folder_picker">Selector de carpetas</string>
+    <string name="custom_command_directory_desc">Especifica el directorio de salida cuando utilices los comandos personalizados</string>
+    <string name="prefer_quality_desc">Prefieres los formatos AV1, VP9 o H.265 para verlos en las aplicaciones compatibles</string>
+    <string name="legacy">Legado</string>
+    <string name="quality">Calidad</string>
+    <string name="enable_notifications">¿Activar las notificaciones\?</string>
+    <string name="custom_command_directory">Directorio de comandos personalizado</string>
+    <string name="disabled">Desactivado</string>
+    <string name="prefer_compatibility_desc">Prefieres los formatos MP4(H.264) para compartir con otras aplicaciones</string>
 </resources>

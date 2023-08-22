@@ -23,7 +23,7 @@
     <string name="ytdlp_update">クリックして最新のyt-dlpをインストール</string>
     <string name="delete_info">削除しますか？</string>
     <string name="delete_file">消去</string>
-    <string name="about">概要</string>
+    <string name="about">このアプリについて</string>
     <string name="custom_command">カスタムコマンド</string>
     <string name="custom_command_template">コマンドテンプレート</string>
     <string name="edit">編集</string>
@@ -49,7 +49,7 @@
     <string name="defaults">デフォルト</string>
     <string name="channel_name">ダウンロード</string>
     <string name="channel_description">ダウンロードしたファイルや進捗状況を通知する</string>
-    <string name="execute_command_notification">カスタムコマンドが実行中です...…</string>
+    <string name="execute_command_notification">カスタムコマンドが実行中です…</string>
     <string name="concurrent_download">マルチスレッドダウンロード</string>
     <string name="concurrent_download_desc">M3U8/MPDビデオのより多くのパートを並行してダウンロードできる</string>
     <string name="options">オプション</string>
@@ -79,12 +79,12 @@
     <string name="off">オフ</string>
     <string name="cancel">キャンセル</string>
     <string name="display">ディスプレイ</string>
-    <string name="settings_before_download">ダウンロード前に設定する</string>
+    <string name="settings_before_download">ダウンロード前の設定</string>
     <string name="settings_before_download_desc">ダウンロード前の環境設定</string>
     <string name="credits_desc">クレジットとフリーソフト</string>
     <string name="custom_command_desc">カスタムテンプレートを用いてyt-dlpコマンドを実行</string>
     <string name="not_convert">未変換</string>
-    <string name="display_settings">ダークテーマ, テーマカラー, 言語</string>
+    <string name="display_settings">ダークテーマ、テーマカラー、言語</string>
     <string name="follow_system">システム</string>
     <string name="dark_theme">ダークテーマ</string>
     <string name="on">オン</string>
@@ -107,7 +107,7 @@
     <string name="additional_settings">追加の設定</string>
     <string name="share_fail_msg">共有コンテンツからのURLと一致しません</string>
     <string name="show_more_actions">更にアクションを表示</string>
-    <string name="download_notification">通知をダウンロードする</string>
+    <string name="download_notification">ダウンロード通知</string>
     <string name="fetching_playlist_info">プレイリスト情報を読み込んでいます…</string>
     <string name="download_range_selection">プレイリストの選択</string>
     <string name="download_range_desc">プレイリスト『%3$s』からダウンロードする動画の範囲（%1$dから%2$d）を指定する。</string>
@@ -179,7 +179,7 @@
     <string name="privacy">プライバシー</string>
     <string name="private_directory">個人ディレクトリ</string>
     <string name="clear_temp_files_info">一時ファイルはキャンセルしたダウンロードを再開するために利用できます。本当にそれらのファイルを全て削除してよろしいですか？</string>
-    <string name="download_disabled_with_cellular">設定によってモバイルデータを用いたダウンロードは無効になっています</string>
+    <string name="download_disabled_with_cellular">設定によって、モバイルデータを用いたダウンロードは無効になっています</string>
     <string name="network">ネットワーク</string>
     <string name="network_settings_desc">レート制限、ダウンローダ、クッキー</string>
     <string name="clear_temp_files">一時ファイルを削除する</string>
@@ -190,7 +190,7 @@
     <string name="high_contrast">高コントラストのダークテーマ</string>
     <string name="invalid_input">不正な入力</string>
     <string name="format_settings_desc">ファイル形式、画質、字幕</string>
-    <string name="general_settings_desc">Yt-dlpのバージョン、通知、プレイリスト</string>
+    <string name="general_settings_desc">yt-dlpのバージョン、通知、プレイリスト</string>
     <string name="private_mode_desc">ダウンロード履歴を無効にする</string>
     <string name="check_for_updates_desc">GitHubに最新のバージョンがあるか自動的に確認する</string>
     <string name="app_up_to_date">現在のバージョンは最新です</string>
