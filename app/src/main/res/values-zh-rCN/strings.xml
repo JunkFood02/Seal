@@ -26,6 +26,7 @@
     <string name="url_empty">视频链接不能为空</string>
     <string name="ytdlp_version">下载组件版本</string>
     <string name="ytdlp_update">点此更新yt-dlp</string>
+    <string name="ytdlp_update_action">更新 yt-dlp</string>
     <string name="delete_info">从下载记录移除</string>
     <string name="delete_info_msg">确定要从下载记录移除 “%1$s” 吗？这个操作无法被撤销。</string>
     <string name="confirm">确认</string>
@@ -246,7 +247,7 @@
     <string name="show_logs">显示日志</string>
     <string name="logs">日志</string>
     <string name="subtitle_sponsorblock">从视频中移除 SponsorBlock 段落会导致字幕时间轴错位。</string>
-    <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中。</string>
+    <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中；使用 VLC 播放器或其他兼容的应用以播放封装有字幕的视频文件。</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="share">分享</string>
@@ -303,4 +304,29 @@
     <string name="copy_and_exit">复制并退出</string>
     <string name="no_custom_command_tasks">没有正在执行中的自定义命令任务</string>
     <string name="download_video_desc">从链接下载视频文件</string>
+    <string name="expand">展开</string>
+    <string name="new_task">新下载任务</string>
+    <string name="start">开始</string>
+    <string name="edit_template">编辑命令模板 \"%1$s\"</string>
+    <string name="proxy">代理设置</string>
+    <string name="proxy_desc">使用代理进行网络连接</string>
+    <string name="legacy">兼容优先</string>
+    <string name="quality">质量优先</string>
+    <string name="enable_notifications">启用通知</string>
+    <string name="enable_notifications_desc">应用需要通知权限以发送有关下载状态与进度的通知消息</string>
+    <string name="disable">禁用</string>
+    <string name="set_directory_desc">点此设置下载目录</string>
+    <string name="custom_command_directory">自定义命令目录</string>
+    <string name="disabled">已禁用</string>
+    <string name="folder_picker">目录选择</string>
+    <string name="custom_command_directory_desc">制定自定义命令模式下要使用的下载路径</string>
+    <string name="prefer_compatibility_desc">优先下载 MP4(H.264) 格式的视频以分享到其他应用</string>
+    <string name="prefer_quality_desc">优先下载 AV1、VP9 或 H.265 编码的视频以在兼容的应用中播放</string>
+    <string name="download_type">下载类型</string>
+    <string name="custom">自定义</string>
+    <string name="auto">自动</string>
+    <string name="commands">命令行</string>
+    <string name="format_preference">格式偏好</string>
+    <string name="learn_more">更多信息</string>
+    <string name="unknown">未知</string>
 </resources>

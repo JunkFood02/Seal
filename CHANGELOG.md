@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Show `PlainToolTip` when long-press on `PlaylistItem`
 * Add monochrome theme
 * Add proxy configuration for network connections
-* Add Swedish translations
+* Add translations in Swedish and Portuguese 
 
 
 ### Fixed
