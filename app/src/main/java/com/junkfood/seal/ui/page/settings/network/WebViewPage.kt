@@ -26,6 +26,8 @@ import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.junkfood.seal.R
+import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.USER_AGENT
 import com.junkfood.seal.util.connectWithDelimiter
 
 
@@ -138,6 +140,7 @@ fun WebViewPage(
                         javaScriptCanOpenWindowsAutomatically = true
                         javaScriptEnabled = true
                         domStorageEnabled = true
+                        USER_AGENT.updateString(userAgentString)
                     }
                     cookieManager.setAcceptThirdPartyCookies(this, true)
                 }

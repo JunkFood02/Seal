@@ -87,7 +87,7 @@ object DownloadUtil {
                     enableProxy(proxyUrl)
                 }
                 if (cookies) {
-                    enableCookies()
+                    enableCookies(userAgentString)
                 }
             }
         }
@@ -118,7 +118,7 @@ object DownloadUtil {
             }
             applyFormatSorter(preferences, toFormatSorter())
             if (cookies) {
-                enableCookies()
+                enableCookies(userAgentString)
             }
             if (proxy) {
                 enableProxy(proxyUrl)
@@ -182,10 +182,12 @@ object DownloadUtil {
         val proxy: Boolean = PROXY.getBoolean(),
         val proxyUrl: String = PROXY_URL.getString(),
         val newTitle: String = "",
+        val userAgentString: String = USER_AGENT.getString(),
     )
 
-    private fun YoutubeDLRequest.enableCookies(): YoutubeDLRequest =
+    private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
         this.addOption("--cookies", context.getCookiesFile().absolutePath)
+            .addOption("--add-header", "User-Agent:$userAgentString")
 
     private fun YoutubeDLRequest.enableProxy(proxyUrl: String): YoutubeDLRequest =
         this.addOption("--proxy", proxyUrl)
@@ -424,7 +426,7 @@ object DownloadUtil {
                 addOption("--no-mtime")
 //                addOption("-v")
                 if (cookies) {
-                    enableCookies()
+                    enableCookies(userAgentString)
                 }
                 if (proxy) {
                     enableProxy(proxyUrl)
@@ -588,7 +590,7 @@ object DownloadUtil {
                     ).absolutePath
                 )
                 if (cookies) {
-                    enableCookies()
+                    enableCookies(userAgentString)
                 }
             }
 
