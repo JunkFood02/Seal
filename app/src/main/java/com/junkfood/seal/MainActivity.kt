@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -14,12 +13,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.HomeEntry
 import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
@@ -30,7 +31,7 @@ import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val downloadViewModel: DownloadViewModel by viewModels()
+    private lateinit var downloadViewModel: DownloadViewModel
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,23 +49,28 @@ class MainActivity : AppCompatActivity() {
         }
         context = this.baseContext
         setContent {
+            downloadViewModel = viewModel()
+            val cookiesViewModel: CookiesViewModel = viewModel()
+
             val isUrlSharingTriggered =
                 downloadViewModel.viewStateFlow.collectAsState().value.isUrlSharingTriggered
             val windowSizeClass = calculateWindowSizeClass(this)
-            SettingsProvider(windowSizeClass.widthSizeClass) {
+            SettingsProvider(windowWidthSizeClass = windowSizeClass.widthSizeClass) {
                 SealTheme(
                     darkTheme = LocalDarkTheme.current.isDarkTheme(),
                     isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
                     isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
                     HomeEntry(
-                        downloadViewModel,
-                        isUrlSharingTriggered
+                        downloadViewModel = downloadViewModel,
+                        cookiesViewModel = cookiesViewModel,
+                        isUrlShared = isUrlSharingTriggered
                     )
                 }
             }
+
+            handleShareIntent(intent)
         }
-        handleShareIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent) {

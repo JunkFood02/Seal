@@ -1,17 +1,28 @@
 package com.junkfood.seal.ui.page.settings.network
 
+import android.content.res.Configuration
 import android.webkit.CookieManager
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.ContentPasteGo
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
@@ -29,10 +40,13 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,29 +54,40 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.R
+import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
+import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.TextButtonWithIcon
+import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
@@ -347,4 +372,133 @@ fun ClearCookiesDialog(
                 onDismissRequest()
             }
         }, icon = { Icon(Icons.Outlined.DeleteForever, null) })
+}
+
+@Composable
+fun CookiesQuickSettingsDialog(
+    onDismissRequest: () -> Unit = {},
+    onConfirm: () -> Unit = {},
+    cookieProfiles: List<CookieProfile> = emptyList(),
+    onCookieProfileClicked: (CookieProfile) -> Unit = {},
+    isCookiesEnabled: Boolean = false,
+    onCookiesToggled: (Boolean) -> Unit = {},
+) {
+    SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
+        ConfirmButton {
+            onDismissRequest()
+            onConfirm()
+        }
+    }, dismissButton = {
+        DismissButton {
+            onDismissRequest()
+        }
+    }, icon = { Icon(imageVector = Icons.Outlined.Cookie, contentDescription = null) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.cookies),
+                textAlign = TextAlign.Center
+            )
+        }, text = {
+            Column {
+                Text(
+                    text = stringResource(id = R.string.refresh_cookies_desc),
+                    modifier = Modifier.padding(horizontal = 24.dp),
+//                    style = MaterialTheme.typography.labelLarge,
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                HorizontalDivider(Modifier.padding(horizontal = 24.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                LazyColumn() {
+                    items(items = cookieProfiles) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onCookieProfileClicked(it) }
+                                .padding(horizontal = 24.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .size(16.dp)
+                                    .background(
+                                        color = it.url
+                                            .hashCode()
+                                            .generateLabelColor(), shape = CircleShape
+                                    )
+                                    .clearAndSetSemantics { }
+                            ) {}
+                            Text(
+                                text = it.url
+//                                , style = MaterialTheme.typography.labelLarge
+                                , modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                HorizontalDivider(Modifier.padding(horizontal = 24.dp))
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onCookiesToggled(!isCookiesEnabled) }
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(id = R.string.use_cookies),
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    val thumbContent: (@Composable () -> Unit)? = if (isCookiesEnabled) {
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(SwitchDefaults.IconSize)
+                            )
+                        }
+                    } else {
+                        null
+                    }
+                    val density = LocalDensity.current
+                    CompositionLocalProvider(
+                        LocalDensity provides Density(
+                            density.density * 0.8f,
+                            density.fontScale
+                        )
+                    ) {
+                        Switch(
+                            checked = isCookiesEnabled,
+                            onCheckedChange = onCookiesToggled,
+                            modifier = Modifier.clearAndSetSemantics { },
+                            thumbContent = thumbContent
+                        )
+                    }
+
+                }
+            }
+        })
+}
+
+@Preview
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun CookiesQuickSettingsDialogPreview() {
+    SealTheme {
+        var isCookiesEnabled by remember {
+            mutableStateOf(false)
+        }
+        CookiesQuickSettingsDialog(
+            cookieProfiles = mutableListOf<CookieProfile>().apply {
+                repeat(4) {
+                    add(
+                        CookieProfile(
+                            id = it,
+                            url = "https://www.example$it.com",
+                            content = ""
+                        )
+                    )
+                }
+            }, isCookiesEnabled = isCookiesEnabled, onCookiesToggled = { isCookiesEnabled = it }
+        )
+    }
 }

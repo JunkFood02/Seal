@@ -141,10 +141,12 @@ class QuickDownloadActivity : ComponentActivity() {
                         drawerState = drawerState,
                         confirm = {
                             onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
-                        }) {
-                        scope.launch { drawerState.hide() }
-                        showDialog = false
-                    }
+                        },
+                        hide = {
+                            scope.launch { drawerState.hide() }
+                            showDialog = false
+                        },
+                    )
                 }
             }
         }

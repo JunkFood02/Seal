@@ -38,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
@@ -53,7 +55,6 @@ import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SegmentedButtonValues
 import com.junkfood.seal.ui.component.SingleChoiceChip
@@ -64,12 +65,16 @@ import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
+import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
+import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.TEMPLATE_ID
@@ -87,8 +92,9 @@ fun DownloadSettingDialog(
     dialogState: Boolean = false,
     isQuickDownload: Boolean = false,
     drawerState: ModalBottomSheetState,
+    onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     confirm: () -> Unit,
-    hide: () -> Unit
+    hide: () -> Unit,
 ) {
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
@@ -98,16 +104,20 @@ fun DownloadSettingDialog(
     var formatSelection by FORMAT_SELECTION.booleanState
     var videoFormatPreference by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
+    var cookies by COOKIES.booleanState
 
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showAudioQualityDialog by remember { mutableStateOf(false) }
-    var selectedTemplateId by TEMPLATE_ID.intState
 
     var showTemplateSelectionDialog by remember { mutableStateOf(false) }
     var showTemplateCreatorDialog by remember { mutableStateOf(false) }
     var showTemplateEditorDialog by remember { mutableStateOf(false) }
+
+    var showCookiesDialog by rememberSaveable { mutableStateOf(false) }
+
+    val cookiesProfiles by DatabaseUtil.getCookiesFlow().collectAsStateWithLifecycle(emptyList())
 
     val template by remember(
         showTemplateCreatorDialog,
@@ -126,7 +136,6 @@ fun DownloadSettingDialog(
             PreferenceUtil.updateValue(CUSTOM_COMMAND, customCommand)
             PreferenceUtil.updateValue(PLAYLIST, playlist)
             PreferenceUtil.updateValue(SUBTITLE, subtitle)
-            PreferenceUtil.encodeInt(TEMPLATE_ID, selectedTemplateId)
         }
     }
 
@@ -243,104 +252,58 @@ fun DownloadSettingDialog(
                 }
             }
 
-            DrawerSheetSubtitle(text = stringResource(id = R.string.format_preference))
-            Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                ButtonChip(
-                    onClick = {
-                        showVideoFormatDialog = true
-                    },
-                    enabled = !customCommand && !audio,
-                    label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
-                    icon = Icons.Outlined.VideoFile,
-                    iconDescription = stringResource(id = R.string.video_format_preference)
-                )
-                ButtonChip(
-                    label = PreferenceStrings.getVideoResolutionDescComp(),
-                    icon = Icons.Outlined.HighQuality,
-                    enabled = !customCommand && !audio,
-                    iconDescription = stringResource(id = R.string.video_quality)
-                ) {
-                    showVideoQualityDialog = true
-                }
-                ButtonChip(
-                    onClick = {
-                        showAudioSettingsDialog = true
-                    },
-                    enabled = !customCommand,
-                    label = stringResource(R.string.audio_format),
-                    icon = Icons.Outlined.AudioFile
-                )
-                /*                VideoFilterChip(
-                                    selected = customCommand, onClick = {
-                                        customCommand = !customCommand
-                                        updatePreferences()
-                                    }, label = stringResource(R.string.custom_command)
-                                )
-                                ButtonChip(
-                                    onClick = { showCustomCommandDialog = -1 }, label = stringResource(
-                                        R.string.new_template
-                                    ), icon = Icons.Outlined.Add, enabled = customCommand
-                                )
-                                ButtonChip(
-                                    onClick = { showCustomCommandDialog = 1 }, label = stringResource(
-                                        R.string.edit
-                                    ), icon = Icons.Outlined.EditNote, enabled = customCommand
-                                )*/
-            }
-
-            DrawerSheetSubtitle(
-                text = stringResource(
-                    if (customCommand) R.string.template_selection else R.string.additional_settings
-                )
-            )
-
+            DrawerSheetSubtitle(text = stringResource(id = if (customCommand) R.string.template_selection else R.string.format_preference))
             AnimatedVisibility(visible = !customCommand) {
+
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                    if (!isQuickDownload) {
-                        VideoFilterChip(
-                            selected = playlist, enabled = !customCommand, onClick = {
-                                playlist = !playlist
-                                formatSelection = false
-                                updatePreferences()
-                            }, label = stringResource(R.string.download_playlist)
-                        )
+                    ButtonChip(
+                        onClick = {
+                            showVideoFormatDialog = true
+                        },
+                        enabled = !customCommand && !audio,
+                        label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
+                        icon = Icons.Outlined.VideoFile,
+                        iconDescription = stringResource(id = R.string.video_format_preference)
+                    )
+                    ButtonChip(
+                        label = PreferenceStrings.getVideoResolutionDescComp(),
+                        icon = Icons.Outlined.HighQuality,
+                        enabled = !customCommand && !audio,
+                        iconDescription = stringResource(id = R.string.video_quality)
+                    ) {
+                        showVideoQualityDialog = true
                     }
-                    if (!audio)
-                        VideoFilterChip(
-                            selected = subtitle, enabled = !customCommand, onClick = {
-                                subtitle = !subtitle
-                                updatePreferences()
-                            }, label = stringResource(id = R.string.download_subtitles)
-                        )
-                    VideoFilterChip(
-                        selected = thumbnail, enabled = !customCommand, onClick = {
-                            thumbnail = !thumbnail
-                            updatePreferences()
-                        }, label = stringResource(R.string.create_thumbnail)
+                    ButtonChip(
+                        onClick = {
+                            showAudioSettingsDialog = true
+                        },
+                        enabled = !customCommand,
+                        label = stringResource(R.string.audio_format),
+                        icon = Icons.Outlined.AudioFile
                     )
                 }
             }
             AnimatedVisibility(visible = customCommand) {
                 LazyRow(
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     item {
-                        OutlinedButtonChip(
+                        ButtonChip(
                             icon = Icons.Outlined.Code,
                             label = template.name,
                             onClick = { showTemplateSelectionDialog = true }
                         )
                     }
                     item {
-                        OutlinedButtonChip(
+                        ButtonChip(
                             icon = Icons.Outlined.NewLabel,
                             label = stringResource(id = R.string.new_template),
                             onClick = { showTemplateCreatorDialog = true }
                         )
                     }
                     item {
-                        OutlinedButtonChip(
+                        ButtonChip(
                             icon = Icons.Outlined.Edit,
                             label = stringResource(id = R.string.edit_template, template.name),
                             onClick = { showTemplateEditorDialog = true }
@@ -349,6 +312,63 @@ fun DownloadSettingDialog(
                 }
 
             }
+            /*                VideoFilterChip(
+                                selected = customCommand, onClick = {
+                                    customCommand = !customCommand
+                                    updatePreferences()
+                                }, label = stringResource(R.string.custom_command)
+                            )
+                            ButtonChip(
+                                onClick = { showCustomCommandDialog = -1 }, label = stringResource(
+                                    R.string.new_template
+                                ), icon = Icons.Outlined.Add, enabled = customCommand
+                            )
+                            ButtonChip(
+                                onClick = { showCustomCommandDialog = 1 }, label = stringResource(
+                                    R.string.edit
+                                ), icon = Icons.Outlined.EditNote, enabled = customCommand
+                            )*/
+
+
+            DrawerSheetSubtitle(
+                text = stringResource(
+                    R.string.additional_settings
+                )
+            )
+
+            Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                if (cookiesProfiles.isNotEmpty()) {
+                    VideoFilterChip(
+                        selected = cookies,
+                        onClick = { showCookiesDialog = true },
+                        label = stringResource(id = R.string.cookies)
+                    )
+                }
+                if (!isQuickDownload) {
+                    VideoFilterChip(
+                        selected = playlist, enabled = !customCommand, onClick = {
+                            playlist = !playlist
+                            formatSelection = false
+                            updatePreferences()
+                        }, label = stringResource(R.string.download_playlist)
+                    )
+                }
+                if (!audio)
+                    VideoFilterChip(
+                        selected = subtitle, enabled = !customCommand, onClick = {
+                            subtitle = !subtitle
+                            updatePreferences()
+                        }, label = stringResource(id = R.string.download_subtitles)
+                    )
+                VideoFilterChip(
+                    selected = thumbnail, enabled = !customCommand, onClick = {
+                        thumbnail = !thumbnail
+                        updatePreferences()
+                    }, label = stringResource(R.string.create_thumbnail)
+                )
+            }
+
+
         }
     }
     if (!useDialog) {
@@ -460,6 +480,22 @@ fun DownloadSettingDialog(
         CommandTemplateDialog(
             commandTemplate = template,
             onDismissRequest = { showTemplateEditorDialog = false }
+        )
+    }
+    if (showCookiesDialog && cookiesProfiles.isNotEmpty()) {
+        var isCookiesEnabled by remember { mutableStateOf(cookies) }
+        CookiesQuickSettingsDialog(
+            onDismissRequest = { showCookiesDialog = false },
+            onConfirm = {
+                cookies = isCookiesEnabled
+                COOKIES.updateBoolean(cookies)
+            },
+            cookieProfiles = cookiesProfiles,
+            onCookieProfileClicked = {
+                onNavigateToCookieGeneratorPage(it.url)
+            },
+            isCookiesEnabled = isCookiesEnabled,
+            onCookiesToggled = { isCookiesEnabled = it }
         )
     }
 }

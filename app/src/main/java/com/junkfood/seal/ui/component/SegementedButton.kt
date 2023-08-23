@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 
@@ -25,6 +27,7 @@ fun SingleChoiceSegmentedButtonRowScope.SingleChoiceSegmentedButton(
         selected = selected, onClick = onClick,
         enabled = enabled,
         modifier = modifier.height(36.dp),
+        colors = SegmentedButtonDefaults.colors(inactiveContainerColor = Color.Transparent),
         shape = when (position) {
             SegmentedButtonValues.END -> EndSegmentedButtonShape
             SegmentedButtonValues.MIDDLE -> RectangleShape

@@ -6,6 +6,7 @@ import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
+import io.material.hct.Hct
 
 @Composable
 fun Number.autoDark(isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme()): Double =
@@ -57,4 +58,18 @@ object FixedAccentColors {
 }
 
 const val DEFAULT_SEED_COLOR = 0xa3d48d
+
+/**
+ * @receiver Seed number used for generating color
+ * @return a [Color] generated using [Hct] algorithm, harmonized with `primary` color
+ */
+@Composable
+fun Int.generateLabelColor(): Color =
+    Color(
+        Hct.from(
+            hue = (this % 360).toDouble(),
+            chroma = 36.0,
+            tone = 80.0
+        ).toInt()
+    ).harmonizeWithPrimary()
 

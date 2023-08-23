@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -83,6 +82,7 @@ private const val TAG = "HomeEntry"
 @Composable
 fun HomeEntry(
     downloadViewModel: DownloadViewModel,
+    cookiesViewModel: CookiesViewModel,
     isUrlShared: Boolean
 ) {
     val navController = rememberNavController()
@@ -128,7 +128,7 @@ fun HomeEntry(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        val cookiesViewModel: CookiesViewModel = viewModel()
+
         NavHost(
             modifier = Modifier
                 .fillMaxWidth(
@@ -149,6 +149,10 @@ fun HomeEntry(
                     navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
                     navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
                     onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
+                    onNavigateToCookieGeneratorPage = {
+                        cookiesViewModel.updateUrl(it)
+                        navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
+                    },
                     downloadViewModel = downloadViewModel
                 )
             }
@@ -172,7 +176,7 @@ fun HomeEntry(
 //            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
-            settingsGraph(navController, cookiesViewModel)
+            settingsGraph(navController = navController, cookiesViewModel = cookiesViewModel)
 
         }
 

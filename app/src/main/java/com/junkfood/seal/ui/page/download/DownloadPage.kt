@@ -121,6 +121,7 @@ fun DownloadPage(
     navigateToPlaylistPage: () -> Unit = {},
     navigateToFormatPage: () -> Unit = {},
     onNavigateToTaskList: () -> Unit = {},
+    onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
     val storagePermission = rememberPermissionState(
@@ -250,9 +251,10 @@ fun DownloadPage(
             DownloadSettingDialog(useDialog = useDialog,
                 dialogState = showDownloadSettingDialog,
                 drawerState = drawerState,
-                confirm = { checkPermissionOrDownload() }) {
-                downloadViewModel.hideDialog(scope, useDialog)
-            }
+                onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
+                confirm = { checkPermissionOrDownload() },
+                hide = { downloadViewModel.hideDialog(scope, useDialog) }
+            )
         }
     }
 

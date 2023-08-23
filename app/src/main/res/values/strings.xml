@@ -382,4 +382,5 @@
     <string name="format_preference">Format preference</string>
     <string name="learn_more">Learn more</string>
     <string name="unknown">Unknown</string>
+    <string name="refresh_cookies_desc">Tap to open webpage for generating new cookies:</string>
 </resources>
