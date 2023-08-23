@@ -7,6 +7,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,72 +96,78 @@ fun VideoDetailDrawerImpl(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    BottomDrawer(drawerState = drawerState, sheetContent = {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            SelectionContainer {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp),
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-            if (author != "playlist" && author != "null")
+    BottomDrawer(drawerState = drawerState,
+        horizontalPadding = PaddingValues(horizontal = 20.dp), sheetContent = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            ) {
                 SelectionContainer {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 6.dp),
-                        text = author,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
-        }
-        Row(
-            modifier = Modifier
-                .padding(vertical = 6.dp)
-                .fillMaxWidth()
-        ) {
-            LongTapTextButton(
-                onClick = {
-                    clipboardManager.setText(AnnotatedString(url))
-                    ToastUtil.makeToast(context.getString(R.string.link_copied))
-                },
-                onClickLabel = stringResource(id = R.string.copy_link),
-                onLongClick = onOpenLink,
-                onLongClickLabel = stringResource(R.string.open_url)
+                if (author != "playlist" && author != "null")
+                    SelectionContainer {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 6.dp),
+                            text = author,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+            }
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 6.dp)
+                    .fillMaxWidth()
             ) {
-                Icon(Icons.Outlined.Link, stringResource(R.string.video_url))
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 6.dp),
-                    text = url, maxLines = 1, overflow = TextOverflow.Ellipsis
+                LongTapTextButton(
+                    onClick = {
+                        clipboardManager.setText(AnnotatedString(url))
+                        ToastUtil.makeToast(context.getString(R.string.link_copied))
+                    },
+                    onClickLabel = stringResource(id = R.string.copy_link),
+                    onLongClick = onOpenLink,
+                    onLongClickLabel = stringResource(R.string.open_url)
+                ) {
+                    Icon(Icons.Outlined.Link, stringResource(R.string.video_url))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                        text = url, maxLines = 1, overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(top = 24.dp)
+                    .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.End
+            ) {
+
+                OutlinedButtonWithIcon(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    onClick = onDelete,
+                    icon = Icons.Outlined.Delete,
+                    text = stringResource(R.string.remove)
+                )
+
+                FilledTonalButtonWithIcon(
+                    onClick = onShareFile,
+                    icon = Icons.Outlined.Share,
+                    text = stringResource(R.string.share)
                 )
             }
-        }
-
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(top = 24.dp), horizontalArrangement = Arrangement.End
-        ) {
-
-            OutlinedButtonWithIcon(
-                modifier = Modifier.padding(horizontal = 12.dp),
-                onClick = onDelete,
-                icon = Icons.Outlined.Delete,
-                text = stringResource(R.string.remove)
-            )
-
-            FilledTonalButtonWithIcon(
-                onClick = onShareFile,
-                icon = Icons.Outlined.Share,
-                text = stringResource(R.string.share)
-            )
-        }
-    })
+        })
 }

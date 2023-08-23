@@ -21,7 +21,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -194,7 +193,7 @@ fun LongTapTextButton(
     content: @Composable RowScope.() -> Unit
 ) {
     val contentColor = MaterialTheme.colorScheme.primary
-    Surface(
+    Row(
         modifier = modifier
             .clip(shape)
             .combinedClickable(
@@ -203,8 +202,6 @@ fun LongTapTextButton(
                 onLongClick = onLongClick,
                 onLongClickLabel = onLongClickLabel
             ),
-        contentColor = contentColor,
-        border = border,
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             ProvideTextStyle(value = MaterialTheme.typography.labelLarge) {
