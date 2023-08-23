@@ -23,6 +23,7 @@ import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.NewLabel
+import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,6 +63,7 @@ import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.command.TemplatePickerDialog
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
+import com.junkfood.seal.ui.page.settings.format.AudioConversionQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
@@ -109,7 +111,7 @@ fun DownloadSettingDialog(
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
-    var showAudioQualityDialog by remember { mutableStateOf(false) }
+    var showAudioConversionDialog by remember { mutableStateOf(false) }
 
     var showTemplateSelectionDialog by remember { mutableStateOf(false) }
     var showTemplateCreatorDialog by remember { mutableStateOf(false) }
@@ -194,41 +196,6 @@ fun DownloadSettingDialog(
                         updatePreferences()
                     }
                 }
-                /*VideoFilterChip(
-                    selected = audio, enabled = !customCommand, onClick = {
-                        audio = !audio
-                        updatePreferences()
-                    }, label = stringResource(R.string.extract_audio)
-                )
-                if (!isShareActivity) {
-                    VideoFilterChip(
-                        selected = playlist, enabled = !customCommand, onClick = {
-                            playlist = !playlist
-                            updatePreferences()
-                        }, label = stringResource(R.string.download_playlist)
-                    )
-                    VideoFilterChip(
-                        selected = formatSelection,
-                        enabled = !customCommand && !playlist,
-                        onClick = {
-                            formatSelection = !formatSelection
-                            FORMAT_SELECTION.updateBoolean(formatSelection)
-                        },
-                        label = stringResource(R.string.format_selection)
-                    )
-                }
-                VideoFilterChip(
-                    selected = subtitle, enabled = !customCommand && !audio, onClick = {
-                        subtitle = !subtitle
-                        updatePreferences()
-                    }, label = stringResource(id = R.string.download_subtitles)
-                )
-                VideoFilterChip(
-                    selected = thumbnail, enabled = !customCommand, onClick = {
-                        thumbnail = !thumbnail
-                        updatePreferences()
-                    }, label = stringResource(R.string.create_thumbnail)
-                )*/
             }
             if (!isQuickDownload) {
                 DrawerSheetSubtitle(text = stringResource(id = R.string.format_selection))
@@ -256,22 +223,24 @@ fun DownloadSettingDialog(
             AnimatedVisibility(visible = !customCommand) {
 
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                    ButtonChip(
-                        onClick = {
-                            showVideoFormatDialog = true
-                        },
-                        enabled = !customCommand && !audio,
-                        label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
-                        icon = Icons.Outlined.VideoFile,
-                        iconDescription = stringResource(id = R.string.video_format_preference)
-                    )
-                    ButtonChip(
-                        label = PreferenceStrings.getVideoResolutionDescComp(),
-                        icon = Icons.Outlined.HighQuality,
-                        enabled = !customCommand && !audio,
-                        iconDescription = stringResource(id = R.string.video_quality)
-                    ) {
-                        showVideoQualityDialog = true
+                    if (!audio) {
+                        ButtonChip(
+                            onClick = {
+                                showVideoFormatDialog = true
+                            },
+                            enabled = !customCommand,
+                            label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
+                            icon = Icons.Outlined.VideoFile,
+                            iconDescription = stringResource(id = R.string.video_format_preference)
+                        )
+                        ButtonChip(
+                            label = PreferenceStrings.getVideoResolutionDescComp(),
+                            icon = Icons.Outlined.HighQuality,
+                            enabled = !customCommand,
+                            iconDescription = stringResource(id = R.string.video_quality)
+                        ) {
+                            showVideoQualityDialog = true
+                        }
                     }
                     ButtonChip(
                         onClick = {
@@ -281,6 +250,14 @@ fun DownloadSettingDialog(
                         label = stringResource(R.string.audio_format),
                         icon = Icons.Outlined.AudioFile
                     )
+                    if (audio) {
+                        ButtonChip(
+                            label = stringResource(id = R.string.convert_audio),
+                            icon = Icons.Outlined.Sync
+                        ) {
+                            showAudioConversionDialog = true
+                        }
+                    }
                 }
             }
             AnimatedVisibility(visible = customCommand) {
@@ -312,23 +289,6 @@ fun DownloadSettingDialog(
                 }
 
             }
-            /*                VideoFilterChip(
-                                selected = customCommand, onClick = {
-                                    customCommand = !customCommand
-                                    updatePreferences()
-                                }, label = stringResource(R.string.custom_command)
-                            )
-                            ButtonChip(
-                                onClick = { showCustomCommandDialog = -1 }, label = stringResource(
-                                    R.string.new_template
-                                ), icon = Icons.Outlined.Add, enabled = customCommand
-                            )
-                            ButtonChip(
-                                onClick = { showCustomCommandDialog = 1 }, label = stringResource(
-                                    R.string.edit
-                                ), icon = Icons.Outlined.EditNote, enabled = customCommand
-                            )*/
-
 
             DrawerSheetSubtitle(
                 text = stringResource(
@@ -495,5 +455,8 @@ fun DownloadSettingDialog(
             isCookiesEnabled = cookies,
             onCookiesToggled = { cookies = it }
         )
+    }
+    if (showAudioConversionDialog) {
+        AudioConversionQuickSettingsDialog(onDismissRequest = { showAudioConversionDialog = false })
     }
 }

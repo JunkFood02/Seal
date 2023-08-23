@@ -50,6 +50,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -61,6 +62,7 @@ import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.component.SingleChoiceItemWithLabel
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
+import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.CONVERT_M4A
@@ -77,6 +79,7 @@ import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SORTING_FIELDS
@@ -319,8 +322,12 @@ fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit = {}) {
 
 
 @Composable
-fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = {}) {
+fun AudioConversionDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit = {}
+) {
     var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertFormat()) }
+    var convertAudio by AUDIO_CONVERT.booleanState
     SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -355,6 +362,58 @@ fun AudioConversionDialog(onDismissRequest: () -> Unit, onConfirm: () -> Unit = 
                         text = PreferenceStrings.getAudioConvertDesc(i),
                         selected = audioFormat == i
                     ) { audioFormat = i }
+            }
+        })
+}
+
+@Composable
+fun AudioConversionQuickSettingsDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit = {}
+) {
+    var audioFormat by remember { mutableIntStateOf(PreferenceUtil.getAudioConvertFormat()) }
+    var convertAudio by AUDIO_CONVERT.booleanState
+    SealDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            DismissButton { onDismissRequest() }
+        },
+        icon = { Icon(Icons.Outlined.Sync, null) },
+        title = {
+            Text(stringResource(R.string.convert_audio_format))
+        }, confirmButton = {
+            ConfirmButton {
+                AUDIO_CONVERT.updateBoolean(convertAudio)
+                AUDIO_CONVERSION_FORMAT.updateInt(audioFormat)
+                onConfirm()
+                onDismissRequest()
+            }
+
+        }, text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp)
+                        .padding(horizontal = 24.dp),
+                    text = stringResource(R.string.convert_audio_format_desc),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                SingleChoiceItem(
+                    text = stringResource(id = R.string.not_convert),
+                    selected = !convertAudio
+                ) {
+                    convertAudio = false
+                }
+                for (i in CONVERT_MP3..CONVERT_M4A)
+                    SingleChoiceItem(
+                        modifier = Modifier,
+                        text = PreferenceStrings.getAudioConvertDesc(i),
+                        selected = audioFormat == i && convertAudio
+                    ) {
+                        audioFormat = i
+                        convertAudio = true
+                    }
             }
         })
 }
