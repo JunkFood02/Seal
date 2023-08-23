@@ -286,7 +286,7 @@ fun DownloadSettingDialog(
             AnimatedVisibility(visible = customCommand) {
                 LazyRow(
                     modifier = Modifier,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+//                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     item {
                         ButtonChip(

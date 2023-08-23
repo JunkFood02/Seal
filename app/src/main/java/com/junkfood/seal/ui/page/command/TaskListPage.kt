@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -401,7 +402,7 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
     }, title = {
         Text(text = stringResource(id = R.string.template_selection))
     }, icon = { Icon(imageVector = Icons.Outlined.Code, contentDescription = null) }, text = {
-        Box() {
+        Box(modifier = Modifier.heightIn(max = 450.dp)) {
             HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
             LazyColumn(state = scrollState) {
                 item { Spacer(modifier = Modifier.height(4.dp)) }
