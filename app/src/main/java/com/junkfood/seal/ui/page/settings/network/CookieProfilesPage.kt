@@ -384,13 +384,9 @@ fun CookiesQuickSettingsDialog(
     onCookiesToggled: (Boolean) -> Unit = {},
 ) {
     SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
-        ConfirmButton {
+        ConfirmButton(text = stringResource(id = androidx.appcompat.R.string.abc_action_mode_done)) {
             onDismissRequest()
             onConfirm()
-        }
-    }, dismissButton = {
-        DismissButton {
-            onDismissRequest()
         }
     }, icon = { Icon(imageVector = Icons.Outlined.Cookie, contentDescription = null) },
         title = {

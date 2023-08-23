@@ -483,19 +483,17 @@ fun DownloadSettingDialog(
         )
     }
     if (showCookiesDialog && cookiesProfiles.isNotEmpty()) {
-        var isCookiesEnabled by remember { mutableStateOf(cookies) }
         CookiesQuickSettingsDialog(
             onDismissRequest = { showCookiesDialog = false },
             onConfirm = {
-                cookies = isCookiesEnabled
                 COOKIES.updateBoolean(cookies)
             },
             cookieProfiles = cookiesProfiles,
             onCookieProfileClicked = {
                 onNavigateToCookieGeneratorPage(it.url)
             },
-            isCookiesEnabled = isCookiesEnabled,
-            onCookiesToggled = { isCookiesEnabled = it }
+            isCookiesEnabled = cookies,
+            onCookiesToggled = { cookies = it }
         )
     }
 }
