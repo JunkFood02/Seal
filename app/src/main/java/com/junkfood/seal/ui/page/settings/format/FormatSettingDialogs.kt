@@ -72,7 +72,6 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.FORMAT_COMPATIBILITY
 import com.junkfood.seal.util.FORMAT_QUALITY
-import com.junkfood.seal.util.LOW
 import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
@@ -472,7 +471,7 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
                     text = stringResource(R.string.audio_quality_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                for (i in NOT_SPECIFIED..LOW)
+                for (i in NOT_SPECIFIED..ULTRA_LOW)
                     SingleChoiceItem(
                         modifier = Modifier,
                         text = PreferenceStrings.getAudioQualityDesc(i),
