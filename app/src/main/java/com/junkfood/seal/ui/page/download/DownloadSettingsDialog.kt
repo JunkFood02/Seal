@@ -43,6 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -71,8 +72,11 @@ import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
+import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
@@ -83,7 +87,9 @@ import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -108,6 +114,7 @@ fun DownloadSettingDialog(
     var videoQuality by VIDEO_QUALITY.intState
     var cookies by COOKIES.booleanState
 
+
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
@@ -130,6 +137,15 @@ fun DownloadSettingDialog(
     }
 
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(showCookiesDialog) {
+        withContext(Dispatchers.IO) {
+            DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+                FileUtil.writeContentToFile(it, context.getCookiesFile())
+            }
+        }
+    }
 
     val updatePreferences = {
         scope.launch {
@@ -445,15 +461,16 @@ fun DownloadSettingDialog(
     if (showCookiesDialog && cookiesProfiles.isNotEmpty()) {
         CookiesQuickSettingsDialog(
             onDismissRequest = { showCookiesDialog = false },
-            onConfirm = {
-                COOKIES.updateBoolean(cookies)
-            },
+            onConfirm = {},
             cookieProfiles = cookiesProfiles,
             onCookieProfileClicked = {
                 onNavigateToCookieGeneratorPage(it.url)
             },
             isCookiesEnabled = cookies,
-            onCookiesToggled = { cookies = it }
+            onCookiesToggled = {
+                cookies = it
+                COOKIES.updateBoolean(cookies)
+            }
         )
     }
     if (showAudioConversionDialog) {
