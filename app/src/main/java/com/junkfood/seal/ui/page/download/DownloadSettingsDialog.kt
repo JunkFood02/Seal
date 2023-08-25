@@ -238,7 +238,9 @@ fun DownloadSettingDialog(
             DrawerSheetSubtitle(text = stringResource(id = if (customCommand) R.string.template_selection else R.string.format_preference))
             AnimatedVisibility(visible = !customCommand) {
 
-                Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())) {
                     if (!audio) {
                         ButtonChip(
                             onClick = {

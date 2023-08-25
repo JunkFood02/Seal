@@ -379,6 +379,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     description = stringResource(
                         id = R.string.temporary_directory_desc
                     ),
+                    enabled = !sdcardDownload && !isCustomCommandEnabled,
                     isChecked = temporaryDirectory,
                     onClick = {
                         temporaryDirectory = !temporaryDirectory
