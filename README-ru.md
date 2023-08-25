@@ -126,6 +126,7 @@ Seal - это простой интерфейс для [yt-dlp](https://github.c
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 >**Внимание**
+>
 >За исключением исходного кода, лицензированного по лицензии GPLv3,
 >всем остальным сторонам запрещено использовать название Seal в качестве загрузчика приложений,
 >и то же самое распространяется на производные Seal.
