@@ -100,7 +100,10 @@ fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String 
 
 
 fun connectWithDelimiter(vararg strings: String, delimiter: String): String =
-    strings.toList().joinToString(separator = delimiter) { it }
+    strings
+        .toList()
+        .filter { it.isNotEmpty() && it.isNotBlank() }
+        .joinToString(separator = delimiter) { it }
 
 
 fun connectWithBlank(s1: String, s2: String): String {
