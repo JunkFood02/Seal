@@ -70,47 +70,47 @@
 
 
 
-## ⬇️ Завантажити
+## ⬇️ Установка
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Завантажте з F-Droid"
+     alt="Загрузить с F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/)
 
-Або завантажте останні APK на сторінці [з релізами.](https://github.com/JunkFood02/Seal/releases/)
+Скачать последнюю стабильную версию можно на странице [с релизами.](https://github.com/JunkFood02/Seal/releases/)
 
 
 
-## 🤝 Допомога
+## 🤝 Помочь с переводом
 
-Співпраця вітається!
+Помощь приветствуется!
 
-Допоможіть перекласти Seal на [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
+Вы можете принять участие в переводе Seal на [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
->**Нотатка**  
-> Щоб надіслати звіти про помилки, запити на додавання нових функцій, запитання чи будь-які інші ідеї щодо покращення, спершу прочитайте [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) за інструкціями та вказівками.
+>**Заметка**  
+> Чтобы отсылать нам баги, запросы на добавление новых функций или любые другие идеи, которые помогут проекту, сперва прочитайте [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) для важной информации и инструкций.
 
-## ⭐️ Історія зірочок
+## ⭐️ График роста кол-ва звёздочек
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
-## 🧱 Подяки
+## 🧱 Особая благодарность
 
-Seal - це простий інтерфейс для [yt-dlp](https://github.com/yt-dlp/yt-dlp), який був створений на базі [youtubedl-android](https://github.com/yausername/youtubedl-android)
+Seal - это простой интерфейс для [yt-dlp](https://github.com/yt-dlp/yt-dlp), созданный на базе [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-Деякий код та елементи інтерфейсу взяти з [Read You](https://github.com/Ashinch/ReadYou) та [Music You](https://github.com/Kyant0/MusicYou)
+Некоторые элементы дизайна и кода были заимствованны у [Read You](https://github.com/Ashinch/ReadYou) та [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
-## 📃 Ліцензія
+## 📃 Лицензия
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 <div align="right">
 <table><td>
-<a href="#start-of-content">👆 Прокрутити вгору</a>
+<a href="#start-of-content">👆 Пролистать наверх</a>
 </td></table>
 </div>
