@@ -99,7 +99,7 @@
 
 Seal - это простой интерфейс для [yt-dlp](https://github.com/yt-dlp/yt-dlp), созданный на базе [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
-Некоторые элементы дизайна и кода были заимствованны у [Read You](https://github.com/Ashinch/ReadYou) та [Music You](https://github.com/Kyant0/MusicYou)
+Некоторые элементы дизайна и кода были заимствованны у [Read You](https://github.com/Ashinch/ReadYou) и [Music You](https://github.com/Kyant0/MusicYou)
 
 [dvd](https://github.com/yausername/dvd)
 
