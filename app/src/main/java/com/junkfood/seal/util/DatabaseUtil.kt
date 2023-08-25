@@ -11,7 +11,6 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.database.OptionShortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -62,10 +61,19 @@ object DatabaseUtil {
     }
 
     suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
-    suspend fun exportTemplatesToJson(): String {
+
+    suspend fun deleteTemplates(templates: List<CommandTemplate>) = dao.deleteTemplates(templates)
+
+    suspend fun exportTemplatesToJson() =
+        exportTemplatesToJson(templates = getTemplateList(), shortcuts = getShortcutList())
+
+    fun exportTemplatesToJson(
+        templates: List<CommandTemplate>,
+        shortcuts: List<OptionShortcut>
+    ): String {
         return format.encodeToString(
             Backup(
-                templates = getTemplateList(), shortcuts = getShortcutList()
+                templates = templates, shortcuts = shortcuts
             )
         )
     }

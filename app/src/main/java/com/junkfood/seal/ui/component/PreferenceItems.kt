@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -30,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -695,17 +698,26 @@ fun TemplateItem(
     label: String = "",
     template: String? = null,
     selected: Boolean = false,
+    isMultiSelectEnabled: Boolean = false,
+    checked: Boolean = false,
     onClick: () -> Unit = {},
     onSelect: () -> Unit = {},
+    onCheckedChange: (Boolean) -> Unit = {},
     onLongClick: () -> Unit = {}
 ) {
     Surface(
-        modifier = Modifier.combinedClickable(
-            onClick = onClick,
-            onClickLabel = stringResource(R.string.edit),
-            onLongClick = onLongClick,
-            onLongClickLabel = stringResource(R.string.remove_template)
-        )
+        modifier = Modifier.run {
+            if (!isMultiSelectEnabled) then(
+                combinedClickable(
+                    onClick = onClick,
+                    onClickLabel = stringResource(R.string.edit),
+                    onLongClick = onLongClick,
+                    onLongClickLabel = stringResource(R.string.multiselect_mode)
+                )
+            ) else {
+                then(toggleable(value = checked, onValueChange = onCheckedChange))
+            }
+        }
     ) {
         Row(
             modifier = Modifier
@@ -713,6 +725,14 @@ fun TemplateItem(
                 .padding(16.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            AnimatedVisibility(visible = isMultiSelectEnabled) {
+                Checkbox(
+                    modifier = Modifier.clearAndSetSemantics { },
+                    checked = checked,
+                    onCheckedChange = onCheckedChange
+                )
+            }
+
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -735,19 +755,28 @@ fun TemplateItem(
                     }
                 }
             }
-            Divider(
-                modifier = Modifier
-                    .height(32.dp)
-                    .padding(horizontal = 12.dp)
-                    .width(1f.dp)
-                    .align(Alignment.CenterVertically),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-            )
-            RadioButton(
-                modifier = Modifier.semantics { contentDescription = label },
-                selected = selected,
-                onClick = onSelect
-            )
+
+
+            AnimatedVisibility (!isMultiSelectEnabled) {
+                Row {
+                    VerticalDivider(
+                        modifier = Modifier
+                            .height(32.dp)
+                            .padding(horizontal = 12.dp)
+                            .align(Alignment.CenterVertically),
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        thickness = 1.dp
+                    )
+                    RadioButton(
+                        modifier = Modifier.semantics { contentDescription = label },
+                        selected = selected,
+                        onClick = onSelect
+                    )
+                }
+
+            }
+
+
         }
 
 
@@ -779,10 +808,12 @@ fun PreferenceInfo(
     icon: ImageVector = Icons.Outlined.Info,
     applyPaddings: Boolean = true
 ) {
-    Column(modifier = modifier.fillMaxWidth().run {
-        if (applyPaddings) padding(horizontal = 16.dp, vertical = 16.dp)
-        else this
-    }) {
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .run {
+            if (applyPaddings) padding(horizontal = 16.dp, vertical = 16.dp)
+            else this
+        }) {
         Icon(
             modifier = Modifier.padding(), imageVector = icon, contentDescription = null
         )

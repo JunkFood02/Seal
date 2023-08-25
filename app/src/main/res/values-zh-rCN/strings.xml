@@ -213,7 +213,7 @@
     <string name="crop_artwork_desc">将音频中内嵌的封面图片裁切为正方形</string>
     <string name="download_selection_desc">选择要从播放列表 “%1$s” 中下载的视频</string>
     <string name="select_all">全选</string>
-    <string name="selected_item_count">已选中 %1$d 个视频</string>
+    <string name="selected_item_count">已选中 %1$d 项</string>
     <string name="video_only">视频（无音轨）</string>
     <string name="suggested">推荐</string>
     <string name="format_selection">格式选择</string>

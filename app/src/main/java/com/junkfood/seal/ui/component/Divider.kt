@@ -1,8 +1,6 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,10 +12,10 @@ fun HorizontalDivider(
     modifier: Modifier = Modifier,
     color: Color = DividerDefaults.color
 ) {
-    Divider(
+    androidx.compose.material3.HorizontalDivider(
         modifier = modifier
-            .fillMaxWidth()
-            .size(DividerDefaults.Thickness),
-        color = color
+            .fillMaxWidth(),
+        color = color,
+        thickness = DividerDefaults.Thickness
     )
 }

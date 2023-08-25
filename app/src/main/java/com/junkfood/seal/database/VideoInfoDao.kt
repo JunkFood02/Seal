@@ -90,6 +90,9 @@ interface VideoInfoDao {
     @Query("delete from CommandTemplate where id=:id")
     suspend fun deleteTemplateById(id: Int)
 
+    @Delete
+    suspend fun deleteTemplates(templates: List<CommandTemplate>)
+
     @Query("select * from OptionShortcut")
     fun getOptionShortcuts(): Flow<List<OptionShortcut>>
 

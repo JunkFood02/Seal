@@ -383,4 +383,9 @@
     <string name="learn_more">Learn more</string>
     <string name="unknown">Unknown</string>
     <string name="refresh_cookies_desc">Tap to open webpage for generating new cookies:</string>
+    <string name="remove_multiple_templates_msg">Remove %1$s from command templates for good?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
 </resources>
