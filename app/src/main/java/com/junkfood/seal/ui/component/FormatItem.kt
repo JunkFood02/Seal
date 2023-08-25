@@ -348,18 +348,18 @@ fun FormatItem(
                 .padding(bottom = 6.dp, end = 6.dp)
                 .align(Alignment.BottomEnd)
         ) {
-            if (acodecText.isNotEmpty())
-                Icon(
-                    imageVector = Icons.Rounded.Audiotrack,
-                    tint = outlineColor,
-                    contentDescription = stringResource(id = R.string.audio),
-                    modifier = Modifier.size(16.dp)
-                )
             if (vcodecText.isNotEmpty())
                 Icon(
                     imageVector = Icons.Rounded.Videocam,
                     tint = outlineColor,
                     contentDescription = stringResource(id = R.string.video),
+                    modifier = Modifier.size(16.dp)
+                )
+            if (acodecText.isNotEmpty())
+                Icon(
+                    imageVector = Icons.Rounded.Audiotrack,
+                    tint = outlineColor,
+                    contentDescription = stringResource(id = R.string.audio),
                     modifier = Modifier.size(16.dp)
                 )
             if (acodecText.isEmpty() && vcodecText.isEmpty()) {

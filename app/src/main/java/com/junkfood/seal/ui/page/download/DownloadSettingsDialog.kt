@@ -219,7 +219,7 @@ fun DownloadSettingDialog(
                     SingleChoiceChip(
                         selected = !formatSelection, onClick = {
                             formatSelection = false
-                            updatePreferences()
+                            FORMAT_SELECTION.updateBoolean(false)
                         }, enabled = !customCommand,
                         label = stringResource(id = R.string.auto)
                     )
@@ -227,7 +227,7 @@ fun DownloadSettingDialog(
                         selected = formatSelection,
                         onClick = {
                             formatSelection = true
-                            updatePreferences()
+                            FORMAT_SELECTION.updateBoolean(true)
                         },
                         enabled = !customCommand && !playlist,
                         label = stringResource(id = R.string.custom)
