@@ -72,13 +72,27 @@
 
 ## ⬇️ Установка
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Загрузить с F-Droid"
-     height="70">](https://f-droid.org/packages/com.junkfood.seal/)
+Для большинства устройств рекомендованно устанавливать **arm64-v8a** версию apk
 
-Скачать последнюю стабильную версию можно на странице [с релизами.](https://github.com/JunkFood02/Seal/releases/)
+- Скачать последнюю стабильную версию со [страницы с релизами](https://github.com/JunkFood02/Seal/releases/latest)
+  - Установить [пре-релиз](https://github.com/JunkFood02/Seal/releases/) чтобы помочь протестировать нам новые функции и изменения
+
+- Стабильные релизы также доступны на [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+
+<!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Скачайте его с F-Droid"
+     height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
+
+## 💬 Связаться
+
+Присоединяйтесь к нашему [Telegram каналу](https://t.me/seal_app) или [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) для рассуждений, анонсов, и релизов!
+
+## 💖 Спонсоры
+
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/Velioris"><img src="https://github.com/Velioris.png" width="60px" alt="" /></a><a href="https://github.com/Driverator"><img src="https://github.com/Driverator.png" width="60px" alt="" /></a><!-- sponsors --></p>
 
 
+Seal всегда будет бесплатным и с открытым исходным кодом для каждого. Если вам это нравится, пожалуйста рассмотрите [поддержать меня](https://github.com/sponsors/JunkFood02)!
 
 ## 🤝 Помочь с переводом
 
