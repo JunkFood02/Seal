@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -208,7 +207,7 @@ fun CustomCommandTaskItem(
                 TaskStatus.RUNNING -> tertiaryContainer.copy(alpha = alpha)
                 TaskStatus.ERROR -> errorContainer.copy(alpha = alpha)
             }*/
-            surfaceColorAtElevation(3.dp).harmonizeWith(other = accentColor)
+            surfaceContainerLow.harmonizeWith(other = accentColor)
         }.copy(alpha = 0.9f)
         val contentColor = MaterialTheme.colorScheme.run {
 //            when (status) {
@@ -321,7 +320,7 @@ fun CustomCommandTaskItem(
                             .semantics(mergeDescendants = true) { },
                         onClick = { onShowLog() },
                         colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surface,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     ) {
@@ -362,7 +361,7 @@ fun CustomCommandTaskItem(
                             label = stringResource(id = R.string.cancel),
                             iconColor = contentColor
                         ) { onCancel() }
-                    if (status == TaskStatus.CANCELED)
+                    if (status == TaskStatus.CANCELED || status == TaskStatus.ERROR)
                         FlatButtonChip(
                             icon = Icons.Outlined.RestartAlt,
                             label = stringResource(id = R.string.restart),

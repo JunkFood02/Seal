@@ -68,7 +68,7 @@ fun FlatButtonChip(
     AssistChip(
         modifier = modifier.padding(horizontal = 4.dp),
         colors = AssistChipDefaults.assistChipColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
             labelColor = labelColor,
             leadingIconContentColor = iconColor
         ),

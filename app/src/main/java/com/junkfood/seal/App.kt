@@ -17,11 +17,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
-import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
@@ -31,8 +29,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SDCARD_URI
-import com.junkfood.seal.util.TEMPLATE_EXAMPLE
-import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
 import com.junkfood.seal.util.YT_DLP
@@ -68,16 +64,8 @@ class App : Application() {
 
         applicationScope.launch((Dispatchers.IO)) {
             try {
-                if (!PreferenceUtil.containsKey(TEMPLATE_ID)) {
-                    PreferenceUtil.encodeInt(
-                        TEMPLATE_ID, DatabaseUtil.insertTemplate(
-                            CommandTemplate(
-                                id = 0,
-                                name = context.getString(R.string.custom_command_template),
-                                template = TEMPLATE_EXAMPLE
-                            )
-                        ).toInt()
-                    )
+                if (PreferenceUtil.templateStateFlow.value.isEmpty()) {
+                    PreferenceUtil.initializeTemplateSample()
                 }
                 YoutubeDL.init(this@App)
                 Log.d("TAG", applicationInfo.nativeLibraryDir)

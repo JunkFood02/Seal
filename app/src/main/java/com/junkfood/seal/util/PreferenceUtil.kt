@@ -256,6 +256,18 @@ object PreferenceUtil {
         }
     }
 
+    suspend fun initializeTemplateSample() {
+        TEMPLATE_ID.updateInt(
+            DatabaseUtil.insertTemplate(
+                CommandTemplate(
+                    id = 0,
+                    name = context.getString(R.string.custom_command_template),
+                    template = TEMPLATE_EXAMPLE
+                )
+            ).toInt()
+        )
+    }
+
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
