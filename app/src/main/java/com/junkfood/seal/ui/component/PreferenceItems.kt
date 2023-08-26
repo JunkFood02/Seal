@@ -23,8 +23,6 @@ import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -73,6 +71,8 @@ fun PreferenceItem(
     onLongClickLabel: String? = null,
     onLongClick: (() -> Unit)? = null,
     onClickLabel: String? = null,
+    leadingIcon: (@Composable () -> Unit)? = null,
+    trailingIcon: (@Composable () -> Unit)? = null,
     onClick: () -> Unit = {},
 ) {
     Surface(
@@ -90,6 +90,8 @@ fun PreferenceItem(
                 .padding(horizontal.dp, vertical.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            leadingIcon?.invoke()
+
             when (icon) {
                 is ImageVector -> {
                     Icon(
@@ -112,21 +114,12 @@ fun PreferenceItem(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
                     )
                 }
-
-                is Int -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 16.dp)
-                            .size(24.dp)
-                            .padding(2.dp)
-                    )
-                }
             }
 
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = if (icon == null) 12.dp else 0.dp)
+                    .padding(horizontal = if (icon == null && leadingIcon == null) 12.dp else 0.dp)
                     .padding(end = 8.dp)
             ) {
                 PreferenceItemTitle(text = title, enabled = enabled)
@@ -134,6 +127,17 @@ fun PreferenceItem(
                     text = description,
                     enabled = enabled
                 )
+            }
+            trailingIcon?.let {
+                VerticalDivider(
+                    modifier = Modifier
+                        .height(32.dp)
+                        .padding(horizontal = 8.dp)
+                        .align(Alignment.CenterVertically),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                    thickness = 1.dp
+                )
+                trailingIcon.invoke()
             }
         }
     }
@@ -437,7 +441,7 @@ fun PreferenceSwitchWithDivider(
                     enabled = enabled
                 )
             }
-            Divider(
+            VerticalDivider(
                 modifier = Modifier
                     .height(32.dp)
                     .padding(horizontal = 8.dp)
@@ -449,7 +453,7 @@ fun PreferenceSwitchWithDivider(
                 checked = isChecked,
                 onCheckedChange = { onChecked() },
                 modifier = Modifier
-                    .padding(start = 12.dp, end = 6.dp)
+                    .padding(horizontal = 6.dp)
                     .semantics {
                         contentDescription = title
                     },
@@ -757,7 +761,7 @@ fun TemplateItem(
             }
 
 
-            AnimatedVisibility (!isMultiSelectEnabled) {
+            AnimatedVisibility(!isMultiSelectEnabled) {
                 Row {
                     VerticalDivider(
                         modifier = Modifier

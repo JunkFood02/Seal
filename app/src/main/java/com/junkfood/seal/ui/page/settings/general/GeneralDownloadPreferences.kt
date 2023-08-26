@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
@@ -25,13 +26,16 @@ import androidx.compose.material.icons.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SyncAlt
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -49,7 +53,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -172,16 +175,27 @@ fun GeneralDownloadPreferences(
                         )
                     }
                     PreferenceItem(
-                        title = stringResource(id = R.string.ytdlp_version),
+                        title = stringResource(id = R.string.ytdlp_update_action),
                         description = ytdlpVersion,
-                        icon = if (isUpdating) 0 else Icons.Outlined.Update, onClick = {
+                        leadingIcon = {
+                            if (isUpdating) UpdateProgressIndicator() else {
+                                Icon(
+                                    imageVector = Icons.Outlined.Update,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(start = 8.dp, end = 16.dp)
+                                        .size(24.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }, onClick = {
                             scope.launch {
                                 runCatching {
                                     isUpdating = true
                                     UpdateUtil.updateYtDlp()
                                     ytdlpVersion = YT_DLP.getString()
-                                }.onFailure {
-                                    it.printStackTrace()
+                                }.onFailure { th ->
+                                    th.printStackTrace()
                                     ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                                 }.onSuccess {
                                     ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
@@ -189,14 +203,18 @@ fun GeneralDownloadPreferences(
                                 isUpdating = false
                             }
                         }, onClickLabel = stringResource(id = R.string.update),
-                        onLongClick = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            showYtdlpDialog = true
-                        }, onLongClickLabel = stringResource(id = R.string.open_settings)
+                        trailingIcon = {
+                            IconButton(onClick = { showYtdlpDialog = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = stringResource(
+                                        id = R.string.open_settings
+                                    )
+                                )
+                            }
+                        }
                     )
                 }
-
-
                 item {
                     PreferenceSwitch(title = stringResource(id = R.string.download_notification),
                         description = stringResource(
@@ -506,4 +524,14 @@ fun DialogCheckBoxItem(
             style = MaterialTheme.typography.bodyMedium,
         )
     }
+}
+
+@Composable
+private fun UpdateProgressIndicator() {
+    CircularProgressIndicator(
+        modifier = Modifier
+            .padding(start = 8.dp, end = 16.dp)
+            .size(24.dp)
+            .padding(2.dp)
+    )
 }
