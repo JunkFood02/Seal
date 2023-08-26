@@ -50,11 +50,11 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.Beta(
+val currentVersion: Version = Version.ReleaseCandidate(
     versionMajor = 1,
     versionMinor = 10,
     versionPatch = 0,
-    versionBuild = 5
+    versionBuild = 1
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -79,11 +79,25 @@ android {
     }
 
     compileSdk = 34
+
+
+
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 34
-        versionCode = 10920
+        versionCode = 11000
+
+        if (splitApks) {
+            splits {
+                abi {
+                    isEnable = !project.hasProperty("noSplits")
+                    reset()
+                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+                    isUniversalApk = false
+                }
+            }
+        }
 
         versionName = currentVersion.toVersionName().run {
             if (!splitApks) "$this-(F-Droid)"
@@ -104,15 +118,7 @@ android {
                 }
             }
     }
-    if (splitApks)
-        splits {
-            abi {
-                isEnable = !project.hasProperty("noSplits")
-                reset()
-                include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-                isUniversalApk = false
-            }
-        }
+
 
     buildTypes {
         release {
