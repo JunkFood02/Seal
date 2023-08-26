@@ -28,6 +28,14 @@ object DatabaseUtil {
         }
     }
 
+    init {
+        applicationScope.launch {
+            getTemplateFlow().collect {
+                if (it.isEmpty()) PreferenceUtil.initializeTemplateSample()
+            }
+        }
+    }
+
     fun getMediaInfo() = dao.getAllMedia()
 
     fun getTemplateFlow() = dao.getTemplateFlow()
