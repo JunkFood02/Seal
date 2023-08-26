@@ -33,7 +33,7 @@ class CookiesViewModel : ViewModel() {
     fun showEditCookieDialog(
         cookieProfile: CookieProfile = CookieProfile(
             id = NEW_PROFILE_ID,
-            url = "",
+            url = "https://",
             content = ""
         )
     ) {
