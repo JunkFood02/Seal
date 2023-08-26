@@ -185,7 +185,7 @@ fun DownloadSettingDialog(
                 val videoSelected by remember { derivedStateOf { !audio && !customCommand } }
                 val commandSelected by remember { derivedStateOf { customCommand } }
 
-                SingleChoiceSegmentedButtonRow {
+                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                     SingleChoiceSegmentedButton(
                         text = stringResource(id = R.string.audio),
                         selected = audioSelected,
@@ -238,9 +238,11 @@ fun DownloadSettingDialog(
             DrawerSheetSubtitle(text = stringResource(id = if (customCommand) R.string.template_selection else R.string.format_preference))
             AnimatedVisibility(visible = !customCommand) {
 
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                ) {
                     if (!audio) {
                         ButtonChip(
                             onClick = {
