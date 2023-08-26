@@ -16,21 +16,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Format selection**
 
-* Display icons(audio/video) on `FormatItem`s
+* Display icons(video/audio) on `FormatItem`s
 * Split video by chapters
+* Select subtitle to download by language names/codes
 
 **Custom commands**
 
 * Create custom command tasks in the Running Tasks page
 * Configure download directory separately for custom command tasks
+* Select multiple command templates to export & remove
+
+**Cookies**
+
+* Add `CookiesQuickSettingsDialog` for refreshing & configuring cookies in configuration menu
+* Add user agent header when downloading with cookies enabled
 
 **Other New Features & UI Improvements**
 
 * Show `PlainToolTip` when long-press on `PlaylistItem`
 * Add monochrome theme
 * Add proxy configuration for network connections
-* Add translations in Swedish and Portuguese 
-
+* Add translations in Swedish and Portuguese
 
 ### Fixed
 * App crashes when being opened in the system share sheet
@@ -53,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Update youtubedl-android version, added pycryptodomex to the library
 * Move Video formats to the bottom of the `FormatPage`
 * Notifications now are enabled by default
+* Minor UI improvements & changes
 
 
 ## [v1.9.2][1.9.2] - 2023-04-27
