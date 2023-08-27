@@ -217,14 +217,14 @@ fun DownloadSettingDialog(
                 DrawerSheetSubtitle(text = stringResource(id = R.string.format_selection))
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     SingleChoiceChip(
-                        selected = !formatSelection, onClick = {
+                        selected = !formatSelection || playlist, onClick = {
                             formatSelection = false
                             FORMAT_SELECTION.updateBoolean(false)
                         }, enabled = !customCommand,
                         label = stringResource(id = R.string.auto)
                     )
                     SingleChoiceChip(
-                        selected = formatSelection,
+                        selected = formatSelection && !playlist,
                         onClick = {
                             formatSelection = true
                             FORMAT_SELECTION.updateBoolean(true)

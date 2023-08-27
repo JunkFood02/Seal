@@ -459,11 +459,13 @@ fun CookiesQuickSettingsDialog(
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 HorizontalDivider(Modifier.padding(horizontal = 24.dp))
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onCookiesToggled(!isCookiesEnabled) }
-                    .padding(horizontal = 24.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .toggleable(value = isCookiesEnabled, onValueChange = onCookiesToggled)
+                        .padding(horizontal = 24.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         text = stringResource(id = R.string.use_cookies),
                         style = MaterialTheme.typography.labelLarge,
