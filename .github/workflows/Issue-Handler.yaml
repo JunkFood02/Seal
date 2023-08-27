@@ -1,0 +1,73 @@
+name: Check and Close Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  handle-issues:
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Check and close issues
+        id: close-issues
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const keywordsToCheck = ['instagram', 'facebook', 'twitter'];
+            const requiredLabels = ['bug', 'enhancement'];
+            const referenceIssueNumber = 733;
+
+            async function processIssue(issue) {
+              const issueBody = issue.body.toLowerCase();
+              const issueLabels = issue.labels.map(label => label.name);
+
+              const shouldCloseIssue = keywordsToCheck.some(keyword => issueBody.includes(keyword)) &&
+                requiredLabels.some(label => issueLabels.includes(label));
+
+              if (shouldCloseIssue) {
+                await github.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+
+                await github.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['wontfix']
+                });
+
+                await github.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `This issue has been closed and labeled as wontfix. Please see issue #${referenceIssueNumber} for more details.`
+                });
+              }
+            }
+
+            // Process newly opened issues
+            if (context.payload.action === 'opened') {
+              await processIssue(context.payload.issue);
+            }
+
+            // Process all existing open issues
+            const issues = await github.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            for (const issue of issues.data) {
+              await processIssue(issue);
+            }
