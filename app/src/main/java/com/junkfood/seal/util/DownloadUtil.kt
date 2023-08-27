@@ -182,13 +182,16 @@ object DownloadUtil {
         val proxy: Boolean = PROXY.getBoolean(),
         val proxyUrl: String = PROXY_URL.getString(),
         val newTitle: String = "",
-        val userAgentString: String = USER_AGENT.getString(),
+        val userAgentString: String = USER_AGENT.run {
+            if (getBoolean()) getString() else ""
+        },
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
         this.addOption("--cookies", context.getCookiesFile().absolutePath).apply {
-            if (userAgentString.isNotEmpty())
+            if (userAgentString.isNotEmpty()) {
                 addOption("--add-header", "User-Agent:$userAgentString")
+            }
         }
 
     private fun YoutubeDLRequest.enableProxy(proxyUrl: String): YoutubeDLRequest =

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -31,6 +32,7 @@ import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -75,6 +77,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CookieProfile
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -94,6 +97,7 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.USER_AGENT
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -159,6 +163,26 @@ fun CookieProfilePage(
                     )
                 }
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    var userAgent by USER_AGENT.booleanState
+                    fun toggleUserAgent(boolean: Boolean = !userAgent) {
+                        expanded = false
+                        userAgent = boolean
+                        USER_AGENT.updateBoolean(boolean)
+                    }
+                    DropdownMenuItem(
+                        modifier = Modifier.toggleable(
+                            value = userAgent,
+                            onValueChange = ::toggleUserAgent
+                        ),
+                        leadingIcon = {
+                            Checkbox(
+                                checked = userAgent,
+                                onCheckedChange = null,
+                                modifier = Modifier.clearAndSetSemantics { })
+                        },
+                        text = { Text(stringResource(id = R.string.ua_header)) },
+                        onClick = ::toggleUserAgent,
+                    )
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Outlined.ContentPasteGo, null) },
                         text = {
@@ -182,6 +206,7 @@ fun CookieProfilePage(
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             showClearCookieDialog = true
                         })
+
                 }
             }, scrollBehavior = scrollBehavior)
         },
