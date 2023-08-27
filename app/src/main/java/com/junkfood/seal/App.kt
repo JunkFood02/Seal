@@ -19,6 +19,7 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
@@ -39,6 +40,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -63,7 +65,7 @@ class App : Application() {
 
         applicationScope.launch((Dispatchers.IO)) {
             try {
-                if (PreferenceUtil.templateStateFlow.value.isEmpty()) {
+                if (DatabaseUtil.getTemplateFlow().last().isEmpty()) {
                     PreferenceUtil.initializeTemplateSample()
                 }
                 YoutubeDL.init(this@App)

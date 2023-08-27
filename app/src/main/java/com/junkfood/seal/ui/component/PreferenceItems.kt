@@ -19,6 +19,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Update
@@ -32,6 +33,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,6 +59,8 @@ import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
+import com.kyant.monet.LocalTonalPalettes
+import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 
 private const val horizontal = 8
 private const val vertical = 16
@@ -519,12 +523,26 @@ fun PreferencesCautionCard(
 
 }
 
+@Preview
+@Composable
+fun PreferencesHintCardPreview() {
+    CompositionLocalProvider(LocalTonalPalettes provides Color.Green.toTonalPalettes()) {
+        PreferencesHintCard(
+            title = "Explore new features",
+            icon = Icons.Outlined.TipsAndUpdates,
+            description = "Find out what's new in this version",
+            containerColor = FixedAccentColors.primaryFixed,
+            contentColor = FixedAccentColors.onPrimaryFixed,
+        )
+    }
+}
+
 @Composable
 fun PreferencesHintCard(
     title: String = "Title ".repeat(2),
     description: String? = "Description text ".repeat(3),
     icon: ImageVector? = Icons.Outlined.Translate,
-    backgroundColor: Color = FixedAccentColors.secondaryFixed,
+    containerColor: Color = FixedAccentColors.secondaryFixed,
     contentColor: Color = FixedAccentColors.onSecondaryFixed,
     onClick: () -> Unit = {},
 ) {
@@ -533,7 +551,7 @@ fun PreferencesHintCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(backgroundColor)
+            .background(containerColor)
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
