@@ -30,7 +30,7 @@ jobs:
 
             const labels = context.payload.issue.labels.map(label => label.name);
 
-            if ((issueBody.includes('instagram') || issueBody.includes('facebook')) && labels.includes('bug')) {
+            if ((issueBody.includes('instagram') || issueBody.includes('facebook') || issueBody.includes('twitter')) && labels.includes('bug')) {
 
               await github.issues.update({
 

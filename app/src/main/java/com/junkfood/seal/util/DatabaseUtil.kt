@@ -53,7 +53,7 @@ object DatabaseUtil {
     suspend fun insertCookieProfile(profile: CookieProfile) = dao.insertCookieProfile(profile)
 
     suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
-    private suspend fun getTemplateList() = dao.getTemplateList()
+    suspend fun getTemplateList() = dao.getTemplateList()
     private suspend fun getShortcutList() = dao.getShortcutList()
     suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) =
         dao.deleteInfoListByIdList(idList, deleteFile)

@@ -40,7 +40,6 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -65,7 +64,7 @@ class App : Application() {
 
         applicationScope.launch((Dispatchers.IO)) {
             try {
-                if (DatabaseUtil.getTemplateFlow().last().isEmpty()) {
+                if (DatabaseUtil.getTemplateList().isEmpty()) {
                     PreferenceUtil.initializeTemplateSample()
                 }
                 YoutubeDL.init(this@App)
