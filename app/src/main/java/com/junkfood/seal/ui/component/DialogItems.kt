@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -120,22 +118,26 @@ fun CheckBoxItem(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .padding(vertical = 12.dp)
+        modifier = Modifier
+            .padding(top = 12.dp)
             .fillMaxWidth()
-            .selectable(selected = checked,
+            .selectable(
+                selected = checked,
                 enabled = true,
-                onClick = onClick,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }),
-        verticalAlignment = Alignment.CenterVertically
+                onClick = onClick
+            ),
     ) {
-        Checkbox(
-            modifier = Modifier.clearAndSetSemantics { },
-            checked = checked, onCheckedChange = { onClick() },
-        )
-        Text(
-            modifier = Modifier, text = text, style = MaterialTheme.typography.bodyMedium
-        )
+        Row(
+            modifier = modifier, verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                modifier = Modifier.clearAndSetSemantics { },
+                checked = checked, onCheckedChange = { onClick() },
+            )
+            Text(
+                modifier = Modifier, text = text, style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
     }
 }
