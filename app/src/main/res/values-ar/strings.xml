@@ -199,7 +199,7 @@
     <string name="lowest_quality">أدنى جودة</string>
     <string name="download_selection_desc">حدد مقاطع الفيديو لتنزيلها من قائمة التشغيل \"%1$s\"</string>
     <string name="select_all">اختر الكل</string>
-    <string name="selected_item_count">محدد %1$d</string>
+    <string name="selected_item_count">%1$d محدد</string>
     <string name="unavailable">غير متوفر</string>
     <string name="format_settings_desc">صيغة الملف، دقة الفيديو، التَرْجمات</string>
     <string name="general_settings_desc">إصدار Yt-dlp، إشعار، قائمة تشغيل</string>
@@ -317,4 +317,20 @@
     <string name="enable_notifications">هل ترغب في تفعيل الإشعارات؟</string>
     <string name="proxy_desc">استخدم بروكسي لاتصالات الإنترنت</string>
     <string name="enable_notifications_desc">التطبيق يحتاج إلى إذنك لنشر إشعارات حول حالة التنزيل والتقدم.</string>
+    <string name="refresh_cookies_desc">اضغط لفتح صفحة الويب لتوليد ملفات تعريف الارتباط الجديدة:</string>
+    <string name="folder_picker">محدد المجلدات</string>
+    <string name="disabled">غير مفعل</string>
+    <string name="custom_command_directory_desc">حدد مسار التحميل عند استخدام الأوامر المخصصة</string>
+    <string name="prefer_compatibility_desc">تفضيل تنسيقات MP4 (H.264) للمشاركة مع تطبيقات أخرى</string>
+    <string name="prefer_quality_desc">تفضيل تنسيقات AV1، VP9 أو H.265 للمشاهدة في تطبيقات متوافقة</string>
+    <string name="download_type">نوع التحميل</string>
+    <string name="learn_more">أقرأ المزيد</string>
+    <string name="unknown">غير معروف</string>
+    <string name="format_preference">تفضيل التنسيقات</string>
+    <string name="remove_multiple_templates_msg">هل ترغب في إزالة %1$s من قوالب الأوامر بشكل دائم؟</string>
+    <string name="set_directory_desc">اضغط لتحديد مجلد</string>
+    <string name="custom_command_directory">مجلد الأوامر المخصصة</string>
+    <string name="custom">مخصص</string>
+    <string name="auto">تلقائي</string>
+    <string name="commands">أوامر</string>
 </resources>

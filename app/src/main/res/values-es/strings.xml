@@ -324,4 +324,19 @@
     <string name="custom_command_directory">Directorio de comandos personalizado</string>
     <string name="disabled">Desactivado</string>
     <string name="prefer_compatibility_desc">Prefieres los formatos MP4(H.264) para compartir con otras aplicaciones</string>
+    <string name="refresh_cookies_desc">Pulsa para abrir la página web para generar nuevas cookies:</string>
+    <string name="download_type">Tipo de descarga</string>
+    <string name="custom">Personalizada</string>
+    <string name="auto">Automática</string>
+    <string name="unknown">Desconocido</string>
+    <string name="commands">Comandos</string>
+    <string name="format_preference">Preferencia del formato</string>
+    <string name="learn_more">Más información</string>
+    <string name="remove_multiple_templates_msg">¿Quitar %1$s de las plantillas de los comandos para siempre\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d elemento</item>
+        <item quantity="many">%d elementos</item>
+        <item quantity="other">%d elementos</item>
+    </plurals>
+    <string name="ua_header">Encabezado User-Agent</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="video_directory">Pasta para Vídeos</string>
+    <string name="video_directory">Pasta de Vídeo</string>
     <string name="create_thumbnail">Salvar miniatura</string>
     <string name="download_settings_desc">Geral, formato, comando personalizado</string>
     <string name="download">Baixar</string>
@@ -50,7 +50,7 @@
     <string name="convert_to">Converter para %1$s</string>
     <string name="format">Formato</string>
     <string name="best_quality">Melhor qualidade</string>
-    <string name="video_quality_desc">Limitar a qualidade do vídeo quanto mútiplas estiverem presentes</string>
+    <string name="video_quality_desc">Limitar a qualidade do vídeo quando várias qualidades estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
     <string name="start_download">Baixar</string>
@@ -66,12 +66,12 @@
     <string name="release_desc">Procure por registros de alterações e novas versões</string>
     <string name="edit_template_desc">O caminho de saída e a URL serão adicionados pelo aplicativo.</string>
     <string name="convert_audio_format_desc">Re-encodar arquivos de áudio resultará na perda da qualidade de áudio e aumentará o tamanho do arquivo.</string>
-    <string name="video_quality">Qualidade de vídeo</string>
-    <string name="preferred_format_desc">Formato preferencial quando vários são fornecidos</string>
+    <string name="video_quality">Qualidade do vídeo</string>
+    <string name="preferred_format_desc">Formato preferido quando vários formatos estiverem presentes</string>
     <string name="language">Idioma de exibição</string>
     <string name="language_settings">Definir idioma de exibição</string>
-    <string name="close_never_show_again">Não exibir novamente</string>
-    <string name="user_guide">Guia de usuário</string>
+    <string name="close_never_show_again">Não mostrar novamente</string>
+    <string name="user_guide">Guia do usuário</string>
     <string name="open_settings">Abrir configurações</string>
     <string name="paste_desc">Clique em “Colar” para obter o link do vídeo da sua área de transferência.</string>
     <string name="download_playlist">Baixar lista de reprodução</string>
@@ -93,7 +93,7 @@
     <string name="to">Fim</string>
     <string name="invalid_index_range">Intervalo de índice inválido</string>
     <string name="playlist_indicator_text">Baixando lista de reprodução (%1$d/%2$d), toque para parar.</string>
-    <string name="audio_directory">Pasta para Áudios</string>
+    <string name="audio_directory">Pasta de Áudio</string>
     <string name="download_directory">Diretório de download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
     <string name="subdirectory">Salvar no subdiretório</string>
@@ -103,16 +103,16 @@
     <string name="download_desc">Em seguida, clique em “Baixar” depois de ajustar suas configurações.</string>
     <string name="check_download_settings_desc">Dê uma olhada nas configurações de download e verifique se você tem a versão mais recente do yt-dlp antes de usá-lo.</string>
     <string name="concurrent_download_desc">Baixe mais partes de vídeos M3U8/MPD paralelamente</string>
-    <string name="permission_issue_desc">Diretórios fora de Download/ e Documentos/ não são suportados</string>
+    <string name="permission_issue_desc">Diretórios fora de Download/ e Documents/ não são suportados</string>
     <string name="battery_settings_desc">Por favor, defina o uso da bateria deste aplicativo para “Irrestrito” nas configurações do sistema para fazer o download em segundo plano.</string>
     <string name="additional_settings">Configurações adicionais</string>
     <string name="share_fail_msg">Não foi possível corresponder o URL do conteúdo compartilhado</string>
     <string name="concurrent_download_num">%d fragmento(s) seriam usados para baixar vídeo nativo DASH/HLS simultaneamente.</string>
     <string name="permission_issue">Problema de permissão de armazenamento</string>
     <string name="translate">Traduzir</string>
-    <string name="battery_configuration_desc">Ignore a otimização da bateria para este aplicativo baixar em segundo plano</string>
+    <string name="battery_configuration_desc">Ignorar a Otimização da Bateria para este aplicativo baixar em segundo plano</string>
     <string name="unknown_error">Erro desconhecido</string>
-    <string name="translate_desc">Ajude a traduzir este aplicativo no Hosted Weblate</string>
+    <string name="translate_desc">Ajude a traduzir este aplicativo em seu idioma usando Weblate</string>
     <string name="back">Voltar</string>
     <string name="checked">Verificado</string>
     <string name="custom_command_desc">Executar o comando yt-dlp com um modelo personalizado</string>
@@ -149,7 +149,7 @@
     <string name="new_template">Novo modelo</string>
     <string name="template_label">Etiqueta</string>
     <string name="remove_template">Remover\?</string>
-    <string name="remove_template_desc">Remover %1$s dos templates de comandos para sempre\?</string>
+    <string name="remove_template_desc">Remover %1$s dos templates de comandos\?</string>
     <string name="template_selection">Seleção de modelos</string>
     <string name="custom_command_template_desc">Editar e gerenciar modelos de comandos</string>
     <string name="downloading_indicator_text">Download em andamento, toque para cancelar.</string>
@@ -164,18 +164,18 @@
     <string name="download_task_count">%1$d Tarefa(s) de download(s)</string>
     <string name="recently_added">Adicionado recentemente</string>
     <string name="multiselect_item_count">%1$d vídeo(s), %2$d arquivo(s) de áudio</string>
-    <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads para sempre\?</string>
+    <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads\?</string>
     <string name="template_exported">Exportado %1$d modelo(s)</string>
     <string name="export_to_clipboard">Exportar para a área de transferência</string>
-    <string name="check_for_updates">Buscar atualizações</string>
-    <string name="check_for_updates_desc">Buscar automaticamente pela versão mais recente no GitHub</string>
+    <string name="check_for_updates">Verifique se há atualizações</string>
+    <string name="check_for_updates_desc">Verificar automaticamente a versão mais recente no GitHub</string>
     <string name="app_up_to_date">Você já possui a atualização mais recente</string>
     <string name="app_update_failed">Falha ao atualizar para a versão mais recente</string>
     <string name="update">Atualizar</string>
     <string name="aria2_desc">Usar aria2c como ferramenta de download padrão</string>
     <string name="cookies_desc">Usar cookies formatados do Netscape para download</string>
-    <string name="clear_temp_files">Limpar arquivos temporários</string>
-    <string name="clear_temp_files_desc">Remover todos os arquivos temporários do diretório interno</string>
+    <string name="clear_temp_files">Remover arquivos temporários</string>
+    <string name="clear_temp_files_desc">Remove todos os arquivos temporários do diretório interno</string>
     <string name="clear_temp_files_count">%1$d arquivo(s) temporário(s) removido(s)</string>
     <string name="multiselect_mode">Modo multi-seleção</string>
     <string name="clear_temp_files_info">Arquivos temporários podem ser usados para retomar downloads cancelados. Você tem certeza que quer remover estes arquivos\?</string>
@@ -220,8 +220,8 @@
     <string name="rename">Renomear</string>
     <string name="second">segundo</string>
     <string name="minute">minuto</string>
-    <string name="clear_all_cookies">Limpar todos os cookies</string>
-    <string name="clear_all_cookies_desc">Excluir todos os cookies armazenados no aplicativo para sempre\?</string>
+    <string name="clear_all_cookies">Remover todos os cookies</string>
+    <string name="clear_all_cookies_desc">Excluir todos os cookies armazenados no aplicativo\?</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="format_selection">Seleção de formato</string>
@@ -239,7 +239,7 @@
     <string name="auto_update">Atualização automática</string>
     <string name="enable_auto_update">Ativar atualização automática</string>
     <string name="logs">Log</string>
-    <string name="matrix_space">Espaço no matrix</string>
+    <string name="matrix_space">Espaço no Matrix</string>
     <string name="abs_hint">A maioria das plataformas de streaming de vídeo oferece áudio e vídeo separadamente, você pode selecionar e mesclar um formato somente de áudio com um formato somente de vídeo em um único vídeo.</string>
     <string name="discard">Descartar</string>
     <string name="apply">Aplicar</string>
@@ -279,7 +279,7 @@
     <string name="format_sorting">Classificação de formatos</string>
     <string name="temporary_directory">Diretório temporário</string>
     <string name="sponsors">Patrocinadores</string>
-    <string name="sponsor_desc">Apoie este app patrocinando no GitHub</string>
+    <string name="sponsor_desc">Apoie este aplicativo patrocinando no GitHub</string>
     <string name="sponsor">Patrocinador</string>
     <string name="temporary_directory_desc">Armazenar arquivos temporários no diretório interno</string>
     <string name="feedback">Feedback</string>
@@ -303,7 +303,7 @@
     <string name="split_video_msg">O vídeo será dividido em %1$d capítulos</string>
     <string name="unknown_error_title">Oops! Algo deu errado</string>
     <string name="copy_and_exit">Copiar e sair</string>
-    <string name="no_custom_command_tasks">Não existem tarefas de comando personalizadas</string>
+    <string name="no_custom_command_tasks">Nenhuma tarefa de comando personalizada</string>
     <string name="download_video_desc">Fazer download dos vídeos do URL</string>
     <string name="new_task">Nova tarefa de download</string>
     <string name="edit_template">Editar \"%1$s\"</string>
@@ -324,4 +324,19 @@
     <string name="enable_notifications_desc">O aplicativo precisa da sua permissão para postar notificações sobre o status e o progresso do download.</string>
     <string name="prefer_compatibility_desc">Prefira os formatos MP4(H.264) para compartilhar com outros aplicativos</string>
     <string name="proxy">Proxy</string>
+    <string name="download_type">Tipo de download</string>
+    <string name="custom">Personalizado</string>
+    <string name="commands">Comandos</string>
+    <string name="format_preference">Preferência de formato</string>
+    <string name="learn_more">Saber mais</string>
+    <string name="unknown">Desconhecido</string>
+    <string name="auto">Automático</string>
+    <string name="refresh_cookies_desc">Toque para abrir a página da web para gerar novos cookies:</string>
+    <string name="remove_multiple_templates_msg">Remover %1$s dos modelos de comando\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="many">%d itens</item>
+        <item quantity="other">%d item(s)</item>
+    </plurals>
+    <string name="ua_header">Cabeçalho de requisição User-Agent</string>
 </resources>

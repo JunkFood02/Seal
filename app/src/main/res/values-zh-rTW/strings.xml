@@ -324,4 +324,17 @@
     <string name="prefer_quality_desc">在相容的應用程式裡進行觀賞時偏好 AV1, VP9 或 H.265 格式</string>
     <string name="proxy">Proxy</string>
     <string name="ytdlp_update_action">更新 yt-dlp</string>
+    <string name="refresh_cookies_desc">輕觸以開啟產生新 Cookies 的網頁:</string>
+    <string name="download_type">下載類型</string>
+    <string name="custom">自訂</string>
+    <string name="auto">自動</string>
+    <string name="commands">命令</string>
+    <string name="format_preference">偏好格式</string>
+    <string name="learn_more">進一步了解</string>
+    <string name="unknown">未知</string>
+    <string name="remove_multiple_templates_msg">確定要從命令範本中移除「%1$s」嗎？</string>
+    <plurals name="item_count">
+        <item quantity="other">%d 項</item>
+    </plurals>
+    <string name="ua_header">使用者代理程式標頭</string>
 </resources>

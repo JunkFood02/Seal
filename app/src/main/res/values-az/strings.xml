@@ -4,9 +4,9 @@
     <string name="extract_audio">Səs kimi saxla</string>
     <string name="create_thumbnail">Miniatürü saxla</string>
     <string name="settings">Tənzimləmələr</string>
-    <string name="download_settings_desc">Ümumi, format, xüsusi əmr</string>
+    <string name="download_settings_desc">Ümumi, format, fərdi əmr</string>
     <string name="download">Yüklə</string>
-    <string name="url_empty">Link boş ola bilməz</string>
+    <string name="url_empty">Bağlantı boş ola bilməz</string>
     <string name="extract_audio_summary">Video əvəzində, səs yüklə və saxla</string>
     <string name="create_thumbnail_summary">Video miniatürü fayl kimi saxla</string>
     <string name="yt_dlp_up_to_date">yt-dlp-nin ən son versiyası işlədilir</string>
@@ -67,11 +67,11 @@
     <string name="format">Format</string>
     <string name="convert_audio_format_desc">Səs faylların yenidən kodlaşdırmaq səs keyfiyyətində itkiyə və fayl həcmində artıma səbəb olacaq.</string>
     <string name="video_quality">Video keyfiyyət</string>
-    <string name="best_quality">Ən yaxşı keyfiyyət (standart)</string>
+    <string name="best_quality">Ən yaxşı keyfiyyət</string>
     <string name="video_quality_desc">Çoxsaylı olduqda video keyfiyyətin məhdudlaşdır</string>
     <string name="not_specified">Müəyyənləşdirilməyib (standart)</string>
     <string name="video_format_preference">Üstünlük verilən video formatı</string>
-    <string name="preferred_format_desc">Çoxsaylı təmin ediləndə seçilən format</string>
+    <string name="preferred_format_desc">Çoxsaylı təmin ediləndə üstünlük verilən format</string>
     <string name="video_format">Video formatı</string>
     <string name="start_download">Yüklə</string>
     <string name="close">Bağla</string>
@@ -156,7 +156,7 @@
     <string name="download_task_count">%1$d Yükləmə Tapşırığı</string>
     <string name="recently_added">Yenicə Əlavə Edilib</string>
     <string name="delete_multiple_items_msg">%1$d element yükləmə tarixçənizdən birdəfəlik silinsin\?</string>
-    <string name="sponsorblock_desc">SponsorBlock API ilə videolardan bölümləri təmizlə</string>
+    <string name="sponsorblock_desc">SponsorBlock API ilə videolarda bölümləri təmizlə yaxud işarələ</string>
     <string name="sponsorblock_categories">SponsorBlock kateqoriyaları</string>
     <string name="check_for_updates">Yeniləmələr üçün yoxla</string>
     <string name="check_for_updates_desc">GitHub-dakı ən son versiyanı avtomatik yoxla</string>
@@ -165,7 +165,7 @@
     <string name="update">Yenilə</string>
     <string name="aria2_desc">Xarici yükləyici kimi aria2c istifadə et</string>
     <string name="clear_temp_files_count">%1$d müvəqqəti fayl silindi</string>
-    <string name="private_mode">Gizli rejim</string>
+    <string name="private_mode">Gizli</string>
     <string name="dynamic_color">Dinamikalı rəng</string>
     <string name="dynamic_color_desc">Rəngləri divar kağızlarından tətbiq mövzusuna tətbiq et</string>
     <string name="download_with_cellular">Mobil işlədərək yüklə</string>
@@ -201,7 +201,7 @@
     <string name="template_exported">İxrac edilmiş %1$d şablon</string>
     <string name="template_imported">İdxal edilmiş %1$d şablon</string>
     <string name="cookies_desc">Yükləmələr üçün Netscape formatlı məlumat bazası istifadə et</string>
-    <string name="sponsorblock_categories_desc">Video fayldan təmizlənməli SponsorBlock kateqoriyaların müəyyənləşdir</string>
+    <string name="sponsorblock_categories_desc">Video faylda silmək və ya işarələmək üçün SponsorBlock kateqoriyaların dəqiqləşdir</string>
     <string name="clear_temp_files_desc">Daxili qovluqdan bütün müvəqqəti faylları sil</string>
     <string name="multiselect_mode">Çoxseçimli rejim</string>
     <string name="clear_temp_files">Müvəqqəti faylları təmizlə</string>
@@ -246,7 +246,7 @@
     <string name="edit_shortcuts_desc">Əmr şablonlarını tərtib etmək üçün istifadə edilən fərdi qısayolları redaktə edin.</string>
     <string name="running_tasks">İşləyən tapşırıqlar</string>
     <string name="subtitle_sponsorblock">SponsorBlock bölümləri silinən zaman titrlər vaxtı səhv ola bilər.</string>
-    <string name="embed_subtitles_mkv_msg">Titrləri yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq.</string>
+    <string name="embed_subtitles_mkv_msg">Titrləri yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq. Daxili altyazıyla videolara baxmaq üçün VLC Media Oynadıcı və ya digər uyğun tətbiqləri istifadə edə bilərsiniz.</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="share">Paylaş</string>
@@ -309,4 +309,33 @@
     <string name="new_task">Yeni yükləmə tapşırığı</string>
     <string name="start">Başlat</string>
     <string name="edit_template">\"%1$s\" redaktə et</string>
+    <string name="remove_multiple_templates_msg">%1$s əmr şablonlarından həmişəlik təmizlənsin\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d element</item>
+        <item quantity="other">%d element</item>
+    </plurals>
+    <string name="refresh_cookies_desc">Yeni bazalar yaratmaq üçün veb səhifə açmağa toxun:</string>
+    <string name="ytdlp_update_action">yt-dlp-ni yenilə</string>
+    <string name="proxy">Proksi</string>
+    <string name="legacy">Köhnə</string>
+    <string name="proxy_desc">İnternet bağlantıları üçün proksi işlət</string>
+    <string name="enable_notifications">Bildirişlər aktivləşsin\?</string>
+    <string name="enable_notifications_desc">Tətbiqin yükləmə vəziyyəti və irəliləyiş barədə bildirişlər göndərməsi üçün icazənizə ehtiyacı var.</string>
+    <string name="quality">Keyfiyyət</string>
+    <string name="ua_header">İstifadəçi-Agent başlığı</string>
+    <string name="disable">Qeyri-aktiv et</string>
+    <string name="set_directory_desc">Kataloq yaratmaq üçün toxun</string>
+    <string name="custom_command_directory">Fərdi əmr kataloqu</string>
+    <string name="disabled">Qeyri-aktivdir</string>
+    <string name="folder_picker">Qovluq seçici</string>
+    <string name="custom_command_directory_desc">Fərdi əmrlər istifadə edərkən çıxış qovluğun təyin et</string>
+    <string name="prefer_compatibility_desc">Digər tətbiqlərdə paylaşmaq üçün MP4(H.264) formatlarına üstünlük ver</string>
+    <string name="prefer_quality_desc">Uyğun tətbiqlərdə baxmaq üçün AV1, VP9 və ya H.265 formatlarına üstünlük verin</string>
+    <string name="download_type">Yükləmə növü</string>
+    <string name="custom">Fərdi</string>
+    <string name="auto">Avtomatik</string>
+    <string name="commands">Əmrlər</string>
+    <string name="format_preference">Format üstünlüyü</string>
+    <string name="learn_more">Daha çox öyrən</string>
+    <string name="unknown">Naməlum</string>
 </resources>

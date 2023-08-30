@@ -75,7 +75,7 @@
     <string name="format">格式</string>
     <string name="convert_audio_format_desc">重新编码音频文件将会降低音质并增大文件大小</string>
     <string name="video_quality">视频画质</string>
-    <string name="best_quality">最高画质（默认）</string>
+    <string name="best_quality">最高画质</string>
     <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
     <string name="not_specified">默认</string>
     <string name="video_format_preference">视频格式偏好</string>
@@ -329,4 +329,10 @@
     <string name="format_preference">格式偏好</string>
     <string name="learn_more">更多信息</string>
     <string name="unknown">未知</string>
+    <plurals name="item_count">
+        <item quantity="other">%d 个项目</item>
+    </plurals>
+    <string name="remove_multiple_templates_msg">要从命令模板中移除 %1$s吗？</string>
+    <string name="refresh_cookies_desc">点击打开网页以刷新 cookies：</string>
+    <string name="ua_header">用户代理</string>
 </resources>

@@ -41,7 +41,7 @@
     <string name="dismiss">Cancelar</string>
     <string name="downloads_history">Transferências</string>
     <string name="remove">Remover</string>
-    <string name="about">Acerca de</string>
+    <string name="about">Acerca</string>
     <string name="audio">Áudio</string>
     <string name="link_copied">Ligação copiada para a área de transferência</string>
     <string name="back">Atrás</string>
@@ -238,7 +238,7 @@
     <string name="telegram_channel">Canal do Telegram</string>
     <string name="update">Atualização</string>
     <string name="cookies_usage_msg">O descarregamento de alguns sites requer informações de autenticação da conta. Clique em \"Gerar novos cookies\", introduza o URL do sítio Web e, em seguida, inicie sessão com a sua conta na página do browser; a aplicação irá gerá-los para si.</string>
-    <string name="matrix_space">Matrix space</string>
+    <string name="matrix_space">Espaço no Matrix</string>
     <string name="aria2_desc">Utilizar aria2c como descarregador externo</string>
     <string name="sdcard_directory">Pasta do cartão SD</string>
     <string name="title_activity_share">Transferência rápida</string>
@@ -324,4 +324,19 @@
     <string name="custom_command_directory_desc">Especificar o diretório de saída quando se utilizam comandos personalizados</string>
     <string name="prefer_compatibility_desc">Prefira os formatos MP4 (H.264) para partilhar com outras aplicações</string>
     <string name="prefer_quality_desc">Prefira os formatos AV1, VP9 ou H.265 para ver em aplicações compatíveis</string>
+    <string name="download_type">Tipo de transferência</string>
+    <string name="custom">Personalizado</string>
+    <string name="auto">Automático</string>
+    <string name="commands">Comandos</string>
+    <string name="format_preference">Preferência de formato</string>
+    <string name="learn_more">Saiba mais</string>
+    <string name="unknown">Desconhecido</string>
+    <string name="refresh_cookies_desc">Toque para abrir a página Web para gerar novos cookies:</string>
+    <string name="remove_multiple_templates_msg">Remover %1$s dos modelos de comando para sempre\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="many">%d itens</item>
+        <item quantity="other">%d item(s)</item>
+    </plurals>
+    <string name="ua_header">Cabeçalho de requisição User-Agent</string>
 </resources>

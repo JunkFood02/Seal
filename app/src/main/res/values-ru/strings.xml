@@ -324,4 +324,20 @@
     <string name="prefer_compatibility_desc">Используется MP4(H.264) формат для взаимодействия с другими приложениями</string>
     <string name="prefer_quality_desc">Используется AV1, VP9 или H.265 формат для просмотра в совместимых приложениях</string>
     <string name="custom_command_directory_desc">Укажите путь вывода при использовании кастомных команд</string>
+    <string name="auto">Автоматический</string>
+    <string name="custom">Пользовательский</string>
+    <string name="download_type">Тип загрузки</string>
+    <string name="format_preference">Предпочитаемый формат</string>
+    <string name="learn_more">Узнать больше</string>
+    <string name="commands">Команды</string>
+    <string name="unknown">Неизвестный</string>
+    <string name="refresh_cookies_desc">Нажмите, чтобы открыть веб-страницу для создания новых файлов cookie:</string>
+    <string name="remove_multiple_templates_msg">Удалить %1$s из сохранённых команд\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d предмет</item>
+        <item quantity="few">%d предметы</item>
+        <item quantity="many">%d предметы</item>
+        <item quantity="other">%d предметы</item>
+    </plurals>
+    <string name="ua_header">Заголовок User-Agent</string>
 </resources>
