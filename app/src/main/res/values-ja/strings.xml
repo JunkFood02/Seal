@@ -134,7 +134,7 @@
     <string name="template_selection">テンプレート選択</string>
     <string name="custom_command_template_desc">コマンドテンプレートを編集・管理する</string>
     <string name="task_canceled">ダウンロードタスクがキャンセルされました</string>
-    <string name="github_issue">GitHubの問題</string>
+    <string name="github_issue">GitHubの課題</string>
     <string name="github_issue_desc">バグの報告または機能のリクエストを提出する</string>
     <string name="info_copied">情報がクリップボードにコピーされました</string>
     <string name="custom_output_path_desc">サブディレクトリにテンプレートを使用する</string>
@@ -237,8 +237,8 @@
     <string name="video_creator_sample_text">動画制作者サンプルテキスト</string>
     <string name="clear">クリア</string>
     <string name="edit_shortcuts">ショートカットを編集</string>
-    <string name="telegram_channel">Telegramチャンネル</string>
-    <string name="matrix_space">Matrixスペース</string>
+    <string name="telegram_channel">Telegram チャンネル</string>
+    <string name="matrix_space">Matrix スペース</string>
     <string name="subtitle_desc">言語、字幕の埋め込み、自動字幕</string>
     <string name="copy_log">ログをコピー</string>
     <string name="add">追加</string>

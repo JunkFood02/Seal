@@ -331,4 +331,10 @@
     <string name="unknown">Tidak diketahui</string>
     <string name="commands">Perintah</string>
     <string name="format_preference">Preferensi format</string>
+    <string name="refresh_cookies_desc">Ketuk untuk membuka laman web untuk membuat kuki baru:</string>
+    <string name="remove_multiple_templates_msg">Hapus %1$s dari templat perintah selamanya\?</string>
+    <plurals name="item_count">
+        <item quantity="other">%d item</item>
+    </plurals>
+    <string name="ua_header">Tajuk agen pengguna (User-Agent)</string>
 </resources>

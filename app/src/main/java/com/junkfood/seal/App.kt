@@ -74,9 +74,9 @@ class App : Application() {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }
                 UpdateUtil.deleteOutdatedApk()
-            } catch (e: Exception) {
+            } catch (th: Throwable) {
                 withContext(Dispatchers.Main) {
-                    startCrashReportActivity(e)
+                    startCrashReportActivity(th)
                 }
             }
         }

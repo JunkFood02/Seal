@@ -331,4 +331,11 @@
     <string name="format_preference">फ़ॉर्मेट प्राथमिकता</string>
     <string name="learn_more">और अधिक जानें</string>
     <string name="unknown">अज्ञात</string>
+    <string name="refresh_cookies_desc">नई कुकीज़ उत्पन्न करने के लिए वेबपेज खोलने के वास्ते टैप करें:</string>
+    <string name="ua_header">उपयोगकर्ता-एजेंट हेडर</string>
+    <plurals name="item_count">
+        <item quantity="one">%d आइटम</item>
+        <item quantity="other">%d आइटम्स</item>
+    </plurals>
+    <string name="remove_multiple_templates_msg">कमांड टेम्प्लेट से %1$s को बेहतरी के लिए हटा दें\?</string>
 </resources>
