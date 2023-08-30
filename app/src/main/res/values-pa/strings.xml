@@ -331,4 +331,11 @@
     <string name="format_preference">ਫਾਰਮੈਟ ਦੀ ਤਰਜੀਹ</string>
     <string name="learn_more">ਜਿਆਦਾ ਜਾਣੋ</string>
     <string name="unknown">ਅਗਿਆਤ</string>
+    <string name="remove_multiple_templates_msg">ਕਮਾਂਡ ਟੈਮਪਲੇਟਸ ਤੋਂ %1$s ਨੂੰ ਬਿਹਤਰੀ ਲਈ ਹਟਾਉਣਾ ਹੈ\?</string>
+    <string name="refresh_cookies_desc">ਨਵੀਆਂ ਕੂਕੀਜ਼ ਬਣਾਉਣ ਵਾਸਤੇ ਵੈੱਬਪੇਜ ਖੋਲ੍ਹਣ ਲਈ ਟੈਪ ਕਰੋ:</string>
+    <string name="ua_header">ਯੂਜ਼ਰ-ਏਜੰਟ ਸਿਰਲੇਖ</string>
+    <plurals name="item_count">
+        <item quantity="one">%d ਆਈਟਮ</item>
+        <item quantity="other">%d ਆਈਟਮਾਂ</item>
+    </plurals>
 </resources>

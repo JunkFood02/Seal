@@ -21,7 +21,7 @@
     <string name="paste_msg">Zalijepite URL iz međuspremnika</string>
     <string name="ytdlp_update">Kliknite kako biste preuzeli najnoviju inačicu yt-dlp</string>
     <string name="delete_info">Ukloniti\?</string>
-    <string name="delete_info_msg">Želite li zauvijek izbrisati \"%1$s\" iz povijesti preuzimanja\?</string>
+    <string name="delete_info_msg">Zauvijek ukloniti \"%1$s\" iz povijesti preuzimanja\?</string>
     <string name="confirm">Potvrdi</string>
     <string name="dismiss">Odustani</string>
     <string name="downloads_history">Preuzimanja</string>
@@ -52,8 +52,8 @@
     <string name="yt_dlp_docs">Reference korištenja yt-dlp</string>
     <string name="not_convert">Nepromijenjeno</string>
     <string name="convert_audio_format_desc">Ponovno kodiranje audio datoteka će prouzročiti gubitak kvalitete zvuka i povećati veličinu datoteke.</string>
-    <string name="best_quality">Najbolja kvaliteta (zadano)</string>
-    <string name="video_format_preference">Prioritetni oblik videa</string>
+    <string name="best_quality">Najbolja kvaliteta</string>
+    <string name="video_format_preference">Preferirani oblik videa</string>
     <string name="start_download">Preuzmi</string>
     <string name="convert_audio">Pretvori zvuk</string>
     <string name="close">Zatvori</string>
@@ -111,7 +111,7 @@
     <string name="import_from_clipboard">Uvezi iz međuspremnik</string>
     <string name="recently_added">Nedavno Dodano</string>
     <string name="multiselect_item_count">%1$d video(a), %2$d audio datoteka(e)</string>
-    <string name="sponsorblock_categories_desc">Odredite koje će kategorije SponsorBlock ukloniti iz videa</string>
+    <string name="sponsorblock_categories_desc">Odredite koje će kategorije SponsorBlock biti uklonjene ili označene u video datoteci</string>
     <string name="sponsorblock_categories">SponsorBlock kategorije</string>
     <string name="check_for_updates">Potražite ažuriranja</string>
     <string name="check_for_updates_desc">Automatski potraži najnovija ažuriranja na GitHub-u</string>
@@ -122,7 +122,7 @@
     <string name="clear_temp_files_count">%1$d privremena/ih datoteka izbrisano</string>
     <string name="clear_temp_files_info">Privremene datoteke služe kako bi se nastavila otkazana preuzimanja. Jeste li sigurni da ih želite sve izbrisati\?</string>
     <string name="multiselect_mode">Način višestrukog odabira</string>
-    <string name="private_mode">Privatan način rada</string>
+    <string name="private_mode">Inkognito</string>
     <string name="private_mode_desc">Onemogući povijest preuzimanja</string>
     <string name="dynamic_color">Dinamične boje teme</string>
     <string name="dynamic_color_desc">Primjeni boje pozadine na temu aplikacije</string>
@@ -151,7 +151,7 @@
     <string name="video_quality">Kvaliteta videozapisa</string>
     <string name="video_quality_desc">Ograniči kvalitetu videa kada postoji više opcija kvalitete</string>
     <string name="not_specified">Neodređeno (zadano)</string>
-    <string name="preferred_format_desc">Prioritetni format kada ih je više ponuđeno</string>
+    <string name="preferred_format_desc">Preferirani format kada ih je više ponuđeno</string>
     <string name="download_playlist">Preuzmi popis za reprodukciju</string>
     <string name="video_format">Oblik videa</string>
     <string name="user_guide">Vodič</string>
@@ -164,7 +164,7 @@
     <string name="invalid_index_range">Neispravan domet indeksa</string>
     <string name="playlist_indicator_text">Preuzimanje popisa za reprodukciju (%1$d/%2$d), dodirnite kako biste zaustavili.</string>
     <string name="download_directory">Direktorij preuzimanja</string>
-    <string name="edit_custom_path_template_desc">Dodajte prilagođen prefiks o- opciji sa dostupnim prostorom koji vam donosi yt-dlp</string>
+    <string name="edit_custom_path_template_desc">Dodajte prilagođen prefiks -o opciji sa dostupnim prostorom koji Vam donosi yt-dlp</string>
     <string name="open_file">Otvori datoteku</string>
     <string name="translate">Prevedite</string>
     <string name="custom_command_template_desc">Uredite i upravljajte naredbenim predlošcima</string>
@@ -179,7 +179,7 @@
     <string name="video_resolution">Razlučivost videa</string>
     <string name="template_exported">Izvezen(o) %1$d predložak(a)</string>
     <string name="template_imported">Uvezen(o) %1$d predložak(a)</string>
-    <string name="sponsorblock_desc">Uklonite dijelove iz videa pomoću SponsorBlock API</string>
+    <string name="sponsorblock_desc">Uklonite ili označite dijelove iz videa pomoću SponsorBlock API</string>
     <string name="video_file_size">Veličina video datoteke</string>
     <string name="download_task_count">%1$d zadataka preuzimanja</string>
     <string name="delete_multiple_items_msg">Zauvijek ukloniti %1$d predmet(a) iz povijesti preuzimanja\?</string>
@@ -224,7 +224,7 @@
     <string name="download_subtitles">Preuzmi titlove</string>
     <string name="subtitle_desc">Jezici, ugrađeni titlovi, automatski titlovi</string>
     <string name="copy_log">Bilježnik kopiranja</string>
-    <string name="embed_subtitles_mkv_msg">Za ugrađivanje titlova, videa će se preuzeti bez promjena u mkv kontejner.</string>
+    <string name="embed_subtitles_mkv_msg">Da bi se ugradili titlovi, videozapisi će biti preuzeti bez promjena u mkv kontejner. Možete koristiti VLC Media Player ili druge kompatibilne aplikacije za gledanje videozapisa s ugrađenim titlovima.</string>
     <string name="subtitle_sponsorblock">Titlovi mogu biti pogrešno tempirani nakon uklanjanja SponsorBlock segmenta.</string>
     <string name="max_rate">Maksimalan broj</string>
     <string name="high_contrast">Visokokontrastni tamni način rada</string>
@@ -309,4 +309,33 @@
     <string name="clear_all_cookies_desc">Zauvijek izbrisati sve kolačiće pohranjene u aplikaciji\?</string>
     <string name="sponsors">Sponzori</string>
     <string name="feedback">Povratne informacije</string>
+    <string name="ytdlp_update_action">Ažuriraj yt-dlp</string>
+    <string name="disable">Onemogući</string>
+    <string name="set_directory_desc">Dodirnite za postavljanje direktorija</string>
+    <string name="custom_command_directory">Direktorij prilagođenih naredbi</string>
+    <string name="disabled">Onemogućeno</string>
+    <string name="folder_picker">Birač mapa</string>
+    <string name="custom_command_directory_desc">Navedite izlazni direktorij kada koristite prilagođene naredbe</string>
+    <string name="format_preference">Preferenca oblika</string>
+    <string name="proxy_desc">Koristite proksi za internetske veze</string>
+    <string name="legacy">Naslijeđe</string>
+    <string name="quality">Kvaliteta</string>
+    <string name="enable_notifications">Omogućiti obavijesti\?</string>
+    <string name="enable_notifications_desc">Aplikacija treba Vaše dopuštenje za objavljivanje obavijesti o statusu i napretku preuzimanja.</string>
+    <string name="proxy">Proksi</string>
+    <string name="download_type">Tip preuzimanja</string>
+    <string name="custom">Prilagođen</string>
+    <string name="auto">Automatski</string>
+    <string name="commands">Naredbe</string>
+    <string name="learn_more">Saznaj više</string>
+    <string name="unknown">Nepoznato</string>
+    <string name="prefer_compatibility_desc">Preferiraj MP4(H.264) oblike za dijeljenje s drugim aplikacijama</string>
+    <string name="prefer_quality_desc">Preferiraj AV1, VP9 ili H.265 oblike za gledanje u kompatibilnim aplikacijama</string>
+    <string name="refresh_cookies_desc">Dodirnite za otvaranje web stranice za generiranje novih kolačića:</string>
+    <string name="remove_multiple_templates_msg">Zauvijek ukloniti %1$s iz naredbenih predložaka\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d predmet</item>
+        <item quantity="few">%d predmeta</item>
+        <item quantity="other">%d predmeta</item>
+    </plurals>
 </resources>

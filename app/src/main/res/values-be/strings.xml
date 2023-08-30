@@ -82,7 +82,7 @@
     <string name="format">Фармат</string>
     <string name="convert_audio_format_desc">Паўторнае кадзіраванне аўдыяфайлаў прывядзе да страты якасці гуку і павелічэння памеру файла.</string>
     <string name="video_quality">Якасць відэа</string>
-    <string name="best_quality">Найлепшая якасць (па змаўчанні)</string>
+    <string name="best_quality">Найлепшая якасць</string>
     <string name="video_quality_desc">Абмежаваць якасць відэа, калі прысутнічае некалькі</string>
     <string name="not_specified">Не ўказана (па змаўчанні)</string>
     <string name="video_format_preference">Пераважны фармат відэа</string>
@@ -170,8 +170,8 @@
     <string name="recently_added">Нядаўна дададзеныя</string>
     <string name="multiselect_item_count">%1$d відэа(я), %2$d аўдыяфайл(ы)</string>
     <string name="delete_multiple_items_msg">Выдаліць %1$d элемент(ы) з вашай гісторыі спамповак назаўжды\?</string>
-    <string name="sponsorblock_desc">Выдаленне сегментаў з відэа з дапамогай SponsorBlock API</string>
-    <string name="sponsorblock_categories_desc">Укажыце катэгорыі SponsorBlock, якія трэба выдаліць з відэафайла</string>
+    <string name="sponsorblock_desc">Выдаляйце або пазначайце сегменты ў відэа з дапамогай SponsorBlock API</string>
+    <string name="sponsorblock_categories_desc">Укажыце катэгорыі SponsorBlock для выдалення або пазначэння ў відэафайле</string>
     <string name="sponsorblock_categories">Катэгорыі SponsorBlock</string>
     <string name="check_for_updates">Праверце наяўнасць абнаўленняў</string>
     <string name="check_for_updates_desc">Аўтаматычна правяраць апошнюю версію на GitHub</string>
@@ -180,7 +180,7 @@
     <string name="clear_temp_files_desc">Выдаліце ўсе часовыя файлы з унутранага каталога</string>
     <string name="clear_temp_files_count">Выдалена %1$d часовых файл(ы)</string>
     <string name="multiselect_mode">Рэжым множнага выбару</string>
-    <string name="private_mode">Рэжым інкогніта</string>
+    <string name="private_mode">Інкогніта</string>
     <string name="private_mode_desc">Адключыць гісторыю загрузак</string>
     <string name="clear_temp_files_info">Часовыя файлы можна выкарыстоўваць для аднаўлення скасаваных загрузак. Вы ўпэўнены, што хочаце выдаліць усе гэтыя файлы\?</string>
     <string name="dynamic_color">Дынамічныя колеры</string>
@@ -282,7 +282,7 @@
     <string name="add">Дадаць</string>
     <string name="shortcuts">Цэтлікі</string>
     <string name="edit_shortcuts">Рэдагаваць цэтлікі</string>
-    <string name="embed_subtitles_mkv_msg">Для ўбудавання субтытраў відэа будуць рэмуксаваныя ў кантэйнер mkv.</string>
+    <string name="embed_subtitles_mkv_msg">Каб убудаваць субтытры, відэа будуць рэмуксаваныя ў кантэйнер mkv. Вы можаце выкарыстоўваць VLC Media Player або іншыя сумяшчальныя праграмы для прагляду відэа з убудаванымі субтытрамі.</string>
     <string name="audio_quality_desc">Абмяжуйце бітрэйт аўдыя, калі прысутнічае некалькі якасцей</string>
     <string name="format_sorting_desc">Сартаванне фарматаў з дапамогай опцыі -S у yt-dlp</string>
     <string name="import_from_preferences">Імпарт</string>
@@ -309,4 +309,35 @@
     <string name="new_task">Новая задача загрузкі</string>
     <string name="start">Пачаць</string>
     <string name="edit_template">Рэдагаваць \"%1$s\"</string>
+    <string name="proxy">Проксі</string>
+    <string name="proxy_desc">Падключыцеся праз проксі</string>
+    <string name="set_directory_desc">Націсніце, каб наладзіць каталог</string>
+    <string name="custom_command_directory_desc">Укажыце выходны каталог пры выкарыстанні карыстальніцкіх каманд</string>
+    <string name="prefer_quality_desc">Выберыце AV1, VP9 або H.265 для прагляду ў сумяшчальных праграмах</string>
+    <string name="custom">Свая</string>
+    <string name="auto">Аўто</string>
+    <string name="commands">Каманды</string>
+    <string name="unknown">Невядомы</string>
+    <string name="download_type">Тып загрузкі</string>
+    <string name="format_preference">Налады фармату</string>
+    <string name="learn_more">Даведайцеся больш</string>
+    <string name="refresh_cookies_desc">Націсніце, каб адкрыць вэб-старонку для стварэння новых файлаў cookie:</string>
+    <string name="ytdlp_update_action">Абнавіць yt-dlp</string>
+    <string name="enable_notifications">Уключыць апавяшчэнні\?</string>
+    <string name="enable_notifications_desc">Праграме патрабуецца ваш дазвол, каб публікаваць апавяшчэнні аб стане і прагрэсе загрузкі.</string>
+    <string name="disable">Адключыць</string>
+    <string name="legacy">Устарэлы</string>
+    <string name="quality">Якасць</string>
+    <string name="custom_command_directory">Каталог карыстацкіх каманд</string>
+    <string name="disabled">Выключана</string>
+    <string name="folder_picker">Выбар тэчак</string>
+    <string name="prefer_compatibility_desc">Выберыце MP4 (H.264) для абмену ў іншых праграмах</string>
+    <string name="remove_multiple_templates_msg">Выдаліць %1$s з камандных шаблонаў назаўжды\?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d элемент</item>
+        <item quantity="few">%d элементы</item>
+        <item quantity="many">%d элементаў</item>
+        <item quantity="other">%d элементаў</item>
+    </plurals>
+    <string name="ua_header">Загаловак User-Agent</string>
 </resources>
