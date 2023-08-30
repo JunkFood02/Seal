@@ -5,7 +5,7 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.10.0][1.10.0] - unreleased
+## [v1.10.0][1.10.0] - 2023-08-30
 
 ### Added
 
@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add translations in Swedish and Portuguese
 
 ### Fixed
+
 * App crashes when being opened in the system share sheet
 * Video not shown in YouTube playlist results
 * Cookies cannot be disabled after clearing cookies
@@ -50,21 +51,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 **Notable Changes**
+
 * Upgrade target API level to 34 (Android 14)
 * Preferred video format changed to two options: Legacy and Quality
 * UI improvements to the configuration dialog
 
 **Other Changes**
+
 * Update `ColorScheme`s and components to reflect the new MD3 color roles
 * Update youtubedl-android version, added pycryptodomex to the library
 * Move Video formats to the bottom of the `FormatPage`
 * Notifications now are enabled by default
 * Minor UI improvements & changes
 
-
 ## [v1.9.2][1.9.2] - 2023-04-27
 
 ### Fixed
+
 * Fix a bug causing Incognito mode not working in v1.9.1
 * Fix misplaced quality tags in `AudioQuickSettingsDialog`
 * Fix mismatched formats when using Save as audio & Download playlist
@@ -72,13 +75,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v1.9.1][1.9.1] - 2023-04-11
 
 ### Added
+
 * Add Sponsor page: You can now support this app by sponsoring on GitHub!
 
 ### Fixed
+
 * Fix a bug causing warnings not shown in logs of completed custom command tasks
 * Fix a bug causing videos not scanned into media library when private mode is enabled
 
 ### Changed
+
 * Move the directory for temporary files to `cacheDir`
 
 ## [v1.9.0][1.9.0] - 2023-03-12
@@ -119,7 +125,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known issues
 
-- Cookies may not work as expected in some devices, please try to re-generate cookies after this occurs. File an issue on GitHub with your device info when experience errors.
+- Cookies may not work as expected in some devices, please try to re-generate cookies after this
+  occurs. File an issue on GitHub with your device info when experience errors.
 
 ## [v1.8.2][1.8.2] - 2023-02-10
 
@@ -195,3 +202,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.9.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.9.1
 
 [1.9.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.9.2
+
+[1.10.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.10.0
