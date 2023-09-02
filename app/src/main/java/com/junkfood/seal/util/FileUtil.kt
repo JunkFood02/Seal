@@ -46,7 +46,7 @@ object FileUtil {
                 } else if (File(this@runCatching).exists()) {
                     FileProvider.getUriForFile(
                         context,
-                        context.packageName + ".provider",
+                        context.getFileProvider(),
                         File(this@runCatching)
                     )
                 } else null
@@ -68,16 +68,17 @@ object FileUtil {
 
     fun createIntentForSharingFile(path: String?): Intent? = createIntentForFile(path)?.apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_STREAM, this.data)
-        type = "*/*"
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        putExtra(Intent.EXTRA_STREAM, data)
+        val mimeType = data?.let { context.contentResolver.getType(it) } ?: "media/*"
+        setDataAndType(this.data, mimeType)
         clipData = ClipData(
             null,
-            arrayOf("*/*"),
+            arrayOf(mimeType),
             ClipData.Item(data)
         )
     }
 
+    fun Context.getFileProvider() = "$packageName.provider"
 
     fun String.getFileSize(): Long = this.run {
         val length = File(this).length()

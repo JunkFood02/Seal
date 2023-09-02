@@ -1,5 +1,7 @@
 package com.junkfood.seal.ui.page.settings.network
 
+import android.content.ClipData
+import android.content.Intent
 import android.content.res.Configuration
 import android.webkit.CookieManager
 import androidx.compose.foundation.background
@@ -24,10 +26,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.ContentPasteGo
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
+import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.MoreVert
@@ -66,15 +68,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CookieProfile
 import com.junkfood.seal.ui.common.booleanState
@@ -95,6 +98,7 @@ import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
@@ -102,6 +106,7 @@ import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -184,15 +189,39 @@ fun CookieProfilePage(
                         onClick = ::toggleUserAgent,
                     )
                     DropdownMenuItem(
-                        leadingIcon = { Icon(Icons.Outlined.ContentPasteGo, null) },
+                        leadingIcon = { Icon(Icons.Outlined.FileCopy, null) },
                         text = {
-                            Text(stringResource(id = R.string.export_to_clipboard))
+                            Text(stringResource(id = R.string.export_to_file))
                         },
+                        enabled = cookieManager.hasCookies(),
                         onClick = {
                             expanded = false
                             scope.launch(Dispatchers.IO) {
-                                DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
-                                    clipboardManager.setText(AnnotatedString(it))
+                                File(App.videoDownloadDir, "cookies_exported.txt").run {
+                                    if (exists()) delete()
+                                    if (createNewFile()) {
+                                        DownloadUtil.getCookiesContentFromDatabase().getOrNull()
+                                            ?.let {
+                                                FileUtil.writeContentToFile(it, this)
+                                                context.startActivity(Intent.createChooser(Intent().apply {
+                                                    val data = FileProvider.getUriForFile(
+                                                        context,
+                                                        context.getFileProvider(),
+                                                        this@run
+                                                    )
+                                                    setDataAndType(data, "text/plain")
+                                                    action = Intent.ACTION_SEND
+                                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                                    putExtra(Intent.EXTRA_STREAM, data)
+
+                                                    clipData = ClipData(
+                                                        null,
+                                                        arrayOf("text/plain"),
+                                                        ClipData.Item(data)
+                                                    )
+                                                }, null))
+                                            }
+                                    }
                                 }
                             }
                         })

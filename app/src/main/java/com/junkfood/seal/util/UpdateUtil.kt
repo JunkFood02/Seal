@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
+import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.yausername.youtubedl_android.YoutubeDL
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -106,9 +106,8 @@ object UpdateUtil {
     private fun Context.getLatestApk() =
         File(getExternalFilesDir("apk"), "latest.apk")
 
-    private fun Context.getFileProvider() = "${packageName}.provider"
 
-    fun installLatestApk(context: Context = App.context) = context.apply {
+    fun installLatestApk(context: Context = App.context) = context.run {
         kotlin.runCatching {
             val contentUri = FileProvider.getUriForFile(this, getFileProvider(), getLatestApk())
             val intent = Intent(Intent.ACTION_VIEW).apply {
