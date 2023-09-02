@@ -46,7 +46,7 @@ object FileUtil {
                 } else if (File(this@runCatching).exists()) {
                     FileProvider.getUriForFile(
                         context,
-                        context.packageName + ".provider",
+                        context.getFileProvider(),
                         File(this@runCatching)
                     )
                 } else null
@@ -78,6 +78,7 @@ object FileUtil {
         )
     }
 
+    fun Context.getFileProvider() = "$packageName.provider"
 
     fun String.getFileSize(): Long = this.run {
         val length = File(this).length()

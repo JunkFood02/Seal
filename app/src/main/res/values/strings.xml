@@ -385,6 +385,7 @@
     <string name="refresh_cookies_desc">Tap to open webpage for generating new cookies:</string>
     <string name="remove_multiple_templates_msg">Remove %1$s from command templates for good?</string>
     <string name="ua_header">User-Agent header</string>
+    <string name="export_to_file">Export to file</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
