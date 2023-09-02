@@ -68,12 +68,12 @@ object FileUtil {
 
     fun createIntentForSharingFile(path: String?): Intent? = createIntentForFile(path)?.apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_STREAM, this.data)
-        type = "*/*"
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        putExtra(Intent.EXTRA_STREAM, data)
+        val mimeType = data?.let { context.contentResolver.getType(it) } ?: "media/*"
+        setDataAndType(this.data, mimeType)
         clipData = ClipData(
             null,
-            arrayOf("*/*"),
+            arrayOf(mimeType),
             ClipData.Item(data)
         )
     }
