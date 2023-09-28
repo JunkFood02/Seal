@@ -70,10 +70,10 @@ Android用動画・音声ダウンローダー
 
 
 ## ⬇️ ダウンロード
-ほとんどのデバイスでは、apksの**arm64-v8a**バージョンをインストールすることをお勧めします。
+ほとんどのデバイスでは、apksの**arm64-v8a**バージョンのインストールをお勧めします。
 
 -  [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)から最新の安定板をダウンロードしてください
-    - 新機能や変更点をテストには [プレリリース版](https://github.com/JunkFood02/Seal/releases/)をインストールしてください
+    - 新機能や変更点をテストをするには[プレリリース版](https://github.com/JunkFood02/Seal/releases/)をインストールしてください
 
 - F-Droid からも安定板をダウンロードできます 
 
@@ -103,7 +103,7 @@ Sealの翻訳を [Hosted Weblate](https://hosted.weblate.org/projects/seal/) で
 
 ## 🧱 クレジット
 
-Sealは[yt-dlp](https://github.com/yt-dlp/yt-dlp)をベースにした[yt-dlp](https://github.com/yt-dlp/yt-dlp)のシンプルなGUIです
+Sealは [youtubedl-android](https://github.com/yausername/youtubedl-android) をベースにした [yt-dlp](https://github.com/yt-dlp/yt-dlp) のシンプルなGUIです
 
 UIとソースコードの一部は、[Read You](https://github.com/Ashinch/ReadYou) や [Music You](https://github.com/Kyant0/MusicYou)
 
