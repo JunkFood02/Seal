@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download_settings_desc">Агульнае, фармат, карыстальніцкая каманда</string>
+    <string name="download_settings_desc">Асноўныя налады, фармат, карыстальніцкая каманда</string>
     <string name="video_directory">Папка для відэа</string>
     <string name="extract_audio">Захаваць як аўдыя</string>
     <string name="create_thumbnail">Захаваць мініяцюру</string>
@@ -15,7 +15,7 @@
     <string name="download_start_msg">Спампаваць \"%1$s\"</string>
     <string name="fetch_info_error_msg">Не ўдалося атрымаць інфармацыю пра відэа</string>
     <string name="general_settings">Асноўныя</string>
-    <string name="language">Мова адлюстравання</string>
+    <string name="language">Мова праграмы</string>
     <string name="language_settings">Усталюйце мову адлюстравання</string>
     <string name="task_running">Існуючая задача спампоўкі ўжо запушчана</string>
     <string name="paste_msg">Уставіць URL з буфера абмену</string>
@@ -31,8 +31,8 @@
     <string name="open_url">Адкрыць спасылку</string>
     <string name="remove">Выдаліць</string>
     <string name="delete_file">Выдаліць</string>
-    <string name="about">Даведка</string>
-    <string name="about_page">Версія, водгук, аўтаматычнае абнаўленне</string>
+    <string name="about">Аб праграме</string>
+    <string name="about_page">Версія, водгукі і абнаўленні</string>
     <string name="back">Назад</string>
     <string name="settings">Налады</string>
     <string name="url_empty">Спасылка не можа быць пустой</string>
@@ -62,7 +62,7 @@
     <string name="channel_name">Спампаваць</string>
     <string name="video_url">Спасылка на відэа</string>
     <string name="print_details_desc">Выводзіць падрабязныя паведамленні пры загрузцы (%)</string>
-    <string name="display">Персаналізацыя</string>
+    <string name="display">Знешні выгляд</string>
     <string name="display_settings">Цёмная тэма, дынамічны колер, мовы</string>
     <string name="dark_theme">Цёмная тэма</string>
     <string name="follow_system">Як у сістэме</string>
@@ -156,7 +156,7 @@
     <string name="embed_subtitles_desc">Устаўляйце прадстаўленыя субтытры ў відэа, калі такія маюцца</string>
     <string name="new_template">Новы шаблон</string>
     <string name="template_selection">Выбар шаблону</string>
-    <string name="high_contrast">Цёмная тэма высокай кантраснасці</string>
+    <string name="high_contrast">Высокакантрасная цёмная тэма</string>
     <string name="invalid_input">Няправільны ўвод</string>
     <string name="lowest_quality">Самая нізкая якасць</string>
     <string name="copy_error_report">Справаздача аб памылцы</string>
@@ -340,4 +340,5 @@
         <item quantity="other">%d элементаў</item>
     </plurals>
     <string name="ua_header">Загаловак User-Agent</string>
+    <string name="export_to_file">Экспарт у файл</string>
 </resources>

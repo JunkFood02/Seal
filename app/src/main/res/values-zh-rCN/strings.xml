@@ -28,7 +28,7 @@
     <string name="ytdlp_update">点此更新yt-dlp</string>
     <string name="ytdlp_update_action">更新 yt-dlp</string>
     <string name="delete_info">从下载记录移除</string>
-    <string name="delete_info_msg">确定要从下载记录移除 “%1$s” 吗？这个操作无法被撤销。</string>
+    <string name="delete_info_msg">从下载记录中永久移除 “%1$s” 吗？</string>
     <string name="confirm">确认</string>
     <string name="dismiss">取消</string>
     <string name="downloads_history">下载记录</string>
@@ -73,7 +73,7 @@
     <string name="not_convert">不进行格式转换</string>
     <string name="convert_to">转换为 %1$s 格式</string>
     <string name="format">格式</string>
-    <string name="convert_audio_format_desc">重新编码音频文件将会降低音质并增大文件大小</string>
+    <string name="convert_audio_format_desc">重编码音频文件将会造成音质损失并增大文件大小。</string>
     <string name="video_quality">视频画质</string>
     <string name="best_quality">最高画质</string>
     <string name="video_quality_desc">下载画质不高于所选分辨率的最清晰视频</string>
@@ -98,7 +98,7 @@
     <string name="settings_before_download_text">确认此次下载的下载设置</string>
     <string name="channel_name">下载</string>
     <string name="channel_description">显示下载进度与完成信息</string>
-    <string name="download_finish_notification">下载完成，点击打开</string>
+    <string name="download_finish_notification">下载完成，轻按打开。</string>
     <string name="execute_command_notification">正在执行自定义命令…</string>
     <string name="battery_settings_desc">为防止后台下载时系统结束进程，请在系统设置的电池管理中将此应用设置为“无限制”。</string>
     <string name="concurrent_download">多线程下载</string>
@@ -113,11 +113,11 @@
     <string name="download_notification_desc">在系统通知中显示下载进度与完成信息</string>
     <string name="fetching_playlist_info">正在获取播放列表信息…</string>
     <string name="download_range_selection">下载范围选择</string>
-    <string name="download_range_desc">指定要从播放列表\"%3$s\"下载的视频（序号范围：%1$d-%2$d）</string>
+    <string name="download_range_desc">指定要从播放列表\"%3$s\"下载的视频（序号范围：%1$d-%2$d）。</string>
     <string name="from">起始序号</string>
     <string name="to">结束序号</string>
     <string name="invalid_index_range">序号范围非法</string>
-    <string name="playlist_indicator_text">正在下载播放列表(%1$d/%2$d)，点击停止</string>
+    <string name="playlist_indicator_text">正在下载播放列表(%1$d/%2$d)，轻按停止。</string>
     <string name="audio_directory">音频目录</string>
     <string name="download_directory">下载目录</string>
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
@@ -139,11 +139,11 @@
     <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
     <string name="new_template">新建命令模板</string>
     <string name="template_label">模板标签</string>
-    <string name="remove_template">移除命令模板</string>
-    <string name="remove_template_desc">确定要移除命令模板 \"%1$s\" 吗？这个操作无法被撤销。</string>
+    <string name="remove_template">移除吗？</string>
+    <string name="remove_template_desc">从命令行模板中永久移除 \"%1$s\" 吗？</string>
     <string name="template_selection">模板选择</string>
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
-    <string name="downloading_indicator_text">正在执行下载任务，点击取消</string>
+    <string name="downloading_indicator_text">下载进行中，轻按取消。</string>
     <string name="task_canceled">下载任务被取消</string>
     <string name="github_issue">GitHub 议题</string>
     <string name="github_issue_desc">提交错误报告或改进建议</string>
@@ -167,7 +167,7 @@
     <string name="download_task_count">%1$d 下载任务</string>
     <string name="recently_added">最近添加</string>
     <string name="multiselect_item_count">%1$d 视频，%2$d 音频</string>
-    <string name="delete_multiple_items_msg">确定要移除已选取的 %1$d 条下载记录吗？这个操作无法被撤销。</string>
+    <string name="delete_multiple_items_msg">从下载记录中永久删除 %1$d 条记录吗？</string>
     <string name="sponsorblock_desc">使用 SponsorBlock API 移除视频中的片段</string>
     <string name="sponsorblock_categories_desc">指定要从视频中移除的片段类别</string>
     <string name="sponsorblock_categories">SponsorBlock 分类标记</string>
@@ -242,7 +242,7 @@
     <string name="edit_shortcuts">编辑快捷命令</string>
     <string name="add">添加</string>
     <string name="shortcuts">快捷命令</string>
-    <string name="edit_shortcuts_desc">编辑用于组成命令模板的快捷命令</string>
+    <string name="edit_shortcuts_desc">编辑可用于撰写命令行模板的定制快捷方式。</string>
     <string name="running_tasks">任务列表</string>
     <string name="show_logs">显示日志</string>
     <string name="logs">日志</string>
@@ -253,7 +253,9 @@
     <string name="share">分享</string>
     <string name="stable_channel">稳定</string>
     <string name="pre_release_channel">预览</string>
-    <string name="update_channel_desc">安装预览版本以提前体验新功能与应用变更。预览版本中的新功能可能仍在进行更改或不稳定，如在使用的过程中遇到问题，请及时向我们进行反馈，以帮助我们更好地优化应用。</string>
+    <string name="update_channel_desc">安装预览版本提前体验新功能与变化。
+\n
+\n预览版本可能不太稳定，如在使用的过程中遇到任何问题，请毫不犹豫向我们进行反馈，以帮助我们更好地优化应用。</string>
     <string name="update_channel">更新频道</string>
     <string name="auto_update">自动更新</string>
     <string name="enable_auto_update">启用自动更新</string>
@@ -285,11 +287,11 @@
     <string name="sponsors">赞助者</string>
     <string name="no_downloaded_media">下载记录空空如也</string>
     <string name="beta_features">测试</string>
-    <string name="enable_experimental_feature">启用试验性功能</string>
+    <string name="enable_experimental_feature">启用试验性功能吗？</string>
     <string name="clip_video_desc">在格式选择页面进行视频剪辑</string>
     <string name="clip_video_dialog_msg">该功能将使用 FFmpeg 以下载选定部分的视频，该功能仍处于试验阶段，剪辑不会完全准确，且并非所有格式都支持该功能，使用该功能时的下载速度将会显著减慢。</string>
     <string name="audio_format">音频格式</string>
-    <string name="auto_update_disabled_msg">%1$s 版本无法使用自动更新，如果你并未安装有 %1$s，或想要升级到测试版本以提前体验 Seal 中即将加入的新功能，请考虑 %2$s</string>
+    <string name="auto_update_disabled_msg">%1$s 版本无法使用自动更新，如果你的设备并未安装 %1$s，或想要升级到测试版本以提前体验 Seal 中即将加入的新功能，请考虑 %2$s。</string>
     <string name="switch_to_github_builds">切换至 GitHub 版本</string>
     <string name="okay">好</string>
     <string name="got_it">好</string>
@@ -312,8 +314,8 @@
     <string name="proxy_desc">使用代理进行网络连接</string>
     <string name="legacy">兼容优先</string>
     <string name="quality">质量优先</string>
-    <string name="enable_notifications">启用通知</string>
-    <string name="enable_notifications_desc">应用需要通知权限以发送有关下载状态与进度的通知消息</string>
+    <string name="enable_notifications">启用通知吗？</string>
+    <string name="enable_notifications_desc">应用需要通知权限以发送有关下载状态与进度的通知。</string>
     <string name="disable">禁用</string>
     <string name="set_directory_desc">点此设置下载目录</string>
     <string name="custom_command_directory">自定义命令目录</string>
@@ -335,4 +337,5 @@
     <string name="remove_multiple_templates_msg">要从命令模板中移除 %1$s吗？</string>
     <string name="refresh_cookies_desc">点击打开网页以刷新 cookies：</string>
     <string name="ua_header">用户代理</string>
+    <string name="export_to_file">导出到文件</string>
 </resources>

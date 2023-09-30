@@ -338,4 +338,5 @@
         <item quantity="other">%d आइटम्स</item>
     </plurals>
     <string name="remove_multiple_templates_msg">कमांड टेम्प्लेट से %1$s को बेहतरी के लिए हटा दें\?</string>
+    <string name="export_to_file">फ़ाइल में निर्यात करें</string>
 </resources>

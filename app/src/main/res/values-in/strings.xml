@@ -337,4 +337,5 @@
         <item quantity="other">%d item</item>
     </plurals>
     <string name="ua_header">Tajuk agen pengguna (User-Agent)</string>
+    <string name="export_to_file">Ekspor ke berkas</string>
 </resources>

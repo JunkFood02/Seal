@@ -339,4 +339,5 @@
         <item quantity="other">%d elementos</item>
     </plurals>
     <string name="ua_header">Encabezado User-Agent</string>
+    <string name="export_to_file">Exportar a un archivo</string>
 </resources>

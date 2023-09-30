@@ -18,7 +18,7 @@
     <string name="download_start_msg">Завантаження \"%1$s\"</string>
     <string name="fetch_info_error_msg">Не вдалося отримати інформацію про відео</string>
     <string name="general_settings">Загальні</string>
-    <string name="language">Мова</string>
+    <string name="language">Мова застосунку</string>
     <string name="language_settings">Визначити мову</string>
     <string name="task_running">Існуюче завдання на завантаження вже запущено</string>
     <string name="paste_msg">Вставити посилання з буфера обміну</string>
@@ -54,10 +54,10 @@
     <string name="advanced_settings">Розширені</string>
     <string name="print_details">Детальний вивід</string>
     <string name="print_details_desc">Виводити докладні повідомлення під час завантаження</string>
-    <string name="display">Вигляд</string>
-    <string name="display_settings">Темна тема, динамічні кольори та мови</string>
+    <string name="display">Зовнішній вигляд</string>
+    <string name="display_settings">Темна тема, динамічні кольори, мови</string>
     <string name="dark_theme">Темна тема</string>
-    <string name="follow_system">Система</string>
+    <string name="follow_system">Як у системі</string>
     <string name="on">Увімкнено</string>
     <string name="off">Вимкнено</string>
     <string name="cancel">Скасувати</string>
@@ -340,4 +340,5 @@
         <item quantity="other">%d елементів</item>
     </plurals>
     <string name="ua_header">Заголовок User-Agent</string>
+    <string name="export_to_file">Експорт у файл</string>
 </resources>
