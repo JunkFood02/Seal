@@ -277,7 +277,6 @@
     <string name="title">العنوان</string>
     <string name="rename">إعادة التسمية</string>
     <string name="clear_all_cookies_desc">هل تريد حذف جميع ملفات تعريف الارتباط المحفوظة في التطبيق؟</string>
-    <string name="temporary_directory">مجلد مؤقت</string>
     <string name="temporary_directory_desc">خزن الملفات المؤقتة في المجلد الداخلي</string>
     <string name="sponsor">الراعي</string>
     <string name="sponsor_desc">ادعم هذا التطبيق من خلال الرعاية على GitHub</string>

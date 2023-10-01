@@ -298,7 +298,6 @@
     <string name="feedback">피드백</string>
     <string name="sponsors">후원자</string>
     <string name="temporary_directory_desc">내부 디렉토리에 임시 파일 저장</string>
-    <string name="temporary_directory">임시 디렉터리</string>
     <string name="split_video_msg">영상은 %1$d개의 장으로 분할됩니다</string>
     <string name="split_video">동영상 분할</string>
     <string name="convert_subtitle_desc">자막을 다른 포맷으로 변환</string>

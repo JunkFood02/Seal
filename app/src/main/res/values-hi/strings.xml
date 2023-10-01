@@ -277,7 +277,6 @@
     <string name="clip_video">क्लिप वीडियो</string>
     <string name="audio_quality">ऑडियो गुणवत्ता</string>
     <string name="audio_quality_desc">एकाधिक कुआलिटी मौजूद होने पर ऑडियो बिटरेट सीमित करें</string>
-    <string name="temporary_directory">अस्थायी निर्देशिका</string>
     <string name="temporary_directory_desc">अस्थायी फ़ाइलों को आंतरिक निर्देशिका में संग्रहीत करें</string>
     <string name="audio_format">ऑडियो प्रारूप</string>
     <string name="no_downloaded_media">कोई डाउनलोड मीडिया नहीं</string>

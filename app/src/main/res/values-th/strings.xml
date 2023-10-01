@@ -44,7 +44,6 @@
     <string name="feedback">ความคิดเห็น</string>
     <string name="sponsor">ผู้สนับสนุน</string>
     <string name="temporary_directory_desc">เก็บไฟล์ชั่วคราวในไดเรกทอรีภายใน</string>
-    <string name="temporary_directory">ไดเรกทอรีชั่วคราว</string>
     <string name="rename">เปลี่ยนชื่อ</string>
     <string name="audio_format_preference">รูปแบบเสียงที่ชอบ</string>
     <string name="preferred_format_desc">เลือกรูปแบบเมื่อมีหลายรูปแบบมาให้เลือก</string>

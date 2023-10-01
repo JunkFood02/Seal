@@ -272,6 +272,5 @@
     <string name="running_tasks">Kørende opgaver</string>
     <string name="show_logs">Vis log</string>
     <string name="embed_subtitles_mkv_msg">Ved indlejring af undertekster vil videoer blive remuxet til mkv-container.</string>
-    <string name="temporary_directory">Midlertidig mappe</string>
     <string name="temporary_directory_desc">Gem midlertidige filer i den interne mappe</string>
 </resources>

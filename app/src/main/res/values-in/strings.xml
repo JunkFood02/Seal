@@ -277,7 +277,6 @@
     <string name="import_from_preferences">Impor</string>
     <string name="clear_all_cookies">Hapus semua kuki</string>
     <string name="minute">menit</string>
-    <string name="temporary_directory">Direktori sementara</string>
     <string name="temporary_directory_desc">Simpan file sementara di direktori internal</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Dukung aplikasi ini dengan mensponsori di GitHub</string>

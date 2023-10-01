@@ -277,7 +277,6 @@
     <string name="clear_all_cookies">Очистити всі файли cookie</string>
     <string name="unlimited">Без обмежень</string>
     <string name="clear_all_cookies_desc">Назавжди видалити всі файли cookie, які зберігаються у застосунку\?</string>
-    <string name="temporary_directory">Тимчасовий каталог</string>
     <string name="temporary_directory_desc">Зберігати тимчасові файли у внутрішньому каталозі</string>
     <string name="sponsor">Спонсор</string>
     <string name="feedback">Зворотний зв\'язок</string>

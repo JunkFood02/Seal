@@ -284,7 +284,6 @@
     <string name="sponsor_desc">Sprijină această aplicație prin sponsorizare pe GitHub</string>
     <string name="feedback">Părere</string>
     <string name="sponsors">Sponsori</string>
-    <string name="temporary_directory">Director temporar</string>
     <string name="temporary_directory_desc">Stocați fișierele temporare în directorul intern</string>
     <string name="format">Format</string>
     <string name="download_range_desc">Specifica intervalul de videoclipuri pentru a descarca din playlist-ul \"%3$s\" (de la %1$d pana la %2$d).</string>

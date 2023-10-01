@@ -288,7 +288,6 @@
     <string name="sponsor_msg">Seal sera toujours libre et gratuit pour tout le monde. Si vous l\'aimez, pensez à me parrainer sur GitHub !</string>
     <string name="feedback">Remarques</string>
     <string name="sponsors">Sponsors</string>
-    <string name="temporary_directory">Répertoire temporaire</string>
     <string name="temporary_directory_desc">Stocker les fichiers temporaires dans le répertoire interne</string>
     <string name="okay">D\'accord</string>
     <string name="got_it">Compris</string>

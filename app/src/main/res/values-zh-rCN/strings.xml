@@ -276,7 +276,6 @@
     <string name="minute">分</string>
     <string name="clear_all_cookies">清除所有 Cookies</string>
     <string name="clear_all_cookies_desc">确定要删除储存在应用中的所有 Cookies 吗？</string>
-    <string name="temporary_directory">临时文件目录</string>
     <string name="temporary_directory_desc">将临时文件储存在内部目录中</string>
     <string name="sponsor">赞助</string>
     <string name="sponsor_desc">在 GitHub 上赞助以支持本应用</string>

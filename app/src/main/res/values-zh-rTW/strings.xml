@@ -277,7 +277,6 @@
     <string name="format_sorting">格式排序</string>
     <string name="format_sorting_desc">使用 yt-dlp 的 -S 選項對格式進行排序</string>
     <string name="title">標題</string>
-    <string name="temporary_directory">暫存目錄</string>
     <string name="temporary_directory_desc">在內部目錄儲存暫存檔案</string>
     <string name="sponsor">贊助者</string>
     <string name="sponsor_desc">透過在 GitHub 上贊助以支持此應用程式</string>

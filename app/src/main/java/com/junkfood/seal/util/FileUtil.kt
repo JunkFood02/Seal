@@ -20,6 +20,7 @@ import java.io.File
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
 const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
 const val SUBTITLE_REGEX = "\\.(lrc|vtt|srt|ass|json3|srv.|ttml)$"
+private const val PRIVATE_DIRECTORY_SUFFIX = ".Seal"
 
 object FileUtil {
     fun openFileFromResult(downloadResult: Result<List<String>>) {
@@ -185,13 +186,26 @@ object FileUtil {
     fun Context.getCookiesFile() =
         File(getConfigDirectory(), "cookies.txt")
 
-    fun Context.getTempDir() = File(cacheDir, "tmp")
+    fun Context.getTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
+        createEmptyFile(".nomedia")
+    }
 
-    fun Context.getSdcardTempDir(child: String?): File = File(cacheDir, "sdcard_tmp").run {
+    fun Context.getSdcardTempDir(child: String?): File = getTempDir().run {
         child?.let { resolve(it) } ?: this
     }
 
-    fun Context.getLegacyTempDir() = File(filesDir, "tmp")
+    fun Context.getLegacyTempDir() = getTempDir()
+
+    internal fun getExternalDownloadDirectory() = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        "Seal"
+    )
+
+    internal fun getExternalPrivateDownloadDirectory() = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        PRIVATE_DIRECTORY_SUFFIX
+    )
+
 
     fun File.createEmptyFile(fileName: String) = this.runCatching {
         mkdir()
@@ -206,10 +220,7 @@ object FileUtil {
         Log.d(TAG, path)
         if (!path.contains("primary:")) {
             ToastUtil.makeToast("This directory is not supported")
-            return File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-                "Seal"
-            ).absolutePath
+            return getExternalDownloadDirectory().absolutePath
         }
         val last: String = path.split("primary:").last()
         return "/storage/emulated/0/$last"

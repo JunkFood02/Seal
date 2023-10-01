@@ -296,6 +296,5 @@
     <string name="sponsor">スポンサー</string>
     <string name="sponsor_desc">GitHubでスポンサーになって、このアプリをサポートする</string>
     <string name="sponsor_msg">Sealはいつでも無料で、誰でも使えるオープンソースです。もし気に入っていただけたなら、GitHubで私のスポンサーになることを検討してください！</string>
-    <string name="temporary_directory">一時ディレクトリー</string>
     <string name="temporary_directory_desc">内部ディレクトリーに一時ファイルを保存する</string>
 </resources>

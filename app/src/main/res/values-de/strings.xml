@@ -277,7 +277,6 @@
     <string name="format_sorting_desc">Sortieren von Formaten mit der Option -S von yt-dlp</string>
     <string name="rename">Umbenennen</string>
     <string name="clear_all_cookies">Alle Cookies löschen</string>
-    <string name="temporary_directory">Temporärer Ordner</string>
     <string name="temporary_directory_desc">Temporäre Dateien im internen Ordner speichern</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Unterstütze diese App durch Sponsoring auf GitHub</string>

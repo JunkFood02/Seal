@@ -289,7 +289,6 @@
     <string name="enable_auto_update">Omogući automatsko ažuriranje</string>
     <string name="unlimited">Neograničeno</string>
     <string name="audio_format_preference">Preferirani oblik zvuka</string>
-    <string name="temporary_directory">Privremeni direktorij</string>
     <string name="sponsor_desc">Podržite razvoj ove aplikacije njenim sponzoriranjem na GitHub-u</string>
     <string name="sponsor_msg">Seal će za sve uvijek biti besplatan i otvorenog koda. Ako Vam se sviđa, molimo Vas da razmotrite podržati me na GitHub-u!</string>
     <string name="audio_format">Oblik zvuka</string>

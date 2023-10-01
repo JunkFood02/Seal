@@ -278,7 +278,6 @@
     <string name="second">секунда</string>
     <string name="minute">минута</string>
     <string name="temporary_directory_desc">Хранить временные файлы во внутреннем каталоге</string>
-    <string name="temporary_directory">Временный каталог</string>
     <string name="sponsor">Спонсировать</string>
     <string name="sponsor_desc">Поддержать приложение путём спонсирования на GitHub</string>
     <string name="feedback">Обратная связь</string>

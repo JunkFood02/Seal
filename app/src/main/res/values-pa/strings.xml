@@ -277,7 +277,6 @@
     <string name="clip_start">ਸ਼ੁਰੂਆਤ</string>
     <string name="clip_end">ਅੰਤ</string>
     <string name="clear_all_cookies_desc">ਕੀ ਐਪ ਵਿੱਚ ਸਟੋਰ ਕੀਤੇ ਸਾਰੀਆਂ ਕੂਕੀਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ\?</string>
-    <string name="temporary_directory">ਅਸਥਾਈ ਡਾਇਰੈਕਟਰੀ</string>
     <string name="temporary_directory_desc">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਅੰਦਰੂਨੀ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਟੋਰ ਕਰੋ</string>
     <string name="audio_format">ਆਡੀਓ ਫਾਰਮੈਟ</string>
     <string name="no_downloaded_media">ਕੋਈ ਡਾਊਨਲੋਡ ਕੀਤਾ ਮੀਡੀਆ ਨਹੀਂ ਹੈ</string>

@@ -278,7 +278,6 @@
     <string name="rename">Zmień nazwę</string>
     <string name="second">sekunda</string>
     <string name="lowest_bitrate">Najniższy bitrate</string>
-    <string name="temporary_directory">Katalog tymczasowy</string>
     <string name="temporary_directory_desc">Przechowuj pliki tymczasowe w katalogu wewnętrznym</string>
     <string name="running_tasks">Uruchomione zadania</string>
     <string name="show_logs">Pokaż logi</string>

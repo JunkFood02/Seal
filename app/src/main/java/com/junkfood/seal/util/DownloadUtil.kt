@@ -458,7 +458,7 @@ object DownloadUtil {
                 }
 
                 if (extractAudio || (videoInfo.vcodec == "none")) {
-                    if (privateDirectory) pathBuilder.append(App.getPrivateDownloadDirectory())
+                    if (privateDirectory) pathBuilder.append(App.privateDownloadDir)
                     else pathBuilder.append(audioDownloadDir)
                     addOptionsForAudioDownloads(
                         id = videoInfo.id,
@@ -466,7 +466,7 @@ object DownloadUtil {
                         playlistUrl = playlistUrl
                     )
                 } else {
-                    if (privateDirectory) pathBuilder.append(App.getPrivateDownloadDirectory())
+                    if (privateDirectory) pathBuilder.append(App.privateDownloadDir)
                     else pathBuilder.append(videoDownloadDir)
                     addOptionsForVideoDownloads(downloadPreferences)
                 }
@@ -497,7 +497,7 @@ object DownloadUtil {
                 if (newTitle.isNotEmpty()) {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                 }
-                if (Build.VERSION.SDK_INT > 23 && !sdcard && tempDirectory) addOption(
+                if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
                     "-P", "temp:" + context.getTempDir()
                 )
                 val outputFileName =

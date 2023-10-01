@@ -300,7 +300,6 @@
     <string name="switch_to_github_builds">mudar para compilações do GitHub</string>
     <string name="clear_all_cookies_desc">Eliminar definitivamente todos os cookies armazenados na aplicação\?</string>
     <string name="temporary_directory_desc">Armazenar ficheiros temporários no diretório interno</string>
-    <string name="temporary_directory">Diretório temporário</string>
     <string name="split_video">Dividir o vídeo</string>
     <string name="sponsor">Patrocinador</string>
     <string name="sponsor_desc">Apoie esta aplicação patrocinando-a no GitHub</string>

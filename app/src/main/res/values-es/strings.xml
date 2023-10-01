@@ -277,7 +277,6 @@
     <string name="import_from_preferences">Importar</string>
     <string name="second">segundo</string>
     <string name="clear_all_cookies_desc">¿Borrar definitivamente todas las cookies almacenadas en la aplicación\?</string>
-    <string name="temporary_directory">Directorio temporal</string>
     <string name="temporary_directory_desc">Almacena archivos temporales en el directorio seleccionado</string>
     <string name="sponsor">Patrocinador</string>
     <string name="sponsor_desc">Apoya esta aplicación patrocinando en GitHub</string>

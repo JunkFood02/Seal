@@ -197,7 +197,6 @@
     <string name="max_rate">Tỷ lệ tối đa</string>
     <string name="clip_start">Bắt đầu</string>
     <string name="clip_end">Kết thúc</string>
-    <string name="temporary_directory">Thư mục tạm</string>
     <string name="unknown_error_title">Oops! Có cái gì đó không đúng</string>
     <string name="audio_format_preference">Định dạng âm thanh ưa thích</string>
     <string name="audio_quality">Chất lượng âm thanh</string>

@@ -278,7 +278,6 @@
     <string name="rename">Преименуј</string>
     <string name="clear_all_cookies">Избриши све колачиће</string>
     <string name="temporary_directory_desc">Чувајте привремене фајлове у интерном директоријуму</string>
-    <string name="temporary_directory">Привремени директоријум</string>
     <string name="feedback">Повратне информације</string>
     <string name="sponsors">Спонзори</string>
     <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако Вам се свиђа, размислите о томе да ме спонзоришете на GitHub-у!</string>

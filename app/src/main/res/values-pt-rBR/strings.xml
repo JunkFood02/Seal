@@ -277,7 +277,6 @@
     <string name="audio_format_preference">Formato de áudio preferido</string>
     <string name="audio_quality">Qualidade do áudio</string>
     <string name="format_sorting">Classificação de formatos</string>
-    <string name="temporary_directory">Diretório temporário</string>
     <string name="sponsors">Patrocinadores</string>
     <string name="sponsor_desc">Apoie este aplicativo patrocinando no GitHub</string>
     <string name="sponsor">Patrocinador</string>

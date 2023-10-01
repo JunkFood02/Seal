@@ -283,7 +283,6 @@
     <string name="audio_quality_desc">Birden fazla nitelik mevcut olduğunda ses bit hızını sınırlayın</string>
     <string name="format_sorting">Biçim sıralaması</string>
     <string name="clear_all_cookies_desc">Uygulamada saklanan tüm çerezler kalıcı olarak silinsin mi\?</string>
-    <string name="temporary_directory">Geçici dizin</string>
     <string name="temporary_directory_desc">Geçici dosyaları dahili dizinde saklayın</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">GitHub\'da sponsor olarak bu uygulamayı destekleyin</string>

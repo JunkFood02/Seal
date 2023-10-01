@@ -12,7 +12,6 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.os.IBinder
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
@@ -24,6 +23,8 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getExternalDownloadDirectory
+import com.junkfood.seal.util.FileUtil.getExternalPrivateDownloadDirectory
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
@@ -53,8 +54,7 @@ class App : Application() {
         packageInfo = packageManager.run {
             if (Build.VERSION.SDK_INT >= 33) getPackageInfo(
                 packageName, PackageManager.PackageInfoFlags.of(0)
-            ) else
-                getPackageInfo(packageName, 0)
+            ) else getPackageInfo(packageName, 0)
         }
         applicationScope = CoroutineScope(SupervisorJob())
         DynamicColors.applyToActivitiesIfAvailable(this)
@@ -82,10 +82,7 @@ class App : Application() {
         }
 
         videoDownloadDir = VIDEO_DIRECTORY.getString(
-            File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                getString(R.string.app_name)
-            ).absolutePath
+            getExternalDownloadDirectory().absolutePath
         )
 
         audioDownloadDir = AUDIO_DIRECTORY.getString(File(videoDownloadDir, "Audio").absolutePath)
@@ -102,18 +99,15 @@ class App : Application() {
 
     private fun startCrashReportActivity(th: Throwable) {
         th.printStackTrace()
-        startActivity(
-            Intent(
-                this,
-                CrashReportActivity::class.java
-            ).setAction("$packageName.error_report").apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
-            })
+        startActivity(Intent(
+            this, CrashReportActivity::class.java
+        ).setAction("$packageName.error_report").apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
+        })
     }
 
     companion object {
-        private const val PRIVATE_DIRECTORY_SUFFIX = ".Seal"
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
@@ -153,14 +147,11 @@ class App : Application() {
         }
 
 
-        fun getPrivateDownloadDirectory(): String =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).resolve(
-                PRIVATE_DIRECTORY_SUFFIX
-            ).run {
+        val privateDownloadDir: String
+            get() = getExternalPrivateDownloadDirectory().run {
                 createEmptyFile(".nomedia")
                 absolutePath
             }
-
 
         fun updateDownloadDir(uri: Uri, directoryType: Directory) {
             when (directoryType) {
@@ -185,8 +176,7 @@ class App : Application() {
                 Directory.SDCARD -> {
                     context.contentResolver?.takePersistableUriPermission(
                         uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     PreferenceUtil.encodeString(SDCARD_URI, uri.toString())
 
@@ -209,8 +199,7 @@ class App : Application() {
             return StringBuilder().append("App version: $versionName ($versionCode)\n")
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
-                .append("Yt-dlp version: ${YT_DLP.getString()}\n")
-                .toString()
+                .append("Yt-dlp version: ${YT_DLP.getString()}\n").toString()
         }
 
         fun isFDroidBuild(): Boolean = packageInfo.versionName.contains("F-Droid")

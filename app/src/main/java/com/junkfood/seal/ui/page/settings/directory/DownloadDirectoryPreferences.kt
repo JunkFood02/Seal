@@ -90,7 +90,6 @@ import com.junkfood.seal.util.OUTPUT_PATH_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
-import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SDCARD_DOWNLOAD
 import com.junkfood.seal.util.SDCARD_URI
@@ -139,10 +138,10 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     }
 
     var videoDirectoryText by remember(isPrivateDirectoryEnabled) {
-        mutableStateOf(if (!isPrivateDirectoryEnabled) App.videoDownloadDir else App.getPrivateDownloadDirectory())
+        mutableStateOf(if (!isPrivateDirectoryEnabled) App.videoDownloadDir else App.privateDownloadDir)
     }
     var audioDirectoryText by remember(isPrivateDirectoryEnabled) {
-        mutableStateOf(if (!isPrivateDirectoryEnabled) App.audioDownloadDir else App.getPrivateDownloadDirectory())
+        mutableStateOf(if (!isPrivateDirectoryEnabled) App.audioDownloadDir else App.privateDownloadDir)
     }
     var sdcardUri by remember {
         mutableStateOf(SDCARD_URI.getString())
@@ -370,21 +369,6 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         PreferenceUtil.updateValue(CUSTOM_PATH, isCustomPathEnabled)
                     },
                     onClick = { showEditDialog = true }
-                )
-            }
-            item {
-                PreferenceSwitch(
-                    title = stringResource(id = R.string.temporary_directory),
-                    icon = Icons.Outlined.Folder,
-                    description = stringResource(
-                        id = R.string.temporary_directory_desc
-                    ),
-                    enabled = !sdcardDownload && !isCustomCommandEnabled,
-                    isChecked = temporaryDirectory,
-                    onClick = {
-                        temporaryDirectory = !temporaryDirectory
-                        TEMP_DIRECTORY.updateBoolean(temporaryDirectory)
-                    },
                 )
             }
             item {

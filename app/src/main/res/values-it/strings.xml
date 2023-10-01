@@ -288,7 +288,6 @@
     <string name="sponsor_desc">Sostieni questa applicazione sponsorizzando su GitHub</string>
     <string name="sponsor_msg">Seal sarà sempre libero e gratuito per tutti. Se ti piace, considera la possibilità di sponsorizzarmi su GitHub!</string>
     <string name="import_from_preferences">Importa</string>
-    <string name="temporary_directory">Directory temporanea</string>
     <string name="temporary_directory_desc">Salva file temporanei nella directory interna</string>
     <string name="msg_from_developer">Messaggio dello sviluppatore</string>
     <string name="sponsor_msg2">Grazie mille!</string>

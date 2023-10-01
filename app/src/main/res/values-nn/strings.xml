@@ -279,7 +279,6 @@
     <string name="minute">Minutt</string>
     <string name="clear_all_cookies">Tøm alle infokapslar</string>
     <string name="clear_all_cookies_desc">Slett alle infokapslane gøymde i appen\?</string>
-    <string name="temporary_directory">Mellombels mappe</string>
     <string name="sponsor">Stø</string>
     <string name="sponsor_desc">Stø appen ved å gje pengar gjennom GitHub</string>
     <string name="feedback">Tilbakemelding</string>

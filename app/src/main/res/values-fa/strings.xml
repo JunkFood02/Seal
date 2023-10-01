@@ -296,6 +296,5 @@
     <string name="sponsor_msg">Seal همیشه رایگان و منبع باز برای همه خواهد بود. اگر دوست دارید، لطفاً در GitHub از من حمایت کنید!</string>
     <string name="feedback">بازخورد</string>
     <string name="sponsors">حامیان</string>
-    <string name="temporary_directory">دایرکتوری موقت</string>
     <string name="temporary_directory_desc">دخیره فایل های موقت را در دایرکتوری داخلی</string>
 </resources>
