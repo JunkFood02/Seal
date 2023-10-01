@@ -391,14 +391,15 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
     val uriHandler = LocalUriHandler.current
     if (showHelpDialog) {
         HelpDialog(text = stringResource(id = R.string.custom_command_usage_msg),
-            confirmButton = {
-                TextButton(onClick = {
-                    showHelpDialog = false
-                    uriHandler.openUri(ytdlpUrl)
-                }) {
-                    Text(text = stringResource(id = R.string.learn_more))
-                }
-            }, dismissButton = null, onDismissRequest = { showHelpDialog = false })
+            onDismissRequest = { showHelpDialog = false }, dismissButton = null
+        ) {
+            TextButton(onClick = {
+                showHelpDialog = false
+                uriHandler.openUri(ytdlpUrl)
+            }) {
+                Text(text = stringResource(id = R.string.learn_more))
+            }
+        }
     }
 
     LaunchedEffect(templates.size) {

@@ -49,10 +49,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.PlainTooltipBox
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -288,12 +291,17 @@ fun DownloadPageImpl(
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {}, modifier = Modifier.padding(horizontal = 8.dp), navigationIcon = {
-            PlainTooltipBox(tooltip = {
-                Text(text = stringResource(id = R.string.settings))
-            }) {
+            TooltipBox(
+                state = rememberTooltipState(),
+                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    PlainTooltip {
+                        Text(text = stringResource(id = R.string.settings))
+                    }
+                }) {
                 IconButton(
                     onClick = { navigateToSettings() },
-                    modifier = Modifier.tooltipTrigger()
+                    modifier = Modifier
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Settings,
@@ -312,12 +320,14 @@ fun DownloadPageImpl(
                         )
                     ) { Text("$processCount") }
             }) {
-                PlainTooltipBox(tooltip = {
-                    Text(text = stringResource(id = R.string.running_tasks))
-                }) {
+                TooltipBox(state = rememberTooltipState(),
+                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    tooltip = {
+                        Text(text = stringResource(id = R.string.running_tasks))
+                    }) {
                     IconButton(
                         onClick = { onNavigateToTaskList() },
-                        modifier = Modifier.tooltipTrigger()
+                        modifier = Modifier
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Terminal,
@@ -326,12 +336,14 @@ fun DownloadPageImpl(
                     }
                 }
             }
-            PlainTooltipBox(tooltip = {
-                Text(text = stringResource(id = R.string.downloads_history))
-            }) {
+            TooltipBox(state = rememberTooltipState(),
+                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    Text(text = stringResource(id = R.string.downloads_history))
+                }) {
                 IconButton(
                     onClick = { navigateToDownloads() },
-                    modifier = Modifier.tooltipTrigger()
+                    modifier = Modifier
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Subscriptions,

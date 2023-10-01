@@ -305,9 +305,9 @@ fun CookieProfilePage(
     }
 
     if (showHelpDialog) {
-        HelpDialog(text = stringResource(id = R.string.cookies_usage_msg)) {
+        HelpDialog(text = stringResource(id = R.string.cookies_usage_msg), onDismissRequest = {
             showHelpDialog = false
-        }
+        })
     }
     if (showClearCookieDialog) {
         ClearCookiesDialog(onDismissRequest = { showClearCookieDialog = false }) {

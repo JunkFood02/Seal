@@ -39,9 +39,9 @@ private val ButtonsCrossAxisSpacing = 12.dp
 @Composable
 fun HelpDialog(
     text: String,
-    confirmButton: @Composable (() -> Unit) = { ConfirmButton(text = stringResource(id = R.string.got_it)) { onDismissRequest() } },
-    dismissButton: @Composable (() -> Unit)? = null,
     onDismissRequest: () -> Unit = {},
+    dismissButton: @Composable (() -> Unit)? = null,
+    confirmButton: @Composable () -> Unit = { ConfirmButton(text = stringResource(id = R.string.got_it)) { onDismissRequest() } },
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
