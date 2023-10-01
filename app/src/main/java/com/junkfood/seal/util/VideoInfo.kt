@@ -66,6 +66,7 @@ data class VideoInfo(
     val abr: Double? = null,
     val asr: Int? = null,
     val epoch: Int? = null,
+    val filename: String? = null,
     @SerialName("_type") val type: String? = null,
 ) : YoutubeDLInfo
 
@@ -114,24 +115,25 @@ data class Chapter(
 @Serializable
 data class RequestedDownload(
     @SerialName("requested_formats") val requestedFormats: List<Format>? = emptyList(),
-    @SerialName("format") val format: String? = null,
     @SerialName("format_id") val formatId: String? = null,
-    @SerialName("ext") val ext: String? = null,
-    @SerialName("protocol") val protocol: String? = null,
     @SerialName("format_note") val formatNote: String? = null,
-    @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
-    @SerialName("tbr") val tbr: Double? = null,
-    @SerialName("width") val width: Double? = null,
-    @SerialName("height") val height: Double? = null,
-    @SerialName("resolution") val resolution: String? = null,
-    @SerialName("fps") val fps: Double? = null,
-    @SerialName("dynamic_range") val dynamicRange: String? = null,
-    @SerialName("vcodec") val vcodec: String? = null,
-    @SerialName("vbr") val vbr: Int? = null,
+    val ext: String? = null,
     @SerialName("acodec") val acodec: String? = null,
-    @SerialName("abr") val abr: Double? = null,
-    @SerialName("asr") val asr: Int? = null,
-    @SerialName("epoch") val epoch: Int? = null,
+    @SerialName("vcodec") val vcodec: String? = null,
+    val url: String? = null,
+    val width: Double? = null,
+    val height: Double? = null,
+    val fps: Double? = null,
+    @SerialName("audio_ext") val audioExt: String? = null,
+    @SerialName("video_ext") val videoExt: String? = null,
+    val format: String? = null,
+    val resolution: String? = null,
+    val vbr: Double? = null,
+    val abr: Double? = null,
+    val tbr: Double? = null,
+    @SerialName("filesize") val fileSize: Double? = null,
+    @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
+    val filename: String? = null,
 )
 
 @Serializable

@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -31,7 +32,7 @@ import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var downloadViewModel: DownloadViewModel
+    private val downloadViewModel: DownloadViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         }
         context = this.baseContext
         setContent {
-            downloadViewModel = viewModel()
             val cookiesViewModel: CookiesViewModel = viewModel()
 
             val isUrlSharingTriggered =

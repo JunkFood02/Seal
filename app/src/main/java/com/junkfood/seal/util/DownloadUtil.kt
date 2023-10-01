@@ -55,13 +55,23 @@ object DownloadUtil {
     }
 
     private const val TAG = "DownloadUtil"
-    private const val OUTPUT_TEMPLATE = "%(title).200B [%(id)s].%(ext)s"
-    private const val OUTPUT_TEMPLATE_CLIPS =
-        "%(title).200B [%(id)s][%(section_start)d-%(section_end)d].%(ext)s"
+
+
+    private const val BASENAME = "%(title).200B"
+
+    private const val EXTENSION = ".%(ext)s"
+
+    private const val CLIP_TIMESTAMP = "%(section_start)d-%(section_end)d"
+
+    private const val OUTPUT_TEMPLATE = BASENAME + EXTENSION
+
+    private const val OUTPUT_TEMPLATE_CLIPS = "$BASENAME [$CLIP_TIMESTAMP]$EXTENSION"
+
     private const val OUTPUT_TEMPLATE_CHAPTERS =
-        "chapter:%(title).200B [%(id)s]/%(section_number)d - %(section_title).200B.%(ext)s"
-    private const val OUTPUT_TEMPLATE_SPLIT =
-        "%(title).200B [%(id)s]/%(title).200B.%(ext)s"
+        "chapter:$BASENAME/%(section_number)d - %(section_title).200B$EXTENSION"
+
+    private const val OUTPUT_TEMPLATE_SPLIT = "$BASENAME/$OUTPUT_TEMPLATE"
+
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
 
@@ -75,7 +85,8 @@ object DownloadUtil {
         with(request) {
 //            addOption("--compat-options", "no-youtube-unavailable-videos")
             addOption("--flat-playlist")
-            addOption("-J")
+            addOption("--dump-json")
+            addOption("-o", BASENAME)
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
             downloadPreferences.run {
@@ -113,6 +124,8 @@ object DownloadUtil {
         url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
     ): Result<VideoInfo> = YoutubeDLRequest(url).apply {
         preferences.run {
+            addOption("-o", BASENAME)
+
             if (extractAudio) {
                 addOption("-x")
             }
@@ -542,6 +555,10 @@ object DownloadUtil {
         downloadPath: String,
         sdcardUri: String
     ): Result<List<String>> = preferences.run {
+        val fileName = videoInfo.filename ?: videoInfo.id
+
+
+        Log.d(TAG, "onFinishDownloading: $fileName")
         if (sdcard) {
             moveFilesToSdcard(
                 sdcardUri = sdcardUri, tempPath = context.getSdcardTempDir(videoInfo.id)
@@ -556,7 +573,7 @@ object DownloadUtil {
             }
         } else {
             FileUtil.scanFileToMediaLibraryPostDownload(
-                title = videoInfo.id, downloadDir = downloadPath
+                title = fileName, downloadDir = downloadPath
             ).run {
                 if (privateMode) Result.success(emptyList())
                 else Result.success(
