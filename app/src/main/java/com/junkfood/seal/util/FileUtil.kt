@@ -194,7 +194,7 @@ object FileUtil {
         child?.let { resolve(it) } ?: this
     }
 
-    fun Context.getLegacyTempDir() = getTempDir()
+    fun Context.getLegacyTempDir() = File(filesDir, "tmp")
 
     internal fun getExternalDownloadDirectory() = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),

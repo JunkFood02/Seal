@@ -356,48 +356,50 @@ fun DownloadSettingDialog(
             drawerState = drawerState,
             horizontalPadding = PaddingValues(horizontal = 20.dp),
             sheetContent = {
-                Icon(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    imageVector = Icons.Outlined.DoneAll,
-                    contentDescription = null
-                )
-                Text(
-                    text = stringResource(R.string.settings_before_download),
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 16.dp),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center
-                )
-                sheetContent()
-                val state = rememberLazyListState()
-                LaunchedEffect(drawerState.isVisible) {
-                    state.scrollToItem(0)
-                }
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
-                    horizontalArrangement = Arrangement.End,
-                    state = state,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    item {
-                        OutlinedButtonWithIcon(
-                            modifier = Modifier.padding(horizontal = 12.dp),
-                            onClick = hide,
-                            icon = Icons.Outlined.Cancel,
-                            text = stringResource(R.string.cancel)
-                        )
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Icon(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        imageVector = Icons.Outlined.DoneAll,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = stringResource(R.string.settings_before_download),
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(vertical = 16.dp),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center
+                    )
+                    sheetContent()
+                    val state = rememberLazyListState()
+                    LaunchedEffect(drawerState.isVisible) {
+                        state.scrollToItem(0)
                     }
-                    item {
-                        FilledButtonWithIcon(
-                            onClick = downloadButtonCallback,
-                            icon = Icons.Outlined.DownloadDone,
-                            text = stringResource(R.string.start_download)
-                        )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                        horizontalArrangement = Arrangement.End,
+                        state = state,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        item {
+                            OutlinedButtonWithIcon(
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                onClick = hide,
+                                icon = Icons.Outlined.Cancel,
+                                text = stringResource(R.string.cancel)
+                            )
+                        }
+                        item {
+                            FilledButtonWithIcon(
+                                onClick = downloadButtonCallback,
+                                icon = Icons.Outlined.DownloadDone,
+                                text = stringResource(R.string.start_download)
+                            )
+                        }
                     }
                 }
             })
