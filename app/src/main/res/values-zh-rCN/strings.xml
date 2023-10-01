@@ -326,7 +326,7 @@
     <string name="auto">自动</string>
     <string name="commands">命令行</string>
     <string name="format_preference">格式偏好</string>
-    <string name="learn_more">更多信息</string>
+    <string name="learn_more">了解更多信息</string>
     <string name="unknown">未知</string>
     <plurals name="item_count">
         <item quantity="other">%d 个项目</item>
