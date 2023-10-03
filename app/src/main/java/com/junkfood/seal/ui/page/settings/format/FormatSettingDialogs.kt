@@ -579,7 +579,7 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 4.dp)
+                        .padding(horizontal = 8.dp)
                 ) {
                     OutlinedButtonChip(
                         modifier = Modifier.padding(end = 8.dp),
