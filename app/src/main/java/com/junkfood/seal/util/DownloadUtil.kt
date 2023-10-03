@@ -85,7 +85,7 @@ object DownloadUtil {
         with(request) {
 //            addOption("--compat-options", "no-youtube-unavailable-videos")
             addOption("--flat-playlist")
-            addOption("--dump-json")
+            addOption("--dump-single-json")
             addOption("-o", BASENAME)
             addOption("-R", "1")
             addOption("--socket-timeout", "5")
@@ -113,7 +113,7 @@ object DownloadUtil {
 
     @CheckResult
     private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> =
-        request.addOption("--dump-json").runCatching {
+        request.addOption("--dump-single-json").runCatching {
             val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
             jsonFormat.decodeFromString(response.out)
         }
@@ -555,8 +555,7 @@ object DownloadUtil {
         downloadPath: String,
         sdcardUri: String
     ): Result<List<String>> = preferences.run {
-        val fileName = videoInfo.filename ?: videoInfo.id
-
+        val fileName = videoInfo.requestedDownloads?.firstOrNull()?.filename ?: videoInfo.title
 
         Log.d(TAG, "onFinishDownloading: $fileName")
         if (sdcard) {
