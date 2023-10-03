@@ -113,7 +113,7 @@ object DownloadUtil {
 
     @CheckResult
     private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> =
-        request.addOption("--dump-single-json").runCatching {
+        request.runCatching {
             val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
             jsonFormat.decodeFromString(response.out)
         }
@@ -136,9 +136,6 @@ object DownloadUtil {
             if (proxy) {
                 enableProxy(proxyUrl)
             }
-            if (downloadPlaylist) {
-//                addOption("--compat-options", "no-youtube-unavailable-videos")
-            }
             if (debug) {
                 addOption("-v")
             }
@@ -147,7 +144,9 @@ object DownloadUtil {
                 addOption("--extractor-args", "youtube:skip=translated_subs")
             }
         }
+        addOption("--dump-json")
         addOption("-R", "1")
+        addOption("--no-playlist")
         if (playlistItem != 0) addOption("--playlist-items", playlistItem)
         else addOption("--playlist-items", "1")
         addOption("--socket-timeout", "5")
@@ -555,7 +554,9 @@ object DownloadUtil {
         downloadPath: String,
         sdcardUri: String
     ): Result<List<String>> = preferences.run {
-        val fileName = videoInfo.requestedDownloads?.firstOrNull()?.filename ?: videoInfo.title
+        val fileName = videoInfo.filename
+            ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
+            ?: videoInfo.title
 
         Log.d(TAG, "onFinishDownloading: $fileName")
         if (sdcard) {
