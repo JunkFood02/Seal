@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -153,7 +154,9 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                     TooltipBox(state = rememberTooltipState(),
                         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                         tooltip = {
-                            Text(text = entry.title ?: index.toString())
+                            PlainTooltip {
+                                Text(text = entry.title ?: index.toString())
+                            }
                         }) {
                         PlaylistItem(modifier = Modifier
                             .padding(horizontal = 12.dp),
