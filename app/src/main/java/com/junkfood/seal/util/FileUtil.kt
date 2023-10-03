@@ -170,7 +170,7 @@ object FileUtil {
     fun clearTempFiles(downloadDir: File): Int {
         var count = 0
         downloadDir.walkTopDown().forEach {
-            if (it.isFile) {
+            if (it.isFile && !it.isHidden) {
                 if (it.delete())
                     count++
             }
