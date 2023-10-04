@@ -59,8 +59,6 @@ const val LANGUAGE = "language"
 const val NOTIFICATION = "notification"
 private const val THEME_COLOR = "theme_color"
 const val PALETTE_STYLE = "palette_style"
-const val CUSTOM_PATH = "custom_path"
-const val OUTPUT_PATH_TEMPLATE = "path_template"
 const val SUBTITLE = "subtitle"
 const val EMBED_SUBTITLE = "embed_subtitle"
 const val KEEP_SUBTITLE_FILES = "keep_subtitle"
@@ -89,10 +87,11 @@ const val CROP_ARTWORK = "crop_artwork"
 const val EMBED_THUMBNAIL = "embed_thumbnail"
 const val FORMAT_SELECTION = "format_selection"
 const val VIDEO_CLIP = "video_clip"
-const val TEMP_DIRECTORY = "temp_dir"
 const val SHOW_SPONSOR_MSG = "sponsor_msg_v1"
 const val PROXY = "proxy"
 const val PROXY_URL = "proxy_url"
+const val OUTPUT_TEMPLATE = "output_template"
+const val CUSTOM_OUTPUT_TEMPLATE = "custom_output_template"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
@@ -145,8 +144,9 @@ const val STYLE_MONOCHROME = 4
 private val StringPreferenceDefaults = mapOf(
     SPONSORBLOCK_CATEGORIES to "default",
     MAX_RATE to "1000",
-    OUTPUT_PATH_TEMPLATE to "%(uploader)s/%(playlist_title)s/",
     SUBTITLE_LANGUAGE to "en.*,.*-orig",
+    OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_DEFAULT,
+    CUSTOM_OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_DEFAULT,
 )
 
 private val BooleanPreferenceDefaults = mapOf(
@@ -154,7 +154,6 @@ private val BooleanPreferenceDefaults = mapOf(
     CONFIGURE to true,
     CELLULAR_DOWNLOAD to true,
     YT_DLP_UPDATE to true,
-    TEMP_DIRECTORY to true,
     NOTIFICATION to true,
 )
 
@@ -197,7 +196,6 @@ object PreferenceUtil {
     fun getValue(key: String): Boolean = key.getBoolean()
     fun encodeString(key: String, string: String) = key.updateString(string)
     fun containsKey(key: String) = kv.containsKey(key)
-    fun getOutputPathTemplate(): String = OUTPUT_PATH_TEMPLATE.getString()
 
     fun getAudioConvertFormat(): Int = AUDIO_CONVERSION_FORMAT.getInt()
 

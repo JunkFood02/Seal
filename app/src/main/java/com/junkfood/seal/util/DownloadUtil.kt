@@ -57,20 +57,24 @@ object DownloadUtil {
     private const val TAG = "DownloadUtil"
 
 
-    private const val BASENAME = "%(title).200B"
+    const val BASENAME = "%(title).200B"
 
-    private const val EXTENSION = ".%(ext)s"
+    const val EXTENSION = ".%(ext)s"
+
+    private const val ID = "[%(id)s]"
 
     private const val CLIP_TIMESTAMP = "%(section_start)d-%(section_end)d"
 
-    private const val OUTPUT_TEMPLATE = BASENAME + EXTENSION
+    const val OUTPUT_TEMPLATE_DEFAULT = BASENAME + EXTENSION
+
+    const val OUTPUT_TEMPLATE_ID = "$BASENAME $ID$EXTENSION"
 
     private const val OUTPUT_TEMPLATE_CLIPS = "$BASENAME [$CLIP_TIMESTAMP]$EXTENSION"
 
     private const val OUTPUT_TEMPLATE_CHAPTERS =
         "chapter:$BASENAME/%(section_number)d - %(section_title).200B$EXTENSION"
 
-    private const val OUTPUT_TEMPLATE_SPLIT = "$BASENAME/$OUTPUT_TEMPLATE"
+    private const val OUTPUT_TEMPLATE_SPLIT = "$BASENAME/$OUTPUT_TEMPLATE_DEFAULT"
 
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
@@ -157,10 +161,7 @@ object DownloadUtil {
         val createThumbnail: Boolean = PreferenceUtil.getValue(THUMBNAIL),
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PLAYLIST),
         val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
-        val customPath: Boolean = PreferenceUtil.getValue(CUSTOM_PATH),
-        val tempDirectory: Boolean = TEMP_DIRECTORY.getBoolean(),
         val commandDirectory: String = COMMAND_DIRECTORY.getString(),
-        val outputPathTemplate: String = PreferenceUtil.getOutputPathTemplate(),
         val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
@@ -197,6 +198,7 @@ object DownloadUtil {
         val userAgentString: String = USER_AGENT.run {
             if (getBoolean()) getString() else ""
         },
+        val outputTemplate: String = OUTPUT_TEMPLATE.getString()
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -512,11 +514,10 @@ object DownloadUtil {
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
                     "-P", "temp:" + context.getTempDir()
                 )
-                val outputFileName =
-                    if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) OUTPUT_TEMPLATE else OUTPUT_TEMPLATE_CLIPS
+                val output =
+                    if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) outputTemplate else OUTPUT_TEMPLATE_CLIPS
 
-                if (customPath) addOption("-o", outputPathTemplate + outputFileName)
-                else addOption("-o", outputFileName)
+                addOption("-o", output)
 
                 if (splitByChapter) {
                     addOption("-o", OUTPUT_TEMPLATE_CHAPTERS)

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 /**
  * @param contentDescription Text label of the `TextField` for the accessibility service
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SealTextField(
     value: String,
@@ -35,7 +34,8 @@ fun SealTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = LocalTextStyle.current,
-    contentDescription: String,
+    contentDescription: String? = null,
+    label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -50,17 +50,25 @@ fun SealTextField(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = TextFieldDefaults.filledShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent)
+    shape: Shape = TextFieldDefaults.shape,
+    colors: TextFieldColors = TextFieldDefaults.colors(
+        focusedContainerColor = Color.Transparent,
+        unfocusedContainerColor = Color.Transparent,
+        disabledContainerColor = Color.Transparent,
+    )
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.semantics { this.contentDescription = contentDescription },
+        modifier = modifier.then(Modifier.semantics {
+            if (contentDescription != null) {
+                this.contentDescription = contentDescription
+            }
+        }),
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
-        label = null,
+        label = label,
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
@@ -75,7 +83,8 @@ fun SealTextField(
         maxLines = maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
-        shape = shape, colors = colors
+        shape = shape,
+        colors = colors
     )
 }
 
@@ -128,7 +137,8 @@ fun SealTextField(
         maxLines,
         minLines,
         interactionSource,
-        shape, colors
+        shape,
+        colors
     )
 }
 
@@ -136,8 +146,7 @@ fun SealTextField(
 fun AdjacentLabel(modifier: Modifier = Modifier, text: String) {
     Text(
         text = text,
-        modifier = modifier
-            .padding(bottom = 12.dp, start = 4.dp),
+        modifier = modifier.padding(bottom = 12.dp, start = 4.dp),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )

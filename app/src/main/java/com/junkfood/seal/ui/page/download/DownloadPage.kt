@@ -369,7 +369,7 @@ fun DownloadPageImpl(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            com.junkfood.seal.ui.page.downloadv2.TitleWithProgressIndicator(showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
+            TitleWithProgressIndicator(showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
                 isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
                 showCancelOperation = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
                 currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
@@ -405,7 +405,7 @@ fun DownloadPageImpl(
                             isPreview = isPreview
                         )
                     }
-                    com.junkfood.seal.ui.page.downloadv2.InputUrl(
+                    InputUrl(
                         url = viewState.url,
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
@@ -428,7 +428,7 @@ fun DownloadPageImpl(
                     }
                 }
                 AnimatedVisibility(visible = errorState.isErrorOccurred()) {
-                    com.junkfood.seal.ui.page.downloadv2.ErrorMessage(
+                    ErrorMessage(
                         url = viewState.url,
                         errorMessageResId = errorState.errorMessageResId,
                         errorReport = errorState.errorReport
