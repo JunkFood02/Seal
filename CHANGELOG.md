@@ -5,6 +5,23 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [v1.11.0][1.11.0] - unreleased
+
+### Added
+* Custom output template (`-o` option in yt-dlp)
+* Export cookies to a text file
+
+### Changed
+* Move the directory for storing temporary files to external storage (`Seal/tmp`)
+* Temporary directory now are enabled by default for downloads in general mode
+* Remove custom prefix for output template, please migrate to custom output template
+
+### Fixed
+* Fix an issue causes sharing videos to failed on certain devices
+* Fix a few UI bugs
+
+
 ## [v1.10.0][1.10.0] - 2023-08-30
 
 ### Added
