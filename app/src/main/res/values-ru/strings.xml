@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download_settings_desc">Основные, форматы, своя команда</string>
+    <string name="download_settings_desc">Основные настройки, формат, своя команда</string>
     <string name="settings">Настройки</string>
     <string name="video_directory">Папка с видео</string>
     <string name="extract_audio">Сохранить как аудио</string>
@@ -127,7 +127,7 @@
     <string name="download_playlist">Загрузка плейлиста</string>
     <string name="defaults">По умолчанию</string>
     <string name="channel_name">Загрузить</string>
-    <string name="language">Доступные языки</string>
+    <string name="language">Язык приложения</string>
     <string name="paste_fail_msg">Не удалось найти подходящий URL-адрес в буфере обмена</string>
     <string name="settings_before_download_text">Настройте эту загрузку</string>
     <string name="prefix">Шаблон пути</string>
@@ -162,7 +162,7 @@
     <string name="download_task_count">%1$d Загрузочная задача</string>
     <string name="recently_added">Недавно добавленные</string>
     <string name="multiselect_item_count">%1$d видеофайл(а/ов), %2$d аудиофайл(а/ов)</string>
-    <string name="delete_multiple_items_msg">Удалить %1$d элемент(а) из Вашей истории загрузок навсегда\?</string>
+    <string name="delete_multiple_items_msg">Удалить %1$d элемент(а/ов) из Вашей истории загрузок навсегда\?</string>
     <string name="export_to_clipboard">Экспортировать в буфер обмена</string>
     <string name="sponsorblock_categories">Категории SponsorBlock</string>
     <string name="sponsorblock_desc">Удаление или пометка сегментов в видео с помощью SponsorBlock API</string>
@@ -176,7 +176,7 @@
     <string name="cookies_desc">Используйте файлы cookie в формате Netscape для загрузки</string>
     <string name="clear_temp_files">Очистить временные файлы</string>
     <string name="clear_temp_files_desc">Удалите все временные файлы из внутреннего каталога</string>
-    <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а)</string>
+    <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а/ов)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
     <string name="private_mode">Инкогнито</string>
@@ -336,4 +336,5 @@
         <item quantity="other">%d предметы</item>
     </plurals>
     <string name="ua_header">Заголовок User-Agent</string>
+    <string name="export_to_file">Экспорт в файл</string>
 </resources>

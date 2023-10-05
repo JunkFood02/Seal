@@ -7,7 +7,7 @@
     <string name="url_empty">O link não pode estar vazio</string>
     <string name="extract_audio_summary">Baixar e salvar o áudio ao invés do vídeo</string>
     <string name="create_thumbnail_summary">Salvar miniatura do vídeo como um arquivo</string>
-    <string name="yt_dlp_up_to_date">Você já possui a atualização mais recente</string>
+    <string name="yt_dlp_up_to_date">Usando a versão mais recente do yt-dlp</string>
     <string name="fetching_info">Buscando informações do vídeo…</string>
     <string name="permission_denied">Permissão negada</string>
     <string name="download_error_msg">O arquivo não pôde ser baixado</string>
@@ -36,19 +36,19 @@
     <string name="video">Vídeo</string>
     <string name="credits">Créditos</string>
     <string name="credits_desc">Créditos e software livre</string>
-    <string name="custom_command">Comando personalizado</string>
+    <string name="custom_command">Comando Personalizado</string>
     <string name="print_details_desc">Mostrar mensagens detalhadas ao fazer o download</string>
-    <string name="display_settings">Tema escuro, cor dinâmica, idiomas</string>
+    <string name="display_settings">Tema, cores, idiomas</string>
     <string name="dark_theme">Tema escuro</string>
     <string name="follow_system">Sistema</string>
     <string name="settings_before_download_text">Ajustar este download</string>
     <string name="error_copied">Relatório de erros copiado para a área de transferência</string>
     <string name="paste">Colar</string>
-    <string name="yt_dlp_docs">Referências de uso do Yt-dlp</string>
+    <string name="yt_dlp_docs">Referências de uso do yt-dlp</string>
     <string name="convert_audio_format">Converter formato de áudio</string>
     <string name="not_convert">Não convertido</string>
     <string name="convert_to">Converter para %1$s</string>
-    <string name="format">Formato</string>
+    <string name="format">Processamento</string>
     <string name="best_quality">Melhor qualidade</string>
     <string name="video_quality_desc">Limitar a qualidade do vídeo quando várias qualidades estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
@@ -56,7 +56,7 @@
     <string name="start_download">Baixar</string>
     <string name="settings_before_download">Configurar antes de baixar</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
-    <string name="about_page">Versão, feedback, atualização automática</string>
+    <string name="about_page">Versão, feedback, atualização</string>
     <string name="settings_before_download_desc">Configure as preferências antes de baixar</string>
     <string name="convert_audio">Converter</string>
     <string name="paste_fail_msg">Não foi possível corresponder ao URL na área de transferência</string>
@@ -94,7 +94,7 @@
     <string name="invalid_index_range">Intervalo de índice inválido</string>
     <string name="playlist_indicator_text">Baixando lista de reprodução (%1$d/%2$d), toque para parar.</string>
     <string name="audio_directory">Pasta de Áudio</string>
-    <string name="download_directory">Diretório de download</string>
+    <string name="download_directory">Pasta de Download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
     <string name="subdirectory">Salvar no subdiretório</string>
     <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos sites</string>
@@ -144,7 +144,7 @@
     <string name="embed_subtitles">Adicionar legendas</string>
     <string name="embed_subtitles_desc">Adicionar legendas em vídeos, se disponíveis</string>
     <string name="new_template">Novo modelo</string>
-    <string name="template_label">Etiqueta</string>
+    <string name="template_label">Título</string>
     <string name="remove_template">Remover\?</string>
     <string name="remove_template_desc">Remover %1$s dos templates de comandos\?</string>
     <string name="template_selection">Seleção de modelos</string>
@@ -164,9 +164,9 @@
     <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads\?</string>
     <string name="template_exported">Exportado %1$d modelo(s)</string>
     <string name="export_to_clipboard">Exportar para a área de transferência</string>
-    <string name="check_for_updates">Verifique se há atualizações</string>
+    <string name="check_for_updates">Buscar atualizações</string>
     <string name="check_for_updates_desc">Verificar automaticamente a versão mais recente no GitHub</string>
-    <string name="app_up_to_date">Você já possui a atualização mais recente</string>
+    <string name="app_up_to_date">A versão atual está atualizada</string>
     <string name="app_update_failed">Falha ao atualizar para a versão mais recente</string>
     <string name="update">Atualizar</string>
     <string name="aria2_desc">Usar aria2c como ferramenta de download padrão</string>
@@ -192,12 +192,12 @@
     <string name="rate_limit_desc">Limitar a taxa máxima de downloads</string>
     <string name="max_rate">Taxa máxima</string>
     <string name="unavailable">Indisponível</string>
-    <string name="format_settings_desc">Formato do arquivo, qualidade do vídeo, legendas</string>
-    <string name="general_settings_desc">Versão do yt-dlp, notificação, lista de reprodução</string>
+    <string name="format_settings_desc">Formato, qualidade, legendas</string>
+    <string name="general_settings_desc">SponsorBlock, notificação, yt-dlp</string>
     <string name="disable_preview">Desabilitar pré-visualização</string>
     <string name="disable_preview_desc">Desabilitar pré-visualização em downloads</string>
     <string name="privacy">Privacidade</string>
-    <string name="network_settings_desc">Limite de taxa, ferramenta de download, cookies</string>
+    <string name="network_settings_desc">Proxy, download, cookies</string>
     <string name="private_directory">Diretório privado</string>
     <string name="private_directory_desc">Armazenar downloads em um diretório oculto</string>
     <string name="crop_artwork_desc">Recortar miniatura em um quadrado</string>
@@ -309,9 +309,9 @@
     <string name="proxy_desc">Usar proxy para conexões de internet</string>
     <string name="disable">Desativar</string>
     <string name="set_directory_desc">Toque para configurar o diretório</string>
-    <string name="custom_command_directory">Diretório de comando personalizado</string>
+    <string name="custom_command_directory">Pasta de comando personalizado</string>
     <string name="disabled">Desabilitado</string>
-    <string name="folder_picker">Seletor de pastas</string>
+    <string name="folder_picker">Selecionar pasta</string>
     <string name="custom_command_directory_desc">Especifique o diretório de saída ao usar comandos personalizados</string>
     <string name="prefer_quality_desc">Prefira os formatos AV1, VP9 ou H.265 para assistir em aplicativos compatíveis</string>
     <string name="legacy">Legado</string>
@@ -322,7 +322,7 @@
     <string name="proxy">Proxy</string>
     <string name="download_type">Tipo de download</string>
     <string name="custom">Personalizado</string>
-    <string name="commands">Comandos</string>
+    <string name="commands">Comando</string>
     <string name="format_preference">Preferência de formato</string>
     <string name="learn_more">Saber mais</string>
     <string name="unknown">Desconhecido</string>
@@ -335,4 +335,5 @@
         <item quantity="other">%d item(s)</item>
     </plurals>
     <string name="ua_header">Cabeçalho de requisição User-Agent</string>
+    <string name="export_to_file">Exportar para arquivo</string>
 </resources>

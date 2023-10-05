@@ -334,4 +334,5 @@
         <item quantity="one">%d ਆਈਟਮ</item>
         <item quantity="other">%d ਆਈਟਮਾਂ</item>
     </plurals>
+    <string name="export_to_file">ਫਾਈਲ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ</string>
 </resources>

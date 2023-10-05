@@ -335,4 +335,5 @@
         <item quantity="other">%d item(s)</item>
     </plurals>
     <string name="ua_header">Cabeçalho de requisição User-Agent</string>
+    <string name="export_to_file">Exportar para ficheiro</string>
 </resources>

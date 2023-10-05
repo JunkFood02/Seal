@@ -315,4 +315,23 @@
     <string name="enable_notifications_desc">Die App benötigt deine Erlaubnis, um Benachrichtigungen über den Status und den Downloadfortschritt anzuzeigen.</string>
     <string name="disable">Deaktivieren</string>
     <string name="prefer_quality_desc">AV1-, VP9- oder H.265-Formate für die Wiedergabe in kompatiblen Apps bevorzugen</string>
+    <string name="export_to_file">Export in die Datei</string>
+    <string name="folder_picker">Ordnerauswahl</string>
+    <string name="commands">Befehle</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="learn_more">Mehr erfahren</string>
+    <string name="download_type">Art des Herunterladens</string>
+    <string name="custom_command_directory">Benutzerdefiniertes Befehlsverzeichnis</string>
+    <string name="custom_command_directory_desc">Geben Sie das Ausgabeverzeichnis an, wenn Sie benutzerdefinierte Befehle verwenden</string>
+    <string name="set_directory_desc">Tippen, um Verzeichnis einzurichten</string>
+    <string name="ua_header">User-Agent Header</string>
+    <string name="format_preference">Format Präferenz</string>
+    <string name="auto">Automatisch</string>
+    <plurals name="item_count">
+        <item quantity="one">%d Element</item>
+        <item quantity="other">%d Elemente</item>
+    </plurals>
+    <string name="refresh_cookies_desc">Tippen, um die Webseite für die Erstellung neuer Cookies zu öffnen:</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="remove_multiple_templates_msg">\"%1$s\" endgültig aus den Befehlsvorlagen entfernen\?</string>
 </resources>
