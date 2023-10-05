@@ -138,7 +138,6 @@
     <string name="translate">Пераклад</string>
     <string name="translate_desc">Дапамажыце з перакладам на Hosted Weblate</string>
     <string name="prefix">Шаблон шляху</string>
-    <string name="custom_output_path_desc">Выкарыстоўвайце шаблон для падкаталогу</string>
     <string name="embed_subtitles">Убудаваць субтытры</string>
     <string name="template_label">Загаловак</string>
     <string name="remove_template">Выдаліць\?</string>
@@ -151,8 +150,6 @@
     <string name="info_copied">Спасылка скапіявана ў буфер абмену</string>
     <string name="permission_issue_desc">Дырэкторыі па-за Download/ і Documents/ не падтрымліваюцца</string>
     <string name="battery_configuration">Канфігурацыя батарэі</string>
-    <string name="custom_output_path">Карыстальніцкі падкаталог</string>
-    <string name="edit_custom_path_template_desc">Дадайце карыстальніцкі прэфікс да опцыі -o з даступнымі палямі, прадстаўленымі yt-dlp</string>
     <string name="embed_subtitles_desc">Устаўляйце прадстаўленыя субтытры ў відэа, калі такія маюцца</string>
     <string name="new_template">Новы шаблон</string>
     <string name="template_selection">Выбар шаблону</string>

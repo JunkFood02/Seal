@@ -127,9 +127,6 @@
     <string name="service_title">Seal 다운로드 중…</string>
     <string name="translate">번역</string>
     <string name="translate_desc">Hosted Weblate 사이트에서 이 앱의 번역을 도울수 있습니다</string>
-    <string name="custom_output_path">사용자 지정 하위 디렉터리</string>
-    <string name="custom_output_path_desc">하위 디렉토리에 템플릿 사용</string>
-    <string name="edit_custom_path_template_desc">yt-dlp에서 제공하는 사용 가능한 필드와 함께 -o 옵션에 맞춤 접두사를 추가합니다</string>
     <string name="prefix">접두사</string>
     <string name="to">끝</string>
     <string name="follow_system">시스템</string>

@@ -131,9 +131,6 @@
     <string name="unknown_error">Kesalahan tidak diketahui</string>
     <string name="translate_desc">Bantu terjemahkan aplikasi ini di Hosted Weblate</string>
     <string name="prefix">Jalur templat</string>
-    <string name="custom_output_path">Direktori khusus</string>
-    <string name="custom_output_path_desc">Gunakan templat untuk subdirektori</string>
-    <string name="edit_custom_path_template_desc">Tambahkan awalan kustom ke opsi -o dengan bidang yang tersedia yang disediakan oleh yt-dlp</string>
     <string name="embed_subtitles">Sematkan takarir</string>
     <string name="embed_subtitles_desc">Sematkan takarir yang disediakan ke dalam video jika tersedia</string>
     <string name="new_template">Templat baru</string>

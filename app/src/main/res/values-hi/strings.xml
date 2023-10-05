@@ -132,9 +132,6 @@
     <string name="unknown_error">अज्ञात त्रुटि</string>
     <string name="translate">अनुवाद करें</string>
     <string name="prefix">पथ टेम्पलेट</string>
-    <string name="custom_output_path">कस्टम उपनिर्देशिका</string>
-    <string name="custom_output_path_desc">उपनिर्देशिका के लिए टेम्पलेट का प्रयोग करें</string>
-    <string name="edit_custom_path_template_desc">yt-dlp द्वारा उपलब्ध कराए गए फ़ील्ड के साथ -o विकल्प में कस्टम उपसर्ग जोड़ें</string>
     <string name="embed_subtitles">उपशीर्षक अंतःस्थापित करें</string>
     <string name="embed_subtitles_desc">उपलब्ध होने पर प्रदान किए सबटाइटल वीडियोज में एम्बेड करें</string>
     <string name="new_template">नया टेम्पलेट</string>

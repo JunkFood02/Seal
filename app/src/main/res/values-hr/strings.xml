@@ -92,8 +92,6 @@
     <string name="unknown_error">Nepoznata greška</string>
     <string name="translate_desc">Pomozite nam prevesti ovu aplikaciju pomoću Hosted Weblate</string>
     <string name="prefix">Predložak puta</string>
-    <string name="custom_output_path">Prilagođen poddirekorij</string>
-    <string name="custom_output_path_desc">Koristi predloške za poddirektorij</string>
     <string name="embed_subtitles_desc">Ugradi ponuđene titlove u videa ako su dostupni</string>
     <string name="new_template">Novi predložak</string>
     <string name="template_label">Oznaka</string>
@@ -164,7 +162,6 @@
     <string name="invalid_index_range">Neispravan domet indeksa</string>
     <string name="playlist_indicator_text">Preuzimanje popisa za reprodukciju (%1$d/%2$d), dodirnite kako biste zaustavili.</string>
     <string name="download_directory">Direktorij preuzimanja</string>
-    <string name="edit_custom_path_template_desc">Dodajte prilagođen prefiks -o opciji sa dostupnim prostorom koji Vam donosi yt-dlp</string>
     <string name="open_file">Otvori datoteku</string>
     <string name="translate">Prevedite</string>
     <string name="custom_command_template_desc">Uredite i upravljajte naredbenim predlošcima</string>

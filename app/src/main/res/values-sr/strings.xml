@@ -22,9 +22,7 @@
     <string name="subdirectory_desc">Сачувајте фајлове у фолдере који се називају као одговарајући веб-сајтови</string>
     <string name="permission_issue_desc">Директоријуми изван Преузимања/ и Документа/ нису подржани</string>
     <string name="unknown_error">Непозната грешка</string>
-    <string name="edit_custom_path_template_desc">Додајте прилагођени префикс опцији -o с доступним пољима које обезбеђује yt-dlp</string>
     <string name="translate_desc">Помозите да преведете ову апликацију на Hosted Weblate</string>
-    <string name="custom_output_path">Прилагођени поддиректоријум</string>
     <string name="template_label">Ознака</string>
     <string name="remove_template_desc">Заувек уклонити \"%1$s\" из командних шаблона\?</string>
     <string name="aria2_desc">Користите aria2c као спољни програм за преузимање</string>
@@ -104,7 +102,6 @@
     <string name="service_title">Seal преузима…</string>
     <string name="translate">Преведи</string>
     <string name="prefix">Шаблон путање</string>
-    <string name="custom_output_path_desc">Користите шаблон за поддиректоријум</string>
     <string name="embed_subtitles">Угради титлове</string>
     <string name="embed_subtitles_desc">Уградите обезбеђене титлове у видео снимке, ако су доступни</string>
     <string name="new_template">Нови шаблон</string>

@@ -131,9 +131,6 @@
     <string name="edit_template_desc">سيضيف التطبيق مسار الإخراج وعنوان URL.</string>
     <string name="fetching_playlist_info">جارٍ إحضار معلومات قائمة التشغيل …</string>
     <string name="prefix">قالب المسار</string>
-    <string name="custom_output_path">مجلد فرعي مخصص</string>
-    <string name="custom_output_path_desc">استخدم نموذجاً للمجلد الفرعي</string>
-    <string name="edit_custom_path_template_desc">أضف سابقة مخصصة إلى الخيار -o مع الحقول المتاحة التي يوفرها yt-dlp</string>
     <string name="embed_subtitles">دمج الترجمة</string>
     <string name="embed_subtitles_desc">أدمج الترجمة المقدمة في الفيديوهات إذا كانت متوفرة</string>
     <string name="new_template">قالب جديد</string>

@@ -109,8 +109,6 @@
     <string name="translate">翻譯</string>
     <string name="translate_desc">在 Hosted Weblate 上協助翻譯此應用程式</string>
     <string name="prefix">路徑範本</string>
-    <string name="custom_output_path_desc">使用範本以配置子目錄</string>
-    <string name="edit_custom_path_template_desc">新增由 yt-dlp 提供的可用變數以自訂前置詞至 -o 選項</string>
     <string name="new_template">新增範本</string>
     <string name="embed_subtitles_desc">如有提供可用字幕則將其內嵌至視訊中</string>
     <string name="permission_issue">儲存權限有已知問題</string>
@@ -149,7 +147,6 @@
     <string name="download_range_desc">指定欲從「%3$s」播放清單中下載的視訊項目範圍 (編號從 %1$d 到 %2$d)。</string>
     <string name="subdirectory">儲存到子目錄</string>
     <string name="download_directory_desc">選取視訊和音訊檔案的儲存位置</string>
-    <string name="custom_output_path">自訂子目錄</string>
     <string name="embed_subtitles">內嵌字幕</string>
     <string name="github_issue">GitHub 議題</string>
     <string name="custom_command_template_desc">編輯和管理命令範本</string>

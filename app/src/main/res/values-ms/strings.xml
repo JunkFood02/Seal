@@ -120,9 +120,6 @@
     <string name="translate">Terjemah</string>
     <string name="translate_desc">Bantu terjemah aplikasi ini on Hosted Weblate</string>
     <string name="prefix">Templat laluan</string>
-    <string name="custom_output_path">Suai anak folder</string>
-    <string name="custom_output_path_desc">Gunakan templat untuk anak folder</string>
-    <string name="edit_custom_path_template_desc">Tambah awalan tersuai ke pilihan -o dengan medan yang tersedia disediakan oleh yt-dlp</string>
     <string name="embed_subtitles">Benamkan seri kata</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Buang\?</string>

@@ -126,7 +126,6 @@
     <string name="unknown_error">未知のエラー</string>
     <string name="translate_desc">Hosted Weblateでこのアプリの翻訳を手伝って下さい</string>
     <string name="prefix">パスのテンプレート</string>
-    <string name="custom_output_path">カスタムサブディレクトリ</string>
     <string name="embed_subtitles">字幕を組み込む</string>
     <string name="embed_subtitles_desc">利用可能であれば動画に字幕を組み込む</string>
     <string name="new_template">新しいテンプレート</string>
@@ -137,7 +136,6 @@
     <string name="github_issue">GitHubの課題</string>
     <string name="github_issue_desc">バグの報告または機能のリクエストを提出する</string>
     <string name="info_copied">情報がクリップボードにコピーされました</string>
-    <string name="custom_output_path_desc">サブディレクトリにテンプレートを使用する</string>
     <string name="remove_template">削除しますか？</string>
     <string name="service_title">Sealがダウンロード中…</string>
     <string name="subdirectory">サブディレクトリに保存</string>
@@ -148,7 +146,6 @@
     <string name="downloading_indicator_text">ダウンロード進行中、タップしてキャンセルする。</string>
     <string name="status_error">エラー</string>
     <string name="copy_error_report">エラーの報告</string>
-    <string name="edit_custom_path_template_desc">yt-dlpが提供する使用可能なカスタムプレフィックスを-oオプションに追加する</string>
     <string name="status_completed">完了しました</string>
     <string name="status_downloading">ダウンロード中</string>
     <string name="status_canceled">キャンセルしました</string>

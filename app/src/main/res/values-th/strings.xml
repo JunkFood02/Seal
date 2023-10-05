@@ -207,7 +207,6 @@
     <string name="language_settings">ตั้งค่าภาษาที่แสดง</string>
     <string name="settings_before_download_text">ปรับแต่งการดาวน์โหลดนี้</string>
     <string name="task_running">งานดาวน์โหลดที่มีอยู่กำลังทำงานอยู่</string>
-    <string name="custom_output_path">ไดเรกทอรีย่อยที่กำหนดเอง</string>
     <string name="download_notification">การแจ้งเตือนการดาวน์โหลด</string>
     <string name="check_download_settings_desc">ดูที่การตั้งค่าการดาวน์โหลดและแน่ใจว่าคุณมีเวอร์ชันล่าสุดของ yt-dlp ก่อนที่จะใช้มัน</string>
     <string name="download_history_desc">ตรวจสอบและจัดการการดาวน์โหลดในแอปรวมถึงวิดีโอและไฟล์เสียง</string>
@@ -229,7 +228,6 @@
     <string name="prefix">คำนำหน้า</string>
     <string name="new_template">แม่แบบใหม่</string>
     <string name="embed_subtitles_desc">ฝังซับไตเติ้ลในวิดีโอถ้ามีมาให้</string>
-    <string name="custom_output_path_desc">ใช้แม่แบบสำหรับไดเรกทอรีย่อย</string>
     <string name="translate_desc">ช่วยแปลแอปนี้ได้บน Hosted Weblate</string>
     <string name="download_directory_desc">เลือกที่จะเก็บไฟล์วิดีโอและเสียง</string>
     <string name="invalid_index_range">ช่วงดัชนีไม่ถูกต้อง</string>

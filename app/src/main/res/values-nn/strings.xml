@@ -83,9 +83,6 @@
     <string name="translate">Omsett</string>
     <string name="translate_desc">Hjelp til med å omsetja denne appen hos Hosted Weblate</string>
     <string name="prefix">Stigmal</string>
-    <string name="custom_output_path_desc">Mal for namngjeving av undermapper</string>
-    <string name="custom_output_path">Undermappenamn</string>
-    <string name="edit_custom_path_template_desc">Namngjeva undermapper med yt-dlp sine påbodstrengar</string>
     <string name="embed_subtitles">Bygg inn teksting</string>
     <string name="embed_subtitles_desc">Om tilgjengelege, bygg gjevne undertekster inn i videoar</string>
     <string name="template_label">Malnamn</string>

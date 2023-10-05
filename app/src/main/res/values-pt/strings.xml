@@ -149,9 +149,6 @@
     <string name="unknown_error">Erro desconhecido</string>
     <string name="translate">Traduzir</string>
     <string name="prefix">Prefixo</string>
-    <string name="custom_output_path">Subdiretório personalizado</string>
-    <string name="custom_output_path_desc">Utilizar modelo para subdiretório</string>
-    <string name="edit_custom_path_template_desc">Adicionar prefixo personalizado à opção -o com os campos disponíveis fornecidos pelo yt-dlp</string>
     <string name="embed_subtitles">Incorporar legendas</string>
     <string name="embed_subtitles_desc">Incorporar as legendas fornecidas nos vídeos, se disponíveis</string>
     <string name="new_template">Novo modelo</string>

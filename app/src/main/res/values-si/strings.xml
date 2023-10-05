@@ -166,7 +166,6 @@
     <string name="network_settings_desc">අනුපාත සීමාව, බාගත කරන්නා, cookies</string>
     <string name="general_settings_desc">Yt-dlp අනුවාදය, දැනුම්දීම්, playlist</string>
     <string name="crop_artwork_desc">අන්තර්ගත රූපය චතුරස්‍රාකාර ලෙස කපන්න</string>
-    <string name="custom_output_path">අභිරුචි උප ඩිරෙක්ටරිය</string>
     <string name="embed_subtitles">උපසිරැසි ඇතුළත් කරන්න</string>
     <string name="template_label">ලේබල්</string>
     <string name="downloading_indicator_text">බාගනිමින් පවතී, අවලංගු කිරීමට ක්ලික් කරන්න.</string>
@@ -197,8 +196,6 @@
     <string name="defaults">පෙරනිමිය</string>
     <string name="concurrent_download_num">DASH/HLS වීඩියෝ සමගාමීව බාගැනීමට ත්‍රෙඩ් %d ක් භාවිතා කරනු ඇත.</string>
     <string name="prefix">ආචයන ටෙම්ප්ලේට ස්ථානය</string>
-    <string name="custom_output_path_desc">උප ඩිරෙක්ටරි සදහා ටෙම්ප්ලේට් යොදාගන්න</string>
-    <string name="edit_custom_path_template_desc">yt-dlp මගින් සපයන ලද පවතින ක්ෂේත්‍ර සහිත උප ඩිරෙක්ටරිය සඳහන් කරන්න</string>
     <string name="new_template">නව ටෙම්ප්ලේටයක්</string>
     <string name="remove_template_desc">විධාන ටෙම්ප්ලේට වලින් \"%1$s\" ඉවත් කරන්නද\?</string>
     <string name="template_selection">ටෙම්ප්ලේට තෝරා ගැනීම්</string>

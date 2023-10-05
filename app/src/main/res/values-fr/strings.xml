@@ -131,9 +131,6 @@
     <string name="translate">Traduire</string>
     <string name="translate_desc">Aidez à traduire cette application sur Hosted Weblate</string>
     <string name="prefix">Modèle de chemin</string>
-    <string name="custom_output_path">Sous-répertoire personnalisé</string>
-    <string name="custom_output_path_desc">Utiliser le modèle pour le sous-répertoire</string>
-    <string name="edit_custom_path_template_desc">Ajouter un préfixe personnalisé à l\'option -o avec les champs disponibles fournis par yt-dlp</string>
     <string name="embed_subtitles">Sous-titres intégrés</string>
     <string name="embed_subtitles_desc">Sous-titres intégrés dans les vidéos, si disponible</string>
     <string name="template_selection">Sélection du modèle</string>

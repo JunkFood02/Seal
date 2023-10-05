@@ -132,9 +132,6 @@
     <string name="translate">翻译</string>
     <string name="translate_desc">在 Weblate 上帮助我们翻译此应用</string>
     <string name="prefix">输出路径模板</string>
-    <string name="custom_output_path">自定义输出路径</string>
-    <string name="custom_output_path_desc">使用自定义模板指定输出目录</string>
-    <string name="edit_custom_path_template_desc">使用 yt-dlp 提供的值为 -o 选项的模板添加前缀，可用于指定自定义子目录或文件名前缀</string>
     <string name="embed_subtitles">封装字幕</string>
     <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
     <string name="new_template">新建命令模板</string>

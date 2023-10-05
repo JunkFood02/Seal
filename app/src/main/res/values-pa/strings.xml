@@ -108,8 +108,6 @@
     <string name="download_directory_desc">ਚੁਣੋ ਕਿ ਵੀਡੀਓ ਅਤੇ ਆਡੀਓ ਫਾਈਲਾਂ ਕਿੱਥੇ ਸਟੋਰ ਕਰਨੀਆਂ ਹਨ</string>
     <string name="translate_desc">ਹੋਸਟਡ ਵੈਬਲੇਟ \'ਤੇ ਇਸ ਐਪ ਦਾ ਅਨੁਵਾਦ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰੋ</string>
     <string name="prefix">ਮਾਰਗ ਟੈਮਪਲੇਟ</string>
-    <string name="custom_output_path">ਕਸਟਮ ਸਬ-ਡਾਇਰੈਕਟਰੀ</string>
-    <string name="edit_custom_path_template_desc">yt-dlp ਦੁਆਰਾ ਪ੍ਰਦਾਨ ਕੀਤੇ ਉਪਲਬਧ ਖੇਤਰਾਂ ਦੇ ਨਾਲ -o ਵਿਕਲਪ ਵਿੱਚ ਕਸਟਮ ਪ੍ਰੀਫਿਕਸ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="embed_subtitles">ਉਪਸਿਰਲੇਖ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="new_template">ਨਵਾਂ ਟੈਮਪਲੇਟ</string>
     <string name="template_label">ਲੇਬਲ</string>
@@ -162,7 +160,6 @@
     <string name="format_selection">ਫਾਰਮੈਟ ਚੋਣ</string>
     <string name="format_selection_desc">ਡਾਊਨਲੋਡ ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਫਾਰਮੈਟ ਚੁਣੋ</string>
     <string name="subdirectory">ਸਬ-ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਹੇਜੋ</string>
-    <string name="custom_output_path_desc">ਸਬ-ਡਾਇਰੈਕਟਰੀ ਲਈ ਟੈਂਪਲੇਟ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="embed_subtitles_desc">ਉਪਲਬਧ ਕੀਤੇ ਹੋਣ ਤਾਂ ਸਬਟਾਈਟਲਾਂ ਨੂੰ ਵੀਡੀਓ ਵਿੱਚ ਏਮਬੇਡ ਕਰੋ</string>
     <string name="remove_template_desc">ਕੀ ਚੰਗੇ ਲਈ ਕਮਾਂਡ ਟੈਮਪਲੇਟਸ ਤੋਂ \"%1$s\" ਨੂੰ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="custom_command_template_desc">ਕਮਾਂਡ ਟੈਂਪਲੇਟਸ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ ਅਤੇ ਪ੍ਰਬੰਧਿਤ ਕਰੋ</string>

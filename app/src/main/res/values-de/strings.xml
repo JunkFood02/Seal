@@ -131,9 +131,6 @@
     <string name="convert_audio_format_desc">Die Neukodierung von Audiodateien führt zu einem Verlust an Audioqualität und einer Vergrößerung der Datei.</string>
     <string name="from">Start</string>
     <string name="prefix">Ordnervorlage</string>
-    <string name="custom_output_path">Benutzerdefinierte Unterordner</string>
-    <string name="custom_output_path_desc">Vorlage für Unterordner verwenden</string>
-    <string name="edit_custom_path_template_desc">Hinzufügen eines benutzerdefinierten Präfixes zur Option -o mit verfügbaren Feldern, die von yt-dlp bereitgestellt werden</string>
     <string name="embed_subtitles">Untertitel einbetten</string>
     <string name="embed_subtitles_desc">Einbetten von Untertiteln in Videos, sofern vorhanden</string>
     <string name="new_template">Neue Vorlage</string>

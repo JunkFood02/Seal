@@ -131,9 +131,6 @@
     <string name="concurrent_download">Download multi-thread</string>
     <string name="concurrent_download_num">I thread %d sarebbero utilizzati per scaricare video nativi DASH/HLS in parallelo.</string>
     <string name="prefix">Modello di percorso</string>
-    <string name="custom_output_path">Sottodirectory personalizzata</string>
-    <string name="custom_output_path_desc">Usa il modello per la sottodirectory</string>
-    <string name="edit_custom_path_template_desc">Aggiungi un prefisso personalizzato all\'opzione -o con le opzioni disponibili da yt-dlp</string>
     <string name="embed_subtitles">Incorpora i sottotitoli</string>
     <string name="embed_subtitles_desc">Incorpora i sottotitoli nel video se disponibili</string>
     <string name="new_template">Nuovo modello</string>

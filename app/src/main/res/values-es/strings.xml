@@ -131,9 +131,6 @@
     <string name="subdirectory_desc">Guardar archivos en un subdirectorio nombrado con los nombres de las páginas web</string>
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
     <string name="prefix">Plantilla de ruta</string>
-    <string name="custom_output_path">Subdirectorio personalizado</string>
-    <string name="custom_output_path_desc">Utilizar la plantilla para el subdirectorio</string>
-    <string name="edit_custom_path_template_desc">Añade prefijos personalizados para usar con la opción -o con los campos disponibles y proporcionados por yt-dlp</string>
     <string name="embed_subtitles">Agregar subtítulos</string>
     <string name="embed_subtitles_desc">Incrustar los subtítulos proporcionados en los videos si están disponibles</string>
     <string name="new_template">Nueva plantilla</string>

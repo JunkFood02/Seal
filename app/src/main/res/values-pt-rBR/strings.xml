@@ -131,9 +131,6 @@
     <string name="download_range_selection">Seleção de lista de reprodução</string>
     <string name="service_title">Seal está baixando…</string>
     <string name="prefix">Prefixo</string>
-    <string name="custom_output_path">Subdiretório personalizado</string>
-    <string name="custom_output_path_desc">Usar um modelo de subdiretório</string>
-    <string name="edit_custom_path_template_desc">Adicionar prefixo personalizado à opção -o com campos disponíveis fornecidos pelo yt-dlp</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="restart">Reiniciar</string>
     <string name="status_downloading">Baixando</string>

@@ -131,9 +131,6 @@
     <string name="share_success_msg">Leser videolenke fra delt innhold …</string>
     <string name="concurrent_download_num">%d tråd(er) kan bli brukt til å laste ned DASH/HLS native-video samtidig.</string>
     <string name="prefix">Stimal</string>
-    <string name="custom_output_path">Egendefinert undermappe</string>
-    <string name="custom_output_path_desc">Bruk mal for undermappe</string>
-    <string name="edit_custom_path_template_desc">Angi undermappe med tilgjengelige felter angitt av yt-dlp</string>
     <string name="embed_subtitles">Legg inn undertekster</string>
     <string name="embed_subtitles_desc">Legg til undertekster hvis de finnes</string>
     <string name="remove_template">Fjern\?</string>

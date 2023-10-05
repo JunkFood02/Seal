@@ -130,9 +130,6 @@
     <string name="subdirectory">ذخیره در زیر شاخه پوشه</string>
     <string name="invalid_index_range">محدوده شاخص نامعتبر است</string>
     <string name="battery_configuration">پیکربندی باتری</string>
-    <string name="custom_output_path">زیرپوشه سفارشی</string>
-    <string name="custom_output_path_desc">از الگو برای زیر شاخه استفاده کنید</string>
-    <string name="edit_custom_path_template_desc">با فیلدهای موجود که توسط yt-dlp ارائه شده است، پیشوند سفارشی را به گزینه -o اضافه کنید</string>
     <string name="audio_format_preference">فرمت صوتی ترجیحی</string>
     <string name="unlimited">نامحدود</string>
     <string name="lowest_bitrate">کمترین میزان بیت ریت</string>

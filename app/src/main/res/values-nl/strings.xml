@@ -131,9 +131,6 @@
     <string name="translate">Vertalen</string>
     <string name="translate_desc">Help deze app te vertalen op Hosted Weblate</string>
     <string name="prefix">Path template</string>
-    <string name="custom_output_path">Aangepaste submap</string>
-    <string name="custom_output_path_desc">Gebruik sjabloon voor submap</string>
-    <string name="edit_custom_path_template_desc">Voeg eigen voorvoegsel toe tot de -o optie met de beschikbare velden voorzien door yt-dlp</string>
     <string name="app_up_to_date">De huidige versie is up-to-date</string>
     <string name="template_selection">Sjabloon selectie</string>
     <string name="sponsorblock_desc">Haal segmenten weg van videos met SponserBlock API</string>

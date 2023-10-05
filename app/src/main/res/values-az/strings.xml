@@ -129,8 +129,6 @@
     <string name="permission_issue_desc">Download/ və Documents/ xaricindəki kataloqlar dəstəklənmir</string>
     <string name="prefix">Ön şəkilçi</string>
     <string name="downloading_indicator_text">Yükləmə davam edir, ləğv etmək üçün bas.</string>
-    <string name="custom_output_path">Şəxsi alt kataloq</string>
-    <string name="edit_custom_path_template_desc">yt-dlp tərəfindən təmin edilən mövcud sahələrlə -o seçiminə şəxsi ön şəkilçi əlavə et</string>
     <string name="embed_subtitles">Titrləri yerləşdir</string>
     <string name="new_template">Yeni şablon</string>
     <string name="template_label">Etiket</string>
@@ -192,7 +190,6 @@
     <string name="battery_configuration_desc">Fonda yükləmək üçün, bu tətbiqin batareya optimallaşdırılmasına məhəl qoyma</string>
     <string name="playlist_indicator_text">Oynatma siyahısı yüklənir (%1$d/%2$d), dayandırmaq üçün bas.</string>
     <string name="subdirectory_desc">Faylları uyğun veb-saytlar kimi adlandırılan qovluqlarda saxla</string>
-    <string name="custom_output_path_desc">Alt kataloq üçün şablon istifadə et</string>
     <string name="github_issue_desc">Xəta məlumatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
     <string name="embed_subtitles_desc">Təmin olunan titrlər varsa, videolara yerləşdir</string>
     <string name="status_enqueued">Növbəyə salındı</string>

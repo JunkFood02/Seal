@@ -131,9 +131,6 @@
     <string name="service_title">Nag da-download si Seal…</string>
     <string name="battery_configuration">Configuration ng baterya</string>
     <string name="prefix">Path template</string>
-    <string name="custom_output_path">Custom subdirectory</string>
-    <string name="custom_output_path_desc">Gamitin ang template para sa subdirectory</string>
-    <string name="edit_custom_path_template_desc">Magdagdag ng custom na prefix sa -o na opsyon na may available na field na ibinigay ng yt-dlp</string>
     <string name="restart">I-restart</string>
     <string name="downloading_indicator_text">Isinasagwa ang download, i-tap para kanselahin.</string>
     <string name="video_file_size">Laki ng video file</string>

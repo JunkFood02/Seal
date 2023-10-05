@@ -77,7 +77,6 @@
     <string name="translate">Fordítás</string>
     <string name="translate_desc">Segits fordítani ezt az appot a Hosted Weblate-n</string>
     <string name="prefix">Elérési út sablon</string>
-    <string name="custom_output_path_desc">Használjon sablont az alkönyvtárhoz</string>
     <string name="download">Letöltés</string>
     <string name="download_start_msg">Letöltés \"%1$s\"</string>
     <string name="download_success_msg">Letöltés kész</string>
@@ -127,13 +126,11 @@
     <string name="permission_issue">Adattár engedéllyel kapcsolatos probléma</string>
     <string name="share_success_msg">Videó link olvasása megosztott tartalomból…</string>
     <string name="show_more_actions">További műveletek megjelenítése</string>
-    <string name="edit_custom_path_template_desc">Adja meg az yt-dlp által biztosított elérhető mezőket tartalmazó alkönyvtárat</string>
     <string name="battery_configuration_desc">A háttérben történő letöltéshez kapcsold ki az alkalmazás akkumulátor-optimalizálását</string>
     <string name="service_title">Seal letöltése folyamatban van…</string>
     <string name="download_error_msg">A fájlt nem sikerült letölteni</string>
     <string name="channel_description">Értesítés a letöltött fájlokról és annak a folyamatról</string>
     <string name="battery_configuration">Akkumulátor beállítások</string>
-    <string name="custom_output_path">Egyéni alkönyvtár</string>
     <string name="open_file">Fájl megnyitása</string>
     <string name="restart">Újraindítás</string>
     <string name="status_enqueued">Sorba állva</string>

@@ -131,9 +131,6 @@
     <string name="download_notification">Meddelelse om nedlastning</string>
     <string name="battery_configuration">Konfiguration af batteri</string>
     <string name="prefix">Path template</string>
-    <string name="custom_output_path">Brugerdefineret undermappe</string>
-    <string name="custom_output_path_desc">Brug skabelon til undermappe</string>
-    <string name="edit_custom_path_template_desc">Tilføj tilpasset præfiks til -o-indstillingen med tilgængelige felter fra yt-dlp</string>
     <string name="audio_format_preference">Foretrukket lydformat</string>
     <string name="unlimited">Ubegrænset</string>
     <string name="lowest_bitrate">Laveste bitrate</string>

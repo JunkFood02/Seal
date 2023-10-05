@@ -87,10 +87,8 @@
     <string name="crop_artwork_desc">Crop imagine încorporată în pătrat</string>
     <string name="format_selection">Selectarea formatului</string>
     <string name="status_enqueued">În așteptare</string>
-    <string name="custom_output_path_desc">Utilizați șablonul pentru subdirector</string>
     <string name="max_rate">Rata maximă</string>
     <string name="translate">Traduceți</string>
-    <string name="custom_output_path">Subdirector personalizat</string>
     <string name="video_resolution">Rezoluție video</string>
     <string name="general_settings_desc">Versiunea YT-dlp, notificare, playlist</string>
     <string name="clear_temp_files_info">Fișierele temporare pot fi folosite pentru a relua descărcările anulate. Sunteți sigur că ștergeți toate aceste fișiere\?</string>
@@ -119,7 +117,6 @@
     <string name="recently_added">Adăugat recent</string>
     <string name="generate_new_cookies">Generați cookie-uri noi</string>
     <string name="file_unavailable">Acest fișier nu mai este disponibil</string>
-    <string name="edit_custom_path_template_desc">Adăugați prefix personalizat la opțiunea -o cu câmpurile disponibile furnizate de yt-dlp</string>
     <string name="embed_subtitles">Încorporează subtitrări</string>
     <string name="custom_command_template_desc">Editați și gestionați șabloanele de comandă</string>
     <string name="info_copied">Informații copiate în clipboard</string>

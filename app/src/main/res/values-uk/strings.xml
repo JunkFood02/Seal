@@ -131,9 +131,6 @@
     <string name="translate">Перекласти</string>
     <string name="translate_desc">Допомогти перекласти Seal iншою мовою на Weblate</string>
     <string name="prefix">Шаблон шляху</string>
-    <string name="custom_output_path">Свій підкаталог</string>
-    <string name="custom_output_path_desc">Використовувати шаблон для підкаталогів</string>
-    <string name="edit_custom_path_template_desc">Вкажіть свій префікс для опції -o, використовуючи доступні параметри yt-dlp</string>
     <string name="embed_subtitles">Вбудувати субтитри</string>
     <string name="embed_subtitles_desc">Вставляйте надані субтитри у відео, якщо вони доступні</string>
     <string name="new_template">Новий шаблон</string>
