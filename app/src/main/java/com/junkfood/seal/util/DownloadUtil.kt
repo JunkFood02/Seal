@@ -555,9 +555,11 @@ object DownloadUtil {
         downloadPath: String,
         sdcardUri: String
     ): Result<List<String>> = preferences.run {
-        val fileName = videoInfo.filename
-            ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
-            ?: videoInfo.title
+        val fileName = preferences.newTitle.ifEmpty {
+            videoInfo.filename
+                ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
+                ?: videoInfo.title
+        }
 
         Log.d(TAG, "onFinishDownloading: $fileName")
         if (sdcard) {
