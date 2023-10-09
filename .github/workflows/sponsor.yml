@@ -25,3 +25,4 @@ jobs:
           branch: main
           token: ${{ secrets.PAT }}
           folder: '.'
+          commit-message: 'docs(readme): update sponsor info'
