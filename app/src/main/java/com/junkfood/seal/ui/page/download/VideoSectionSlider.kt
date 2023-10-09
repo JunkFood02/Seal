@@ -14,8 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowLeft
-import androidx.compose.material.icons.outlined.ArrowRight
+import androidx.compose.material.icons.automirrored.outlined.ArrowRight
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -45,7 +43,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
@@ -231,7 +228,6 @@ fun VideoClipDialog(
         } else error = true
     }
 
-    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     SealDialog(onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.clip_video)) },
         icon = { Icon(Icons.Outlined.ContentCut, null) },
@@ -293,7 +289,7 @@ fun VideoClipDialog(
                         }
                     }
                     Icon(
-                        imageVector = if (!isRtl) Icons.Outlined.ArrowRight else Icons.Outlined.ArrowLeft,
+                        imageVector = Icons.AutoMirrored.Outlined.ArrowRight,
                         contentDescription = null
                     )
                     Row(
