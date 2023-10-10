@@ -35,8 +35,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -55,7 +57,18 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
         onBackPressed()
     }
     val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
-    val selectedItems = rememberSaveable { mutableStateListOf<Int>() }
+    val selectedItems = rememberSaveable(saver = listSaver<MutableList<Int>, Int>(
+        save = {
+            if (it.isNotEmpty()) {
+                it.toList()
+            } else {
+                emptyList()
+            }
+        },
+        restore = {
+            it.toMutableStateList()
+        }
+    )) { mutableStateListOf() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
     val playlistCount = playlistInfo.entries?.size ?: 0
