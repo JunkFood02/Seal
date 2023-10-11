@@ -513,11 +513,12 @@ fun OutputTemplateDialog(
         )
     }
 
-    var error by remember { mutableStateOf(false) }
+    var error by remember { mutableIntStateOf(0) }
+
     SealDialog(
         onDismissRequest = { },
         confirmButton = {
-            ConfirmButton(enabled = !error) {
+            ConfirmButton(enabled = error == 0) {
                 onConfirm(
                     when (selectedItem) {
                         1 -> DownloadUtil.OUTPUT_TEMPLATE_DEFAULT
@@ -579,11 +580,21 @@ fun OutputTemplateDialog(
                             OutlinedTextField(
                                 value = editingTemplate,
                                 onValueChange = {
-                                    error = !it.endsWith(DownloadUtil.EXTENSION) ||
-                                            !it.contains(DownloadUtil.BASENAME)
+                                    if (!it.contains(DownloadUtil.BASENAME))
+                                        error = 1
+                                    else if (!it.endsWith(DownloadUtil.EXTENSION))
+                                        error = 2
                                     editingTemplate = it
                                 },
-                                isError = error,
+                                isError = error != 0,
+                                supportingText = {
+                                    Text(
+                                        when (error) {
+                                            0 -> ""
+                                            else -> "Required: ${DownloadUtil.BASENAME}, ${DownloadUtil.EXTENSION}"
+                                        }
+                                    )
+                                },
                                 label = { Text(text = stringResource(id = R.string.custom)) },
                             )
                         }
