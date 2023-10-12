@@ -186,13 +186,15 @@ object FileUtil {
     fun Context.getCookiesFile() =
         File(getConfigDirectory(), "cookies.txt")
 
-    fun Context.getTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
+    fun getTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
         createEmptyFile(".nomedia")
     }
 
     fun Context.getSdcardTempDir(child: String?): File = getTempDir().run {
         child?.let { resolve(it) } ?: this
     }
+
+    fun getArchiveFile(): File = getTempDir().createEmptyFile("archive.txt").getOrThrow()
 
     fun Context.getLegacyTempDir() = File(filesDir, "tmp")
 
@@ -207,9 +209,11 @@ object FileUtil {
     )
 
 
-    fun File.createEmptyFile(fileName: String) = this.runCatching {
+    fun File.createEmptyFile(fileName: String): Result<File> = this.runCatching {
         mkdir()
-        resolve(fileName).createNewFile()
+        resolve(fileName).apply {
+            this@apply.createNewFile()
+        }
     }.onFailure { it.printStackTrace() }
 
 

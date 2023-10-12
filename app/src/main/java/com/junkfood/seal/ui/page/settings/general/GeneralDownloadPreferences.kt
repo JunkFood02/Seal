@@ -2,18 +2,26 @@ package com.junkfood.seal.ui.page.settings.general
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.HistoryToggleOff
@@ -28,6 +36,7 @@ import androidx.compose.material.icons.outlined.PrintDisabled
 import androidx.compose.material.icons.outlined.RemoveDone
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SyncAlt
+import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -56,10 +65,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
@@ -67,16 +80,20 @@ import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
 import com.junkfood.seal.util.DISABLE_PREVIEW
+import com.junkfood.seal.util.DOWNLOAD_ARCHIVE
+import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NOTIFICATION
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PLAYLIST
@@ -93,7 +110,9 @@ import com.junkfood.seal.util.YT_DLP
 import com.junkfood.seal.util.YT_DLP_NIGHTLY
 import com.junkfood.seal.util.YT_DLP_UPDATE
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class
@@ -135,6 +154,16 @@ fun GeneralDownloadPreferences(
             else isNotificationPermissionGranted = true
         } else null
 
+    var useDownloadArchive by DOWNLOAD_ARCHIVE.booleanState
+    var showClearArchiveDialog by remember { mutableStateOf(false) }
+    var archiveFileContent by remember {
+        mutableStateOf(listOf<String>())
+    }
+
+    val storagePermission =
+        rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    val isPermissionGranted = Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -343,6 +372,29 @@ fun GeneralDownloadPreferences(
                 }
 
                 item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(id = R.string.download_archive),
+                        onClick = {
+                            scope.launch(Dispatchers.IO) {
+                                archiveFileContent = FileUtil.getArchiveFile().readLines()
+                                Log.d("TAG", "GeneralDownloadPreferences: $archiveFileContent")
+                                withContext(Dispatchers.Main) {
+                                    showClearArchiveDialog = true
+                                }
+                            }
+                        },
+                        icon = Icons.Outlined.Archive,
+                        description = stringResource(R.string.download_archive_desc),
+                        isChecked = useDownloadArchive,
+                        onChecked = {
+                            useDownloadArchive = !useDownloadArchive
+                            DOWNLOAD_ARCHIVE.updateBoolean(useDownloadArchive)
+                        },
+                        enabled = isPermissionGranted
+                    )
+                }
+
+                item {
                     PreferenceSwitchWithDivider(title = stringResource(R.string.sponsorblock),
                         description = stringResource(
                             R.string.sponsorblock_desc
@@ -388,13 +440,6 @@ fun GeneralDownloadPreferences(
             icon = { Icon(Icons.Outlined.SyncAlt, null) },
             text = {
                 LazyColumn() {
-//                    item {
-//                        HorizontalDivider(
-//                            Modifier
-//                                .padding(horizontal = 16.dp)
-//                                .padding(vertical = 4.dp)
-//                        )
-//                    }
                     item {
                         Text(
                             text = stringResource(id = R.string.update_channel),
@@ -450,7 +495,18 @@ fun GeneralDownloadPreferences(
             },
         )
     }
-
+    if (showClearArchiveDialog) {
+        Log.d("Dialog", "GeneralDownloadPreferences:$archiveFileContent ")
+        DownloadArchiveDialog(
+            archiveFileContent = archiveFileContent,
+            onDismissRequest = { showClearArchiveDialog = false }) {
+            scope.launch(Dispatchers.IO) {
+                runCatching {
+                    FileUtil.getArchiveFile().writeText("")
+                }
+            }
+        }
+    }
 
 }
 
@@ -534,4 +590,96 @@ private fun UpdateProgressIndicator() {
             .size(24.dp)
             .padding(2.dp)
     )
+}
+
+
+@Composable
+fun DownloadArchiveDialog(
+    archiveFileContent: List<String>,
+    onDismissRequest: () -> Unit,
+    onClearArchiveCallback: () -> Unit
+) {
+    SealDialog(
+        onDismissRequest = onDismissRequest, confirmButton = {
+            ConfirmButton {
+                onClearArchiveCallback()
+                onDismissRequest()
+            }
+        }, dismissButton = {
+            DismissButton {
+                onDismissRequest()
+            }
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Unarchive,
+                contentDescription = null
+            )
+        },
+        title = { Text(text = stringResource(id = R.string.clear_download_archive)) },
+        text = {
+            Column(
+                modifier = Modifier.padding(horizontal = 24.dp)
+            ) {
+                Text(
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    text = stringResource(
+                        id = R.string.clear_download_archive_desc,
+                        pluralStringResource(
+                            id = R.plurals.item_count,
+                            count = archiveFileContent.size,
+                            archiveFileContent.size
+                        )
+                    ), style = MaterialTheme.typography.bodyLarge
+                )
+                val textStyle =
+                    MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
+                if (archiveFileContent.isNotEmpty()) {
+                    HorizontalDivider()
+                    LazyColumn(
+                        modifier = Modifier.heightIn(max = 400.dp),
+                        contentPadding = PaddingValues(vertical = 4.dp)
+                    ) {
+                        items(archiveFileContent) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 5.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .padding(end = 12.dp)
+                                        .size(16.dp)
+                                        .background(
+                                            color = it
+                                                .hashCode()
+                                                .generateLabelColor(), shape = CircleShape
+                                        )
+                                        .clearAndSetSemantics { }
+                                ) {}
+                                Text(
+                                    text = it,
+                                    style = textStyle,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                HorizontalDivider()
+            }
+        }
+    )
+}
+
+
+@Composable
+@Preview
+fun DownloadArchiveDialogPreview() {
+    val str = buildList { repeat(20) { add("youtube IPf4AxotvNU") } }
+    DownloadArchiveDialog(
+        archiveFileContent = str,
+        onDismissRequest = { }) {}
 }

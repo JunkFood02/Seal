@@ -92,6 +92,7 @@ const val PROXY = "proxy"
 const val PROXY_URL = "proxy_url"
 const val OUTPUT_TEMPLATE = "output_template"
 const val CUSTOM_OUTPUT_TEMPLATE = "custom_output_template"
+const val DOWNLOAD_ARCHIVE = "download_archive"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0

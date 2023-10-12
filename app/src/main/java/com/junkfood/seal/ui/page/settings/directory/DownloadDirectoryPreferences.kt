@@ -399,7 +399,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     scope.launch(Dispatchers.IO) {
                         FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count = FileUtil.run {
-                            clearTempFiles(context.getTempDir()) + clearTempFiles(
+                            clearTempFiles(getTempDir()) + clearTempFiles(
                                 context.getSdcardTempDir(null)
                             ) + clearTempFiles(context.getLegacyTempDir())
 

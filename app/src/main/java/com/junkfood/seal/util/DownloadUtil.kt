@@ -198,7 +198,8 @@ object DownloadUtil {
         val userAgentString: String = USER_AGENT.run {
             if (getBoolean()) getString() else ""
         },
-        val outputTemplate: String = OUTPUT_TEMPLATE.getString()
+        val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
+        val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -210,6 +211,10 @@ object DownloadUtil {
 
     private fun YoutubeDLRequest.enableProxy(proxyUrl: String): YoutubeDLRequest =
         this.addOption("--proxy", proxyUrl)
+
+    private fun YoutubeDLRequest.useDownloadArchive(): YoutubeDLRequest =
+        this.addOption("--download-archive", FileUtil.getArchiveFile().absolutePath)
+
 
     @CheckResult
     fun getCookiesContentFromDatabase(): Result<String> = runCatching {
@@ -453,6 +458,9 @@ object DownloadUtil {
                 if (debug) {
                     addOption("-v")
                 }
+                if (useDownloadArchive) {
+                    useDownloadArchive()
+                }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {
                     addOption("-r", "${maxDownloadRate}K")
@@ -512,7 +520,7 @@ object DownloadUtil {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                 }
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
-                    "-P", "temp:" + context.getTempDir()
+                    "-P", "temp:" + getTempDir()
                 )
                 val output =
                     if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) outputTemplate else OUTPUT_TEMPLATE_CLIPS
@@ -608,6 +616,9 @@ object DownloadUtil {
                 addOption("--newline")
                 if (aria2c) {
                     enableAria2c()
+                }
+                if (useDownloadArchive) {
+                    useDownloadArchive()
                 }
                 addOption(
                     "--config-locations", FileUtil.writeContentToFile(
