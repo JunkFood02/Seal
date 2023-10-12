@@ -320,7 +320,14 @@ fun DownloadSettingDialog(
                 if (cookiesProfiles.isNotEmpty()) {
                     VideoFilterChip(
                         selected = cookies,
-                        onClick = { showCookiesDialog = true },
+                        onClick = {
+                            if (isQuickDownload) {
+                                cookies = !cookies
+                                COOKIES.updateBoolean(cookies)
+                            } else {
+                                showCookiesDialog = true
+                            }
+                        },
                         label = stringResource(id = R.string.cookies)
                     )
                 }

@@ -13,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +24,6 @@ import com.google.accompanist.web.AccompanistWebChromeClient
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
-import com.junkfood.seal.R
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.USER_AGENT
 import com.junkfood.seal.util.connectWithDelimiter
@@ -91,10 +89,6 @@ fun WebViewPage(
     val websiteUrl = state.editingCookieProfile.url
     val webViewState = rememberWebViewState(websiteUrl)
 
-    val onConfirmationCallback: () -> Unit = {
-        cookieManager.flush()
-    }
-
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(
             title = { Text(webViewState.pageTitle.toString(), maxLines = 1) },
@@ -103,18 +97,11 @@ fun WebViewPage(
                     onClick = { onDismissRequest() }) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
-                        stringResource(id = R.string.close)
+                        stringResource(id = androidx.appcompat.R.string.abc_action_mode_done)
                     )
                 }
-            },
-            actions = {
-                TextButton(onClick = {
-                    onConfirmationCallback()
-                    onDismissRequest()
-                }) {
-                    Text(stringResource(androidx.appcompat.R.string.abc_action_mode_done))
-                }
-            })
+            }
+        )
     }) { paddingValues ->
         val webViewClient = remember {
             object : AccompanistWebViewClient() {

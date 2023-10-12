@@ -386,9 +386,9 @@
     <string name="presets">Presets</string>
     <string name="output_template_desc">Specify the template for output file names</string>
     <string name="download_archive">Download archive</string>
-    <string name="download_archive_desc">Record downloaded video IDs in an archive to avoid duplicates during downloads</string>
+    <string name="download_archive_desc">Record downloaded video IDs in an archive to avoid duplicate downloads</string>
     <string name="clear_download_archive">Clear download archive?</string>
-    <string name="clear_download_archive_desc">Clear %1$s in the archive file for good?</string>
+    <string name="clear_download_archive_desc">Remove %1$s in the archive file for good?</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

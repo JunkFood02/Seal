@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.webkit.CookieManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -310,7 +311,10 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(
             Route.COOKIE_GENERATOR_WEBVIEW
         ) {
-            WebViewPage(cookiesViewModel) { onBackPressed() }
+            WebViewPage(cookiesViewModel) {
+                onBackPressed()
+                CookieManager.getInstance().flush()
+            }
         }
     }
 }
