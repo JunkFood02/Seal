@@ -208,7 +208,7 @@ fun FormatPageImpl(
                     FormatVideoPreview(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         title = videoTitle.ifEmpty { title },
-                        author = uploader ?: channel.toString(),
+                        author = uploader ?: channel ?: uploaderId.toString(),
                         thumbnailUrl = thumbnail.toHttpsUrl(),
                         duration = (duration ?: .0).roundToInt(),
                         showButton = isClippingAvailable || isSplitByChapterAvailable,

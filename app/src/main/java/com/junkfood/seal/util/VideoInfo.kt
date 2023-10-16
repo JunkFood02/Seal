@@ -15,9 +15,9 @@ data class VideoInfo(
     val thumbnail: String? = null,
     val description: String? = null,
     val uploader: String? = null,
+    @SerialName("uploader_id") val uploaderId: String? = null,
     val subtitles: Map<String, List<SubtitleFormat>> = emptyMap(),
-    @SerialName("automatic_captions")
-    val automaticCaptions: Map<String, List<SubtitleFormat>> = emptyMap(),
+    @SerialName("automatic_captions") val automaticCaptions: Map<String, List<SubtitleFormat>> = emptyMap(),
 //    @SerialName("uploader_id") val uploaderId: String? = null,
 //    @SerialName("uploader_url") val uploaderUrl: String? = null,
 //    @SerialName("channel_id") val channelId: Int? = null,
@@ -94,22 +94,18 @@ data class Format(
 )
 
 data class VideoClip(
-    val start: Int = 0,
-    val end: Int = 0
+    val start: Int = 0, val end: Int = 0
 ) {
     constructor(range: ClosedFloatingPointRange<Float>) : this(
-        range.start.roundToInt(),
-        range.endInclusive.roundToInt()
+        range.start.roundToInt(), range.endInclusive.roundToInt()
     )
 }
 
 @Serializable
 data class Chapter(
     val title: String? = null,
-    @SerialName("start_time")
-    val startTime: Double? = null,
-    @SerialName("end_time")
-    val endTime: Double? = null
+    @SerialName("start_time") val startTime: Double? = null,
+    @SerialName("end_time") val endTime: Double? = null
 )
 
 
@@ -173,8 +169,5 @@ data class Entries(
 
 @Serializable
 data class SubtitleFormat(
-    val ext: String,
-    val url: String,
-    val name: String? = null,
-    val protocol: String? = null
+    val ext: String, val url: String, val name: String? = null, val protocol: String? = null
 )
