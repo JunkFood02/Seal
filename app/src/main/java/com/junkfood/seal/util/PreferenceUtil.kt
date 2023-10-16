@@ -93,6 +93,7 @@ const val PROXY_URL = "proxy_url"
 const val OUTPUT_TEMPLATE = "output_template"
 const val CUSTOM_OUTPUT_TEMPLATE = "custom_output_template"
 const val DOWNLOAD_ARCHIVE = "download_archive"
+const val EMBED_METADATA = "embed_metadata"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
@@ -156,6 +157,7 @@ private val BooleanPreferenceDefaults = mapOf(
     CELLULAR_DOWNLOAD to true,
     YT_DLP_UPDATE to true,
     NOTIFICATION to true,
+    EMBED_METADATA to true,
 )
 
 private val IntPreferenceDefaults = mapOf(

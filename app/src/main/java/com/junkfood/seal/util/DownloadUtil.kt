@@ -200,6 +200,7 @@ object DownloadUtil {
         },
         val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
         val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
+        val embedMetadata: Boolean = EMBED_METADATA.getBoolean(),
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -374,16 +375,18 @@ object DownloadUtil {
             } else {
                 applyFormatSorter(preferences, toAudioFormatSorter())
             }
-            addOption("--embed-metadata")
-            addOption("--embed-thumbnail")
-            addOption("--convert-thumbnails", "jpg")
 
-            if (cropArtwork) {
-                val configFile = context.getConfigFile(id)
-                FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
-                addOption("--config", configFile.absolutePath)
+            if (embedMetadata) {
+                addOption("--embed-metadata")
+                addOption("--embed-thumbnail")
+                addOption("--convert-thumbnails", "jpg")
+
+                if (cropArtwork) {
+                    val configFile = context.getConfigFile(id)
+                    FileUtil.writeContentToFile(CROP_ARTWORK_COMMAND, configFile)
+                    addOption("--config", configFile.absolutePath)
+                }
             }
-
             addOption("--parse-metadata", "%(release_year,upload_date)s:%(meta_date)s")
 
             if (playlistUrl.isNotEmpty()) {
@@ -395,6 +398,8 @@ object DownloadUtil {
                 addOption("--parse-metadata", "%(album,title)s:%(meta_album)s")
             }
         }
+
+
     }
 
     private fun insertInfoIntoDownloadHistory(videoInfo: VideoInfo, filePaths: List<String>) =

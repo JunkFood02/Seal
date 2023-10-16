@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArtTrack
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.Crop
@@ -45,6 +46,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.EMBED_METADATA
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.FORMAT_SORTING
@@ -77,6 +79,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
             PreferenceUtil.getValue(SUBTITLE)
         )
     }
+    var embedMetadata by EMBED_METADATA.booleanState
 
     var showAudioFormatDialog by remember { mutableStateOf(false) }
     var showAudioQualityDialog by remember { mutableStateOf(false) }
@@ -166,6 +169,21 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                             convertAudio = !convertAudio
                             AUDIO_CONVERT.updateBoolean(convertAudio)
                         })
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.embed_metadata),
+                        description = stringResource(
+                            id = R.string.embed_metadata_desc
+                        ),
+                        enabled = audioSwitch && !isCustomCommandEnabled,
+                        isChecked = embedMetadata,
+                        icon = Icons.Outlined.ArtTrack,
+                        onClick = {
+                            embedMetadata = !embedMetadata
+                            EMBED_METADATA.updateBoolean(embedMetadata)
+                        }
+                    )
                 }
                 item {
                     PreferenceSwitch(
