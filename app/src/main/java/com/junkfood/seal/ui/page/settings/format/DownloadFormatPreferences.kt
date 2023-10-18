@@ -190,7 +190,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         title = stringResource(R.string.crop_artwork),
                         description = stringResource(R.string.crop_artwork_desc),
                         icon = Icons.Outlined.Crop,
-                        enabled = audioSwitch && !isCustomCommandEnabled,
+                        enabled = embedMetadata && audioSwitch && !isCustomCommandEnabled,
                         isChecked = isArtworkCroppingEnabled
                     ) {
                         isArtworkCroppingEnabled = !isArtworkCroppingEnabled

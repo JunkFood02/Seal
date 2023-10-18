@@ -580,19 +580,20 @@ fun OutputTemplateDialog(
                             OutlinedTextField(
                                 value = editingTemplate,
                                 onValueChange = {
-                                    if (!it.contains(DownloadUtil.BASENAME))
-                                        error = 1
-                                    else if (!it.endsWith(DownloadUtil.EXTENSION))
-                                        error = 2
+                                    error = if (!it.contains(DownloadUtil.BASENAME)) {
+                                        1
+                                    } else if (!it.endsWith(DownloadUtil.EXTENSION)) {
+                                        2
+                                    } else {
+                                        0
+                                    }
                                     editingTemplate = it
                                 },
                                 isError = error != 0,
                                 supportingText = {
                                     Text(
-                                        when (error) {
-                                            0 -> ""
-                                            else -> "Required: ${DownloadUtil.BASENAME}, ${DownloadUtil.EXTENSION}"
-                                        }
+                                        "Required: ${DownloadUtil.BASENAME}, ${DownloadUtil.EXTENSION}",
+                                        fontFamily = FontFamily.Monospace
                                     )
                                 },
                                 label = { Text(text = stringResource(id = R.string.custom)) },
@@ -600,6 +601,7 @@ fun OutputTemplateDialog(
                         }
                     }
                 }
+
                 LinkButton(
                     link = ytdlpOutputTemplateReference,
                     modifier = Modifier.padding(horizontal = 16.dp)

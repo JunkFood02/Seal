@@ -18,10 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SingleChoiceItem(
-    modifier: Modifier = Modifier, text: String, selected: Boolean, onClick: () -> Unit
+    modifier: Modifier = Modifier,
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -42,7 +46,7 @@ fun SingleChoiceItem(
             selected = selected,
             onClick = onClick
         )
-        Text(text = text, style = MaterialTheme.typography.bodyLarge.merge(LocalTextStyle.current))
+        Text(text = text, style = LocalTextStyle.current.copy(fontSize = 16.sp))
     }
 }
 
@@ -52,16 +56,12 @@ fun SingleChoiceItemPreview() {
     Surface {
         Column {
             SingleChoiceItemWithLabel(
-                text = "Better compatibility",
-                label = "For sharing to other apps",
-                selected = false
+                text = "Better compatibility", label = "For sharing to other apps", selected = false
             ) {
 
             }
             SingleChoiceItemWithLabel(
-                text = "Better quality",
-                label = "For watching in compatible apps",
-                selected = true
+                text = "Better quality", label = "For watching in compatible apps", selected = true
             ) {
 
             }
@@ -124,9 +124,7 @@ fun CheckBoxItem(
             .padding(top = 12.dp)
             .fillMaxWidth()
             .selectable(
-                selected = checked,
-                enabled = true,
-                onClick = onClick
+                selected = checked, enabled = true, onClick = onClick
             ),
     ) {
         Row(

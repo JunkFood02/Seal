@@ -390,7 +390,8 @@
     <string name="clear_download_archive">Clear download archive?</string>
     <string name="clear_download_archive_desc">Remove %1$s in the archive file for good?</string>
     <string name="embed_metadata">Embed metadata</string>
-    <string name="embed_metadata_desc">Embed metadata and video thumbnail to the audio file</string>
+    <string name="embed_metadata_desc">Embed metadata and video thumbnail into the audio file</string>
+    <string name="required">Required</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

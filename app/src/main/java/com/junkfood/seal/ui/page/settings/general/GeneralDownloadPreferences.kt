@@ -163,7 +163,8 @@ fun GeneralDownloadPreferences(
     val storagePermission =
         rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    val isPermissionGranted = Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted
+    val isPermissionGranted =
+        Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -666,9 +667,10 @@ fun DownloadArchiveDialog(
                             }
                         }
                     }
+                    HorizontalDivider()
+
                 }
 
-                HorizontalDivider()
             }
         }
     )
