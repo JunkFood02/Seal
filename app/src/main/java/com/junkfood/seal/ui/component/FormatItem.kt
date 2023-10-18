@@ -6,9 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,9 +20,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCut
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.VerticalSplit
 import androidx.compose.material.icons.rounded.Audiotrack
 import androidx.compose.material.icons.rounded.QuestionMark
@@ -32,7 +34,7 @@ import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,7 +50,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,13 +71,12 @@ fun FormatVideoPreview(
     author: String,
     thumbnailUrl: String,
     duration: Int,
-    showButton: Boolean = true,
     isSplittingVideo: Boolean,
     isClippingVideo: Boolean,
     isClippingAvailable: Boolean = false,
     isSplitByChapterAvailable: Boolean = false,
-    onTitleClick: () -> Unit = {},
-    onImageClicked: () -> Unit = {},
+    onRename: () -> Unit = {},
+    onOpenThumbnail: () -> Unit = {},
     onClippingToggled: () -> Unit = {},
     onSplittingToggled: () -> Unit = {},
 ) {
@@ -85,28 +85,20 @@ fun FormatVideoPreview(
         WindowWidthSizeClass.Medium -> 0.30f
         else -> 0.45f
     }
-    val uriHandler = LocalUriHandler.current
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(Alignment.Top, unbounded = false),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         ) {
             Box(
                 modifier = Modifier
                     .weight(imageWeight)
             ) {
                 MediaImage(
-                    modifier = Modifier.clickable(
-                        onClick = onImageClicked,
-                        onClickLabel = stringResource(
-                            id = R.string.share
-                        ),
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    ),
+                    modifier = Modifier,
                     imageModel = thumbnailUrl, isAudio = false, contentDescription = stringResource(
                         id = R.string.thumbnail
                     )
@@ -130,14 +122,7 @@ fun FormatVideoPreview(
 
             Column(
                 modifier = Modifier
-                    .weight(1f - imageWeight)
-                    .clickable(
-                        onClick = onTitleClick,
-                        onClickLabel = stringResource(id = R.string.rename),
-                        indication = null, interactionSource = remember {
-                            MutableInteractionSource()
-                        }
-                    ), verticalArrangement = Arrangement.Top
+                    .weight(1f - imageWeight), verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     modifier = Modifier
@@ -161,39 +146,42 @@ fun FormatVideoPreview(
                 )
             }
         }
-        if (showButton) {
-            var expanded by remember { mutableStateOf(false) }
-            Box(
-                modifier = Modifier.align(Alignment.BottomEnd)
+        var expanded by remember { mutableStateOf(false) }
+        Box(
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            IconButton(
+                onClick = { expanded = true },
+                modifier = Modifier.size(36.dp)
             ) {
-                IconToggleButton(
-                    modifier = Modifier.size(36.dp),
-                    onCheckedChange = {
-                        if (isClippingVideo) {
-                            onClippingToggled()
-                        } else if (isSplittingVideo) {
-                            onSplittingToggled()
-                        } else if (isClippingAvailable && isSplitByChapterAvailable) {
-                            expanded = true
-                        } else if (isSplitByChapterAvailable) {
-                            onSplittingToggled()
-                        } else if (isClippingAvailable) {
-                            onClippingToggled()
-                        }
-                    },
-                    checked = isClippingVideo || isSplittingVideo
-                ) {
-                    Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Outlined.ContentCut,
-                        contentDescription = stringResource(id = R.string.clip_video)
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Outlined.MoreVert,
+                    stringResource(id = R.string.show_more_actions),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
 
-                DropdownMenu(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
+            DropdownMenu(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                scrollState = rememberScrollState()
+            ) {
+                DropdownMenuItem(
+                    leadingIcon = { Icon(imageVector = Icons.Outlined.Edit, null) },
+                    text = { Text(text = stringResource(id = R.string.rename)) },
+                    onClick = {
+                        onRename()
+                        expanded = false
+                    })
+                DropdownMenuItem(
+                    leadingIcon = { Icon(imageVector = Icons.Outlined.Image, null) },
+                    text = { Text(text = stringResource(id = R.string.thumbnail)) },
+                    onClick = {
+                        onOpenThumbnail()
+                        expanded = false
+                    })
+                if (isClippingAvailable && !isClippingVideo && !isSplittingVideo) {
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Outlined.ContentCut, null) },
                         text = { Text(text = stringResource(id = R.string.clip_video)) },
@@ -201,6 +189,8 @@ fun FormatVideoPreview(
                             onClippingToggled()
                             expanded = false
                         })
+                }
+                if (isSplitByChapterAvailable && !isClippingVideo && !isSplittingVideo) {
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Outlined.VerticalSplit, null) },
                         text = { Text(text = stringResource(id = R.string.split_video)) },

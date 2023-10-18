@@ -47,6 +47,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -124,6 +125,7 @@ fun FormatPageImpl(
     var selectedAudioOnlyFormat by remember { mutableIntStateOf(NOT_SELECTED) }
     val context = LocalContext.current
 
+    val uriHandler = LocalUriHandler.current
     val hapticFeedback = LocalHapticFeedback.current
 
     fun String?.share() = this?.let {
@@ -137,7 +139,6 @@ fun FormatPageImpl(
 
     var isClippingVideo by remember { mutableStateOf(false) }
     var isSplittingVideo by remember { mutableStateOf(false) }
-
     val isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0
     val isSplitByChapterAvailable = !videoInfo.chapters.isNullOrEmpty()
 
@@ -211,19 +212,17 @@ fun FormatPageImpl(
                         author = uploader ?: channel ?: uploaderId.toString(),
                         thumbnailUrl = thumbnail.toHttpsUrl(),
                         duration = (duration ?: .0).roundToInt(),
-                        showButton = isClippingAvailable || isSplitByChapterAvailable,
                         isClippingVideo = isClippingVideo,
                         isSplittingVideo = isSplittingVideo,
                         isClippingAvailable = isClippingAvailable,
                         isSplitByChapterAvailable = isSplitByChapterAvailable,
                         onClippingToggled = { isClippingVideo = !isClippingVideo },
                         onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
-                        onTitleClick = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onRename = {
                             showRenameDialog = true
                         },
-                        onImageClicked = {
-                            thumbnail.toHttpsUrl().share()
+                        onOpenThumbnail = {
+                            uriHandler.openUri(thumbnail.toHttpsUrl())
                         },
                     )
                 }

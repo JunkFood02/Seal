@@ -68,7 +68,7 @@
     <string name="settings_before_download_desc">Configure preferences before downloading</string>
     <string name="settings_before_download_text">Adjust this download</string>
     <string name="error_copied">Error report copied to clipboard</string>
-    <string name="thumbnail">thumbnail</string>
+    <string name="thumbnail">Thumbnail</string>
     <string name="paste">Paste</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL will be added by the app.</string>
