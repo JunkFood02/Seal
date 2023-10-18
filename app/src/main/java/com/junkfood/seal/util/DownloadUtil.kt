@@ -361,6 +361,22 @@ object DownloadUtil {
     ): YoutubeDLRequest = this.apply {
         with(preferences) {
             addOption("-x")
+            if (downloadSubtitle) {
+                addOption("--write-subs")
+
+                if (autoSubtitle) {
+                    addOption("--write-auto-subs")
+                    addOption("--extractor-args", "youtube:skip=translated_subs")
+                }
+                subtitleLanguage.takeIf { it.isNotEmpty() }?.let { addOption("--sub-langs", it) }
+                when (convertSubtitle) {
+                    CONVERT_ASS -> addOption("--convert-subs", "ass")
+                    CONVERT_SRT -> addOption("--convert-subs", "srt")
+                    CONVERT_VTT -> addOption("--convert-subs", "vtt")
+                    CONVERT_LRC -> addOption("--convert-subs", "lrc")
+                    else -> {}
+                }
+            }
             if (formatId.isNotEmpty()) addOption("-f", formatId)
             else if (convertAudio) {
                 when (audioConvertFormat) {

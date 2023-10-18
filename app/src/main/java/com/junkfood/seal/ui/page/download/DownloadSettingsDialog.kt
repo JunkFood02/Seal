@@ -340,13 +340,12 @@ fun DownloadSettingDialog(
                         }, label = stringResource(R.string.download_playlist)
                     )
                 }
-                if (!audio)
-                    VideoFilterChip(
-                        selected = subtitle, enabled = !customCommand, onClick = {
-                            subtitle = !subtitle
-                            updatePreferences()
-                        }, label = stringResource(id = R.string.download_subtitles)
-                    )
+                VideoFilterChip(
+                    selected = subtitle, enabled = !customCommand, onClick = {
+                        subtitle = !subtitle
+                        updatePreferences()
+                    }, label = stringResource(id = R.string.download_subtitles)
+                )
                 VideoFilterChip(
                     selected = thumbnail, enabled = !customCommand, onClick = {
                         thumbnail = !thumbnail

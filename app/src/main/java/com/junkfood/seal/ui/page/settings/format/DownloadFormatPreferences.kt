@@ -231,17 +231,16 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                                 }*/
 
                 item {
+                    PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
+                }
+                item {
 
                     PreferenceItem(
                         title = stringResource(id = R.string.subtitle),
                         icon = Icons.Outlined.Subtitles,
-                        enabled = !audioSwitch && !isCustomCommandEnabled,
+                        enabled = !isCustomCommandEnabled,
                         description = stringResource(id = R.string.subtitle_desc),
                     ) { navigateToSubtitlePage() }
-                }
-
-                item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
                 }
                 item {
                     PreferenceSwitchWithDivider(title = stringResource(id = R.string.format_sorting),
