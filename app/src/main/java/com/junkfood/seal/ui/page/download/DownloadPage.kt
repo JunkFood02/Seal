@@ -14,7 +14,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
@@ -97,6 +97,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
+import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.CONFIGURE
@@ -531,11 +532,7 @@ fun TitleWithProgressIndicator(
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ) {
-    Column(modifier = with(Modifier.padding(start = 12.dp, top = 24.dp)) {
-        if (showCancelOperation) this.clickable(
-            interactionSource = remember { MutableInteractionSource() }, indication = null
-        ) { onClick() } else this
-    }) {
+    Column(modifier = Modifier.padding(start = 12.dp, top = 24.dp)) {
         Row(
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
@@ -553,6 +550,18 @@ fun TitleWithProgressIndicator(
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(16.dp), strokeWidth = 3.dp
+                    )
+                }
+            }
+            AnimatedVisibility(visible = showCancelOperation,
+                enter = fadeIn(animationSpec = tween()),
+                exit = fadeOut(animationSpec = tween())) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                    OutlinedButtonWithIcon(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        onClick = onClick,
+                        icon = Icons.Outlined.Cancel,
+                        text = stringResource(R.string.cancel)
                     )
                 }
             }
