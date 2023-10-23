@@ -20,7 +20,7 @@
     <string name="fetching_playlist_info">Преузимање информација о плејлисти…</string>
     <string name="playlist_indicator_text">Преузимање плејлисте (%1$d/%2$d), додирните да бисте зауставили.</string>
     <string name="subdirectory_desc">Сачувајте фајлове у фолдере који се називају као одговарајући веб-сајтови</string>
-    <string name="permission_issue_desc">Директоријуми изван Преузимања/ и Документа/ нису подржани</string>
+    <string name="permission_issue_desc">Фолдери изван Download/ и Documents/ нису подржани</string>
     <string name="unknown_error">Непозната грешка</string>
     <string name="translate_desc">Помозите да преведете ову апликацију на Hosted Weblate</string>
     <string name="template_label">Ознака</string>
@@ -35,7 +35,7 @@
     <string name="status_canceled">Отказано</string>
     <string name="github_issue">GitHub пријава проблема</string>
     <string name="github_issue_desc">Пријавите проблем или пошаљите захтев за нову функцију</string>
-    <string name="clear_temp_files_desc">Избришите све привремене фајлове из унутрашњег директоријума</string>
+    <string name="clear_temp_files_desc">Избришите све привремене фајлове из привременог фолдера</string>
     <string name="dynamic_color">Динамичка боја</string>
     <string name="general_settings_desc">Yt-dlp верзија, обавештење, плејлиста</string>
     <string name="rate_limit_desc">Ограничите максималну брзину преузимања</string>
@@ -72,7 +72,7 @@
     <string name="settings_before_download_desc">Конфигуришите преференце пре преузимања</string>
     <string name="settings_before_download_text">Прилагодите ово преузимање</string>
     <string name="error_copied">Извештај о грешци је копиран у привремену меморију</string>
-    <string name="thumbnail">сличица</string>
+    <string name="thumbnail">Сличица</string>
     <string name="convert_audio_format_desc">Поновно кодирање фајлова аудио снимака узроковаће губитак квалитета звука и повећање величине фајла.</string>
     <string name="video_quality">Квалитет видео снимка</string>
     <string name="video_quality_desc">Ограничите квалитет видео снимка, када их је доступно више</string>
@@ -94,9 +94,9 @@
     <string name="from">Почетак</string>
     <string name="to">Крај</string>
     <string name="invalid_index_range">Неважећи опсег индекса</string>
-    <string name="download_directory">Директоријум преузимања</string>
+    <string name="download_directory">Фолдер за преузимања</string>
     <string name="download_directory_desc">Изаберите где ће се чувати фајлови видео и аудио снимака</string>
-    <string name="subdirectory">Сачувај у поддиректоријум</string>
+    <string name="subdirectory">Сачувај у потфолдер</string>
     <string name="permission_issue">Проблем с дозволом за приступ меморији</string>
     <string name="battery_configuration">Конфигурација батерије</string>
     <string name="service_title">Seal преузима…</string>
@@ -138,7 +138,7 @@
     <string name="disable_preview">Онемогући преглед</string>
     <string name="privacy">Приватност</string>
     <string name="use_custom_command">Користи прилагођену команду</string>
-    <string name="private_directory">Приватни директоријум</string>
+    <string name="private_directory">Приватни фолдер</string>
     <string name="crop_artwork_desc">Исеците уграђену слику у квадрат</string>
     <string name="crop_artwork">Исеци слику</string>
     <string name="download_selection_desc">Изаберите видео снимке за преузимање с плејлисте „%1$s“</string>
@@ -208,7 +208,7 @@
     <string name="download_with_cellular_desc">Дозволите преузимање медија када сте повезани на мреже с ограничењем</string>
     <string name="network_settings_desc">Ограничење брзине, програм за преузимање, колачићи</string>
     <string name="disable_preview_desc">Нема приказа сличица током преузимања</string>
-    <string name="private_directory_desc">Чувајте преузимања у скривеном директоријуму</string>
+    <string name="private_directory_desc">Чувајте преузимања у скривеном фолдеру</string>
     <string name="suggested">Предложено</string>
     <string name="format_selection_desc">Изаберите формат за преузимање пре него што започнете преузимање</string>
     <string name="video_only">Видео снимак (без звука)</string>
@@ -274,7 +274,7 @@
     <string name="clear_all_cookies_desc">Заувек избришите све колачиће сачуване у апликацији\?</string>
     <string name="rename">Преименуј</string>
     <string name="clear_all_cookies">Избриши све колачиће</string>
-    <string name="temporary_directory_desc">Чувајте привремене фајлове у интерном директоријуму</string>
+    <string name="temporary_directory_desc">Чувајте привремене фајлове у унутрашњем фолдеру</string>
     <string name="feedback">Повратне информације</string>
     <string name="sponsors">Спонзори</string>
     <string name="sponsor_msg">Seal ће увек бити бесплатан и отвореног кода за све. Ако вам се свиђа, размислите о томе да ме спонзоришете на GitHub-у!</string>
@@ -308,10 +308,10 @@
     <string name="legacy">Застарело</string>
     <string name="enable_notifications">Омогућити обавештења\?</string>
     <string name="disable">Онемогући</string>
-    <string name="set_directory_desc">Додирните да бисте подесили директоријум</string>
-    <string name="custom_command_directory">Директоријум прилагођене команде</string>
+    <string name="set_directory_desc">Додирните да бисте подесили фолдер</string>
+    <string name="custom_command_directory">Фолдер прилагођене команде</string>
     <string name="folder_picker">Бирач фолдера</string>
-    <string name="custom_command_directory_desc">Одредите излазни директоријум, када користите прилагођене команде</string>
+    <string name="custom_command_directory_desc">Одредите излазни фолдер, када користите прилагођене команде</string>
     <string name="prefer_quality_desc">Преферирање AV1, VP9 или H.265 формата за гледање у компатибилним апликацијама</string>
     <string name="ytdlp_update_action">Ажурирај yt-dlp</string>
     <string name="proxy">Прокси</string>
@@ -336,4 +336,19 @@
     </plurals>
     <string name="ua_header">Заглавље User-Agent</string>
     <string name="export_to_file">Извези у фајл</string>
+    <string name="custom_command_usage_msg">Yt-dlp је моћна алатка командне линије за преузимање видео снимака. Seal олакшава коришћење yt-dlp-а тако што пружа интуитивни GUI, унапред подешене вредности за уобичајене команде и друге додатне функције.
+\n
+\nЗа напредну употребу yt-dlp-а, Seal вам омогућава да направите, сачувате и извршите прилагођене командне шаблоне директно, баш као у терминалу.
+\n
+\nКада користите прилагођене команде, већина GUI опција и функција би била онемогућена.</string>
+    <string name="presets">Унапред подешено</string>
+    <string name="output_template">Излазни шаблон</string>
+    <string name="output_template_desc">Одредите шаблон за називе излазних фајлова</string>
+    <string name="clear_download_archive">Очистити архиву преузимања\?</string>
+    <string name="clear_download_archive_desc">Заувек уклонити %1$s из архивског фајла\?</string>
+    <string name="download_archive_desc">Сачувајте ID-ове преузетих видео снимака у архиву да бисте избегли дуплирана преузимања</string>
+    <string name="download_archive">Архива преузимања</string>
+    <string name="embed_metadata">Угради метаподатке</string>
+    <string name="embed_metadata_desc">Уградите метаподатке и сличицу видео снимка у фајл аудио снимка</string>
+    <string name="required">Обавезно</string>
 </resources>

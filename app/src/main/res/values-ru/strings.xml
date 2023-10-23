@@ -175,7 +175,7 @@
     <string name="aria2_desc">Используйте aria2c как внешний загрузчик</string>
     <string name="cookies_desc">Используйте файлы cookie в формате Netscape для загрузки</string>
     <string name="clear_temp_files">Очистить временные файлы</string>
-    <string name="clear_temp_files_desc">Удалите все временные файлы из внутреннего каталога</string>
+    <string name="clear_temp_files_desc">Удалить все временные файлы из временного каталога</string>
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а/ов)</string>
     <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
@@ -337,4 +337,19 @@
     </plurals>
     <string name="ua_header">Заголовок User-Agent</string>
     <string name="export_to_file">Экспорт в файл</string>
+    <string name="custom_command_usage_msg">yt-dlp — мощный инструмент командной строки для загрузки видео. Seal упрощает использование yt-dlp, предоставляя интуитивно понятный графический интерфейс, предустановки для общих команд и другие дополнительные функции.
+\n
+\nДля расширенного использования yt-dlp Seal позволяет создавать, сохранять и выполнять собственные шаблоны команд напрямую, как в терминале.
+\n
+\nПри использовании пользовательских команд большинство параметров и функций графического интерфейса будут отключены.</string>
+    <string name="presets">Пресеты</string>
+    <string name="output_template">Вывод шаблона</string>
+    <string name="output_template_desc">Укажите шаблон для имён выходных файлов</string>
+    <string name="clear_download_archive">Очистить архив загрузок\?</string>
+    <string name="clear_download_archive_desc">Удалить %1$s из файла архива навсегда\?</string>
+    <string name="download_archive_desc">Записывать ID загруженных видео в архив во избежание дубликатов</string>
+    <string name="download_archive">Архив загрузок</string>
+    <string name="embed_metadata">Встроить метаданные</string>
+    <string name="required">Необходимый</string>
+    <string name="embed_metadata_desc">Встроить метаданные и миниатюру видео в аудиофайл</string>
 </resources>

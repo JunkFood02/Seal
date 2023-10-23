@@ -44,7 +44,7 @@
     <string name="start_download">ダウンロード</string>
     <string name="download_desc">設定後、「ダウンロード」をクリックしてください。</string>
     <string name="check_download_settings_desc">ダウンロードの設定を見て、yt-dlpが最新のバージョンであることを確認してから使用してください。</string>
-    <string name="download_playlist">プレイリストをダウンロード</string>
+    <string name="download_playlist">再生リストをダウンロード</string>
     <string name="download_playlist_desc">プレイリストから複数の動画をダウンロードする</string>
     <string name="defaults">デフォルト</string>
     <string name="channel_name">ダウンロード</string>
@@ -108,9 +108,9 @@
     <string name="share_fail_msg">共有コンテンツからのURLと一致しません</string>
     <string name="show_more_actions">更にアクションを表示</string>
     <string name="download_notification">ダウンロード通知</string>
-    <string name="fetching_playlist_info">プレイリスト情報を読み込んでいます…</string>
-    <string name="download_range_selection">プレイリストの選択</string>
-    <string name="download_range_desc">プレイリスト「%3$s」からダウンロードする動画の範囲 (%1$dから%2$d) を指定する。</string>
+    <string name="fetching_playlist_info">再生リスト情報を読み込んでいます…</string>
+    <string name="download_range_selection">再生リストの選択</string>
+    <string name="download_range_desc">再生リスト「%3$s」からダウンロードする動画の範囲 (%1$dから%2$d) を指定する。</string>
     <string name="from">開始</string>
     <string name="invalid_index_range">不正なインデックス範囲</string>
     <string name="audio_directory">音声フォルダ</string>
@@ -118,7 +118,7 @@
     <string name="download_notification_desc">ダウンロードされたファイルと進捗状況の通知</string>
     <string name="share_success_msg">共有されたコンテンツから動画リンクを読み込んでいます…</string>
     <string name="to">終了</string>
-    <string name="playlist_indicator_text">プレイリストをダウンロード中 (%1$d/%2$d)、タップして中止する。</string>
+    <string name="playlist_indicator_text">再生リストをダウンロード中 (%1$d/%2$d)、タップして中止する。</string>
     <string name="download_directory_desc">動画と音声ファイルの保存先を選択</string>
     <string name="permission_issue">ストレージ権限の問題</string>
     <string name="permission_issue_desc">Download/とDocuments/配下のディレクトリ以外はサポートされていません</string>
@@ -154,7 +154,7 @@
     <string name="open_file">ファイルを開く</string>
     <string name="restart">リスタート</string>
     <string name="copy_link">リンクをコピー</string>
-    <string name="sponsorblock_desc">SponsorBlock APIでセグメントを動画から削除</string>
+    <string name="sponsorblock_desc">SponsorBlock APIでセグメントを動画から削除またはマークする</string>
     <string name="sponsorblock_categories">SponsorBlockのカテゴリ</string>
     <string name="import_from_clipboard">クリップボードから貼り付け</string>
     <string name="export_to_clipboard">クリップボードに送る</string>
@@ -165,8 +165,8 @@
     <string name="download_task_count">%1$dつのダウンロード待ち</string>
     <string name="recently_added">最近追加された項目</string>
     <string name="multiselect_item_count">%1$dつの動画、%2$dつの音声ファイル</string>
-    <string name="delete_multiple_items_msg">%1$dつの項目をダウンロード履歴から永久に削除してよろしいですか？</string>
-    <string name="sponsorblock_categories_desc">動画ファイルから削除されるSponsorBlockのカテゴリを設定</string>
+    <string name="delete_multiple_items_msg">%1$d 個の項目をダウンロード履歴から永久に削除しますか？</string>
+    <string name="sponsorblock_categories_desc">動画ファイルから削除またはマークする SponsorBlock のカテゴリを指定する</string>
     <string name="check_for_updates">更新を確認</string>
     <string name="unavailable">利用不可</string>
     <string name="use_custom_command">カスタムコマンドを使用する</string>
@@ -187,11 +187,11 @@
     <string name="high_contrast">高コントラストのダークテーマ</string>
     <string name="invalid_input">不正な入力</string>
     <string name="format_settings_desc">ファイル形式、画質、字幕</string>
-    <string name="general_settings_desc">yt-dlpのバージョン、通知、プレイリスト</string>
+    <string name="general_settings_desc">yt-dlpのバージョン、通知、再生リスト</string>
     <string name="private_mode_desc">ダウンロード履歴を無効にする</string>
     <string name="check_for_updates_desc">GitHubに最新のバージョンがあるか自動的に確認する</string>
     <string name="app_up_to_date">現在のバージョンは最新です</string>
-    <string name="clear_temp_files_desc">内部ディレクトリから全ての一時ファイルを削除する</string>
+    <string name="clear_temp_files_desc">一時ディレクトリから全ての一時ファイルを削除する</string>
     <string name="clear_temp_files_count">%1$d個の一時ファイルを削除しました</string>
     <string name="private_mode">シークレットモード</string>
     <string name="dynamic_color">ダイナミックカラー</string>
@@ -210,7 +210,7 @@
     <string name="suggested">推奨</string>
     <string name="generate_new_cookies">新しいCookieを生成</string>
     <string name="select_all">全選択</string>
-    <string name="download_selection_desc">プレイリスト「%1$s」からダウンロードする動画を選択する</string>
+    <string name="download_selection_desc">再生リスト「%1$s」からダウンロードする動画を選択する</string>
     <string name="selected_item_count">%1$d件選択済み</string>
     <string name="use_cookies">Cookieを使用する</string>
     <string name="remove_cookie_profile_desc">「%1$s」のCookieを削除しますか？</string>
@@ -247,7 +247,7 @@
     <string name="filesize_mb">%.2f M</string>
     <string name="discard">破棄</string>
     <string name="apply">適用</string>
-    <string name="embed_subtitles_mkv_msg">字幕の埋め込みには、動画をmkvコンテナにリマックスする必要があります。</string>
+    <string name="embed_subtitles_mkv_msg">字幕を埋め込むには、動画を mkv コンテナにリマックスする必要があります。VLC Media Player またはその他の互換性のあるアプリを使用して、字幕が埋め込まれたビデオを視聴できます。</string>
     <string name="share">共有</string>
     <string name="stable_channel">安定版</string>
     <string name="pre_release_channel">プレビュー版</string>
@@ -306,4 +306,40 @@
     <string name="proxy_desc">インターネット接続にプロキシを使用する</string>
     <string name="proxy">プロキシ</string>
     <string name="format_preference">フォーマットの設定</string>
+    <string name="custom_command_usage_msg">yt-dlp は動画をダウンロードするための強力なコマンドラインツールです。Seal は、直感的な GUI、通常のコマンドのプリセット、その他の追加機能を提供することで、yt-dlp をより使いやすくします。
+\n
+\nyt-dlp の高度な使用のために、Seal ではカスタムコマンドテンプレートをターミナルと同じように直接作成、保存、実行することができます。
+\n
+\nカスタムコマンドを使用する場合、ほとんどの GUI オプションや機能は無効になります。</string>
+    <string name="split_video_msg">動画は %1$d 個のチャプターに分割されます</string>
+    <string name="export_to_file">ファイルにエクスポート</string>
+    <string name="enable_notifications_desc">アプリはダウンロード状況や進捗状況に関する通知を送信するために権限の許可が必要です。</string>
+    <string name="folder_picker">フォルダピッカー</string>
+    <string name="split_video">動画を分割</string>
+    <string name="prefer_compatibility_desc">他のアプリに共有するために MP4 (H.264) フォーマットを優先します</string>
+    <string name="download_video_desc">URL から動画をダウンロード</string>
+    <string name="edit_template">「%1$s」を編集</string>
+    <string name="unknown">不明</string>
+    <string name="learn_more">詳細</string>
+    <string name="convert_subtitle">字幕を変換</string>
+    <string name="prefer_quality_desc">互換性のあるアプリでの視聴のために AV1、VP9、H.265 フォーマットを優先します</string>
+    <string name="unknown_error_title">おっと！問題が発生しました</string>
+    <string name="custom_command_directory_desc">カスタムコマンド使用時の出力ディレクトリを指定する</string>
+    <string name="presets">プリセット</string>
+    <string name="start">開始</string>
+    <string name="ua_header">User-Agent ヘッダー</string>
+    <string name="new_task">新しいダウンロードタスク</string>
+    <string name="copy_and_exit">コピーして終了</string>
+    <string name="convert_subtitle_desc">字幕を別のフォーマットに変換する</string>
+    <string name="output_template">出力テンプレート</string>
+    <string name="output_template_desc">出力ファイル名のテンプレートを指定する</string>
+    <string name="disabled">無効</string>
+    <string name="disable">無効化</string>
+    <plurals name="item_count">
+        <item quantity="other">%d 個</item>
+    </plurals>
+    <string name="expand">展開</string>
+    <string name="refresh_cookies_desc">タップして新しい Cookie を生成するためのウェブページを開く:</string>
+    <string name="remove_multiple_templates_msg">%1$sのテンプレートを永久に削除しますか？</string>
+    <string name="enable_notifications">通知を有効にしますか？</string>
 </resources>

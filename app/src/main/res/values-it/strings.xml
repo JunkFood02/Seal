@@ -170,13 +170,13 @@
     <string name="clear_temp_files_info">I file temporanei possono essere utilizzati per riprendere gli scaricamenti annullati. Sei sicuro/sicura di eliminare tutti questi file\?</string>
     <string name="app_up_to_date">La versione attuale è aggiornata</string>
     <string name="clear_temp_files">Cancella i file temporanei</string>
-    <string name="clear_temp_files_desc">Elimina tutti i file temporanei dalla directory interna</string>
+    <string name="clear_temp_files_desc">Elimina tutti i file temporanei dalla directory temporanea</string>
     <string name="app_update_failed">Impossibile eseguire l\'aggiornamento alla versione più recente</string>
     <string name="update">Aggiorna</string>
     <string name="sponsorblock_categories">Categorie SponsorBlock</string>
     <string name="download_task_count">%1$d attività di scaricamento</string>
     <string name="sponsorblock_desc">Rimuovi o segna i segmenti dei video con l\'API SponsorBlock</string>
-    <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere dal file video</string>
+    <string name="sponsorblock_categories_desc">Specifica le categorie SponsorBlock da rimuovere o segnare nel file video</string>
     <string name="cookies_desc">Utilizzare i cookie formattati Netscape per i download</string>
     <string name="private_mode">Incognito</string>
     <string name="private_mode_desc">Disattiva la cronologia degli scaricamenti</string>
@@ -243,7 +243,7 @@
     <string name="auto_subtitle">Sottotitoli automatici</string>
     <string name="video_title_sample_text">Titolo del video testo di esempio</string>
     <string name="subtitle_sponsorblock">I sottotitoli possono risultare non sincronizzati quando si rimuovono i segmenti SponsorBlock.</string>
-    <string name="embed_subtitles_mkv_msg">Per incorporare i sottotitoli, i video verranno rimuxati in un contenitore mkv.</string>
+    <string name="embed_subtitles_mkv_msg">Per incorporare i sottotitoli, i video verranno rimuxati in un contenitore mkv. Puoi usare VLC Media Player o altri programmi compatibili per guardare i video con i sottotitoli incorporati.</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="lowest_bitrate">Bitrate minore</string>
@@ -308,4 +308,25 @@
     <string name="ytdlp_update_action">Aggiorna yt-dlp</string>
     <string name="proxy">Proxy</string>
     <string name="quality">Qualità</string>
+    <string name="custom_command_usage_msg">yt-dlp è uno strumento da riga di comando per scaricare i video. Seal permette di usare facilmente yt-dlp provvedendo un\'intuitiva interfaccia grafica e altre funzionalità aggiuntive.
+\n
+\nPer un utilizzo avanzato di yt-dlp, Seal permette la creazione, l\'esecuzione e il salvataggio di comandi personalizzati, come fosse un terminale.
+\n
+\nDurante l\'utilizzo di comandi personalizzati la maggior parte delle opzioni dell\'interfaccia grafica verranno disabilitate.</string>
+    <string name="enable_notifications_desc">L\'app ha bisogno del tuo permesso per inviare le notifiche sullo stato e progresso del download.</string>
+    <string name="prefer_compatibility_desc">Preferisci il formato MP4(H.264) per la condivisione con altre app</string>
+    <string name="commands">Comandi</string>
+    <string name="unknown">Sconosciuto</string>
+    <string name="learn_more">Impara di più</string>
+    <string name="download_type">Tipo di download</string>
+    <string name="custom_command_directory">Cartella dei comandi personalizzati</string>
+    <string name="custom_command_directory_desc">Specifica la cartella di output quando si utilizzano comandi personalizzati</string>
+    <string name="set_directory_desc">Clicca per impostare una cartella</string>
+    <string name="format_preference">Formati preferiti</string>
+    <string name="disabled">Disabilita</string>
+    <string name="disable">Disabilita</string>
+    <string name="auto">Automatico</string>
+    <string name="proxy_desc">Usare il proxy per le connessioni internet</string>
+    <string name="refresh_cookies_desc">Clicca per aprire una pagina web per generare nuovi cookie:</string>
+    <string name="enable_notifications">Abilitare le notifiche\?</string>
 </resources>

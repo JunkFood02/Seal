@@ -73,7 +73,7 @@
     <string name="settings_before_download_text">Параметры загрузкі</string>
     <string name="settings_before_download_desc">Наладзьце параметры перад загрузкай</string>
     <string name="error_copied">Справаздача аб памылцы скапіравана ў буфер абмену</string>
-    <string name="thumbnail">мініяцюра</string>
+    <string name="thumbnail">Мініяцюра</string>
     <string name="paste">Уставіць</string>
     <string name="yt_dlp_docs">Рэкамендацыі па выкарыстанню Yt-dlp</string>
     <string name="edit_template_desc">Шлях вываду і URL будуць дададзены праграмай.</string>
@@ -174,7 +174,7 @@
     <string name="check_for_updates_desc">Аўтаматычна правяраць апошнюю версію на GitHub</string>
     <string name="app_up_to_date">Бягучая версія актуальная</string>
     <string name="clear_temp_files">Ачысціць часовыя файлы</string>
-    <string name="clear_temp_files_desc">Выдаліце ўсе часовыя файлы з унутранага каталога</string>
+    <string name="clear_temp_files_desc">Выдаліць усе часовыя файлы з часовага каталога</string>
     <string name="clear_temp_files_count">Выдалена %1$d часовых файл(ы)</string>
     <string name="multiselect_mode">Рэжым множнага выбару</string>
     <string name="private_mode">Інкогніта</string>
@@ -337,4 +337,19 @@
     </plurals>
     <string name="ua_header">Загаловак User-Agent</string>
     <string name="export_to_file">Экспарт у файл</string>
+    <string name="custom_command_usage_msg">yt-dlp - гэта магутны інструмент каманднага радка для спампоўкі відэа. Seal палягчае выкарыстанне yt-dlp, забяспечваючы інтуітыўна зразумелы графічны інтэрфейс, прадусталяваныя налады для агульных каманд і іншыя дадатковыя функцыі.
+\n
+\nДля прасунутага выкарыстання yt-dlp Seal дазваляе ствараць, захоўваць і выконваць карыстальніцкія шаблоны каманд непасрэдна, як у тэрмінале.
+\n
+\nПры выкарыстанні карыстальніцкіх каманд большасць опцый і функцый графічнага інтэрфейсу будуць адключаны.</string>
+    <string name="presets">Прасэты</string>
+    <string name="output_template">Вывад шаблону</string>
+    <string name="output_template_desc">Укажыце шаблон для імёнаў выходных файлаў</string>
+    <string name="clear_download_archive">Ачысціць архіў загрузак\?</string>
+    <string name="clear_download_archive_desc">Выдаліць %1$s з архіўнага файла назаўжды\?</string>
+    <string name="download_archive_desc">Запісваць ID загружаных відэа ў архіў, каб пазбегнуць дублікатаў</string>
+    <string name="download_archive">Архіў загрузак</string>
+    <string name="embed_metadata">Убудаваць метаданыя</string>
+    <string name="required">Абавязковы</string>
+    <string name="embed_metadata_desc">Устаўце метаданыя і мініяцюру відэа ў аўдыяфайл</string>
 </resources>

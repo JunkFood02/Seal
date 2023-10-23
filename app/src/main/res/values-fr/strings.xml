@@ -305,4 +305,33 @@
     <string name="edit_template">Modifier « %1$s »</string>
     <string name="new_task">Nouvelle tâche de téléchargement</string>
     <string name="start">Commencer</string>
+    <string name="custom_command_usage_msg">yt-dlp est un puissant outil en ligne de commande pour le téléchargement de vidéos. Seal facilite l\'utilisation de yt-dlp en fournissant une interface graphique intuitive, des préréglages pour les commandes courantes et d\'autres fonctionnalités supplémentaires.
+\n
+\nPour une utilisation avancée de yt-dlp, Seal vous permet de créer, de sauvegarder et d\'exécuter des modèles de commandes personnalisées directement, comme dans un terminal.
+\n
+\nLors de l\'utilisation de commandes personnalisées, la plupart des options et fonctionnalités de l\'interface graphique sont désactivées.</string>
+    <string name="export_to_file">Exporter vers un fichier</string>
+    <string name="enable_notifications_desc">L\'application a besoin de votre autorisation pour afficher des notifications sur l\'état et la progression du téléchargement.</string>
+    <string name="folder_picker">Sélecteur de dossiers</string>
+    <string name="prefer_compatibility_desc">Préférez les formats MP4 (H.264) pour partager avec d\'autres applications</string>
+    <string name="commands">Commandes</string>
+    <string name="unknown">Inconnu</string>
+    <string name="learn_more">En savoir plus</string>
+    <string name="prefer_quality_desc">Préférez les formats AV1, VP9 ou H.265 pour la visualisation dans les applications compatibles</string>
+    <string name="download_type">Type de téléchargement</string>
+    <string name="custom_command_directory">Répertoire des commandes personnalisées</string>
+    <string name="custom_command_directory_desc">Spécifier le répertoire de sortie lors de l\'utilisation de commandes personnalisées</string>
+    <string name="set_directory_desc">Appuyez pour configurer le répertoire</string>
+    <string name="ua_header">En-tête User-Agent</string>
+    <string name="format_preference">Préférence de format</string>
+    <string name="output_template_desc">Spécifier le modèle pour les noms de fichiers de sortie</string>
+    <string name="disable">Désactivé</string>
+    <string name="auto">Auto</string>
+    <string name="proxy_desc">Utiliser un proxy pour les connexions internet</string>
+    <string name="quality">Qualité</string>
+    <string name="refresh_cookies_desc">Touchez pour ouvrir la page web permettant de générer de nouveaux cookies :</string>
+    <string name="ytdlp_update_action">Mettre à jour yt-dlp</string>
+    <string name="remove_multiple_templates_msg">Supprimer définitivement %1$s des modèles de commande \?</string>
+    <string name="enable_notifications">Autoriser les notifications \?</string>
+    <string name="proxy">Proxy</string>
 </resources>

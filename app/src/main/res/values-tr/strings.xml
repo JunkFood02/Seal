@@ -38,7 +38,7 @@
     <string name="settings_before_download_desc">İndirmeden önce ayarlama tercihleri</string>
     <string name="settings_before_download_text">İndirmeyi ayarla</string>
     <string name="error_copied">Hata raporu panoya kopyalandı</string>
-    <string name="thumbnail">küçük resim</string>
+    <string name="thumbnail">Küçük resim</string>
     <string name="not_convert">Dönüştürülmedi</string>
     <string name="format">Format</string>
     <string name="edit_template_desc">Çıktı yolu ve URL, uygulama tarafından eklenecektir.</string>
@@ -335,4 +335,19 @@
     <string name="unknown">Bilinmeyen</string>
     <string name="export_to_file">Dosyaya aktar</string>
     <string name="custom">Özel</string>
+    <string name="custom_command_usage_msg">yt-dlp, videoları indirmek için güçlü bir komut satırı aracıdır. Seal, sezgisel bir GUI, ortak komutlar için ön ayarlar ve diğer ek özellikler sağlayarak yt-dlp\'nin kullanımını kolaylaştırır.
+\n
+\n yt-dlp\'nin gelişmiş kullanımı için Seal, tıpkı bir terminalde olduğu gibi özel komut şablonlarını doğrudan oluşturmanıza, kaydetmenize ve yürütmenize olanak tanır.
+\n
+\n Özel komutlar kullanıldığında GUI seçeneklerinin ve özelliklerinin çoğu devre dışı bırakılır.</string>
+    <string name="clear_download_archive">İndirme arşivi temizlensin mi\?</string>
+    <string name="clear_download_archive_desc">Arşiv dosyasındaki %1$s tamamen kaldırılsın mı\?</string>
+    <string name="presets">Ön ayarlar</string>
+    <string name="output_template">Çıktı şablonu</string>
+    <string name="output_template_desc">Çıktı dosyası adları için şablonu belirtin</string>
+    <string name="download_archive_desc">Tekrarlanan indirmeleri önlemek için indirilen video kimliklerini bir arşive kaydedin</string>
+    <string name="download_archive">Arşivi indir</string>
+    <string name="embed_metadata">Meta verileri yerleştir</string>
+    <string name="embed_metadata_desc">Meta verileri ve video küçük resmini ses dosyasına gömün</string>
+    <string name="required">Gerekli</string>
 </resources>

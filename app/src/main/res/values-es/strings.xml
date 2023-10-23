@@ -67,7 +67,7 @@
     <string name="settings_before_download_desc">Configurar ajustes antes de descargar</string>
     <string name="settings_before_download_text">Configurar ajustes para esta descarga</string>
     <string name="error_copied">El error reportado ha sido copiado al portapapeles</string>
-    <string name="thumbnail">miniatura</string>
+    <string name="thumbnail">Miniatura</string>
     <string name="paste">Pegar enlace</string>
     <string name="yt_dlp_docs">Referencias de uso para yt-dlp</string>
     <string name="convert_audio_format">Convertir formato de audio</string>
@@ -177,7 +177,7 @@
     <string name="clear_temp_files">Limpiar archivos temporales</string>
     <string name="clear_temp_files_count">%1$d archivo(s) temporales eliminados</string>
     <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
-    <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio interno</string>
+    <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio temporal</string>
     <string name="multiselect_mode">Modo de multiselección</string>
     <string name="private_mode">Incógnito</string>
     <string name="private_mode_desc">Desactiva el almacenamiento de carátulas/miniaturas</string>
@@ -336,4 +336,19 @@
     </plurals>
     <string name="ua_header">Encabezado User-Agent</string>
     <string name="export_to_file">Exportar a un archivo</string>
+    <string name="custom_command_usage_msg">yt-dlp es una potente herramienta de línea de comandos para descargar vídeos. Seal facilita el uso de yt-dlp proporcionando una GUI intuitiva, preajustes para comandos comunes y otras características adicionales.
+\n
+\nPara un uso avanzado de yt-dlp, Seal permite crear, guardar y ejecutar plantillas de comandos personalizadas directamente, como en un terminal.
+\n
+\nAl utilizar comandos personalizados, la mayoría de las opciones y características de la GUI estarán desactivadas.</string>
+    <string name="clear_download_archive">¿Borrar el archivo de las descargas\?</string>
+    <string name="clear_download_archive_desc">¿Eliminar %1$s del archivo de forma definitiva\?</string>
+    <string name="presets">Preajustes</string>
+    <string name="output_template">Formato de salida</string>
+    <string name="output_template_desc">Especifica la plantilla para los nombres de los archivos de salida</string>
+    <string name="download_archive_desc">Registra los ID de los vídeos descargados en un archivo para evitar descargas duplicadas</string>
+    <string name="download_archive">Descargar el archivo</string>
+    <string name="embed_metadata">Insertar los metadatos</string>
+    <string name="embed_metadata_desc">Insertar los metadatos y las miniaturas del vídeo en el archivo de audio</string>
+    <string name="required">Requerido</string>
 </resources>

@@ -170,7 +170,7 @@
     <string name="cookies_desc">Gunakan cookie berformat Netscape untuk pengunduhan</string>
     <string name="clear_temp_files">Bersihkan file sementara</string>
     <string name="clear_temp_files_count">%1$d file sementara telah dihapus</string>
-    <string name="clear_temp_files_desc">Hapus semua berkas sementara dari direktori internal</string>
+    <string name="clear_temp_files_desc">Hapus semua berkas sementara dari direktori sementara</string>
     <string name="clear_temp_files_info">File sementara dapat digunakan untuk melanjutkan unduhan yang dibatalkan. Apakah Anda yakin akan menghapus semua file sementara\?</string>
     <string name="recently_added">Baru ditambahkan</string>
     <string name="multiselect_item_count">%1$d file video, %2$d audio</string>
@@ -334,4 +334,16 @@
     </plurals>
     <string name="ua_header">Tajuk agen pengguna (User-Agent)</string>
     <string name="export_to_file">Ekspor ke berkas</string>
+    <string name="custom_command_usage_msg">yt-dlp adalah alat baris perintah yang berdaya untuk mengunduh video. Seal membuatnya lebih mudah untuk memakai yt-dlp dengan menyediakan GUI yang intuitif, prasetel untuk perintah umum, dan fitur tambahan lainnya.
+\n
+\nUntuk pengguna yt-dlp tingkat lanjut, Seal memungkinkan Anda untuk membuat, menyimpan, dan mengeksekusikan templat perintah kustom secara langsung, seperti dalam terminal.
+\n
+\nKetika menggunakan perintah kustom, kebanyakan opsi dan fitur GUI akan dinonaktifkan.</string>
+    <string name="presets">Prasetel</string>
+    <string name="output_template">Templat keluaran</string>
+    <string name="output_template_desc">Tentukan templat untuk nama berkas keluaran</string>
+    <string name="clear_download_archive">Hapus arsip unduhan\?</string>
+    <string name="clear_download_archive_desc">Hapus %1$s dari berkas arsip selamanya\?</string>
+    <string name="download_archive_desc">Rekam ID video yang telah diunduh dalan arsip untuk mencegah unduhan duplikat</string>
+    <string name="download_archive">Unduh arsip</string>
 </resources>
