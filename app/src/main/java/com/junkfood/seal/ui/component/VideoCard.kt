@@ -1,14 +1,23 @@
 package com.junkfood.seal.ui.component
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -38,6 +47,8 @@ fun VideoCard(
     title: String = stringResource(R.string.video_title_sample_text),
     author: String = stringResource(R.string.video_creator_sample_text),
     thumbnailUrl: Any = "",
+    showCancelButton: Boolean = false,
+    onCancel: () -> Unit = {},
     onClick: () -> Unit = {},
     progress: Float = 100f,
     fileSizeApprox: Double = 1024 * 1024 * 69.0,
@@ -47,7 +58,7 @@ fun VideoCard(
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(),
-        onClick = { onClick() }, shape = MaterialTheme.shapes.small
+        onClick = onClick, shape = MaterialTheme.shapes.small
     ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
@@ -77,6 +88,34 @@ fun VideoCard(
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.White
                     )
+                }
+
+                Column(
+                    modifier = Modifier.align(Alignment.Center)
+                ) {
+                    AnimatedVisibility(
+                        visible = showCancelButton,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        FilledTonalIconButton(
+                            onClick = onCancel,
+                            modifier = Modifier
+                                .size(56.dp),
+                            colors = IconButtonDefaults.filledTonalIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest.copy(
+                                    alpha = 0.68f
+                                )
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Cancel,
+                                contentDescription = stringResource(id = R.string.cancel),
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+
+                    }
                 }
             }
 

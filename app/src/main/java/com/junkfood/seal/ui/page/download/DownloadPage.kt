@@ -14,7 +14,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -72,7 +71,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -108,7 +106,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
-import com.junkfood.seal.util.WELCOME_DIALOG
 import com.junkfood.seal.util.matchUrlFromClipboard
 
 
@@ -369,19 +366,13 @@ fun DownloadPageImpl(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            TitleWithProgressIndicator(showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
+            TitleWithProgressIndicator(
+                showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
                 isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
-                showCancelOperation = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
+                showDownloadText = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
                 currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
                 downloadItemCount = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) itemCount else 0 },
-                onClick = {
-                    cancelCallback()
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                },
-                onLongClick = {
-                    PreferenceUtil.encodeInt(WELCOME_DIALOG, 1)
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                })
+            )
 
 
             Column(
@@ -393,17 +384,22 @@ fun DownloadPageImpl(
                     AnimatedVisibility(
                         visible = showDownloadProgress && showVideoCard
                     ) {
-                        VideoCard(
-                            modifier = Modifier,
-                            title = title,
-                            author = uploader,
-                            thumbnailUrl = thumbnailUrl,
-                            progress = progress,
-                            fileSizeApprox = fileSizeApprox,
-                            duration = duration,
-                            onClick = onVideoCardClicked,
-                            isPreview = isPreview
-                        )
+                        Box() {
+                            VideoCard(
+                                modifier = Modifier,
+                                title = title,
+                                author = uploader,
+                                thumbnailUrl = thumbnailUrl,
+                                progress = progress,
+                                showCancelButton = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
+                                onCancel = cancelCallback,
+                                fileSizeApprox = fileSizeApprox,
+                                duration = duration,
+                                onClick = onVideoCardClicked,
+                                isPreview = isPreview
+                            )
+
+                        }
                     }
                     InputUrl(
                         url = viewState.url,
@@ -524,18 +520,12 @@ fun InputUrl(
 @Composable
 fun TitleWithProgressIndicator(
     showProgressIndicator: Boolean = true,
-    showCancelOperation: Boolean = true,
+    showDownloadText: Boolean = true,
     isDownloadingPlaylist: Boolean = true,
     currentIndex: Int = 1,
     downloadItemCount: Int = 4,
-    onClick: () -> Unit = {},
-    onLongClick: () -> Unit = {},
 ) {
-    Column(modifier = with(Modifier.padding(start = 12.dp, top = 24.dp)) {
-        if (showCancelOperation) this.clickable(
-            interactionSource = remember { MutableInteractionSource() }, indication = null
-        ) { onClick() } else this
-    }) {
+    Column(modifier = Modifier.padding(start = 12.dp, top = 24.dp)) {
         Row(
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
@@ -557,7 +547,7 @@ fun TitleWithProgressIndicator(
                 }
             }
         }
-        AnimatedVisibility(visible = showCancelOperation) {
+        AnimatedVisibility(visible = showDownloadText) {
             Text(
                 if (isDownloadingPlaylist) stringResource(R.string.playlist_indicator_text).format(
                     currentIndex,
