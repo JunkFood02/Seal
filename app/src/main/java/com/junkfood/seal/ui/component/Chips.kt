@@ -87,15 +87,17 @@ fun FlatButtonChip(
 @Composable
 fun OutlinedButtonChip(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     label: String,
     onClick: () -> Unit
 ) {
     AssistChip(modifier = modifier, onClick = onClick, leadingIcon = {
-        Icon(
-            imageVector = icon,
-            contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)
-        )
+        icon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)
+            )
+        }
     }, label = { Text(text = label) })
 
 }
