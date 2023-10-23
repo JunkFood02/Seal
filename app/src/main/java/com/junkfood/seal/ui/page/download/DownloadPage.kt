@@ -32,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FileDownload
@@ -95,6 +96,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
+import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.util.CONFIGURE
@@ -285,7 +287,8 @@ fun DownloadPageImpl(
     content: @Composable () -> Unit
 ) {
     val hapticFeedback = LocalHapticFeedback.current
-
+    val showCancelButton =
+        downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {}, modifier = Modifier.padding(horizontal = 8.dp), navigationIcon = {
             TooltipBox(
@@ -369,7 +372,7 @@ fun DownloadPageImpl(
             TitleWithProgressIndicator(
                 showProgressIndicator = downloaderState is Downloader.State.FetchingInfo,
                 isDownloadingPlaylist = downloaderState is Downloader.State.DownloadingPlaylist,
-                showDownloadText = downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo,
+                showDownloadText = showCancelButton,
                 currentIndex = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) currentItem else 0 },
                 downloadItemCount = downloaderState.run { if (this is Downloader.State.DownloadingPlaylist) itemCount else 0 },
             )
@@ -406,6 +409,8 @@ fun DownloadPageImpl(
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
                         error = errorState.isErrorOccurred(),
+                        showCancelButton = showCancelButton,
+                        onCancel = cancelCallback,
                         onDone = downloadCallback,
                     ) { url -> onUrlChanged(url) }
                     AnimatedVisibility(
@@ -461,6 +466,8 @@ fun InputUrl(
     showDownloadProgress: Boolean = false,
     progress: Float,
     onDone: () -> Unit,
+    showCancelButton: Boolean,
+    onCancel: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -502,7 +509,7 @@ fun InputUrl(
                     .clip(MaterialTheme.shapes.large),
             )
             else LinearProgressIndicator(
-                progress = progressAnimationValue,
+                progress = { progressAnimationValue },
                 modifier = Modifier
                     .weight(0.75f)
                     .clip(MaterialTheme.shapes.large),
@@ -514,6 +521,17 @@ fun InputUrl(
             )
         }
     }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        AnimatedVisibility(visible = showCancelButton) {
+            OutlinedButtonWithIcon(
+                onClick = onCancel,
+                icon = Icons.Outlined.Cancel,
+                text = stringResource(id = R.string.cancel),
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -641,7 +659,7 @@ fun DownloadPagePreview() {
                 processCount = 99,
                 isPreview = true,
                 showDownloadProgress = true,
-                showVideoCard = true
+                showVideoCard = false
             ) {}
         }
     }
