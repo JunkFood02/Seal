@@ -171,7 +171,7 @@
     <string name="app_up_to_date">已是最新版本</string>
     <string name="app_update_failed">更新到最新版本失敗</string>
     <string name="update">更新</string>
-    <string name="clear_temp_files_desc">從內部目錄中刪除全數暫存檔案</string>
+    <string name="clear_temp_files_desc">從暫存目錄中刪除全數暫存檔案</string>
     <string name="clear_temp_files_count">已刪除 %1$d 個暫存檔案</string>
     <string name="aria2_desc">使用 aria2c 作為外部下載程式</string>
     <string name="cookies_desc">使用 Netscape 格式的 Cookies 檔案進行下載</string>
@@ -334,4 +334,16 @@
     </plurals>
     <string name="ua_header">使用者代理程式標頭</string>
     <string name="export_to_file">匯出成檔案</string>
+    <string name="custom_command_usage_msg">yt-dlp 是功能強大的下載視訊命令列工具。Seal 透過提供直觀的 GUI、常見命令的預設值和其他額外功能，讓您更輕鬆地使用 yt-dlp。
+\n
+\n如果您需要進階使用 yt-dlp，您可以在 Seal 中直接建立、儲存和執行自訂命令範本，就像在終端機一樣。
+\n
+\n當您使用自訂命令時，大部分 GUI 選項和功能將會停用。</string>
+    <string name="presets">預設</string>
+    <string name="output_template">輸出範本</string>
+    <string name="output_template_desc">為輸出檔案名稱指定範本</string>
+    <string name="clear_download_archive">確定要清除下載封存？</string>
+    <string name="clear_download_archive_desc">確定要從下載封存中移除「%1$s」嗎？</string>
+    <string name="download_archive_desc">將已下載的視訊識別碼記錄至封存，以避免重複下載。</string>
+    <string name="download_archive">下載封存</string>
 </resources>

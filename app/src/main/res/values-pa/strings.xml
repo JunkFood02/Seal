@@ -141,7 +141,7 @@
     <string name="aria2_desc">aria2c ਨੂੰ ਬਾਹਰੀ ਡਾਊਨਲੋਡਰ ਵਜੋਂ ਵਰਤੋ</string>
     <string name="cookies_desc">ਡਾਉਨਲੋਡਸ ਲਈ ਨੈੱਟਸਕੇਪ ਫਾਰਮੈਟਡ ਕੂਕੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="clear_temp_files">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="clear_temp_files_desc">ਅੰਦਰੂਨੀ ਡਾਇਰੈਕਟਰੀ ਤੋਂ ਸਾਰੀਆਂ ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
+    <string name="clear_temp_files_desc">ਅਸਥਾਈ ਡਾਇਰੈਕਟਰੀ ਤੋਂ ਸਾਰੀਆਂ ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
     <string name="clear_temp_files_count">%1$d ਅਸਥਾਈ ਫ਼ਾਈਲ(ਫ਼ਾਈਲਾਂ) ਮਿਟਾਈਆਂ ਗਈਆਂ</string>
     <string name="clear_temp_files_info">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਰੱਦ ਕੀਤੇ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ \'ਤੇ ਇਹਨਾਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ\?</string>
     <string name="multiselect_mode">ਬਹੁ-ਚੋਣ ਮੋਡ</string>
@@ -335,4 +335,19 @@
         <item quantity="other">%d ਆਈਟਮਾਂ</item>
     </plurals>
     <string name="export_to_file">ਫਾਈਲ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="custom_command_usage_msg">yt-dlp ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇੱਕ ਸ਼ਕਤੀਸ਼ਾਲੀ ਕਮਾਂਡ-ਲਾਈਨ ਟੂਲ ਹੈ। ਸੀਲ ਇੱਕ ਅਨੁਭਵੀ GUI, ਆਮ ਕਮਾਂਡਾਂ ਲਈ ਪ੍ਰੀਸੈਟਸ, ਅਤੇ ਹੋਰ ਵਾਧੂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਪ੍ਰਦਾਨ ਕਰਕੇ yt-dlp ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ।
+\n
+\nyt-dlp ਦੀ ਉੱਨਤ ਵਰਤੋਂ ਲਈ, ਸੀਲ ਤੁਹਾਨੂੰ ਕਸਟਮ ਕਮਾਂਡ ਟੈਂਪਲੇਟਾਂ ਨੂੰ ਸਿੱਧਾ ਬਣਾਉਣ, ਸੁਰੱਖਿਅਤ ਕਰਨ ਅਤੇ ਚਲਾਉਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ, ਜਿਵੇਂ ਕਿ ਟਰਮੀਨਲ ਵਿੱਚ।
+\n
+\nਕਸਟਮ ਕਮਾਂਡਾਂ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ, ਜ਼ਿਆਦਾਤਰ GUI ਵਿਕਲਪ ਅਤੇ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਅਯੋਗ ਹੋ ਜਾਣਗੀਆਂ।</string>
+    <string name="clear_download_archive">ਡਾਊਨਲੋਡ ਆਰਕਾਇਵ ਨੂੰ ਸਾਫ਼ ਕਰੋ\?</string>
+    <string name="clear_download_archive_desc">ਕੀ ਆਰਕਾਇਵ ਫਾਈਲ ਵਿੱਚੋਂ %1$s ਨੂੰ ਚੰਗੇ ਲਈ ਹਟਾਉਣਾ ਹੈ\?</string>
+    <string name="presets">ਪ੍ਰੀਸੈਟਸ</string>
+    <string name="output_template">ਆਉਟਪੁੱਟ ਟੈਮਪਲੇਟ</string>
+    <string name="output_template_desc">ਆਉਟਪੁੱਟ ਫ਼ਾਈਲ ਨਾਮ ਲਈ ਟੈਪਲੇਟ ਨਿਰਧਾਰਿਤ ਕਰੋ</string>
+    <string name="download_archive_desc">ਡੁਪਲੀਕੇਟ ਡਾਉਨਲੋਡਸ ਤੋਂ ਬਚਣ ਲਈ ਇੱਕ ਆਰਕਾਇਵ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕੀਤੇ ਵੀਡੀਓ ਆਈ.ਡੀ. ਨੂੰ ਰਿਕਾਰਡ ਕਰੋ</string>
+    <string name="download_archive">ਡਾਊਨਲੋਡ ਆਰਕਾਇਵ</string>
+    <string name="embed_metadata">ਮੈਟਾਡੇਟਾ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ</string>
+    <string name="required">ਲੋੜੀਂਦਾ ਹੈ</string>
+    <string name="embed_metadata_desc">ਆਡੀਓ ਫਾਈਲ ਵਿੱਚ ਮੈਟਾਡੇਟਾ ਅਤੇ ਵੀਡੀਓ ਥੰਮਨੇਲ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ</string>
 </resources>

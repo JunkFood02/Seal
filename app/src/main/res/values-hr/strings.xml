@@ -116,7 +116,7 @@
     <string name="aria2_desc">Koristite aria2c kao vanjski program za preuzimanje</string>
     <string name="cookies_desc">Za preuzimanja koristite kolačiće formatirane pomoću Netscape-a</string>
     <string name="clear_temp_files">Očisti privremene datoteke</string>
-    <string name="clear_temp_files_desc">Očistite sve privremene datoteke iz unutarnjeg direktorija</string>
+    <string name="clear_temp_files_desc">Očistite sve privremene datoteke iz privremenog direktorija</string>
     <string name="clear_temp_files_count">%1$d privremena(ih) datoteka izbrisana(o)</string>
     <string name="clear_temp_files_info">Privremene datoteke služe kako bi se nastavila otkazana preuzimanja. Jeste li sigurni da ih želite sve izbrisati\?</string>
     <string name="multiselect_mode">Način višestrukog odabira</string>
@@ -143,7 +143,7 @@
     <string name="paste">Zalijepi</string>
     <string name="convert_audio_format">Pretvori oblik zvučnog zapisa</string>
     <string name="convert_to">Pretvori u %1$s</string>
-    <string name="thumbnail">minijatura</string>
+    <string name="thumbnail">Minijatura</string>
     <string name="edit_template_desc">Izlazni put i URL će dodati aplikacija.</string>
     <string name="format">Oblik</string>
     <string name="video_quality">Kvaliteta videozapisa</string>
@@ -336,4 +336,19 @@
     </plurals>
     <string name="export_to_file">Izvezi u datoteku</string>
     <string name="ua_header">Zaglavlje User-Agent</string>
+    <string name="custom_command_usage_msg">Yt-dlp je moćan alat naredbene linije za preuzimanje videozapisa. Seal olakšava korištenje yt-dlp-a pružajući intuitivni GUI, unaprijed postavljene postavke za uobičajene naredbe i druge dodatne značajke.
+\n
+\nZa napredno korištenje yt-dlp-a, Seal vam omogućuje stvaranje, spremanje i izravno izvršavanje prilagođenih naredbenih predložaka, baš kao u terminalu.
+\n
+\nKada koristite prilagođene naredbe, većina GUI opcija i značajki bila bi onemogućena.</string>
+    <string name="presets">Unaprijed postavljeno</string>
+    <string name="output_template">Izlazni predložak</string>
+    <string name="output_template_desc">Navedite predložak za nazive izlaznih datoteka</string>
+    <string name="clear_download_archive">Očistiti arhivu preuzimanja\?</string>
+    <string name="clear_download_archive_desc">Zauvijek ukloniti %1$s iz arhivske datoteke\?</string>
+    <string name="download_archive_desc">Snimite ID-ove preuzetih videozapisa u arhivu kako biste izbjegli dvostruka preuzimanja</string>
+    <string name="download_archive">Arhiva preuzimanja</string>
+    <string name="embed_metadata">Ugradi metapodatke</string>
+    <string name="embed_metadata_desc">Ugradite metapodatke i minijaturu videozapisa u audio datoteku</string>
+    <string name="required">Obavezno</string>
 </resources>

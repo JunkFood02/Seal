@@ -47,7 +47,7 @@
     <string name="settings_before_download">डाउनलोड करने से पहले सरंचना करें</string>
     <string name="settings_before_download_text">इस डाउनलोड को समायोजित करें</string>
     <string name="error_copied">त्रुटि की जानकारी सूचि मैं उतारा</string>
-    <string name="thumbnail">थंबनेल</string>
+    <string name="thumbnail">थंमनेल</string>
     <string name="paste">चिपकाएं</string>
     <string name="edit_template_desc">आउटपुट पथ और URL ऐप द्वारा जोड़ा जाएगा।</string>
     <string name="convert_audio_format">ध्वनि प्रारूप को परिवर्तित करें</string>
@@ -175,7 +175,7 @@
     <string name="update">अपडेट करें</string>
     <string name="cookies_desc">डाउनलोड के लिए नेटस्केप स्वरूपित कुकीज़ का प्रयोग करें</string>
     <string name="clear_temp_files">अस्थायी फ़ाइलें साफ़ करें</string>
-    <string name="clear_temp_files_desc">आंतरिक निर्देशिका से सभी अस्थायी फ़ाइलें हटाएं</string>
+    <string name="clear_temp_files_desc">अस्थायी निर्देशिका से सभी अस्थायी फ़ाइलें हटाएं</string>
     <string name="clear_temp_files_count">हटाई गई %1$d अस्थायी फ़ाइल(फ़ाइलें)</string>
     <string name="clear_temp_files_info">रद्द किए गए डाउनलोड को फिर से शुरू करने के लिए अस्थायी फ़ाइलों का उपयोग किया जा सकता है। क्या आप वाकई इन सभी फ़ाइलों को मिटाना चाहते हैं\?</string>
     <string name="multiselect_mode">बहुचयन मोड</string>
@@ -335,4 +335,19 @@
     </plurals>
     <string name="remove_multiple_templates_msg">कमांड टेम्प्लेट से %1$s को बेहतरी के लिए हटा दें\?</string>
     <string name="export_to_file">फ़ाइल में निर्यात करें</string>
+    <string name="custom_command_usage_msg">yt-dlp वीडियो डाउनलोड करने के लिए एक शक्तिशाली कमांड-लाइन टूल है। सील एक सहज ज्ञान युक्त जीयूआई, सामान्य कमांड के लिए प्रीसेट और अन्य अतिरिक्त सुविधाएं प्रदान करके yt-dlp का उपयोग करना आसान बनाता है।
+\n
+\nYt-dlp के उन्नत उपयोग के लिए, सील आपको टर्मिनल की तरह सीधे कस्टम कमांड टेम्पलेट बनाने, सहेजने और निष्पादित करने की अनुमति देता है।
+\n
+\nकस्टम कमांड का उपयोग करते समय, अधिकांश GUI विकल्प और सुविधाएँ अक्षम कर दी जाएंगी।</string>
+    <string name="clear_download_archive">डाउनलोड आरकाईव साफ़ करें\?</string>
+    <string name="clear_download_archive_desc">आरकाईव फ़ाइल से %1$s को हमेशा के लिए हटा दें\?</string>
+    <string name="presets">प्रीसेट</string>
+    <string name="output_template">आउटपुट टेम्पलेट</string>
+    <string name="output_template_desc">आउटपुट फ़ाइल नामों के लिए टेम्पलेट निर्दिष्ट करें</string>
+    <string name="download_archive_desc">डुप्लिकेट डाउनलोड से बचने के लिए डाउनलोड की गई वीडियो आईडी को एक आरकाईव में रिकॉर्ड करें</string>
+    <string name="download_archive">डाउनलोड आरकाईव</string>
+    <string name="embed_metadata">मेटाडेटा एम्बेड करें</string>
+    <string name="required">आवश्यक है</string>
+    <string name="embed_metadata_desc">ऑडियो फ़ाइल में मेटाडेटा और वीडियो थंमनेल एम्बेड करें</string>
 </resources>

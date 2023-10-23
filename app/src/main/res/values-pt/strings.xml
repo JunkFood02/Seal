@@ -66,7 +66,7 @@
     <string name="settings_before_download">Configurar antes de descarregar</string>
     <string name="settings_before_download_desc">Configurar as preferências antes de descarregar</string>
     <string name="error_copied">Relatório de erro copiado para a área de transferência</string>
-    <string name="thumbnail">miniatura</string>
+    <string name="thumbnail">Miniatura</string>
     <string name="paste">Colar</string>
     <string name="yt_dlp_docs">Referências de utilização do Yt-dlp</string>
     <string name="edit_template_desc">O caminho de saída e o URL serão adicionados pela aplicação.</string>
@@ -173,7 +173,7 @@
     <string name="recently_added">Recentemente adicionados</string>
     <string name="cookies_desc">Utilizar cookies formatados pelo Netscape para transferências</string>
     <string name="clear_temp_files">Limpar ficheiros temporários</string>
-    <string name="clear_temp_files_desc">Eliminar todos os ficheiros temporários do diretório interno</string>
+    <string name="clear_temp_files_desc">Eliminar todos os ficheiros temporários do diretório temporário</string>
     <string name="clear_temp_files_info">Os ficheiros temporários podem ser utilizados para retomar as transferências canceladas. Tem a certeza de que quer eliminar todos estes ficheiros\?</string>
     <string name="private_mode">Incógnito</string>
     <string name="invalid_input">Entrada inválida</string>
@@ -336,4 +336,19 @@
     </plurals>
     <string name="ua_header">Cabeçalho de requisição User-Agent</string>
     <string name="export_to_file">Exportar para ficheiro</string>
+    <string name="custom_command_usage_msg">O yt-dlp é uma poderosa ferramenta de linha de comando para descarregar vídeos. O Seal facilita o uso do yt-dlp fornecendo uma GUI intuitiva, predefinições para comandos comuns e outros recursos adicionais.
+\n
+\nPara uma utilização avançada do yt-dlp, o Seal permite-lhe criar, guardar e executar modelos de comandos personalizados diretamente, tal como num terminal.
+\n
+\nAo usar comandos personalizados, a maioria das opções e recursos da GUI serão desativados.</string>
+    <string name="presets">Predefinições</string>
+    <string name="output_template">Modelo de saída</string>
+    <string name="output_template_desc">Especificar o modelo para os nomes dos ficheiros de saída</string>
+    <string name="clear_download_archive">Limpar o arquivo de transferências\?</string>
+    <string name="clear_download_archive_desc">Remover %1$s do ficheiro de arquivo\?</string>
+    <string name="download_archive_desc">Registar IDs de vídeos descarregados num arquivo para evitar descargas duplicadas</string>
+    <string name="download_archive">Descarregar arquivo</string>
+    <string name="embed_metadata">Incorporar metadados</string>
+    <string name="embed_metadata_desc">Incorporar metadados e miniatura de vídeo no ficheiro de áudio</string>
+    <string name="required">Obrigatório</string>
 </resources>

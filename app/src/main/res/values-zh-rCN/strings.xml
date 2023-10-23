@@ -65,7 +65,7 @@
     <string name="settings_before_download">下载前设置</string>
     <string name="settings_before_download_desc">在开始下载前确认下载设置</string>
     <string name="error_copied">错误报告已复制到剪贴板</string>
-    <string name="thumbnail">封面</string>
+    <string name="thumbnail">缩略图</string>
     <string name="paste">粘贴</string>
     <string name="yt_dlp_docs">yt-dlp 使用文档</string>
     <string name="edit_template_desc">应用会自动向命令中添加输出路径与链接</string>
@@ -117,7 +117,7 @@
     <string name="from">起始序号</string>
     <string name="to">结束序号</string>
     <string name="invalid_index_range">序号范围非法</string>
-    <string name="playlist_indicator_text">正在下载播放列表(%1$d/%2$d)，轻按停止。</string>
+    <string name="playlist_indicator_text">正在下载播放列表(%1$d/%2$d)…</string>
     <string name="audio_directory">音频目录</string>
     <string name="download_directory">下载目录</string>
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
@@ -140,7 +140,7 @@
     <string name="remove_template_desc">从命令行模板中永久移除 \"%1$s\" 吗？</string>
     <string name="template_selection">模板选择</string>
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
-    <string name="downloading_indicator_text">下载进行中，轻按取消。</string>
+    <string name="downloading_indicator_text">下载进行中，轻按取消…</string>
     <string name="task_canceled">下载任务被取消</string>
     <string name="github_issue">GitHub 议题</string>
     <string name="github_issue_desc">提交错误报告或改进建议</string>
@@ -177,7 +177,7 @@
     <string name="cookies">Cookies</string>
     <string name="cookies_desc">使用 Netscape 规范的 Cookies 文件进行下载</string>
     <string name="clear_temp_files">清除临时文件</string>
-    <string name="clear_temp_files_desc">删除当前临时目录下的所有文件</string>
+    <string name="clear_temp_files_desc">删除临时目录下的所有临时文件</string>
     <string name="clear_temp_files_count">共清除了 %1$d 个临时文件</string>
     <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？</string>
     <string name="multiselect_mode">多选模式</string>
@@ -334,4 +334,19 @@
     <string name="refresh_cookies_desc">点击打开网页以刷新 cookies：</string>
     <string name="ua_header">用户代理</string>
     <string name="export_to_file">导出到文件</string>
+    <string name="custom_command_usage_msg">yt-dlp 是一款强大的命令行视频下载工具。通过提供直观的图形用户界面（GUI）、 常见命令行的预设以及其他附加功能，Seal 使该工具更易使用。
+\n
+\n对于 yt-dlp 的高级用法，Seal 允许你直接创建、保存并执行自定义的命令行模板，就像在命令行终端上操作一样。
+\n
+\n使用自定义命令行时，多数 GUI 选项和功能会被禁用。</string>
+    <string name="presets">预设</string>
+    <string name="output_template">输出模板</string>
+    <string name="output_template_desc">指定输出文件名的模板</string>
+    <string name="clear_download_archive">清理下载存档？</string>
+    <string name="clear_download_archive_desc">永久性删除压缩文件中的 %1$s？</string>
+    <string name="download_archive_desc">将已下载视频的 ID 记录在一个压缩文件中避免重复下载</string>
+    <string name="download_archive">下载存档</string>
+    <string name="embed_metadata">内嵌元数据</string>
+    <string name="embed_metadata_desc">将元数据和视频缩略图内嵌到音频文件</string>
+    <string name="required">必需的</string>
 </resources>
