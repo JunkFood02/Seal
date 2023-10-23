@@ -516,7 +516,7 @@ fun OutputTemplateDialog(
     var error by remember { mutableIntStateOf(0) }
 
     SealDialog(
-        onDismissRequest = { },
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             ConfirmButton(enabled = error == 0) {
                 onConfirm(

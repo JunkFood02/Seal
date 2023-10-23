@@ -409,7 +409,7 @@ fun DownloadPageImpl(
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
                         error = errorState.isErrorOccurred(),
-                        showCancelButton = showCancelButton,
+                        showCancelButton = showCancelButton && !showVideoCard,
                         onCancel = cancelCallback,
                         onDone = downloadCallback,
                     ) { url -> onUrlChanged(url) }

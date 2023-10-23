@@ -74,7 +74,7 @@ fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
                 onValueChange = { categories = it },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             )
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 item {
                     OutlinedButtonChip(label = "default") {
                         categories = "default"
