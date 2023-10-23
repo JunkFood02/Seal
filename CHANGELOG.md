@@ -11,15 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * Custom output template (`-o` option in yt-dlp)
 * Export cookies to a text file
+* Make embed metadata in audio files optional
+* Add the ability to record download archive, and skip duplicate downloads
+* Add cancel button to the download page
+* Add input chips for sponsorblock categories
 
 ### Changed
 * Move the directory for storing temporary files to external storage (`Seal/tmp`)
 * Temporary directory now are enabled by default for downloads in general mode
 * Remove custom prefix for output template, please migrate to custom output template
+* Move actions in format page to dropdown menu
 
 ### Fixed
 * Fix an issue causes sharing videos to failed on certain devices
 * Fix a few UI bugs
+* Fix an issue cause uploader marked as null, make uploader_id as a fallback to uploader
+* Fix an issue of renaming videos when using custom output template
 
 
 ## [v1.10.0][1.10.0] - 2023-08-30
