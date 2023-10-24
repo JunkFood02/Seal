@@ -326,7 +326,7 @@ object DownloadUtil {
     @CheckResult
     private fun DownloadPreferences.toVideoFormatSorter(): String = this.run {
         val format = when (videoFormat) {
-            FORMAT_COMPATIBILITY -> "vcodec:h264,ext"
+            FORMAT_COMPATIBILITY -> "proto,vcodec:h264,ext"
             FORMAT_QUALITY -> "vcodec:av01"
             else -> ""
         }
