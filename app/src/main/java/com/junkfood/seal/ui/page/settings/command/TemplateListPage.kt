@@ -331,22 +331,24 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                         selectedTemplates.add(commandTemplate)
                     })
             }
-            item {
-                PreferenceItemVariant(
-                    title = stringResource(id = R.string.new_template),
-                    icon = Icons.Outlined.Add
-                ) {
-                    onNavigateToEditPage(-1)
+            if (!isMultiSelectEnabled) {
+                item {
+                    PreferenceItemVariant(
+                        title = stringResource(id = R.string.new_template),
+                        icon = Icons.Outlined.Add
+                    ) {
+                        onNavigateToEditPage(-1)
+                    }
                 }
-            }
-            item {
-                PreferenceItemVariant(
-                    title = stringResource(id = R.string.edit_shortcuts),
-                    icon = Icons.Outlined.BookmarkAdd,
-                ) {
-                    showShortcutsDialog = true
-                }
+                item {
+                    PreferenceItemVariant(
+                        title = stringResource(id = R.string.edit_shortcuts),
+                        icon = Icons.Outlined.BookmarkAdd,
+                    ) {
+                        showShortcutsDialog = true
+                    }
 
+                }
             }
         }
     }

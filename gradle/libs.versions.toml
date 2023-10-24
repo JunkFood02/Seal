@@ -10,7 +10,7 @@ androidxActivity = "1.8.0"
 
 androidxLifecycle = "2.6.2"
 androidxNavigation = "2.7.4"
-androidxComposeMaterial3 = "1.2.0-alpha10"
+androidxComposeMaterial3 = "1.2.0-alpha08"
 androidxComposeAnimation = "1.5.0-beta.1"
 
 androidxEspresso = "3.5.0"
