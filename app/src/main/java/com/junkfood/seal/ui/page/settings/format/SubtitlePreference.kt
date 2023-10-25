@@ -37,6 +37,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.EMBED_SUBTITLE
+import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
@@ -134,12 +135,14 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                 }
 
                 item {
+                    val downloadAudio by EXTRACT_AUDIO.booleanState
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         description = stringResource(
                             id = R.string.embed_subtitles_desc
                         ),
                         isChecked = embedSubtitle,
+                        enabled = !downloadAudio,
                         onClick = {
                             if (embedSubtitle) {
                                 embedSubtitle = false
