@@ -187,6 +187,7 @@ object FileUtil {
         File(getConfigDirectory(), "cookies.txt")
 
     fun getTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
+        mkdirs()
         createEmptyFile(".nomedia")
     }
 
@@ -210,7 +211,7 @@ object FileUtil {
 
 
     fun File.createEmptyFile(fileName: String): Result<File> = this.runCatching {
-        mkdir()
+        mkdirs()
         resolve(fileName).apply {
             this@apply.createNewFile()
         }
