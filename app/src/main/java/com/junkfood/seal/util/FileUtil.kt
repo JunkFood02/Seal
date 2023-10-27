@@ -195,14 +195,15 @@ object FileUtil {
         child?.let { resolve(it) } ?: this
     }
 
-    fun getArchiveFile(): File = getTempDir().createEmptyFile("archive.txt").getOrThrow()
+    fun getArchiveFile(): File =
+        getExternalDownloadDirectory().createEmptyFile("archive.txt").getOrThrow()
 
     fun Context.getLegacyTempDir() = File(filesDir, "tmp")
 
     internal fun getExternalDownloadDirectory() = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
         "Seal"
-    )
+    ).also { it.mkdir() }
 
     internal fun getExternalPrivateDownloadDirectory() = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
