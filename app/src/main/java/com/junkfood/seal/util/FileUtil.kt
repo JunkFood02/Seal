@@ -26,15 +26,17 @@ object FileUtil {
     fun openFileFromResult(downloadResult: Result<List<String>>) {
         val filePaths = downloadResult.getOrNull()
         if (filePaths.isNullOrEmpty()) return
-        openFile(filePaths.first())
+        openFile(filePaths.first()){
+            ToastUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
+        }
     }
 
-    fun openFile(path: String) =
+    inline fun openFile(path: String, onFailureCallback: (Throwable) -> Unit) =
         path.runCatching {
             createIntentForOpeningFile(this)?.run { context.startActivity(this) }
                 ?: throw Exception()
         }.onFailure {
-            ToastUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
+            onFailureCallback(it)
         }
 
     private fun createIntentForFile(path: String?): Intent? {

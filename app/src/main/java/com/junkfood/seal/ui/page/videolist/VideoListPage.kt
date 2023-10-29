@@ -57,6 +57,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.common.LocalWindowWidthState
@@ -73,6 +74,7 @@ import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.toFileSizeText
 import kotlinx.coroutines.launch
 import java.io.File
@@ -361,7 +363,11 @@ fun VideoListPage(
                                     if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
                                     else selectedItemIds.add(id)
                                 },
-                                onClick = { FileUtil.openFile(videoPath) }
+                                onClick = {
+                                    FileUtil.openFile(path = videoPath) {
+                                        ToastUtil.makeToastSuspend(App.context.getString(R.string.file_unavailable))
+                                    }
+                                }
                             ) { videoListViewModel.showDrawer(scope, info) }
                         }
                     }

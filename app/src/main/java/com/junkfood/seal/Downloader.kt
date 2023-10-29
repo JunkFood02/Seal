@@ -264,7 +264,7 @@ object Downloader {
         DownloadTaskItem(
             webpageUrl = webpageUrl.toString(),
             title = title,
-            uploader = uploader ?: channel.toString(),
+            uploader = uploader ?: channel ?: uploaderId.toString(),
             duration = duration?.roundToInt() ?: 0,
             taskId = id + preferencesHash,
             thumbnailUrl = thumbnail.toHttpsUrl(),

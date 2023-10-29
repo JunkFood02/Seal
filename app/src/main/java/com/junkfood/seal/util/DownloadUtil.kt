@@ -116,11 +116,10 @@ object DownloadUtil {
 
 
     @CheckResult
-    private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> =
-        request.runCatching {
-            val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
-            jsonFormat.decodeFromString(response.out)
-        }
+    private fun getVideoInfo(request: YoutubeDLRequest): Result<VideoInfo> = request.runCatching {
+        val response: YoutubeDLResponse = YoutubeDL.getInstance().execute(request, null, null)
+        jsonFormat.decodeFromString(response.out)
+    }
 
 
     @CheckResult
@@ -418,33 +417,30 @@ object DownloadUtil {
 
     }
 
-    private fun insertInfoIntoDownloadHistory(videoInfo: VideoInfo, filePaths: List<String>) =
-        filePaths.onEach {
-            DatabaseUtil.insertInfo(
-                DownloadedVideoInfo(
-                    id = 0,
-                    videoTitle = videoInfo.title,
-                    videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
-                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
-                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
-                    videoPath = it,
-                    extractor = videoInfo.extractorKey
-                )
-            )
-        }
+    private fun insertInfoIntoDownloadHistory(
+        videoInfo: VideoInfo, filePaths: List<String>
+    ): List<String> = filePaths.onEach {
+        DatabaseUtil.insertInfo(videoInfo.toDownloadedVideoInfo(videoPath = it))
+    }
+
+    private fun VideoInfo.toDownloadedVideoInfo(
+        id: Int = 0, videoPath: String
+    ): DownloadedVideoInfo = this.run {
+        DownloadedVideoInfo(
+            id = id,
+            videoTitle = title,
+            videoAuthor = uploader ?: channel ?: uploaderId.toString(),
+            videoUrl = webpageUrl ?: originalUrl.toString(),
+            thumbnailUrl = thumbnail.toHttpsUrl(),
+            videoPath = videoPath,
+            extractor = extractorKey
+        )
+    }
 
     private fun insertSplitChapterIntoHistory(videoInfo: VideoInfo, filePaths: List<String>) =
         filePaths.onEach {
             DatabaseUtil.insertInfo(
-                DownloadedVideoInfo(
-                    id = 0,
-                    videoTitle = it.getFileName(),
-                    videoAuthor = videoInfo.uploader ?: videoInfo.channel.toString(),
-                    videoUrl = videoInfo.webpageUrl ?: videoInfo.originalUrl.toString(),
-                    thumbnailUrl = videoInfo.thumbnail.toHttpsUrl(),
-                    videoPath = it,
-                    extractor = videoInfo.extractorKey
-                )
+                videoInfo.toDownloadedVideoInfo(videoPath = it).copy(videoTitle = it.getFileName())
             )
         }
 
@@ -461,8 +457,11 @@ object DownloadUtil {
 
         with(downloadPreferences) {
             val url = playlistUrl.ifEmpty {
-                videoInfo.originalUrl ?: videoInfo.webpageUrl
-                ?: return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
+                videoInfo.originalUrl ?: videoInfo.webpageUrl ?: return Result.failure(
+                    Throwable(
+                        context.getString(R.string.fetch_info_error_msg)
+                    )
+                )
             }
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
@@ -585,9 +584,8 @@ object DownloadUtil {
         sdcardUri: String
     ): Result<List<String>> = preferences.run {
         val fileName = preferences.newTitle.ifEmpty {
-            videoInfo.filename
-                ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
-                ?: videoInfo.title
+            videoInfo.filename ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
+            ?: videoInfo.title
         }
 
         Log.d(TAG, "onFinishDownloading: $fileName")
