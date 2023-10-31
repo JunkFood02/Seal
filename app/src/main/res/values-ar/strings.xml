@@ -122,7 +122,7 @@
     <string name="share_success_msg">جارٍ قراءة رابط الفيديو من المحتوى المشترك …</string>
     <string name="from">بداية</string>
     <string name="to">نهاية</string>
-    <string name="playlist_indicator_text">جارٍ تنزيل قائمة التشغيل (%1$d/%2$d)، انقر للإيقاف.</string>
+    <string name="playlist_indicator_text">جارٍ تنزيل قائمة التشغيل (%1$d/%2$d)…</string>
     <string name="download_directory_desc">حدد مكان تخزين ملفات الفيديو والصوت</string>
     <string name="cancel">إلغاء</string>
     <string name="service_title">Seal يُحَمِّل…</string>
@@ -139,7 +139,7 @@
     <string name="remove_template_desc">هل تريد إزالة «%1$s» من قوالب الأوامر للأبد؟</string>
     <string name="template_selection">اختيار القالب</string>
     <string name="custom_command_template_desc">تحرير وإدارة قوالب الأوامر</string>
-    <string name="downloading_indicator_text">التنزيل قيد التقدم، انقر للإلغاء.</string>
+    <string name="downloading_indicator_text">التنزيل قيد التقدم…</string>
     <string name="task_canceled">تم إلغاء مهمة التنزيل</string>
     <string name="github_issue">تذكرة Github</string>
     <string name="github_issue_desc">أرسل تذكرة للإبلاغ عن خطأ أو طلب ميزة</string>
@@ -309,7 +309,7 @@
     <string name="proxy">بروكسي</string>
     <string name="disable">ألغاء التفعيل</string>
     <string name="legacy">قديم</string>
-    <string name="quality">قديم</string>
+    <string name="quality">جودة</string>
     <string name="enable_notifications">هل ترغب في تفعيل الإشعارات؟</string>
     <string name="proxy_desc">استخدم بروكسي لاتصالات الإنترنت</string>
     <string name="enable_notifications_desc">التطبيق يحتاج إلى إذنك لنشر إشعارات حول حالة التنزيل والتقدم.</string>
@@ -339,4 +339,19 @@
         <item quantity="many">%d عنصرًا</item>
         <item quantity="other">%d عنصر</item>
     </plurals>
+    <string name="custom_command_usage_msg">yt-dlp هي أداة سطر أوامر قوية لتنزيل مقاطع الفيديو. يجعل Seal استخدام yt-dlp أسهل من خلال توفير واجهة مستخدم بديهية، وإعدادات مسبقة للأوامر الشائعة، وميزات إضافية أخرى.
+\n
+\nبالنسبة للاستخدام المتقدم لـ yt-dlp، يسمح لك Seal بإنشاء قوالب أوامر مخصصة وحفظها وتنفيذها مباشرة، تمامًا كما هو الحال في الطرفية.
+\n
+\nعند استخدام الأوامر المخصصة، ستتم تعطيل معظم خيارات واجهة المستخدم والميزات.</string>
+    <string name="clear_download_archive">هل تريد مسح أرشيف التحميل؟</string>
+    <string name="clear_download_archive_desc">هل تريد إزالة %1$s من ملف الأرشيف نهائياً؟</string>
+    <string name="embed_metadata">إدماج البيانات الوصفية</string>
+    <string name="presets">إعدادات مسبقة</string>
+    <string name="required">ضروري</string>
+    <string name="output_template">قالب الإخراج</string>
+    <string name="output_template_desc">حدد القالب لأسماء الملفات الناتجة</string>
+    <string name="download_archive_desc">سجل معرفات الفيديو التي تم تحميلها في أرشيف لتجنب التحميل المكرر</string>
+    <string name="embed_metadata_desc">أدمج البيانات الوصفية والصورة المصغرة للفيديو في ملف الصوت</string>
+    <string name="download_archive">أرشيف التحميل</string>
 </resources>

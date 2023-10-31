@@ -113,7 +113,7 @@
     <string name="template_label">ਲੇਬਲ</string>
     <string name="remove_template">ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="template_selection">ਟੈਮਪਲੇਟ ਚੋਣ</string>
-    <string name="downloading_indicator_text">ਡਾਊਨਲੋਡ ਜਾਰੀ ਹੈ, ਰੱਦ ਕਰਨ ਲਈ ਟੈਪ ਕਰੋ।</string>
+    <string name="downloading_indicator_text">ਡਾਊਨਲੋਡ ਜਾਰੀ ਹੈ…</string>
     <string name="task_canceled">ਡਾਊਨਲੋਡ ਕਾਰਜ ਰੱਦ ਕੀਤਾ ਗਿਆ</string>
     <string name="info_copied">ਜਾਣਕਾਰੀ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤੀ ਗਈ</string>
     <string name="status_enqueued">ਕਤਾਰਬੱਧ</string>
@@ -183,7 +183,7 @@
     <string name="to">ਅੰਤ</string>
     <string name="from">ਸ਼ੁਰੂ</string>
     <string name="invalid_index_range">ਅਵੈਧ ਇੰਡੈਕਸ ਰੇਂਜ</string>
-    <string name="playlist_indicator_text">ਪਲੇਲਿਸਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ (%1$d/%2$d), ਰੋਕਣ ਲਈ ਟੈਪ ਕਰੋ।</string>
+    <string name="playlist_indicator_text">ਪਲੇਲਿਸਟ (%1$d/%2$d) ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…</string>
     <string name="subdirectory_desc">ਫਾਈਲਾਂ ਨੂੰ ਸੰਬੰਧਿਤ ਵੈਬਸਾਈਟਾਂ ਦੇ ਨਾਮ ਵਾਲੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਸਹੇਜੋ</string>
     <string name="permission_issue">ਸਟੋਰੇਜ਼ ਇਜਾਜ਼ਤ ਸਮੱਸਿਆ</string>
     <string name="permission_issue_desc">ਡਾਉਨਲੋਡ/ ਅਤੇ ਦਸਤਾਵੇਜ਼/ ਤੋਂ ਬਾਹਰ ਦੀਆਂ ਡਾਇਰੈਕਟਰੀਆਂ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ</string>

@@ -18,7 +18,7 @@
     <string name="audio_directory">Фолдер за аудио снимке</string>
     <string name="battery_configuration_desc">Игноришите оптимизацију батерије за ову апликацију да бисте преузимали у позадини</string>
     <string name="fetching_playlist_info">Преузимање информација о плејлисти…</string>
-    <string name="playlist_indicator_text">Преузимање плејлисте (%1$d/%2$d), додирните да бисте зауставили.</string>
+    <string name="playlist_indicator_text">Преузимање плејлисте (%1$d/%2$d)…</string>
     <string name="subdirectory_desc">Сачувајте фајлове у фолдере који се називају као одговарајући веб-сајтови</string>
     <string name="permission_issue_desc">Фолдери изван Download/ и Documents/ нису подржани</string>
     <string name="unknown_error">Непозната грешка</string>
@@ -28,7 +28,7 @@
     <string name="aria2_desc">Користите aria2c као спољни програм за преузимање</string>
     <string name="clear_temp_files_info">Привремени фајлови се могу користити за наставак отказаних преузимања. Желите ли заиста да избришете све ове фајлове\?</string>
     <string name="template_selection">Избор шаблона</string>
-    <string name="downloading_indicator_text">Преузимање је у току, додирните да бисте отказали.</string>
+    <string name="downloading_indicator_text">Преузимање је у току…</string>
     <string name="task_canceled">Задатак преузимања је отказан</string>
     <string name="info_copied">Информације су копиране у привремену меморију</string>
     <string name="status_enqueued">Додато у ред чекања</string>

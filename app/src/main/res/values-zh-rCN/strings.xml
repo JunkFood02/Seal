@@ -343,8 +343,8 @@
     <string name="output_template">输出模板</string>
     <string name="output_template_desc">指定输出文件名的模板</string>
     <string name="clear_download_archive">清理下载存档？</string>
-    <string name="clear_download_archive_desc">永久性删除压缩文件中的 %1$s？</string>
-    <string name="download_archive_desc">将已下载视频的 ID 记录在一个压缩文件中避免重复下载</string>
+    <string name="clear_download_archive_desc">永久性删除归档文件中的 %1$s？</string>
+    <string name="download_archive_desc">将已下载视频的 ID 记录在一个归档文件中避免重复下载</string>
     <string name="download_archive">下载存档</string>
     <string name="embed_metadata">内嵌元数据</string>
     <string name="embed_metadata_desc">将元数据和视频缩略图内嵌到音频文件</string>

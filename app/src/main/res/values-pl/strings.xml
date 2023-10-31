@@ -41,7 +41,7 @@
     <string name="download_directory_desc">Wybierz miejsce przechowywania plików wideo i audio</string>
     <string name="from">Od</string>
     <string name="to">Do</string>
-    <string name="playlist_indicator_text">Pobieranie playlisty (%1$d,%2$d). Naciśnij, aby zatrzymać.</string>
+    <string name="playlist_indicator_text">Pobieranie playlisty (%1$d,%2$d)…</string>
     <string name="video_directory">Folder wideo</string>
     <string name="dismiss">Anuluj</string>
     <string name="download_success_msg">Pobieranie zakończone</string>
@@ -83,7 +83,7 @@
     <string name="yt_dlp_docs">Dokumentacja yt-dlp</string>
     <string name="convert_to">Konwertuj na %1$s</string>
     <string name="format">Format</string>
-    <string name="best_quality">Najwyższa jakość (domyślne)</string>
+    <string name="best_quality">Najwyższa jakość</string>
     <string name="close">Zamknij</string>
     <string name="start_download">Pobierz</string>
     <string name="close_never_show_again">Nie pokazuj ponownie</string>
@@ -112,7 +112,7 @@
     <string name="edit_template_desc">Folder wyjściowy i URL zostaną dodane przez aplikację.</string>
     <string name="not_convert">Niekonwertowany</string>
     <string name="video_quality_desc">Ogranicz jakość wideo gdy występuje wiele</string>
-    <string name="preferred_format_desc">Wybrany format, gdy dostępne jest wiele</string>
+    <string name="preferred_format_desc">Preferowany format, gdy dostępne jest wiele</string>
     <string name="concurrent_download_num">%d wątek (wątki) będzie używany do jednoczesnego pobierania natywnego wideo DASH/HLS.</string>
     <string name="share_fail_msg">Nie można odczytać udostępnionego adresu URL</string>
     <string name="share_success_msg">Odczytywanie udostępnionego linku do filmu…</string>
@@ -225,7 +225,7 @@
     <string name="cookies_usage_msg">Pobieranie z niektórych witryn wymaga informacji uwierzytelniających konto. Kliknij „Wygeneruj nowe ciasteczka”, wprowadź adres URL witryny, a następnie zaloguj się swoim kontem na stronie przeglądarki, aplikacja wygeneruje je za Ciebie.</string>
     <string name="general_settings_desc">Wersja Yt-dlp, powiadomienia, playlista</string>
     <string name="how_does_it_work">Jak to działa\?</string>
-    <string name="downloading_indicator_text">Pobieranie w trakcie, kliknij by anulować.</string>
+    <string name="downloading_indicator_text">Pobieranie w trakcie…</string>
     <string name="task_canceled">Pobierania zostało anulowane</string>
     <string name="remove_template_desc">Usuń \"%1$s\" z szablonów poleceń na dobre\?</string>
     <string name="video_file_size">Rozmiar wideo</string>
@@ -294,4 +294,30 @@
     <string name="logs">Dziennik</string>
     <string name="embed_subtitles_mkv_msg">Dla osadzenia napisów, wideo będzie zremiksowane do kontenera mkv.</string>
     <string name="update_channel">Zaktualizuj kanał</string>
+    <string name="folder_picker">Wybieranie folderu</string>
+    <string name="split_video">Podziel wideo</string>
+    <string name="commands">Polecenia</string>
+    <string name="edit_template">Edytuj \"%1$s\"</string>
+    <string name="unknown">Nieznane</string>
+    <string name="learn_more">Dowiedz się więcej</string>
+    <string name="convert_subtitle">Konwertuj napisy</string>
+    <string name="download_type">Typ pobierania</string>
+    <string name="legacy">Przestarzałe</string>
+    <string name="embed_metadata">Osadzone metadane</string>
+    <string name="presets">Szablony</string>
+    <string name="start">Rozpocznij</string>
+    <string name="new_task">Nowe zadanie pobierania</string>
+    <string name="copy_and_exit">Kopiuj i wyjdź</string>
+    <string name="required">Wymagane</string>
+    <string name="format_preference">Preferencje formatu</string>
+    <string name="disabled">Wyłączone</string>
+    <string name="disable">Wyłącz</string>
+    <string name="auto">Automatyczne</string>
+    <string name="expand">Rozwiń</string>
+    <string name="quality">Jakość</string>
+    <string name="custom">Niestandardowe</string>
+    <string name="ytdlp_update_action">Aktualizuj yt-dlp</string>
+    <string name="download_archive">Pobierz archiwum</string>
+    <string name="enable_notifications">Włączyć powiadomienia\?</string>
+    <string name="proxy">Serwer proxy</string>
 </resources>

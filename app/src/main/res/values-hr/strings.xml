@@ -160,12 +160,12 @@
     <string name="concurrent_download_desc">Paralelno preuzmite više dijelova M3U8/MPD videozapisa</string>
     <string name="to">Kraj</string>
     <string name="invalid_index_range">Neispravan domet indeksa</string>
-    <string name="playlist_indicator_text">Preuzimanje popisa za reprodukciju (%1$d/%2$d), dodirnite kako biste zaustavili.</string>
+    <string name="playlist_indicator_text">Preuzimanje popisa za reprodukciju (%1$d/%2$d)…</string>
     <string name="download_directory">Direktorij preuzimanja</string>
     <string name="open_file">Otvori datoteku</string>
     <string name="translate">Prevedi</string>
     <string name="custom_command_template_desc">Uredite i upravljajte naredbenim predlošcima</string>
-    <string name="downloading_indicator_text">Preuzimanje u tijeku, dodirnite kako biste ga zaustavili.</string>
+    <string name="downloading_indicator_text">Preuzimanje u tijeku…</string>
     <string name="status_completed">Završeno</string>
     <string name="embed_subtitles">Ugradi titlove</string>
     <string name="remove_template">Ukloniti\?</string>

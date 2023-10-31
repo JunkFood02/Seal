@@ -117,7 +117,7 @@
     <string name="from">Пачаць</string>
     <string name="to">Закончыць</string>
     <string name="invalid_index_range">Няправільны дыяпазон індэкса</string>
-    <string name="playlist_indicator_text">Спампоўка плэйліста (%1$d/%2$d), націсніце, каб спыніць.</string>
+    <string name="playlist_indicator_text">Спампоўка плэйліста (%1$d/%2$d)…</string>
     <string name="audio_directory">Папка з аўдыё</string>
     <string name="download_directory">Каталог загрузкі</string>
     <string name="download_directory_desc">Выберыце, дзе захоўваць відэа і аўдыяфайлы</string>
@@ -143,7 +143,7 @@
     <string name="remove_template">Выдаліць\?</string>
     <string name="remove_template_desc">Назаўсёды выдаліць \"%1$s\" з шаблонаў каманд\?</string>
     <string name="custom_command_template_desc">Рэдагаванне і кіраванне шаблонамі каманд</string>
-    <string name="downloading_indicator_text">Ідзе спампоўка, націсніце, каб адмяніць.</string>
+    <string name="downloading_indicator_text">Ідзе спампоўка…</string>
     <string name="task_canceled">Спампоўка адменена</string>
     <string name="github_issue">Паведаміць пра праблему (GitHub)</string>
     <string name="github_issue_desc">Адправіць праблему для справаздачы аб памылцы або запыту функцыі</string>

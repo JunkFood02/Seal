@@ -134,7 +134,7 @@
     <string name="download_range_desc">Especifique o intervalo de vídeos a descarregar da lista de reprodução \"%3$s\" (de %1$d a %2$d).</string>
     <string name="to">Terminar</string>
     <string name="invalid_index_range">Intervalo de índices inválido</string>
-    <string name="playlist_indicator_text">A descarregar lista de reprodução (%1$d/%2$d), toque para parar.</string>
+    <string name="playlist_indicator_text">A descarregar lista de reprodução (%1$d/%2$d)…</string>
     <string name="audio_directory">Pasta áudio</string>
     <string name="download_directory">Diretório de transferência</string>
     <string name="download_directory_desc">Selecionar onde guardar vídeos e ficheiros de áudio</string>
@@ -156,7 +156,7 @@
     <string name="remove_template_desc">Remover \"%1$s\" dos modelos de comando para sempre\?</string>
     <string name="template_selection">Seleção do modelo</string>
     <string name="custom_command_template_desc">Editar e gerir modelos de comandos</string>
-    <string name="downloading_indicator_text">Descarga em curso, toque para cancelar.</string>
+    <string name="downloading_indicator_text">Descarregamento em curso…</string>
     <string name="task_canceled">Descarregar tarefa cancelada</string>
     <string name="export_to_clipboard">Exportar para a área de transferência</string>
     <string name="translate_desc">Ajuda para traduzir esta aplicação no Hosted Weblate</string>
@@ -347,7 +347,7 @@
     <string name="clear_download_archive">Limpar o arquivo de transferências\?</string>
     <string name="clear_download_archive_desc">Remover %1$s do ficheiro de arquivo\?</string>
     <string name="download_archive_desc">Registar IDs de vídeos descarregados num arquivo para evitar descargas duplicadas</string>
-    <string name="download_archive">Descarregar arquivo</string>
+    <string name="download_archive">Download archive</string>
     <string name="embed_metadata">Incorporar metadados</string>
     <string name="embed_metadata_desc">Incorporar metadados e miniatura de vídeo no ficheiro de áudio</string>
     <string name="required">Obrigatório</string>
