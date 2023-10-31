@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -119,6 +120,12 @@ fun HomeEntry(
 
     val onBackPressed: () -> Unit = { navController.popBackStack() }
 
+    val entries by navController.visibleEntries.collectAsStateWithLifecycle()
+    LaunchedEffect(entries.size) {
+        if (entries.isEmpty())
+            navController.navigate(Route.HOME)
+    }
+
     if (isUrlShared) {
         if (navController.currentDestination?.route != Route.HOME) {
             navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
@@ -146,7 +153,11 @@ fun HomeEntry(
             animatedComposable(Route.HOME) {
                 DownloadPage(
                     navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
-                    navigateToSettings = { navController.navigate(Route.SETTINGS) },
+                    navigateToSettings = {
+                        navController.navigate(Route.SETTINGS) {
+                            launchSingleTop = true
+                        }
+                    },
                     navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
                     navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
                     onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
