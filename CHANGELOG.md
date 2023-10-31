@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Custom output template (`-o` option in yt-dlp)
 * Export cookies to a text file
 * Make embed metadata in audio files optional
+* Save subtitles are now available when downloading audio files
 * Add the ability to record download archive, and skip duplicate downloads
 * Add cancel button to the download page
 * Add input chips for sponsorblock categories
@@ -24,10 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 * Fix an issue causes sharing videos to failed on certain devices
+* Fix an issue causes video uploader to be null
 * Fix a few UI bugs
 * Fix an issue cause uploader marked as null, make uploader_id as a fallback to uploader
-* Fix an issue of renaming videos when using custom output template
-
 
 ## [v1.10.0][1.10.0] - 2023-08-30
 
