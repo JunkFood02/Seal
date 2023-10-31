@@ -24,13 +24,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.filled.SdCardAlert
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderDelete
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
-import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SdCard
 import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material.icons.outlined.TabUnselected
@@ -95,6 +95,7 @@ import com.junkfood.seal.util.CUSTOM_OUTPUT_TEMPLATE
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
+import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.OUTPUT_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
@@ -389,7 +390,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             },
             text = {
                 Text(
-                    stringResource(R.string.clear_temp_files_info),
+                    stringResource(R.string.clear_temp_files_info, getTempDir().absolutePath),
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
@@ -477,7 +478,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                         }
                         OutlinedButtonChip(
                             label = stringResource(R.string.yt_dlp_docs),
-                            icon = Icons.Outlined.OpenInNew
+                            icon = Icons.AutoMirrored.Outlined.OpenInNew
                         ) {
                             uriHandler.openUri(ytdlpFilesystemReference)
                         }

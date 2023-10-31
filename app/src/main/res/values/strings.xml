@@ -228,7 +228,7 @@
     <string name="clear_temp_files">Clear temporary files</string>
     <string name="clear_temp_files_desc">Delete all temporary files from the temporary directory</string>
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
-    <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?</string>
+    <string name="clear_temp_files_info">Temporary files can be used to resume cancelled downloads. Are you sure to delete all of these files?\n\nYou can access these files in %1$s</string>
     <string name="multiselect_mode">Multiselect mode</string>
     <string name="private_mode">Incognito</string>
     <string name="private_mode_desc">Disable download history</string>

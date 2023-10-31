@@ -500,7 +500,9 @@ fun GeneralDownloadPreferences(
         Log.d("Dialog", "GeneralDownloadPreferences:$archiveFileContent ")
         DownloadArchiveDialog(
             archiveFileContent = archiveFileContent,
-            onDismissRequest = { showClearArchiveDialog = false }) {
+            onDismissRequest = { showClearArchiveDialog = false },
+            archiveFilePath = FileUtil.getArchiveFile().absolutePath
+        ) {
             scope.launch(Dispatchers.IO) {
                 runCatching {
                     FileUtil.getArchiveFile().writeText("")
@@ -597,6 +599,7 @@ private fun UpdateProgressIndicator() {
 @Composable
 fun DownloadArchiveDialog(
     archiveFileContent: List<String>,
+    archiveFilePath: String,
     onDismissRequest: () -> Unit,
     onClearArchiveCallback: () -> Unit
 ) {
@@ -636,6 +639,7 @@ fun DownloadArchiveDialog(
                 val textStyle =
                     MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
                 if (archiveFileContent.isNotEmpty()) {
+
                     HorizontalDivider()
                     LazyColumn(
                         modifier = Modifier.heightIn(max = 400.dp),
@@ -668,8 +672,13 @@ fun DownloadArchiveDialog(
                         }
                     }
                     HorizontalDivider()
-
+                    Text(
+                        text = archiveFilePath,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 6.dp)
+                    )
                 }
+
 
             }
         }
@@ -683,5 +692,6 @@ fun DownloadArchiveDialogPreview() {
     val str = buildList { repeat(20) { add("youtube IPf4AxotvNU") } }
     DownloadArchiveDialog(
         archiveFileContent = str,
+        archiveFilePath = "/storage/emulated/0/Download/Seal/archive.txt",
         onDismissRequest = { }) {}
 }
