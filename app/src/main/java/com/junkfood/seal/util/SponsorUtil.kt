@@ -2,7 +2,6 @@ package com.junkfood.seal.util
 
 import android.util.Base64
 import androidx.annotation.CheckResult
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -11,7 +10,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 object SponsorUtil {
     private const val TAG = "SponsorUtil"
-    private const val MAGIC_STRING = "Z2hwX3hmUDYzWDhGZ2l5Q3c5aUVoV1NHd05udWZrNlFwYjFFZVZEbA"
+    private const val MAGIC_STRING = "Z2hwX05XZ0U4VVBoQ2xLOFYxbTlCVXhicjhYM243U1lBVTJCTE04Vw"
 
     // pls don't abuse
     private val magicString = Base64.decode(MAGIC_STRING, Base64.DEFAULT).toString(Charsets.UTF_8)
@@ -33,7 +32,8 @@ object SponsorUtil {
     @CheckResult
     fun getSponsors(): Result<SponsorData> = client.runCatching {
         sponsorData
-            ?: jsonFormat.decodeFromString<SponsorData>(newCall(request).execute().body.string())
+            ?: jsonFormat.decodeFromString<SponsorData>(newCall(request).execute()
+                .body.string())
                 .apply { sponsorData = this }
-    }
+    }.onFailure { it.printStackTrace() }
 }
