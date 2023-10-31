@@ -116,7 +116,7 @@
     <string name="from">Початок</string>
     <string name="to">Кінець</string>
     <string name="invalid_index_range">Неіснуючий діапазон індексу</string>
-    <string name="playlist_indicator_text">Завантажується плейлист (з %1$d по %2$d), натисніть, щоб зупинити.</string>
+    <string name="playlist_indicator_text">Завантаження плейлиста (%1$d/%2$d)…</string>
     <string name="audio_directory">Тека для аудiо</string>
     <string name="download_directory">Тека для завантажень</string>
     <string name="download_directory_desc">Оберіть місце для збереження вiдео та аудіофайлiв</string>
@@ -139,7 +139,7 @@
     <string name="remove_template_desc">Назавжди видалити \"%1$s\" з шаблонів команд\?</string>
     <string name="template_selection">Вибрати шаблони</string>
     <string name="custom_command_template_desc">Керувати шаблонами команд</string>
-    <string name="downloading_indicator_text">Завантаження в процесі, натисніть, щоб скасувати.</string>
+    <string name="downloading_indicator_text">Завантаження в процесі…</string>
     <string name="task_canceled">Завантаження скасовано</string>
     <string name="github_issue">Повідомити про проблему (GitHub)</string>
     <string name="github_issue_desc">Надіслати звіт про помилку або запропонувати нову функцію</string>

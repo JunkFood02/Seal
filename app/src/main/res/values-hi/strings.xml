@@ -120,7 +120,7 @@
     <string name="from">शुरू</string>
     <string name="to">समाप्त</string>
     <string name="invalid_index_range">अमान्य अनुक्रमणिका श्रेणी</string>
-    <string name="playlist_indicator_text">प्लेलिस्ट (%1$d/%2$d) डाउनलोड हो रही है, रोकने के लिए टैप करें।</string>
+    <string name="playlist_indicator_text">प्लेलिस्ट (%1$d/%2$d) डाउनलोड हो रही है…</string>
     <string name="audio_directory">ऑडियो फ़ोल्डर</string>
     <string name="download_directory">डाउनलोड निर्देशिका</string>
     <string name="subdirectory">उपनिर्देशिका में सहेजें</string>
@@ -140,7 +140,7 @@
     <string name="remove_template_desc">कमांड टेम्प्लेट से \"%1$s\" हमेशा के लिए हटा दें\?</string>
     <string name="template_selection">टेम्पलेट चयन</string>
     <string name="custom_command_template_desc">कमांड टेम्प्लेट संपादित और प्रबंधित करें</string>
-    <string name="downloading_indicator_text">डाउनलोड प्रगति पर है, रद्द करने के लिए टैप करें।</string>
+    <string name="downloading_indicator_text">डाउनलोड प्रगति पर है…</string>
     <string name="task_canceled">डाउनलोड कार्य रद्द किया गया</string>
     <string name="github_issue_desc">बग रिपोर्ट या सुविधा अनुरोध के लिए कोई समस्या सबमिट करें</string>
     <string name="github_issue">गिटहब अनुरोध</string>

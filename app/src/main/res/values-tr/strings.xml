@@ -119,7 +119,7 @@
     <string name="show_more_actions">Daha fazla işlem göster</string>
     <string name="video_quality_desc">Birden fazla olduğunda video kalitesini sınırlayın</string>
     <string name="video_format">Video formatı</string>
-    <string name="playlist_indicator_text">Oynatma listesi indiriliyor (%1$d/%2$d, Durdurmak için tıklayın.</string>
+    <string name="playlist_indicator_text">Oynatma listesi indiriliyor (%1$d/%2$d)…</string>
     <string name="close">Kapat</string>
     <string name="check_download_settings_desc">İndirme ayarlarına bir göz atın ve kullanmadan önce yt-dlp\'nin en son versiyonuna sahip olduğunuzdan emin olun.</string>
     <string name="to">Sonuç</string>
@@ -138,7 +138,7 @@
     <string name="remove_template_desc">\"%1$s\" komut şablonundan temelli kaldırılsın mı\?</string>
     <string name="template_selection">Şablon seçimi</string>
     <string name="custom_command_template_desc">Komut şablonlarını düzenle ve yönet</string>
-    <string name="downloading_indicator_text">İndirme devam ediyor, iptal etmek için dokunun.</string>
+    <string name="downloading_indicator_text">İndirme devam ediyor…</string>
     <string name="open_file">Dosyayı aç</string>
     <string name="restart">Yeniden başlat</string>
     <string name="status_enqueued">Sıraya alındı</string>

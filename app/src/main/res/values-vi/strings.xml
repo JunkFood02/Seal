@@ -116,7 +116,7 @@
     <string name="battery_settings_desc">Hãy chuyển mức sử dụng pin của ứng dụng này sang \"Không giới hạn\" trong cài đặt hệ thống để tải xuống trong nền.</string>
     <string name="download_range_selection">Lựa chọn danh sách phát</string>
     <string name="to">Kết thúc</string>
-    <string name="playlist_indicator_text">Đang tải xuống danh sách (%1$d/%2$d), nhấn để dừng.</string>
+    <string name="playlist_indicator_text">Đang tải xuống danh sách phát (%1$d/%2$d)…</string>
     <string name="audio_directory">Thư mục âm thanh</string>
     <string name="check_for_updates">Kiểm tra cập nhật</string>
     <string name="check_for_updates_desc">Tự động kiểm tra phiên bản mới nhất trên Github</string>
@@ -149,7 +149,7 @@
     <string name="remove_template_desc">Loại bỏ \"%1$s\" khỏi bản mẫu\?</string>
     <string name="template_selection">Lựa chọn bản mẫu</string>
     <string name="custom_command_template_desc">Chỉnh sửa và quản lý lệnh mẫu</string>
-    <string name="downloading_indicator_text">Đang trong quá trình tải xuống, nhấn để hủy.</string>
+    <string name="downloading_indicator_text">Đang tải xuống…</string>
     <string name="task_canceled">Đã hủy tác vụ tải xuống</string>
     <string name="github_issue">Vấn đề Github</string>
     <string name="github_issue_desc">Nộp một báo cáo lỗi hoặc yêu cầu tính năng</string>

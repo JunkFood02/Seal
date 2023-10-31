@@ -45,13 +45,13 @@
     <string name="download_desc">設定後、「ダウンロード」をクリックしてください。</string>
     <string name="check_download_settings_desc">ダウンロードの設定を見て、yt-dlpが最新のバージョンであることを確認してから使用してください。</string>
     <string name="download_playlist">再生リストをダウンロード</string>
-    <string name="download_playlist_desc">プレイリストから複数の動画をダウンロードする</string>
+    <string name="download_playlist_desc">再生リストから複数の動画をダウンロードする</string>
     <string name="defaults">デフォルト</string>
     <string name="channel_name">ダウンロード</string>
     <string name="channel_description">ダウンロードしたファイルや進捗状況を通知する</string>
     <string name="execute_command_notification">カスタムコマンドが実行中です…</string>
     <string name="concurrent_download">マルチスレッドダウンロード</string>
-    <string name="concurrent_download_desc">M3U8/MPDビデオのより多くのパートを並行してダウンロードできる</string>
+    <string name="concurrent_download_desc">M3U8/MPD動画のより多くのパートを並行してダウンロードできる</string>
     <string name="options">オプション</string>
     <string name="extract_audio">音声として保存</string>
     <string name="video_directory">動画フォルダ</string>
@@ -98,7 +98,7 @@
     <string name="close">閉じる</string>
     <string name="close_never_show_again">再度表示しない</string>
     <string name="user_guide">ユーザーガイド</string>
-    <string name="paste_desc">クリップボードから動画リンクを取得するには\"「貼り付け」をクリックします。</string>
+    <string name="paste_desc">クリップボードから動画リンクを取得するには「貼り付け」をクリックします。</string>
     <string name="video_url">動画リンク</string>
     <string name="download_history_desc">動画や音声ファイルなど、アプリ内ダウンロードを確認・管理します。</string>
     <string name="battery_settings_desc">バックグラウンドでのダウンロードを行うため、システム設定で本アプリのバッテリー使用量を「制限なし」に設定してください。</string>
@@ -118,7 +118,7 @@
     <string name="download_notification_desc">ダウンロードされたファイルと進捗状況の通知</string>
     <string name="share_success_msg">共有されたコンテンツから動画リンクを読み込んでいます…</string>
     <string name="to">終了</string>
-    <string name="playlist_indicator_text">再生リストをダウンロード中 (%1$d/%2$d)、タップして中止する。</string>
+    <string name="playlist_indicator_text">再生リストをダウンロード中… (%1$d/%2$d)</string>
     <string name="download_directory_desc">動画と音声ファイルの保存先を選択</string>
     <string name="permission_issue">ストレージ権限の問題</string>
     <string name="permission_issue_desc">Download/とDocuments/配下のディレクトリ以外はサポートされていません</string>
@@ -143,7 +143,7 @@
     <string name="battery_configuration_desc">バックグラウンドでダウンロードするにはこのアプリのバッテリー最適化を無効にしてください</string>
     <string name="translate">翻訳</string>
     <string name="remove_template_desc">\"%1$s\"をコマンドテンプレートから永久に削除しますか？</string>
-    <string name="downloading_indicator_text">ダウンロード進行中、タップしてキャンセルする。</string>
+    <string name="downloading_indicator_text">ダウンロード進行中…</string>
     <string name="status_error">エラー</string>
     <string name="copy_error_report">エラーの報告</string>
     <string name="status_completed">完了しました</string>
@@ -156,8 +156,8 @@
     <string name="copy_link">リンクをコピー</string>
     <string name="sponsorblock_desc">SponsorBlock APIでセグメントを動画から削除またはマークする</string>
     <string name="sponsorblock_categories">SponsorBlockのカテゴリ</string>
-    <string name="import_from_clipboard">クリップボードから貼り付け</string>
-    <string name="export_to_clipboard">クリップボードに送る</string>
+    <string name="import_from_clipboard">クリップボードからインポート</string>
+    <string name="export_to_clipboard">クリップボードにエクスポート</string>
     <string name="template_exported">%1$dつのテンプレートを出力しました</string>
     <string name="template_imported">%1$dつのテンプレートを読み込みました</string>
     <string name="video_resolution">動画の解像度</string>
@@ -247,7 +247,7 @@
     <string name="filesize_mb">%.2f M</string>
     <string name="discard">破棄</string>
     <string name="apply">適用</string>
-    <string name="embed_subtitles_mkv_msg">字幕を埋め込むには、動画を mkv コンテナにリマックスする必要があります。VLC Media Player またはその他の互換性のあるアプリを使用して、字幕が埋め込まれたビデオを視聴できます。</string>
+    <string name="embed_subtitles_mkv_msg">字幕を埋め込むには、動画を mkv コンテナにリマックスする必要があります。VLC Media Player またはその他の互換性のあるアプリを使用して、字幕が埋め込まれた動画を視聴できます。</string>
     <string name="share">共有</string>
     <string name="stable_channel">安定版</string>
     <string name="pre_release_channel">プレビュー版</string>
@@ -262,7 +262,7 @@
     <string name="no_downloaded_media">ダウンロードしたメディアはありません</string>
     <string name="beta_features">ベータ</string>
     <string name="enable_experimental_feature">実験的な機能を有効にしますか？</string>
-    <string name="clip_video_desc">フォーマット選択ページでビデオクリップを作成する</string>
+    <string name="clip_video_desc">フォーマット選択ページでクリップ動画を作成する</string>
     <string name="sponsor_msg2">ありがとうございます！</string>
     <string name="switch_to_github_builds">GitHubビルドに切り替える</string>
     <string name="okay">了解</string>
@@ -277,10 +277,10 @@
     <string name="title">タイトル</string>
     <string name="second">秒</string>
     <string name="audio_format">音声フォーマット</string>
-    <string name="clip_video_dialog_msg">この機能を使用したダウンロードは、FFmpegに委ねられ、ビデオの選択されたセクションをダウンロードします。この機能はまだ実験的で、カッティングは完全に正確ではなく、すべてのフォーマットがこの機能をサポートしているわけではなく、ダウンロード速度が遅くなる場合があります。</string>
+    <string name="clip_video_dialog_msg">この機能を使用したダウンロードは、FFmpegに委ねられ、動画の選択されたセクションをダウンロードします。この機能はまだ実験的で、カッティングは完全に正確ではなく、すべてのフォーマットがこの機能をサポートしているわけではなく、ダウンロード速度が遅くなる場合があります。</string>
     <string name="auto_update_disabled_msg">自動更新は%1$sビルドでは利用できません。お使いのデバイスに%1$sがインストールされていない場合、または Seal の今後の新機能をプレビューしたい場合は、%2$sを検討してください。</string>
     <string name="msg_from_developer">開発者からのメッセージ</string>
-    <string name="clip_video">ビデオクリップ</string>
+    <string name="clip_video">クリップ動画を作成</string>
     <string name="clip_start">開始</string>
     <string name="clip_end">終了</string>
     <string name="no_custom_command_tasks">カスタムコマンドタスクはありません</string>
@@ -342,4 +342,7 @@
     <string name="refresh_cookies_desc">タップして新しい Cookie を生成するためのウェブページを開く:</string>
     <string name="remove_multiple_templates_msg">%1$sのテンプレートを永久に削除しますか？</string>
     <string name="enable_notifications">通知を有効にしますか？</string>
+    <string name="clear_download_archive">ダウンロードのアーカイブを消去しますか？</string>
+    <string name="download_archive_desc">ダウンロードの重複を回避するために、ダウンロードした動画のIDを記録します</string>
+    <string name="download_archive">ダウンロードのアーカイブ</string>
 </resources>
