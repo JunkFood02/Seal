@@ -50,11 +50,11 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.Beta(
+val currentVersion: Version = Version.ReleaseCandidate(
     versionMajor = 1,
     versionMinor = 11,
     versionPatch = 0,
-    versionBuild = 2
+    versionBuild = 1
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -86,7 +86,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 34
-        versionCode = 11000
+        versionCode = 11100
 
         if (splitApks) {
             splits {
@@ -134,13 +134,7 @@ android {
                 signingConfig = signingConfigs.getByName("debug")
         }
     }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
+
     buildFeatures {
         compose = true
     }
