@@ -89,8 +89,7 @@
 
 ## 💖 Спонсоры
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/EladBG-code"><img src="https://github.com/EladBG-code.png" width="60px" alt="" /></a><!-- sponsors --></p>
-
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/EladBG-code"><img src="https://github.com/EladBG-code.png" width="60px" alt="" /></a><!-- sponsors --></p>
 
 Seal всегда будет бесплатным проектом с открытым исходным кодом для каждого. Если вам это нравится, пожалуйста рассмотрите возможность [поддержать меня](https://github.com/sponsors/JunkFood02)!
 
