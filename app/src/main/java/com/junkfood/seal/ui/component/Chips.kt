@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -89,6 +90,7 @@ fun OutlinedButtonChip(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     label: String,
+    shape: Shape = AssistChipDefaults.shape,
     onClick: () -> Unit
 ) {
     AssistChip(modifier = modifier, onClick = onClick, leadingIcon = {
@@ -98,7 +100,7 @@ fun OutlinedButtonChip(
                 contentDescription = null, Modifier.size(AssistChipDefaults.IconSize)
             )
         }
-    }, label = { Text(text = label) })
+    }, label = { Text(text = label) }, shape = shape)
 
 }
 

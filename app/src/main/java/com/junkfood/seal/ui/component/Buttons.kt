@@ -68,11 +68,11 @@ fun OutlinedButtonWithIcon(
 @Composable
 fun TextButtonWithIcon(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
     icon: ImageVector,
     text: String,
-    contentColor: Color = MaterialTheme.colorScheme.primary
-) {
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    onClick: () -> Unit,
+    ) {
     TextButton(
         modifier = modifier,
         onClick = onClick,
