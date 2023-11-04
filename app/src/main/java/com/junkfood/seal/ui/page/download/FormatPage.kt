@@ -163,7 +163,7 @@ fun FormatPageImpl(
     audioOnly: Boolean = false,
     isClippingAvailable: Boolean = false,
     onBackPressed: () -> Unit = {},
-    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, String) -> Unit = { _, _, _, _, _ -> }
+    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, List<String>) -> Unit = { _, _, _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -205,6 +205,12 @@ fun FormatPageImpl(
     var videoClipDuration by remember { mutableStateOf(videoDuration) }
     var videoTitle by remember { mutableStateOf("") }
 
+    val suggestedSubtitleMap: Map<String, List<SubtitleFormat>> =
+        videoInfo.subtitles.takeIf { it.isNotEmpty() }
+            ?: videoInfo.automaticCaptions.filterKeys { it.endsWith("-orig") }
+
+    val otherSubtitleMap: Map<String, List<SubtitleFormat>> =
+        videoInfo.subtitles + videoInfo.automaticCaptions - suggestedSubtitleMap.keys
 
     LaunchedEffect(isClippingVideo) {
         delay(200)
@@ -245,7 +251,7 @@ fun FormatPageImpl(
                         if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
                         isSplittingVideo,
                         videoTitle,
-                        selectedLanguageList.joinToString(separator = ",") { it }
+                        selectedLanguageList
                     )
                 }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
                     Text(text = stringResource(R.string.download))
@@ -333,13 +339,6 @@ fun FormatPageImpl(
                     }
 
                 }
-
-                val suggestedSubtitleMap: Map<String, List<SubtitleFormat>> =
-                    videoInfo.subtitles.takeIf { it.isNotEmpty() }
-                        ?: videoInfo.automaticCaptions.filterKeys { it.endsWith("-orig") }
-
-                val otherSubtitleMap: Map<String, List<SubtitleFormat>> =
-                    subtitles + automaticCaptions - suggestedSubtitleMap.keys
 
 
                 if (suggestedSubtitleMap.isNotEmpty()) {
@@ -504,6 +503,20 @@ fun FormatPageImpl(
         onDismissRequest = { showRenameDialog = false }) {
         videoTitle = it
     }
+    if (showSubtitleSelectionDialog) SubtitleSelectionDialog(
+        suggestedSubtitles = suggestedSubtitleMap,
+        autoCaptions = otherSubtitleMap,
+        selectedSubtitleCodes = selectedLanguageList,
+        onDismissRequest = { showSubtitleSelectionDialog = false },
+        onConfirm = {
+            selectedLanguageList.run {
+                clear()
+                addAll(it)
+            }
+            showSubtitleSelectionDialog = false
+
+        }
+    )
 }
 
 @Composable
@@ -541,7 +554,7 @@ private fun SubtitleSelectionDialog(
     autoCaptions: Map<String, List<SubtitleFormat>>,
     selectedSubtitleCodes: List<String>,
     onDismissRequest: () -> Unit = {},
-    onConfirm: () -> Unit = {}
+    onConfirm: (List<String>) -> Unit = {}
 ) {
     val selectedSubtitles =
         remember { mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) } }
@@ -550,7 +563,7 @@ private fun SubtitleSelectionDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             ConfirmButton {
-                onConfirm()
+                onConfirm(selectedSubtitles)
             }
         }, dismissButton = {
             DismissButton {
