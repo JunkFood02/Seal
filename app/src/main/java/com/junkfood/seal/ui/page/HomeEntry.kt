@@ -25,7 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -118,12 +118,12 @@ fun HomeEntry(
         }
     }
 
-    val onBackPressed: () -> Unit = { navController.popBackStack() }
-
-    val entries by navController.visibleEntries.collectAsStateWithLifecycle()
-    LaunchedEffect(entries.size) {
-        if (entries.isEmpty())
-            navController.navigate(Route.HOME)
+    val onBackPressed: () -> Unit = {
+        with(navController) {
+            if (currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
+                popBackStack()
+            }
+        }
     }
 
     if (isUrlShared) {
@@ -171,7 +171,7 @@ fun HomeEntry(
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
             animatedComposableVariant(Route.TASK_LIST) {
                 TaskListPage(
-                    onBackPressed = { onBackPressed() },
+                    onBackPressed = onBackPressed,
                     onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) }
                 )
             }
@@ -188,7 +188,11 @@ fun HomeEntry(
 //            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
             slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
-            settingsGraph(navController = navController, cookiesViewModel = cookiesViewModel)
+            settingsGraph(
+                navController = navController,
+                cookiesViewModel = cookiesViewModel,
+                onBackPressed = onBackPressed
+            )
 
         }
 
@@ -263,13 +267,18 @@ fun HomeEntry(
 fun NavGraphBuilder.settingsGraph(
     navController: NavHostController,
     cookiesViewModel: CookiesViewModel,
-    onBackPressed: () -> Unit = { navController.popBackStack() }
+    onBackPressed: () -> Unit
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onBackPressed() }
         }
-        animatedComposable(Route.SETTINGS_PAGE) { SettingsPage(navController) }
+        animatedComposable(Route.SETTINGS_PAGE) {
+            SettingsPage(
+                navController = navController,
+                onBackPressed = onBackPressed
+            )
+        }
         animatedComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
             GeneralDownloadPreferences(
                 onBackPressed = { onBackPressed() },
