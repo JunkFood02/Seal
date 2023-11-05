@@ -82,6 +82,7 @@ import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import kotlinx.coroutines.delay
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
@@ -145,8 +146,14 @@ private fun FormatPagePreview() {
     val videoInfo =
         VideoInfo(
             formats = buildList {
-                repeat(20) {
-                    add(Format())
+                repeat(7) {
+                    add(Format(formatId = "$it"))
+                }
+                repeat(7) {
+                    add(Format(formatId = "$it", vcodec = "avc1", acodec = "none"))
+                }
+                repeat(7) {
+                    add(Format(formatId = "$it", acodec = "aac", vcodec = "none"))
                 }
             },
             subtitles = subMap, automaticCaptions = captionsMap
@@ -174,6 +181,11 @@ fun FormatPageImpl(
         videoInfo.formats.filter { it.acodec != "none" && it.vcodec == "none" }.reversed()
     val videoAudioFormats =
         videoInfo.formats.filter { it.acodec != "none" && it.vcodec != "none" }.reversed()
+
+    var videoOnlyItemLimit by remember { mutableIntStateOf(6) }
+    var audioOnlyItemLimit by remember { mutableIntStateOf(6) }
+    var videoAudioItemLimit by remember { mutableIntStateOf(6) }
+
 
     var isSuggestedFormatSelected by remember { mutableStateOf(true) }
     var selectedVideoAudioFormat by remember { mutableIntStateOf(NOT_SELECTED) }
@@ -355,15 +367,10 @@ fun FormatPageImpl(
                                     style = MaterialTheme.typography.titleSmall,
                                     modifier = Modifier.weight(1f)
                                 )
-                                Text(
-                                    text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all),
-                                    color = MaterialTheme.colorScheme.primary,
-                                    style = MaterialTheme.typography.titleSmall,
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .clickable { showSubtitleSelectionDialog = true }
-                                        .padding(vertical = 4.dp, horizontal = 12.dp)
-                                )
+                                ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                                    showSubtitleSelectionDialog = true
+                                }
+
                             }
 
                             LazyRow(modifier = Modifier.padding()) {
@@ -389,7 +396,13 @@ fun FormatPageImpl(
                     }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatSubtitle(text = stringResource(R.string.suggested))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                            .padding(top = 12.dp, bottom = 4.dp)
+                            .padding(horizontal = 12.dp)
+                    ) {
+                        FormatSubtitle(text = stringResource(R.string.suggested))
+                    }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     FormatItem(
@@ -412,12 +425,32 @@ fun FormatPageImpl(
             }
 
             if (audioOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
-                FormatSubtitle(
-                    text = stringResource(R.string.audio),
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                        .padding(top = 16.dp)
+                        .padding(horizontal = 12.dp)
+                ) {
+                    FormatSubtitle(
+                        text = stringResource(R.string.audio),
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(vertical = 4.dp)
+                    )
+                    if (audioOnlyItemLimit < audioOnlyFormats.size)
+                        ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                            audioOnlyItemLimit = Int.MAX_VALUE
+                        }
+                }
+
             }
-            itemsIndexed(audioOnlyFormats) { index, formatInfo ->
+
+            itemsIndexed(
+                audioOnlyFormats.subList(
+                    0,
+                    min(audioOnlyItemLimit, audioOnlyFormats.size)
+                )
+            ) { index, formatInfo ->
                 FormatItem(formatInfo = formatInfo,
                     selected = selectedAudioOnlyFormat == index,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -437,12 +470,30 @@ fun FormatPageImpl(
 
             if (!audioOnly) {
                 if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatSubtitle(
-                        text = stringResource(R.string.video_only),
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                            .padding(top = 16.dp)
+                            .padding(horizontal = 12.dp)
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.video_only),
+                            color = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 4.dp)
+                        )
+                        if (videoOnlyItemLimit < videoOnlyFormats.size)
+                            ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                                videoOnlyItemLimit = Int.MAX_VALUE
+                            }
+                    }
                 }
-                itemsIndexed(videoOnlyFormats) { index, formatInfo ->
+                itemsIndexed(
+                    videoOnlyFormats.subList(
+                        0,
+                        min(videoOnlyItemLimit, videoOnlyFormats.size)
+                    )
+                ) { index, formatInfo ->
                     FormatItem(formatInfo = formatInfo,
                         selected = selectedVideoOnlyFormat == index,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -461,9 +512,30 @@ fun FormatPageImpl(
             }
             if (videoAudioFormats.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatSubtitle(text = stringResource(R.string.video))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                            .padding(top = 16.dp)
+                            .padding(horizontal = 12.dp)
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.video),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 4.dp)
+                        )
+                        if (videoAudioItemLimit < videoAudioFormats.size)
+                            ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                                videoAudioItemLimit = Int.MAX_VALUE
+                            }
+                    }
+
                 }
-                itemsIndexed(videoAudioFormats) { index, formatInfo ->
+                itemsIndexed(
+                    videoAudioFormats.subList(
+                        0,
+                        min(videoAudioItemLimit, videoAudioFormats.size)
+                    )
+                ) { index, formatInfo ->
                     FormatItem(formatInfo = formatInfo,
                         selected = selectedVideoAudioFormat == index,
                         onLongClick = { formatInfo.url.share() }) {
@@ -604,7 +676,10 @@ private fun SubtitleSelectionDialog(
                                 text = stringResource(id = R.string.auto_subtitle),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+                                modifier = Modifier.padding(
+                                    horizontal = 24.dp,
+                                    vertical = 12.dp
+                                )
                             )
                         }
                         for ((code, formats) in autoCaptions) {
@@ -667,4 +742,21 @@ private fun SubtitleSelectionDialogPreview() {
         )
     }
 
+}
+
+@Composable
+private fun ClickableTextAction(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.titleSmall,
+        modifier = modifier
+            .clip(CircleShape)
+            .clickable(onClick = onClick)
+            .padding(vertical = 4.dp, horizontal = 12.dp)
+    )
 }

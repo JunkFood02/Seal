@@ -390,7 +390,11 @@ fun PreviewFormat() {
 
 fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit = {}) {
     item(span = { GridItemSpan(maxLineSpan) }) {
-        FormatSubtitle(text = "Suggested")
+        FormatSubtitle(
+            text = "Suggested", modifier = Modifier
+                .padding(top = 12.dp, bottom = 4.dp)
+                .padding(horizontal = 12.dp)
+        )
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
         FormatItem(selected = selected == 1, acodec = "MP4A", vcodec = "AV01") { onClick(1) }
@@ -399,7 +403,10 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
     item(span = { GridItemSpan(maxLineSpan) }) {
         FormatSubtitle(
             text = stringResource(R.string.audio),
-            color = MaterialTheme.colorScheme.tertiary
+            color = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier
+                .padding(top = 12.dp, bottom = 4.dp)
+                .padding(horizontal = 12.dp)
         )
     }
     for (i in 0..2) {
@@ -413,7 +420,11 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
         }
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
-        FormatSubtitle(text = stringResource(R.string.video_only))
+        FormatSubtitle(
+            text = stringResource(R.string.video_only), modifier = Modifier
+                .padding(top = 12.dp, bottom = 4.dp)
+                .padding(horizontal = 12.dp)
+        )
     }
     for (i in 0..2) {
         item {
@@ -423,7 +434,9 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
     item(span = { GridItemSpan(maxLineSpan) }) {
         FormatSubtitle(
             text = stringResource(R.string.video),
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.secondary, modifier = Modifier
+                .padding(top = 12.dp, bottom = 4.dp)
+                .padding(horizontal = 12.dp)
         )
     }
     for (i in 0..3) {
@@ -447,9 +460,7 @@ fun FormatSubtitle(
 ) {
     Text(
         text = text,
-        modifier = modifier
-            .padding(top = 12.dp, bottom = 4.dp)
-            .padding(horizontal = 12.dp),
+        modifier = modifier,
         color = color,
         style = MaterialTheme.typography.titleSmall
     )
