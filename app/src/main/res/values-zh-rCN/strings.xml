@@ -136,7 +136,7 @@
     <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
     <string name="new_template">新建命令模板</string>
     <string name="template_label">模板标签</string>
-    <string name="remove_template">移除吗？</string>
+    <string name="remove_template">移除？</string>
     <string name="remove_template_desc">从命令行模板中永久移除 \"%1$s\" 吗？</string>
     <string name="template_selection">模板选择</string>
     <string name="custom_command_template_desc">编辑与管理命令模板</string>
@@ -245,8 +245,8 @@
     <string name="logs">日志</string>
     <string name="subtitle_sponsorblock">从视频中移除 SponsorBlock 段落会导致字幕时间轴错位。</string>
     <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中；使用 VLC 播放器或其他兼容的应用以播放封装有字幕的视频文件。</string>
-    <string name="filesize_gb">%.2f G</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="share">分享</string>
     <string name="stable_channel">稳定</string>
     <string name="pre_release_channel">预览</string>
@@ -310,7 +310,7 @@
     <string name="proxy_desc">使用代理进行网络连接</string>
     <string name="legacy">兼容优先</string>
     <string name="quality">质量优先</string>
-    <string name="enable_notifications">启用通知吗？</string>
+    <string name="enable_notifications">启用通知？</string>
     <string name="enable_notifications_desc">应用需要通知权限以发送有关下载状态与进度的通知。</string>
     <string name="disable">禁用</string>
     <string name="set_directory_desc">点此设置下载目录</string>
@@ -349,4 +349,5 @@
     <string name="embed_metadata">内嵌元数据</string>
     <string name="embed_metadata_desc">将元数据和视频缩略图内嵌到音频文件</string>
     <string name="required">必需的</string>
+    <string name="show_all_items">显示全部 %1$d 项</string>
 </resources>

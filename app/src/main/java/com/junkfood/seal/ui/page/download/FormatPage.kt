@@ -438,7 +438,10 @@ fun FormatPageImpl(
                             .padding(vertical = 4.dp)
                     )
                     if (audioOnlyItemLimit < audioOnlyFormats.size)
-                        ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                        ClickableTextAction(
+                            text = stringResource(R.string.show_all_items, audioOnlyFormats.size),
+                        ) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             audioOnlyItemLimit = Int.MAX_VALUE
                         }
                 }
@@ -483,7 +486,13 @@ fun FormatPageImpl(
                                 .padding(vertical = 4.dp)
                         )
                         if (videoOnlyItemLimit < videoOnlyFormats.size)
-                            ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                            ClickableTextAction(
+                                text = stringResource(
+                                    R.string.show_all_items,
+                                    videoOnlyFormats.size
+                                ),
+                            ) {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 videoOnlyItemLimit = Int.MAX_VALUE
                             }
                     }
@@ -524,7 +533,13 @@ fun FormatPageImpl(
                                 .padding(vertical = 4.dp)
                         )
                         if (videoAudioItemLimit < videoAudioFormats.size)
-                            ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+                            ClickableTextAction(
+                                text = stringResource(
+                                    R.string.show_all_items,
+                                    videoAudioFormats.size
+                                ),
+                            ) {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 videoAudioItemLimit = Int.MAX_VALUE
                             }
                     }

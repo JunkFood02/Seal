@@ -296,8 +296,8 @@
     <string name="logs">Log</string>
     <string name="subtitle_sponsorblock">Subtitles may be mistimed when removing SponsorBlock segments.</string>
     <string name="embed_subtitles_mkv_msg">To embed subtitles, videos will be remuxed into mkv container. You can use VLC Media Player or other compatible apps to watch videos with embedded subtitles.</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="share">Share</string>
     <string name="stable_channel">Stable</string>
     <string name="pre_release_channel">Preview</string>
@@ -392,6 +392,7 @@
     <string name="embed_metadata">Embed metadata</string>
     <string name="embed_metadata_desc">Embed metadata and video thumbnail into the audio file</string>
     <string name="required">Required</string>
+    <string name="show_all_items">Show all %1$d items</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
