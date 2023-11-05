@@ -598,27 +598,28 @@ private fun SubtitleSelectionDialog(
                                 text = formats.first().run { name ?: protocol ?: code })
                         }
                     }
-
-                    item {
-                        Text(
-                            text = stringResource(id = R.string.auto_subtitle),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
-                        )
-                    }
-                    for ((code, formats) in autoCaptions) {
+                    if (autoCaptions.isNotEmpty()) {
                         item {
-                            DialogCheckBoxItem(
-                                checked = selectedSubtitles.contains(code),
-                                onClick = {
-                                    if (selectedSubtitles.contains(code)) {
-                                        selectedSubtitles.remove(code)
-                                    } else {
-                                        selectedSubtitles.add(code)
-                                    }
-                                },
-                                text = formats.first().run { name ?: protocol ?: code })
+                            Text(
+                                text = stringResource(id = R.string.auto_subtitle),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+                            )
+                        }
+                        for ((code, formats) in autoCaptions) {
+                            item {
+                                DialogCheckBoxItem(
+                                    checked = selectedSubtitles.contains(code),
+                                    onClick = {
+                                        if (selectedSubtitles.contains(code)) {
+                                            selectedSubtitles.remove(code)
+                                        } else {
+                                            selectedSubtitles.add(code)
+                                        }
+                                    },
+                                    text = formats.first().run { name ?: protocol ?: code })
+                            }
                         }
                     }
                 }
