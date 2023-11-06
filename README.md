@@ -107,7 +107,7 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 
 ## 💖 Sponsors
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/EladBG-code"><img src="https://github.com/EladBG-code.png" width="60px" alt="" /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/t1hta"><img src="https://github.com/t1hta.png" width="60px" alt="t1hta" /></a><a href="https://github.com/nameoneeman"><img src="https://github.com/nameoneeman.png" width="60px" alt="James" /></a><a href="https://github.com/iguanaguy44"><img src="https://github.com/iguanaguy44.png" width="60px" alt="" /></a><!-- sponsors --></p>
 
 
 Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
