@@ -26,7 +26,9 @@
     <string name="template_label">Ознака</string>
     <string name="remove_template_desc">Заувек уклонити „%1$s“ из командних шаблона\?</string>
     <string name="aria2_desc">Користите aria2c као спољни програм за преузимање</string>
-    <string name="clear_temp_files_info">Привремени фајлови се могу користити за наставак отказаних преузимања. Желите ли заиста да избришете све ове фајлове\?</string>
+    <string name="clear_temp_files_info">Привремени фајлови се могу користити за наставак отказаних преузимања. Желите ли заиста да избришете све ове фајлове\?
+\n
+\nОвим фајловима можете приступити у %1$s</string>
     <string name="template_selection">Избор шаблона</string>
     <string name="downloading_indicator_text">Преузимање је у току…</string>
     <string name="task_canceled">Задатак преузимања је отказан</string>
@@ -244,8 +246,8 @@
     <string name="logs">Евиденција</string>
     <string name="subtitle_sponsorblock">Приликом уклањања SponsorBlock сегмената, титлови могу бити несинхронизовани.</string>
     <string name="embed_subtitles_mkv_msg">Да би се уградили титлови, видео снимци ће бити пребачени у mkv контејнер. Можете користити VLC Media Player или друге компатибилне апликације за гледање видео снимака с уграђеним титловима.</string>
-    <string name="filesize_gb">%.2f Г</string>
-    <string name="filesize_mb">%.2f М</string>
+    <string name="filesize_gb">%.2f ГБ</string>
+    <string name="filesize_mb">%.2f МБ</string>
     <string name="share">Дели</string>
     <string name="stable_channel">Стабилно издање</string>
     <string name="pre_release_channel">Бета издање</string>
@@ -320,7 +322,7 @@
     <string name="enable_notifications_desc">Апликацији је потребна ваша дозвола да би постављала обавештења о статусу и напретку преузимања.</string>
     <string name="disabled">Онемогућено</string>
     <string name="prefer_compatibility_desc">Преферирање MP4(H.264) формата за дељење с другим апликацијама</string>
-    <string name="download_type">Врста преузимања</string>
+    <string name="download_type">Тип преузимања</string>
     <string name="format_preference">Преференција формата</string>
     <string name="auto">Аутоматски</string>
     <string name="custom">Прилагођен</string>
@@ -351,4 +353,5 @@
     <string name="embed_metadata">Угради метаподатке</string>
     <string name="embed_metadata_desc">Уградите метаподатке и сличицу видео снимка у фајл аудио снимка</string>
     <string name="required">Обавезно</string>
+    <string name="show_all_items">Прикажи све предмете: %1$d</string>
 </resources>

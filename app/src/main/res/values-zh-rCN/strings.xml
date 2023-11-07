@@ -179,7 +179,9 @@
     <string name="clear_temp_files">清除临时文件</string>
     <string name="clear_temp_files_desc">删除临时目录下的所有临时文件</string>
     <string name="clear_temp_files_count">共清除了 %1$d 个临时文件</string>
-    <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？</string>
+    <string name="clear_temp_files_info">临时文件可用于恢复被取消的下载，是否要清除当前下载目录下的所有临时文件？
+\n
+\n你可以在 %1$s 访问这些文件</string>
     <string name="multiselect_mode">多选模式</string>
     <string name="private_mode">无痕模式</string>
     <string name="private_mode_desc">停止保存下载记录</string>

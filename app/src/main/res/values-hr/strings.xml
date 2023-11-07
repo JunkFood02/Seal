@@ -118,7 +118,9 @@
     <string name="clear_temp_files">Očisti privremene datoteke</string>
     <string name="clear_temp_files_desc">Očistite sve privremene datoteke iz privremenog direktorija</string>
     <string name="clear_temp_files_count">%1$d privremena(ih) datoteka izbrisana(o)</string>
-    <string name="clear_temp_files_info">Privremene datoteke služe kako bi se nastavila otkazana preuzimanja. Jeste li sigurni da ih želite sve izbrisati\?</string>
+    <string name="clear_temp_files_info">Privremene datoteke služe kako bi se nastavila otkazana preuzimanja. Jeste li sigurni da ih želite sve izbrisati\?
+\n
+\nOvim datotekama možete pristupiti u %1$s</string>
     <string name="multiselect_mode">Način višestrukog odabira</string>
     <string name="private_mode">Inkognito</string>
     <string name="private_mode_desc">Onemogućite povijest preuzimanja</string>

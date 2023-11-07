@@ -127,7 +127,7 @@
     <string name="translate">Traducir</string>
     <string name="translate_desc">Ayuda a traducir esta aplicación en Hosted Weblate</string>
     <string name="execute_command_notification">Ejecutando comandos personalizados…</string>
-    <string name="playlist_indicator_text">Descargando la lista de reproducción (%1$d/%2$d), pulse para detener.</string>
+    <string name="playlist_indicator_text">Descargando la lista de reproducción (%1$d/%2$d)…</string>
     <string name="subdirectory_desc">Guardar archivos en un subdirectorio nombrado con los nombres de las páginas web</string>
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
     <string name="prefix">Plantilla de ruta</string>
@@ -146,7 +146,7 @@
     <string name="status_fetching_video_info">Obteniendo información</string>
     <string name="open_file">Abrir archivo</string>
     <string name="restart">Reinciar</string>
-    <string name="downloading_indicator_text">Descarga en curso, pulse para cancelar.</string>
+    <string name="downloading_indicator_text">Descarga en curso…</string>
     <string name="task_canceled">Tarea de descarga cancelada</string>
     <string name="github_issue">Reportar un problema en GitHub</string>
     <string name="github_issue_desc">Envía un reporte de un problema que te ha ocurrido o haz una petición de alguna funcionalidad que te gustaría que tuviera Seal</string>
@@ -176,7 +176,9 @@
     <string name="cookies_desc">Usar cookies formateadas de Netscape para las descargas</string>
     <string name="clear_temp_files">Limpiar archivos temporales</string>
     <string name="clear_temp_files_count">%1$d archivo(s) temporales eliminados</string>
-    <string name="clear_temp_files_info">Los archivos temporales pueden ser usados para continuar descargas canceladas. Estás seguro de querer eliminar todos esos archivos\?</string>
+    <string name="clear_temp_files_info">Los archivos temporales pueden utilizarse para reanudar las descargas canceladas. ¿Está seguro de eliminar todos estos archivos\?
+\n
+\nPuede acceder a estos archivos en %1$s</string>
     <string name="clear_temp_files_desc">Eliminar todos los archivos temporales del directorio temporal</string>
     <string name="multiselect_mode">Modo de multiselección</string>
     <string name="private_mode">Incógnito</string>
@@ -351,4 +353,5 @@
     <string name="embed_metadata">Insertar los metadatos</string>
     <string name="embed_metadata_desc">Insertar los metadatos y las miniaturas del vídeo en el archivo de audio</string>
     <string name="required">Requerido</string>
+    <string name="show_all_items">Mostrar todos los %1$d elementos</string>
 </resources>

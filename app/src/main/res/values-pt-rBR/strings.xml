@@ -175,7 +175,9 @@
     <string name="clear_temp_files_desc">Excluir todos os arquivos temporários do diretório temporário</string>
     <string name="clear_temp_files_count">%1$d arquivo(s) temporário(s) removido(s)</string>
     <string name="multiselect_mode">Modo multi-seleção</string>
-    <string name="clear_temp_files_info">Arquivos temporários podem ser usados para retomar downloads cancelados. Você tem certeza que quer remover estes arquivos\?</string>
+    <string name="clear_temp_files_info">Arquivos temporários podem ser usados para retomar downloads cancelados. Tem certeza de que deseja excluir todos esses arquivos\?
+\n
+\nVocê pode acessar esses arquivos em %1$s</string>
     <string name="sponsorblock_categories_desc">Especifique as categorias SponsorBlock para remover ou marcar no arquivo de vídeo</string>
     <string name="sponsorblock_categories">Categorias do SponsorBlock</string>
     <string name="sponsorblock_desc">Remova ou marque segmentos em vídeos com a API SponsorBlock</string>
@@ -219,8 +221,8 @@
     <string name="minute">minuto</string>
     <string name="clear_all_cookies">Remover todos os cookies</string>
     <string name="clear_all_cookies_desc">Excluir todos os cookies armazenados no aplicativo\?</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="format_selection">Seleção de formato</string>
     <string name="generate_new_cookies">Gerar novos cookies</string>
     <string name="video_only">Vídeo (sem áudio)</string>
@@ -344,11 +346,12 @@
     <string name="presets">Predefinições</string>
     <string name="output_template">Modelo de saída</string>
     <string name="output_template_desc">Especificar o modelo para nomes de arquivos de saída</string>
-    <string name="clear_download_archive">Limpar arquivo compactado\?</string>
-    <string name="clear_download_archive_desc">Remover %1$s do arquivo compactado\?</string>
-    <string name="download_archive_desc">Salve os IDs dos vídeos baixados em um arquivo compactado para evitar downloads duplicados</string>
-    <string name="download_archive">Download archive</string>
+    <string name="clear_download_archive">Limpar arquivo de download\?</string>
+    <string name="clear_download_archive_desc">Remover %1$s do arquivo de download\?</string>
+    <string name="download_archive_desc">Salve os IDs dos vídeos baixados em um arquivo para evitar downloads duplicados</string>
+    <string name="download_archive">Arquivo de download</string>
     <string name="embed_metadata">Incorporar metadados</string>
     <string name="embed_metadata_desc">Incorporar metadados e miniaturas de vídeo no arquivo de áudio</string>
     <string name="required">Obrigatório</string>
+    <string name="show_all_items">Mostrar todos os %1$d itens</string>
 </resources>

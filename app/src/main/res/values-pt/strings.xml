@@ -174,7 +174,9 @@
     <string name="cookies_desc">Utilizar cookies formatados pelo Netscape para transferências</string>
     <string name="clear_temp_files">Limpar ficheiros temporários</string>
     <string name="clear_temp_files_desc">Eliminar todos os ficheiros temporários do diretório temporário</string>
-    <string name="clear_temp_files_info">Os ficheiros temporários podem ser utilizados para retomar as transferências canceladas. Tem a certeza de que quer eliminar todos estes ficheiros\?</string>
+    <string name="clear_temp_files_info">Os ficheiros temporários podem ser utilizados para retomar as transferências canceladas. Tem a certeza de que eliminou todos estes ficheiros\?
+\n
+\nPode aceder a estes ficheiros em %1$s</string>
     <string name="private_mode">Incógnito</string>
     <string name="invalid_input">Entrada inválida</string>
     <string name="status_completed">Concluído</string>
@@ -256,10 +258,10 @@
     <string name="logs">Registo</string>
     <string name="subtitle_sponsorblock">As legendas podem ser desfasadas no tempo ao remover segmentos SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Para incorporar legendas, os vídeos serão remuxados para um contentor mkv. Pode utilizar o VLC Media Player ou outras aplicações compatíveis para ver vídeos com legendas incorporadas.</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="pre_release_channel">Pré-lançamento</string>
     <string name="enable_auto_update">Ativar a atualização automática</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="update_channel_desc">Instale versões de pré-lançamento para pré-visualizar novas funcionalidades e alterações.
 \n
 \nEstas versões apresentam alguma instabilidade, pelo que não hesite em dar-nos a sua opinião se tiver algum problema para nos ajudar a melhorar a aplicação no futuro.</string>
@@ -344,11 +346,12 @@
     <string name="presets">Predefinições</string>
     <string name="output_template">Modelo de saída</string>
     <string name="output_template_desc">Especificar o modelo para os nomes dos ficheiros de saída</string>
-    <string name="clear_download_archive">Limpar o arquivo de transferências\?</string>
-    <string name="clear_download_archive_desc">Remover %1$s do ficheiro de arquivo\?</string>
+    <string name="clear_download_archive">Limpar o arquivo de download\?</string>
+    <string name="clear_download_archive_desc">Remover %1$s do arquivo de download\?</string>
     <string name="download_archive_desc">Registar IDs de vídeos descarregados num arquivo para evitar descargas duplicadas</string>
-    <string name="download_archive">Download archive</string>
+    <string name="download_archive">Arquivo de download</string>
     <string name="embed_metadata">Incorporar metadados</string>
     <string name="embed_metadata_desc">Incorporar metadados e miniatura de vídeo no ficheiro de áudio</string>
     <string name="required">Obrigatório</string>
+    <string name="show_all_items">Mostrar todos os %1$d itens</string>
 </resources>
