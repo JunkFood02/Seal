@@ -37,19 +37,21 @@ fun SponsorItem(
     Column() {
         Column(
             modifier = modifier
-                .padding()
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.large)
+                .clickable(
+                    onClick = onClick,
+                    onClickLabel = stringResource(id = R.string.open_url)
+                )
+                .padding(4.dp)
+            ,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImageImpl(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f, true)
-                    .clip(CircleShape)
-                    .clickable(
-                        onClick = onClick,
-                        onClickLabel = stringResource(id = R.string.open_url)
-                    ),
+                    .clip(CircleShape),
                 model = avatarUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
