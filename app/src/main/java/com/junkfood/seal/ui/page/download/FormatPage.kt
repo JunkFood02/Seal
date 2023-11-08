@@ -3,6 +3,8 @@ package com.junkfood.seal.ui.page.download
 import android.content.Intent
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -367,7 +369,11 @@ fun FormatPageImpl(
                                     style = MaterialTheme.typography.titleSmall,
                                     modifier = Modifier.weight(1f)
                                 )
-                                ClickableTextAction(text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)) {
+
+                                ClickableTextAction(
+                                    visible = true,
+                                    text = stringResource(id = androidx.appcompat.R.string.abc_activity_chooser_view_see_all)
+                                ) {
                                     showSubtitleSelectionDialog = true
                                 }
 
@@ -437,14 +443,16 @@ fun FormatPageImpl(
                             .weight(1f)
                             .padding(vertical = 4.dp)
                     )
-                    if (audioOnlyItemLimit < audioOnlyFormats.size)
-                        ClickableTextAction(
-                            text = stringResource(R.string.show_all_items, audioOnlyFormats.size),
-                        ) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            audioOnlyItemLimit = Int.MAX_VALUE
-                        }
+
+                    ClickableTextAction(
+                        visible = audioOnlyItemLimit < audioOnlyFormats.size,
+                        text = stringResource(R.string.show_all_items, audioOnlyFormats.size),
+                    ) {
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        audioOnlyItemLimit = Int.MAX_VALUE
+                    }
                 }
+
 
             }
 
@@ -485,16 +493,17 @@ fun FormatPageImpl(
                                 .weight(1f)
                                 .padding(vertical = 4.dp)
                         )
-                        if (videoOnlyItemLimit < videoOnlyFormats.size)
-                            ClickableTextAction(
-                                text = stringResource(
-                                    R.string.show_all_items,
-                                    videoOnlyFormats.size
-                                ),
-                            ) {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                videoOnlyItemLimit = Int.MAX_VALUE
-                            }
+
+                        ClickableTextAction(
+                            visible = videoOnlyItemLimit < videoOnlyFormats.size,
+                            text = stringResource(
+                                R.string.show_all_items,
+                                videoOnlyFormats.size
+                            ),
+                        ) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            videoOnlyItemLimit = Int.MAX_VALUE
+                        }
                     }
                 }
                 itemsIndexed(
@@ -532,16 +541,16 @@ fun FormatPageImpl(
                                 .weight(1f)
                                 .padding(vertical = 4.dp)
                         )
-                        if (videoAudioItemLimit < videoAudioFormats.size)
-                            ClickableTextAction(
-                                text = stringResource(
-                                    R.string.show_all_items,
-                                    videoAudioFormats.size
-                                ),
-                            ) {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                videoAudioItemLimit = Int.MAX_VALUE
-                            }
+                        ClickableTextAction(
+                            visible = videoAudioItemLimit < videoAudioFormats.size,
+                            text = stringResource(
+                                R.string.show_all_items,
+                                videoAudioFormats.size
+                            ),
+                        ) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            videoAudioItemLimit = Int.MAX_VALUE
+                        }
                     }
 
                 }
@@ -761,17 +770,23 @@ private fun SubtitleSelectionDialogPreview() {
 
 @Composable
 private fun ClickableTextAction(
+    visible: Boolean,
     text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Text(
-        text = text,
-        color = MaterialTheme.colorScheme.primary,
-        style = MaterialTheme.typography.titleSmall,
-        modifier = modifier
-            .clip(CircleShape)
-            .clickable(onClick = onClick)
-            .padding(vertical = 4.dp, horizontal = 12.dp)
-    )
+    AnimatedVisibility(
+        visible = visible,
+        exit = fadeOut(animationSpec = spring())
+    ) {
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.titleSmall,
+            modifier = modifier
+                .clip(CircleShape)
+                .clickable(onClick = onClick)
+                .padding(vertical = 4.dp, horizontal = 12.dp)
+        )
+    }
 }
