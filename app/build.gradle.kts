@@ -54,7 +54,7 @@ val currentVersion: Version = Version.ReleaseCandidate(
     versionMajor = 1,
     versionMinor = 11,
     versionPatch = 0,
-    versionBuild = 1
+    versionBuild = 2
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")

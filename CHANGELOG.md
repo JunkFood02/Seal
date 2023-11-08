@@ -16,18 +16,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add the ability to record download archive, and skip duplicate downloads
 * Add cancel button to the download page
 * Add input chips for sponsorblock categories
+* Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle selection 
 
 ### Changed
 * Move the directory for storing temporary files to external storage (`Seal/tmp`)
 * Temporary directory now are enabled by default for downloads in general mode
 * Remove custom prefix for output template, please migrate to custom output template
 * Move actions in format page to dropdown menu
+* `android:enableOnBackInvokedCallback` is changed to `false` due to compatible issues
+
 
 ### Fixed
 * Fix an issue causes sharing videos to failed on certain devices
-* Fix an issue causes video uploader to be null
-* Fix a few UI bugs
-* Fix an issue cause uploader marked as null, make uploader_id as a fallback to uploader
+* Fix an issue causes uploader marked as null, make uploader_id as a fallback to uploader
+* Fix an issue when a user performs multiple clicks causing duplicate navigating behaviors
 
 ## [v1.10.0][1.10.0] - 2023-08-30
 
