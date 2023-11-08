@@ -177,7 +177,9 @@
     <string name="clear_temp_files">अस्थायी फ़ाइलें साफ़ करें</string>
     <string name="clear_temp_files_desc">अस्थायी निर्देशिका से सभी अस्थायी फ़ाइलें हटाएं</string>
     <string name="clear_temp_files_count">हटाई गई %1$d अस्थायी फ़ाइल(फ़ाइलें)</string>
-    <string name="clear_temp_files_info">रद्द किए गए डाउनलोड को फिर से शुरू करने के लिए अस्थायी फ़ाइलों का उपयोग किया जा सकता है। क्या आप वाकई इन सभी फ़ाइलों को मिटाना चाहते हैं\?</string>
+    <string name="clear_temp_files_info">रद्द किए गए डाउनलोड को फिर से शुरू करने के लिए अस्थायी फ़ाइलों का उपयोग किया जा सकता है। क्या आप वाकई इन सभी फ़ाइलों को मिटाना चाहते हैं\?
+\n
+\nआप इन फ़ाइलों को %1$s में एक्सेस कर सकते हैं</string>
     <string name="multiselect_mode">बहुचयन मोड</string>
     <string name="private_mode">गुमनाम</string>
     <string name="dynamic_color">गतिशील रंग</string>
@@ -256,8 +258,8 @@
     <string name="minute">मिनट</string>
     <string name="clear_all_cookies">सभी कुकी साफ़ करें</string>
     <string name="clear_all_cookies_desc">ऐप में संगृहीत सभी कुकी हमेशा के लिए हटा दें\?</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="share">साझा करें</string>
     <string name="stable_channel">स्थिर</string>
     <string name="pre_release_channel">पूर्व दर्शन</string>
@@ -350,4 +352,5 @@
     <string name="embed_metadata">मेटाडेटा एम्बेड करें</string>
     <string name="required">आवश्यक है</string>
     <string name="embed_metadata_desc">ऑडियो फ़ाइल में मेटाडेटा और वीडियो थंमनेल एम्बेड करें</string>
+    <string name="show_all_items">सभी %1$d आइटम दिखाएं</string>
 </resources>

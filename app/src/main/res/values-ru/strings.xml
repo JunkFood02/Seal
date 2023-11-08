@@ -177,7 +177,9 @@
     <string name="clear_temp_files">Очистить временные файлы</string>
     <string name="clear_temp_files_desc">Удалить все временные файлы из временного каталога</string>
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а/ов)</string>
-    <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы\?</string>
+    <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что хотите удалить все эти файлы\?
+\n
+\nВы можете получить доступ к этим файлам в %1$s</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
     <string name="private_mode">Инкогнито</string>
     <string name="private_mode_desc">Отключить историю загрузок</string>
@@ -352,4 +354,5 @@
     <string name="embed_metadata">Встроить метаданные</string>
     <string name="required">Необходимый</string>
     <string name="embed_metadata_desc">Встроить метаданные и миниатюру видео в аудиофайл</string>
+    <string name="show_all_items">Показать все элементы (%1$d)</string>
 </resources>

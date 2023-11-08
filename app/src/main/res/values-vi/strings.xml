@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="video_directory">Thư mục video</string>
+    <string name="video_directory">Thư mục băng hình</string>
     <string name="extract_audio">Lưu dưới dạng âm thanh</string>
     <string name="create_thumbnail">Lưu hình thu nhỏ</string>
-    <string name="settings">Cài đặt</string>
-    <string name="download_settings_desc">Chung, kiểu, lệnh tùy chỉnh</string>
+    <string name="settings">Thiết đặt</string>
+    <string name="download_settings_desc">Tổng quan, định dạng, lệnh tùy chỉnh</string>
     <string name="download">Tải xuống</string>
     <string name="url_empty">Đường dẫn không được bỏ trống</string>
     <string name="extract_audio_summary">Tải xuống và lưu âm thanh, thay vì video</string>
@@ -17,7 +17,7 @@
     <string name="download_error_msg">Không thể tải xuống tệp</string>
     <string name="download_start_msg">Tải xuống \"%1$s\"</string>
     <string name="fetch_info_error_msg">Không thể nạp thông tin video</string>
-    <string name="general_settings">Chung</string>
+    <string name="general_settings">Tổng quan</string>
     <string name="language">Ngôn ngữ hiển thị</string>
     <string name="language_settings">Đặt ngôn ngữ hiển thị</string>
     <string name="task_running">Có sẵn một tác vụ tải xuống đang chạy</string>
@@ -51,7 +51,7 @@
     <string name="print_details">Đầu ra chi tiết</string>
     <string name="print_details_desc">In tin nhắn chi tiết khi đang tải xuống</string>
     <string name="display">Hiển thị</string>
-    <string name="display_settings">Chế độ tối, màu động, ngôn ngữ</string>
+    <string name="display_settings">Chủ đề tối, màu sắc sống động, ngôn ngữ</string>
     <string name="dark_theme">Chế độ tối</string>
     <string name="follow_system">Hệ thống</string>
     <string name="on">Bật</string>
@@ -78,11 +78,11 @@
     <string name="close">Đóng</string>
     <string name="close_never_show_again">Không hiển thị lại</string>
     <string name="user_guide">Hướng dẫn người dùng</string>
-    <string name="open_settings">Mở cài đặt</string>
+    <string name="open_settings">Mở thiết đặt</string>
     <string name="paste_desc">Nhấn \"Dán\" để lấy đường dẫn video từ khay nhớ tạm.</string>
-    <string name="download_desc">Sau đó Nhấn \"Tải xuống\" sau khi tùy chỉnh trong cài đặt.</string>
+    <string name="download_desc">Kế đến nhấp vào \"Tải xuống\" sau khi điều chỉnh thiết đặt của nó.</string>
     <string name="download_history_desc">Kiểm tra và quản lý Tải xuống trong ứng dụng, gồm tệp video và âm thanh.</string>
-    <string name="check_download_settings_desc">Xem qua cài đặt tải xuống và hãy chắc chắn rằng bạn đã cài đặt phiên bản yt-dlp mới nhất trước khi sử dụng.</string>
+    <string name="check_download_settings_desc">Hãy xem thiết đặt tải xuống và đảm bảo bạn có phiên bản yt-dlp mới nhất trước khi sử dụng.</string>
     <string name="download_playlist">Tải xuống danh sách phát</string>
     <string name="download_playlist_desc">Tải xuống nhiều video từ một danh sách phát</string>
     <string name="defaults">Mặc định</string>
@@ -91,7 +91,7 @@
     <string name="video_url">Đường dẫn video</string>
     <string name="download_finish_notification">Đã hoàn thành tải xuống. Nhấn để mở.</string>
     <string name="concurrent_download">Tải xuống đa luồng</string>
-    <string name="concurrent_download_desc">Tải song song nhiều phần video M3U8/MPD</string>
+    <string name="concurrent_download_desc">Tải đồng thời nhiều phần của cuộn băng M3U8/MPD</string>
     <string name="concurrent_download_num">%d chuỗi sẽ được sử dụng cùng lúc để tải xuống video gốc DASH/HLS.</string>
     <string name="options">Tùy chọn</string>
     <string name="share_fail_msg">Không thể khớp URL từ nội dung được chia sẻ</string>
@@ -108,12 +108,12 @@
     <string name="video_quality_desc">Giới hạn chất lượng video khi có nhiều video</string>
     <string name="not_specified">Không xác định (mặc định)</string>
     <string name="video_format">Định dạng video</string>
-    <string name="additional_settings">Cài đặt bổ sung</string>
+    <string name="additional_settings">Thiết đặt bổ sung</string>
     <string name="invalid_index_range">Phạm vi chỉ mục không hợp lệ</string>
     <string name="execute_command_notification">Đang chạy lệnh tùy chỉnh…</string>
     <string name="fetching_playlist_info">Đang nạp thông tin danh sách phát…</string>
     <string name="download_range_desc">Chỉ định phạm vi video để tải xuống từ danh sách \"%3$s\" (từ %1$d sang %2$d).</string>
-    <string name="battery_settings_desc">Hãy chuyển mức sử dụng pin của ứng dụng này sang \"Không giới hạn\" trong cài đặt hệ thống để tải xuống trong nền.</string>
+    <string name="battery_settings_desc">Hãy chuyển mức sử dụng pin của ứng dụng này sang \"Không giới hạn\" trong thiết đặt hệ thống để tải xuống trong nền.</string>
     <string name="download_range_selection">Lựa chọn danh sách phát</string>
     <string name="to">Kết thúc</string>
     <string name="playlist_indicator_text">Đang tải xuống danh sách phát (%1$d/%2$d)…</string>
@@ -127,7 +127,9 @@
     <string name="cookies_desc">Sử dụng cookie được định dạng Netscape để tải xuống</string>
     <string name="clear_temp_files">Dọn các tệp tạm thời</string>
     <string name="clear_temp_files_count">Đã xóa %1$d tập tin tạm thời</string>
-    <string name="clear_temp_files_info">Các tệp tạm thời có thể được sử dụng để tiếp tục tải xuống đã bị hủy. Bạn có chắc chắn xóa tất cả các tệp này không\?</string>
+    <string name="clear_temp_files_info">Các tệp tạm có thể được dùng để khôi phục các tải xuống bị hủy. Bạn có chắc xóa tất cả các tệp này\?
+\n
+\nBạn có thể truy cập các tệp này trong %1$s</string>
     <string name="download_directory">Thư mục tải xuống</string>
     <string name="download_directory_desc">Lựa chọn nơi để lưu trữ video và âm thanh</string>
     <string name="subdirectory">Lưu vào thư mục con</string>
@@ -183,7 +185,7 @@
     <string name="private_mode_desc">Tắt lịch sử tải xuống</string>
     <string name="download_with_cellular">Tải xuống bằng di động</string>
     <string name="private_mode">Ẩn danh</string>
-    <string name="download_disabled_with_cellular">Tải xuống bằng mạng di động bị tắt theo cài đặt của bạn</string>
+    <string name="download_disabled_with_cellular">Tải xuống bằng mạng di động bị tắt theo thiết đặt của bạn</string>
     <string name="file_unavailable">Tập tin này không còn khả dụng nữa</string>
     <string name="rate_limit_desc">Giới hạn tốc độ tải xuống tối đa</string>
     <string name="dynamic_color">Màu động</string>
@@ -207,7 +209,7 @@
     <string name="no_downloaded_media">Không có phương tiện đã tải xuống</string>
     <string name="beta_features">Beta</string>
     <string name="enable_experimental_feature">Bật tính năng thử nghiệm\?</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="high_contrast">Chủ đề tối tương phản cao</string>
     <string name="crop_artwork_desc">Cắt vuông các hình ảnh nhúng</string>
     <string name="video_only">Video (không âm thanh)</string>
@@ -272,7 +274,7 @@
     <string name="running_tasks">Nhiệm vụ đang chạy</string>
     <string name="show_logs">Hiển thị nhật ký</string>
     <string name="logs">Nhật ký</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="shortcuts">Lối tắt</string>
     <string name="edit_shortcuts_desc">Chỉnh sửa các lối tắt tùy chỉnh có thể được sử dụng để soạn các mẫu lệnh.</string>
     <string name="stable_channel">Ổn định</string>
@@ -349,4 +351,5 @@
     <string name="embed_metadata">Nhúng siêu dữ liệu</string>
     <string name="embed_metadata_desc">Nhúng siêu dữ liệu và hình thu nhỏ video vào tệp âm thanh</string>
     <string name="required">Yêu cầu</string>
+    <string name="show_all_items">Hiển thị tất cả %1$d mục</string>
 </resources>

@@ -179,7 +179,9 @@
     <string name="multiselect_mode">Рэжым множнага выбару</string>
     <string name="private_mode">Інкогніта</string>
     <string name="private_mode_desc">Адключыць гісторыю загрузак</string>
-    <string name="clear_temp_files_info">Часовыя файлы можна выкарыстоўваць для аднаўлення скасаваных загрузак. Вы ўпэўнены, што хочаце выдаліць усе гэтыя файлы\?</string>
+    <string name="clear_temp_files_info">Часовыя файлы можна выкарыстоўваць для аднаўлення адмененых загрузак. Вы ўпэўненыя, што жадаеце выдаліць усе гэтыя файлы\?
+\n
+\nВы можаце атрымаць доступ да гэтых файлаў у %1$s</string>
     <string name="dynamic_color">Дынамічныя колеры</string>
     <string name="dynamic_color_desc">Ужываць колеры шпалер да тэмы праграмы</string>
     <string name="download_with_cellular">Загружаць па сотавай сувязі</string>
@@ -245,8 +247,8 @@
     <string name="beta_features">Бэта-версія</string>
     <string name="enable_experimental_feature">Уключыць эксперыментальную функцыю\?</string>
     <string name="clip_video_desc">Зрабіце відэакліпы на старонцы выбару фармату</string>
-    <string name="filesize_mb">%.2f М</string>
-    <string name="filesize_gb">%.2f Г</string>
+    <string name="filesize_mb">%.2f МБ</string>
+    <string name="filesize_gb">%.2f ГБ</string>
     <string name="subtitle_sponsorblock">Пры выдаленні сегментаў SponsorBlock субтытры могуць быць няправільнымі.</string>
     <string name="enable_auto_update">Уключыць аўтаматычнае абнаўленне</string>
     <string name="share">Падзяліцца</string>
@@ -352,4 +354,5 @@
     <string name="embed_metadata">Убудаваць метаданыя</string>
     <string name="required">Абавязковы</string>
     <string name="embed_metadata_desc">Устаўце метаданыя і мініяцюру відэа ў аўдыяфайл</string>
+    <string name="show_all_items">Паказаць усе элементы (%1$d)</string>
 </resources>

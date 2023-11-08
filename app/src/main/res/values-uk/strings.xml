@@ -165,7 +165,9 @@
     <string name="cookies_desc">Для завантажень використовуйте файли cookie у форматі Netscape</string>
     <string name="check_for_updates_desc">Автоматично перевіряти GitHub на нові версії</string>
     <string name="aria2_desc">Використати aria2c в якості зовнішнього завантажувача</string>
-    <string name="clear_temp_files_info">Тимчасові файли можна використати для відновлення скасованих завантажень. Ви впевнені, що хочете видалити всі ці файли\?</string>
+    <string name="clear_temp_files_info">Тимчасові файли можна використовувати для відновлення скасованих завантажень. Ви впевнені, що хочете видалити всі ці файли\?
+\n
+\nВи можете отримати доступ до цих файлів у %1$s</string>
     <string name="app_update_failed">Не вдалося оновити до останньої версії</string>
     <string name="clear_temp_files">Видалити тимчасові файли</string>
     <string name="export_to_clipboard">Експортувати в буфер обміну</string>
@@ -244,8 +246,8 @@
     <string name="logs">Лог</string>
     <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
     <string name="embed_subtitles_mkv_msg">Для вбудовування субтитрів, відео буде перетворено у контейнер mkv. Ви зможете використати VLC Media Player або інші сумісні застосунки для перегляду.</string>
-    <string name="filesize_gb">%.2f Гб</string>
-    <string name="filesize_mb">%.2f Мб</string>
+    <string name="filesize_gb">%.2f ГБ</string>
+    <string name="filesize_mb">%.2f МБ</string>
     <string name="stable_channel">Стабільний</string>
     <string name="pre_release_channel">Прев\'ю</string>
     <string name="share">Поділитися</string>
@@ -352,4 +354,5 @@
     <string name="embed_metadata">Вставити метадані</string>
     <string name="required">Обов\'язковий</string>
     <string name="embed_metadata_desc">Вставте метадані та мініатюру відео в аудіофайл</string>
+    <string name="show_all_items">Показати всі елементи (%1$d)</string>
 </resources>

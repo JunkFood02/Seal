@@ -176,7 +176,8 @@
     <string name="cookies_desc">استخدم ملفات تعريف الارتباط بتنسيق Netscape للتنزيلات</string>
     <string name="clear_temp_files">امسح الملفات المؤقتة</string>
     <string name="clear_temp_files_count">تم حذف %1$d ملف(ات) مؤقت(ة)</string>
-    <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟</string>
+    <string name="clear_temp_files_info">يمكن استخدام الملفات المؤقتة لاستئناف التنزيلات الملغاة. هل أنت متأكد من حذف كل هذه الملفات؟
+\nيمكنك الوصول إلى تلك الملفات في %1$s</string>
     <string name="clear_temp_files_desc">احذف جميع الملفات المؤقتة من المجلد المؤقت</string>
     <string name="multiselect_mode">وضع التحديد المتعدد</string>
     <string name="private_mode">وضع الخصوصية</string>

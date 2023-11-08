@@ -143,7 +143,9 @@
     <string name="clear_temp_files">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
     <string name="clear_temp_files_desc">ਅਸਥਾਈ ਡਾਇਰੈਕਟਰੀ ਤੋਂ ਸਾਰੀਆਂ ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
     <string name="clear_temp_files_count">%1$d ਅਸਥਾਈ ਫ਼ਾਈਲ(ਫ਼ਾਈਲਾਂ) ਮਿਟਾਈਆਂ ਗਈਆਂ</string>
-    <string name="clear_temp_files_info">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਰੱਦ ਕੀਤੇ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ \'ਤੇ ਇਹਨਾਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ\?</string>
+    <string name="clear_temp_files_info">ਅਸਥਾਈ ਫਾਈਲਾਂ ਨੂੰ ਰੱਦ ਕੀਤੇ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ \'ਤੇ ਇਹਨਾਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ\?
+\n
+\nਤੁਸੀਂ %1$s ਵਿੱਚ ਇਹਨਾਂ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਕਰ ਸਕਦੇ ਹੋ</string>
     <string name="multiselect_mode">ਬਹੁ-ਚੋਣ ਮੋਡ</string>
     <string name="private_mode">ਗੁੰਮਨਾਮ</string>
     <string name="private_mode_desc">ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਓ</string>
@@ -263,8 +265,8 @@
     <string name="auto_update">ਆਟੋ ਅੱਪਡੇਟ</string>
     <string name="enable_auto_update">ਆਟੋ ਅੱਪਡੇਟ ਚਾਲੂ ਕਰੋ</string>
     <string name="discard">ਰੱਦ ਕਰੋ</string>
-    <string name="filesize_gb">%.2f G</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="update_channel_desc">ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਅਤੇ ਤਬਦੀਲੀਆਂ ਦੀ ਪੂਰਵ-ਝਲਕ ਦੇਖਣ ਲਈ ਪ੍ਰੀ-ਰਿਲੀਜ਼ ਬਿਲਡ ਇੰਸਟਾਲ ਕਰੋ।
 \n
 \n ਇਹਨਾਂ ਸੰਸਕਰਣਾਂ ਵਿੱਚ ਕੁਝ ਅਸਥਿਰਤਾ ਹੋਵੇਗੀ, ਇਸ ਲਈ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਸਮੱਸਿਆ ਆਉਂਦੀ ਹੈ ਅਤੇ ਭਵਿੱਖ ਲਈ ਐਪ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਸਾਨੂੰ ਫੀਡਬੈਕ ਦੇਣ ਵਿੱਚ ਸੰਕੋਚ ਨਾ ਕਰੋ ।</string>
@@ -350,4 +352,5 @@
     <string name="embed_metadata">ਮੈਟਾਡੇਟਾ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ</string>
     <string name="required">ਲੋੜੀਂਦਾ ਹੈ</string>
     <string name="embed_metadata_desc">ਆਡੀਓ ਫਾਈਲ ਵਿੱਚ ਮੈਟਾਡੇਟਾ ਅਤੇ ਵੀਡੀਓ ਥੰਮਨੇਲ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ</string>
+    <string name="show_all_items">ਸਾਰੀਆਂ %1$d ਆਈਟਮਾਂ ਵਿਖਾਓ</string>
 </resources>
