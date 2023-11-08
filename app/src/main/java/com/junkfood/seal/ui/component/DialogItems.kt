@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -117,14 +118,14 @@ fun CheckBoxItem(
     modifier: Modifier = Modifier,
     text: String,
     checked: Boolean,
-    onClick: () -> Unit,
+    onValueChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .padding(top = 12.dp)
             .fillMaxWidth()
-            .selectable(
-                selected = checked, enabled = true, onClick = onClick
+            .toggleable(
+                value = checked, enabled = true, onValueChange = onValueChange
             ),
     ) {
         Row(
@@ -132,7 +133,7 @@ fun CheckBoxItem(
         ) {
             Checkbox(
                 modifier = Modifier.clearAndSetSemantics { },
-                checked = checked, onCheckedChange = { onClick() },
+                checked = checked, onCheckedChange = onValueChange,
             )
             Text(
                 modifier = Modifier, text = text, style = MaterialTheme.typography.bodyMedium

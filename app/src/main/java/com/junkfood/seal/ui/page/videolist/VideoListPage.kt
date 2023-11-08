@@ -36,16 +36,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TriStateCheckbox
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,6 +79,8 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.toFileSizeText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -119,7 +124,15 @@ fun VideoListPage(
             putAll(videoList.map { Pair(it.id, it.videoPath.getFileSize()) })
         }
     }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    var currentVideoInfoId by rememberSaveable { mutableIntStateOf(0) }
+
+    val currentVideoInfo by remember(currentVideoInfoId) {
+        derivedStateOf {
+            videoList.find { it.id == currentVideoInfoId } ?: DownloadedVideoInfo()
+        }
+    }
 
     var isSelectEnabled by remember { mutableStateOf(false) }
     var showRemoveMultipleItemsDialog by remember { mutableStateOf(false) }
@@ -218,6 +231,9 @@ fun VideoListPage(
                 ToggleableState.Indeterminate
         }
     }
+
+    var showRemoveDialog by remember { mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     BackHandler(isSelectEnabled) {
         isSelectEnabled = false
@@ -367,8 +383,15 @@ fun VideoListPage(
                                     FileUtil.openFile(path = videoPath) {
                                         ToastUtil.makeToastSuspend(App.context.getString(R.string.file_unavailable))
                                     }
+                                }, onLongClick = {
+                                    currentVideoInfoId = info.id
+                                    scope.launch {
+                                        showBottomSheet = true
+                                        delay(50)
+                                        sheetState.show()
+                                    }
                                 }
-                            ) { videoListViewModel.showDrawer(scope, info) }
+                            )
                         }
                     }
                 }
@@ -378,9 +401,40 @@ fun VideoListPage(
 
 
     }
-    VideoDetailDrawer()
+
+
+    if (showBottomSheet) {
+        VideoDetailDrawer(
+            sheetState = sheetState,
+            info = currentVideoInfo,
+            onDismissRequest = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    showBottomSheet = false
+                }
+            },
+            onDelete = { showRemoveDialog = true })
+    }
+
+    var deleteFile by remember { mutableStateOf(false) }
+
+    if (showRemoveDialog) {
+        RemoveItemDialog(
+            info = currentVideoInfo,
+            deleteFile = deleteFile,
+            onDeleteFileToggled = { deleteFile = it },
+            onRemoveConfirm = {
+                scope.launch(Dispatchers.IO) {
+                    DatabaseUtil.deleteInfoListByIdList(
+                        listOf(currentVideoInfoId),
+                        deleteFile = deleteFile
+                    )
+                }
+            }, onDismissRequest = {
+                showRemoveDialog = false
+            })
+    }
+
     if (showRemoveMultipleItemsDialog) {
-        var deleteFile by remember { mutableStateOf(false) }
         SealDialog(
             onDismissRequest = { showRemoveMultipleItemsDialog = false },
             icon = { Icon(Icons.Outlined.DeleteSweep, null) },

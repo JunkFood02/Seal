@@ -83,7 +83,7 @@ fun WelcomeDialog(onClick: () -> Unit) {
                 if ((showWelcomeDialog > 1))
                     CheckBoxItem(
                         text = stringResource(id = R.string.close_never_show_again),
-                        checked = disableDialog, onClick = { disableDialog = !disableDialog })
+                        checked = disableDialog, onValueChange = { disableDialog = !disableDialog })
             }
         })
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.Cancel
@@ -29,6 +28,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -52,12 +52,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
-import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SegmentedButtonValues
 import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
@@ -97,12 +97,12 @@ import kotlinx.coroutines.withContext
 @Composable
 fun DownloadSettingDialog(
     useDialog: Boolean = false,
-    dialogState: Boolean = false,
+    showDialog: Boolean = false,
     isQuickDownload: Boolean = false,
-    drawerState: ModalBottomSheetState,
+    sheetState: SheetState,
     onNavigateToCookieGeneratorPage: (String) -> Unit = {},
-    confirm: () -> Unit,
-    hide: () -> Unit,
+    onDownloadConfirm: () -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     var audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
@@ -159,10 +159,9 @@ fun DownloadSettingDialog(
 
     val downloadButtonCallback = {
         updatePreferences()
-        hide()
-        confirm()
+        onDismissRequest()
+        onDownloadConfirm()
     }
-
 
     val sheetContent: @Composable () -> Unit = {
         Column {
@@ -357,76 +356,80 @@ fun DownloadSettingDialog(
 
         }
     }
-    if (!useDialog) {
-        BottomDrawer(
-            drawerState = drawerState,
-            horizontalPadding = PaddingValues(horizontal = 20.dp),
-            sheetContent = {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Icon(
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        imageVector = Icons.Outlined.DoneAll,
-                        contentDescription = null
-                    )
-                    Text(
-                        text = stringResource(R.string.settings_before_download),
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(vertical = 16.dp),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center
-                    )
+    if (showDialog) {
+        if (!useDialog) {
+            SealModalBottomSheet(
+                sheetState = sheetState,
+                horizontalPadding = PaddingValues(horizontal = 20.dp),
+                onDismissRequest = onDismissRequest,
+                content = {
+                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                        Icon(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            imageVector = Icons.Outlined.DoneAll,
+                            contentDescription = null
+                        )
+                        Text(
+                            text = stringResource(R.string.settings_before_download),
+                            style = MaterialTheme.typography.headlineSmall,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(vertical = 16.dp),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center
+                        )
+                        sheetContent()
+                        val state = rememberLazyListState()
+                        LaunchedEffect(sheetState.isVisible) {
+                            state.scrollToItem(0)
+                        }
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 24.dp),
+                            horizontalArrangement = Arrangement.End,
+                            state = state,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            item {
+                                OutlinedButtonWithIcon(
+                                    modifier = Modifier.padding(horizontal = 12.dp),
+                                    onClick = onDismissRequest,
+                                    icon = Icons.Outlined.Cancel,
+                                    text = stringResource(R.string.cancel)
+                                )
+                            }
+                            item {
+                                FilledButtonWithIcon(
+                                    onClick = downloadButtonCallback,
+                                    icon = Icons.Outlined.DownloadDone,
+                                    text = stringResource(R.string.start_download)
+                                )
+                            }
+                        }
+                    }
+                })
+        } else {
+            AlertDialog(onDismissRequest = onDismissRequest, confirmButton = {
+                TextButton(onClick = downloadButtonCallback) {
+                    Text(text = stringResource(R.string.start_download))
+                }
+            }, dismissButton = { DismissButton { onDismissRequest() } }, icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DoneAll, contentDescription = null
+                )
+            }, title = {
+                Text(
+                    stringResource(R.string.settings_before_download),
+                    textAlign = TextAlign.Center
+                )
+            }, text = {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
                     sheetContent()
-                    val state = rememberLazyListState()
-                    LaunchedEffect(drawerState.isVisible) {
-                        state.scrollToItem(0)
-                    }
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 24.dp),
-                        horizontalArrangement = Arrangement.End,
-                        state = state,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        item {
-                            OutlinedButtonWithIcon(
-                                modifier = Modifier.padding(horizontal = 12.dp),
-                                onClick = hide,
-                                icon = Icons.Outlined.Cancel,
-                                text = stringResource(R.string.cancel)
-                            )
-                        }
-                        item {
-                            FilledButtonWithIcon(
-                                onClick = downloadButtonCallback,
-                                icon = Icons.Outlined.DownloadDone,
-                                text = stringResource(R.string.start_download)
-                            )
-                        }
-                    }
                 }
             })
-    } else if (dialogState) {
-        AlertDialog(onDismissRequest = hide, confirmButton = {
-            TextButton(onClick = downloadButtonCallback) {
-                Text(text = stringResource(R.string.start_download))
-            }
-        }, dismissButton = { DismissButton { hide() } }, icon = {
-            Icon(
-                imageVector = Icons.Outlined.DoneAll, contentDescription = null
-            )
-        }, title = {
-            Text(
-                stringResource(R.string.settings_before_download), textAlign = TextAlign.Center
-            )
-        }, text = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                sheetContent()
-            }
-        })
+        }
     }
 
 
@@ -486,6 +489,8 @@ fun DownloadSettingDialog(
         )
     }
     if (showAudioConversionDialog) {
-        AudioConversionQuickSettingsDialog(onDismissRequest = { showAudioConversionDialog = false })
+        AudioConversionQuickSettingsDialog(onDismissRequest = {
+            showAudioConversionDialog = false
+        })
     }
 }

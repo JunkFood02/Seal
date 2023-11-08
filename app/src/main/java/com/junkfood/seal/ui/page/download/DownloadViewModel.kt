@@ -1,8 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.junkfood.seal.ui.page.download
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
@@ -21,7 +21,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 
 // TODO: Refactoring for introducing multitasking and download queue management
 class DownloadViewModel @Inject constructor() : ViewModel() {
@@ -44,10 +43,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     data class ViewState(
         val showPlaylistSelectionDialog: Boolean = false,
         val url: String = "",
-        val drawerState: ModalBottomSheetState = ModalBottomSheetState(
-            ModalBottomSheetValue.Hidden, isSkipHalfExpanded = true
-        ),
-        val showDownloadSettingDialog: Boolean = false,
         val showFormatSelectionPage: Boolean = false,
         val isUrlSharingTriggered: Boolean = false,
     )
@@ -58,20 +53,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                 url = url, isUrlSharingTriggered = isUrlSharingTriggered
             )
         }
-
-    fun hideDialog(scope: CoroutineScope, isDialog: Boolean) {
-        scope.launch {
-            if (isDialog) mutableViewStateFlow.update { it.copy(showDownloadSettingDialog = false) }
-            else viewStateFlow.value.drawerState.hide()
-        }
-    }
-
-    fun showDialog(scope: CoroutineScope, isDialog: Boolean) {
-        scope.launch {
-            if (isDialog) mutableViewStateFlow.update { it.copy(showDownloadSettingDialog = true) }
-            else viewStateFlow.value.drawerState.show()
-        }
-    }
 
     fun startDownloadVideo() {
         val url = viewStateFlow.value.url

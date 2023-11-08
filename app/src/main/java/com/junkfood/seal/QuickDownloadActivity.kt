@@ -9,9 +9,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -71,7 +71,10 @@ class QuickDownloadActivity : ComponentActivity() {
             Downloader.quickDownload(url = url)
     }
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
+    @OptIn(
+        ExperimentalMaterial3WindowSizeClassApi::class,
+        ExperimentalMaterial3Api::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -123,28 +126,30 @@ class QuickDownloadActivity : ComponentActivity() {
 
 
                     var showDialog by remember { mutableStateOf(true) }
-                    val drawerState =
-                        rememberModalBottomSheetState(
-                            initialValue = ModalBottomSheetValue.Expanded,
-                            skipHalfExpanded = true
-                        )
+                    val sheetState =
+                        rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-                    LaunchedEffect(drawerState.currentValue, showDialog) {
-                        if (drawerState.currentValue == ModalBottomSheetValue.Hidden || !showDialog)
+                    LaunchedEffect(sheetState.currentValue, showDialog) {
+                        if (sheetState.currentValue == SheetValue.Hidden || !showDialog)
                             this@QuickDownloadActivity.finish()
                     }
-
+                    val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
                     DownloadSettingDialog(
                         useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact,
-                        dialogState = showDialog,
+                        showDialog = showDialog,
                         isQuickDownload = true,
-                        drawerState = drawerState,
-                        confirm = {
+                        sheetState = sheetState,
+                        onDownloadConfirm = {
                             onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
                         },
-                        hide = {
-                            scope.launch { drawerState.hide() }
-                            showDialog = false
+                        onDismissRequest = {
+                            if (!useDialog) {
+                                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                    showDialog = false
+                                }
+                            } else {
+                                showDialog = false
+                            }
                         },
                     )
                 }

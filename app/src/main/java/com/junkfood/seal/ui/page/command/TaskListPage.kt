@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Cancel
@@ -28,7 +27,6 @@ import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.NewLabel
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,9 +34,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,7 +64,6 @@ import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.BottomDrawer
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerPreview
@@ -73,6 +72,7 @@ import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.TaskStatus
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.svg.TaskSVG
@@ -92,9 +92,8 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val sheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden, skipHalfExpanded = true
-    )
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -175,93 +174,86 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
 
         }
     }
-    BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) {
-        scope.launch { sheetState.hide() }
+    BackHandler(sheetState.targetValue == SheetValue.Expanded) {
+        scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
     }
-    BottomDrawer(drawerState = sheetState, sheetContent = {
-        val clipboardManager = LocalClipboardManager.current
+    if (showBottomSheet) SealModalBottomSheet(sheetState = sheetState,
+        onDismissRequest = {
+            scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
+        },
+        content = {
+            val clipboardManager = LocalClipboardManager.current
 
-        var showTemplateSelectionDialog by remember { mutableStateOf(false) }
-        var showTemplateCreatorDialog by remember { mutableStateOf(false) }
-        var showTemplateEditorDialog by remember { mutableStateOf(false) }
+            var showTemplateSelectionDialog by remember { mutableStateOf(false) }
+            var showTemplateCreatorDialog by remember { mutableStateOf(false) }
+            var showTemplateEditorDialog by remember { mutableStateOf(false) }
 
-        val template by remember(
-            showTemplateCreatorDialog,
-            showTemplateSelectionDialog,
-            showTemplateEditorDialog
-        ) {
-            mutableStateOf(PreferenceUtil.getTemplate())
-        }
-
-        var url by remember { mutableStateOf("") }
-
-        LaunchedEffect(sheetState.targetValue) {
-            if (sheetState.targetValue == ModalBottomSheetValue.Expanded)
-                url = matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
-
-        }
-
-
-        Column(
-            Modifier.fillMaxWidth()
-        ) {
-            TaskCreatorDialogContent(
-                url = url,
-                onValueChange = {
-                    url = it
-                },
-                template = template,
-                onTemplateSelectionClicked = { showTemplateSelectionDialog = true },
-                onNewTemplateClicked = { showTemplateCreatorDialog = true },
-                onEditClicked = { showTemplateEditorDialog = true }
-            )
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-                horizontalArrangement = Arrangement.End,
+            val template by remember(
+                showTemplateCreatorDialog, showTemplateSelectionDialog, showTemplateEditorDialog
             ) {
-                item {
-                    OutlinedButtonWithIcon(
-                        modifier = Modifier.padding(horizontal = 12.dp),
-                        onClick = {
-                            scope.launch { sheetState.hide() }
-                        },
-                        icon = Icons.Outlined.Cancel,
-                        text = stringResource(R.string.cancel)
-                    )
-                }
-                item {
-                    FilledButtonWithIcon(
-                        onClick = {
-                            Downloader.executeCommandWithUrl(url)
-                            scope.launch { sheetState.hide() }
-                        },
-                        icon = Icons.Outlined.DownloadDone,
-                        text = stringResource(R.string.start)
-                    )
+                mutableStateOf(PreferenceUtil.getTemplate())
+            }
+
+            var url by remember { mutableStateOf("") }
+
+            LaunchedEffect(sheetState.targetValue) {
+                if (sheetState.targetValue == SheetValue.Expanded) url =
+                    matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
+
+            }
+
+            Column(
+                Modifier.fillMaxWidth()
+            ) {
+                TaskCreatorDialogContent(url = url,
+                    onValueChange = {
+                        url = it
+                    },
+                    template = template,
+                    onTemplateSelectionClicked = { showTemplateSelectionDialog = true },
+                    onNewTemplateClicked = { showTemplateCreatorDialog = true },
+                    onEditClicked = { showTemplateEditorDialog = true })
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    item {
+                        OutlinedButtonWithIcon(
+                            modifier = Modifier.padding(horizontal = 12.dp), onClick = {
+                                scope.launch { sheetState.hide() }
+                            }, icon = Icons.Outlined.Cancel, text = stringResource(R.string.cancel)
+                        )
+                    }
+                    item {
+                        FilledButtonWithIcon(
+                            onClick = {
+                                Downloader.executeCommandWithUrl(url)
+                                scope.launch { sheetState.hide() }
+                            },
+                            icon = Icons.Outlined.DownloadDone,
+                            text = stringResource(R.string.start)
+                        )
+                    }
                 }
             }
-        }
-        if (showTemplateSelectionDialog) {
-            TemplatePickerDialog() { showTemplateSelectionDialog = false }
-        }
-        if (showTemplateCreatorDialog) {
-            CommandTemplateDialog(
-                onDismissRequest = { showTemplateCreatorDialog = false },
-                confirmationCallback = {
-                    scope.launch {
-                        TEMPLATE_ID.updateInt(it)
-                    }
-                })
-        }
-        if (showTemplateEditorDialog) {
-            CommandTemplateDialog(
-                commandTemplate = template,
-                onDismissRequest = { showTemplateEditorDialog = false }
-            )
-        }
-    }) {}
+            if (showTemplateSelectionDialog) {
+                TemplatePickerDialog() { showTemplateSelectionDialog = false }
+            }
+            if (showTemplateCreatorDialog) {
+                CommandTemplateDialog(onDismissRequest = { showTemplateCreatorDialog = false },
+                    confirmationCallback = {
+                        scope.launch {
+                            TEMPLATE_ID.updateInt(it)
+                        }
+                    })
+            }
+            if (showTemplateEditorDialog) {
+                CommandTemplateDialog(commandTemplate = template,
+                    onDismissRequest = { showTemplateEditorDialog = false })
+            }
+        })
 
 }
 
@@ -304,7 +296,7 @@ fun ColumnScope.TaskCreatorDialogContent(
         textAlign = TextAlign.Center,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 24.dp)
+            .padding(bottom = 16.dp)
     )
     OutlinedTextField(value = url, onValueChange = onValueChange, label = {
         Text(text = stringResource(id = R.string.video_url))
@@ -312,7 +304,7 @@ fun ColumnScope.TaskCreatorDialogContent(
 
 
     LazyRow(
-        modifier = Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
             OutlinedButtonChip(
@@ -391,8 +383,7 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
     val templateList by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
     var selectedId by TEMPLATE_ID.intState
     val scrollState =
-        rememberLazyListState(initialFirstVisibleItemIndex = templateList
-            .indexOfFirst { it.id == selectedId }
+        rememberLazyListState(initialFirstVisibleItemIndex = templateList.indexOfFirst { it.id == selectedId }
             .run {
                 if (this == -1) 0 else this
             })
@@ -408,9 +399,7 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
                 item { Spacer(modifier = Modifier.height(4.dp)) }
                 items(templateList) {
                     TemplateSingleChoiceItem(
-                        text = it.name,
-                        supportingText = it.template,
-                        selected = it.id == selectedId
+                        text = it.name, supportingText = it.template, selected = it.id == selectedId
                     ) {
                         selectedId = it.id
                         TEMPLATE_ID.updateInt(it.id)

@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.download
 
 import android.Manifest
 import android.os.Build
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -30,7 +29,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -55,6 +53,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -64,6 +63,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -109,12 +109,13 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
+import kotlinx.coroutines.launch
 
 
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterialApi::class,
-    ExperimentalComposeUiApi::class,
+    ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class,
 )
 @Composable
 fun DownloadPage(
@@ -158,24 +159,30 @@ fun DownloadPage(
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
-
+    var showDownloadDialog by rememberSaveable { mutableStateOf(false) }
     val checkPermissionOrDownload = {
         if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted) downloadViewModel.startDownloadVideo()
         else {
             storagePermission.launchPermissionRequest()
         }
     }
+    val sheetState =
+        rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+
     val downloadCallback: () -> Unit = {
         if (NOTIFICATION.getBoolean() && notificationPermission?.status?.isGranted == false) {
             showNotificationDialog = true
         }
-        if (CONFIGURE.getBoolean()) downloadViewModel.showDialog(
-            scope,
-            useDialog
-        )
-        else checkPermissionOrDownload()
+        if (CONFIGURE.getBoolean()) {
+            showDownloadDialog = true
+            if (!useDialog) scope.launch { sheetState.show() }
+        } else {
+            checkPermissionOrDownload()
+        }
         keyboardController?.hide()
     }
+
     if (showNotificationDialog) {
         NotificationPermissionDialog(onDismissRequest = {
             showNotificationDialog = false
@@ -184,6 +191,7 @@ fun DownloadPage(
             notificationPermission?.launchPermissionRequest()
         })
     }
+
 
     DisposableEffect(viewState.showPlaylistSelectionDialog) {
         if (!playlistInfo.entries.isNullOrEmpty() && viewState.showPlaylistSelectionDialog) navigateToPlaylistPage()
@@ -205,10 +213,6 @@ fun DownloadPage(
     if (viewState.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
         downloadCallback()
-    }
-
-    BackHandler(viewState.drawerState.targetValue == ModalBottomSheetValue.Expanded) {
-        downloadViewModel.hideDialog(scope, useDialog)
     }
 
     val showVideoCard by remember(downloaderState) {
@@ -249,15 +253,21 @@ fun DownloadPage(
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }) {}
 
 
-        with(viewState) {
-            DownloadSettingDialog(useDialog = useDialog,
-                dialogState = showDownloadSettingDialog,
-                drawerState = drawerState,
-                onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
-                confirm = { checkPermissionOrDownload() },
-                hide = { downloadViewModel.hideDialog(scope, useDialog) }
-            )
-        }
+        DownloadSettingDialog(useDialog = useDialog,
+            showDialog = showDownloadDialog,
+            sheetState = sheetState,
+            onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
+            onDownloadConfirm = { checkPermissionOrDownload() },
+            onDismissRequest = {
+                if (!useDialog) {
+                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                        showDownloadDialog = false
+                    }
+                } else {
+                    showDownloadDialog = false
+                }
+            }
+        )
     }
 
 }

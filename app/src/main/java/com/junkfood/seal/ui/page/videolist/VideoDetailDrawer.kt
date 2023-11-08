@@ -14,22 +14,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -37,67 +38,87 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.component.BottomDrawer
+import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.LongTapTextButton
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.ToastUtil
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideoDetailDrawer(videoListViewModel: VideoListViewModel = hiltViewModel()) {
-    val detailViewState = videoListViewModel.detailViewState.collectAsState().value
-    val scope = rememberCoroutineScope()
+fun VideoDetailDrawer(
+    sheetState: SheetState,
+    info: DownloadedVideoInfo,
+    onDismissRequest: () -> Unit = {},
+    onDelete: () -> Unit = {},
+) {
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
-
-    BackHandler(detailViewState.drawerState.targetValue == ModalBottomSheetValue.Expanded) {
-        videoListViewModel.hideDrawer(scope)
+    BackHandler(sheetState.targetValue == SheetValue.Expanded) {
+        onDismissRequest()
     }
 
-    with(detailViewState) {
-        val shareTitle = stringResource(id = R.string.share)
+    val shareTitle = stringResource(id = R.string.share)
+    with(info) {
         VideoDetailDrawerImpl(
-            drawerState = drawerState,
-            title = title,
-            author = author,
-            url = url,
+            sheetState = sheetState,
+            title = videoTitle,
+            author = videoAuthor,
+            url = videoUrl,
+            onDismissRequest = onDismissRequest,
             onDelete = {
-                videoListViewModel.hideDrawer(scope)
-                videoListViewModel.showDialog()
+                onDismissRequest()
+                onDelete()
             }, onOpenLink = {
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                videoListViewModel.hideDrawer(scope)
-                uriHandler.openUri(url)
+                onDismissRequest()
+                uriHandler.openUri(videoUrl)
             }, onShareFile = {
-                FileUtil.createIntentForSharingFile(path)?.runCatching {
+                FileUtil.createIntentForSharingFile(videoPath)?.runCatching {
                     context.startActivity(
                         Intent.createChooser(this, shareTitle)
                     )
                 }
             })
     }
-    RemoveItemDialog()
 }
 
-@Composable
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
+@Composable
+private fun DrawerPreview() {
+    VideoDetailDrawerImpl(
+        sheetState = SheetState(
+            skipPartiallyExpanded = true,
+            density = LocalDensity.current, initialValue = SheetValue.Expanded
+        )
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun VideoDetailDrawerImpl(
-    drawerState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden),
+    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     title: String = stringResource(id = R.string.video_title_sample_text),
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
+    onDismissRequest: () -> Unit = {},
     onDelete: () -> Unit = {},
     onOpenLink: () -> Unit = {},
     onShareFile: () -> Unit = {}
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    BottomDrawer(drawerState = drawerState,
-        horizontalPadding = PaddingValues(horizontal = 20.dp), sheetContent = {
+    SealModalBottomSheet(sheetState = sheetState,
+        horizontalPadding = PaddingValues(horizontal = 20.dp),
+        onDismissRequest = onDismissRequest,
+        content = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
