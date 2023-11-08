@@ -67,13 +67,30 @@ fun DonatePage(onBackPressed: () -> Unit) {
     )
     val uriHandler = LocalUriHandler.current
     val sponsorList = remember { mutableStateListOf<Node>() }
+
+    val backerList = remember { mutableStateListOf<Node>() }
+
+    val supporterList = remember { mutableStateListOf<Node>() }
+
     LaunchedEffect(Unit) {
         launch(Dispatchers.IO) {
             SHOW_SPONSOR_MSG.updateInt(0)
             SponsorUtil.getSponsors().onFailure { Log.e(TAG, "DonatePage: ", it) }.onSuccess {
-                sponsorList.addAll(it.data.user.sponsorshipsAsMaintainer.nodes.filter { node ->
-                    (node.tier?.monthlyPriceInDollars ?: 0) >= 10
-                })
+                it.data.user.sponsorshipsAsMaintainer.nodes.run {
+                    sponsorList.addAll(filter { node ->
+                        (node.tier?.monthlyPriceInDollars ?: 0) in 5 until 10
+                    })
+
+                    backerList.addAll(filter { node ->
+                        (node.tier?.monthlyPriceInDollars ?: 0) in 10 until 25
+                    })
+
+                    supporterList.addAll(filter { node ->
+                        (node.tier?.monthlyPriceInDollars ?: 0) >= 25
+                    })
+
+                }
+
             }
         }
     }
@@ -86,7 +103,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                 title = {
                     Text(
                         modifier = Modifier,
-                        text = stringResource(id = R.string.sponsor),
+                        text = stringResource(id = R.string.sponsors),
                     )
                 }, navigationIcon = {
                     BackButton {
@@ -99,25 +116,63 @@ fun DonatePage(onBackPressed: () -> Unit) {
                 modifier = Modifier
                     .padding(it)
                     .padding(horizontal = 12.dp),
-                columns = GridCells.Adaptive(100.dp),
+                columns = GridCells.Fixed(12),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    PreferenceSubtitle(
-                        text = stringResource(id = R.string.sponsors),
-                        contentPadding = PaddingValues(start = 12.dp, top = 24.dp, bottom = 12.dp)
-                    )
-                }
 
-                items(sponsorList) { user ->
-                    SponsorItem(
-                        userName = user.sponsorEntity.name,
-                        userLogin = user.sponsorEntity.login,
-                    ) {
-                        uriHandler.openUri("https://github.com/${user.sponsorEntity.login}")
+                if (supporterList.isNotEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        PreferenceSubtitle(
+                            text = "Supporters 💖",
+                            contentPadding = PaddingValues(
+                                start = 12.dp,
+                                top = 24.dp,
+                                bottom = 12.dp
+                            )
+                        )
+                    }
+
+                    items(supporterList, span = { GridItemSpan(maxLineSpan / 3) }) { user ->
+                        SponsorItem(user = user)
                     }
                 }
+
+                if (backerList.isNotEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        PreferenceSubtitle(
+                            text = "Backers ❤️",
+                            contentPadding = PaddingValues(
+                                start = 12.dp,
+                                top = 12.dp,
+                                bottom = 12.dp
+                            )
+                        )
+                    }
+
+                    items(backerList, span = { GridItemSpan(maxLineSpan / 3) }) { user ->
+                        SponsorItem(user = user)
+                    }
+                }
+
+                if (sponsorList.isNotEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        PreferenceSubtitle(
+                            text = "Sponsors ☕️",
+                            contentPadding = PaddingValues(
+                                start = 12.dp,
+                                top = 12.dp,
+                                bottom = 12.dp
+                            )
+                        )
+                    }
+
+                    items(sponsorList, span = { GridItemSpan(maxLineSpan / 4) }) { user ->
+                        SponsorItem(user = user)
+                    }
+                }
+
+
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Surface(
                         shape = CardDefaults.shape,
@@ -202,12 +257,23 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
         modifier = modifier
             .padding(horizontal = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge
         )
+    }
+}
+
+@Composable
+fun SponsorItem(user: Node) {
+    val uriHandler = LocalUriHandler.current
+    SponsorItem(
+        userName = user.sponsorEntity.name,
+        userLogin = user.sponsorEntity.login,
+    ) {
+        uriHandler.openUri("https://github.com/${user.sponsorEntity.login}")
     }
 }
