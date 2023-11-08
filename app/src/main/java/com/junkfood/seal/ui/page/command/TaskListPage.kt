@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.command
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -111,9 +110,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                scope.launch {
-                    sheetState.show()
-                }
+                showBottomSheet = true
             }, modifier = Modifier.padding(vertical = 18.dp, horizontal = 6.dp)) {
                 Icon(Icons.Outlined.Add, stringResource(id = R.string.new_task))
             }
@@ -174,13 +171,12 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
 
         }
     }
-    BackHandler(sheetState.targetValue == SheetValue.Expanded) {
+    val onDismissRequest: () -> Unit = {
         scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
     }
+
     if (showBottomSheet) SealModalBottomSheet(sheetState = sheetState,
-        onDismissRequest = {
-            scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
-        },
+        onDismissRequest = onDismissRequest,
         content = {
             val clipboardManager = LocalClipboardManager.current
 
@@ -221,16 +217,17 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                 ) {
                     item {
                         OutlinedButtonWithIcon(
-                            modifier = Modifier.padding(horizontal = 12.dp), onClick = {
-                                scope.launch { sheetState.hide() }
-                            }, icon = Icons.Outlined.Cancel, text = stringResource(R.string.cancel)
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            onClick = onDismissRequest,
+                            icon = Icons.Outlined.Cancel,
+                            text = stringResource(R.string.cancel)
                         )
                     }
                     item {
                         FilledButtonWithIcon(
                             onClick = {
                                 Downloader.executeCommandWithUrl(url)
-                                scope.launch { sheetState.hide() }
+                                onDismissRequest()
                             },
                             icon = Icons.Outlined.DownloadDone,
                             text = stringResource(R.string.start)
