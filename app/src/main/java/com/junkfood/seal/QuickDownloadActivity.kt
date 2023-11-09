@@ -10,12 +10,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -128,14 +126,10 @@ class QuickDownloadActivity : ComponentActivity() {
                     var showDialog by remember { mutableStateOf(true) }
                     val sheetState =
                         rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-                    LaunchedEffect(sheetState.currentValue, showDialog) {
-                        if (sheetState.currentValue == SheetValue.Hidden || !showDialog)
-                            this@QuickDownloadActivity.finish()
-                    }
+                    
                     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
                     DownloadSettingDialog(
-                        useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact,
+                        useDialog = useDialog,
                         showDialog = showDialog,
                         isQuickDownload = true,
                         sheetState = sheetState,
@@ -150,6 +144,7 @@ class QuickDownloadActivity : ComponentActivity() {
                             } else {
                                 showDialog = false
                             }
+                            this@QuickDownloadActivity.finish()
                         },
                     )
                 }
