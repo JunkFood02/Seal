@@ -14,12 +14,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
+import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
@@ -61,6 +61,7 @@ import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
 import com.junkfood.seal.ui.component.SingleChoiceItemWithLabel
+import com.junkfood.seal.ui.component.SwitchItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
@@ -70,8 +71,6 @@ import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.CONVERT_SUBTITLE
 import com.junkfood.seal.util.CONVERT_VTT
 import com.junkfood.seal.util.DEFAULT
-import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.FORMAT_COMPATIBILITY
 import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.M4A
@@ -82,7 +81,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
-import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.ULTRA_LOW
 import com.junkfood.seal.util.VIDEO_FORMAT
@@ -541,18 +539,28 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
 }
 
 @Composable
-fun FormatSortingDialog(onDismissRequest: () -> Unit) {
-    var sortingFields by SORTING_FIELDS.stringState
+fun FormatSortingDialog(
+    fields: String,
+    showSwitch: Boolean = false,
+    toggleableValue: Boolean = false,
+    onSwitchChecked: (Boolean) -> Unit = {},
+    onImport: () -> Unit = {},
+    onDismissRequest: () -> Unit = {},
+    onConfirm: (String) -> Unit = {}
+) {
+    var sortingFields by remember(fields) {
+        mutableStateOf(fields)
+    }
     SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
             DismissButton { onDismissRequest() }
-        }, icon = { Icon(Icons.Outlined.Sort, null) },
+        }, icon = { Icon(Icons.AutoMirrored.Outlined.Sort, null) },
         title = {
             Text(stringResource(R.string.format_sorting))
         }, confirmButton = {
-            ConfirmButton {
-                SORTING_FIELDS.updateString(sortingFields)
+            ConfirmButton(text = stringResource(id = R.string.save)) {
+                onConfirm(sortingFields)
                 onDismissRequest()
             }
         }, text = {
@@ -586,17 +594,37 @@ fun FormatSortingDialog(onDismissRequest: () -> Unit) {
                         label = stringResource(id = R.string.import_from_preferences),
                         icon = Icons.Outlined.SettingsSuggest
                     ) {
-                        sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+                        onImport()
                     }
                     OutlinedButtonChip(
                         label = stringResource(R.string.yt_dlp_docs),
-                        icon = Icons.Outlined.OpenInNew
+                        icon = Icons.AutoMirrored.Outlined.OpenInNew
                     ) {
                         uriHandler.openUri(sortingFormats)
                     }
                 }
+                if (showSwitch) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp))
+                    SwitchItem(
+                        text = stringResource(id = R.string.use_format_sorting),
+                        value = toggleableValue,
+                        onValueChange = onSwitchChecked
+                    )
+                }
             }
         })
+}
+
+@Preview
+@Composable
+private fun FormatSortingDialogPreview() {
+    var value by remember { mutableStateOf(false) }
+    FormatSortingDialog(
+        fields = "",
+        showSwitch = true,
+        toggleableValue = value,
+        onSwitchChecked = { value = it })
 }
 
 @Composable

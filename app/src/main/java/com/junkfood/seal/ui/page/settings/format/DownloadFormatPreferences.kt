@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
+import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -46,15 +47,17 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.EMBED_METADATA
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.FORMAT_SORTING
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -64,9 +67,9 @@ import com.junkfood.seal.util.VIDEO_QUALITY
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true })
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
+            canScroll = { true })
 
     var audioSwitch by remember {
         mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO))
@@ -92,7 +95,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     var videoFormat by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
     var convertFormat by remember { mutableStateOf(PreferenceStrings.getAudioConvertDesc()) }
-    val sortingFields by remember { mutableStateOf(SORTING_FIELDS.getString()) }
+    var sortingFields by SORTING_FIELDS.stringState
     val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
     var convertAudio by AUDIO_CONVERT.booleanState
     var isFormatSortingEnabled by FORMAT_SORTING.booleanState
@@ -171,8 +174,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         })
                 }
                 item {
-                    PreferenceSwitch(
-                        title = stringResource(id = R.string.embed_metadata),
+                    PreferenceSwitch(title = stringResource(id = R.string.embed_metadata),
                         description = stringResource(
                             id = R.string.embed_metadata_desc
                         ),
@@ -182,8 +184,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         onClick = {
                             embedMetadata = !embedMetadata
                             EMBED_METADATA.updateBoolean(embedMetadata)
-                        }
-                    )
+                        })
                 }
                 item {
                     PreferenceSwitch(
@@ -297,25 +298,32 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
         }
     }
     if (showVideoQualityDialog) {
-        VideoQualityDialog(
-            videoQuality = videoQuality,
+        VideoQualityDialog(videoQuality = videoQuality,
             onDismissRequest = { showVideoQualityDialog = false }) {
             videoQuality = it
             VIDEO_QUALITY.updateInt(it)
         }
     }
     if (showVideoFormatDialog) {
-        VideoFormatDialog(
-            videoFormatPreference = videoFormat,
-            onDismissRequest = {
-                showVideoFormatDialog = false
-            }) {
+        VideoFormatDialog(videoFormatPreference = videoFormat, onDismissRequest = {
+            showVideoFormatDialog = false
+        }) {
             PreferenceUtil.encodeInt(VIDEO_FORMAT, it)
             videoFormat = it
         }
     }
     if (showFormatSorterDialog) {
-        FormatSortingDialog { showFormatSorterDialog = false }
+        FormatSortingDialog(
+            fields = sortingFields,
+            onImport = {
+                sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+            },
+            onDismissRequest = { showFormatSorterDialog = false },
+            showSwitch = false, onConfirm = {
+                sortingFields = it
+                SORTING_FIELDS.updateString(sortingFields)
+            }
+        )
     }
     if (showVideoClipDialog) {
         AlertDialog(onDismissRequest = { showVideoClipDialog = false },

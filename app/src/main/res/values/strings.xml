@@ -395,6 +395,7 @@
     <string name="show_all_items">Show all %1$d items</string>
     <string name="edit_file">Edit file</string>
     <string name="save">Save</string>
+    <string name="use_format_sorting">Use format sorting</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetState
@@ -52,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
+import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
@@ -66,6 +68,7 @@ import com.junkfood.seal.ui.page.command.TemplatePickerDialog
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioConversionQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
+import com.junkfood.seal.ui.page.settings.format.FormatSortingDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
@@ -73,8 +76,10 @@ import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.toFormatSorter
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
+import com.junkfood.seal.util.FORMAT_SORTING
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PLAYLIST
@@ -82,6 +87,8 @@ import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.SORTING_FIELDS
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
@@ -113,12 +120,14 @@ fun DownloadSettingDialog(
     var videoFormatPreference by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
     var cookies by COOKIES.booleanState
-
+    var formatSorting by FORMAT_SORTING.booleanState
+    var sortingFields by SORTING_FIELDS.stringState
 
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showAudioConversionDialog by remember { mutableStateOf(false) }
+    var showFormatSortingDialog by remember { mutableStateOf(false) }
 
     var showTemplateSelectionDialog by remember { mutableStateOf(false) }
     var showTemplateCreatorDialog by remember { mutableStateOf(false) }
@@ -247,7 +256,7 @@ fun DownloadSettingDialog(
                             onClick = {
                                 showVideoFormatDialog = true
                             },
-                            enabled = !customCommand,
+                            enabled = !customCommand && !formatSorting,
                             label = PreferenceStrings.getVideoFormatLabel(videoFormatPreference),
                             icon = Icons.Outlined.VideoFile,
                             iconDescription = stringResource(id = R.string.video_format_preference)
@@ -255,7 +264,7 @@ fun DownloadSettingDialog(
                         ButtonChip(
                             label = PreferenceStrings.getVideoResolutionDescComp(),
                             icon = Icons.Outlined.HighQuality,
-                            enabled = !customCommand,
+                            enabled = !customCommand && !formatSorting,
                             iconDescription = stringResource(id = R.string.video_quality)
                         ) {
                             showVideoQualityDialog = true
@@ -265,7 +274,7 @@ fun DownloadSettingDialog(
                         onClick = {
                             showAudioSettingsDialog = true
                         },
-                        enabled = !customCommand,
+                        enabled = !customCommand && !formatSorting,
                         label = stringResource(R.string.audio_format),
                         icon = Icons.Outlined.AudioFile
                     )
@@ -328,6 +337,17 @@ fun DownloadSettingDialog(
                             }
                         },
                         label = stringResource(id = R.string.cookies)
+                    )
+                }
+                if(sortingFields.isNotEmpty()){
+                    FilterChip(
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        selected = formatSorting,
+                        enabled = !customCommand,
+                        onClick = { showFormatSortingDialog = true },
+                        label = {
+                            Text(text = stringResource(id = R.string.format_sorting))
+                        }
                     )
                 }
                 if (!isQuickDownload) {
@@ -492,5 +512,21 @@ fun DownloadSettingDialog(
         AudioConversionQuickSettingsDialog(onDismissRequest = {
             showAudioConversionDialog = false
         })
+    }
+    if (showFormatSortingDialog) {
+        FormatSortingDialog(
+            fields = sortingFields,
+            showSwitch = true,
+            toggleableValue = formatSorting,
+            onSwitchChecked = {
+                formatSorting = it
+                FORMAT_SORTING.updateBoolean(it)
+            }, onImport = {
+                sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+            }, onDismissRequest = { showFormatSortingDialog = false },
+            onConfirm = {
+                sortingFields = it
+                SORTING_FIELDS.updateString(it)
+            })
     }
 }
