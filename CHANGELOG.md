@@ -5,6 +5,10 @@ All notable changes (starting from v1.7.3) to stable releases will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.0][2.0.0] - unreleased
+
+Under development, please stay tuned!
+
 
 ## [v1.11.0][1.11.0] - unreleased
 
@@ -12,22 +16,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Custom output template (`-o` option in yt-dlp)
 * Export cookies to a text file
 * Make embed metadata in audio files optional
-* Save subtitles are now available when downloading audio files
 * Add the ability to record download archive, and skip duplicate downloads
 * Add cancel button to the download page
 * Add input chips for sponsorblock categories
 * Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle selection 
+* Add more thanks to sponsors
 
 ### Changed
 * Move the directory for storing temporary files to external storage (`Seal/tmp`)
 * Temporary directory now are enabled by default for downloads in general mode
 * Remove custom prefix for output template, please migrate to custom output template
 * Move actions in format page to dropdown menu
-* `android:enableOnBackInvokedCallback` is changed to `false` due to compatible issues
+* Download subtitles are now available when downloading audio files
+* `android:enableOnBackInvokedCallback` is changed to `false` due to compatibility issues
 
 
 ### Fixed
-* Fix an issue causes sharing videos to failed on certain devices
+* Fix an issue causes sharing videos to fail on certain devices
 * Fix an issue causes uploader marked as null, make uploader_id as a fallback to uploader
 * Fix an issue when a user performs multiple clicks causing duplicate navigating behaviors
 
