@@ -393,6 +393,8 @@
     <string name="embed_metadata_desc">Embed metadata and video thumbnail into the audio file</string>
     <string name="required">Required</string>
     <string name="show_all_items">Show all %1$d items</string>
+    <string name="edit_file">Edit file</string>
+    <string name="save">Save</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

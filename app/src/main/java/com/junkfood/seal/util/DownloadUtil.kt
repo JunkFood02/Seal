@@ -21,11 +21,12 @@ import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.page.settings.network.Cookie
+import com.junkfood.seal.util.FileUtil.getArchiveFile
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
+import com.junkfood.seal.util.FileUtil.getExternalTempDir
 import com.junkfood.seal.util.FileUtil.getFileName
 import com.junkfood.seal.util.FileUtil.getSdcardTempDir
-import com.junkfood.seal.util.FileUtil.getTempDir
 import com.junkfood.seal.util.FileUtil.moveFilesToSdcard
 import com.junkfood.seal.util.PreferenceUtil.COOKIE_HEADER
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -213,7 +214,7 @@ object DownloadUtil {
         this.addOption("--proxy", proxyUrl)
 
     private fun YoutubeDLRequest.useDownloadArchive(): YoutubeDLRequest =
-        this.addOption("--download-archive", FileUtil.getArchiveFile().absolutePath)
+        this.addOption("--download-archive", context.getArchiveFile().absolutePath)
 
 
     @CheckResult
@@ -540,7 +541,7 @@ object DownloadUtil {
                     addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                 }
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
-                    "-P", "temp:" + getTempDir()
+                    "-P", "temp:" + getExternalTempDir()
                 )
                 val output =
                     if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) outputTemplate else OUTPUT_TEMPLATE_CLIPS

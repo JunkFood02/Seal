@@ -26,7 +26,7 @@ object FileUtil {
     fun openFileFromResult(downloadResult: Result<List<String>>) {
         val filePaths = downloadResult.getOrNull()
         if (filePaths.isNullOrEmpty()) return
-        openFile(filePaths.first()){
+        openFile(filePaths.first()) {
             ToastUtil.makeToastSuspend(context.getString(R.string.file_unavailable))
         }
     }
@@ -188,19 +188,19 @@ object FileUtil {
     fun Context.getCookiesFile() =
         File(getConfigDirectory(), "cookies.txt")
 
-    fun getTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
+    fun getExternalTempDir() = File(getExternalDownloadDirectory(), "tmp").apply {
         mkdirs()
         createEmptyFile(".nomedia")
     }
 
-    fun Context.getSdcardTempDir(child: String?): File = getTempDir().run {
+    fun Context.getSdcardTempDir(child: String?): File = getExternalTempDir().run {
         child?.let { resolve(it) } ?: this
     }
 
-    fun getArchiveFile(): File =
-        getExternalDownloadDirectory().createEmptyFile("archive.txt").getOrThrow()
+    fun Context.getArchiveFile(): File =
+        filesDir.createEmptyFile("archive.txt").getOrThrow()
 
-    fun Context.getLegacyTempDir() = File(filesDir, "tmp")
+    fun Context.getInternalTempDir() = File(filesDir, "tmp")
 
     internal fun getExternalDownloadDirectory() = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),

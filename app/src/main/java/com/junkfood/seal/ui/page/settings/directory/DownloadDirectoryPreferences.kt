@@ -95,7 +95,7 @@ import com.junkfood.seal.util.CUSTOM_OUTPUT_TEMPLATE
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getConfigDirectory
-import com.junkfood.seal.util.FileUtil.getTempDir
+import com.junkfood.seal.util.FileUtil.getExternalTempDir
 import com.junkfood.seal.util.OUTPUT_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
@@ -390,7 +390,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             },
             text = {
                 Text(
-                    stringResource(R.string.clear_temp_files_info, getTempDir().absolutePath),
+                    stringResource(R.string.clear_temp_files_info, getExternalTempDir().absolutePath),
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
@@ -400,9 +400,9 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     scope.launch(Dispatchers.IO) {
                         FileUtil.clearTempFiles(context.getConfigDirectory())
                         val count = FileUtil.run {
-                            clearTempFiles(getTempDir()) + clearTempFiles(
+                            clearTempFiles(getExternalTempDir()) + clearTempFiles(
                                 context.getSdcardTempDir(null)
-                            ) + clearTempFiles(context.getLegacyTempDir())
+                            ) + clearTempFiles(context.getInternalTempDir())
 
                         }
 
