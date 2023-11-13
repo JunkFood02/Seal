@@ -72,6 +72,10 @@ import com.junkfood.seal.ui.page.settings.format.FormatSortingDialog
 import com.junkfood.seal.ui.page.settings.format.VideoFormatDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQualityDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
+import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
+import com.junkfood.seal.util.AUDIO_CONVERT
+import com.junkfood.seal.util.CONVERT_M4A
+import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
@@ -85,6 +89,8 @@ import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -278,9 +284,27 @@ fun DownloadSettingDialog(
                         label = stringResource(R.string.audio_format),
                         icon = Icons.Outlined.AudioFile
                     )
+                    val convertToMp3 = stringResource(id = R.string.convert_to, "mp3")
+                    val convertToM4a = stringResource(id = R.string.convert_to, "m4a")
+                    val notConvert = stringResource(id = R.string.not_convert)
+
                     if (audio) {
+                        val convertAudioLabelText by remember(showAudioConversionDialog, audio) {
+                            derivedStateOf {
+                                if (!AUDIO_CONVERT.getBoolean()) {
+                                    notConvert
+                                } else {
+                                    val format = AUDIO_CONVERSION_FORMAT.getInt()
+                                    when (format) {
+                                        CONVERT_MP3 -> convertToMp3
+                                        CONVERT_M4A -> convertToM4a
+                                        else -> notConvert
+                                    }
+                                }
+                            }
+                        }
                         ButtonChip(
-                            label = stringResource(id = R.string.convert_audio),
+                            label = convertAudioLabelText,
                             icon = Icons.Outlined.Sync
                         ) {
                             showAudioConversionDialog = true
@@ -339,7 +363,7 @@ fun DownloadSettingDialog(
                         label = stringResource(id = R.string.cookies)
                     )
                 }
-                if(sortingFields.isNotEmpty()){
+                if (sortingFields.isNotEmpty()) {
                     FilterChip(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         selected = formatSorting,
