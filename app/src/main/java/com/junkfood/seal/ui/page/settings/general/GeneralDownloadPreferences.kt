@@ -620,17 +620,13 @@ fun DownloadArchiveDialog(
                 val textStyle =
                     MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
 
+                OutlinedTextField(
+                    label = { Text(text = "archive.txt") },
+                    value = editContent,
+                    onValueChange = { str -> editContent = str },
+                    textStyle = textStyle
+                )
 
-                if (archiveFileContent.isNotEmpty()) {
-
-                    OutlinedTextField(
-                        label = { Text(text = "archive.txt") },
-                        value = editContent,
-                        onValueChange = { str -> editContent = str },
-                        textStyle = textStyle
-                    )
-
-                }
 
             }
         }
