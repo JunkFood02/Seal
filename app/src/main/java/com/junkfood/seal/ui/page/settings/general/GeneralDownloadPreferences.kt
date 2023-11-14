@@ -624,7 +624,9 @@ fun DownloadArchiveDialog(
                     label = { Text(text = "archive.txt") },
                     value = editContent,
                     onValueChange = { str -> editContent = str },
-                    textStyle = textStyle
+                    textStyle = textStyle,
+                    minLines = 10,
+                    maxLines = 10
                 )
 
 
