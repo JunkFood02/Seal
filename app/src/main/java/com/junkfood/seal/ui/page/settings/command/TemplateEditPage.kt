@@ -16,10 +16,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -40,9 +41,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,7 +53,6 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
-import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.ui.component.ShortcutChip
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.util.DatabaseUtil
@@ -112,31 +109,34 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
         ) {
 
             item {
+                val description = stringResource(R.string.template_label)
+
                 Column(Modifier.padding(horizontal = 24.dp)) {
-                    AdjacentLabel(text = stringResource(R.string.template_label),
+                    AdjacentLabel(
+                        text = description,
                         modifier = Modifier
                             .padding(top = 12.dp)
-                            .clearAndSetSemantics { })
-                    val content = stringResource(R.string.template_label)
-                    SealTextField(
+                    )
+                    OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .semantics { contentDescription = content }
                             .padding(bottom = 24.dp),
                         value = templateName,
                         onValueChange = { templateName = it },
                         keyboardActions = KeyboardActions.Default,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        contentDescription = stringResource(R.string.template_label)
                     )
                 }
 
             }
             item {
                 Column(Modifier.padding(horizontal = 24.dp)) {
-                    AdjacentLabel(text = stringResource(R.string.custom_command_template),
-                        modifier = Modifier.clearAndSetSemantics { })
-                    SealTextField(
+                    val description = stringResource(R.string.custom_command_template)
+                    AdjacentLabel(
+                        text = description,
+                        modifier = Modifier
+                    )
+                    OutlinedTextField(
                         supportingText = { Text(text = stringResource(id = R.string.edit_template_desc)) },
                         modifier = Modifier.fillMaxWidth(),
                         value = templateText,
@@ -147,23 +147,17 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
                             }
                             else ClearButton { templateText = "" }
                         },
-                        contentDescription = stringResource(R.string.custom_command_template),
                         maxLines = 12,
                         minLines = 6,
-                        /*                        keyboardActions = KeyboardActions(onDone = {
-                                                    softwareKeyboardController?.hide()
-                                                    focusManager.moveFocus(FocusDirection.Down)
-                                                }),
-                                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)*/
                     )
                     LinkButton(modifier = Modifier.padding(vertical = 12.dp))
-                    Divider(
+                    HorizontalDivider(
                         Modifier
                             .fillMaxWidth()
                             .padding(bottom = 24.dp)
                             .size(DividerDefaults.Thickness)
                             .clip(CircleShape),
-                        color = MaterialTheme.colorScheme.outlineVariant,
+                        color = MaterialTheme.colorScheme.outlineVariant
                     )
                 }
             }
