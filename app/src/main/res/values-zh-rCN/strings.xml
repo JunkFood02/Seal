@@ -352,4 +352,7 @@
     <string name="embed_metadata_desc">将元数据和视频缩略图内嵌到音频文件</string>
     <string name="required">必需的</string>
     <string name="show_all_items">显示全部 %1$d 项</string>
+    <string name="save">保存</string>
+    <string name="use_format_sorting">使用格式排序</string>
+    <string name="edit_file">编辑文件</string>
 </resources>

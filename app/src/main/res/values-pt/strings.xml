@@ -354,4 +354,7 @@
     <string name="embed_metadata_desc">Incorporar metadados e miniatura de vídeo no ficheiro de áudio</string>
     <string name="required">Obrigatório</string>
     <string name="show_all_items">Mostrar todos os %1$d itens</string>
+    <string name="save">Guardar</string>
+    <string name="use_format_sorting">Utilizar a ordenação de formatos</string>
+    <string name="edit_file">Editar ficheiro</string>
 </resources>

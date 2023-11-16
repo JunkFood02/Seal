@@ -112,7 +112,7 @@
     <string name="invalid_index_range">Phạm vi chỉ mục không hợp lệ</string>
     <string name="execute_command_notification">Đang chạy lệnh tùy chỉnh…</string>
     <string name="fetching_playlist_info">Đang nạp thông tin danh sách phát…</string>
-    <string name="download_range_desc">Chỉ định phạm vi video để tải xuống từ danh sách \"%3$s\" (từ %1$d sang %2$d).</string>
+    <string name="download_range_desc">Chỉ định phạm vi video sẽ tải xuống từ danh sách phát \"%3$s\" (từ %1$d đến %2$d).</string>
     <string name="battery_settings_desc">Hãy chuyển mức sử dụng pin của ứng dụng này sang \"Không giới hạn\" trong thiết đặt hệ thống để tải xuống trong nền.</string>
     <string name="download_range_selection">Lựa chọn danh sách phát</string>
     <string name="to">Kết thúc</string>
@@ -329,7 +329,7 @@
 \nKhi sử dụng các lệnh tùy chỉnh, hầu hết các tùy chọn và tính năng GUI sẽ bị tắt.</string>
     <string name="download_type">Loại tải xuống</string>
     <string name="clear_download_archive">Xóa kho lưu trữ tải xuống\?</string>
-    <string name="export_to_file">Xuất sang tập tin</string>
+    <string name="export_to_file">Xuất thành tệp</string>
     <string name="commands">Lệnh</string>
     <string name="clear_download_archive_desc">Loại bỏ vĩnh viễn %1$s trong tệp lưu trữ\?</string>
     <string name="unknown">Không xác định</string>
