@@ -7,9 +7,9 @@
 ### 只為 Android 而生的視訊/音訊下載程式
 
 
-English
+<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README-zh_TW.md">繁體中文</a>
+繁體中文
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
@@ -67,7 +67,7 @@ English
 
 
 
-## ⬇️ 下載
+## ⬇️ 如何下載
 
 我們建議大多數裝置使用 **arm64-v8a** 版本的 APK 檔。
 
@@ -80,11 +80,11 @@ English
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
-## 💬 聯繫
+## 💬 如何聯繫
 
 誠摯邀請您加入 [Telegram 頻道](https://t.me/seal_app) 或 [Matrix Space](https://matrix.to/#/#seal-space:matrix.org)，與我們一同討論、接收最新消息，以及軟體發行！
 
-## 💖 贊助者
+## 💖 贊助之友
 
 <p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/t1hta"><img src="https://github.com/t1hta.png" width="60px" alt="t1hta" /></a><a href="https://github.com/nameoneeman"><img src="https://github.com/nameoneeman.png" width="60px" alt="James" /></a><a href="https://github.com/iguanaguy44"><img src="https://github.com/iguanaguy44.png" width="60px" alt="" /></a><!-- sponsors --></p>
 
@@ -95,15 +95,15 @@ Seal 永遠提供眾人免費使用並開放原始碼。若您悅納，請考慮
 
 永遠歡迎您的貢獻！
 
-您可以在 [Hosted Weblate](https://hosted.weblate.org/projects/seal/)，參與 Seal 的翻譯
+您可以在 [Hosted Weblate](https://hosted.weblate.org/projects/seal/)，參與 Seal 的翻譯。
 	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 	
 >**備註**
 >
->請在回報錯誤、功能請求、求問，或任何改進建言之前，先閱讀 [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) 相關指引。
+>請在回報錯誤、功能請求、求問，或提供任何改進建言之前，先閱讀 [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) 相關指引。
 
-## ⭐️ Star 記錄
+## ⭐️ Star 歷程
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
@@ -120,15 +120,15 @@ Seal 是基於 [youtubedl-android](https://github.com/yausername/youtubedl-andro
 
 [Monet](https://github.com/Kyant0/Monet)
 
-## 📃 授權（本節僅供參考，敬請依據原文）
+## 📃 授權（本節僅供參考，敬請閱讀原文）
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 >**警告**
 >
->除依據 GPLv3 授權之來源代碼，
+>除依據 GPLv3 授權之來源代碼外，
 >各方均不得以 Seal 作為下載程式之應用程式之命名，
->且 Seal 衍生產品亦之。
+>Seal 衍生產品亦之。
 >衍生產品包括但不限於分支和非官方組建。
 
 <div align="right">
