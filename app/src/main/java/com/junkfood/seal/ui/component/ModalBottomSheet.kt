@@ -44,12 +44,12 @@ fun SealModalBottomSheet(
         Column(modifier = Modifier.padding(paddingValues = horizontalPadding)) {
             content()
             Spacer(modifier = Modifier.height(28.dp))
-            NavigationBarSpacer(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .fillMaxWidth()
-            )
         }
+        NavigationBarSpacer(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .fillMaxWidth()
+        )
 
     }
 }
