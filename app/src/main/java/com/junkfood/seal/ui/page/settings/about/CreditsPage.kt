@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page.settings.about
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,19 +17,18 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CreditItem
 import com.junkfood.seal.ui.component.LargeTopAppBar
-import com.junkfood.seal.ui.svg.CreditSVG
-import com.junkfood.seal.ui.theme.autoDark
-import com.kyant.monet.n1
+import com.junkfood.seal.ui.svg.DynamicColorImageVectors
+import com.junkfood.seal.ui.svg.drawablevectors.coder
 
 data class Credit(val title: String = "", val license: String? = null, val url: String = "")
 
@@ -122,10 +122,11 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
                             .clip(MaterialTheme.shapes.large)
                             .clickable { }
                             .clearAndSetSemantics { },
-                        color = 95.autoDark().n1
+                        color = MaterialTheme.colorScheme.surfaceContainer
                     ) {
-                        SVGImage(
-                            SVGString = CreditSVG,
+                        val painter = rememberVectorPainter(image = DynamicColorImageVectors.coder())
+                        Image(
+                            painter = painter,
                             contentDescription = null,
                             modifier = Modifier.padding(horizontal = 72.dp, vertical = 48.dp)
                         )

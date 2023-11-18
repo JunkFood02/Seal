@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.videolist
 
-import VideoStreamSVG
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,6 +8,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,6 +64,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -86,7 +87,6 @@ import com.junkfood.seal.database.backup.BackupUtil.toURLListString
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
-import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -96,6 +96,8 @@ import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealSearchBar
 import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.ui.svg.DynamicColorImageVectors
+import com.junkfood.seal.ui.svg.drawablevectors.videoSteaming
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.ToastUtil
@@ -435,12 +437,14 @@ fun VideoListPage(
             Box(
                 modifier = Modifier.fillMaxSize(),
             ) {
+                val painter =
+                    rememberVectorPainter(image = DynamicColorImageVectors.videoSteaming())
                 Column(
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    SVGImage(
-                        SVGString = VideoStreamSVG,
+                    Image(
+                        painter = painter,
                         contentDescription = null,
                         modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
                     )

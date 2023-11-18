@@ -203,54 +203,37 @@ dependencies {
 
     implementation(project(":color"))
 
-    //Core libs for the app
     implementation(libs.bundles.core)
 
-    //Lifecycle support for Jetpack Compose
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
-    //Material UI, Accompanist...
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidxCompose)
     implementation(libs.bundles.accompanist)
 
-    //Coil (For Jetpack Compose)
     implementation(libs.coil.kt.compose)
 
-    //Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    //DI (Dependency Injection - Hilt)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.ext.compiler)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    //Database powered by Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
-    // Network requests (OkHttp)
     implementation(libs.okhttp)
 
-    //YoutubeDl for Android (youtubedl-android)
     implementation(libs.bundles.youtubedlAndroid)
 
-    //SVG implementation (AndroidSVG by Caverock)
-    implementation(libs.caverock.androidsvg)
-
-    //MMKV (Ultrafast Key-Value storage)
     implementation(libs.mmkv)
 
-    //Unit testing libraries
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
-//  androidTestImplementation(libs.androidx.compose.ui.test)
-
-    //UI debugging library for Jetpack Compose
     implementation(libs.androidx.compose.ui.tooling)
 
 }

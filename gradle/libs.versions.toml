@@ -130,17 +130,16 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 accompanist = [
-    #    "accompanist-navigation-animation",
     "accompanist-permissions",
     "accompanist-systemuicontroller",
     "accompanist-webview",
-    "accompanist-pager-layouts",
+#    "accompanist-pager-layouts",
     "accompanist-pager-indicators",
-    "accompanist-flowlayout"]
+#    "accompanist-flowlayout"
+]
 
 androidxCompose = ["androidx-compose-ui",
     "androidx-compose-ui-tooling-preview",
-    #    "androidx-compose-material",
     "androidx-compose-material-iconsExtended",
     "androidx-compose-material3",
     "androidx-compose-material3-windowSizeClass",

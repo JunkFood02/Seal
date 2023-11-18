@@ -8,10 +8,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.junkfood.seal.ui.svg.drawablevectors.Coder
-import com.junkfood.seal.ui.svg.drawablevectors.Download
-import com.junkfood.seal.ui.svg.drawablevectors.VideoFiles
-import com.junkfood.seal.ui.svg.drawablevectors.VideoSteaming
+import com.junkfood.seal.ui.svg.drawablevectors.coder
+import com.junkfood.seal.ui.svg.drawablevectors.download
+import com.junkfood.seal.ui.svg.drawablevectors.videoFiles
+import com.junkfood.seal.ui.svg.drawablevectors.videoSteaming
 import com.junkfood.seal.ui.theme.SealTheme
 
 @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
@@ -22,22 +22,22 @@ private fun Download() {
         Surface {
             Column {
                 Image(
-                    imageVector = DynamicColorImageVectors.Download,
+                    imageVector = DynamicColorImageVectors.download(),
                     contentDescription = null,
                     modifier = Modifier.aspectRatio(16 / 9f)
                 )
                 Image(
-                    imageVector = Coder(),
+                    imageVector = DynamicColorImageVectors.coder(),
                     contentDescription = null,
                     modifier = Modifier.aspectRatio(16 / 9f)
                 )
                 Image(
-                    imageVector = DynamicColorImageVectors.VideoFiles,
+                    imageVector = DynamicColorImageVectors.videoFiles(),
                     contentDescription = null,
                     modifier = Modifier.aspectRatio(16 / 9f)
                 )
                 Image(
-                    imageVector = DynamicColorImageVectors.VideoSteaming,
+                    imageVector = DynamicColorImageVectors.videoSteaming(),
                     contentDescription = null,
                     modifier = Modifier.aspectRatio(16 / 9f)
                 )
