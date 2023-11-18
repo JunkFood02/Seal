@@ -135,7 +135,7 @@ accompanist = [
 
 androidxCompose = ["androidx-compose-ui",
     "androidx-compose-ui-tooling-preview",
-    "androidx-compose-material",
+#    "androidx-compose-material",
     "androidx-compose-material-iconsExtended",
     "androidx-compose-material3",
     "androidx-compose-material3-windowSizeClass",
