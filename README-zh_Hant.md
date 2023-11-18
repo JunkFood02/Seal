@@ -127,7 +127,7 @@ Seal 是基於 [youtubedl-android](https://github.com/yausername/youtubedl-andro
 >**警告**
 >
 >除依據 GPLv3 授權之來源代碼外，
->各方均不得以 Seal 作為下載程式之應用程式之命名，
+>各方均不得以 Seal 作為下載程式之應用程式命名，
 >Seal 衍生產品亦之。
 >衍生產品包括但不限於分支和非官方組建。
 
