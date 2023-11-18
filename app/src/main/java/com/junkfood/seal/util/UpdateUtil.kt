@@ -291,7 +291,7 @@ object UpdateUtil {
                 "${major}.${minor}.${patch}"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 100
             // Prioritize stable versions
 
         }
@@ -308,6 +308,16 @@ object UpdateUtil {
 
             override fun toNumber(): Long =
                 major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 25
+        }
+
+        class Alpha(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
+            Version(versionMajor, versionMinor, versionPatch) {
+            override fun toVersionName(): String =
+                "${major}.${minor}.${patch}-alpha.$build"
+
+            override fun toNumber(): Long =
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
+
         }
 
         override operator fun compareTo(other: Version): Int =
