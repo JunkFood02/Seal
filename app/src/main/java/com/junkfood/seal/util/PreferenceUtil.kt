@@ -147,7 +147,7 @@ private val StringPreferenceDefaults = mapOf(
     SPONSORBLOCK_CATEGORIES to "default",
     MAX_RATE to "1000",
     SUBTITLE_LANGUAGE to "en.*,.*-orig",
-    OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
+    OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_DEFAULT,
     CUSTOM_OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
 )
 
