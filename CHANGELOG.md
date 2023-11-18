@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Under development, please stay tuned!
 
 
-## [v1.11.0][1.11.0] - unreleased
+## [v1.11.0][1.11.0] - 2023-11-18
 
 ### Added
 * Custom output template (`-o` option in yt-dlp)
@@ -19,13 +19,13 @@ Under development, please stay tuned!
 * Add the ability to record download archive, and skip duplicate downloads
 * Add cancel button to the download page
 * Add input chips for sponsorblock categories
-* Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle selection 
+* Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle selection
 * Add more thanks to sponsors
 
 ### Changed
 * Move the directory for storing temporary files to external storage (`Seal/tmp`)
+* Change the default output template to `%(title)s.%(ext)s`
 * Temporary directory now are enabled by default for downloads in general mode
-* Remove custom prefix for output template, please migrate to custom output template
 * Move actions in format page to dropdown menu
 * Download subtitles are now available when downloading audio files
 * `android:enableOnBackInvokedCallback` is changed to `false` due to compatibility issues
@@ -35,6 +35,9 @@ Under development, please stay tuned!
 * Fix an issue causes sharing videos to fail on certain devices
 * Fix an issue causes uploader marked as null, make uploader_id as a fallback to uploader
 * Fix an issue when a user performs multiple clicks causing duplicate navigating behaviors
+
+### Removed
+* Custom prefix for output template has been removed, please migrate to custom output template
 
 ## [v1.10.0][1.10.0] - 2023-08-30
 
@@ -235,3 +238,5 @@ Under development, please stay tuned!
 [1.9.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.9.2
 
 [1.10.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.10.0
+
+[1.11.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.0

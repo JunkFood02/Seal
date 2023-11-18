@@ -51,11 +51,10 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.ReleaseCandidate(
+val currentVersion: Version = Version.Stable(
     versionMajor = 1,
     versionMinor = 11,
     versionPatch = 0,
-    versionBuild = 3
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -95,7 +94,7 @@ android {
                     isEnable = !project.hasProperty("noSplits")
                     reset()
                     include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-                    isUniversalApk = false
+                    isUniversalApk = true
                 }
             }
         }
