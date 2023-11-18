@@ -353,4 +353,7 @@
     <string name="required">ਲੋੜੀਂਦਾ ਹੈ</string>
     <string name="embed_metadata_desc">ਆਡੀਓ ਫਾਈਲ ਵਿੱਚ ਮੈਟਾਡੇਟਾ ਅਤੇ ਵੀਡੀਓ ਥੰਮਨੇਲ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ</string>
     <string name="show_all_items">ਸਾਰੀਆਂ %1$d ਆਈਟਮਾਂ ਵਿਖਾਓ</string>
+    <string name="save">ਸਾਂਭੋ</string>
+    <string name="use_format_sorting">ਫਾਰਮੈਟ ਛਾਂਟੀ ਵਰਤੋ</string>
+    <string name="edit_file">ਫ਼ਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ</string>
 </resources>

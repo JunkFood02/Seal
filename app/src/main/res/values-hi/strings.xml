@@ -353,4 +353,7 @@
     <string name="required">आवश्यक है</string>
     <string name="embed_metadata_desc">ऑडियो फ़ाइल में मेटाडेटा और वीडियो थंमनेल एम्बेड करें</string>
     <string name="show_all_items">सभी %1$d आइटम दिखाएं</string>
+    <string name="save">सहेजें</string>
+    <string name="use_format_sorting">फार्मेट छँटाई का प्रयोग करें</string>
+    <string name="edit_file">फ़ाइल संपादित करें</string>
 </resources>

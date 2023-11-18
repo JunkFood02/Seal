@@ -161,7 +161,9 @@
     <string name="clear_temp_files_count">Silinen %1$d geçici dosya</string>
     <string name="clear_temp_files_desc">Tüm geçici dosyaları dahili dizinden silin</string>
     <string name="clear_temp_files">Geçici dosyaları temizleyin</string>
-    <string name="clear_temp_files_info">Geçici dosyalar iptal edilen indirmeleri devam ettirmek için kullanılabilir. Bu dosyaların tümünü silmekten emin misiniz\?</string>
+    <string name="clear_temp_files_info">İptal edilen indirme işlemlerine devam etmek için geçici dosyalar kullanılabilir. Bu dosyaların tümünü sildiğinizden emin misiniz?
+\n
+\n Bu dosyalara %1$s üzerinden erişebilirsiniz</string>
     <string name="video_resolution">Video çözünürlüğü</string>
     <string name="video_file_size">Video dosyası boyutu</string>
     <string name="embed_subtitles_desc">Varsa sağlanan altyazıları videolara gömün</string>
@@ -272,8 +274,8 @@
     <string name="running_tasks">Çalışan görevler</string>
     <string name="show_logs">Günlüğü göster</string>
     <string name="embed_subtitles_mkv_msg">Altyazıları gömmek için videolar mkv konteynerine yeniden düzenlenecektir. Gömülü altyazılı videoları izlemek için VLC Media Player\'ı veya diğer uyumlu uygulamaları kullanabilirsiniz.</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="enable_auto_update">Otomatik güncellemeyi etkinleştir</string>
     <string name="lowest_bitrate">En az bit hızı</string>
     <string name="audio_quality">Ses kalitesi</string>
@@ -350,4 +352,5 @@
     <string name="embed_metadata">Meta verileri yerleştir</string>
     <string name="embed_metadata_desc">Meta verileri ve video küçük resmini ses dosyasına gömün</string>
     <string name="required">Gerekli</string>
+    <string name="show_all_items">%1$d ögenin tümünü göster</string>
 </resources>

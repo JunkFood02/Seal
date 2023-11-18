@@ -77,7 +77,7 @@
     <string name="convert_audio_format_desc">La recodificación de archivos de audio conlleva una pérdida de calidad de sonido y un aumento en el tamaño del archivo final.</string>
     <string name="video_quality">Calidad del vídeo</string>
     <string name="best_quality">Mejor calidad</string>
-    <string name="video_quality_desc">Limitar la calidad de vídeo cuando hay varios vídeos</string>
+    <string name="video_quality_desc">Limitar la calidad de vídeo cuando hay varios</string>
     <string name="not_specified">Sin especificar (por defecto)</string>
     <string name="video_format_preference">Preferencia de formato de vídeo</string>
     <string name="preferred_format_desc">Formato preferido cuando se facilitan varios</string>
@@ -354,4 +354,7 @@
     <string name="embed_metadata_desc">Insertar los metadatos y las miniaturas del vídeo en el archivo de audio</string>
     <string name="required">Requerido</string>
     <string name="show_all_items">Mostrar todos los %1$d elementos</string>
+    <string name="save">Guardar</string>
+    <string name="edit_file">Modificar el archivo</string>
+    <string name="use_format_sorting">Utilizar la clasificación por formato</string>
 </resources>

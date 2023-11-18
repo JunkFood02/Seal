@@ -162,7 +162,7 @@
     <string name="template_imported">%1$dつのテンプレートを読み込みました</string>
     <string name="video_resolution">動画の解像度</string>
     <string name="video_file_size">動画ファイルのサイズ</string>
-    <string name="download_task_count">%1$dつのダウンロード待ち</string>
+    <string name="download_task_count">%1$d 件のダウンロードタスク</string>
     <string name="recently_added">最近追加された項目</string>
     <string name="multiselect_item_count">%1$dつの動画、%2$dつの音声ファイル</string>
     <string name="delete_multiple_items_msg">%1$d 個の項目をダウンロード履歴から永久に削除しますか？</string>
@@ -175,10 +175,12 @@
     <string name="download_with_cellular">モバイルデータを使用してダウンロードする</string>
     <string name="privacy">プライバシー</string>
     <string name="private_directory">プライベートディレクトリ</string>
-    <string name="clear_temp_files_info">一時ファイルはキャンセルしたダウンロードを再開するために利用できます。本当にそれらのファイルを全て削除してよろしいですか？</string>
+    <string name="clear_temp_files_info">一時ファイルはキャンセルしたダウンロードを再開するために利用できます。本当にそれらのファイルを全て削除してよろしいですか？
+\n
+\n%1$s でファイルにアクセスできます。</string>
     <string name="download_disabled_with_cellular">設定によって、モバイルデータを用いたダウンロードは無効になっています</string>
     <string name="network">ネットワーク</string>
-    <string name="network_settings_desc">レート制限、ダウンローダ、Cookie</string>
+    <string name="network_settings_desc">レート制限、ダウンローダー、Cookie</string>
     <string name="clear_temp_files">一時ファイルを削除する</string>
     <string name="file_unavailable">このファイルは現在利用できません</string>
     <string name="rate_limit">レート制限</string>
@@ -243,8 +245,8 @@
     <string name="edit_shortcuts_desc">コマンドテンプレートの作成に使用できるカスタムショートカットを編集します。</string>
     <string name="running_tasks">タスクを実行中</string>
     <string name="show_logs">ログを表示</string>
-    <string name="filesize_gb">%.2f G</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="discard">破棄</string>
     <string name="apply">適用</string>
     <string name="embed_subtitles_mkv_msg">字幕を埋め込むには、動画を mkv コンテナにリマックスする必要があります。VLC Media Player またはその他の互換性のあるアプリを使用して、字幕が埋め込まれた動画を視聴できます。</string>
@@ -345,4 +347,6 @@
     <string name="clear_download_archive">ダウンロードのアーカイブを消去しますか？</string>
     <string name="download_archive_desc">ダウンロードの重複を回避するために、ダウンロードした動画のIDを記録します</string>
     <string name="download_archive">ダウンロードのアーカイブ</string>
+    <string name="embed_metadata">メタデータの埋め込み</string>
+    <string name="embed_metadata_desc">メタデータと動画サムネイルを音声ファイルに埋め込む</string>
 </resources>

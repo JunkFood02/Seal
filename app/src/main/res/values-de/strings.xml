@@ -334,4 +334,10 @@
     <string name="refresh_cookies_desc">Tippen, um die Webseite für die Erstellung neuer Cookies zu öffnen:</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="remove_multiple_templates_msg">\"%1$s\" endgültig aus den Befehlsvorlagen entfernen\?</string>
+    <string name="custom_command_usage_msg">yt-dlp ist ein mächtiges Werkzeug um Videos herunterzuladen. Seal macht es einfacher yt-dlp zu nutzten, indem es eine intuitive Benutzeroberfläche, Voreinstellungen für häufige Befehle und andere Funktionen bereitstellt.
+\n
+\nFür erweiterte Nutzung von yt-dlp erlaubt Seal es dir benutzerdefinierte Befehlsvorlagen zu erstellen, speichern und auszuführen, genau wie in einer Befehlszeile.
+\n
+\nWenn benutzerdefinierte Befehle genutzt werden sind die meisten Optionen und Funktionen in der Benutzeroberfläche deaktiviert.</string>
+    <string name="output_template">Ausgabemuster</string>
 </resources>

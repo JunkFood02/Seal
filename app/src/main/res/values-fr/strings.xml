@@ -126,7 +126,7 @@
     <string name="convert_audio_format">Convertir le format audio</string>
     <string name="convert_audio_format_desc">Le réencodage des fichiers audio entraîne une perte de qualité audio et une augmentation de la taille du fichier.</string>
     <string name="best_quality">Meilleure qualité</string>
-    <string name="video_quality_desc">Limiter la qualité de la vidéo lorsque plusieurs personnes sont présentes</string>
+    <string name="video_quality_desc">Limiter la qualité lorsque plusieurs vidéos sont présentes</string>
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="translate">Traduire</string>
     <string name="translate_desc">Aidez à traduire cette application sur Hosted Weblate</string>
@@ -161,7 +161,9 @@
     <string name="clear_temp_files">Effacer les fichiers temporaires</string>
     <string name="clear_temp_files_desc">Supprimer tous les fichiers temporaires du répertoire temporaire</string>
     <string name="clear_temp_files_count">%1$d fichier(s) temporaire(s) supprimé(s)</string>
-    <string name="clear_temp_files_info">Les fichiers temporaires peuvent être utilisés pour reprendre les téléchargements annulés. Êtes-vous sûr·e de supprimer tous ces fichiers \?</string>
+    <string name="clear_temp_files_info">Les fichiers temporaires peuvent être utilisés pour reprendre les téléchargements annulés. Voulez vous vraiment supprimer tous ces fichiers ?
+\n
+\nVous pouvez accéder à ces fichiers dans %1$s</string>
     <string name="app_up_to_date">La version actuelle est à jour</string>
     <string name="recently_added">Récemment ajouté</string>
     <string name="app_update_failed">Échec de la mise à jour vers la dernière version</string>
@@ -182,7 +184,7 @@
     <string name="private_mode_desc">Désactiver l\'historique des téléchargements</string>
     <string name="private_mode">Incognito</string>
     <string name="download_with_cellular">Télécharger via le réseau mobile</string>
-    <string name="download_with_cellular_desc">Autoriser le téléchargement sur une connexion réseau mobile</string>
+    <string name="download_with_cellular_desc">Autoriser le téléchargement sur une connexion limitée</string>
     <string name="dynamic_color">Couleur dynamique</string>
     <string name="download_disabled_with_cellular">Vos paramètres empêchent le téléchargement sur un réseau mobile</string>
     <string name="dynamic_color_desc">Appliquez les couleurs des fonds d\'écran au thème de l\'application</string>
@@ -244,7 +246,7 @@
     <string name="subtitle_desc">Langues, sous-titres intégrés, sous-titres automatiques</string>
     <string name="subtitle_sponsorblock">Les sous-titres peuvent être mal synchronisés lors de la suppression des segments du SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Pour intégrer des sous-titres, les vidéos seront remixées dans un conteneur mkv. Vous pouvez utiliser VLC Media Player ou d\'autres applications compatibles pour regarder des vidéos avec des sous-titres intégrés.</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f M</string>
     <string name="audio_format_preference">Format audio préféré</string>
     <string name="import_from_preferences">Importer</string>
@@ -346,4 +348,13 @@
     <string name="custom">Personnalisé</string>
     <string name="embed_metadata_desc">Intégrer les métadonnées et la vignette de la vidéo dans le fichier audio</string>
     <string name="download_archive">Archive de téléchargement</string>
+    <string name="save">Sauvegarder</string>
+    <string name="use_format_sorting">Utiliser le tri par format</string>
+    <string name="show_all_items">Montrer tous les %1$d éléments</string>
+    <plurals name="item_count">
+        <item quantity="one">%d élément</item>
+        <item quantity="many">%d éléments</item>
+        <item quantity="other">%d éléments</item>
+    </plurals>
+    <string name="edit_file">Modifier le fichier</string>
 </resources>

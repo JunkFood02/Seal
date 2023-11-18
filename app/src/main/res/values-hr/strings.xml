@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings">Postavke</string>
-    <string name="download_settings_desc">Opća, naredba formatiranja, prilagođena naredba</string>
+    <string name="download_settings_desc">Opća, oblik, prilagođena naredba</string>
     <string name="download">Preuzmi</string>
     <string name="url_empty">Poveznica ne može biti prazna</string>
     <string name="yt_dlp_up_to_date">Koristite najnoviju inačicu yt-dlp</string>
@@ -15,13 +15,13 @@
     <string name="download_success_msg">Preuzimanje završeno</string>
     <string name="extract_audio_summary">Preuzmite i spremite zvučni zapis, umjesto videozapisa</string>
     <string name="download_error_msg">Datoteku nije bilo moguće preuzeti</string>
-    <string name="download_start_msg">Preuzimanje \"%1$s\"</string>
+    <string name="download_start_msg">Preuzimanje „%1$s“</string>
     <string name="language">Jezik</string>
     <string name="task_running">Postojeće preuzimanje je već pokrenuto</string>
     <string name="paste_msg">Zalijepljen URL iz međuspremnika</string>
     <string name="ytdlp_update">Kliknite kako biste preuzeli najnoviju inačicu yt-dlp</string>
     <string name="delete_info">Ukloniti\?</string>
-    <string name="delete_info_msg">Zauvijek ukloniti \"%1$s\" iz povijesti preuzimanja\?</string>
+    <string name="delete_info_msg">Zauvijek ukloniti „%1$s“ iz povijesti preuzimanja?</string>
     <string name="confirm">Potvrdi</string>
     <string name="dismiss">Odustani</string>
     <string name="downloads_history">Preuzimanja</string>
@@ -58,15 +58,15 @@
     <string name="convert_audio">Pretvori</string>
     <string name="close">Zatvori</string>
     <string name="close_never_show_again">Ne prikazuj više</string>
-    <string name="paste_desc">Kliknite \"Zalijepi\" kako biste zalijepili poveznicu na videozapis iz međuspremnika.</string>
-    <string name="download_desc">Tada kliknite \"Preuzmi\" nakon prilagodbe postavki.</string>
+    <string name="paste_desc">Kliknite „Zalijepi“ kako biste zalijepili poveznicu na videozapis iz međuspremnika.</string>
+    <string name="download_desc">Tada kliknite „Preuzmi“ nakon prilagodbe postavki.</string>
     <string name="check_download_settings_desc">Pregledajte postavke preuzimanja i provjerite da li koristite najnoviju inačicu yt-dlp prije nego što počnete koristiti aplikaciju.</string>
     <string name="channel_name">Preuzimanje</string>
     <string name="channel_description">Obavijesti me o preuzetim datotekama i preuzimanjima u tijeku</string>
     <string name="video_url">Poveznica na videozapis</string>
     <string name="download_finish_notification">Preuzimanje završeno. Dodirnite kako biste otvorili.</string>
     <string name="execute_command_notification">Pokretanje prilagođene naredbe…</string>
-    <string name="battery_settings_desc">Postavite potrošnju baterije ove aplikacije na \"Neograničeno\" u postavkama sustava za preuzimanje u pozadini.</string>
+    <string name="battery_settings_desc">Postavite potrošnju baterije ove aplikacije na „Neograničeno“ u postavkama sustava za preuzimanje u pozadini.</string>
     <string name="concurrent_download">Višenitno preuzimanje</string>
     <string name="concurrent_download_num">%d nit(i)bi bilo korišteno kako bi se istovremeno preuzeli DASH/HLS videozapisi.</string>
     <string name="options">Opcije</string>
@@ -78,7 +78,7 @@
     <string name="download_notification_desc">Obavijesti me o preuzetim datotekama i preuzimanjima u tijeku</string>
     <string name="fetching_playlist_info">Dohvaćanje informacija o popisu za reprodukciju…</string>
     <string name="download_range_selection">Odabir popisa za reprodukciju</string>
-    <string name="download_range_desc">Odredite koje videozapise želite preuzeti s \"%3$s\" popisa za reprodukciju (od %1$d do %2$d).</string>
+    <string name="download_range_desc">Odredite koje videozapise želite preuzeti s popisa za reprodukciju „%3$s“ (od %1$d do %2$d).</string>
     <string name="from">Početak</string>
     <string name="audio_directory">Mapa zvučnih zapisa</string>
     <string name="download_directory_desc">Odaberite gdje će se spremati datoteke videozapisa i zvučnih zapisa</string>
@@ -95,7 +95,7 @@
     <string name="embed_subtitles_desc">Ugradite ponuđene titlove u videozapise, ako su dostupni</string>
     <string name="new_template">Novi predložak</string>
     <string name="template_label">Oznaka</string>
-    <string name="remove_template_desc">Zauvijek ukloniti \"%1$s\" iz naredbenih predložaka\?</string>
+    <string name="remove_template_desc">Zauvijek ukloniti „%1$s“ iz naredbenih predložaka?</string>
     <string name="template_selection">Odabir predložaka</string>
     <string name="github_issue">GitHub prijava problema</string>
     <string name="github_issue_desc">Prijavite nam greške u aplikaciji i predložite slijedeću novu značajku</string>
@@ -115,7 +115,7 @@
     <string name="check_for_updates_desc">Automatski potraži najnovija ažuriranja na GitHub-u</string>
     <string name="aria2_desc">Koristite aria2c kao vanjski program za preuzimanje</string>
     <string name="cookies_desc">Za preuzimanja koristite kolačiće formatirane pomoću Netscape-a</string>
-    <string name="clear_temp_files">Očisti privremene datoteke</string>
+    <string name="clear_temp_files">Čišćenje privremenih datoteka</string>
     <string name="clear_temp_files_desc">Očistite sve privremene datoteke iz privremenog direktorija</string>
     <string name="clear_temp_files_count">%1$d privremena(ih) datoteka izbrisana(o)</string>
     <string name="clear_temp_files_info">Privremene datoteke služe kako bi se nastavila otkazana preuzimanja. Jeste li sigurni da ih želite sve izbrisati\?
@@ -151,7 +151,7 @@
     <string name="video_quality">Kvaliteta videozapisa</string>
     <string name="video_quality_desc">Ograničite kvalitetu videozapisa, kada je dostupno više kvaliteta</string>
     <string name="not_specified">Neodređeno (zadano)</string>
-    <string name="preferred_format_desc">Preferirani format, kada ih je više ponuđeno</string>
+    <string name="preferred_format_desc">Preferirani oblik, kada ih je više ponuđeno</string>
     <string name="download_playlist">Preuzmi popis za reprodukciju</string>
     <string name="video_format">Oblik videozapisa</string>
     <string name="user_guide">Korisnički vodič</string>
@@ -188,7 +188,7 @@
     <string name="invalid_input">Neispravan unos</string>
     <string name="disable_preview_desc">Ne prikazujte minijature tijekom preuzimanja</string>
     <string name="privacy">Privatnost</string>
-    <string name="use_custom_command">Koristite prilagođenu naredbu</string>
+    <string name="use_custom_command">Koristi prilagođenu naredbu</string>
     <string name="disable_preview">Onemogući pregled</string>
     <string name="private_directory">Privatan direktorij</string>
     <string name="private_directory_desc">Pohrani preuzimanja u skrivenom direktoriju</string>
@@ -199,10 +199,10 @@
     <string name="lowest_quality">Najniža kvaliteta</string>
     <string name="network_settings_desc">Ograničenje broja radnji, program za preuzimanje, kolačići</string>
     <string name="crop_artwork">Izreži ilustraciju</string>
-    <string name="download_selection_desc">Odaberite videe koje želite preuzeti s popisa za reprodukciju \"%1$s\"</string>
+    <string name="download_selection_desc">Odaberite videozapise koje želite preuzeti s popisa za reprodukciju „%1$s“</string>
     <string name="video_only">Video (bez zvuka)</string>
     <string name="generate_new_cookies">Generiraj nove kolačiće</string>
-    <string name="remove_cookie_profile_desc">Ukloniti kolačiće za \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Ukloniti kolačiće za „%1$s“?</string>
     <string name="custom_command_enabled_hint">Neke opcije neće biti dostupne prilikom korištenja prilagođenih naredbi</string>
     <string name="format_selection_desc">Odaberite oblik datoteke prije preuzimanja</string>
     <string name="how_does_it_work">Kako to funkcionira\?</string>
@@ -216,7 +216,7 @@
     <string name="add">Dodaj</string>
     <string name="selected_item_count">Odabrano: %1$d</string>
     <string name="suggested">Predloženo</string>
-    <string name="cookies_usage_msg">Preuzimanje s nekih internetskih stranica zahtijeva informacije o potvrdi korisničkog računa. Kliknite \"Generiraj nove kolačiće\", unesite URL stranice te se prijavite sa svojim korisničkim računom. Aplikacija će ga generirati za vas.</string>
+    <string name="cookies_usage_msg">Preuzimanje s nekih internetskih stranica zahtijeva informacije o potvrdi korisničkog računa. Kliknite „Generiraj nove kolačiće“, unesite URL stranice te se prijavite sa svojim korisničkim računom. Aplikacija će ih generirati za vas.</string>
     <string name="telegram_channel">Telegram kanal</string>
     <string name="video_title_sample_text">Primjer teksta naslova videozapisa</string>
     <string name="subtitle">Titlovi</string>
@@ -249,8 +249,8 @@
     <string name="audio_quality">Kvaliteta zvučnog zapisa</string>
     <string name="no_downloaded_media">Nema preuzetih medija</string>
     <string name="beta_features">Beta</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="discard">Odbaci</string>
     <string name="apply">Primjeni</string>
     <string name="format_sorting_desc">Sortiranje oblika pomoću yt-dlp-ove -S opcije</string>
@@ -267,7 +267,7 @@
     <string name="minute">minuta</string>
     <string name="clear_all_cookies">Očisti sve kolačiće</string>
     <string name="clip_video_dialog_msg">Preuzimanja izvršena ovom značajkom bit će izaslani FFmpeg-u kako bi preuzeo odabrane dijelove videozapisa. Ova značajka je još u razvoju te je moguće da izrezivanje ne bude posve točno uz moguću sporiju brzinu preuzimanja.</string>
-    <string name="clip_video_desc">Napravite isječke videozapisa na stranici za odabir formata</string>
+    <string name="clip_video_desc">Napravite isječke videozapisa na stranici za odabir oblika</string>
     <string name="switch_to_github_builds">prebacivanje na GitHub inačice</string>
     <string name="feature_unavailable">Značajka nije dostupna</string>
     <string name="no_custom_command_tasks">Nema prilagođenih naredbenih radnji</string>
@@ -300,7 +300,7 @@
     <string name="expand">Proširi</string>
     <string name="new_task">Novi zadatak preuzimanja</string>
     <string name="start">Pokreni</string>
-    <string name="edit_template">Uredi \"%1$s\"</string>
+    <string name="edit_template">Uredi „%1$s“</string>
     <string name="clip_start">Početak</string>
     <string name="clip_end">Kraj</string>
     <string name="update_channel">Kanal ažuriranja</string>
@@ -353,4 +353,8 @@
     <string name="embed_metadata">Ugradi metapodatke</string>
     <string name="embed_metadata_desc">Ugradite metapodatke i minijaturu videozapisa u audio datoteku</string>
     <string name="required">Obavezno</string>
+    <string name="show_all_items">Prikaži sve predmete: %1$d</string>
+    <string name="save">Spremi</string>
+    <string name="use_format_sorting">Koristi sortiranje oblika</string>
+    <string name="edit_file">Uredite datoteku</string>
 </resources>

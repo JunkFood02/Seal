@@ -124,7 +124,7 @@
     <string name="check_for_updates_desc">Аутоматска провера најновије верзије на GitHub-у</string>
     <string name="app_up_to_date">Тренутна верзија је ажурна</string>
     <string name="update">Ажурирај</string>
-    <string name="clear_temp_files">Избриши привремене фајлове</string>
+    <string name="clear_temp_files">Брисање привремених фајлова</string>
     <string name="clear_temp_files_count">Избрисан(о) је %1$d привремени(х) фајл(а/ова)</string>
     <string name="multiselect_mode">Режим вишеструког избора</string>
     <string name="private_mode">Инкогнито</string>
@@ -191,7 +191,7 @@
     <string name="follow_system">Системски</string>
     <string name="on">Укључено</string>
     <string name="convert_audio_format">Конвертуј формат аудио снимка</string>
-    <string name="yt_dlp_docs">Yt-dlp референце о употреби</string>
+    <string name="yt_dlp_docs">Референце о употреби yt-dlp</string>
     <string name="edit_template_desc">Апликација ће додати излазну путању и URL адресу.</string>
     <string name="convert_to">Конвертуј у %1$s</string>
     <string name="video_format_preference">Преферирани формат видео снимка</string>
@@ -268,7 +268,7 @@
     <string name="unlimited">Неограничено</string>
     <string name="format_sorting">Сортирање формата</string>
     <string name="second">секунда</string>
-    <string name="format_sorting_desc">Сортирање формата са -S опцијом од yt-dlp</string>
+    <string name="format_sorting_desc">Сортирање формата с опцијом -S од yt-dlp</string>
     <string name="minute">минут</string>
     <string name="lowest_bitrate">Најнижа брзина преноса</string>
     <string name="title">Наслов</string>
@@ -338,7 +338,7 @@
     </plurals>
     <string name="ua_header">Заглавље User-Agent</string>
     <string name="export_to_file">Извези у фајл</string>
-    <string name="custom_command_usage_msg">Yt-dlp је моћна алатка командне линије за преузимање видео снимака. Seal олакшава коришћење yt-dlp-а тако што пружа интуитивни GUI, унапред подешене вредности за уобичајене команде и друге додатне функције.
+    <string name="custom_command_usage_msg">yt-dlp је моћна алатка командне линије за преузимање видео снимака. Seal олакшава коришћење yt-dlp-а тако што пружа интуитивни GUI, унапред подешене вредности за уобичајене команде и друге додатне функције.
 \n
 \nЗа напредну употребу yt-dlp-а, Seal вам омогућава да направите, сачувате и извршите прилагођене командне шаблоне директно, баш као у терминалу.
 \n
@@ -354,4 +354,7 @@
     <string name="embed_metadata_desc">Уградите метаподатке и сличицу видео снимка у фајл аудио снимка</string>
     <string name="required">Обавезно</string>
     <string name="show_all_items">Прикажи све предмете: %1$d</string>
+    <string name="save">Сачувај</string>
+    <string name="use_format_sorting">Користи сортирање формата</string>
+    <string name="edit_file">Измените фајл</string>
 </resources>
