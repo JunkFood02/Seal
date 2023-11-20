@@ -1,53 +1,71 @@
+# Name of the GitHub Action
 name: Check and Close Issues
 
+# Trigger the action on issue events, specifically when an issue is opened
 on:
   issues:
     types: [opened]
 
+# Job definitions
 jobs:
   handle-issues:
+    # Run this job only for issues
     if: github.event_name == 'issues'
+    # Specify the runner environment
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Check out the repository code
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
+      # Step 2: Set up Node.js environment (version 16)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
 
+      # Step 3: Custom script to check and close issues
       - name: Check and close issues
         id: close-issues
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            // Define keywords and labels for issue filtering
             const keywordsToCheck = ['instagram', 'facebook', 'twitter'];
             const requiredLabels = ['bug', 'enhancement'];
             const referenceIssueNumber = 733;
+            const actionClosedLabel = 'action-closed'; // Unique label to track action-closed issues
 
+            // Function to process each issue
             async function processIssue(issue) {
               const issueBody = issue.body.toLowerCase();
               const issueLabels = issue.labels.map(label => label.name);
+              const wasClosedByAction = issueLabels.includes(actionClosedLabel);
 
-              const shouldCloseIssue = keywordsToCheck.some(keyword => issueBody.includes(keyword)) &&
+              // Determine if the issue should be closed
+              const shouldCloseIssue = !wasClosedByAction && 
+                keywordsToCheck.some(keyword => issueBody.includes(keyword)) &&
                 requiredLabels.some(label => issueLabels.includes(label));
 
+              // Close the issue if it meets the criteria
               if (shouldCloseIssue) {
-                await github.issues.update({
+                await github.rest.issues.update({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
                   state: 'closed'
                 });
 
-                await github.issues.addLabels({
+                // Add labels and comment to the closed issue
+                await github.rest.issues.addLabels({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  labels: ['wontfix']
+                  labels: ['wontfix', actionClosedLabel]
                 });
 
-                await github.issues.createComment({
+                await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
@@ -61,8 +79,8 @@ jobs:
               await processIssue(context.payload.issue);
             }
 
-            // Process all existing open issues
-            const issues = await github.issues.listForRepo({
+            // Fetch and process all open issues in the repo
+            const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open'
