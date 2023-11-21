@@ -33,6 +33,7 @@ import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.SdCard
 import androidx.compose.material.icons.outlined.SnippetFolder
+import androidx.compose.material.icons.outlined.Spellcheck
 import androidx.compose.material.icons.outlined.TabUnselected
 import androidx.compose.material.icons.outlined.VideoLibrary
 import androidx.compose.material3.AlertDialog
@@ -74,6 +75,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -100,7 +102,9 @@ import com.junkfood.seal.util.OUTPUT_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.RESTRICT_FILENAMES
 import com.junkfood.seal.util.SDCARD_DOWNLOAD
 import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.SUBDIRECTORY
@@ -367,6 +371,18 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 )
             }
             item {
+                var restrictFilenames by RESTRICT_FILENAMES.booleanState
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.restrict_filenames),
+                    icon = Icons.Outlined.Spellcheck,
+                    description = stringResource(id = R.string.restrict_filenames_desc),
+                    isChecked = restrictFilenames
+                ) {
+                    restrictFilenames = !restrictFilenames
+                    RESTRICT_FILENAMES.updateBoolean(restrictFilenames)
+                }
+            }
+            item {
                 PreferenceItem(
                     title = stringResource(R.string.clear_temp_files),
                     description = stringResource(
@@ -390,7 +406,10 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
             },
             text = {
                 Text(
-                    stringResource(R.string.clear_temp_files_info, getExternalTempDir().absolutePath),
+                    stringResource(
+                        R.string.clear_temp_files_info,
+                        getExternalTempDir().absolutePath
+                    ),
                     style = MaterialTheme.typography.bodyLarge
                 )
             },

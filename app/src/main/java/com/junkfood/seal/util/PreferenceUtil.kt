@@ -94,6 +94,7 @@ const val OUTPUT_TEMPLATE = "output_template"
 const val CUSTOM_OUTPUT_TEMPLATE = "custom_output_template"
 const val DOWNLOAD_ARCHIVE = "download_archive"
 const val EMBED_METADATA = "embed_metadata"
+const val RESTRICT_FILENAMES = "restrict_filenames"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
