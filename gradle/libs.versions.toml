@@ -9,9 +9,10 @@ androidxAppCompat = "1.7.0-alpha03"
 androidxActivity = "1.8.0"
 
 androidxLifecycle = "2.6.2"
-androidxNavigation = "2.7.4"
-androidxComposeMaterial3 = "1.2.0-alpha08"
-androidxComposeAnimation = "1.5.0-beta.1"
+androidxNavigation = "2.7.5"
+androidxFoundation = "1.6.0-beta01"
+androidxComposeMaterial3 = "1.2.0-beta01"
+androidxComposeAnimation = "1.5.0-beta01"
 
 androidxEspresso = "3.5.0"
 androidxHiltNavigationCompose = "1.0.0"
@@ -58,7 +59,7 @@ accompanist-pager-indicators = { group = "com.google.accompanist", name = "accom
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxFoundation" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }

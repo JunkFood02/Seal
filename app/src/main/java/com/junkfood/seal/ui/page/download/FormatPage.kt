@@ -39,6 +39,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -324,21 +325,31 @@ fun FormatPageImpl(
                 }
 
                 item(span = { GridItemSpan(maxLineSpan) }) {
+                    var shouldUpdateClipDuration by remember { mutableStateOf(false) }
+
                     Column {
                         AnimatedVisibility(visible = isClippingVideo) {
                             Column {
                                 val state = remember(isClippingVideo, showVideoClipDialog) {
                                     RangeSliderState(
-                                        initialActiveRangeStart = videoClipDuration.start,
-                                        initialActiveRangeEnd = videoClipDuration.endInclusive,
+                                        activeRangeStart = videoClipDuration.start,
+                                        activeRangeEnd = videoClipDuration.endInclusive,
                                         valueRange = videoDuration,
+                                        onValueChangeFinished = {
+                                            shouldUpdateClipDuration = true
+                                        }
                                     )
                                 }
+                                DisposableEffect(shouldUpdateClipDuration) {
+                                    videoClipDuration = state.activeRangeEnd..state.activeRangeEnd
+                                    onDispose {
+                                        shouldUpdateClipDuration = false
+                                    }
+                                }
+
                                 VideoSelectionSlider(
                                     modifier = Modifier.fillMaxWidth(),
                                     state = state,
-                                    onValueChangeFinished = { videoClipDuration = it },
-
                                     onDiscard = { isClippingVideo = false },
                                     onDurationClick = { showVideoClipDialog = true },
                                 )

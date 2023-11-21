@@ -27,6 +27,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,7 +107,6 @@ fun CustomRangeSlider(
 @Composable
 fun VideoSelectionSlider(
     modifier: Modifier = Modifier,
-    onValueChangeFinished: (ClosedFloatingPointRange<Float>) -> Unit,
     state: RangeSliderState,
     onDurationClick: () -> Unit,
     onDiscard: () -> Unit,
@@ -117,9 +117,6 @@ fun VideoSelectionSlider(
     }
     val endText by remember(state.activeRangeEnd) {
         mutableStateOf(state.activeRangeEnd.roundToInt().toDurationText())
-    }
-    state.onValueChangeFinished = {
-        onValueChangeFinished(state.activeRangeStart..state.activeRangeEnd)
     }
     Column(modifier = modifier) {
 
@@ -361,17 +358,29 @@ fun SliderPreview() {
     var valueRange by remember {
         mutableStateOf(0f..time.toFloat())
     }
+    var shouldUpdate by remember {
+        mutableStateOf(false)
+    }
     val state = remember {
         RangeSliderState(
-            initialActiveRangeStart = valueRange.start,
-            initialActiveRangeEnd = valueRange.endInclusive,
-            valueRange = 0f..time.toFloat()
+            activeRangeStart = valueRange.start,
+            activeRangeEnd = valueRange.endInclusive,
+            valueRange = 0f..time.toFloat(),
+            onValueChangeFinished = {
+                shouldUpdate = true
+            }
         )
     }
+    DisposableEffect(shouldUpdate) {
+        valueRange = state.activeRangeStart..state.activeRangeEnd
+        onDispose { shouldUpdate = false }
+    }
     Surface() {
-        VideoSelectionSlider(state = state, onDiscard = {}, onValueChangeFinished = {
-            valueRange = it
-        }, onDurationClick = {})
+        Column {
+            Text(text = "${valueRange.toIntRange()}")
+            VideoSelectionSlider(state = state, onDiscard = {}, onDurationClick = {})
+
+        }
     }
 }
 
