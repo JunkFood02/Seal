@@ -131,7 +131,7 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 [bundles]
 accompanist = [
     "accompanist-permissions",
-    "accompanist-systemuicontroller",
+#    "accompanist-systemuicontroller",
     "accompanist-webview",
 #    "accompanist-pager-layouts",
     "accompanist-pager-indicators",
