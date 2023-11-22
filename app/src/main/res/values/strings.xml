@@ -396,6 +396,8 @@
     <string name="edit_file">Edit file</string>
     <string name="save">Save</string>
     <string name="use_format_sorting">Use format sorting</string>
+    <string name="restrict_filenames">Restrict filenames</string>
+    <string name="restrict_filenames_desc">Limit filenames to specific characters to ensure compatibility</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
