@@ -105,6 +105,9 @@ object DownloadUtil {
                 if (cookies) {
                     enableCookies(userAgentString)
                 }
+                if (restrictFilenames) {
+                    addOption("--restrict-filenames")
+                }
             }
         }
         execute(request, playlistURL).out.run {
@@ -129,7 +132,9 @@ object DownloadUtil {
     ): Result<VideoInfo> = YoutubeDLRequest(url).apply {
         preferences.run {
             addOption("-o", BASENAME)
-
+            if (restrictFilenames) {
+                addOption("--restrict-filenames")
+            }
             if (extractAudio) {
                 addOption("-x")
             }
@@ -201,6 +206,7 @@ object DownloadUtil {
         val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
         val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
         val embedMetadata: Boolean = EMBED_METADATA.getBoolean(),
+        val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean()
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -472,6 +478,9 @@ object DownloadUtil {
 //                addOption("-v")
                 if (cookies) {
                     enableCookies(userAgentString)
+                }
+                if (restrictFilenames) {
+                    addOption("--restrict-filenames")
                 }
                 if (proxy) {
                     enableProxy(proxyUrl)
