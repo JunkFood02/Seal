@@ -128,7 +128,7 @@
     <string name="download_directory">Download directory</string>
     <string name="download_directory_desc">Select where to store videos and audio files</string>
     <string name="subdirectory">Save to subdirectory</string>
-    <string name="subdirectory_desc">Save files in folders named as respective websites</string>
+    <string name="subdirectory_desc">Save files in folders named as respective fields</string>
     <string name="permission_issue">Storage permission issue</string>
     <string name="permission_issue_desc">Directories outside Download/ and Documents/ are not supported</string>
     <string name="battery_configuration">Battery configuration</string>
@@ -398,6 +398,8 @@
     <string name="use_format_sorting">Use format sorting</string>
     <string name="restrict_filenames">Restrict filenames</string>
     <string name="restrict_filenames_desc">Limit filenames to specific characters to ensure compatibility</string>
+    <string name="website">Website</string>
+    <string name="playlist_title">Playlist title</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
