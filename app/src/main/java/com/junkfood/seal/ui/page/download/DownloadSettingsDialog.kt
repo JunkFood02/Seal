@@ -105,7 +105,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class,
 )
 @Composable
 fun DownloadSettingDialog(

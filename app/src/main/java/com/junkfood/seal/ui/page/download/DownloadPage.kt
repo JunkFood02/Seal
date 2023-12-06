@@ -109,6 +109,7 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -176,7 +177,10 @@ fun DownloadPage(
         }
         if (CONFIGURE.getBoolean()) {
             showDownloadDialog = true
-            if (!useDialog) scope.launch { sheetState.show() }
+            if (!useDialog) scope.launch {
+                delay(50)
+                sheetState.show()
+            }
         } else {
             checkPermissionOrDownload()
         }
