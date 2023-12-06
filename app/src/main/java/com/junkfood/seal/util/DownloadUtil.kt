@@ -145,9 +145,9 @@ object DownloadUtil {
             if (proxy) {
                 enableProxy(proxyUrl)
             }
-            if (debug) {
+/*            if (debug) {
                 addOption("-v")
-            }
+            }*/
             if (autoSubtitle) {
                 addOption("--write-auto-subs")
                 addOption("--extractor-args", "youtube:skip=translated_subs")
