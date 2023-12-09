@@ -67,6 +67,7 @@ data class VideoInfo(
     val asr: Int? = null,
     val epoch: Int? = null,
     @SerialName("requested_downloads") val requestedDownloads: List<RequestedDownload>? = null,
+    @SerialName("requested_formats") val requestedFormats: List<Format>? = null,
     val filename: String? = null,
     @SerialName("_type") val type: String? = null,
 ) : YoutubeDLInfo

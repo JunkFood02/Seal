@@ -158,7 +158,27 @@ private fun FormatPagePreview() {
                     add(Format(formatId = "$it", acodec = "aac", vcodec = "none"))
                 }
             },
-            subtitles = subMap, automaticCaptions = captionsMap
+            subtitles = subMap, automaticCaptions = captionsMap,
+            requestedFormats = buildList {
+                add(
+                    Format(
+                        formatId = "616",
+                        format = "616 - 1920x1080 (Premium)",
+                        acodec = "none",
+                        vcodec = "vp09.00.40.08",
+                        ext = "webm"
+                    )
+                )
+                add(
+                    Format(
+                        formatId = "251",
+                        format = "251 - audio only (medium)",
+                        acodec = "opus",
+                        vcodec = "none",
+                        ext = "webm"
+                    )
+                )
+            }
         )
     SealTheme {
         FormatPageImpl(videoInfo = videoInfo)
@@ -411,22 +431,30 @@ fun FormatPageImpl(
                     }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    FormatItem(
-                        formatDesc = format.toString(),
-                        resolution = resolution.toString(),
-                        acodec = acodec,
-                        vcodec = vcodec,
-                        ext = ext,
-                        bitRate = tbr?.toFloat() ?: 0f,
-                        fileSize = fileSize ?: fileSizeApprox ?: .0,
-                        selected = isSuggestedFormatSelected,
-                    ) {
+                    val onClick = {
                         isSuggestedFormatSelected = true
                         selectedAudioOnlyFormat = NOT_SELECTED
                         selectedVideoAudioFormat = NOT_SELECTED
                         selectedVideoOnlyFormat = NOT_SELECTED
                     }
 
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        FormatItem(
+                            modifier = Modifier.weight(1f),
+                            formatDesc = format.toString(),
+                            resolution = resolution.toString(),
+                            acodec = acodec,
+                            vcodec = vcodec,
+                            ext = ext,
+                            bitRate = tbr?.toFloat() ?: 0f,
+                            fileSize = fileSize ?: fileSizeApprox ?: .0,
+                            selected = isSuggestedFormatSelected,
+                            onClick = onClick
+                        )
+                    }
                 }
             }
 
