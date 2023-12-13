@@ -86,7 +86,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 34
-        versionCode = 11100
+        versionCode = 11110
 
         if (splitApks) {
             splits {

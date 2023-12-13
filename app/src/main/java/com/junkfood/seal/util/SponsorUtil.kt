@@ -1,6 +1,7 @@
 package com.junkfood.seal.util
 
 import android.util.Base64
+import android.util.Log
 import androidx.annotation.CheckResult
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -10,13 +11,17 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 object SponsorUtil {
     private const val TAG = "SponsorUtil"
-    private const val MAGIC_STRING = "Z2hwX05XZ0U4VVBoQ2xLOFYxbTlCVXhicjhYM243U1lBVTJCTE04Vw"
+    private const val MAGIC_STRING_0 = "Z2hwX2xjNm"
+    private const val MAGIC_STRING_1 = "RsN3R1M3BoSGx5em0xZ"
+    private const val MAGIC_STRING_2 = "GxtNks0RlJPTXNpTjFqaGtXeA"
 
     // pls don't abuse
-    private val magicString = Base64.decode(MAGIC_STRING, Base64.DEFAULT).toString(Charsets.UTF_8)
+    private val magicString =
+        Base64.decode(MAGIC_STRING_0 + MAGIC_STRING_1 + MAGIC_STRING_2, Base64.DEFAULT)
+            .toString(Charsets.UTF_8)
 
     private val body = """
-{ "query": "query { user(login: \"JunkFood02\") { sponsorshipsAsMaintainer(first: 100) { nodes { sponsorEntity { ... on User { name login } ... on Organization { name login } } tier { monthlyPriceInDollars } } } } }" }
+{ "query": "query { viewer { sponsorshipsAsMaintainer(first: 100) { nodes { sponsorEntity { ... on User { login name websiteUrl socialAccounts(first: 4) { nodes { displayName url } } } ... on Organization { login name websiteUrl } } tier { monthlyPriceInDollars } } } } }" }
 """.toRequestBody("application/json".toMediaType())
 
     private val request = Request.Builder()
@@ -32,8 +37,10 @@ object SponsorUtil {
     @CheckResult
     fun getSponsors(): Result<SponsorData> = client.runCatching {
         sponsorData
-            ?: jsonFormat.decodeFromString<SponsorData>(newCall(request).execute()
-                .body.string())
+            ?: jsonFormat.decodeFromString<SponsorData>(
+                newCall(request).execute()
+                    .body.string().also { Log.d(TAG, it) }
+            )
                 .apply { sponsorData = this }
     }.onFailure { it.printStackTrace() }
 }
