@@ -139,7 +139,7 @@
     <string name="download_directory">Diretório de transferência</string>
     <string name="download_directory_desc">Selecionar onde guardar vídeos e ficheiros de áudio</string>
     <string name="subdirectory">Guardar no subdiretório</string>
-    <string name="subdirectory_desc">Guardar os ficheiros em pastas com o nome dos respectivos sítios Web</string>
+    <string name="subdirectory_desc">Guardar ficheiros em pastas com o nome dos respectivos campos</string>
     <string name="permission_issue">Problema de permissão de armazenamento</string>
     <string name="permission_issue_desc">Os directórios fora de Download/ e Documents/ não são suportados</string>
     <string name="battery_configuration">Configuração da bateria</string>
@@ -357,4 +357,8 @@
     <string name="save">Guardar</string>
     <string name="use_format_sorting">Utilizar a ordenação de formatos</string>
     <string name="edit_file">Editar ficheiro</string>
+    <string name="restrict_filenames_desc">Limitar os nomes de ficheiros a caracteres específicos para garantir a compatibilidade</string>
+    <string name="restrict_filenames">Restringir nomes de ficheiros</string>
+    <string name="website">Sítio</string>
+    <string name="playlist_title">Título da lista de reprodução</string>
 </resources>

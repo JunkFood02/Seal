@@ -95,13 +95,13 @@
     <string name="fetching_playlist_info">正在擷取播放清單資訊…</string>
     <string name="download_range_selection">播放清單範圍</string>
     <string name="invalid_index_range">無效的索引範圍</string>
-    <string name="playlist_indicator_text">正在下載播放清單 (%1$d/%2$d)，輕觸以停止。</string>
+    <string name="playlist_indicator_text">正在下載播放清單 (%1$d/%2$d)…</string>
     <string name="download_notification_desc">通知下載檔案和進度資訊</string>
     <string name="from">起始編號</string>
     <string name="to">結束編號</string>
     <string name="audio_directory">音訊資料夾</string>
     <string name="download_directory">下載目錄</string>
-    <string name="subdirectory_desc">儲存檔案到以相應網站命名的資料夾</string>
+    <string name="subdirectory_desc">儲存檔案到以相應欄位命名的資料夾</string>
     <string name="permission_issue_desc">不支援 Download/ 和 Documents/ 以外的目錄</string>
     <string name="battery_configuration">電池配置</string>
     <string name="service_title">Seal 正在下載…</string>
@@ -150,7 +150,7 @@
     <string name="embed_subtitles">內嵌字幕</string>
     <string name="github_issue">GitHub 議題</string>
     <string name="custom_command_template_desc">編輯和管理命令範本</string>
-    <string name="downloading_indicator_text">正在下載，輕觸以取消。</string>
+    <string name="downloading_indicator_text">正在下載…</string>
     <string name="status_canceled">已取消</string>
     <string name="task_canceled">已取消下載任務</string>
     <string name="copy_link">複製連結</string>
@@ -177,7 +177,9 @@
     <string name="cookies_desc">使用 Netscape 格式的 Cookies 檔案進行下載</string>
     <string name="clear_temp_files">清除暫存檔案</string>
     <string name="check_for_updates_desc">自動檢查來自 GitHub 提供的更新</string>
-    <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？</string>
+    <string name="clear_temp_files_info">暫存檔案可用於繼續已取消的下載。確定要刪除全數暫存檔案嗎？
+\n
+\n您可以在 %1$s 中存取上述檔案</string>
     <string name="multiselect_mode">多選模式</string>
     <string name="private_mode_desc">停用下載記錄</string>
     <string name="private_mode">無痕模式</string>
@@ -275,10 +277,10 @@
     <string name="format_sorting_desc">使用 yt-dlp 的 -S 選項對格式進行排序</string>
     <string name="title">標題</string>
     <string name="temporary_directory_desc">在內部目錄儲存暫存檔案</string>
-    <string name="sponsor">贊助者</string>
+    <string name="sponsor">贊助</string>
     <string name="sponsor_desc">透過在 GitHub 上贊助以支持此應用程式</string>
     <string name="feedback">意見反應</string>
-    <string name="sponsors">贊助人</string>
+    <string name="sponsors">贊助</string>
     <string name="sponsor_msg">Seal 永遠提供眾人免費使用並開放原始碼。若您悅納，請考慮在 GitHub 上贊助我！</string>
     <string name="no_downloaded_media">沒有已下載的媒體</string>
     <string name="beta_features">Beta</string>
@@ -334,7 +336,7 @@
     </plurals>
     <string name="ua_header">使用者代理程式標頭</string>
     <string name="export_to_file">匯出成檔案</string>
-    <string name="custom_command_usage_msg">yt-dlp 是功能強大的下載視訊命令列工具。Seal 透過提供直觀的 GUI、常見命令的預設值和其他額外功能，讓您更輕鬆地使用 yt-dlp。
+    <string name="custom_command_usage_msg">yt-dlp 是功能強大的下載影片命令列工具。Seal 透過提供直觀的 GUI、常見命令的預設值和其他額外功能，讓您更輕鬆地使用 yt-dlp。
 \n
 \n如果您需要進階使用 yt-dlp，您可以在 Seal 中直接建立、儲存和執行自訂命令範本，就像在終端機一樣。
 \n
@@ -344,6 +346,17 @@
     <string name="output_template_desc">為輸出檔案名稱指定範本</string>
     <string name="clear_download_archive">確定要清除下載封存？</string>
     <string name="clear_download_archive_desc">確定要從下載封存中移除「%1$s」嗎？</string>
-    <string name="download_archive_desc">將已下載的視訊識別碼記錄至封存，以避免重複下載。</string>
+    <string name="download_archive_desc">將已下載的影片識別碼記錄至封存，以避免重複下載</string>
     <string name="download_archive">下載封存</string>
+    <string name="save">儲存</string>
+    <string name="embed_metadata">內嵌中繼資料</string>
+    <string name="use_format_sorting">使用格式排序</string>
+    <string name="required">必要</string>
+    <string name="show_all_items">顯示所有項目 (%1$d)</string>
+    <string name="edit_file">編輯檔案</string>
+    <string name="embed_metadata_desc">內嵌中繼資料和影片縮圖至音訊檔</string>
+    <string name="restrict_filenames_desc">限制檔案名稱需包含特定字元以確保相容性</string>
+    <string name="restrict_filenames">限制命名</string>
+    <string name="website">網站</string>
+    <string name="playlist_title">播放清單標題</string>
 </resources>

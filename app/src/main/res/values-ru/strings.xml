@@ -14,7 +14,7 @@
     <string name="language_settings">Установить язык</string>
     <string name="task_running">Существующая загрузка уже запущена</string>
     <string name="paste_msg">Вставлен URL-адрес из буфера обмена</string>
-    <string name="delete_info_msg">Удалить «%1$s» из Вашей истории загрузок навсегда\?</string>
+    <string name="delete_info_msg">Удалить \"%1$s\" из Вашей истории загрузок навсегда?</string>
     <string name="confirm">Подтвердить</string>
     <string name="open_url">Открыть ссылку</string>
     <string name="remove">Удалить</string>
@@ -41,13 +41,13 @@
     <string name="check_download_settings_desc">Ознакомьтесь с настройками загрузки и убедитесь, что у Вас установлена новейшая версия yt-dlp, прежде чем использовать их.</string>
     <string name="download_playlist_desc">Загружайте сразу несколько видео из плейлиста</string>
     <string name="channel_description">Уведомлять о загруженных файлах и прогрессе</string>
-    <string name="battery_settings_desc">Пожалуйста, установите в настройках системы значение «Неограниченное использование батареи» для загрузки в фоновом режиме.</string>
+    <string name="battery_settings_desc">Пожалуйста, установите в настройках контроля фоновой активности приложения значение \"Без ограничений\" для загрузки в фоновом режиме.</string>
     <string name="concurrent_download">Многопоточная загрузка</string>
     <string name="share_fail_msg">Невозможно сопоставить URL-адрес из общего содержимого</string>
     <string name="share_success_msg">Чтение ссылки на видео из общего контента…</string>
-    <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе загрузки</string>
+    <string name="download_notification_desc">Уведомлять о загруженных файлах и процессе</string>
     <string name="fetching_playlist_info">Получение информации о плейлисте…</string>
-    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста «%3$s» (от %1$d до %2$d).</string>
+    <string name="download_range_desc">Укажите диапазон видео для загрузки из плейлиста \"%3$s\" (от %1$d до %2$d).</string>
     <string name="from">Начать</string>
     <string name="to">Закончить</string>
     <string name="invalid_index_range">Недопустимый диапазон номеров</string>
@@ -62,7 +62,7 @@
     <string name="url_empty">Ссылка не может быть пустой</string>
     <string name="permission_denied">Доступ запрещён</string>
     <string name="download_success_msg">Загрузка завершена</string>
-    <string name="download_start_msg">Загружаю «%1$s»</string>
+    <string name="download_start_msg">Загружаю \"%1$s\"</string>
     <string name="general_settings">Основные</string>
     <string name="download_error_msg">Не удалось загрузить файл</string>
     <string name="ytdlp_version">Версия yt-dlp</string>
@@ -103,7 +103,7 @@
     <string name="convert_audio">Преобразовать</string>
     <string name="close">Закрыть</string>
     <string name="close_never_show_again">Не показывать снова</string>
-    <string name="download_desc">Затем нажмите «Загрузить» после настройки параметров загрузки.</string>
+    <string name="download_desc">Затем нажмите \"Загрузить\" после настройки параметров загрузки.</string>
     <string name="format">Формат</string>
     <string name="video_url">Ссылка на видео</string>
     <string name="download_finish_notification">Загрузка завершена. Нажмите для открытия.</string>
@@ -119,10 +119,10 @@
     <string name="download_directory">Каталог загрузки</string>
     <string name="audio_directory">Папка с аудио</string>
     <string name="subdirectory">Сохранить в подкаталог</string>
-    <string name="subdirectory_desc">Сохраняйте файлы в папках, названных сайтами, откуда был скачан материал</string>
+    <string name="subdirectory_desc">Сохраняйте файлы в папках, названных местами, откуда был скачан материал</string>
     <string name="permission_issue_desc">Каталоги за пределами Download/ и Documents/ не поддерживаются</string>
     <string name="battery_configuration_desc">Игнорируйте оптимизацию батареи, чтобы приложение загружало также и в фоне</string>
-    <string name="paste_desc">Нажмите «Вставить», чтобы вставить ссылку на видео из буфера обмена.</string>
+    <string name="paste_desc">Нажмите \"Вставить\", чтобы вставить ссылку на видео из буфера обмена.</string>
     <string name="download_history_desc">Проверяйте и управляйте загрузками в приложении, включая видео- и аудио-файлы.</string>
     <string name="download_playlist">Загрузка плейлиста</string>
     <string name="defaults">По умолчанию</string>
@@ -136,7 +136,7 @@
     <string name="new_template">Новый шаблон</string>
     <string name="template_label">Заголовок</string>
     <string name="remove_template">Удалить\?</string>
-    <string name="remove_template_desc">Удалить «%1$s» из шаблонов команд навсегда\?</string>
+    <string name="remove_template_desc">Удалить \"%1$s\" из шаблонов команд навсегда?</string>
     <string name="template_selection">Выбор шаблона</string>
     <string name="custom_command_template_desc">Редактирование шаблонов команд и управление ими</string>
     <string name="downloading_indicator_text">Загрузка в процессе…</string>
@@ -177,9 +177,9 @@
     <string name="clear_temp_files">Очистить временные файлы</string>
     <string name="clear_temp_files_desc">Удалить все временные файлы из временного каталога</string>
     <string name="clear_temp_files_count">Удален(о) %1$d временный(х) файл(а/ов)</string>
-    <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что хотите удалить все эти файлы\?
+    <string name="clear_temp_files_info">Временные файлы можно использовать для возобновления отменённых загрузок. Вы уверены, что удалили все эти файлы?
 \n
-\nВы можете получить доступ к этим файлам в %1$s</string>
+\nВы можете найти эти файлы в %1$s</string>
     <string name="multiselect_mode">Режим мультивыделения</string>
     <string name="private_mode">Инкогнито</string>
     <string name="private_mode_desc">Отключить историю загрузок</string>
@@ -316,7 +316,7 @@
     <string name="legacy">Классический</string>
     <string name="quality">Высокое разрешение</string>
     <string name="enable_notifications">Включить уведомления\?</string>
-    <string name="enable_notifications_desc">Приложение требует ваше разрешение на отправку уведомлений для отображения стадии прогресса загрузки.</string>
+    <string name="enable_notifications_desc">Приложение требует ваше разрешение на отправку уведомлений для отображения стадии процесса загрузки.</string>
     <string name="disable">Отключить</string>
     <string name="disabled">Отключено</string>
     <string name="prefer_compatibility_desc">Используется MP4(H.264) формат для взаимодействия с другими приложениями</string>
@@ -355,4 +355,11 @@
     <string name="required">Необходимый</string>
     <string name="embed_metadata_desc">Встроить метаданные и миниатюру видео в аудиофайл</string>
     <string name="show_all_items">Показать все элементы (%1$d)</string>
+    <string name="save">Сохранить</string>
+    <string name="use_format_sorting">Использовать сортировку по формату</string>
+    <string name="edit_file">Редактировать файл</string>
+    <string name="restrict_filenames_desc">Ограничьте имена файлов определенными символами, чтобы обеспечить совместимость</string>
+    <string name="restrict_filenames">Ограничить имена файлов</string>
+    <string name="website">Веб-сайт</string>
+    <string name="playlist_title">Название плейлиста</string>
 </resources>

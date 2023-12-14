@@ -355,4 +355,9 @@
     <string name="required">Абавязковы</string>
     <string name="embed_metadata_desc">Устаўце метаданыя і мініяцюру відэа ў аўдыяфайл</string>
     <string name="show_all_items">Паказаць усе элементы (%1$d)</string>
+    <string name="save">Захаваць</string>
+    <string name="use_format_sorting">Выкарыстоўвайце сартаванне па фармаце</string>
+    <string name="restrict_filenames_desc">Абмяжуйць імёны файлаў пэўнымі сімваламі, каб забяспечыць сумяшчальнасць</string>
+    <string name="restrict_filenames">Абмежаваць імёны файлаў</string>
+    <string name="edit_file">Рэдагаваць файл</string>
 </resources>

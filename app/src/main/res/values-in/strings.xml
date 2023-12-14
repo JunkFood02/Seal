@@ -63,7 +63,7 @@
     <string name="download_range_selection">Pilihan daftar putar</string>
     <string name="from">Mulai</string>
     <string name="invalid_index_range">Rentang indeks tidak valid</string>
-    <string name="playlist_indicator_text">Mengunduh daftar putar (%1$d/%2$d), ketuk untuk berhenti.</string>
+    <string name="playlist_indicator_text">Mengunduh daftar putar (%1$d/%2$d)…</string>
     <string name="download_directory_desc">Pilih tempat untuk menyimpan file video dan audio</string>
     <string name="subdirectory">Simpan ke subdirektori</string>
     <string name="subdirectory_desc">Simpan file dalam folder bernama sebagai situs web masing-masing</string>
@@ -139,7 +139,7 @@
     <string name="remove_template">Hapus\?</string>
     <string name="remove_template_desc">Hapus \"%1$s\" dari templat perintah untuk selamanya\?</string>
     <string name="custom_command_template_desc">Edit dan kelola templat perintah</string>
-    <string name="downloading_indicator_text">Unduhan sedang berlangsung, ketuk untuk membatalkan.</string>
+    <string name="downloading_indicator_text">Unduhan sedang berlangsung…</string>
     <string name="task_canceled">Unduhan dibatalkan</string>
     <string name="github_issue">Isu GitHub</string>
     <string name="github_issue_desc">Kirimkan isu untuk pelaporan masalah atau permintaan fitur</string>
@@ -171,7 +171,9 @@
     <string name="clear_temp_files">Bersihkan file sementara</string>
     <string name="clear_temp_files_count">%1$d file sementara telah dihapus</string>
     <string name="clear_temp_files_desc">Hapus semua berkas sementara dari direktori sementara</string>
-    <string name="clear_temp_files_info">File sementara dapat digunakan untuk melanjutkan unduhan yang dibatalkan. Apakah Anda yakin akan menghapus semua file sementara\?</string>
+    <string name="clear_temp_files_info">File sementara dapat digunakan untuk melanjutkan unduhan yang dibatalkan. Apakah Anda yakin akan menghapus semua file sementara?
+\n
+\nAnda dapat mengakses file ini di %1$s</string>
     <string name="recently_added">Baru ditambahkan</string>
     <string name="multiselect_item_count">%1$d file video, %2$d audio</string>
     <string name="delete_multiple_items_msg">Hapus %1$d item dari riwayat unduhan Anda untuk selamanya\?</string>
@@ -244,8 +246,8 @@
     <string name="shortcuts">Pintasan</string>
     <string name="subtitle_sponsorblock">Takarir mungkin tidak pas waktunya ketika menghapus segmen SponsorBlock.</string>
     <string name="embed_subtitles_mkv_msg">Untuk menyematkan takarir, video akan di-mux ulang ke kontainer MKV. Anda dapat menggunakan Pemutar Media VLC atau aplikasi lainnya yang kompatibel untuk menonton video dengan takarir yang disemat.</string>
-    <string name="filesize_gb">%.2f G</string>
-    <string name="filesize_mb">%.2f M</string>
+    <string name="filesize_gb">%.2f GB</string>
+    <string name="filesize_mb">%.2f MB</string>
     <string name="update_channel">Saluran pembaruan</string>
     <string name="share">Bagikan</string>
     <string name="auto_update">Pembaruan otomatis</string>
@@ -346,4 +348,13 @@
     <string name="clear_download_archive_desc">Hapus %1$s dari berkas arsip selamanya\?</string>
     <string name="download_archive_desc">Rekam ID video yang telah diunduh dalan arsip untuk mencegah unduhan duplikat</string>
     <string name="download_archive">Unduh arsip</string>
+    <string name="save">Simpan</string>
+    <string name="embed_metadata">Sematkan metadata</string>
+    <string name="use_format_sorting">Gunakan penyortiran format</string>
+    <string name="restrict_filenames_desc">Batasi nama file pada karakter tertentu untuk memastikan kompatibilitas</string>
+    <string name="required">Dibutuhkan</string>
+    <string name="show_all_items">Tampilkan semua %1$d item</string>
+    <string name="restrict_filenames">Batasi nama file</string>
+    <string name="edit_file">Edit berkas</string>
+    <string name="embed_metadata_desc">Sematkan metadata dan gambar kecil video ke dalam file audio</string>
 </resources>

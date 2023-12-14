@@ -353,4 +353,9 @@
     <string name="embed_metadata_desc">Meta verileri ve video küçük resmini ses dosyasına gömün</string>
     <string name="required">Gerekli</string>
     <string name="show_all_items">%1$d ögenin tümünü göster</string>
+    <string name="save">Kaydet</string>
+    <string name="use_format_sorting">Format sıralamasını kullan</string>
+    <string name="restrict_filenames_desc">Uyumluluğu sağlamak için dosya adlarını belirli karakterlerle sınırlandırın</string>
+    <string name="restrict_filenames">Dosya adlarını kısıtla</string>
+    <string name="edit_file">Dosya düzenle</string>
 </resources>

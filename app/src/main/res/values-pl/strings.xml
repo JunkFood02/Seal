@@ -320,4 +320,11 @@
     <string name="download_archive">Pobierz archiwum</string>
     <string name="enable_notifications">Włączyć powiadomienia\?</string>
     <string name="proxy">Serwer proxy</string>
+    <string name="clear_download_archive">Wyczyścić archiwum pobierania?</string>
+    <string name="save">Zapisz</string>
+    <string name="use_format_sorting">Użyj sortowania według formatu</string>
+    <string name="output_template">Szablon wyjściowy</string>
+    <string name="output_template_desc">Określ szablon dla nazw plików wyjściowych</string>
+    <string name="edit_file">Edytuj plik</string>
+    <string name="playlist_title">Tytuł listy odtwarzania</string>
 </resources>
