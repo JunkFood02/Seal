@@ -92,7 +92,7 @@
     <string name="download_range_desc">محدوده ی ویدیوها را برای دانلود از لیست \"%3$s\" پخش مشخص کنید (از %1$d تا %2$d).</string>
     <string name="from">شروع از</string>
     <string name="to">پایان از</string>
-    <string name="playlist_indicator_text">در حال دانلود لیست پخش (%1$d/%2$d)، برای توقف ضزبه بزنیذ.</string>
+    <string name="playlist_indicator_text">در حال دانلود لیست پخش (%1$d/%2$d)…</string>
     <string name="audio_directory">پوشه صدا</string>
     <string name="subdirectory_desc">فایل ها را در پوشه هایی با نام وب سایت های مربوطه ذخیره کنید</string>
     <string name="permission_issue">مشکل در مجوز ذخیره سازی</string>
@@ -164,7 +164,9 @@
     <string name="multiselect_mode">حالت چند انتخابی</string>
     <string name="sponsorblock_desc">با وبسرویس SponsorBlock ، بخش‌ها را از ویدیوها حذف کنید</string>
     <string name="cookies_desc">برای دانلود از کوکی های فرمت شده Netscape استفاده کنید</string>
-    <string name="clear_temp_files_info">از فایل های موقت می توان برای از سرگیری دانلودهای لغو شده استفاده کرد. آیا مطمئن هستید که همه این فایل ها را حذف می کنید؟</string>
+    <string name="clear_temp_files_info">از فایل‌های موقت می‌توان برای از سرگیری دانلودهای لغو شده استفاده کرد. آیا مطمئن هستید که همهٔ این فایل‌ها را حذف می‌کنید؟
+\n
+\nمی‌توانید این فایل‌ها را در %1$s ببینید</string>
     <string name="rate_limit">حد نرخ</string>
     <string name="network_settings_desc">محدودیت نرخ، دانلود کننده، کوکی ها</string>
     <string name="disable_preview_desc">غیرفعال کردن پیش نمایش در دانلود ها</string>
@@ -192,7 +194,7 @@
     <string name="dynamic_color_desc">رنگ ها را از والپیپرها به تم برنامه اعمال کنید</string>
     <string name="clear_temp_files_count">%1$d فایل(های) موقت حذف شد</string>
     <string name="format_selection_desc">قبل از شروع دانلود، فرمت مورد نظر را برای دانلود انتخاب کنید</string>
-    <string name="downloading_indicator_text">دانلود در حال انجام است، برای لغو ضربه بزنید.</string>
+    <string name="downloading_indicator_text">دانلود در حال انجام است…</string>
     <string name="private_directory">دایرکتوری خصوصی</string>
     <string name="embed_subtitles">چسباندن زیرنویس</string>
     <string name="new_template">ساخت الگو جدید</string>
@@ -294,4 +296,50 @@
     <string name="feedback">بازخورد</string>
     <string name="sponsors">حامیان</string>
     <string name="temporary_directory_desc">دخیره فایل های موقت را در دایرکتوری داخلی</string>
+    <string name="clear_download_archive">خالی کردن بایگانی دانلود؟</string>
+    <string name="save">ذخیره</string>
+    <string name="split_video_msg">ویدیو به %1$d قسمت تقسیم خواهد شد</string>
+    <string name="export_to_file">خروجی به فایل</string>
+    <string name="enable_notifications_desc">برای ارسال اعلان در مورد وضعیت دانلودها، اپ به اجازهٔ شما نیاز دارد.</string>
+    <string name="folder_picker">انتخاب پوشه</string>
+    <string name="split_video">تقسیم ویدیو</string>
+    <string name="prefer_compatibility_desc">ترجیح فرمت MP4 (H.264) هنگامی که با اپ‌های دیگر به اشتراک گذاشته می‌شود</string>
+    <string name="download_video_desc">دانلود ویدیو از نشانی</string>
+    <string name="clear_download_archive_desc">حذف همیشگی %1$s از بایگانی؟</string>
+    <string name="edit_template">ویرایش «%1$s»</string>
+    <string name="website">وب‌سایت</string>
+    <string name="unknown">ناشناخته</string>
+    <string name="learn_more">بیشتر بدانید</string>
+    <string name="convert_subtitle">تبدیل زیرنویس‌ها</string>
+    <string name="prefer_quality_desc">ترجیح فرمت AV1، VP9 یا H.265 هنگام تماشا در اپ‌های همگام</string>
+    <string name="download_type">نوع دانلود</string>
+    <string name="legacy">قدیمی</string>
+    <string name="unknown_error_title">بهه! مشکلی پیش آمد</string>
+    <string name="set_directory_desc">برای معین کردن پوشه، ضربه بزنید</string>
+    <string name="start">آغاز</string>
+    <string name="restrict_filenames_desc">نام فایل‌ها رو محدود به کاراکترهای خاصی کنید تا از همگام بودن مطمئن شوید</string>
+    <string name="new_task">دانلود جدید</string>
+    <string name="copy_and_exit">کپی کن و خارج شو</string>
+    <string name="required">ضروری</string>
+    <string name="convert_subtitle_desc">تبدیل زیرنویس‌ها به فرمتی دیگر</string>
+    <string name="show_all_items">نمایش همهٔ %1$d مورد</string>
+    <string name="output_template">قالب خروجی</string>
+    <string name="disabled">غیرفعال</string>
+    <string name="disable">غیرفعال</string>
+    <string name="auto">خودکار</string>
+    <plurals name="item_count">
+        <item quantity="one">%d مورد</item>
+        <item quantity="other">%d مورد</item>
+    </plurals>
+    <string name="expand">گسترش</string>
+    <string name="proxy_desc">از پروکسی استفاده کن</string>
+    <string name="quality">کیفیت</string>
+    <string name="restrict_filenames">محدودکردن نام فایل‌ها</string>
+    <string name="edit_file">ویرایش فایل</string>
+    <string name="custom">انتخابی</string>
+    <string name="ytdlp_update_action">به روزرسانی yt-dlp</string>
+    <string name="playlist_title">عنوان فهرست پخش</string>
+    <string name="download_archive">بایگانی دانلود</string>
+    <string name="enable_notifications">فعال کردن اعلان؟</string>
+    <string name="proxy">پروکسی</string>
 </resources>

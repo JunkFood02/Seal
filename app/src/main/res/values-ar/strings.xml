@@ -355,4 +355,10 @@
     <string name="download_archive_desc">سجل معرفات الفيديو التي تم تحميلها في أرشيف لتجنب التحميل المكرر</string>
     <string name="embed_metadata_desc">أدمج البيانات الوصفية والصورة المصغرة للفيديو في ملف الصوت</string>
     <string name="download_archive">أرشيف التحميل</string>
+    <string name="save">حفظ</string>
+    <string name="use_format_sorting">رتب الصيغة</string>
+    <string name="restrict_filenames_desc">حدد أسماء الملفات بأحرف محددة لضمان التوافق</string>
+    <string name="show_all_items">عرض كل %1$d العناصر</string>
+    <string name="restrict_filenames">تقييد أسماء الملفات</string>
+    <string name="edit_file">تعديل الملف</string>
 </resources>

@@ -352,4 +352,9 @@
     <string name="embed_metadata_desc">Nhúng siêu dữ liệu và hình thu nhỏ video vào tệp âm thanh</string>
     <string name="required">Yêu cầu</string>
     <string name="show_all_items">Hiển thị tất cả %1$d mục</string>
+    <string name="save">Lưu</string>
+    <string name="use_format_sorting">Sử dụng sắp xếp định dạng</string>
+    <string name="restrict_filenames_desc">Giới hạn tên tệp ở các ký tự cụ thể để đảm bảo tính tương thích</string>
+    <string name="restrict_filenames">Hạn chế tên tệp</string>
+    <string name="edit_file">Chỉnh sửa tệp</string>
 </resources>

@@ -122,7 +122,7 @@
     <string name="download_directory">下载目录</string>
     <string name="download_directory_desc">设置视频及音频文件的下载目录</string>
     <string name="subdirectory">下载到子目录</string>
-    <string name="subdirectory_desc">将文件保存到以网站名命名的子文件夹</string>
+    <string name="subdirectory_desc">将文件保存到以各自字段命名的文件夹中</string>
     <string name="permission_issue">存储权限提示</string>
     <string name="permission_issue_desc">无法下载到除 Download/ 及 Documents/ 以外的目录</string>
     <string name="battery_configuration">后台下载设置</string>
@@ -355,4 +355,8 @@
     <string name="save">保存</string>
     <string name="use_format_sorting">使用格式排序</string>
     <string name="edit_file">编辑文件</string>
+    <string name="restrict_filenames_desc">只允许文件名包含特定字符来确保兼容性</string>
+    <string name="restrict_filenames">限制文件名</string>
+    <string name="website">网站</string>
+    <string name="playlist_title">播放列表标题</string>
 </resources>

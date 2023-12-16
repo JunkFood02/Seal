@@ -186,7 +186,7 @@
     <string name="from">ਸ਼ੁਰੂ</string>
     <string name="invalid_index_range">ਅਵੈਧ ਇੰਡੈਕਸ ਰੇਂਜ</string>
     <string name="playlist_indicator_text">ਪਲੇਲਿਸਟ (%1$d/%2$d) ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…</string>
-    <string name="subdirectory_desc">ਫਾਈਲਾਂ ਨੂੰ ਸੰਬੰਧਿਤ ਵੈਬਸਾਈਟਾਂ ਦੇ ਨਾਮ ਵਾਲੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਸਹੇਜੋ</string>
+    <string name="subdirectory_desc">ਫਾਈਲਾਂ ਨੂੰ ਸੰਬੰਧਿਤ ਖੇਤਰਾਂ ਦੇ ਨਾਮ ਵਾਲੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਸੇਵ ਕਰੋ</string>
     <string name="permission_issue">ਸਟੋਰੇਜ਼ ਇਜਾਜ਼ਤ ਸਮੱਸਿਆ</string>
     <string name="permission_issue_desc">ਡਾਉਨਲੋਡ/ ਅਤੇ ਦਸਤਾਵੇਜ਼/ ਤੋਂ ਬਾਹਰ ਦੀਆਂ ਡਾਇਰੈਕਟਰੀਆਂ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ</string>
     <string name="battery_configuration">ਬੈਟਰੀ ਸੰਰਚਨਾ</string>
@@ -356,4 +356,8 @@
     <string name="save">ਸਾਂਭੋ</string>
     <string name="use_format_sorting">ਫਾਰਮੈਟ ਛਾਂਟੀ ਵਰਤੋ</string>
     <string name="edit_file">ਫ਼ਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <string name="restrict_filenames_desc">ਅਨੁਕੂਲਤਾ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਫਾਈਲ ਨਾਮਾਂ ਨੂੰ ਖਾਸ ਅੱਖਰਾਂ ਤੱਕ ਸੀਮਤ ਕਰੋ</string>
+    <string name="restrict_filenames">ਫਾਈਲਨਾਮਾਂ ਨੂੰ ਪ੍ਰਤਿਬੰਧਿਤ ਕਰੋ</string>
+    <string name="website">ਵੈਬਸਾਈਟ</string>
+    <string name="playlist_title">ਪਲੇਲਿਸਟ ਟਾਈਟਲ</string>
 </resources>

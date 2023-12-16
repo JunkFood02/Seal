@@ -97,7 +97,7 @@
     <string name="download_directory">Pasta de Download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
     <string name="subdirectory">Salvar no subdiretório</string>
-    <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos sites</string>
+    <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos campos</string>
     <string name="battery_configuration">Configuração da bateria</string>
     <string name="download_history_desc">Verifique e gerencie downloads no aplicativo, incluindo vídeos e arquivos de áudio.</string>
     <string name="download_desc">Em seguida, clique em “Baixar” depois de ajustar suas configurações.</string>
@@ -357,4 +357,8 @@
     <string name="save">Salvar</string>
     <string name="use_format_sorting">Usar classificação de formato</string>
     <string name="edit_file">Editar arquivo</string>
+    <string name="restrict_filenames_desc">Limite os nomes dos arquivos a caracteres específicos para garantir a compatibilidade</string>
+    <string name="restrict_filenames">Restringir nomes de arquivos</string>
+    <string name="website">Site</string>
+    <string name="playlist_title">Título da playlist</string>
 </resources>

@@ -124,7 +124,7 @@
     <string name="audio_directory">ऑडियो फ़ोल्डर</string>
     <string name="download_directory">डाउनलोड निर्देशिका</string>
     <string name="subdirectory">उपनिर्देशिका में सहेजें</string>
-    <string name="subdirectory_desc">संबंधित वेबसाइटों के रूप में नामित फ़ोल्डरों में फ़ाइलें सहेजें</string>
+    <string name="subdirectory_desc">फ़ाइलों को संबंधित फ़ील्ड के नाम वाले फ़ोल्डरों में सहेजें</string>
     <string name="permission_issue">स्टोरेज अनुमति मुद्दा</string>
     <string name="permission_issue_desc">डाउनलोड/ और दस्तावेज़/ के बाहर निर्देशिकाएँ समर्थित नहीं हैं</string>
     <string name="battery_configuration">बैटरी संरचना</string>
@@ -356,4 +356,8 @@
     <string name="save">सहेजें</string>
     <string name="use_format_sorting">फार्मेट छँटाई का प्रयोग करें</string>
     <string name="edit_file">फ़ाइल संपादित करें</string>
+    <string name="website">वेबसाइट</string>
+    <string name="restrict_filenames_desc">अनुकूलता सुनिश्चित करने के लिए फ़ाइल नामों को विशिष्ट वर्णों तक सीमित करें</string>
+    <string name="restrict_filenames">फ़ाइल नाम प्रतिबंधित करें</string>
+    <string name="playlist_title">प्लेलिस्ट शीर्षक</string>
 </resources>

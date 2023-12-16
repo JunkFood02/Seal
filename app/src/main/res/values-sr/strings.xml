@@ -19,7 +19,7 @@
     <string name="battery_configuration_desc">Игноришите оптимизацију батерије за ову апликацију да бисте преузимали у позадини</string>
     <string name="fetching_playlist_info">Преузимање информација о плејлисти…</string>
     <string name="playlist_indicator_text">Преузимање плејлисте (%1$d/%2$d)…</string>
-    <string name="subdirectory_desc">Сачувајте фајлове у фолдере који се називају као одговарајући веб-сајтови</string>
+    <string name="subdirectory_desc">Сачувајте фајлове у фолдере који се називају као одговарајућа поља</string>
     <string name="permission_issue_desc">Фолдери изван Download/ и Documents/ нису подржани</string>
     <string name="unknown_error">Непозната грешка</string>
     <string name="translate_desc">Помозите да преведете ову апликацију на Hosted Weblate</string>
@@ -249,14 +249,14 @@
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="share">Дели</string>
-    <string name="stable_channel">Стабилно издање</string>
-    <string name="pre_release_channel">Бета издање</string>
+    <string name="stable_channel">Стабилан</string>
+    <string name="pre_release_channel">Бета</string>
     <string name="auto_update">Аутоматско ажурирање</string>
     <string name="enable_auto_update">Омогући аутоматско ажурирање</string>
     <string name="update_channel_desc">Инсталирајте бета издања апликације да бисте прегледали нове функције и промене.
 \n
 \nБиће неких нестабилности у овим верзијама, тако да не оклевајте да нам дате повратне информације ако наиђете на било какве проблеме, како бисте нам помогли да побољшамо апликацију у будућности.</string>
-    <string name="update_channel">Канал за ажурирање</string>
+    <string name="update_channel">Канал ажурирања</string>
     <string name="apply">Примени</string>
     <string name="discard">Одбаци</string>
     <string name="clip_video">Исеци видео снимак</string>
@@ -357,4 +357,8 @@
     <string name="save">Сачувај</string>
     <string name="use_format_sorting">Користи сортирање формата</string>
     <string name="edit_file">Измените фајл</string>
+    <string name="restrict_filenames_desc">Ограничите називе фајлова на одређене знакове да бисте осигурали компатибилност</string>
+    <string name="restrict_filenames">Ограничи називе фајлова</string>
+    <string name="website">Веб-сајт</string>
+    <string name="playlist_title">Наслов плејлисте</string>
 </resources>

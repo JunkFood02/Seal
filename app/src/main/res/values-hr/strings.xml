@@ -68,7 +68,7 @@
     <string name="execute_command_notification">Pokretanje prilagođene naredbe…</string>
     <string name="battery_settings_desc">Postavite potrošnju baterije ove aplikacije na „Neograničeno“ u postavkama sustava za preuzimanje u pozadini.</string>
     <string name="concurrent_download">Višenitno preuzimanje</string>
-    <string name="concurrent_download_num">%d nit(i)bi bilo korišteno kako bi se istovremeno preuzeli DASH/HLS videozapisi.</string>
+    <string name="concurrent_download_num">%d nit(i) bi bilo korišteno kako bi se istovremeno preuzeli DASH/HLS videozapisi.</string>
     <string name="options">Opcije</string>
     <string name="additional_settings">Dodatne postavke</string>
     <string name="share_fail_msg">Nije moguće podudaranje URL iz dijeljenog sadržaja</string>
@@ -83,7 +83,7 @@
     <string name="audio_directory">Mapa zvučnih zapisa</string>
     <string name="download_directory_desc">Odaberite gdje će se spremati datoteke videozapisa i zvučnih zapisa</string>
     <string name="subdirectory">Spremi u poddirektorij</string>
-    <string name="subdirectory_desc">Spremite u mape koje nose isto nazivlje kao internetske stranice s kojih su datoteke preuzete</string>
+    <string name="subdirectory_desc">Spremite datoteke u mape s nazivima odgovarajućih polja</string>
     <string name="permission_issue">Problem s dozvolom pristupa pohrani</string>
     <string name="permission_issue_desc">Direktoriji izvan Preuzimanja/ i Dokumenti/ nisu podržani</string>
     <string name="battery_configuration">Konfiguracija baterije</string>
@@ -138,7 +138,7 @@
     <string name="settings_before_download_text">Prilagodite ovo preuzimanje</string>
     <string name="dark_theme">Tamna tema</string>
     <string name="credits">Zasluge</string>
-    <string name="settings_before_download">Konfiguriraj prije preuzimanja</string>
+    <string name="settings_before_download">Konfiguracija prije preuzimanja</string>
     <string name="checked">Provjereno</string>
     <string name="credits_desc">Zasluge i slobodni softver</string>
     <string name="edit">Uredi</string>
@@ -186,18 +186,18 @@
     <string name="update">Ažuriraj</string>
     <string name="app_up_to_date">Trenutna inačica je ažurna</string>
     <string name="invalid_input">Neispravan unos</string>
-    <string name="disable_preview_desc">Ne prikazujte minijature tijekom preuzimanja</string>
+    <string name="disable_preview_desc">Nema prikaza minijature tijekom preuzimanja</string>
     <string name="privacy">Privatnost</string>
     <string name="use_custom_command">Koristi prilagođenu naredbu</string>
     <string name="disable_preview">Onemogući pregled</string>
     <string name="private_directory">Privatan direktorij</string>
-    <string name="private_directory_desc">Pohrani preuzimanja u skrivenom direktoriju</string>
+    <string name="private_directory_desc">Pohranite preuzimanja u skrivenom direktoriju</string>
     <string name="show_logs">Prikaži bilježnik</string>
     <string name="logs">Bilježnik</string>
     <string name="download_with_cellular">Preuzmi koristeći mobilne podatke</string>
     <string name="network">Mreža</string>
     <string name="lowest_quality">Najniža kvaliteta</string>
-    <string name="network_settings_desc">Ograničenje broja radnji, program za preuzimanje, kolačići</string>
+    <string name="network_settings_desc">Ograničenje brzine, program za preuzimanje, kolačići</string>
     <string name="crop_artwork">Izreži ilustraciju</string>
     <string name="download_selection_desc">Odaberite videozapise koje želite preuzeti s popisa za reprodukciju „%1$s“</string>
     <string name="video_only">Video (bez zvuka)</string>
@@ -225,9 +225,9 @@
     <string name="copy_log">Kopiraj bilježnik</string>
     <string name="embed_subtitles_mkv_msg">Da bi se ugradili titlovi, videozapisi će biti preuzeti bez promjena u mkv kontejner. Možete koristiti VLC Media Player ili druge kompatibilne aplikacije za gledanje videozapisa s ugrađenim titlovima.</string>
     <string name="subtitle_sponsorblock">Titlovi mogu biti pogrešno tempirani nakon uklanjanja SponsorBlock segmenta.</string>
-    <string name="max_rate">Maksimalan broj</string>
+    <string name="max_rate">Maksimalna brzina</string>
     <string name="high_contrast">Tamna tema visokog kontrasta</string>
-    <string name="rate_limit_desc">Ograničite maksimalan broj radnji za preuzimanja</string>
+    <string name="rate_limit_desc">Ograničite maksimalnu brzinu za preuzimanja</string>
     <string name="format_selection">Odabir oblika</string>
     <string name="use_cookies">Koristi kolačiće</string>
     <string name="cookies">Kolačići</string>
@@ -236,8 +236,8 @@
     <string name="format_settings_desc">Oblik datoteke, kvaliteta videozapisa, titlovi</string>
     <string name="general_settings_desc">Inačica Yt-dlp-a, obavijest, popis za reprodukciju</string>
     <string name="unavailable">Nedostupno</string>
-    <string name="crop_artwork_desc">Izreži ugrađenu sliku u oblik kvadrata</string>
-    <string name="rate_limit">Razina ograničenosti</string>
+    <string name="crop_artwork_desc">Izrežite ugrađenu sliku u oblik kvadrata</string>
+    <string name="rate_limit">Ograničenje brzine</string>
     <string name="abs_hint">Većina platforma strujanja videozapisa dostavljaju odvojen zvučni zapis i videozapis, te možete izabrati i stopiti oblik koji sadrži samo zvučni zapis s oblikom koji sadrži samo videozapis u jedinstven videozapis.</string>
     <string name="matrix_space">Matrix prostor</string>
     <string name="select_all">Odaberi sve</string>
@@ -261,7 +261,7 @@
     <string name="audio_quality_desc">Ograničite bitrate zvučnog zapisa, kada je dostupno više kvaliteta</string>
     <string name="format_sorting">Sortiranje oblika</string>
     <string name="rename">Preimenuj</string>
-    <string name="temporary_directory_desc">Pohrani privremene datoteke u unutarnju pohranu</string>
+    <string name="temporary_directory_desc">Pohranite privremene datoteke u unutarnji direktorij</string>
     <string name="second">sekunda</string>
     <string name="sponsor">Sponzoriraj</string>
     <string name="minute">minuta</string>
@@ -280,10 +280,10 @@
     <string name="copy_and_exit">Kopiraj i izađi</string>
     <string name="share">Dijeli</string>
     <string name="pre_release_channel">Beta</string>
-    <string name="stable_channel">Stabilno</string>
-    <string name="update_channel_desc">Instalirajte beta inačice aplikacije kako biste dobili pregledali nove značajke i promjene.
+    <string name="stable_channel">Stabilan</string>
+    <string name="update_channel_desc">Instalirajte beta inačice aplikacije kako biste pregledali nove značajke i promjene.
 \n
-\nMoguća je nestabilnost ovih inačica te se molimo ne ustručavajte dati nam povratne informacije u slučaju problema s aplikacijom. One će nam pomoći poboljšati buduće inačice aplikacije.</string>
+\nMoguća je nestabilnost ovih inačica, molimo ne ustručavajte se dati nam povratne informacije u slučaju problema s aplikacijom. One će nam pomoći poboljšati buduće inačice aplikacije.</string>
     <string name="auto_update">Automatsko ažuriranje</string>
     <string name="enable_auto_update">Omogući automatsko ažuriranje</string>
     <string name="unlimited">Neograničeno</string>
@@ -357,4 +357,8 @@
     <string name="save">Spremi</string>
     <string name="use_format_sorting">Koristi sortiranje oblika</string>
     <string name="edit_file">Uredite datoteku</string>
+    <string name="restrict_filenames_desc">Ograničite nazive datoteka na određene znakove kako biste osigurali kompatibilnost</string>
+    <string name="restrict_filenames">Ograniči nazive datoteka</string>
+    <string name="website">Web stranica</string>
+    <string name="playlist_title">Naslov popisa za reprodukciju</string>
 </resources>
