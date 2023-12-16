@@ -10,6 +10,10 @@ import androidx.compose.material.icons.outlined.SnippetFolder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,12 +26,25 @@ import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 
 @Composable
-fun DirectoryPreferenceDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -> Unit = {}) {
+fun DirectoryPreferenceDialog(
+    onDismissRequest: () -> Unit = {},
+    isWebsiteSelected: Boolean,
+    isPlaylistTitleSelected: Boolean,
+    onConfirm: (isWebsiteSelected: Boolean, isPlaylistTitleSelected: Boolean) -> Unit = { _, _ -> }
+) {
+    var website by remember {
+        mutableStateOf(isWebsiteSelected)
+    }
+    var playlistTitle by remember {
+        mutableStateOf(isPlaylistTitleSelected)
+    }
+
     SealDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             ConfirmButton {
-
+                onConfirm(website, playlistTitle)
+                onDismissRequest()
             }
         },
         dismissButton = {
@@ -52,19 +69,29 @@ fun DirectoryPreferenceDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp))
-                DialogCheckBoxItem(text = "Website", checked = true) {
-
+                DialogCheckBoxItem(
+                    text = stringResource(id = R.string.website),
+                    checked = website
+                ) {
+                    website = !website
                 }
                 DialogCheckBoxItem(
-                    text = "Playlist title",
-                    checked = true
+                    text = stringResource(id = R.string.playlist_title),
+                    checked = playlistTitle
                 ) {
-
+                    playlistTitle = !playlistTitle
                 }
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp))
                 Spacer(modifier = Modifier.height(4.dp))
+
+                val dirStr = StringBuilder(".../").run {
+                    if (website) append("website/")
+                    if (playlistTitle) append("playlist_title/")
+                    append("file_name")
+                }
+
                 Text(
-                    text = "Your downloads will be saved as:\n.../website/playlist_title/file_name",
+                    text = stringResource(R.string.subdirectory_hint) + "\n" + dirStr,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp),
@@ -77,5 +104,9 @@ fun DirectoryPreferenceDialog(onDismissRequest: () -> Unit = {}, onConfirm: () -
 @Preview
 @Composable
 private fun DirectoryPreferenceDialogPreview() {
-    DirectoryPreferenceDialog()
+    DirectoryPreferenceDialog(
+        onDismissRequest = {},
+        isWebsiteSelected = false,
+        isPlaylistTitleSelected = false
+    )
 }

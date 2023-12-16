@@ -77,6 +77,8 @@ object DownloadUtil {
 
     private const val OUTPUT_TEMPLATE_SPLIT = "$BASENAME/$OUTPUT_TEMPLATE_DEFAULT"
 
+    private const val PLAYLIST_TITLE_SUBDIRECTORY_PREFIX = "%(playlist)s/"
+
     private const val CROP_ARTWORK_COMMAND =
         """--ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"""""
 
@@ -145,9 +147,9 @@ object DownloadUtil {
             if (proxy) {
                 enableProxy(proxyUrl)
             }
-/*            if (debug) {
-                addOption("-v")
-            }*/
+            /*            if (debug) {
+                            addOption("-v")
+                        }*/
             if (autoSubtitle) {
                 addOption("--write-auto-subs")
                 addOption("--extractor-args", "youtube:skip=translated_subs")
@@ -165,7 +167,8 @@ object DownloadUtil {
         val extractAudio: Boolean = PreferenceUtil.getValue(EXTRACT_AUDIO),
         val createThumbnail: Boolean = PreferenceUtil.getValue(THUMBNAIL),
         val downloadPlaylist: Boolean = PreferenceUtil.getValue(PLAYLIST),
-        val subdirectory: Boolean = PreferenceUtil.getValue(SUBDIRECTORY),
+        val subdirectoryExtractor: Boolean = PreferenceUtil.getValue(SUBDIRECTORY_EXTRACTOR),
+        val subdirectoryPlaylistTitle: Boolean = SUBDIRECTORY_PLAYLIST_TITLE.getBoolean(),
         val commandDirectory: String = COMMAND_DIRECTORY.getString(),
         val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
@@ -472,6 +475,7 @@ object DownloadUtil {
             }
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
+            val outputBuilder = StringBuilder()
 
             request.apply {
                 addOption("--no-mtime")
@@ -498,6 +502,9 @@ object DownloadUtil {
 
                 if (playlistItem != 0 && downloadPlaylist) {
                     addOption("--playlist-items", playlistItem)
+                    if (subdirectoryPlaylistTitle && !videoInfo.playlist.isNullOrEmpty()) {
+                        outputBuilder.append(PLAYLIST_TITLE_SUBDIRECTORY_PREFIX)
+                    }
 //                    addOption("--compat-options", "no-youtube-unavailable-videos")
                 } else {
                     addOption("--no-playlist")
@@ -530,7 +537,7 @@ object DownloadUtil {
                     addOption("--write-thumbnail")
                     addOption("--convert-thumbnails", "png")
                 }
-                if (subdirectory) {
+                if (subdirectoryExtractor) {
                     pathBuilder.append("/${videoInfo.extractorKey}")
                 }
 
@@ -552,15 +559,22 @@ object DownloadUtil {
                 if (Build.VERSION.SDK_INT > 23 && !sdcard) addOption(
                     "-P", "temp:" + getExternalTempDir()
                 )
-                val output =
-                    if (splitByChapter) OUTPUT_TEMPLATE_SPLIT else if (videoClips.isEmpty()) outputTemplate else OUTPUT_TEMPLATE_CLIPS
-
-                addOption("-o", output)
 
                 if (splitByChapter) {
                     addOption("-o", OUTPUT_TEMPLATE_CHAPTERS)
                     addOption("--split-chapters")
                 }
+
+                val output =
+                    if (splitByChapter) {
+                        OUTPUT_TEMPLATE_SPLIT
+                    } else if (videoClips.isEmpty()) {
+                        outputTemplate
+                    } else {
+                        OUTPUT_TEMPLATE_CLIPS
+                    }
+
+                addOption("-o", outputBuilder.append(output).toString())
 
                 for (s in request.buildCommand()) Log.d(TAG, s)
             }.runCatching {

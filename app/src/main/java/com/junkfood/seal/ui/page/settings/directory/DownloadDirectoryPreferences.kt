@@ -101,13 +101,15 @@ import com.junkfood.seal.util.FileUtil.getExternalTempDir
 import com.junkfood.seal.util.OUTPUT_TEMPLATE
 import com.junkfood.seal.util.PRIVATE_DIRECTORY
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.RESTRICT_FILENAMES
 import com.junkfood.seal.util.SDCARD_DOWNLOAD
 import com.junkfood.seal.util.SDCARD_URI
-import com.junkfood.seal.util.SUBDIRECTORY
+import com.junkfood.seal.util.SUBDIRECTORY_EXTRACTOR
+import com.junkfood.seal.util.SUBDIRECTORY_PLAYLIST_TITLE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -141,8 +143,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var isSubdirectoryEnabled
-            by remember { mutableStateOf(PreferenceUtil.getValue(SUBDIRECTORY)) }
+    var showSubdirectoryDialog by remember { mutableStateOf(false) }
 
 
     var isPrivateDirectoryEnabled by remember {
@@ -330,15 +331,13 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                 )
             }
             item {
-                PreferenceSwitch(
+                PreferenceItem(
                     title = stringResource(id = R.string.subdirectory),
                     description = stringResource(id = R.string.subdirectory_desc),
                     icon = Icons.Outlined.SnippetFolder,
-                    isChecked = isSubdirectoryEnabled,
                     enabled = !isCustomCommandEnabled && !sdcardDownload,
                 ) {
-                    isSubdirectoryEnabled = !isSubdirectoryEnabled
-                    PreferenceUtil.updateValue(SUBDIRECTORY, isSubdirectoryEnabled)
+                    showSubdirectoryDialog = true
                 }
             }
             item {
@@ -509,6 +508,17 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     showCustomCommandDirectoryDialog = false
                 }
             },
+        )
+    }
+    if (showSubdirectoryDialog) {
+        DirectoryPreferenceDialog(
+            onDismissRequest = { showSubdirectoryDialog = false },
+            isWebsiteSelected = SUBDIRECTORY_EXTRACTOR.getBoolean(),
+            isPlaylistTitleSelected = SUBDIRECTORY_PLAYLIST_TITLE.getBoolean(),
+            onConfirm = { isWebsiteSelected, isPlaylistTitleSelected ->
+                SUBDIRECTORY_EXTRACTOR.updateBoolean(isWebsiteSelected)
+                SUBDIRECTORY_PLAYLIST_TITLE.updateBoolean(isPlaylistTitleSelected)
+            }
         )
     }
 }
