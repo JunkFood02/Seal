@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
+## [v1.11.1][1.11.1] - 2023-12-16
+
+### Added
+* Add `--restrict-filenames` option in yt-dlp
+* Add playlist title as an option for subdirectory
+* Add more thanks to sponsors
+
+### Fixed
+* Fix some minor UI bugs
+* Fix an issue causing error when parsing video info 
 
 ## [v1.11.0][1.11.0] - 2023-11-18
 
@@ -240,3 +250,5 @@ Under development, please stay tuned!
 [1.10.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.10.0
 
 [1.11.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.0
+
+[1.11.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.1
