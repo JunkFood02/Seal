@@ -2,6 +2,7 @@ package com.junkfood.seal.util
 
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.OPEN_READONLY
+import android.media.MediaCodecList
 import android.os.Build
 import android.util.Log
 import android.webkit.CookieManager
@@ -32,6 +33,7 @@ import com.junkfood.seal.util.PreferenceUtil.COOKIE_HEADER
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
@@ -40,16 +42,17 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.util.Locale
 
-object CookieScheme {
-    const val NAME = "name"
-    const val VALUE = "value"
-    const val SECURE = "is_secure"
-    const val EXPIRY = "expires_utc"
-    const val HOST = "host_key"
-    const val PATH = "path"
-}
 
 object DownloadUtil {
+
+    object CookieScheme {
+        const val NAME = "name"
+        const val VALUE = "value"
+        const val SECURE = "is_secure"
+        const val EXPIRY = "expires_utc"
+        const val HOST = "host_key"
+        const val PATH = "path"
+    }
 
     private val jsonFormat = Json {
         ignoreUnknownKeys = true
@@ -209,7 +212,8 @@ object DownloadUtil {
         val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
         val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
         val embedMetadata: Boolean = EMBED_METADATA.getBoolean(),
-        val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean()
+        val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
+        val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated()
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -336,7 +340,12 @@ object DownloadUtil {
     private fun DownloadPreferences.toVideoFormatSorter(): String = this.run {
         val format = when (videoFormat) {
             FORMAT_COMPATIBILITY -> "proto,vcodec:h264,ext"
-            FORMAT_QUALITY -> "vcodec:av01"
+            FORMAT_QUALITY -> if (supportAv1HardwareDecoding) {
+                "vcodec:av01"
+            } else {
+                "vcodec:vp9.2"
+            }
+
             else -> ""
         }
         val res = when (videoResolution) {
@@ -706,6 +715,27 @@ object DownloadUtil {
                 }
             }
             onProcessEnded()
+        }
+    }
+
+    private fun checkIfAv1HardwareAccelerated(): Boolean {
+        if (PreferenceUtil.containsKey(AV1_HARDWARE_ACCELERATED)) {
+            return AV1_HARDWARE_ACCELERATED.getBoolean()
+        } else {
+            val res = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                false
+            } else {
+                MediaCodecList(MediaCodecList.REGULAR_CODECS).codecInfos.any { info ->
+                    info.supportedTypes.any {
+                        it.equals(
+                            "video/av01",
+                            ignoreCase = true
+                        )
+                    } && info.isHardwareAccelerated
+                }
+            }
+            AV1_HARDWARE_ACCELERATED.updateBoolean(res)
+            return res
         }
     }
 }
