@@ -663,6 +663,9 @@ object DownloadUtil {
                 if (useDownloadArchive) {
                     useDownloadArchive()
                 }
+                if (restrictFilenames) {
+                    addOption("--restrict-filenames")
+                }
                 addOption(
                     "--config-locations", FileUtil.writeContentToFile(
                         template.template, context.getConfigFile()
