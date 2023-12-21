@@ -91,6 +91,7 @@ import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -127,13 +128,14 @@ fun DownloadSettingDialog(
     var videoQuality by VIDEO_QUALITY.intState
     var cookies by COOKIES.booleanState
     var formatSorting by FORMAT_SORTING.booleanState
-    var sortingFields by SORTING_FIELDS.stringState
 
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
     var showVideoQualityDialog by remember { mutableStateOf(false) }
     var showVideoFormatDialog by remember { mutableStateOf(false) }
     var showAudioConversionDialog by remember { mutableStateOf(false) }
     var showFormatSortingDialog by remember { mutableStateOf(false) }
+
+    var sortingFields by remember(showFormatSortingDialog) { mutableStateOf(SORTING_FIELDS.getString()) }
 
     var showTemplateSelectionDialog by remember { mutableStateOf(false) }
     var showTemplateCreatorDialog by remember { mutableStateOf(false) }
