@@ -97,6 +97,7 @@ const val DOWNLOAD_ARCHIVE = "download_archive"
 const val EMBED_METADATA = "embed_metadata"
 const val RESTRICT_FILENAMES = "restrict_filenames"
 const val AV1_HARDWARE_ACCELERATED = "av1_hardware_accelerated"
+const val FORCE_IPV4 = "force_ipv4"
 
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0

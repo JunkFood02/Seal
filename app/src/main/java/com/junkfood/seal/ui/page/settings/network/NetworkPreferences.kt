@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.OfflineBolt
+import androidx.compose.material.icons.outlined.SettingsEthernet
 import androidx.compose.material.icons.outlined.SignalCellular4Bar
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet4Bar
 import androidx.compose.material.icons.outlined.Speed
@@ -37,6 +38,7 @@ import com.junkfood.seal.util.ARIA2C
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.FORCE_IPV4
 import com.junkfood.seal.util.PROXY
 import com.junkfood.seal.util.PreferenceUtil.getValue
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
@@ -60,6 +62,7 @@ fun NetworkPreferences(
     var aria2c by remember { mutableStateOf(getValue(ARIA2C)) }
     var proxy by PROXY.booleanState
     var isCookiesEnabled by COOKIES.booleanState
+    var forceIpv4 by FORCE_IPV4.booleanState
 
     Scaffold(
         modifier = Modifier
@@ -169,6 +172,18 @@ fun NetworkPreferences(
                         icon = Icons.Outlined.OfflineBolt,
                         enabled = !aria2c && !isCustomCommandEnabled,
                     ) { showConcurrentDownloadDialog = true }
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(R.string.force_ipv4),
+                        description = stringResource(id = R.string.force_ipv4_desc),
+                        icon = Icons.Outlined.SettingsEthernet,
+                        enabled = !isCustomCommandEnabled,
+                        isChecked = forceIpv4
+                    ) {
+                        forceIpv4 = !forceIpv4
+                        FORCE_IPV4.updateBoolean(forceIpv4)
+                    }
                 }
                 item {
                     PreferenceItem(title = stringResource(R.string.cookies),

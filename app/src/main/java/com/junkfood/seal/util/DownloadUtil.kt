@@ -107,6 +107,9 @@ object DownloadUtil {
                 if (proxy) {
                     enableProxy(proxyUrl)
                 }
+                if (forceIpv4) {
+                    addOption("-4")
+                }
                 if (cookies) {
                     enableCookies(userAgentString)
                 }
@@ -149,6 +152,9 @@ object DownloadUtil {
             }
             if (proxy) {
                 enableProxy(proxyUrl)
+            }
+            if (forceIpv4) {
+                addOption("-4")
             }
             /*            if (debug) {
                             addOption("-v")
@@ -213,7 +219,8 @@ object DownloadUtil {
         val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
         val embedMetadata: Boolean = EMBED_METADATA.getBoolean(),
         val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
-        val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated()
+        val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated(),
+        val forceIpv4: Boolean = FORCE_IPV4.getBoolean(),
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -497,6 +504,9 @@ object DownloadUtil {
                 }
                 if (proxy) {
                     enableProxy(proxyUrl)
+                }
+                if (forceIpv4) {
+                    addOption("-4")
                 }
                 if (debug) {
                     addOption("-v")

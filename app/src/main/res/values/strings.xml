@@ -402,6 +402,8 @@
     <string name="playlist_title">Playlist title</string>
     <string name="subdirectory_hint">Your downloads will be saved as:</string>
     <string name="system_settings">System settings</string>
+    <string name="force_ipv4">Force IPv4</string>
+    <string name="force_ipv4_desc">Make all connections via IPv4</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
