@@ -88,13 +88,6 @@
 
 Присоединяйтесь к нашему [Telegram каналу](https://t.me/seal_app) или [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) для рассуждений, анонсов и релизов!
 
-## 💖 Спонсоры
-
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/MayBeNotSimon"><img src="https://github.com/MayBeNotSimon.png" width="60px" alt="" /></a><!-- sponsors --></p>
-
-
-Seal всегда будет бесплатным проектом с открытым исходным кодом для каждого. Если вам это нравится, пожалуйста рассмотрите возможность [поддержать меня](https://github.com/sponsors/JunkFood02)!
-
 ## 🤝 Помочь с переводом
 
 Помощь приветствуется!
