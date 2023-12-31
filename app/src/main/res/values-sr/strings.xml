@@ -361,4 +361,8 @@
     <string name="restrict_filenames">Ограничи називе фајлова</string>
     <string name="website">Веб-сајт</string>
     <string name="playlist_title">Наслов плејлисте</string>
+    <string name="subdirectory_hint">Ваша преузимања ће бити сачувана као:</string>
+    <string name="force_ipv4">Присили IPv4</string>
+    <string name="system_settings">Системска подешавања</string>
+    <string name="force_ipv4_desc">Учините све везе преко IPv4</string>
 </resources>

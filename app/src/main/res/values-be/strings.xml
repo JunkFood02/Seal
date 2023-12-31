@@ -130,7 +130,7 @@
     <string name="restart">Перазапусціць</string>
     <string name="status_error">Памылка</string>
     <string name="copy_link">Скапіяваць спасылку</string>
-    <string name="subdirectory_desc">Захоўвайце файлы ў папках з назвамі адпаведных вэб-сайтаў</string>
+    <string name="subdirectory_desc">Захоўвайце файлы ў папках з адпаведнымі назвамі</string>
     <string name="permission_issue">Каталог не падтрымліваецца</string>
     <string name="battery_configuration_desc">Ігнаруйце аптымізацыю акумулятара, каб спампоўваць у фоне</string>
     <string name="service_title">Seal спампоўвае…</string>
@@ -360,4 +360,10 @@
     <string name="restrict_filenames_desc">Абмяжуйць імёны файлаў пэўнымі сімваламі, каб забяспечыць сумяшчальнасць</string>
     <string name="restrict_filenames">Абмежаваць імёны файлаў</string>
     <string name="edit_file">Рэдагаваць файл</string>
+    <string name="subdirectory_hint">Вашы спампоўкі будуць захаваны як:</string>
+    <string name="website">Вэб-сайт</string>
+    <string name="system_settings">Налады сістэмы</string>
+    <string name="playlist_title">Назва плэйліста</string>
+    <string name="force_ipv4">Прымусова выкарыстоўваць IPv4</string>
+    <string name="force_ipv4_desc">Выконваць усе падключэнні праз IPv4</string>
 </resources>

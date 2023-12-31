@@ -77,7 +77,7 @@
     <string name="download_directory">Adresář pro stahování</string>
     <string name="download_directory_desc">Zvolte kam ukládat videa a audio soubory</string>
     <string name="subdirectory">Uložit do podsložky</string>
-    <string name="subdirectory_desc">Ukládat soubory do složek pojmenovaných podle respektivních webových stránek</string>
+    <string name="subdirectory_desc">Ukládat soubory do složek pojmenovaných jako příslušná pole</string>
     <string name="permission_issue">Problém s oprávněním</string>
     <string name="permission_issue_desc">Složky mimo Download/ a Documents/ nejsou podporovány</string>
     <string name="battery_configuration_desc">Ignorovat optimalizaci baterie pro tuto aplikaci ke stahování na pozadí</string>
@@ -359,4 +359,7 @@
     <string name="clear_all_cookies_desc">Chcete navždy smazat všechny cookies uložené v aplikaci?</string>
     <string name="minute">minuta</string>
     <string name="format_sorting">Třídění formátů</string>
+    <string name="subdirectory_hint">Vaše stahování budou uložena jako:</string>
+    <string name="website">Webová stránka</string>
+    <string name="playlist_title">Název playlistu</string>
 </resources>

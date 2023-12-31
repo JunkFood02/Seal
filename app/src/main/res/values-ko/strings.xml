@@ -135,7 +135,7 @@
     <string name="download_playlist_desc">재생 목록에서 여러 비디오 다운로드</string>
     <string name="download_range_desc">재생 목록 \"%3$s\" (%1$d ~ %2$d)에서 다운로드할 비디오 범위를 지정하십시오.</string>
     <string name="from">시작</string>
-    <string name="playlist_indicator_text">재생 목록(%1$d/%2$d)을 다운로드하는 중입니다. 중지하려면 누르세요.</string>
+    <string name="playlist_indicator_text">재생 목록(%1$d/%2$d)을 다운로드하는 중입니다…</string>
     <string name="battery_configuration_desc">이 앱이 백그라운드에서 다운로드하려면 배터리 최적화를 해제하세요</string>
     <string name="video_only">비디오 (오디오 없음)</string>
     <string name="suggested">제안</string>
@@ -157,7 +157,7 @@
     <string name="cookies">쿠키</string>
     <string name="disable_preview_desc">다운로드 중 미리 보기 표시 안 함</string>
     <string name="privacy">프라이버시</string>
-    <string name="downloading_indicator_text">다운로드가 진행 중입니다. 취소하려면 누르십시오.</string>
+    <string name="downloading_indicator_text">다운로드가 진행 중입니다…</string>
     <string name="task_canceled">다운로드 작업이 취소됨</string>
     <string name="github_issue">깃허브 이슈</string>
     <string name="github_issue_desc">버그 보고서 또는 기능 요청을 위해 문제 제출</string>
@@ -166,8 +166,10 @@
     <string name="aria2_desc">aria2c를 외부 다운로더로 사용</string>
     <string name="update">업데이트</string>
     <string name="clear_temp_files">임시 파일 지우기</string>
-    <string name="clear_temp_files_desc">내부 디렉토리에서 모든 임시 파일 삭제</string>
-    <string name="clear_temp_files_info">임시 파일을 사용하여 취소된 다운로드를 다시 시작할 수 있습니다. 이러한 파일을 모두 삭제하시겠습니까\?</string>
+    <string name="clear_temp_files_desc">임시 디렉토리에서 모든 임시 파일 삭제</string>
+    <string name="clear_temp_files_info">임시 파일을 사용하여 취소된 다운로드를 다시 시작할 수 있습니다. 이 파일들을 모두 삭제하시겠습니까?
+\n
+\n%1$s에서 이 파일들을 접근할 수 있습니다</string>
     <string name="private_mode">시크릿 모드</string>
     <string name="private_mode_desc">다운로드 기록 사용 안 함</string>
     <string name="high_contrast">고대비 어두운 테마</string>
@@ -225,8 +227,8 @@
     <string name="enable_experimental_feature">실험 기능을 사용하시겠습니까\?</string>
     <string name="clip_video_dialog_msg">이 기능을 사용하는 다운로드는 비디오의 선택된 섹션을 다운로드할때 FFmpeg에 위임됩니다. 이 기능은 아직 실험적이며 자르기가 완전히 정확하지 않습니다. 또한 모든 형식이 이 기능을 지원하는 것은 아니며 다운로드 속도가 느려질 수 있습니다.</string>
     <string name="clip_video_desc">형식 선택 페이지에서 비디오 클립 만들기</string>
-    <string name="filesize_mb">%.2f M</string>
-    <string name="filesize_gb">%.2f G</string>
+    <string name="filesize_mb">%.2f MB</string>
+    <string name="filesize_gb">%.2f GB</string>
     <string name="format_selection">형식 선택</string>
     <string name="stable_channel">안정</string>
     <string name="pre_release_channel">미리 보기</string>
@@ -320,4 +322,37 @@
     <string name="legacy">레거시</string>
     <string name="expand">펼치기</string>
     <string name="new_task">새 다운로드 작업</string>
+    <string name="custom_command_usage_msg">yt-dlp는 영상 다운로드를 위한 강력한 명령줄 도구입니다. Seal은 직관적인 GUI와 일반적인 명령어들을 위한 프리셋들, 기타 추가적인 기능들을 제공함으로써 yt-dlp을 쉽게 사용할 수 있습니다.
+\n
+\nyt-dlp의 고급 사용을 위해 Seal은 커스텀 명령어 템플릿을 제작과 저장, 터미널에서처럼 직접 실행할 수도 있습니다.
+\n
+\n커스텀 명령어 사용 시, 대부분의 GUI 옵션과 기능들이 비활성화될 것입니다.</string>
+    <string name="clear_download_archive">다운로드 아카이브를 비울까요?</string>
+    <string name="save">저장</string>
+    <string name="export_to_file">파일로 내보내기</string>
+    <string name="commands">명령어</string>
+    <string name="clear_download_archive_desc">정말로 %1$s를 아카이브 파일에서 삭제할까요?</string>
+    <string name="website">웹사이트</string>
+    <string name="learn_more">더 알아보기</string>
+    <string name="download_type">다운로드 유형</string>
+    <string name="embed_metadata">메타데이터 포함하기</string>
+    <string name="presets">프리셋</string>
+    <string name="ua_header">User-Agent 헤더</string>
+    <string name="restrict_filenames_desc">호환성을 위해 파일명에 사용 가능한 문자를 제한합니다</string>
+    <string name="required">필수</string>
+    <string name="show_all_items">%1$d개의 항목 모두 표시</string>
+    <string name="output_template">출력 템플릿</string>
+    <string name="auto">자동</string>
+    <plurals name="item_count">
+        <item quantity="other">항목 %d개</item>
+    </plurals>
+    <string name="refresh_cookies_desc">탭하여 새로운 쿠키 생성을 위해 웹페이지 열기:</string>
+    <string name="restrict_filenames">파일명 제한</string>
+    <string name="edit_file">파일 편집</string>
+    <string name="download_archive_desc">중복 다운로드를 방지하기 위해 다운로드한 영상 ID들을 아카이브에 기록합니다</string>
+    <string name="custom">커스텀</string>
+    <string name="embed_metadata_desc">메타데이터와 영상 썸네일을 오디오 파일에 포함시킵니다</string>
+    <string name="playlist_title">플레이리스트 제목</string>
+    <string name="download_archive">다운로드 아카이브</string>
+    <string name="remove_multiple_templates_msg">정말로 커스텀 템플릿에서 %1$s를 삭제할까요?</string>
 </resources>

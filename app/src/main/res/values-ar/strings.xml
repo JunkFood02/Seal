@@ -116,7 +116,7 @@
     <string name="check_download_settings_desc">ألق نظرة على إعدادات التنزيل وتأكد من أن لديك أحدث إصدار من yt-dlp قبل استخدامه.</string>
     <string name="video_url">رابط الفيديو</string>
     <string name="concurrent_download">تنزيل متعدد الأجزاء</string>
-    <string name="subdirectory_desc">احفظ الملفات في مجلدات بأسماء المواقع المعنية</string>
+    <string name="subdirectory_desc">احفظ الملفات في مجلدات بأسماء الحقول المعنية</string>
     <string name="unknown_error">خطأ غير معروف</string>
     <string name="share_fail_msg">تعذر مطابقة عنوان URL من المحتوى المشترك</string>
     <string name="share_success_msg">جارٍ قراءة رابط الفيديو من المحتوى المشترك …</string>
@@ -361,4 +361,10 @@
     <string name="show_all_items">عرض كل %1$d العناصر</string>
     <string name="restrict_filenames">تقييد أسماء الملفات</string>
     <string name="edit_file">تعديل الملف</string>
+    <string name="subdirectory_hint">سيتم حفظ التنزيلات الخاصة بك على النحو التالي:</string>
+    <string name="website">موقع إلكتروني</string>
+    <string name="playlist_title">عنوان قائمة التشغيل</string>
+    <string name="force_ipv4">فرض IPv4</string>
+    <string name="system_settings">إعدادات النظام</string>
+    <string name="force_ipv4_desc">قم بإجراء كافة الاتصالات عبر IPv4</string>
 </resources>

@@ -31,7 +31,7 @@
     <string name="delete_file">Excluir</string>
     <string name="about">Sobre</string>
     <string name="version">Versão</string>
-    <string name="release">Último lançamento</string>
+    <string name="release">Versão mais recente</string>
     <string name="readme_desc">Verifique o repositório no GitHub e o README</string>
     <string name="video">Vídeo</string>
     <string name="credits">Créditos</string>
@@ -234,7 +234,7 @@
     <string name="update_channel_desc">Instale compilações de pré-lançamento para visualizar novos recursos e alterações.
 \n
 \nHaverá alguma instabilidade nessas versões, portanto, não hesite em nos enviar feedback se tiver algum problema para nos ajudar a melhorar o aplicativo para o futuro.</string>
-    <string name="update_channel">Atualizar canal</string>
+    <string name="update_channel">Canal de atualização</string>
     <string name="auto_update">Atualização automática</string>
     <string name="enable_auto_update">Ativar atualização automática</string>
     <string name="logs">Log</string>
@@ -361,4 +361,8 @@
     <string name="restrict_filenames">Restringir nomes de arquivos</string>
     <string name="website">Site</string>
     <string name="playlist_title">Título da playlist</string>
+    <string name="subdirectory_hint">Seus downloads serão salvos como:</string>
+    <string name="system_settings">Configurações de sistema</string>
+    <string name="force_ipv4">Forçar IPv4</string>
+    <string name="force_ipv4_desc">Faça todas as conexões via IPv4</string>
 </resources>

@@ -98,7 +98,7 @@
     <string name="permission_issue">مشکل در مجوز ذخیره سازی</string>
     <string name="permission_issue_desc">دایرکتوری های خارج از Download/ و Documents/ پشتیبانی نمی شوند</string>
     <string name="service_title">Seal در حال دانلود است…</string>
-    <string name="best_quality">بهترین کیفیت(پیشفرض)</string>
+    <string name="best_quality">بهترین کیفیت (پیش فرض)</string>
     <string name="settings_before_download">قبل از دانلود پیکربندی کنید</string>
     <string name="settings_before_download_desc">تنظیمات برگزیده را قبل از دانلود پیکربندی کنید</string>
     <string name="edit_template_desc">مسیر خروجی و پیوند توسط برنامه اضافه خواهد شد.</string>
@@ -215,7 +215,7 @@
     <string name="cookies">کوکی ها</string>
     <string name="format_selection">انتخاب فرمت</string>
     <string name="generate_new_cookies">ساخت کوکی جدید</string>
-    <string name="embed_subtitles_desc">در صورت وجود، زیرنویس‌های ارائه شده را در ویدیوها جاسازی کنید</string>
+    <string name="embed_subtitles_desc">در صورت امکان، زیرنویس‌ های ارائه شده را در ویدیوها جاسازی شود</string>
     <string name="template_label">عنوان</string>
     <string name="remove_template">آیا حذف شود؟</string>
     <string name="remove_template_desc">برای همیشه \"%1$s\" از الگوهای خوب حذف شود؟</string>

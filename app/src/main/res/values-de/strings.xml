@@ -104,7 +104,7 @@
     <string name="service_title">Seal lädt herunter …</string>
     <string name="channel_description">Benachrichtigung über heruntergeladene Dateien und den Fortschritt</string>
     <string name="additional_settings">Zusätzliche Einstellungen</string>
-    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d), zum Anhalten antippen.</string>
+    <string name="playlist_indicator_text">Herunterladen der Wiedergabeliste (%1$d/%2$d)…</string>
     <string name="format">Format</string>
     <string name="print_details_desc">Detaillierte Meldungen beim Herunterladen drucken</string>
     <string name="not_convert">Nicht konvertieren</string>
@@ -139,7 +139,7 @@
     <string name="remove_template_desc">„%1$s“ endgültig aus den Befehlsvorlagen entfernen\?</string>
     <string name="template_selection">Vorlagenauswahl</string>
     <string name="custom_command_template_desc">Befehlsvorlagen bearbeiten und verwalten</string>
-    <string name="downloading_indicator_text">Download läuft, zum Abbrechen antippen.</string>
+    <string name="downloading_indicator_text">Download läuft…</string>
     <string name="task_canceled">Download-Aufgabe wurde abgebrochen</string>
     <string name="github_issue">GitHub-Problem</string>
     <string name="info_copied">Informationen in die Zwischenablage kopiert</string>
@@ -175,8 +175,10 @@
     <string name="sponsorblock_categories">SponsorBlock-Kategorien</string>
     <string name="cookies_desc">Netscape-formatierte Cookies für Downloads verwenden</string>
     <string name="clear_temp_files">Temporäre Dateien löschen</string>
-    <string name="clear_temp_files_desc">Alle temporären Dateien aus dem internen Ordner löschen</string>
-    <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst\?</string>
+    <string name="clear_temp_files_desc">Alle temporären Dateien aus dem temporären Ordner löschen</string>
+    <string name="clear_temp_files_info">Temporäre Dateien können verwendet werden, um abgebrochene Downloads wieder aufzunehmen. Bist du sicher, dass du alle diese Dateien löschen willst?
+\n
+\nDu kannst diese Dateien zugreifen unter %1$s</string>
     <string name="clear_temp_files_count">%1$d temporäre Datei(en) gelöscht</string>
     <string name="multiselect_mode">Mehrfachauswahl-Modus</string>
     <string name="private_mode_desc">Download-Verlauf deaktivieren</string>
@@ -340,4 +342,26 @@
 \n
 \nWenn benutzerdefinierte Befehle genutzt werden sind die meisten Optionen und Funktionen in der Benutzeroberfläche deaktiviert.</string>
     <string name="output_template">Ausgabemuster</string>
+    <string name="clear_download_archive">Archiv löschen?</string>
+    <string name="save">Speichern</string>
+    <string name="subdirectory_hint">Ihre Downloads werden gespeichert als:</string>
+    <string name="clear_download_archive_desc">Soll %1$s aus der Archivdatei entfernt werden?</string>
+    <string name="website">Webseite</string>
+    <string name="embed_metadata">Metadaten einbetten</string>
+    <string name="use_format_sorting">Format-Sortierung verwenden</string>
+    <string name="presets">Voreinstellungen</string>
+    <string name="restrict_filenames_desc">Dateinamen auf bestimmte Zeichen begrenzen, um die Kompatibilität zu gewährleisten</string>
+    <string name="required">Erforderlich</string>
+    <string name="show_all_items">Alle %1$d anzeigen</string>
+    <string name="output_template_desc">Vorlage für Ausgabedateinamen angeben</string>
+    <string name="restrict_filenames">Dateinamen einschränken</string>
+    <string name="edit_file">Datei bearbeiten</string>
+    <string name="download_archive_desc">Erfassen Sie heruntergeladene Video-IDs in einem Archiv, um doppelte Downloads zu vermeiden</string>
+    <string name="embed_metadata_desc">Metadaten und Video-Thumbnail in die Audiodatei einbetten</string>
+    <string name="playlist_title">Titel der Playliste</string>
+    <string name="download_archive">Archiv herunterladen</string>
+    <string name="force_ipv4">IPv4 erzwingen</string>
+    <string name="legacy">Legacy</string>
+    <string name="system_settings">Systemeinstellungen</string>
+    <string name="force_ipv4_desc">Nutze für alle Verbindungen nur IPv4</string>
 </resources>

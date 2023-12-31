@@ -360,4 +360,8 @@
     <string name="restrict_filenames">ਫਾਈਲਨਾਮਾਂ ਨੂੰ ਪ੍ਰਤਿਬੰਧਿਤ ਕਰੋ</string>
     <string name="website">ਵੈਬਸਾਈਟ</string>
     <string name="playlist_title">ਪਲੇਲਿਸਟ ਟਾਈਟਲ</string>
+    <string name="subdirectory_hint">ਤੁਹਾਡੇ ਡਾਊਨਲੋਡ ਇਸ ਰੂਪ ਵਿੱਚ ਸਾਂਭੇ ਜਾਣਗੇ:</string>
+    <string name="system_settings">ਸਿਸਟਮ ਸੈਟਿੰਗਜ਼</string>
+    <string name="force_ipv4">IPv4 ਨੂੰ ਫੋਰਸ ਕਰੋ</string>
+    <string name="force_ipv4_desc">ਸਾਰੇ ਕੁਨੈਕਸ਼ਨ IPv4 ਰਾਹੀਂ ਬਣਾਓ</string>
 </resources>

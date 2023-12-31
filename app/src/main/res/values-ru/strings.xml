@@ -362,4 +362,8 @@
     <string name="restrict_filenames">Ограничить имена файлов</string>
     <string name="website">Веб-сайт</string>
     <string name="playlist_title">Название плейлиста</string>
+    <string name="subdirectory_hint">Ваши загрузки будут сохранены как:</string>
+    <string name="system_settings">Настройки системы</string>
+    <string name="force_ipv4">Принудительно использовать IPv4</string>
+    <string name="force_ipv4_desc">Выполнять все подключения через IPv4</string>
 </resources>

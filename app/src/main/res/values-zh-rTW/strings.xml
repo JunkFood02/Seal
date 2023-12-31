@@ -359,4 +359,8 @@
     <string name="restrict_filenames">限制命名</string>
     <string name="website">網站</string>
     <string name="playlist_title">播放清單標題</string>
+    <string name="subdirectory_hint">您的下載將另存於:</string>
+    <string name="force_ipv4">強制使用 IPv4</string>
+    <string name="system_settings">系統設定</string>
+    <string name="force_ipv4_desc">讓所有連線皆透過 IPv4 進行</string>
 </resources>
