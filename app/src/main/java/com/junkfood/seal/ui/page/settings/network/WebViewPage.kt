@@ -112,7 +112,7 @@ fun WebViewPage(
     }) { paddingValues ->
         val webViewClient = remember {
             object : AccompanistWebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
+                override fun onPageFinished(view: WebView, url: String?) {
                     super.onPageFinished(view, url)
                     if (url.isNullOrEmpty()) return
                 }

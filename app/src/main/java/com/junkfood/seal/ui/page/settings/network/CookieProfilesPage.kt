@@ -192,8 +192,10 @@ fun CookieProfilePage(
                         onClick = {
                             expanded = false
                             scope.launch(Dispatchers.IO) {
-                                File(App.videoDownloadDir, "cookies_exported.txt").run {
-                                    if (exists()) delete()
+                                File(
+                                    App.videoDownloadDir,
+                                    "cookies_exported${System.currentTimeMillis()}.txt"
+                                ).run {
                                     if (createNewFile()) {
                                         DownloadUtil.getCookiesContentFromDatabase().getOrNull()
                                             ?.let {
