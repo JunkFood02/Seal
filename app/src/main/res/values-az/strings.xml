@@ -57,7 +57,7 @@
     <string name="settings_before_download">Yükləməzdən əvvəl konfiqurasiya et</string>
     <string name="settings_before_download_text">Bu yükləməni tənzimlə</string>
     <string name="error_copied">Xəta məlumatı buferə köçürüldü</string>
-    <string name="thumbnail">miniatür</string>
+    <string name="thumbnail">Miniatür</string>
     <string name="paste">Yapışdır</string>
     <string name="yt_dlp_docs">Yt-dlp istifadə xatırlatmaları</string>
     <string name="edit_template_desc">Buraxılış yolu və URL tətbiq tərəfindən əlavə ediləcək.</string>
@@ -128,7 +128,7 @@
     <string name="translate_desc">Hosted Weblate-də bu tətbiqi tərcümə etməyə kömək et</string>
     <string name="permission_issue_desc">Download/ və Documents/ xaricindəki kataloqlar dəstəklənmir</string>
     <string name="prefix">Ön şəkilçi</string>
-    <string name="downloading_indicator_text">Yükləmə davam edir, ləğv etmək üçün bas.</string>
+    <string name="downloading_indicator_text">Yükləmə davam edir . . .</string>
     <string name="embed_subtitles">Titrləri yerləşdir</string>
     <string name="new_template">Yeni şablon</string>
     <string name="template_label">Etiket</string>
@@ -188,8 +188,8 @@
     <string name="selected_item_count">%1$d seçildi</string>
     <string name="battery_configuration">Batareya konfiqurasiyası</string>
     <string name="battery_configuration_desc">Arxa planda yükləmək üçün, bu tətbiqin batareya optimallaşdırılmasına məhəl qoyma</string>
-    <string name="playlist_indicator_text">Oynatma siyahısı yüklənilir (%1$d/%2$d), dayandırmaq üçün bas.</string>
-    <string name="subdirectory_desc">Faylları uyğun veb-saytlar kimi adlandırılan qovluqlarda saxla</string>
+    <string name="playlist_indicator_text">Oynatma siyahısı yüklənilir (%1$d/%2$d). . .</string>
+    <string name="subdirectory_desc">Faylları uyğun sahələr kimi adlandırılan qovluqlarda saxla</string>
     <string name="github_issue_desc">Xəta məlumatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
     <string name="embed_subtitles_desc">Təmin olunan titrlər varsa, videolara yerləşdir</string>
     <string name="status_enqueued">Növbəyə salındı</string>
@@ -199,10 +199,12 @@
     <string name="template_imported">%1$d şablon idxal edildi</string>
     <string name="cookies_desc">Yükləmələr üçün Netscape formatlı məlumat bazası istifadə et</string>
     <string name="sponsorblock_categories_desc">Video faylda silmək və ya işarələmək üçün SponsorBlock kateqoriyaları müəyyənləşdir</string>
-    <string name="clear_temp_files_desc">Daxili qovluqdan bütün müvəqqəti faylları sil</string>
+    <string name="clear_temp_files_desc">Müvəqqəti qovluqdan bütün müvəqqəti faylları silin</string>
     <string name="multiselect_mode">Çoxseçimli rejim</string>
     <string name="clear_temp_files">Müvəqqəti faylları təmizlə</string>
-    <string name="clear_temp_files_info">Müvəqqəti fayllar ləğv edilən yükləmələri davam etdirmək üçün istifadə edilə bilər. Bu faylların hamısın siləcəyinizə əminsiniz\?</string>
+    <string name="clear_temp_files_info">Müvəqqəti fayllar imtina edilmiş yükləmələri davam etdirmək üçün istifadə edilə bilər. Bu faylların hamısın siləcəyinizə əminsiniz? 
+\n
+\nBu fayllara %1$s ilə giriş edə bilərsiniz</string>
     <string name="private_mode_desc">Yükləmə tarixçəsin qeyri-aktiv et</string>
     <string name="download_with_cellular_desc">Ölçülmüş şəbəkələrə qoşduqda media yüklənilməsinə icazə ver</string>
     <string name="use_custom_command">Fərdi əmr istifadə et</string>
@@ -335,4 +337,17 @@
     <string name="learn_more">Daha çox öyrən</string>
     <string name="unknown">Naməlum</string>
     <string name="export_to_file">Fayla ixrac et</string>
+    <string name="custom_command_usage_msg">yt-dlp video yükləmək üçün güclü əmr xətti alətidir. Seal intuitiv GUI, ictimai əmrlər üçün qabaqcıl tənzimləmələr və digər əlavə funksiyalar təmin etməklə yt-dlp istifadə etməsini asanlaşdırır.
+\n
+\nYt-dlp-nin qabaqcıl istifadəsi üçün Seal sizə terminalda olduğu kimi birbaşa fərdi əmr şablonların yaratmağa, saxlamağa və icra etməyə icazə verir.
+\n
+\nFərdi əmrlərdən istifadə edərkən, GUI seçimlərinin və xüsusiyyətlərinin əksəriyyəti qeyri-aktiv ediləcək.</string>
+    <string name="clear_download_archive">Yükləmə arxivi təmizlənsin?</string>
+    <string name="clear_download_archive_desc">%1$s arxiv faylından həmişəlik silinsin?</string>
+    <string name="embed_metadata">Yerləşdirilən Üst Məlumat</string>
+    <string name="presets">Qabaqcıl tənzimləmələr</string>
+    <string name="output_template">Buraxılış şablonu</string>
+    <string name="output_template_desc">Buraxılış fayl adları üçün şablonu təyin edin</string>
+    <string name="download_archive_desc">Dublikat yükləmələrə əngəl olmaq üçün yüklənilmiş video ID-ləri arxivdə qeyd edin</string>
+    <string name="download_archive">Yükləmə arxivi</string>
 </resources>

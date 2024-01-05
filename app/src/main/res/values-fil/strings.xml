@@ -79,7 +79,7 @@
     <string name="advanced_settings">Avanzada</string>
     <string name="follow_system">Sistema</string>
     <string name="on">On</string>
-    <string name="thumbnail">miniatura</string>
+    <string name="thumbnail">Miniatura</string>
     <string name="settings_before_download_text">Ayusin itong download</string>
     <string name="not_convert">Hindi binago</string>
     <string name="convert_audio_format">Palitan ang audio format</string>
@@ -87,7 +87,7 @@
     <string name="video_format_preference">Gustong pormat ng video</string>
     <string name="edit_template_desc">output path at URL ay i dadag-dag ng app.</string>
     <string name="convert_to">I-convert sa %1$s</string>
-    <string name="best_quality">Pinakamahusay na kalidad (kasalukuyan)</string>
+    <string name="best_quality">Pinakamahusay na kalidad</string>
     <string name="preferred_format_desc">Napiling pormat kapag marami ang ibinigay</string>
     <string name="open_settings">I-open ang settings</string>
     <string name="paste_desc">Pindutin ang \"Paste\" upang makuha ang video link na galing sa iyong clipboard.</string>
@@ -214,4 +214,5 @@
     <string name="second">Segundo</string>
     <string name="minute">minuto</string>
     <string name="clear_all_cookies">Tangalin lahat ang mga Cookies</string>
+    <string name="ytdlp_update_action">I-update ang yt-dlp</string>
 </resources>

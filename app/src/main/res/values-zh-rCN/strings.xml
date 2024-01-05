@@ -282,7 +282,7 @@
     <string name="sponsor_desc">在 GitHub 上赞助以支持本应用</string>
     <string name="sponsor_msg">Seal 将永远保持免费与开源，如果你想要支持它的持续开发与改进，请考虑在 GitHub 上赞助我！</string>
     <string name="feedback">反馈</string>
-    <string name="sponsors">赞助者</string>
+    <string name="sponsors">赞助</string>
     <string name="no_downloaded_media">下载记录空空如也</string>
     <string name="beta_features">测试</string>
     <string name="enable_experimental_feature">启用试验性功能吗？</string>
@@ -359,4 +359,8 @@
     <string name="restrict_filenames">限制文件名</string>
     <string name="website">网站</string>
     <string name="playlist_title">播放列表标题</string>
+    <string name="subdirectory_hint">下载将被另存为：</string>
+    <string name="system_settings">系统设置</string>
+    <string name="force_ipv4">强制使用 IPv4</string>
+    <string name="force_ipv4_desc">使所有连接通过 IPv4 进行</string>
 </resources>

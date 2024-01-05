@@ -361,4 +361,5 @@
     <string name="restrict_filenames">Ograniči nazive datoteka</string>
     <string name="website">Web stranica</string>
     <string name="playlist_title">Naslov popisa za reprodukciju</string>
+    <string name="subdirectory_hint">Vaša preuzimanja bit će spremljena kao:</string>
 </resources>

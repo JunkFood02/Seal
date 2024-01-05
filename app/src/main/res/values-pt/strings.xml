@@ -361,4 +361,8 @@
     <string name="restrict_filenames">Restringir nomes de ficheiros</string>
     <string name="website">Sítio</string>
     <string name="playlist_title">Título da lista de reprodução</string>
+    <string name="subdirectory_hint">As suas transferências serão guardadas como:</string>
+    <string name="system_settings">Definições do sistema</string>
+    <string name="force_ipv4">Forçar IPv4</string>
+    <string name="force_ipv4_desc">Efetuar todas as ligações através de IPv4</string>
 </resources>

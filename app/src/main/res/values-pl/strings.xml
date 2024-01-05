@@ -327,4 +327,13 @@
     <string name="output_template_desc">Określ szablon dla nazw plików wyjściowych</string>
     <string name="edit_file">Edytuj plik</string>
     <string name="playlist_title">Tytuł listy odtwarzania</string>
+    <string name="subdirectory_hint">Pobrane pliki zostaną zapisane jako:</string>
+    <string name="prefer_compatibility_desc">Preferuj formaty MP4(H.264) do udostępniania innym aplikacjom</string>
+    <string name="clear_download_archive_desc">Usunąć na stałe %1$s z pliku archiwum?</string>
+    <string name="website">Strona internetowa</string>
+    <string name="prefer_quality_desc">Preferuj formaty AV1, VP9 lub H.265 do oglądania w kompatybilnych aplikacjach</string>
+    <string name="restrict_filenames_desc">Ogranicz nazwy plików do określonych znaków w celu zapewnienia kompatybilności</string>
+    <string name="restrict_filenames">Ogranicz nazwy plików</string>
+    <string name="download_archive_desc">Zapisz identyfikatory pobranych filmów w archiwum w celu uniknięcia duplikatów pobrań</string>
+    <string name="embed_metadata_desc">Nanieś metadane i miniatury wideo w pliku audio</string>
 </resources>

@@ -360,4 +360,8 @@
     <string name="restrict_filenames_desc">अनुकूलता सुनिश्चित करने के लिए फ़ाइल नामों को विशिष्ट वर्णों तक सीमित करें</string>
     <string name="restrict_filenames">फ़ाइल नाम प्रतिबंधित करें</string>
     <string name="playlist_title">प्लेलिस्ट शीर्षक</string>
+    <string name="subdirectory_hint">आपके डाउनलोड इस रूप में सहेजे जाएंगे:</string>
+    <string name="system_settings">सिस्टम सेटिंग्स</string>
+    <string name="force_ipv4">IPv4 फोर्स करें</string>
+    <string name="force_ipv4_desc">सभी कनेक्शन IPv4 के माध्यम से बनाएं</string>
 </resources>

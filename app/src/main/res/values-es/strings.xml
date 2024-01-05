@@ -361,4 +361,8 @@
     <string name="restrict_filenames">Restringir los nombres de archivo</string>
     <string name="website">Página web</string>
     <string name="playlist_title">Título de la lista de reproducción</string>
+    <string name="subdirectory_hint">Tus descargas se guardarán como:</string>
+    <string name="force_ipv4">Forzar IPv4</string>
+    <string name="system_settings">Configuración del sistema</string>
+    <string name="force_ipv4_desc">Realizar todas las conexiones a través de IPv4</string>
 </resources>
