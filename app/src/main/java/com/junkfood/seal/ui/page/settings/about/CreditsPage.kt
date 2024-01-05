@@ -58,6 +58,7 @@ const val aria2 = "https://github.com/aria2/aria2"
 const val material3 = "https://m3.material.io/"
 const val androidSvg = "https://github.com/BigBadaboom/androidsvg"
 const val unDraw = "https://undraw.co/"
+const val materialMotionCompose = "https://github.com/fornewid/material-motion-compose"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,6 +87,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
         Credit("aria2", GPL_V2, aria2),
         Credit("OkHttp", APACHE_V2, okhttp),
         Credit("Android SVG", APACHE_V2, androidSvg),
+        Credit("material-motion-compose", APACHE_V2, materialMotionCompose),
         Credit("unDraw", null, unDraw),
         Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
     )

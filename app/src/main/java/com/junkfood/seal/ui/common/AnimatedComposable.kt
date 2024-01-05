@@ -25,6 +25,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.junkfood.seal.ui.common.motion.materialSharedAxisXIn
+import com.junkfood.seal.ui.common.motion.materialSharedAxisXOut
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.fadeThroughComposable(
@@ -108,6 +110,31 @@ fun NavGraphBuilder.animatedComposable(
     arguments = arguments,
     deepLinks = deepLinks,
     enterTransition = {
+        materialSharedAxisXIn(initialOffsetX = { (it * initialOffset).toInt() })
+    },
+    exitTransition = {
+        materialSharedAxisXOut(targetOffsetX = { -(it * initialOffset).toInt() })
+    },
+    popEnterTransition = {
+        materialSharedAxisXIn(initialOffsetX = { -(it * initialOffset).toInt() })
+    },
+    popExitTransition = {
+        materialSharedAxisXOut(targetOffsetX = { (it * initialOffset).toInt() })
+    },
+    content = content
+)
+
+
+fun NavGraphBuilder.animatedComposableLegacy(
+    route: String,
+    arguments: List<NamedNavArgument> = emptyList(),
+    deepLinks: List<NavDeepLink> = emptyList(),
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+) = composable(
+    route = route,
+    arguments = arguments,
+    deepLinks = deepLinks,
+    enterTransition = {
         slideInHorizontally(
             enterTween,
             initialOffsetX = { (it * initialOffset).toInt() }) + fadeIn(fadeSpec)
@@ -129,6 +156,7 @@ fun NavGraphBuilder.animatedComposable(
     },
     content = content
 )
+
 
 fun NavGraphBuilder.animatedComposableVariant(
     route: String,
