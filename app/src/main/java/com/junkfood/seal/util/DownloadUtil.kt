@@ -212,8 +212,8 @@ object DownloadUtil {
         val proxy: Boolean = PROXY.getBoolean(),
         val proxyUrl: String = PROXY_URL.getString(),
         val newTitle: String = "",
-        val userAgentString: String = USER_AGENT.run {
-            if (getBoolean()) getString() else ""
+        val userAgentString: String = USER_AGENT_STRING.run {
+            if (USER_AGENT.getBoolean()) getString() else ""
         },
         val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
         val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
