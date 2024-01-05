@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
+## [v1.11.2][1.11.2] - 2024-01-06
+### Added
+* Keep subtitles files after embedding into videos
+* Force all connections via ipv4
+* Prefer vp9.2 if av1 hardware decoding unavailable
+* Add system locale settings for Android 13+
+
+### Fixed
+* User agent gets enabled when refreshing cookies
+* Restrict filenames not working in custom commands
+
+### Changed
+* Transition animation should look more smooth now
+
 ## [v1.11.1][1.11.1] - 2023-12-16
 
 ### Added
@@ -252,3 +266,5 @@ Under development, please stay tuned!
 [1.11.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.0
 
 [1.11.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.1
+
+[1.11.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.2
