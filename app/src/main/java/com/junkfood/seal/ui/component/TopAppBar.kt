@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.toEasing
+import com.junkfood.seal.ui.common.motion.toEasing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

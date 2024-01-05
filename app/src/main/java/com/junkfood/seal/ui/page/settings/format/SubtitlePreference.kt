@@ -1,11 +1,14 @@
 package com.junkfood.seal.ui.page.settings.format
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ClosedCaption
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material3.AlertDialog
@@ -38,6 +41,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
 import com.junkfood.seal.util.EMBED_SUBTITLE
 import com.junkfood.seal.util.EXTRACT_AUDIO
+import com.junkfood.seal.util.KEEP_SUBTITLE_FILES
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
@@ -82,6 +86,9 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
             }.toString()
         }
     }
+
+    val downloadAudio by EXTRACT_AUDIO.booleanState
+
 
     Scaffold(
         modifier = Modifier
@@ -135,7 +142,16 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                 }
 
                 item {
-                    val downloadAudio by EXTRACT_AUDIO.booleanState
+                    PreferenceItem(
+                        title = stringResource(id = R.string.convert_subtitle),
+                        description = subtitleFormatText,
+                        icon = Icons.Outlined.Sync,
+                    ) {
+                        showConversionDialog = true
+                    }
+                }
+
+                item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         description = stringResource(
@@ -153,15 +169,26 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                         }, icon = Icons.Outlined.Subtitles
                     )
                 }
+
                 item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.convert_subtitle),
-                        description = subtitleFormatText,
-                        icon = Icons.Outlined.Sync,
-                    ) {
-                        showConversionDialog = true
+                    Column {
+                        AnimatedVisibility(visible = embedSubtitle) {
+                            var keepSubtitles by KEEP_SUBTITLE_FILES.booleanState
+                            PreferenceSwitch(
+                                title = stringResource(id = R.string.keep_subtitle_files),
+                                description = null,
+                                isChecked = keepSubtitles,
+                                enabled = !downloadAudio && embedSubtitle,
+                                onClick = {
+                                    keepSubtitles = !keepSubtitles
+                                    KEEP_SUBTITLE_FILES.updateBoolean(keepSubtitles)
+                                }, icon = Icons.Outlined.Save
+                            )
+                        }
                     }
+
                 }
+
 
 
                 item {

@@ -181,6 +181,7 @@ object DownloadUtil {
         val commandDirectory: String = COMMAND_DIRECTORY.getString(),
         val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
         val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
+        val keepSubtitle: Boolean = KEEP_SUBTITLE_FILES.getBoolean(),
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
         val convertSubtitle: Int = CONVERT_SUBTITLE.getInt(),
@@ -308,6 +309,9 @@ object DownloadUtil {
                 if (embedSubtitle) {
                     addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
+                    if (keepSubtitle) {
+                        addOption("--write-subs")
+                    }
                 } else {
                     addOption("--write-subs")
                 }
