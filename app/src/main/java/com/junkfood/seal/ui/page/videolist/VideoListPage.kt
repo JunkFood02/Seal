@@ -77,6 +77,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.backup.BackupUtil
@@ -139,7 +140,7 @@ private const val TAG = "VideoListPage"
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun VideoListPage(
-    viewModel: VideoListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: VideoListViewModel = viewModel(),
     onNavigateBack: () -> Unit
 ) {
     val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()

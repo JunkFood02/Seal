@@ -11,7 +11,6 @@ import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,12 +21,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
+
 
 private const val TAG = "VideoListViewModel"
 
-@HiltViewModel
-class VideoListViewModel @Inject constructor() : ViewModel() {
+class VideoListViewModel : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(VideoListViewState())
     val stateFlow = mutableStateFlow.asStateFlow()

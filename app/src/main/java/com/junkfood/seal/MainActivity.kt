@@ -26,10 +26,8 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val downloadViewModel: DownloadViewModel by viewModels()
 

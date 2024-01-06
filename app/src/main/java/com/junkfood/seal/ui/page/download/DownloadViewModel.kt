@@ -20,19 +20,14 @@ import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VideoInfo
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
-@HiltViewModel
-@OptIn(ExperimentalMaterial3Api::class)
 
 // TODO: Refactoring for introducing multitasking and download queue management
-class DownloadViewModel @Inject constructor() : ViewModel() {
+class DownloadViewModel : ViewModel() {
 
 
     private val mutableViewStateFlow = MutableStateFlow(ViewState())

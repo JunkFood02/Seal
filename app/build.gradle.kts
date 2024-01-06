@@ -8,11 +8,9 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.devtools.ksp")
-    kotlin("kapt")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization")
 }
-apply(plugin = "dagger.hilt.android.plugin")
 
 sealed class Version(
     open val versionMajor: Int,
@@ -196,7 +194,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -215,11 +213,6 @@ dependencies {
     implementation(libs.coil.kt.compose)
 
     implementation(libs.kotlinx.serialization.json)
-
-    implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.ext.compiler)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
