@@ -179,10 +179,11 @@ private fun FormatPagePreview() {
                         ext = "webm"
                     )
                 )
-            }
+            },
+            duration = 100000.0
         )
     SealTheme {
-        FormatPageImpl(videoInfo = videoInfo)
+        FormatPageImpl(videoInfo = videoInfo, isClippingAvailable = true)
     }
 }
 
@@ -341,7 +342,7 @@ fun FormatPageImpl(
                                     )
                                 }
                                 DisposableEffect(shouldUpdateClipDuration) {
-                                    videoClipDuration = state.activeRangeEnd..state.activeRangeEnd
+                                    videoClipDuration = state.activeRangeStart..state.activeRangeEnd
                                     onDispose {
                                         shouldUpdateClipDuration = false
                                     }

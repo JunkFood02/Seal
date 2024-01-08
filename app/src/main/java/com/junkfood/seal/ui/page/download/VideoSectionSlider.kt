@@ -173,7 +173,7 @@ fun VideoClipDialog(
     var fromMin by remember {
         mutableStateOf(
             TextFieldValue(
-                (initialValue.start.roundToInt() / 60).toString(),
+                "%02d".format(initialValue.start.roundToInt() / 60),
                 selection = TextRange(Int.MAX_VALUE)
             )
         )
@@ -181,7 +181,7 @@ fun VideoClipDialog(
     var toMin by remember {
         mutableStateOf(
             TextFieldValue(
-                (initialValue.endInclusive.roundToInt() / 60).toString(),
+                "%02d".format(initialValue.endInclusive.roundToInt() / 60),
                 selection = TextRange(Int.MAX_VALUE)
             )
         )
@@ -189,7 +189,7 @@ fun VideoClipDialog(
     var fromSec by remember {
         mutableStateOf(
             TextFieldValue(
-                (initialValue.start.roundToInt() % 60).toString(),
+                "%02d".format(initialValue.start.roundToInt() % 60),
                 selection = TextRange(Int.MAX_VALUE)
             )
         )
@@ -197,7 +197,7 @@ fun VideoClipDialog(
     var toSec by remember {
         mutableStateOf(
             TextFieldValue(
-                (initialValue.endInclusive.roundToInt() % 60).toString(),
+                "%02d".format(initialValue.endInclusive.roundToInt() % 60),
                 selection = TextRange(Int.MAX_VALUE)
             )
         )
