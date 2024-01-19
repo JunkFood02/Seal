@@ -42,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -64,9 +65,6 @@ class App : Application() {
 
         applicationScope.launch((Dispatchers.IO)) {
             try {
-                if (DatabaseUtil.getTemplateList().isEmpty()) {
-                    PreferenceUtil.initializeTemplateSample()
-                }
                 YoutubeDL.init(this@App)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
