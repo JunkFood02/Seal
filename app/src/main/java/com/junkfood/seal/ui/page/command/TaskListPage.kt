@@ -65,7 +65,6 @@ import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.DrawerPreview
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
@@ -323,53 +322,6 @@ fun ColumnScope.TaskCreatorDialogContent(
                 label = stringResource(id = R.string.edit_template, template.name),
                 onClick = onEditClicked
             )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun TaskCreatorDialog() {
-    val templateList = listOf(
-        CommandTemplate(0, "Template Sample", ""),
-    )
-    MaterialTheme {
-        DrawerPreview {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-            ) {
-                TaskCreatorDialogContent(
-                    url = "https://www.example.com",
-                    template = CommandTemplate(0, "Template Sample", ""),
-
-                    )
-
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    item {
-                        OutlinedButtonWithIcon(
-                            modifier = Modifier.padding(horizontal = 12.dp),
-                            onClick = {},
-                            icon = Icons.Outlined.Cancel,
-                            text = stringResource(R.string.cancel)
-                        )
-                    }
-                    item {
-                        FilledButtonWithIcon(
-                            onClick = {},
-                            icon = Icons.Outlined.DownloadDone,
-                            text = stringResource(R.string.start)
-                        )
-                    }
-                }
-            }
-
         }
     }
 }

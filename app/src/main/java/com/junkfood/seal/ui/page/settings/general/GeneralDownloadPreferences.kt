@@ -80,6 +80,7 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.page.download.NotificationPermissionDialog
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
@@ -148,6 +149,7 @@ fun GeneralDownloadPreferences(
 
     var useDownloadArchive by DOWNLOAD_ARCHIVE.booleanState
     var showClearArchiveDialog by remember { mutableStateOf(false) }
+    var showNotificationDialog by remember { mutableStateOf(false) }
     var archiveFileContent by remember {
         mutableStateOf("")
     }
@@ -248,8 +250,9 @@ fun GeneralDownloadPreferences(
                         else Icons.Outlined.NotificationsActive,
                         isChecked = downloadNotification && isNotificationPermissionGranted,
                         onClick = {
-                            notificationPermission?.launchPermissionRequest()
-                            if (isNotificationPermissionGranted) {
+                            if (notificationPermission?.status is PermissionStatus.Denied) {
+                                showNotificationDialog = true
+                            } else if (isNotificationPermissionGranted) {
                                 if (downloadNotification)
                                     NotificationUtil.cancelAllNotifications()
                                 downloadNotification = !downloadNotification
@@ -259,6 +262,7 @@ fun GeneralDownloadPreferences(
                             }
                         })
                 }
+
                 item {
                     var configureBeforeDownload by CONFIGURE.booleanState
                     PreferenceSwitch(title = stringResource(id = R.string.settings_before_download),
@@ -498,6 +502,17 @@ fun GeneralDownloadPreferences(
                 }
             }
         }
+    }
+
+    if (showNotificationDialog) {
+        NotificationPermissionDialog(onDismissRequest = {
+            showNotificationDialog = false
+        }, onPermissionGranted = {
+            notificationPermission?.launchPermissionRequest()
+            NOTIFICATION.updateBoolean(true)
+            downloadNotification = true
+            showNotificationDialog = false
+        })
     }
 
 }
