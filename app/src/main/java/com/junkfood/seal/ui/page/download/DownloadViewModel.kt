@@ -57,10 +57,6 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
     fun startDownloadVideo() {
         val url = viewStateFlow.value.url
         Downloader.clearErrorState()
-        if (!PreferenceUtil.isNetworkAvailableForDownload()) {
-            showErrorMessage(R.string.download_disabled_with_cellular)
-            return
-        }
         if (CUSTOM_COMMAND.getBoolean()) {
             applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
             return

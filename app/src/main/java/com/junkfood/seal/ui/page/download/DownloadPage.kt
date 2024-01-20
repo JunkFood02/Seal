@@ -128,15 +128,6 @@ fun DownloadPage(
     onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     downloadViewModel: DownloadViewModel = hiltViewModel(),
 ) {
-    val storagePermission = rememberPermissionState(
-        permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
-    ) { b: Boolean ->
-        if (b) {
-            downloadViewModel.startDownloadVideo()
-        } else {
-            ToastUtil.makeToast(R.string.permission_denied)
-        }
-    }
 
     val scope = rememberCoroutineScope()
     val downloaderState by Downloader.downloaderState.collectAsStateWithLifecycle()
@@ -161,9 +152,30 @@ fun DownloadPage(
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
     var showDownloadDialog by rememberSaveable { mutableStateOf(false) }
+    var showMeteredNetworkDialog by remember { mutableStateOf(false) }
+
+    val checkNetworkOrDownload = {
+        if (!PreferenceUtil.isNetworkAvailableForDownload()) {
+            showMeteredNetworkDialog = true
+        } else {
+            downloadViewModel.startDownloadVideo()
+        }
+    }
+
+    val storagePermission = rememberPermissionState(
+        permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    ) { b: Boolean ->
+        if (b) {
+            checkNetworkOrDownload()
+        } else {
+            ToastUtil.makeToast(R.string.permission_denied)
+        }
+    }
+
     val checkPermissionOrDownload = {
-        if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted) downloadViewModel.startDownloadVideo()
-        else {
+        if (Build.VERSION.SDK_INT > 29 || storagePermission.status == PermissionStatus.Granted) {
+            checkNetworkOrDownload()
+        } else {
             storagePermission.launchPermissionRequest()
         }
     }
@@ -194,6 +206,15 @@ fun DownloadPage(
         }, onPermissionGranted = {
             notificationPermission?.launchPermissionRequest()
         })
+    }
+
+    if (showMeteredNetworkDialog) {
+        MeteredNetworkDialog(
+            onDismissRequest = { showMeteredNetworkDialog = false },
+            onDownloadConfirm = {
+                downloadViewModel.startDownloadVideo()
+                showMeteredNetworkDialog = false
+            })
     }
 
 

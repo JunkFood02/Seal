@@ -405,6 +405,7 @@
     <string name="force_ipv4">Force IPv4</string>
     <string name="force_ipv4_desc">Make all connections via IPv4</string>
     <string name="keep_subtitle_files">Keep subtitle files</string>
+    <string name="allow_once">Allow once</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
