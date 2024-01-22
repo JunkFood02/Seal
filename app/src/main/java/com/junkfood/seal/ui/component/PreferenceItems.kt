@@ -1,10 +1,13 @@
 package com.junkfood.seal.ui.component
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -55,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.FixedAccentColors
-import com.junkfood.seal.ui.theme.PreviewThemeLight
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.junkfood.seal.ui.theme.preferenceTitle
@@ -307,11 +310,17 @@ internal fun PreferenceItemDescription(
 @Composable
 @Preview
 fun PreferenceSwitchPreview() {
-    PreferenceSwitch(
-        title = "PreferenceSwitch",
-        description = "Supporting text",
-        icon = Icons.Outlined.ToggleOn,
-    )
+    var b by remember { mutableStateOf(false) }
+    SealTheme {
+        PreferenceSwitch(
+            title = "PreferenceSwitch",
+            description = "Supporting text",
+            icon = Icons.Outlined.ToggleOn,
+            isChecked = b
+        ) {
+            b = !b
+        }
+    }
 }
 
 @Composable
@@ -345,10 +354,15 @@ fun PreferenceSwitch(
     } else {
         null
     }
+    val interactionSource = remember { MutableInteractionSource() }
     Surface(
-        modifier = Modifier.toggleable(value = isChecked,
+        modifier = Modifier.toggleable(
+            value = isChecked,
             enabled = enabled,
-            onValueChange = { onClick() })
+            onValueChange = { onClick() },
+            indication = LocalIndication.current,
+            interactionSource = interactionSource
+        )
     ) {
         Row(
             modifier = Modifier
@@ -380,6 +394,7 @@ fun PreferenceSwitch(
             Switch(
                 checked = isChecked,
                 onCheckedChange = null,
+                interactionSource = interactionSource,
                 modifier = Modifier.padding(start = 20.dp, end = 6.dp),
                 enabled = enabled,
                 thumbContent = thumbContent
@@ -590,10 +605,11 @@ fun PreferencesHintCard(
 }
 
 @Composable
-@Preview
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Night", uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun PreferenceSwitchWithContainerPreview() {
     var isChecked by remember { mutableStateOf(false) }
-    PreviewThemeLight {
+    SealTheme {
         PreferenceSwitchWithContainer(
             title = "Title ".repeat(2),
             isChecked = isChecked,
@@ -621,15 +637,21 @@ fun PreferenceSwitchWithContainer(
     } else {
         null
     }
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(
-                if (isChecked) FixedAccentColors.primaryFixed else MaterialTheme.colorScheme.outline
+                if (isChecked) FixedAccentColors.primaryFixed else MaterialTheme.colorScheme.surfaceContainerHigh
             )
-            .toggleable(value = isChecked) { onClick() }
+            .toggleable(
+                value = isChecked,
+                onValueChange = { onClick() },
+                interactionSource = interactionSource,
+                indication = LocalIndication.current
+            )
             .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -653,12 +675,13 @@ fun PreferenceSwitchWithContainer(
                     text = title,
                     maxLines = 2,
                     style = preferenceTitle,
-                    color = if (isChecked) FixedAccentColors.onPrimaryFixed else colorScheme.surface
+                    color = if (isChecked) FixedAccentColors.onPrimaryFixed else colorScheme.onSurfaceVariant
                 )
             }
         }
         Switch(
             checked = isChecked,
+            interactionSource = interactionSource,
             onCheckedChange = null,
             modifier = Modifier.padding(start = 12.dp, end = 6.dp),
             thumbContent = thumbContent,
@@ -666,7 +689,9 @@ fun PreferenceSwitchWithContainer(
                 checkedIconColor = FixedAccentColors.onPrimaryFixed,
                 checkedThumbColor = FixedAccentColors.primaryFixed,
                 checkedTrackColor = FixedAccentColors.onPrimaryFixedVariant,
-                uncheckedBorderColor = Color.Transparent
+                uncheckedBorderColor = MaterialTheme.colorScheme.outline,
+                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainer,
+                uncheckedThumbColor = MaterialTheme.colorScheme.outline
             )
         )
     }
