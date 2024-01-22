@@ -406,6 +406,9 @@
     <string name="force_ipv4_desc">Make all connections via IPv4</string>
     <string name="keep_subtitle_files">Keep subtitle files</string>
     <string name="allow_once">Allow once</string>
+    <string name="allow_always">Allow always</string>
+    <string name="dont_allow">Don\'t allow</string>
+    <string name="download_with_cellular_request">Allow downloading with cellular?</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

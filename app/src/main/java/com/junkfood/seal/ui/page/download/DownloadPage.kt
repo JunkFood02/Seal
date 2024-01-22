@@ -99,6 +99,7 @@ import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
+import com.junkfood.seal.util.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
@@ -211,8 +212,13 @@ fun DownloadPage(
     if (showMeteredNetworkDialog) {
         MeteredNetworkDialog(
             onDismissRequest = { showMeteredNetworkDialog = false },
-            onDownloadConfirm = {
+            onAllowOnceConfirm = {
                 downloadViewModel.startDownloadVideo()
+                showMeteredNetworkDialog = false
+            },
+            onAllowAlwaysConfirm = {
+                downloadViewModel.startDownloadVideo()
+                CELLULAR_DOWNLOAD.updateBoolean(true)
                 showMeteredNetworkDialog = false
             })
     }

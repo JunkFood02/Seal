@@ -220,9 +220,9 @@ private fun ButtonVariantPreview() {
                 )
             },
             buttons = {
-                SealDialogButtonVariant(text = "Allow always", shape = TopButtonShape) {}
-                SealDialogButtonVariant(text = "Allow for this time", shape = MiddleButtonShape) {}
-                SealDialogButtonVariant(text = "Don't allow", shape = BottomButtonShape) {}
+                SealDialogButtonVariant(text = stringResource(R.string.allow_always), shape = TopButtonShape) {}
+                SealDialogButtonVariant(text = stringResource(id = R.string.allow_once), shape = MiddleButtonShape) {}
+                SealDialogButtonVariant(text = stringResource(R.string.dont_allow), shape = BottomButtonShape) {}
             }
         )
 
@@ -292,7 +292,7 @@ fun SealDialogVariant(
                 title?.let {
                     CompositionLocalProvider(LocalContentColor provides titleContentColor) {
                         val textStyle = MaterialTheme.typography.headlineSmall
-                        ProvideTextStyle(textStyle) {
+                        ProvideTextStyle(textStyle.copy(textAlign = TextAlign.Center)) {
                             Box(
                                 // Align the title to the center when an icon is present.
                                 Modifier
