@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
+## [v1.11.3][1.11.3] - 2024-01-22
+
+### Added
+* Merge multiple audio streams into a single file
+* Allow downloading with cellular network temporarily
+
+### Fixed
+* App creates duplicated command templates on initialization
+* Cannot make video clip in FormatPage
+
+
 ## [v1.11.2][1.11.2] - 2024-01-06
 ### Added
 * Keep subtitles files after embedding into videos
@@ -268,3 +279,5 @@ Under development, please stay tuned!
 [1.11.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.1
 
 [1.11.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.2
+
+[1.11.3]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.3
