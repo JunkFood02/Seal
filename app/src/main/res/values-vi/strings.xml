@@ -133,7 +133,7 @@
     <string name="download_directory">Thư mục tải xuống</string>
     <string name="download_directory_desc">Lựa chọn nơi để lưu trữ video và âm thanh</string>
     <string name="subdirectory">Lưu vào thư mục con</string>
-    <string name="subdirectory_desc">Lưu tệp vào các thư mục được đặt tên như trang web tương ứng</string>
+    <string name="subdirectory_desc">Lưu tệp vào các thư mục được đặt tên theo trường tương ứng</string>
     <string name="permission_issue">Vấn đề quyền truy cập bộ nhớ</string>
     <string name="permission_issue_desc">Các đường dẫn ngoài Download/ và Documents/ không được hỗ trợ</string>
     <string name="battery_configuration">Cấu hình pin</string>
@@ -357,4 +357,12 @@
     <string name="restrict_filenames_desc">Giới hạn tên tệp ở các ký tự cụ thể để đảm bảo tính tương thích</string>
     <string name="restrict_filenames">Hạn chế tên tệp</string>
     <string name="edit_file">Chỉnh sửa tệp</string>
+    <string name="subdirectory_hint">Bản tải xuống của bạn sẽ được lưu dưới dạng:</string>
+    <string name="keep_subtitle_files">Giữ các tệp phụ đề</string>
+    <string name="website">Trang mạng</string>
+    <string name="playlist_title">Tiêu đề danh sách phát</string>
+    <string name="system_settings">Thiết đặt hệ thống</string>
+    <string name="force_ipv4">Buộc IPv4</string>
+    <string name="force_ipv4_desc">Thực hiện tất cả các kết nối qua IPv4</string>
+    <string name="allow_once">Cho phép một lần</string>
 </resources>

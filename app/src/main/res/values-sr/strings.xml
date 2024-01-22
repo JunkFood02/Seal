@@ -365,4 +365,5 @@
     <string name="force_ipv4">Присили IPv4</string>
     <string name="system_settings">Системска подешавања</string>
     <string name="force_ipv4_desc">Учините све везе преко IPv4</string>
+    <string name="keep_subtitle_files">Чувај фајлове титлова</string>
 </resources>

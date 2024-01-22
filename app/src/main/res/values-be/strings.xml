@@ -366,4 +366,5 @@
     <string name="playlist_title">Назва плэйліста</string>
     <string name="force_ipv4">Прымусова выкарыстоўваць IPv4</string>
     <string name="force_ipv4_desc">Выконваць усе падключэнні праз IPv4</string>
+    <string name="keep_subtitle_files">Захаваць файлы субтытраў</string>
 </resources>

@@ -363,4 +363,9 @@
     <string name="system_settings">系统设置</string>
     <string name="force_ipv4">强制使用 IPv4</string>
     <string name="force_ipv4_desc">使所有连接通过 IPv4 进行</string>
+    <string name="keep_subtitle_files">保留字幕文件</string>
+    <string name="allow_once">允许一次</string>
+    <string name="dont_allow">不允许</string>
+    <string name="download_with_cellular_request">允许用移动网络数据下载吗？</string>
+    <string name="allow_always">始终允许</string>
 </resources>

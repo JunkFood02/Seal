@@ -46,7 +46,7 @@
     <string name="temporary_directory_desc">เก็บไฟล์ชั่วคราวในไดเรกทอรีภายใน</string>
     <string name="rename">เปลี่ยนชื่อ</string>
     <string name="audio_format_preference">รูปแบบเสียงที่ชอบ</string>
-    <string name="preferred_format_desc">เลือกรูปแบบเมื่อมีหลายรูปแบบมาให้เลือก</string>
+    <string name="preferred_format_desc">รูปแบบที่ต้องการเมื่อมีการระบุหลายรายการ</string>
     <string name="convert_audio_format">แปลงรูปแบบเสียง</string>
     <string name="clear_all_cookies_desc">ลบคุกกี้ทั้งหมดที่เก็บไว้ในแอปอย่างถาวรหรือไม่\?</string>
     <string name="selected_item_count">%1$d ถูกเลือก</string>
@@ -88,7 +88,7 @@
     <string name="app_up_to_date">เวอร์ชั่นปัจจุบันนี้ล่าสุดแล้ว</string>
     <string name="lowest_quality">คุณภาพต่ำสุด</string>
     <string name="subtitle_sponsorblock">ซับไตเติ้ลอาจจะถูกจัดเวลาผิดเมื่อลบช่วงของ SponsorBlock</string>
-    <string name="playlist_indicator_text">กำลังดาวน์โหลดเพลย์ลิสต์ (%1$d/%2$d) แตะเพื่อหยุด</string>
+    <string name="playlist_indicator_text">กำลังดาวน์โหลดเพลย์ลิสต์ (%1$d/%2$d) …</string>
     <string name="use_custom_command">การใช้คำสั่งที่กำหนดเอง</string>
     <string name="audio">เสียง</string>
     <string name="dismiss">ยกเลิก</string>
@@ -119,7 +119,7 @@
     <string name="video_quality">คุณภาพวีดีโอ</string>
     <string name="not_specified">ไม่ระบุ (ค่าเริ่มต้น)</string>
     <string name="video_quality_desc">จำกัดคุณภาพวิดีโอเมื่อมีให้เลือกหลายรายการ</string>
-    <string name="best_quality">คุณภาพดีที่สุด (ค่าเริ่มต้น)</string>
+    <string name="best_quality">คุณภาพดีที่สุด</string>
     <string name="close_never_show_again">ไม่ต้องแสดงอีก</string>
     <string name="close">ปิด</string>
     <string name="start_download">ดาวน์โหลด</string>
@@ -287,4 +287,5 @@
 \nอาจมีความไม่สมดุลในรุ่นนี้ โปรดอย่าลังเลใจกับเราในการรีบรีบทักทายถ้าคุณพบปัญหาใดๆ เพื่อช่วยให้เราปรับปรุงแอปในอนาคต</string>
     <string name="filesize_gb">%.2f G</string>
     <string name="filesize_mb">%.2f M</string>
+    <string name="ytdlp_update_action">อัปเดต yt-dlp</string>
 </resources>

@@ -124,7 +124,7 @@
     <string name="check_download_settings_desc">İndirme ayarlarına bir göz atın ve kullanmadan önce yt-dlp\'nin en son versiyonuna sahip olduğunuzdan emin olun.</string>
     <string name="to">Sonuç</string>
     <string name="download_directory">İndirme dizini</string>
-    <string name="subdirectory_desc">Dosyaları ilgili web siteleri olarak adlandırılan klasörlere kaydedin</string>
+    <string name="subdirectory_desc">Dosyaları ilgili alanlar olarak adlandırılan klasörlere kaydedin</string>
     <string name="close_never_show_again">Tekrar gösterme</string>
     <string name="audio_directory">Ses dosyası</string>
     <string name="battery_configuration_desc">Bu uygulamanın arka planda indirilmesi için pil optimizasyonunu yoksay</string>
@@ -358,4 +358,12 @@
     <string name="restrict_filenames_desc">Uyumluluğu sağlamak için dosya adlarını belirli karakterlerle sınırlandırın</string>
     <string name="restrict_filenames">Dosya adlarını kısıtla</string>
     <string name="edit_file">Dosya düzenle</string>
+    <string name="subdirectory_hint">İndirdikleriniz şu şekilde kaydedilecek:</string>
+    <string name="keep_subtitle_files">Altyazı dosyalarını sakla</string>
+    <string name="website">Web sitesi</string>
+    <string name="playlist_title">Oynatma listesi başlığı</string>
+    <string name="system_settings">Sistem ayarları</string>
+    <string name="force_ipv4">IPv4\'ü zorla</string>
+    <string name="force_ipv4_desc">Tüm bağlantıları IPv4 üzerinden yapın</string>
+    <string name="allow_once">Bir kez izin ver</string>
 </resources>

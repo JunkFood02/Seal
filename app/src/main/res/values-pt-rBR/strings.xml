@@ -37,7 +37,7 @@
     <string name="credits">Créditos</string>
     <string name="credits_desc">Créditos e software livre</string>
     <string name="custom_command">Comando Personalizado</string>
-    <string name="print_details_desc">Mostrar mensagens detalhadas ao fazer o download</string>
+    <string name="print_details_desc">Mostrar mensagens detalhadas ao fazer download</string>
     <string name="display_settings">Tema, cores, idiomas</string>
     <string name="dark_theme">Tema escuro</string>
     <string name="follow_system">Sistema</string>
@@ -104,13 +104,13 @@
     <string name="check_download_settings_desc">Dê uma olhada nas configurações de download e verifique se você tem a versão mais recente do yt-dlp antes de usá-lo.</string>
     <string name="concurrent_download_desc">Número de fragmentos de um vídeo nativo em M3U8/MPD para baixar paralelamente</string>
     <string name="permission_issue_desc">Diretórios fora de Download/ e Documents/ não são suportados</string>
-    <string name="battery_settings_desc">Por favor, defina o uso da bateria deste aplicativo para “Irrestrito” nas configurações do sistema para fazer o download em segundo plano.</string>
+    <string name="battery_settings_desc">Por favor, defina o uso da bateria deste aplicativo para “Irrestrito” nas configurações do sistema para fazer download em segundo plano.</string>
     <string name="additional_settings">Configurações adicionais</string>
     <string name="share_fail_msg">Não foi possível corresponder o URL do conteúdo compartilhado</string>
     <string name="concurrent_download_num">%d fragmento(s) seriam usados para baixar vídeo nativo DASH/HLS simultaneamente.</string>
     <string name="permission_issue">Problema de permissão de armazenamento</string>
     <string name="translate">Traduzir</string>
-    <string name="battery_configuration_desc">Ignorar a Otimização da Bateria para este aplicativo baixar em segundo plano</string>
+    <string name="battery_configuration_desc">Ignorar a \"Otimização da Bateria\" para este aplicativo fazer download em segundo plano</string>
     <string name="unknown_error">Erro desconhecido</string>
     <string name="translate_desc">Ajude a traduzir este aplicativo em seu idioma usando Weblate</string>
     <string name="back">Voltar</string>
@@ -365,4 +365,6 @@
     <string name="system_settings">Configurações de sistema</string>
     <string name="force_ipv4">Forçar IPv4</string>
     <string name="force_ipv4_desc">Faça todas as conexões via IPv4</string>
+    <string name="keep_subtitle_files">Mantenha os arquivos de legenda</string>
+    <string name="allow_once">Permitir uma vez</string>
 </resources>

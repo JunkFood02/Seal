@@ -234,7 +234,7 @@
     <string name="download_task_count">%1$d Zadania pobierania</string>
     <string name="delete_multiple_items_msg">Usunąć elementy %1$d z historii pobierania na stałe\?</string>
     <string name="cookies_desc">Użyj ciastek formatowanych jako Netscape dla pobierania</string>
-    <string name="clear_temp_files_desc">Usuń wszystkie pliki tymczasowe z katalogu wewnętrznego</string>
+    <string name="clear_temp_files_desc">Usuń wszystkie pliki tymczasowe z katalogu tymczasowego</string>
     <string name="download_selection_desc">Wybierz pliki do pobrania z playlisty \"%1$s\"</string>
     <string name="clip_video">Klip wideo</string>
     <string name="enable_experimental_feature">Włączyć funkcje eksperymentalne\?</string>
@@ -244,7 +244,7 @@
     <string name="no_custom_command_tasks">Brak niestandardowych rozkazów poleceń</string>
     <string name="export_to_clipboard">Eksportuj do schowka</string>
     <string name="update">Aktualizacja</string>
-    <string name="sponsorblock_desc">Usuń segmenty z filmów za pomocą API SponsorBlock</string>
+    <string name="sponsorblock_desc">Usuń lub oznacz segmenty filmów za pomocą API SponsorBlock</string>
     <string name="dynamic_color_desc">Zastosuj kolory z tapety do motywu aplikacji</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Wesprzyj aplikację poprzez wsparcie na GitHub</string>
