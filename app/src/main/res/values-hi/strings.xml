@@ -332,8 +332,8 @@
     <string name="refresh_cookies_desc">नई कुकीज़ उत्पन्न करने के लिए वेबपेज खोलने के वास्ते टैप करें:</string>
     <string name="ua_header">उपयोगकर्ता-एजेंट हेडर</string>
     <plurals name="item_count">
-        <item quantity="one">%d आइटम</item>
-        <item quantity="other">%d आइटम्स</item>
+        <item quantity="one">%d वस्तु</item>
+        <item quantity="other">%d वस्तुएं</item>
     </plurals>
     <string name="remove_multiple_templates_msg">कमांड टेम्प्लेट से %1$s को बेहतरी के लिए हटा दें\?</string>
     <string name="export_to_file">फ़ाइल में निर्यात करें</string>
@@ -364,4 +364,5 @@
     <string name="system_settings">सिस्टम सेटिंग्स</string>
     <string name="force_ipv4">IPv4 फोर्स करें</string>
     <string name="force_ipv4_desc">सभी कनेक्शन IPv4 के माध्यम से बनाएं</string>
+    <string name="keep_subtitle_files">उपशीर्षक की फ़ाइलें रखें</string>
 </resources>

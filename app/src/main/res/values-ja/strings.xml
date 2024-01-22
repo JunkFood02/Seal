@@ -363,4 +363,5 @@
     <string name="edit_file">ファイルを編集</string>
     <string name="playlist_title">再生リストの題名</string>
     <string name="required">必須</string>
+    <string name="keep_subtitle_files">字幕ファイルを保持</string>
 </resources>

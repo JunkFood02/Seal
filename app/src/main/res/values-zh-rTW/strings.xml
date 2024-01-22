@@ -363,4 +363,5 @@
     <string name="force_ipv4">強制使用 IPv4</string>
     <string name="system_settings">系統設定</string>
     <string name="force_ipv4_desc">讓所有連線皆透過 IPv4 進行</string>
+    <string name="keep_subtitle_files">保留字幕檔案</string>
 </resources>

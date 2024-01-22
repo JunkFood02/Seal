@@ -344,10 +344,25 @@
 \nFərdi əmrlərdən istifadə edərkən, GUI seçimlərinin və xüsusiyyətlərinin əksəriyyəti qeyri-aktiv ediləcək.</string>
     <string name="clear_download_archive">Yükləmə arxivi təmizlənsin?</string>
     <string name="clear_download_archive_desc">%1$s arxiv faylından həmişəlik silinsin?</string>
-    <string name="embed_metadata">Yerləşdirilən Üst Məlumat</string>
+    <string name="embed_metadata">Yerləşdirilən Əlavə Məlumat</string>
     <string name="presets">Qabaqcıl tənzimləmələr</string>
     <string name="output_template">Buraxılış şablonu</string>
     <string name="output_template_desc">Buraxılış fayl adları üçün şablonu təyin edin</string>
     <string name="download_archive_desc">Dublikat yükləmələrə əngəl olmaq üçün yüklənilmiş video ID-ləri arxivdə qeyd edin</string>
     <string name="download_archive">Yükləmə arxivi</string>
+    <string name="save">Saxla</string>
+    <string name="subdirectory_hint">Yükləmələriniz aşağıdakı kimi saxlanılacaq:</string>
+    <string name="website">Veb sayt</string>
+    <string name="force_ipv4">IPv4-ə məcbur et</string>
+    <string name="use_format_sorting">Format çeşidlənməsindən istifadə et</string>
+    <string name="restrict_filenames_desc">Uyğunluğu təmin etmək üçün fayl adların xüsusi simvollarla məhdudlaşdır</string>
+    <string name="keep_subtitle_files">Titr faylların saxla</string>
+    <string name="required">Tələb olunan</string>
+    <string name="show_all_items">Bütün %1$d elementi göstər</string>
+    <string name="system_settings">Sistem tənzimləmələri</string>
+    <string name="force_ipv4_desc">Bütün rabitələri IPv4 vasitəsilə qur</string>
+    <string name="restrict_filenames">Fayl adların məhdudlaşdır</string>
+    <string name="edit_file">Fayla düzəliş edin</string>
+    <string name="embed_metadata_desc">Səs faylına əlavə məlumat və video miniatürü yerləşdir</string>
+    <string name="playlist_title">Oynatma siyahısı başlığı (adı)</string>
 </resources>

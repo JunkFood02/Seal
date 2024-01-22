@@ -66,7 +66,7 @@
     <string name="playlist_indicator_text">Mengunduh daftar putar (%1$d/%2$d)…</string>
     <string name="download_directory_desc">Pilih tempat untuk menyimpan file video dan audio</string>
     <string name="subdirectory">Simpan ke subdirektori</string>
-    <string name="subdirectory_desc">Simpan file dalam folder bernama sebagai situs web masing-masing</string>
+    <string name="subdirectory_desc">Simpan file dalam folder yang diberi nama sesuai bidang masing-masing</string>
     <string name="permission_issue">Masalah izin penyimpanan</string>
     <string name="battery_configuration">Pengaturan baterai</string>
     <string name="video_directory">Folder video</string>
@@ -357,4 +357,11 @@
     <string name="restrict_filenames">Batasi nama file</string>
     <string name="edit_file">Edit berkas</string>
     <string name="embed_metadata_desc">Sematkan metadata dan gambar kecil video ke dalam file audio</string>
+    <string name="subdirectory_hint">Unduhan Anda akan disimpan sebagai:</string>
+    <string name="keep_subtitle_files">Simpan file takarir</string>
+    <string name="website">Situs web</string>
+    <string name="playlist_title">Judul daftar putar</string>
+    <string name="system_settings">Pengaturan sistem</string>
+    <string name="force_ipv4">Paksa IPv4</string>
+    <string name="force_ipv4_desc">Buat semua koneksi melalui IPv4</string>
 </resources>

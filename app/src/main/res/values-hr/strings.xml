@@ -33,7 +33,7 @@
     <string name="release_desc">Potražite bilježnike promjena i nove inačice</string>
     <string name="release">Najnovija inačica</string>
     <string name="readme_desc">Pregledajte GitHub repozitorij i README</string>
-    <string name="video">Videozapis</string>
+    <string name="video">Video</string>
     <string name="custom_command">Prilagođena naredba</string>
     <string name="custom_command_desc">Pokrenite yt-dlp naredbu pomoću prilagođenog predloška</string>
     <string name="custom_command_template">Naredbeni predložak</string>
@@ -362,4 +362,8 @@
     <string name="website">Web stranica</string>
     <string name="playlist_title">Naslov popisa za reprodukciju</string>
     <string name="subdirectory_hint">Vaša preuzimanja bit će spremljena kao:</string>
+    <string name="keep_subtitle_files">Čuvaj datoteke titlova</string>
+    <string name="system_settings">Postavke sustava</string>
+    <string name="force_ipv4">Prisili IPv4</string>
+    <string name="force_ipv4_desc">Uspostavi sve veze putem IPv4</string>
 </resources>

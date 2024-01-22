@@ -366,4 +366,5 @@
     <string name="system_settings">Настройки системы</string>
     <string name="force_ipv4">Принудительно использовать IPv4</string>
     <string name="force_ipv4_desc">Выполнять все подключения через IPv4</string>
+    <string name="keep_subtitle_files">Оставить файлы субтитров</string>
 </resources>

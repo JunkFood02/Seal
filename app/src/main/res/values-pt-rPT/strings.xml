@@ -365,4 +365,6 @@
     <string name="rate_limit">Limite de taxa</string>
     <string name="force_ipv4">Forçar IPv4</string>
     <string name="force_ipv4_desc">Efetuar todas as ligações através de IPv4</string>
+    <string name="keep_subtitle_files">Manter ficheiros de legendas</string>
+    <string name="allow_once">Permitir uma vez</string>
 </resources>

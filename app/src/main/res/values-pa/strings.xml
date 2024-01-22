@@ -364,4 +364,5 @@
     <string name="system_settings">ਸਿਸਟਮ ਸੈਟਿੰਗਜ਼</string>
     <string name="force_ipv4">IPv4 ਨੂੰ ਫੋਰਸ ਕਰੋ</string>
     <string name="force_ipv4_desc">ਸਾਰੇ ਕੁਨੈਕਸ਼ਨ IPv4 ਰਾਹੀਂ ਬਣਾਓ</string>
+    <string name="keep_subtitle_files">ਸਬਟਾਈਟਲ ਫਾਈਲਾਂ ਨੂੰ ਰੱਖੋ</string>
 </resources>

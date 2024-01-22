@@ -365,4 +365,6 @@
     <string name="force_ipv4">Forzar IPv4</string>
     <string name="system_settings">Configuración del sistema</string>
     <string name="force_ipv4_desc">Realizar todas las conexiones a través de IPv4</string>
+    <string name="keep_subtitle_files">Guardar los archivos de los subtítulos</string>
+    <string name="allow_once">Permitir una vez</string>
 </resources>
