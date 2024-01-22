@@ -100,6 +100,8 @@ const val RESTRICT_FILENAMES = "restrict_filenames"
 const val AV1_HARDWARE_ACCELERATED = "av1_hardware_accelerated"
 const val FORCE_IPV4 = "force_ipv4"
 
+const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
+
 const val DEFAULT = 0
 const val NOT_SPECIFIED = 0
 const val SYSTEM_DEFAULT = 0

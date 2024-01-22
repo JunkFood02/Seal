@@ -414,13 +414,18 @@ object Downloader {
                     acc && (format.vcodec == "none" && format.acodec != "none")
                 }
 
+            val mergeAudioStream = formatList.count { format ->
+                format.vcodec == "none" && format.acodec != "none"
+            } > 1
+
             val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
 
             val downloadPreferences = DownloadUtil.DownloadPreferences(
-                formatId = formatId,
+                formatIdString = formatId,
                 videoClips = videoClips,
                 splitByChapter = splitByChapter,
-                newTitle = newTitle
+                newTitle = newTitle,
+                mergeAudioStream = mergeAudioStream
             ).run {
                 copy(extractAudio = extractAudio || audioOnly)
             }.run {

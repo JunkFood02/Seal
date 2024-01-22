@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Sort
+import androidx.compose.material.icons.outlined.SpatialAudioOff
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
@@ -52,6 +53,7 @@ import com.junkfood.seal.util.EMBED_METADATA
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.FORMAT_SORTING
+import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
@@ -102,6 +104,8 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
     val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
     var isVideoClipEnabled by VIDEO_CLIP.booleanState
     var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
+    var mergeAudioStream by MERGE_MULTI_AUDIO_STREAM.booleanState
+    var showMergeAudioDialog by remember { mutableStateOf(false) }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -284,6 +288,24 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                         }
                     }
                 }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.merge_audiostream),
+                        description = stringResource(
+                            id = R.string.merge_audiostream_desc
+                        ), isChecked = mergeAudioStream,
+                        icon = Icons.Outlined.SpatialAudioOff,
+                        onClick = {
+                            if (mergeAudioStream) {
+                                mergeAudioStream = false
+                                MERGE_MULTI_AUDIO_STREAM.updateBoolean(false)
+                            } else {
+                                showMergeAudioDialog = true
+                            }
+                        },
+                        enabled = !isCustomCommandEnabled && isFormatSelectionEnabled
+                    )
+                }
             }
         })
     if (showAudioFormatDialog) {
@@ -342,6 +364,31 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
             },
             text = {
                 Text(stringResource(id = R.string.clip_video_dialog_msg))
+            },
+            title = {
+                Text(
+                    stringResource(id = R.string.enable_experimental_feature),
+                    textAlign = TextAlign.Center
+                )
+            })
+    }
+    if (showMergeAudioDialog) {
+        AlertDialog(onDismissRequest = { showMergeAudioDialog = false },
+            icon = { Icon(Icons.Outlined.SpatialAudioOff, null) },
+            confirmButton = {
+                ConfirmButton {
+                    mergeAudioStream = true
+                    MERGE_MULTI_AUDIO_STREAM.updateBoolean(true)
+                    showMergeAudioDialog = false
+                }
+            },
+            dismissButton = {
+                DismissButton {
+                    showMergeAudioDialog = false
+                }
+            },
+            text = {
+                Text(stringResource(id = R.string.merge_audiostream_desc))
             },
             title = {
                 Text(

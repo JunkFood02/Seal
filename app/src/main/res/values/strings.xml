@@ -409,6 +409,8 @@
     <string name="allow_always">Allow always</string>
     <string name="dont_allow">Don\'t allow</string>
     <string name="download_with_cellular_request">Allow downloading with cellular?</string>
+    <string name="merge_audiostream">Merge multiple audio stream</string>
+    <string name="merge_audiostream_desc">Allow multiple audio streams to be merged into a single file</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

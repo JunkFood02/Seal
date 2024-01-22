@@ -78,6 +78,7 @@ import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.SubtitleFormat
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -94,10 +95,13 @@ private const val TAG = "FormatPage"
 fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     if (videoInfo.formats.isNullOrEmpty()) return
+    val audioOnly = EXTRACT_AUDIO.getBoolean()
+    val mergeAudioStream = MERGE_MULTI_AUDIO_STREAM.getBoolean()
     FormatPageImpl(
         videoInfo = videoInfo,
         onBackPressed = onBackPressed,
-        audioOnly = EXTRACT_AUDIO.getBoolean(),
+        audioOnly = audioOnly,
+        mergeAudioStream = !audioOnly && mergeAudioStream,
         isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0
     ) { formatList, videoClips, splitByChapter, title, subtitleLanguages ->
         Log.d(TAG, formatList.toString())
@@ -183,7 +187,7 @@ private fun FormatPagePreview() {
             duration = 100000.0
         )
     SealTheme {
-        FormatPageImpl(videoInfo = videoInfo, isClippingAvailable = true)
+        FormatPageImpl(videoInfo = videoInfo, isClippingAvailable = true, mergeAudioStream = true)
     }
 }
 
@@ -192,6 +196,7 @@ private fun FormatPagePreview() {
 fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     audioOnly: Boolean = false,
+    mergeAudioStream: Boolean = false,
     isClippingAvailable: Boolean = false,
     onBackPressed: () -> Unit = {},
     onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, List<String>) -> Unit = { _, _, _, _, _ -> }
@@ -214,7 +219,7 @@ fun FormatPageImpl(
     var isSuggestedFormatSelected by remember { mutableStateOf(true) }
     var selectedVideoAudioFormat by remember { mutableIntStateOf(NOT_SELECTED) }
     var selectedVideoOnlyFormat by remember { mutableIntStateOf(NOT_SELECTED) }
-    var selectedAudioOnlyFormat by remember { mutableIntStateOf(NOT_SELECTED) }
+    val selectedAudioOnlyFormats = remember { mutableStateListOf<Int>() }
     val context = LocalContext.current
 
     val uriHandler = LocalUriHandler.current
@@ -256,7 +261,9 @@ fun FormatPageImpl(
     val formatList: List<Format> by remember {
         derivedStateOf {
             mutableListOf<Format>().apply {
-                audioOnlyFormats.getOrNull(selectedAudioOnlyFormat)?.let { add(it) }
+                selectedAudioOnlyFormats.forEach { index ->
+                    add(audioOnlyFormats.elementAt(index))
+                }
                 videoAudioFormats.getOrNull(selectedVideoAudioFormat)?.let { add(it) }
                 videoOnlyFormats.getOrNull(selectedVideoOnlyFormat)?.let { add(it) }
             }
@@ -445,7 +452,7 @@ fun FormatPageImpl(
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     val onClick = {
                         isSuggestedFormatSelected = true
-                        selectedAudioOnlyFormat = NOT_SELECTED
+                        selectedAudioOnlyFormats.clear()
                         selectedVideoAudioFormat = NOT_SELECTED
                         selectedVideoOnlyFormat = NOT_SELECTED
                     }
@@ -498,23 +505,25 @@ fun FormatPageImpl(
 
             itemsIndexed(
                 audioOnlyFormats.subList(
-                    0,
-                    min(audioOnlyItemLimit, audioOnlyFormats.size)
+                    fromIndex = 0,
+                    toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size)
                 )
             ) { index, formatInfo ->
                 FormatItem(formatInfo = formatInfo,
-                    selected = selectedAudioOnlyFormat == index,
+                    selected = selectedAudioOnlyFormats.contains(index),
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     outlineColor = MaterialTheme.colorScheme.secondary,
                     onLongClick = { formatInfo.url.share() }
-
                 ) {
-                    selectedAudioOnlyFormat =
-                        if (selectedAudioOnlyFormat == index) NOT_SELECTED else {
-                            selectedVideoAudioFormat = NOT_SELECTED
-                            isSuggestedFormatSelected = false
-                            index
+                    if (selectedAudioOnlyFormats.contains(index)) {
+                        selectedAudioOnlyFormats.remove(index)
+                    } else {
+                        if (!mergeAudioStream) {
+                            selectedAudioOnlyFormats.clear()
                         }
+                        isSuggestedFormatSelected = false
+                        selectedAudioOnlyFormats.add(index)
+                    }
                 }
             }
 
@@ -605,7 +614,7 @@ fun FormatPageImpl(
                         onLongClick = { formatInfo.url.share() }) {
                         selectedVideoAudioFormat =
                             if (selectedVideoAudioFormat == index) NOT_SELECTED else {
-                                selectedAudioOnlyFormat = NOT_SELECTED
+                                selectedAudioOnlyFormats.clear()
                                 selectedVideoOnlyFormat = NOT_SELECTED
                                 isSuggestedFormatSelected = false
                                 index

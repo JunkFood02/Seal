@@ -197,7 +197,7 @@ object DownloadUtil {
         val sortingFields: String = SORTING_FIELDS.getString(),
         val audioConvertFormat: Int = PreferenceUtil.getAudioConvertFormat(),
         val videoFormat: Int = PreferenceUtil.getVideoFormat(),
-        val formatId: String = "",
+        val formatIdString: String = "",
         val videoResolution: Int = PreferenceUtil.getVideoResolution(),
         val privateMode: Boolean = PreferenceUtil.getValue(PRIVATE_MODE),
         val rateLimit: Boolean = PreferenceUtil.getValue(RATE_LIMIT),
@@ -222,6 +222,7 @@ object DownloadUtil {
         val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
         val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated(),
         val forceIpv4: Boolean = FORCE_IPV4.getBoolean(),
+        val mergeAudioStream: Boolean = false
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -298,8 +299,14 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest = this.apply {
         downloadPreferences.run {
-            if (formatId.isNotEmpty()) addOption("-f", formatId)
-            else applyFormatSorter(this, toFormatSorter())
+            if (formatIdString.isNotEmpty()) {
+                addOption("-f", formatIdString)
+                if (mergeAudioStream) {
+                    addOption("--audio-multistreams")
+                }
+            } else {
+                applyFormatSorter(this, toFormatSorter())
+            }
             if (downloadSubtitle) {
                 if (autoSubtitle) {
                     addOption("--write-auto-subs")
@@ -406,8 +413,12 @@ object DownloadUtil {
                     else -> {}
                 }
             }
-            if (formatId.isNotEmpty()) addOption("-f", formatId)
-            else if (convertAudio) {
+            if (formatIdString.isNotEmpty()) {
+                addOption("-f", formatIdString)
+                if (mergeAudioStream) {
+                    addOption("--audio-multistreams")
+                }
+            } else if (convertAudio) {
                 when (audioConvertFormat) {
                     CONVERT_MP3 -> {
                         addOption("--audio-format", "mp3")
