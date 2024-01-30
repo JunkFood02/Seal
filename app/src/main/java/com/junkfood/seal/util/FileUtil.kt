@@ -231,7 +231,7 @@ object FileUtil {
             return getExternalDownloadDirectory().absolutePath
         }
         val last: String = path.split("primary:").last()
-        return "/storage/emulated/0/$last"
+        return Environment.getExternalStorageDirectory().absolutePath + "/$last"
     }
 
     private const val TAG = "FileUtil"
