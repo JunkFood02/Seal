@@ -27,10 +27,10 @@ android {
         compose = true
     }
     buildTypes {
-        debug {
-            isMinifyEnabled = true
-        }
-        release {
+        all {
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
             isMinifyEnabled = true
         }
     }
