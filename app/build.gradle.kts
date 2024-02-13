@@ -243,7 +243,7 @@ dependencies {
 //  androidTestImplementation(libs.androidx.compose.ui.test)
 
     //UI debugging library for Jetpack Compose
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling)
 
 }
 
