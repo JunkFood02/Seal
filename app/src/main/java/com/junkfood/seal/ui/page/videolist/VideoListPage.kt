@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ExperimentalMaterialApi
@@ -164,29 +165,28 @@ fun VideoListPage(
 
     var isSelectEnabled by remember { mutableStateOf(false) }
     var showRemoveMultipleItemsDialog by remember { mutableStateOf(false) }
-
+    val lazyGridState = rememberLazyGridState()
 
     @Composable
     fun FilterChips(modifier: Modifier = Modifier) {
         Row(
             modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(8.dp)
-                .selectableGroup()
+                .selectableGroup(),
         ) {
-            VideoFilterChip(
-                selected = viewState.audioFilter,
-                onClick = { videoListViewModel.clickAudioFilter() },
-                label = stringResource(id = R.string.audio),
-            )
+            Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                VideoFilterChip(
+                    selected = viewState.audioFilter,
+                    onClick = { videoListViewModel.clickAudioFilter() },
+                    label = stringResource(id = R.string.audio),
+                )
 
-            VideoFilterChip(
-                selected = viewState.videoFilter,
-                onClick = { videoListViewModel.clickVideoFilter() },
-                label = stringResource(id = R.string.video),
-            )
-            if (filterSet.size > 1) {
-                Row {
+                VideoFilterChip(
+                    selected = viewState.videoFilter,
+                    onClick = { videoListViewModel.clickVideoFilter() },
+                    label = stringResource(id = R.string.video),
+                )
+                if (filterSet.size > 1) {
                     VerticalDivider(
                         modifier = Modifier
                             .padding(horizontal = 6.dp)
@@ -290,6 +290,12 @@ fun VideoListPage(
                             onCheckedChange = {
                                 view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
                                 videoListViewModel.toggleSearch(it)
+                                if (it) {
+                                    scope.launch {
+                                        delay(50)
+                                        lazyGridState.animateScrollToItem(0)
+                                    }
+                                }
                             },
                             checked = viewState.isSearching
                         ) {
@@ -392,8 +398,9 @@ fun VideoListPage(
         }
         val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
         LazyVerticalGrid(
-            modifier = Modifier
-                .padding(innerPadding), columns = GridCells.Fixed(cellCount)
+            modifier = Modifier.padding(innerPadding),
+            columns = GridCells.Fixed(cellCount),
+            state = lazyGridState
         ) {
             if (fullVideoList.isNotEmpty()) {
                 item(span = span) {
@@ -401,14 +408,17 @@ fun VideoListPage(
                         AnimatedVisibility(visible = viewState.isSearching) {
                             SealSearchBar(
                                 modifier = Modifier
-                                    .padding(horizontal = 16.dp)
-                                    .padding(top = 12.dp)
-                                    .padding(bottom = 4.dp),
+                                    .padding(horizontal = 12.dp)
+                                    .padding(vertical = 8.dp),
                                 text = viewState.searchText,
                                 onValueChange = videoListViewModel::updateSearchText
                             )
                         }
-                        FilterChips(Modifier.fillMaxWidth())
+                        FilterChips(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp)
+                        )
                     }
                 }
 

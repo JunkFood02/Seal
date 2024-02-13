@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.videolist
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "VideoListViewModel"
@@ -45,7 +43,7 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    val filterSetFlow = _mediaInfoFlow.map { infoList ->
+    val filterSetFlow = searchedVideoListFlow.map { infoList ->
         mutableSetOf<String>().apply {
             infoList.forEach {
                 this.add(it.extractor)

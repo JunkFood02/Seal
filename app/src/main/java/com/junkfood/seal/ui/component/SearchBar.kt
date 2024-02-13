@@ -2,15 +2,17 @@ package com.junkfood.seal.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -45,15 +47,14 @@ fun SealSearchBar(
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
-        delay(100)
+        delay(200)
         focusRequester.requestFocus()
     }
     Surface(
         modifier = modifier
-            .widthIn(360.dp, 720.dp)
-            .height(56.dp),
-        shape = CircleShape,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+            .widthIn(360.dp, 720.dp),
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.width(16.dp))
@@ -80,9 +81,20 @@ fun SealSearchBar(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
                     focusManager.clearFocus()
-                }), contentDescription = stringResource(id = R.string.search)
+                }), contentDescription = stringResource(id = R.string.search),
+                trailingIcon = {
+                    if (text.isNotEmpty()) {
+                        IconButton(onClick = { onValueChange("") }) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                imageVector = Icons.Outlined.Clear,
+                                contentDescription = stringResource(id = R.string.clear),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
             )
-            Spacer(modifier = Modifier.width(16.dp))
         }
     }
 }
