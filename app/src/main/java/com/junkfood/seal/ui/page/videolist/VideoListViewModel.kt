@@ -45,16 +45,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    init {
-        viewModelScope.launch {
-            _mediaInfoFlow.collect { list ->
-                if (list.isEmpty()) {
-                    mutableStateFlow.update { it.copy(isVideoListNotEmpty = false) }
-                }
-            }
-        }
-    }
-
     val filterSetFlow = _mediaInfoFlow.map { infoList ->
         mutableSetOf<String>().apply {
             infoList.forEach {
@@ -97,7 +87,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         val audioFilter: Boolean = false,
         val isSearching: Boolean = false,
         val searchText: String = "",
-        val isVideoListNotEmpty: Boolean = true,
     )
 
 }

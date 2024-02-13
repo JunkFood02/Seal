@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,6 +40,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TriStateCheckbox
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -128,14 +128,16 @@ fun VideoListPage(
     videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
 ) {
     val viewState by videoListViewModel.stateFlow.collectAsStateWithLifecycle()
-    val videoList by videoListViewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
+    val fullVideoList by videoListViewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
     val searchedVideoList by videoListViewModel.searchedVideoListFlow.collectAsStateWithLifecycle(
         emptyList()
     )
+
+    val videoList = if (viewState.isSearching) searchedVideoList else fullVideoList
     val filterSet by videoListViewModel.filterSetFlow.collectAsState(mutableSetOf())
 
     val scrollBehavior =
-        if (viewState.isVideoListNotEmpty) TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        if (fullVideoList.isNotEmpty()) TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
             rememberTopAppBarState(),
             canScroll = { true }
         ) else TopAppBarDefaults.pinnedScrollBehavior()
@@ -145,7 +147,7 @@ fun VideoListPage(
     val softKeyboardController = LocalSoftwareKeyboardController.current
     val view = LocalView.current
 
-    val fileSizeMap = remember(videoList.size) {
+    val fileSizeMap = remember(fullVideoList.size) {
         mutableMapOf<Int, Long>().apply {
             putAll(videoList.map { Pair(it.id, it.videoPath.getFileSize()) })
         }
@@ -185,7 +187,7 @@ fun VideoListPage(
             )
             if (filterSet.size > 1) {
                 Row {
-                    Divider(
+                    VerticalDivider(
                         modifier = Modifier
                             .padding(horizontal = 6.dp)
                             .height(24.dp)
@@ -282,7 +284,7 @@ fun VideoListPage(
                         onBackPressed()
                     }
                 }, actions = {
-                    if (viewState.isVideoListNotEmpty) {
+                    if (fullVideoList.isNotEmpty()) {
                         IconToggleButton(
                             modifier = Modifier,
                             onCheckedChange = {
@@ -363,7 +365,7 @@ fun VideoListPage(
             }
         }
     ) { innerPadding ->
-        if (videoList.isEmpty())
+        if (fullVideoList.isEmpty())
             Box(
                 modifier = Modifier.fillMaxSize(),
             ) {
@@ -393,15 +395,15 @@ fun VideoListPage(
             modifier = Modifier
                 .padding(innerPadding), columns = GridCells.Fixed(cellCount)
         ) {
-            if (viewState.isVideoListNotEmpty) {
-
+            if (fullVideoList.isNotEmpty()) {
                 item(span = span) {
                     Column {
                         AnimatedVisibility(visible = viewState.isSearching) {
                             SealSearchBar(
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp)
-                                    .padding(vertical = 12.dp),
+                                    .padding(top = 12.dp)
+                                    .padding(bottom = 4.dp),
                                 text = viewState.searchText,
                                 onValueChange = videoListViewModel::updateSearchText
                             )
@@ -411,7 +413,7 @@ fun VideoListPage(
                 }
 
             }
-            for (info in if (viewState.isSearching) searchedVideoList else videoList) {
+            for (info in videoList) {
                 val fileSize =
                     fileSizeMap.getOrElse(info.id) { File(info.videoPath).length() }
 
