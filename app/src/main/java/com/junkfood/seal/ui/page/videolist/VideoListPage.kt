@@ -263,7 +263,7 @@ fun VideoListPage(
     }
 
 
-    LaunchedEffect(showBottomSheet, isSelectEnabled) {
+    LaunchedEffect(sheetState.targetValue, isSelectEnabled) {
         if (showBottomSheet || isSelectEnabled) {
             softKeyboardController?.hide()
         }
@@ -289,6 +289,19 @@ fun VideoListPage(
                             modifier = Modifier,
                             onCheckedChange = {
                                 view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                isSelectEnabled = it
+                            },
+                            checked = isSelectEnabled
+                        ) {
+                            Icon(
+                                Icons.Outlined.Checklist,
+                                contentDescription = stringResource(R.string.multiselect_mode)
+                            )
+                        }
+                        IconToggleButton(
+                            modifier = Modifier,
+                            onCheckedChange = {
+                                view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
                                 videoListViewModel.toggleSearch(it)
                                 if (it) {
                                     scope.launch {
@@ -302,19 +315,6 @@ fun VideoListPage(
                             Icon(
                                 imageVector = Icons.Outlined.Search,
                                 contentDescription = stringResource(R.string.search)
-                            )
-                        }
-                        IconToggleButton(
-                            modifier = Modifier,
-                            onCheckedChange = {
-                                view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-                                isSelectEnabled = it
-                            },
-                            checked = isSelectEnabled
-                        ) {
-                            Icon(
-                                Icons.Outlined.Checklist,
-                                contentDescription = stringResource(R.string.multiselect_mode)
                             )
                         }
                     }
