@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Link
@@ -21,16 +23,12 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SheetState
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -43,14 +41,14 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.LongTapTextButton
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.ui.component.SealModalBottomSheet
+import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.ToastUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoDetailDrawer(
-    sheetState: SheetState,
+    sheetState: ModalBottomSheetState,
     info: DownloadedVideoInfo,
     onDismissRequest: () -> Unit = {},
     onDelete: () -> Unit = {},
@@ -58,7 +56,7 @@ fun VideoDetailDrawer(
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
-    BackHandler(sheetState.targetValue == SheetValue.Expanded) {
+    BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) {
         onDismissRequest()
     }
 
@@ -93,10 +91,7 @@ fun VideoDetailDrawer(
 @Composable
 private fun DrawerPreview() {
     VideoDetailDrawerImpl(
-        sheetState = SheetState(
-            skipPartiallyExpanded = true,
-            density = LocalDensity.current, initialValue = SheetValue.Expanded
-        )
+        sheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden)
     )
 }
 
@@ -104,7 +99,7 @@ private fun DrawerPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoDetailDrawerImpl(
-    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    sheetState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden),
     title: String = stringResource(id = R.string.video_title_sample_text),
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
@@ -115,10 +110,9 @@ fun VideoDetailDrawerImpl(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    SealModalBottomSheet(sheetState = sheetState,
+    SealModalBottomSheetM2(drawerState = sheetState,
         horizontalPadding = PaddingValues(horizontal = 20.dp),
-        onDismissRequest = onDismissRequest,
-        content = {
+        sheetContent = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

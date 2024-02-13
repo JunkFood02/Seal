@@ -22,9 +22,12 @@ import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.DeleteSweep
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,7 +39,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TriStateCheckbox
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -102,7 +104,7 @@ fun DownloadedVideoInfo.filterByExtractor(extractor: String?): Boolean {
 
 private const val TAG = "VideoListPage"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun VideoListPage(
     videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
@@ -124,7 +126,7 @@ fun VideoListPage(
             putAll(videoList.map { Pair(it.id, it.videoPath.getFileSize()) })
         }
     }
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     var currentVideoInfoId by rememberSaveable { mutableIntStateOf(0) }
 
