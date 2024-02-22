@@ -691,6 +691,8 @@ fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
         icon = { Icon(Icons.Outlined.Language, null) },
         text = {
             Column() {
+                Text(text = stringResource(id = R.string.subtitle_language_desc))
+                Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     modifier = Modifier.padding(bottom = 8.dp),
                     value = languages,

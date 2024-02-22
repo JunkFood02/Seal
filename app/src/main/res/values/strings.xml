@@ -415,6 +415,13 @@
     <string name="search">Search</string>
     <string name="auto_translated_subtitles">Auto-translated subtitles</string>
     <string name="auto_translated_subtitles_msg">Auto-translated subtitles for all languages will be available in downloads. These subtitles may be inaccurate and difficult to understand.</string>
+    <string name="subtitle_language_desc">Language codes of the subtitles to download in Auto format selection, separated by commas. You can manually select the subtitles to download with Custom format selection.</string>
+    <string name="remember_for_next_download">Remember for next download</string>
+    <string name="look_and_feel"><![CDATA[Look & Feel]]></string>
+
+    <string name="use_previous_selection">Use previous selection</string>
+    <string name="none">None</string>
+
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
