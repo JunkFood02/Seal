@@ -66,6 +66,7 @@ const val KEEP_SUBTITLE_FILES = "keep_subtitle"
 const val SUBTITLE_LANGUAGE = "sub_lang"
 const val AUTO_SUBTITLE = "auto_subtitle"
 const val CONVERT_SUBTITLE = "convert_subtitle"
+const val AUTO_TRANSLATED_SUBTITLES = "translated_subs"
 
 const val TEMPLATE_ID = "template_id"
 const val MAX_FILE_SIZE = "max_file_size"

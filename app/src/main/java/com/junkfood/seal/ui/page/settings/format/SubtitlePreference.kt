@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.format
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +10,7 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,12 +33,14 @@ import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
+import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.util.AUTO_SUBTITLE
+import com.junkfood.seal.util.AUTO_TRANSLATED_SUBTITLES
 import com.junkfood.seal.util.EMBED_SUBTITLE
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.KEEP_SUBTITLE_FILES
@@ -61,10 +63,12 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
 //    var keepSubtitleFile by KEEP_SUBTITLE_FILES.booleanState
     var embedSubtitle by EMBED_SUBTITLE.booleanState
     var autoSubtitle by AUTO_SUBTITLE.booleanState
+    var autoTranslatedSubtitle by AUTO_TRANSLATED_SUBTITLES.booleanState
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showConversionDialog by remember { mutableStateOf(false) }
     var showEmbedSubtitleDialog by remember { mutableStateOf(false) }
+    var showAutoTranslateDialog by remember { mutableStateOf(false) }
 
     val subtitleFormatText by remember(showConversionDialog) {
         mutableStateOf(
@@ -128,6 +132,17 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                         onClick = { showLanguageDialog = true }
                     )
                 }
+
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.convert_subtitle),
+                        description = subtitleFormatText,
+                        icon = Icons.Outlined.Sync,
+                    ) {
+                        showConversionDialog = true
+                    }
+                }
+
                 item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.auto_subtitle),
@@ -142,16 +157,23 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                 }
 
                 item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.convert_subtitle),
-                        description = subtitleFormatText,
-                        icon = Icons.Outlined.Sync,
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.auto_translated_subtitles),
+                        icon = Icons.Outlined.Translate,
+                        isChecked = autoTranslatedSubtitle,
+                        enabled = autoSubtitle
                     ) {
-                        showConversionDialog = true
+                        if (!autoTranslatedSubtitle) {
+                            showAutoTranslateDialog = true
+                        } else {
+                            autoTranslatedSubtitle = false
+                            AUTO_TRANSLATED_SUBTITLES.updateBoolean(false)
+                        }
                     }
                 }
 
                 item {
+                    HorizontalDivider()
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         description = stringResource(
@@ -170,26 +192,22 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                     )
                 }
 
+
                 item {
                     Column {
-                        AnimatedVisibility(visible = embedSubtitle) {
-                            var keepSubtitles by KEEP_SUBTITLE_FILES.booleanState
-                            PreferenceSwitch(
-                                title = stringResource(id = R.string.keep_subtitle_files),
-                                description = null,
-                                isChecked = keepSubtitles,
-                                enabled = !downloadAudio && embedSubtitle,
-                                onClick = {
-                                    keepSubtitles = !keepSubtitles
-                                    KEEP_SUBTITLE_FILES.updateBoolean(keepSubtitles)
-                                }, icon = Icons.Outlined.Save
-                            )
-                        }
+                        var keepSubtitles by KEEP_SUBTITLE_FILES.booleanState
+                        PreferenceSwitch(
+                            title = stringResource(id = R.string.keep_subtitle_files),
+                            description = null,
+                            isChecked = keepSubtitles,
+                            enabled = !downloadAudio && embedSubtitle,
+                            onClick = {
+                                keepSubtitles = !keepSubtitles
+                                KEEP_SUBTITLE_FILES.updateBoolean(keepSubtitles)
+                            }, icon = Icons.Outlined.Save
+                        )
                     }
-
                 }
-
-
 
                 item {
                     if (hint.isNotEmpty())
@@ -222,6 +240,30 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                 }
             }, text = {
                 Text(stringResource(id = R.string.embed_subtitles_mkv_msg))
+            }, title = {
+                Text(
+                    stringResource(id = R.string.enable_experimental_feature),
+                    textAlign = TextAlign.Center
+                )
+            }
+        )
+    }
+    if (showAutoTranslateDialog) {
+        AlertDialog(
+            onDismissRequest = { showAutoTranslateDialog = false },
+            icon = { Icon(Icons.Outlined.Translate, null) },
+            confirmButton = {
+                ConfirmButton {
+                    autoTranslatedSubtitle = true
+                    AUTO_TRANSLATED_SUBTITLES.updateBoolean(true)
+                    showAutoTranslateDialog = false
+                }
+            }, dismissButton = {
+                DismissButton {
+                    showAutoTranslateDialog = false
+                }
+            }, text = {
+                Text(stringResource(id = R.string.auto_translated_subtitles_msg))
             }, title = {
                 Text(
                     stringResource(id = R.string.enable_experimental_feature),

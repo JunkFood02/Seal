@@ -413,6 +413,8 @@
     <string name="merge_audiostream_desc">Allow multiple audio streams to be merged into a single file</string>
     <string name="search_in_downloads">Search in downloads</string>
     <string name="search">Search</string>
+    <string name="auto_translated_subtitles">Auto-translated subtitles</string>
+    <string name="auto_translated_subtitles_msg">Auto-translated subtitles for all languages will be available in downloads. These subtitles may be inaccurate and difficult to understand.</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

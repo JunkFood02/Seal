@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.SignalCellular4Bar
 import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.VolunteerActivism
@@ -172,6 +173,17 @@ fun SettingsPage(
                     icon = Icons.Filled.Folder
                 ) {
                     navController.navigate(Route.DOWNLOAD_DIRECTORY) {
+                        launchSingleTop = true
+                    }
+                }
+            }
+            item {
+                SettingItem(
+                    title = stringResource(id = R.string.subtitle),
+                    description = stringResource(id = R.string.subtitle_desc),
+                    icon = Icons.Outlined.Subtitles
+                ) {
+                    navController.navigate(Route.SUBTITLE_PREFERENCES) {
                         launchSingleTop = true
                     }
                 }

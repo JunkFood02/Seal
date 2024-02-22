@@ -161,7 +161,9 @@ object DownloadUtil {
                         }*/
             if (autoSubtitle) {
                 addOption("--write-auto-subs")
-                addOption("--extractor-args", "youtube:skip=translated_subs")
+                if (!autoTranslatedSubtitles) {
+                    addOption("--extractor-args", "youtube:skip=translated_subs")
+                }
             }
         }
         addOption("--dump-json")
@@ -184,6 +186,7 @@ object DownloadUtil {
         val keepSubtitle: Boolean = KEEP_SUBTITLE_FILES.getBoolean(),
         val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
         val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
+        val autoTranslatedSubtitles: Boolean = AUTO_TRANSLATED_SUBTITLES.getBoolean(),
         val convertSubtitle: Int = CONVERT_SUBTITLE.getInt(),
         val concurrentFragments: Int = CONCURRENT.getInt(),
         val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
@@ -310,7 +313,9 @@ object DownloadUtil {
             if (downloadSubtitle) {
                 if (autoSubtitle) {
                     addOption("--write-auto-subs")
-                    addOption("--extractor-args", "youtube:skip=translated_subs")
+                    if (!autoTranslatedSubtitles) {
+                        addOption("--extractor-args", "youtube:skip=translated_subs")
+                    }
                 }
                 subtitleLanguage.takeIf { it.isNotEmpty() }?.let { addOption("--sub-langs", it) }
                 if (embedSubtitle) {
@@ -402,7 +407,9 @@ object DownloadUtil {
 
                 if (autoSubtitle) {
                     addOption("--write-auto-subs")
-                    addOption("--extractor-args", "youtube:skip=translated_subs")
+                    if (!autoTranslatedSubtitles) {
+                        addOption("--extractor-args", "youtube:skip=translated_subs")
+                    }
                 }
                 subtitleLanguage.takeIf { it.isNotEmpty() }?.let { addOption("--sub-langs", it) }
                 when (convertSubtitle) {
