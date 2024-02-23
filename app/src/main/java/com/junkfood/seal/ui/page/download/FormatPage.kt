@@ -6,9 +6,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,14 +29,18 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Subtitles
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RangeSliderState
 import androidx.compose.material3.Scaffold
@@ -58,6 +67,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,6 +89,7 @@ import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
@@ -775,12 +787,13 @@ private fun SubtitleSelectionDialog(
         icon = { Icon(imageVector = Icons.Outlined.Subtitles, contentDescription = null) },
         text = {
             Column {
-//                if (autoCaptions.size + suggestedSubtitles.size > 10)
-                SealSearchBar(
-                    text = searchText,
-                    placeholderText = stringResource(R.string.search_in_subtitles),
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) { searchText = it }
+                if (autoCaptions.size + suggestedSubtitles.size > 5) {
+                    SealSearchBar(
+                        text = searchText,
+                        placeholderText = stringResource(R.string.search_in_subtitles),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) { searchText = it }
+                }
 
                 LazyColumn(contentPadding = PaddingValues(vertical = 12.dp)) {
                     if (suggestedSubtitlesFiltered.isNotEmpty()) {
@@ -919,3 +932,66 @@ private fun ClickableTextAction(
     }
 }
 
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+@Preview
+fun RememberSubtitleChoiceDialog(
+    modifier: Modifier = Modifier,
+    languages: List<String> = listOf("en", "ja", "zh-Hant", "ar", "zh-Hans")
+) {
+    AlertDialog(onDismissRequest = { /*TODO*/ },
+        title = { Text(text = "Update subtitle languages?", textAlign = TextAlign.Center) },
+        icon = {
+            Icon(
+                imageVector = Icons.Filled.Subtitles,
+                contentDescription = null
+            )
+        },
+        text = {
+            Column {
+                Text(text = "The following languages will be added to your preference for future downloads:")
+                Spacer(modifier = Modifier.height(16.dp))
+
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    (languages).forEach {
+                        Row(
+                            modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .size(16.dp)
+                                    .background(
+                                        color = it
+                                            .hashCode()
+                                            .generateLabelColor(), shape = CircleShape
+                                    )
+                                    .clearAndSetSemantics { }
+                            ) {}
+                            Text(
+                                text = it,
+                                modifier = Modifier,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = {}) {
+                Text(text = stringResource(id = R.string.okay))
+            }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = { }) {
+                Text(text = stringResource(id = R.string.no_thanks))
+            }
+        })
+
+}
