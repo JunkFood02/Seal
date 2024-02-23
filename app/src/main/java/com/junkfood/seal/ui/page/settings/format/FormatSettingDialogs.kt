@@ -32,8 +32,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -52,11 +54,9 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
-import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HorizontalDivider
-import com.junkfood.seal.ui.component.LinkButton
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SingleChoiceItem
@@ -78,6 +78,7 @@ import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -85,6 +86,7 @@ import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.ULTRA_LOW
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
+import com.junkfood.seal.util.getStringDefault
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -684,29 +686,76 @@ private const val sortingFormats = "https://github.com/yt-dlp/yt-dlp#sorting-for
 
 @Composable
 fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
-    var languages by SUBTITLE_LANGUAGE.stringState
-    AlertDialog(
+    val languages = SUBTITLE_LANGUAGE.getString()
+    SubtitleLanguageDialogImpl(
+        onDismissRequest = onDismissRequest,
+        languages = languages,
+        onReset = { with(SUBTITLE_LANGUAGE) { updateString(getStringDefault()) } },
+        onConfirm = { SUBTITLE_LANGUAGE.updateString(it) },
+    )
+}
+
+
+@Composable
+@Preview
+private fun SubtitleLanguageDialogImpl(
+    onDismissRequest: () -> Unit = {},
+    languages: String = "en.*,.*-orig",
+    onReset: () -> Unit = {},
+    onConfirm: (String) -> Unit = {},
+) {
+    var text by remember { mutableStateOf(languages) }
+    val uriHandler = LocalUriHandler.current
+    SealDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.subtitle_language)) },
         icon = { Icon(Icons.Outlined.Language, null) },
         text = {
             Column() {
-                Text(text = stringResource(id = R.string.subtitle_language_desc))
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    value = languages,
-                    onValueChange = { languages = it },
-                    label = {
-                        Text(stringResource(id = R.string.subtitle_language))
-                    },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
+                Text(
+                    text = stringResource(id = R.string.subtitle_language_desc),
+                    modifier = Modifier.padding(horizontal = 24.dp)
                 )
-                LinkButton(link = subtitleOptions)
+                Spacer(modifier = Modifier.height(16.dp))
+                ProvideTextStyle(value = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace)) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        value = text,
+                        onValueChange = { text = it },
+                        label = {
+                            Text(stringResource(id = R.string.subtitle_language))
+                        },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 8.dp)
+                ) {
+                    OutlinedButtonChip(
+                        modifier = Modifier.padding(end = 8.dp),
+                        label = stringResource(id = R.string.reset),
+                        icon = Icons.Outlined.Sync
+                    ) {
+                        onReset()
+                    }
+                    OutlinedButtonChip(
+                        label = stringResource(R.string.yt_dlp_docs),
+                        icon = Icons.AutoMirrored.Outlined.OpenInNew
+                    ) {
+                        uriHandler.openUri(sortingFormats)
+                    }
+                }
             }
         }, confirmButton = {
             ConfirmButton() {
-                SUBTITLE_LANGUAGE.updateString(languages)
+                onConfirm(languages)
                 onDismissRequest()
             }
         }, dismissButton = {
