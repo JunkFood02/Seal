@@ -422,6 +422,7 @@
     <string name="use_previous_selection">Use previous selection</string>
     <string name="none">None</string>
     <string name="reset">Reset</string>
+    <string name="search_in_subtitles">Search in subtitles</string>
 
     <plurals name="item_count">
         <item quantity="one">%d item</item>

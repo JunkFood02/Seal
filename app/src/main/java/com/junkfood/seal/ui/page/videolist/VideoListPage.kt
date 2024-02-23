@@ -411,6 +411,7 @@ fun VideoListPage(
                                     .padding(horizontal = 12.dp)
                                     .padding(vertical = 8.dp),
                                 text = viewState.searchText,
+                                placeholderText = stringResource(R.string.search_in_downloads),
                                 onValueChange = videoListViewModel::updateSearchText
                             )
                         }

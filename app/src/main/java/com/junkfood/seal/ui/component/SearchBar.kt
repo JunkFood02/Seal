@@ -15,26 +15,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.theme.SealTheme
-import kotlinx.coroutines.delay
 
 @Composable
 fun SealSearchBar(
     modifier: Modifier = Modifier,
     text: String,
+    placeholderText: String,
     onValueChange: (String) -> Unit,
 ) {
     val view = LocalView.current
@@ -55,7 +53,7 @@ fun SealSearchBar(
             SealAutoFocusTextField(
                 value = text,
                 onValueChange = onValueChange,
-                placeholder = { Text(text = stringResource(R.string.search_in_downloads)) },
+                placeholder = { Text(text = placeholderText) },
                 modifier = Modifier.weight(1f),
                 contentDescription = stringResource(id = R.string.search),
                 trailingIcon = {
@@ -84,7 +82,10 @@ private fun SearchBarPreview() {
     var text by remember { mutableStateOf("") }
     SealTheme {
         Surface {
-            SealSearchBar(text = text) { text = it }
+            SealSearchBar(
+                text = text,
+                placeholderText = stringResource(R.string.search_in_downloads)
+            ) { text = it }
         }
 
     }

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -72,6 +73,7 @@ import com.junkfood.seal.ui.component.FormatVideoPreview
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.component.SealSearchBar
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
@@ -693,6 +695,54 @@ private fun RenameDialog(
     })
 }
 
+private fun (Map<String, List<SubtitleFormat>>).filterWithSearchText(searchText: String): Map<String, List<SubtitleFormat>> {
+    return this.filter {
+        it.run {
+            searchText.isBlank()
+                    || key.contains(searchText, ignoreCase = true)
+                    || value.any { format ->
+                format.name?.contains(searchText, ignoreCase = true) ?: false
+            }
+        }
+    }
+}
+
+private fun Map<String, List<SubtitleFormat>>.sortedWithSelection(selectedKeys: List<String>): Map<String, List<SubtitleFormat>> {
+    return this.toList().sortedWith { entry1, entry2 ->
+        when {
+            entry1.first in selectedKeys && entry2.first in selectedKeys -> entry1.compareTo(entry2) // Both in selectedKeys - equal priority
+            entry1.first in selectedKeys -> -1 // str1 has priority
+            entry2.first in selectedKeys -> 1 // str2 has priority
+            else -> entry1.compareTo(entry2)
+        }
+    }.toMap()
+}
+
+/**
+ * Prioritizes comparison of subtitle names (via `getSubtitleName()`) if available,
+ * otherwise compares the `key` portion of the pairs.
+ *
+ * Examples: `zh` (Chinese) should be greater than `en` (English) according to their names
+ */
+private fun (Pair<String, List<SubtitleFormat>>).compareTo(
+    other: (Pair<String, List<SubtitleFormat>>),
+): Int {
+    val (key, list) = this
+    val (otherKey, otherList) = other
+
+    val name = list.getSubtitleName()
+    val otherName = otherList.getSubtitleName()
+
+    return if (name != null && otherName != null) {
+        name.compareTo(otherName)
+    } else {
+        key.compareTo(otherKey)
+    }
+}
+
+private fun (List<SubtitleFormat>).getSubtitleName(): String? = firstOrNull()?.name
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubtitleSelectionDialog(
     suggestedSubtitles: Map<String, List<SubtitleFormat>>,
@@ -701,8 +751,14 @@ private fun SubtitleSelectionDialog(
     onDismissRequest: () -> Unit = {},
     onConfirm: (List<String>) -> Unit = {}
 ) {
+    var searchText by remember { mutableStateOf("") }
     val selectedSubtitles =
         remember { mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) } }
+
+    val suggestedSubtitlesFiltered =
+        suggestedSubtitles.filterWithSearchText(searchText).sortedWithSelection(selectedSubtitles)
+    val autoCaptionsFiltered =
+        autoCaptions.filterWithSearchText(searchText).sortedWithSelection(selectedSubtitles)
 
     SealDialog(
         onDismissRequest = onDismissRequest,
@@ -719,19 +775,28 @@ private fun SubtitleSelectionDialog(
         icon = { Icon(imageVector = Icons.Outlined.Subtitles, contentDescription = null) },
         text = {
             Column {
-                HorizontalDivider()
+//                if (autoCaptions.size + suggestedSubtitles.size > 10)
+                SealSearchBar(
+                    text = searchText,
+                    placeholderText = stringResource(R.string.search_in_subtitles),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) { searchText = it }
+
                 LazyColumn(contentPadding = PaddingValues(vertical = 12.dp)) {
-                    item {
-                        Text(
-                            text = stringResource(id = R.string.suggested),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
-                        )
-                    }
-                    for ((code, formats) in suggestedSubtitles) {
+                    if (suggestedSubtitlesFiltered.isNotEmpty()) {
                         item {
+                            Text(
+                                text = stringResource(id = R.string.suggested),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
+                            )
+                        }
+                    }
+                    for ((code, formats) in suggestedSubtitlesFiltered) {
+                        item(key = code) {
                             DialogCheckBoxItem(
+                                modifier = Modifier.animateItemPlacement(),
                                 checked = selectedSubtitles.contains(code),
                                 onClick = {
                                     if (selectedSubtitles.contains(code)) {
@@ -743,7 +808,8 @@ private fun SubtitleSelectionDialog(
                                 text = formats.first().run { name ?: protocol ?: code })
                         }
                     }
-                    if (autoCaptions.isNotEmpty()) {
+
+                    if (autoCaptionsFiltered.isNotEmpty()) {
                         item {
                             Text(
                                 text = stringResource(id = R.string.auto_subtitle),
@@ -755,9 +821,10 @@ private fun SubtitleSelectionDialog(
                                 )
                             )
                         }
-                        for ((code, formats) in autoCaptions) {
-                            item {
+                        for ((code, formats) in autoCaptionsFiltered) {
+                            item(key = code) {
                                 DialogCheckBoxItem(
+                                    modifier = Modifier.animateItemPlacement(),
                                     checked = selectedSubtitles.contains(code),
                                     onClick = {
                                         if (selectedSubtitles.contains(code)) {
@@ -779,32 +846,44 @@ private fun SubtitleSelectionDialog(
 @Preview
 @Composable
 private fun SubtitleSelectionDialogPreview() {
-    val captionsMap = buildMap {
-        repeat(4) {
-            put(
-                "translated-$it", listOf(
-                    SubtitleFormat(
-                        ext = "ass",
-                        url = "",
-                        name = "Translated"
-                    )
-                )
+    val captionsMap = mapOf(
+        "en-en" to listOf(SubtitleFormat(ext = "", url = "", name = "English from English")),
+        "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
+        "zh-Hans-en" to listOf(
+            SubtitleFormat(
+                ext = "",
+                url = "",
+                name = "Chinese (Simplified) from English"
             )
-        }
-    }
+        ),
+        "zh-Hant-en" to listOf(
+            SubtitleFormat(
+                ext = "",
+                url = "",
+                name = "Chinese (Traditional) from English"
+            )
+        ),
+    )
 
     val subMap = buildMap {
-        repeat(3) {
-            put(
-                "en$it", listOf(
-                    SubtitleFormat(
-                        ext = "ass",
-                        url = "",
-                        name = "English"
-                    )
+        put(
+            "en", listOf(
+                SubtitleFormat(
+                    ext = "ass",
+                    url = "",
+                    name = "English"
                 )
             )
-        }
+        )
+        put(
+            "ja", listOf(
+                SubtitleFormat(
+                    ext = "ass",
+                    url = "",
+                    name = "Japanese"
+                )
+            )
+        )
     }
 
     SealTheme {
@@ -839,3 +918,4 @@ private fun ClickableTextAction(
         )
     }
 }
+
