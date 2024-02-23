@@ -417,7 +417,7 @@ fun VideoListPage(
                         FilterChips(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.dp)
+                                .padding(vertical = 8.dp)
                         )
                     }
                 }
