@@ -398,7 +398,7 @@ object Downloader {
         videoClips: List<VideoClip>,
         splitByChapter: Boolean,
         newTitle: String,
-        selectedSubtitleLang: List<String>,
+        selectedSubtitleCodes: List<String>,
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
             val fileSize = formatList.fold(.0) { acc, format ->
@@ -429,13 +429,13 @@ object Downloader {
             ).run {
                 copy(extractAudio = extractAudio || audioOnly)
             }.run {
-                selectedSubtitleLang.takeIf { it.isNotEmpty() }
+                selectedSubtitleCodes.takeIf { it.isNotEmpty() }
                     ?.let {
-                        val autoSubtitle = !info.subtitles.keys.containsAll(selectedSubtitleLang)
+                        val autoSubtitle = !info.subtitles.keys.containsAll(selectedSubtitleCodes)
                         copy(
                             downloadSubtitle = true,
                             autoSubtitle = autoSubtitle,
-                            subtitleLanguage = selectedSubtitleLang.joinToString(separator = ",") { it }
+                            subtitleLanguage = selectedSubtitleCodes.joinToString(separator = ",") { it }
                         )
                     }
                     ?: this

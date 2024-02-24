@@ -689,7 +689,7 @@ fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
     val languages = SUBTITLE_LANGUAGE.getString()
     SubtitleLanguageDialogImpl(
         onDismissRequest = onDismissRequest,
-        languages = languages,
+        initialLanguages = languages,
         onReset = { with(SUBTITLE_LANGUAGE) { updateString(getStringDefault()) } },
         onConfirm = { SUBTITLE_LANGUAGE.updateString(it) },
     )
@@ -700,11 +700,11 @@ fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
 @Preview
 private fun SubtitleLanguageDialogImpl(
     onDismissRequest: () -> Unit = {},
-    languages: String = "en.*,.*-orig",
+    initialLanguages: String = "en.*,.*-orig",
     onReset: () -> Unit = {},
     onConfirm: (String) -> Unit = {},
 ) {
-    var text by remember { mutableStateOf(languages) }
+    var languages by remember { mutableStateOf(initialLanguages) }
     val uriHandler = LocalUriHandler.current
     SealDialog(
         onDismissRequest = onDismissRequest,
@@ -722,8 +722,8 @@ private fun SubtitleLanguageDialogImpl(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp),
-                        value = text,
-                        onValueChange = { text = it },
+                        value = languages,
+                        onValueChange = { languages = it },
                         label = {
                             Text(stringResource(id = R.string.subtitle_language))
                         },

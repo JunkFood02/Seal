@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.download
 
 import android.content.Intent
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
@@ -94,6 +93,9 @@ import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.getString
+import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.SubtitleFormat
 import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VideoClip
@@ -111,24 +113,63 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
     if (videoInfo.formats.isNullOrEmpty()) return
     val audioOnly = EXTRACT_AUDIO.getBoolean()
     val mergeAudioStream = MERGE_MULTI_AUDIO_STREAM.getBoolean()
+    val subtitleLanguageRegex = SUBTITLE_LANGUAGE.getString()
+    val initialSelectedSubtitles =
+        videoInfo.run { subtitles.keys + automaticCaptions.keys }
+            .filterWithRegex(subtitleLanguageRegex)
+
+    var showUpdateSubtitleDialog by remember { mutableStateOf(false) }
+
+    var diffSubtitleLanguages by remember { mutableStateOf(emptySet<String>()) }
+
     FormatPageImpl(
         videoInfo = videoInfo,
         onBackPressed = onBackPressed,
         audioOnly = audioOnly,
         mergeAudioStream = !audioOnly && mergeAudioStream,
+        selectedSubtitleCodes = initialSelectedSubtitles,
         isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0
-    ) { formatList, videoClips, splitByChapter, title, subtitleLanguages ->
-        Log.d(TAG, formatList.toString())
+    ) { formatList, videoClips, splitByChapter, title, selectedSubtitleCodes ->
+
+        diffSubtitleLanguages = selectedSubtitleCodes.run {
+            this - this.filterWithRegex(subtitleLanguageRegex)
+        }.toSet()
+
         Downloader.downloadVideoWithConfigurations(
             videoInfo = videoInfo,
             formatList = formatList,
             videoClips = videoClips,
             splitByChapter = splitByChapter,
             newTitle = title,
-            selectedSubtitleLang = subtitleLanguages,
+            selectedSubtitleCodes = selectedSubtitleCodes,
         )
-        onBackPressed()
+
+        if (diffSubtitleLanguages.isNotEmpty()) {
+            showUpdateSubtitleDialog = true
+        } else {
+            onBackPressed()
+        }
     }
+
+    if (showUpdateSubtitleDialog) {
+        UpdateSubtitleLanguageDialog(
+            modifier = Modifier,
+            languages = diffSubtitleLanguages,
+            onDismissRequest = {
+                showUpdateSubtitleDialog = false
+                onBackPressed()
+            },
+            onConfirm = {
+                SUBTITLE_LANGUAGE.updateString(
+                    (diffSubtitleLanguages + subtitleLanguageRegex).joinToString(
+                        separator = ",",
+                    ) { it })
+                showUpdateSubtitleDialog = false
+                onBackPressed()
+            }
+        )
+    }
+
 }
 
 
@@ -137,32 +178,44 @@ private const val NOT_SELECTED = -1
 @Preview
 @Composable
 private fun FormatPagePreview() {
-    val captionsMap = buildMap {
-        repeat(4) {
-            put(
-                "translated-$it", listOf(
-                    SubtitleFormat(
-                        ext = "ass",
-                        url = "",
-                        name = "Translated"
-                    )
-                )
+    val captionsMap = mapOf(
+        "en-en" to listOf(SubtitleFormat(ext = "", url = "", name = "English from English")),
+        "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
+        "zh-Hans-en" to listOf(
+            SubtitleFormat(
+                ext = "",
+                url = "",
+                name = "Chinese (Simplified) from English"
             )
-        }
-    }
+        ),
+        "zh-Hant-en" to listOf(
+            SubtitleFormat(
+                ext = "",
+                url = "",
+                name = "Chinese (Traditional) from English"
+            )
+        ),
+    )
 
     val subMap = buildMap {
-        repeat(3) {
-            put(
-                "en$it", listOf(
-                    SubtitleFormat(
-                        ext = "ass",
-                        url = "",
-                        name = "English"
-                    )
+        put(
+            "en", listOf(
+                SubtitleFormat(
+                    ext = "ass",
+                    url = "",
+                    name = "English"
                 )
             )
-        }
+        )
+        put(
+            "ja", listOf(
+                SubtitleFormat(
+                    ext = "ass",
+                    url = "",
+                    name = "Japanese"
+                )
+            )
+        )
     }
     val videoInfo =
         VideoInfo(
@@ -201,7 +254,12 @@ private fun FormatPagePreview() {
             duration = 100000.0
         )
     SealTheme {
-        FormatPageImpl(videoInfo = videoInfo, isClippingAvailable = true, mergeAudioStream = true)
+        FormatPageImpl(
+            videoInfo = videoInfo,
+            isClippingAvailable = true,
+            mergeAudioStream = true,
+            selectedSubtitleCodes = setOf("en", "ja-en")
+        )
     }
 }
 
@@ -212,6 +270,7 @@ fun FormatPageImpl(
     audioOnly: Boolean = false,
     mergeAudioStream: Boolean = false,
     isClippingAvailable: Boolean = false,
+    selectedSubtitleCodes: Set<String>,
     onBackPressed: () -> Unit = {},
     onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, List<String>) -> Unit = { _, _, _, _, _ -> }
 ) {
@@ -286,7 +345,8 @@ fun FormatPageImpl(
     }
 
 
-    val selectedLanguageList = remember { mutableStateListOf<String>() }
+    val selectedLanguageList =
+        remember { mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) } }
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -932,16 +992,31 @@ private fun ClickableTextAction(
     }
 }
 
+fun <T : Collection<String>> T.filterWithRegex(subtitleLanguageRegex: String): Set<String> {
+    val regexGroup = subtitleLanguageRegex.split(',')
+    return filter { language ->
+        regexGroup.any {
+            language.contains(Regex(it))
+        }
+    }.toSet()
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
-fun RememberSubtitleChoiceDialog(
+fun UpdateSubtitleLanguageDialog(
     modifier: Modifier = Modifier,
-    languages: List<String> = listOf("en", "ja", "zh-Hant", "ar", "zh-Hans")
+    languages: Set<String> = setOf("en", "ja"),
+    onDismissRequest: () -> Unit = {},
+    onConfirm: () -> Unit = {}
 ) {
-    AlertDialog(onDismissRequest = { /*TODO*/ },
-        title = { Text(text = "Update subtitle languages?", textAlign = TextAlign.Center) },
+    AlertDialog(onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                text = stringResource(R.string.update_subtitle_languages),
+                textAlign = TextAlign.Center
+            )
+        },
         icon = {
             Icon(
                 imageVector = Icons.Filled.Subtitles,
@@ -950,14 +1025,15 @@ fun RememberSubtitleChoiceDialog(
         },
         text = {
             Column {
-                Text(text = "The following languages will be added to your preference for future downloads:")
-                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = stringResource(R.string.update_language_msg))
+
+                Spacer(modifier = Modifier.height(24.dp))
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    (languages).forEach {
+                    languages.forEach {
                         Row(
                             modifier = Modifier,
                             verticalAlignment = Alignment.CenterVertically,
@@ -981,15 +1057,16 @@ fun RememberSubtitleChoiceDialog(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
             }
         },
         confirmButton = {
-            Button(onClick = {}) {
+            Button(onClick = onConfirm) {
                 Text(text = stringResource(id = R.string.okay))
             }
         },
         dismissButton = {
-            OutlinedButton(onClick = { }) {
+            OutlinedButton(onClick = onDismissRequest) {
                 Text(text = stringResource(id = R.string.no_thanks))
             }
         })

@@ -424,6 +424,8 @@
     <string name="reset">Reset</string>
     <string name="search_in_subtitles">Search in subtitles</string>
     <string name="no_thanks">No thanks</string>
+    <string name="update_language_msg">The following languages will be added to your preference for future downloads:</string>
+    <string name="update_subtitle_languages">Update subtitle languages?</string>
 
     <plurals name="item_count">
         <item quantity="one">%d item</item>
