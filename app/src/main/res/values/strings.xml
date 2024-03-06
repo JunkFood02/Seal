@@ -438,7 +438,7 @@
     <string name="export_download_history">Export download history?</string>
     <string name="import_download_history">Import download history?</string>
     <string name="import_download_history_msg">Downloaded files won\'t be imported. You\'ll need to download them back manually</string>
-    <string name="export_download_history_msg">Exporting 24 items from download history. Downloaded files and preferences won\'t be backed up.</string>
+    <string name="export_download_history_msg">Exporting %1$s from download history. Downloaded files and preferences won\'t be backed up.</string>
 
     <plurals name="item_count">
         <item quantity="one">%d item</item>
