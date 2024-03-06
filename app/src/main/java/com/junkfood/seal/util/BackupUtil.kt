@@ -34,7 +34,7 @@ object BackupUtil {
         return format.encodeToString(Backup(downloadHistory = this))
     }
 
-    fun List<DownloadedVideoInfo>.toUrlList(): String {
+    fun List<DownloadedVideoInfo>.toURLs(): String {
         return this.map { it.videoUrl }.joinToString(separator = "\n") { it }
     }
 
