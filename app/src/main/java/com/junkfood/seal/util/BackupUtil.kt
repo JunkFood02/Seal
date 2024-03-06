@@ -8,7 +8,10 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 object BackupUtil {
-    val format = Json { prettyPrint = true }
+    val format = Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+    }
 
     suspend fun exportTemplatesToJson() =
         exportTemplatesToJson(
@@ -28,7 +31,7 @@ object BackupUtil {
     }
 
     fun List<DownloadedVideoInfo>.toJson(): String {
-        return format.encodeToString(this)
+        return format.encodeToString(Backup(downloadHistory = this))
     }
 
     fun List<DownloadedVideoInfo>.toUrlList(): String {

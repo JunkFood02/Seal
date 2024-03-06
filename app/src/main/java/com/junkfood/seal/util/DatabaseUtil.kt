@@ -33,7 +33,9 @@ object DatabaseUtil {
         }
     }
 
-    fun getMediaInfo() = dao.getAllMedia()
+    fun getDownloadHistoryFlow() = dao.getDownloadHistoryFlow()
+
+    private suspend fun getDownloadHistory() = dao.getDownloadHistory()
 
     fun getTemplateFlow() = dao.getTemplateFlow()
 
@@ -71,19 +73,41 @@ object DatabaseUtil {
         var cnt = 0
         try {
             BackupUtil.format.decodeFromString<Backup>(json).run {
-                templates.filterNot {
-                    templateList.contains(it)
-                }.run {
-                    dao.importTemplates(this.map { it.copy(id = 0) })
-                    cnt += size
+                if (templates != null) {
+                    dao.importTemplates(
+                        templateList.filterNot {
+                            templateList.contains(it)
+                        }.map { it.copy(id = 0) }.also { cnt += it.size }
+                    )
                 }
-                dao.insertAllShortcuts(shortcuts.filterNot {
-                    shortcutList.contains(it)
-                }.map { it.copy(id = 0) }.apply { cnt += size })
+                if (shortcuts != null) {
+                    dao.insertAllShortcuts(
+                        shortcuts.filterNot {
+                            shortcutList.contains(it)
+                        }.map { it.copy(id = 0) }.apply { cnt += size }
+                    )
+                }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+        return cnt
+    }
+
+    suspend fun importDownloadHistoryFromJson(json: String): Int {
+        val itemList = getDownloadHistory()
+        var cnt = 0
+        BackupUtil.format.runCatching {
+            decodeFromString<Backup>(json).run {
+                if (!downloadHistory.isNullOrEmpty()) {
+                    dao.insertAll(
+                        downloadHistory
+                            .filterNot { itemList.contains(it) }
+                            .map { it.copy(id = 0) }
+                            .also { cnt += it.size }
+                    )
+                }
+            }
         }
         return cnt
     }

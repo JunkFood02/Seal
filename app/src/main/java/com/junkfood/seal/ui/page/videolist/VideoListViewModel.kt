@@ -24,7 +24,7 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     val stateFlow = mutableStateFlow.asStateFlow()
     private val viewState get() = stateFlow.value
 
-    private val _mediaInfoFlow = DatabaseUtil.getMediaInfo()
+    private val _mediaInfoFlow = DatabaseUtil.getDownloadHistoryFlow()
 
     val videoListFlow: Flow<List<DownloadedVideoInfo>> =
         _mediaInfoFlow.map { it.reversed().sortedBy { info -> info.filterByType() } }

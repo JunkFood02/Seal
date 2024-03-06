@@ -11,11 +11,18 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface VideoInfoDao {
+
     @Insert
-    suspend fun insertAll(vararg info: DownloadedVideoInfo)
+    suspend fun insert(info: DownloadedVideoInfo)
+
+    @Insert
+    suspend fun insertAll(infoList: List<DownloadedVideoInfo>)
 
     @Query("select * from DownloadedVideoInfo")
-    fun getAllMedia(): Flow<List<DownloadedVideoInfo>>
+    fun getDownloadHistoryFlow(): Flow<List<DownloadedVideoInfo>>
+
+    @Query("select * from DownloadedVideoInfo")
+    suspend fun getDownloadHistory(): List<DownloadedVideoInfo>
 
     @Query("select * from DownloadedVideoInfo where id=:id")
     suspend fun getInfoById(id: Int): DownloadedVideoInfo
@@ -35,7 +42,7 @@ interface VideoInfoDao {
         path: String = videoInfo.videoPath
     ) {
         if (getInfoByPath(path) == null)
-            insertAll(videoInfo)
+            insert(videoInfo)
     }
 
     @Delete

@@ -7,15 +7,22 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
+import android.text.format.DateFormat
 import android.util.Log
 import android.webkit.MimeTypeMap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
+import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import okhttp3.internal.closeQuietly
 import java.io.File
+import java.util.Date
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
 const val THUMBNAIL_REGEX = "\\.(jpg|png)$"
@@ -233,6 +240,33 @@ object FileUtil {
         val last: String = path.split("primary:").last()
         return Environment.getExternalStorageDirectory().absolutePath + "/$last"
     }
+
+    @Composable
+    private fun getDownloadHistoryExportFilename(): String {
+        val context = LocalContext.current
+        return listOf(
+            context.getString(R.string.app_name),
+            App.packageInfo.versionName,
+            DateFormat.getDateFormat(context).format(Date())
+        ).joinToString(separator = "-") { it }
+    }
+
+    /**
+     * Create a new text file with [fileName] and write [fileContent] to it
+     */
+    @Composable
+    fun createTextFile(fileName: String, fileContent: String) {
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.CreateDocument("*/*")
+        ) { result ->
+            result?.let { uri ->
+                context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    outputStream.write(fileContent.toByteArray())
+                }
+            }
+        }.launch(getDownloadHistoryExportFilename())
+    }
+
 
     private const val TAG = "FileUtil"
 }
