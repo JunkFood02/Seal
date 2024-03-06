@@ -74,6 +74,7 @@ import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
 import com.junkfood.seal.ui.page.settings.about.ytdlpUrl
+import com.junkfood.seal.util.BackupUtil
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
@@ -185,7 +186,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                                 }
                                 scope.launch {
                                     clipboardManager.setText(
-                                        AnnotatedString(DatabaseUtil.exportTemplatesToJson())
+                                        AnnotatedString(BackupUtil.exportTemplatesToJson())
                                     )
                                     expanded = false
                                 }
@@ -264,7 +265,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                                 scope.launch {
                                     clipboardManager.setText(
                                         AnnotatedString(
-                                            DatabaseUtil.exportTemplatesToJson(
+                                            BackupUtil.exportTemplatesToJson(
                                                 templates = selectedTemplates,
                                                 shortcuts = emptyList()
                                             )

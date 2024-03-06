@@ -11,12 +11,9 @@ import com.junkfood.seal.database.DownloadedVideoInfo
 import com.junkfood.seal.database.OptionShortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 
 object DatabaseUtil {
-    val format = Json { prettyPrint = true }
     private const val DATABASE_NAME = "app_database"
     private val db = Room.databaseBuilder(
         context, AppDatabase::class.java, DATABASE_NAME
@@ -54,7 +51,7 @@ object DatabaseUtil {
 
     suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
     suspend fun getTemplateList() = dao.getTemplateList()
-    private suspend fun getShortcutList() = dao.getShortcutList()
+    suspend fun getShortcutList() = dao.getShortcutList()
     suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) =
         dao.deleteInfoListByIdList(idList, deleteFile)
 
@@ -68,30 +65,12 @@ object DatabaseUtil {
         dao.updateTemplate(commandTemplate)
     }
 
-    suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
-
-    suspend fun deleteTemplates(templates: List<CommandTemplate>) = dao.deleteTemplates(templates)
-
-    suspend fun exportTemplatesToJson() =
-        exportTemplatesToJson(templates = getTemplateList(), shortcuts = getShortcutList())
-
-    fun exportTemplatesToJson(
-        templates: List<CommandTemplate>,
-        shortcuts: List<OptionShortcut>
-    ): String {
-        return format.encodeToString(
-            Backup(
-                templates = templates, shortcuts = shortcuts
-            )
-        )
-    }
-
     suspend fun importTemplatesFromJson(json: String): Int {
         val templateList = getTemplateList()
         val shortcutList = getShortcutList()
         var cnt = 0
         try {
-            format.decodeFromString<Backup>(json).run {
+            BackupUtil.format.decodeFromString<Backup>(json).run {
                 templates.filterNot {
                     templateList.contains(it)
                 }.run {
@@ -108,6 +87,11 @@ object DatabaseUtil {
         }
         return cnt
     }
+
+    suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
+
+    suspend fun deleteTemplates(templates: List<CommandTemplate>) = dao.deleteTemplates(templates)
+
 
     private const val TAG = "DatabaseUtil"
 }
