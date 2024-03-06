@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
@@ -27,11 +28,15 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.automirrored.outlined.AssignmentReturn
+import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.DeleteSweep
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -165,6 +170,10 @@ fun VideoListPage(
 
     var isSelectEnabled by remember { mutableStateOf(false) }
     var showRemoveMultipleItemsDialog by remember { mutableStateOf(false) }
+
+    var showExportDialog by remember { mutableStateOf(false) }
+    var showImportDialog by remember { mutableStateOf(false) }
+
     val lazyGridState = rememberLazyGridState()
 
     @Composable
@@ -289,19 +298,6 @@ fun VideoListPage(
                             modifier = Modifier,
                             onCheckedChange = {
                                 view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-                                isSelectEnabled = it
-                            },
-                            checked = isSelectEnabled
-                        ) {
-                            Icon(
-                                Icons.Outlined.Checklist,
-                                contentDescription = stringResource(R.string.multiselect_mode)
-                            )
-                        }
-                        IconToggleButton(
-                            modifier = Modifier,
-                            onCheckedChange = {
-                                view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
                                 videoListViewModel.toggleSearch(it)
                                 if (it) {
                                     scope.launch {
@@ -316,6 +312,43 @@ fun VideoListPage(
                                 imageVector = Icons.Outlined.Search,
                                 contentDescription = stringResource(R.string.search)
                             )
+                        }
+                        var expanded by remember { mutableStateOf(false) }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.TopEnd)
+                        ) {
+                            IconButton(onClick = { expanded = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.MoreVert,
+                                    contentDescription = stringResource(
+                                        id = R.string.show_more_actions
+                                    )
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }) {
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Outlined.DriveFileMove,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    text = { Text(text = stringResource(id = R.string.export_backup)) },
+                                    onClick = { showExportDialog = true })
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    text = { Text(text = stringResource(id = R.string.import_backup)) },
+                                    onClick = { showImportDialog = true })
+                            }
                         }
                     }
                 }, scrollBehavior = scrollBehavior

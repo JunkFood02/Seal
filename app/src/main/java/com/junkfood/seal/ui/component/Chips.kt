@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,8 +18,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableChipColors
+import androidx.compose.material3.SelectableChipElevation
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -27,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.theme.FixedAccentColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -187,3 +192,49 @@ fun ShortcutChip(
         })
 }
 
+
+@Composable
+fun SingleSelectChip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    colors: SelectableChipColors = FilterChipDefaults.filterChipColors(
+        selectedContainerColor = FixedAccentColors.primaryFixed,
+        selectedLabelColor = FixedAccentColors.onPrimaryFixed,
+        selectedLeadingIconColor = FixedAccentColors.onPrimaryFixed,
+        selectedTrailingIconColor = FixedAccentColors.onPrimaryFixed,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+        iconColor = MaterialTheme.colorScheme.onSurface,
+        labelColor = MaterialTheme.colorScheme.onSurface
+    ),
+    elevation: SelectableChipElevation? = FilterChipDefaults.filterChipElevation(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = label,
+        modifier = modifier,
+        enabled = enabled,
+        leadingIcon = {
+/*            Row {
+                AnimatedVisibility(visible = selected) {
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = null,
+                        modifier = Modifier.size(FilterChipDefaults.IconSize)
+                    )
+                }
+            }*/
+        },
+        trailingIcon = trailingIcon,
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = colors,
+        elevation = elevation,
+        border = null,
+        interactionSource = interactionSource
+    )
+}

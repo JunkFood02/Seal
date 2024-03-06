@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +22,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -220,9 +217,18 @@ private fun ButtonVariantPreview() {
                 )
             },
             buttons = {
-                SealDialogButtonVariant(text = stringResource(R.string.allow_always), shape = TopButtonShape) {}
-                SealDialogButtonVariant(text = stringResource(id = R.string.allow_once), shape = MiddleButtonShape) {}
-                SealDialogButtonVariant(text = stringResource(R.string.dont_allow), shape = BottomButtonShape) {}
+                SealDialogButtonVariant(
+                    text = stringResource(R.string.allow_always),
+                    shape = TopButtonShape
+                ) {}
+                SealDialogButtonVariant(
+                    text = stringResource(id = R.string.allow_once),
+                    shape = MiddleButtonShape
+                ) {}
+                SealDialogButtonVariant(
+                    text = stringResource(R.string.dont_allow),
+                    shape = BottomButtonShape
+                ) {}
             }
         )
 
@@ -336,4 +342,21 @@ fun SealDialogVariant(
             }
         }
     }
+}
+
+@Composable
+fun DialogSubtitle(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary,
+) {
+    Text(
+        text = text,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .padding(top = 16.dp, bottom = 4.dp),
+        color = color,
+        style = MaterialTheme.typography.labelLarge
+    )
 }

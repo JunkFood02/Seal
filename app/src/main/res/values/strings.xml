@@ -427,6 +427,19 @@
     <string name="update_language_msg">The following languages will be added to your preference for future downloads:</string>
     <string name="update_subtitle_languages">Update subtitle languages?</string>
 
+    <string name="export_backup">Export</string>
+    <string name="import_backup">Import</string>
+    <string name="full_backup">Full backup</string>
+    <string name="backup_type">Backup type</string>
+    <string name="export_to">Export to</string>
+    <string name="file">File</string>
+    <string name="clipboard">Clipboard</string>
+    <string name="import_from">Import from</string>
+    <string name="export_download_history">Export download history?</string>
+    <string name="import_download_history">Import download history?</string>
+    <string name="import_download_history_msg">Files and preferences won\'t be imported. You\'ll need to download them back manually</string>
+    <string name="export_download_history_msg">Exporting 24 items from download history. Downloaded files and preferences won\'t be backed up.</string>
+
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
