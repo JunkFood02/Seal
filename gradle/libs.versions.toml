@@ -1,7 +1,7 @@
 [versions]
-accompanist = "0.32.0"
+accompanist = "0.34.0"
 androidGradlePlugin = "8.4.0-alpha12"
-androidxComposeBom = "2023.10.01"
+androidxComposeBom = "2024.02.01"
 androidxComposeCompiler = "1.5.3"
 androidxCore = "1.12.0"
 androidMaterial = "1.11.0"
@@ -9,7 +9,7 @@ androidxAppCompat = "1.7.0-alpha03"
 androidxActivity = "1.8.2"
 
 androidxLifecycle = "2.6.2"
-androidxNavigation = "2.7.6"
+androidxNavigation = "2.7.7"
 androidxFoundation = "1.6.0-beta03"
 androidxComposeMaterial3 = "1.2.0-beta01"
 androidxComposeAnimation = "1.5.0-beta01"
@@ -59,15 +59,15 @@ accompanist-pager-indicators = { group = "com.google.accompanist", name = "accom
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxFoundation" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
-androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "androidxComposeMaterial3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
@@ -136,7 +136,7 @@ accompanist = [
 
 androidxCompose = ["androidx-compose-ui",
     "androidx-compose-ui-tooling-preview",
-#    "androidx-compose-material",
+    #    "androidx-compose-material",
     "androidx-compose-material-iconsExtended",
     "androidx-compose-material3",
     "androidx-compose-material3-windowSizeClass",
