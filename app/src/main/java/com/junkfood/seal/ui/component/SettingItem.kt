@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 
 
@@ -38,7 +39,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp, 20.dp),
+                .padding(horizontal = 16.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
