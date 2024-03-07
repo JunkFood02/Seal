@@ -55,6 +55,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
@@ -64,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
@@ -95,6 +97,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
     val templates by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
+    val view = LocalView.current
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     var showHelpDialog by remember { mutableStateOf(false) }
@@ -148,7 +151,10 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                 }
             }, actions = {
                 var expanded by remember { mutableStateOf(false) }
-                IconButton(onClick = { showHelpDialog = true }) {
+                IconButton(onClick = {
+                    view.slightHapticFeedback()
+                    showHelpDialog = true
+                }) {
                     Icon(
                         imageVector = Icons.Outlined.HelpOutline,
                         contentDescription = stringResource(

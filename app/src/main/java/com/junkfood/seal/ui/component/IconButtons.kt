@@ -12,9 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 
 @Composable
 fun PasteFromClipBoardButton(onPaste: (String) -> Unit = {}) {
@@ -62,7 +64,11 @@ fun ClearButton(onClick: () -> Unit) {
 
 @Composable
 fun BackButton(onClick: () -> Unit) {
-    IconButton(modifier = Modifier, onClick = onClick) {
+    val view = LocalView.current
+    IconButton(modifier = Modifier, onClick = {
+        onClick()
+        view.slightHapticFeedback()
+    }) {
         Icon(
             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
             contentDescription = stringResource(R.string.back),

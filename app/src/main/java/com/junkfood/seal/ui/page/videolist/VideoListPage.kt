@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.videolist
 
 import VideoStreamSVG
-import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -77,6 +76,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.component.BackButton
@@ -307,7 +307,7 @@ fun VideoListPage(
                             IconToggleButton(
                                 modifier = Modifier,
                                 onCheckedChange = {
-                                    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                    view.slightHapticFeedback()
                                     videoListViewModel.toggleSearch(it)
                                     if (it) {
                                         scope.launch {

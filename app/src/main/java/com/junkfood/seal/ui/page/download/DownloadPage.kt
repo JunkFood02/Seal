@@ -75,8 +75,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.ImeAction
@@ -93,6 +93,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
@@ -327,7 +328,8 @@ fun DownloadPageImpl(
     isPreview: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
+    val view = LocalView.current
+
     val showCancelButton =
         downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
@@ -341,7 +343,10 @@ fun DownloadPageImpl(
                     }
                 }) {
                 IconButton(
-                    onClick = { navigateToSettings() },
+                    onClick = {
+                        view.slightHapticFeedback()
+                        navigateToSettings()
+                    },
                     modifier = Modifier
                 ) {
                     Icon(
@@ -369,7 +374,10 @@ fun DownloadPageImpl(
                         }
                     }) {
                     IconButton(
-                        onClick = { onNavigateToTaskList() },
+                        onClick = {
+                            view.slightHapticFeedback()
+                            onNavigateToTaskList()
+                        },
                         modifier = Modifier
                     ) {
                         Icon(
@@ -387,7 +395,10 @@ fun DownloadPageImpl(
                     }
                 }) {
                 IconButton(
-                    onClick = { navigateToDownloads() },
+                    onClick = {
+                        view.slightHapticFeedback()
+                        navigateToDownloads()
+                    },
                     modifier = Modifier
                 ) {
                     Icon(
