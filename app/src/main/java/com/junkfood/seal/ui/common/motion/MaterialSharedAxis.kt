@@ -121,43 +121,32 @@ public fun materialSharedAxisXOut(
 /**
  * [materialSharedAxisY] allows to switch a layout with shared Y-axis transition.
  *
- * @param forward whether the direction of the animation is forward.
- * @param slideDistance the slide distance of transition.
- * @param durationMillis the duration of transition.
  */
 public fun materialSharedAxisY(
-    forward: Boolean,
-    slideDistance: Int,
+    initialOffsetX: (fullWidth: Int) -> Int,
+    targetOffsetY: (fullWidth: Int) -> Int,
     durationMillis: Int = MotionConstants.DefaultMotionDuration,
 ): ContentTransform = materialSharedAxisYIn(
-    forward = forward,
-    slideDistance = slideDistance,
+    initialOffsetX = initialOffsetX,
     durationMillis = durationMillis
 ) togetherWith materialSharedAxisYOut(
-    forward = forward,
-    slideDistance = slideDistance,
+    targetOffsetY = targetOffsetY,
     durationMillis = durationMillis
 )
 
 /**
  * [materialSharedAxisYIn] allows to switch a layout with shared Y-axis enter transition.
  *
- * @param forward whether the direction of the animation is forward.
- * @param slideDistance the slide distance of the enter transition.
- * @param durationMillis the duration of the enter transition.
  */
 public fun materialSharedAxisYIn(
-    forward: Boolean,
-    slideDistance: Int,
+    initialOffsetX: (fullWidth: Int) -> Int,
     durationMillis: Int = MotionConstants.DefaultMotionDuration,
 ): EnterTransition = slideInVertically(
     animationSpec = tween(
         durationMillis = durationMillis,
         easing = FastOutSlowInEasing
     ),
-    initialOffsetY = {
-        if (forward) slideDistance else -slideDistance
-    }
+    initialOffsetY = initialOffsetX
 ) + fadeIn(
     animationSpec = tween(
         durationMillis = durationMillis.ForIncoming,
@@ -169,22 +158,16 @@ public fun materialSharedAxisYIn(
 /**
  * [materialSharedAxisYOut] allows to switch a layout with shared Y-axis exit transition.
  *
- * @param forward whether the direction of the animation is forward.
- * @param slideDistance the slide distance of the exit transition.
- * @param durationMillis the duration of the exit transition.
  */
 public fun materialSharedAxisYOut(
-    forward: Boolean,
-    slideDistance: Int,
+    targetOffsetY: (fullWidth: Int) -> Int,
     durationMillis: Int = MotionConstants.DefaultMotionDuration,
 ): ExitTransition = slideOutVertically(
     animationSpec = tween(
         durationMillis = durationMillis,
         easing = FastOutSlowInEasing
     ),
-    targetOffsetY = {
-        if (forward) -slideDistance else slideDistance
-    }
+    targetOffsetY = targetOffsetY
 ) + fadeOut(
     animationSpec = tween(
         durationMillis = durationMillis.ForOutgoing,

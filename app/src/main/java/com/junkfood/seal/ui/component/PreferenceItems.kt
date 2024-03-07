@@ -154,9 +154,18 @@ fun PreferenceItem(
 @Composable
 @Preview
 fun PreferenceItemPreview() {
-    Column {
-        PreferenceItem(title = "title", description = "description", icon = 0)
-        PreferenceItem(title = "title", description = "description", icon = Icons.Outlined.Update)
+    SealTheme {
+        Surface {
+            Column {
+                PreferenceSubtitle(text = "Preview")
+                PreferenceItem(title = "title", description = "description")
+                PreferenceItem(
+                    title = "title",
+                    description = "description",
+                    icon = Icons.Outlined.Update
+                )
+            }
+        }
     }
 }
 
@@ -834,7 +843,7 @@ fun TemplateItem(
 @Composable
 fun PreferenceSubtitle(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(start = 18.dp, top = 24.dp, bottom = 12.dp),
+    contentPadding: PaddingValues = PaddingValues(start = 20.dp, top = 24.dp, bottom = 12.dp),
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {

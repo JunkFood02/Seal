@@ -59,9 +59,9 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.SingleChoiceItem
-import com.junkfood.seal.ui.component.SingleChoiceItemWithLabel
-import com.junkfood.seal.ui.component.SwitchItem
+import com.junkfood.seal.ui.component.DialogSingleChoiceItem
+import com.junkfood.seal.ui.component.DialogSingleChoiceItemWithLabel
+import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
@@ -357,7 +357,7 @@ fun AudioConversionDialog(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in CONVERT_MP3..CONVERT_M4A)
-                    SingleChoiceItem(
+                    DialogSingleChoiceItem(
                         modifier = Modifier,
                         text = PreferenceStrings.getAudioConvertDesc(i),
                         selected = audioFormat == i
@@ -399,14 +399,14 @@ fun AudioConversionQuickSettingsDialog(
                     text = stringResource(R.string.convert_audio_format_desc),
                     style = MaterialTheme.typography.bodyLarge
                 )
-                SingleChoiceItem(
+                DialogSingleChoiceItem(
                     text = stringResource(id = R.string.not_convert),
                     selected = !convertAudio
                 ) {
                     convertAudio = false
                 }
                 for (i in CONVERT_MP3..CONVERT_M4A)
-                    SingleChoiceItem(
+                    DialogSingleChoiceItem(
                         modifier = Modifier,
                         text = PreferenceStrings.getAudioConvertDesc(i),
                         selected = audioFormat == i && convertAudio
@@ -453,7 +453,7 @@ fun VideoFormatDialog(
 
                     for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
                         item {
-                            SingleChoiceItemWithLabel(
+                            DialogSingleChoiceItemWithLabel(
                                 modifier = Modifier,
                                 text = PreferenceStrings.getVideoFormatLabel(i),
                                 label = PreferenceStrings.getVideoFormatDescComp(i),
@@ -496,7 +496,7 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in DEFAULT..M4A)
-                    SingleChoiceItem(
+                    DialogSingleChoiceItem(
                         modifier = Modifier,
                         text = PreferenceStrings.getAudioFormatDesc(i),
                         selected = audioFormat == i
@@ -531,7 +531,7 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge
                 )
                 for (i in NOT_SPECIFIED..ULTRA_LOW)
-                    SingleChoiceItem(
+                    DialogSingleChoiceItem(
                         modifier = Modifier,
                         text = PreferenceStrings.getAudioQualityDesc(i),
                         selected = audioQuality == i
@@ -608,7 +608,7 @@ fun FormatSortingDialog(
                 if (showSwitch) {
                     Spacer(modifier = Modifier.height(12.dp))
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp))
-                    SwitchItem(
+                    DialogSwitchItem(
                         text = stringResource(id = R.string.use_format_sorting),
                         value = toggleableValue,
                         onValueChange = onSwitchChecked
@@ -668,7 +668,7 @@ fun VideoQualityDialog(
 //                    item { videoResolutionSelectField() }
                     for (i in 0..7) {
                         item {
-                            SingleChoiceItem(
+                            DialogSingleChoiceItem(
                                 text = PreferenceStrings.getVideoResolutionDesc(i),
                                 selected = videoResolution == i
                             ) {
@@ -794,7 +794,7 @@ fun SubtitleConversionDialog(onDismissRequest: () -> Unit) {
                 }
                 for (format in NOT_CONVERT..CONVERT_VTT) {
                     item {
-                        SingleChoiceItem(
+                        DialogSingleChoiceItem(
                             text = PreferenceStrings.getSubtitleConversionFormat(format),
                             selected = currentFormat == format
                         ) {

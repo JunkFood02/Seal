@@ -72,7 +72,7 @@ fun TextButtonWithIcon(
     text: String,
     contentColor: Color = MaterialTheme.colorScheme.primary,
     onClick: () -> Unit,
-    ) {
+) {
     TextButton(
         modifier = modifier,
         onClick = onClick,
@@ -123,14 +123,16 @@ fun FilledTonalButtonWithIcon(
 @Composable
 fun FilledButtonWithIcon(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
     icon: ImageVector,
-    text: String
+    text: String,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+        enabled = enabled
     )
     {
         Icon(

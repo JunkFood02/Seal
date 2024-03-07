@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SingleChoiceItem(
+fun DialogSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
@@ -69,15 +69,18 @@ fun SingleChoiceItem(
 fun SingleChoiceItemPreview() {
     Surface {
         Column {
-            SingleChoiceItemWithLabel(
+            DialogSingleChoiceItemWithLabel(
                 text = "Better compatibility", label = "For sharing to other apps", selected = false
             ) {
 
             }
-            SingleChoiceItemWithLabel(
+            DialogSingleChoiceItemWithLabel(
                 text = "Better quality", label = "For watching in compatible apps", selected = true
             ) {
 
+            }
+            DialogSingleChoiceItem(text = "Preview", selected = true) {
+                
             }
         }
 
@@ -86,7 +89,7 @@ fun SingleChoiceItemPreview() {
 }
 
 @Composable
-fun SingleChoiceItemWithLabel(
+fun DialogSingleChoiceItemWithLabel(
     modifier: Modifier = Modifier,
     text: String,
     label: String?,
@@ -157,7 +160,7 @@ fun CheckBoxItem(
 }
 
 @Composable
-fun SwitchItem(
+fun DialogSwitchItem(
     modifier: Modifier = Modifier,
     text: String,
     value: Boolean,
@@ -209,7 +212,7 @@ fun SwitchItem(
 private fun SwitchItemPrev() {
     var value by remember { mutableStateOf(false) }
     Surface {
-        SwitchItem(text = "Use cookies", value = value) {
+        DialogSwitchItem(text = "Use cookies", value = value) {
             value = it
         }
     }

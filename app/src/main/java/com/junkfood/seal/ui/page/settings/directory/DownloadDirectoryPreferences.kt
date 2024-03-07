@@ -90,7 +90,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.SingleChoiceItem
+import com.junkfood.seal.ui.component.DialogSingleChoiceItem
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.CUSTOM_OUTPUT_TEMPLATE
@@ -582,13 +582,13 @@ fun OutputTemplateDialog(
                             fontFamily = FontFamily.Monospace,
                         )
                     ) {
-                        SingleChoiceItem(
+                        DialogSingleChoiceItem(
                             text = DownloadUtil.OUTPUT_TEMPLATE_DEFAULT,
                             selected = selectedItem == 1
                         ) {
                             selectedItem = 1
                         }
-                        SingleChoiceItem(
+                        DialogSingleChoiceItem(
                             text = DownloadUtil.OUTPUT_TEMPLATE_ID,
                             selected = selectedItem == 2
                         ) {

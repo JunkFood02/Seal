@@ -417,7 +417,9 @@
     <string name="auto_translated_subtitles_msg">Auto-translated subtitles for all languages will be available in downloads. These subtitles may be inaccurate and difficult to understand.</string>
     <string name="subtitle_language_desc">Language of the subtitles to download in Auto format selection, separated by commas.</string>
     <string name="remember_for_next_download">Remember for next download</string>
-    <string name="look_and_feel"><![CDATA[Look & Feel]]></string>
+    <string name="look_and_feel"><![CDATA[Look & feel]]></string>
+    <string name="interface_and_interaction"><![CDATA[Interface & interaction]]></string>
+
 
     <string name="use_previous_selection">Use previous selection</string>
     <string name="none">None</string>
@@ -439,7 +441,7 @@
     <string name="import_download_history">Import download history?</string>
     <string name="import_download_history_msg">Downloaded files won\'t be imported. You\'ll need to download them back manually</string>
     <string name="export_download_history_msg">Exporting %1$s from download history. Downloaded files and preferences won\'t be backed up.</string>
-
+    <string name="download_history">Download history</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

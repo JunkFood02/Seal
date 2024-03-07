@@ -103,10 +103,15 @@ const val FORCE_IPV4 = "force_ipv4"
 
 const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 
-const val DEFAULT = 0
+const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
+
 const val NOT_SPECIFIED = 0
-const val SYSTEM_DEFAULT = 0
-const val NOT_CONVERT = 0
+const val DEFAULT = NOT_SPECIFIED
+const val SYSTEM_DEFAULT = NOT_SPECIFIED
+const val NOT_CONVERT = NOT_SPECIFIED
+
+const val NONE = NOT_SPECIFIED
+const val USE_PREVIOUS_SELECTION = 1
 
 const val CONVERT_ASS = 1
 const val CONVERT_LRC = 2
@@ -181,6 +186,7 @@ private val IntPreferenceDefaults = mapOf(
     UPDATE_CHANNEL to STABLE,
     SHOW_SPONSOR_MSG to 0,
     CONVERT_SUBTITLE to NOT_SPECIFIED,
+    DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
 )
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }

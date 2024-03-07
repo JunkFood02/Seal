@@ -85,7 +85,7 @@ import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.SwitchItem
+import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
@@ -485,7 +485,7 @@ fun CookiesQuickSettingsDialog(
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 HorizontalDivider(Modifier.padding(horizontal = 24.dp))
-                SwitchItem(
+                DialogSwitchItem(
                     text = stringResource(id = R.string.use_cookies),
                     value = isCookiesEnabled,
                     onValueChange = onCookiesToggled

@@ -27,7 +27,6 @@ import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,14 +64,19 @@ import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
+import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getInt
+import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.STYLE_MONOCHROME
 import com.junkfood.seal.util.STYLE_TONAL_SPOT
+import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
 import com.junkfood.seal.util.getLanguageDesc
 import com.junkfood.seal.util.paletteStyles
 import com.kyant.monet.LocalTonalPalettes
@@ -100,6 +105,13 @@ fun AppearancePreferences(
             listOf(
                 R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
             ).random()
+        )
+    }
+
+    var showDownloadTypeDialog by remember { mutableStateOf(false) }
+    val initialType by remember(showDownloadTypeDialog) {
+        mutableIntStateOf(
+            DOWNLOAD_TYPE_INITIALIZATION.getInt()
         )
     }
 
@@ -181,7 +193,6 @@ fun AppearancePreferences(
                     inactiveColor = MaterialTheme.colorScheme.outlineVariant,
                     indicatorHeight = 6.dp,
                     indicatorWidth = 6.dp)
-
                 if (DynamicColors.isDynamicColorAvailable()) {
                     PreferenceSwitch(title = stringResource(id = R.string.dynamic_color),
                         description = stringResource(
@@ -205,8 +216,29 @@ fun AppearancePreferences(
                     icon = Icons.Outlined.Language,
                     description = getLanguageDesc()
                 ) { navController.navigate(Route.LANGUAGES) }
+                PreferenceSubtitle(text = stringResource(id = R.string.settings_before_download))
+
+                PreferenceItem(
+                    title = stringResource(id = R.string.download_type),
+                    description = when (initialType) {
+                        USE_PREVIOUS_SELECTION -> stringResource(id = R.string.use_previous_selection)
+                        else -> stringResource(id = R.string.none)
+                    }
+                ) {
+                    showDownloadTypeDialog = true
+                }
             }
         })
+
+    if (showDownloadTypeDialog) {
+        DownloadTypeCustomizationDialog(
+            onDismissRequest = { showDownloadTypeDialog = false },
+            selectedItem = initialType
+        ) {
+            DOWNLOAD_TYPE_INITIALIZATION.updateInt(it)
+            showDownloadTypeDialog = false
+        }
+    }
 }
 
 @Composable

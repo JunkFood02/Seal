@@ -67,9 +67,9 @@ fun HelpDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SealDialog(
-    onDismissRequest: () -> Unit,
-    confirmButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    confirmButton: @Composable (() -> Unit)?,
     dismissButton: @Composable (() -> Unit)? = null,
     icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
@@ -159,7 +159,7 @@ fun SealDialog(
                             crossAxisSpacing = ButtonsCrossAxisSpacing
                         ) {
                             dismissButton?.invoke()
-                            confirmButton()
+                            confirmButton?.invoke()
                         }
                     }
                 }
