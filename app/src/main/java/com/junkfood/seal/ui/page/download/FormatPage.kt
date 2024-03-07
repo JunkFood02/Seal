@@ -95,6 +95,7 @@ import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.SubtitleFormat
 import com.junkfood.seal.util.VIDEO_CLIP
@@ -114,9 +115,13 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
     val audioOnly = EXTRACT_AUDIO.getBoolean()
     val mergeAudioStream = MERGE_MULTI_AUDIO_STREAM.getBoolean()
     val subtitleLanguageRegex = SUBTITLE_LANGUAGE.getString()
-    val initialSelectedSubtitles =
+    val downloadSubtitle = SUBTITLE.getBoolean()
+    val initialSelectedSubtitles = if (downloadSubtitle) {
         videoInfo.run { subtitles.keys + automaticCaptions.keys }
             .filterWithRegex(subtitleLanguageRegex)
+    } else {
+        emptySet()
+    }
 
     var showUpdateSubtitleDialog by remember { mutableStateOf(false) }
 
