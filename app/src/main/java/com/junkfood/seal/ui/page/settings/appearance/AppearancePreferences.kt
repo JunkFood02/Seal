@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LightMode
@@ -109,7 +110,7 @@ fun AppearancePreferences(
             LargeTopAppBar(title = {
                 Text(
                     modifier = Modifier,
-                    text = stringResource(id = R.string.display),
+                    text = stringResource(id = R.string.look_and_feel),
                 )
             }, navigationIcon = {
                 BackButton {
@@ -186,7 +187,7 @@ fun AppearancePreferences(
                         description = stringResource(
                             id = R.string.dynamic_color_desc
                         ),
-                        icon = Icons.Outlined.Palette,
+                        icon = Icons.Outlined.Colorize,
                         isChecked = LocalDynamicColorSwitch.current,
                         onClick = {
                             PreferenceUtil.switchDynamicColor()

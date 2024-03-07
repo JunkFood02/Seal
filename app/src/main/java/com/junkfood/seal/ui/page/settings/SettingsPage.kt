@@ -21,11 +21,11 @@ import androidx.compose.material.icons.filled.Aod
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.SignalCellular4Bar
 import androidx.compose.material.icons.filled.SignalWifi4Bar
 import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.VolunteerActivism
@@ -179,17 +179,6 @@ fun SettingsPage(
             }
             item {
                 SettingItem(
-                    title = stringResource(id = R.string.subtitle),
-                    description = stringResource(id = R.string.subtitle_desc),
-                    icon = Icons.Outlined.Subtitles
-                ) {
-                    navController.navigate(Route.SUBTITLE_PREFERENCES) {
-                        launchSingleTop = true
-                    }
-                }
-            }
-            item {
-                SettingItem(
                     title = stringResource(id = R.string.format),
                     description = stringResource(id = R.string.format_settings_desc),
                     icon = if (EXTRACT_AUDIO.getBoolean()) Icons.Filled.AudioFile else Icons.Filled.VideoFile
@@ -223,9 +212,11 @@ fun SettingsPage(
             }
             item {
                 SettingItem(
-                    title = stringResource(id = R.string.display), description = stringResource(
+                    title = stringResource(id = R.string.look_and_feel),
+                    description = stringResource(
                         id = R.string.display_settings
-                    ), icon = Icons.Filled.Aod
+                    ),
+                    icon = Icons.Filled.Palette
                 ) {
                     navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
                 }
