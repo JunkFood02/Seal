@@ -217,7 +217,16 @@ fun VideoListPage(
     }
 
     val selectedItemIds =
-        remember(videoList, isSelectEnabled, viewState) { mutableStateListOf<Int>() }
+        remember(videoList, viewState) { mutableStateListOf<Int>() }
+
+    LaunchedEffect(isSelectEnabled) {
+        if (!isSelectEnabled) {
+            delay(200)
+            selectedItemIds.clear()
+        }
+    }
+
+
     val selectedVideos = remember(selectedItemIds.size) {
         mutableStateOf(
             videoList.count { info ->
@@ -293,61 +302,62 @@ fun VideoListPage(
                         onBackPressed()
                     }
                 }, actions = {
-                    if (fullVideoList.isNotEmpty()) {
-                        IconToggleButton(
-                            modifier = Modifier,
-                            onCheckedChange = {
-                                view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-                                videoListViewModel.toggleSearch(it)
-                                if (it) {
-                                    scope.launch {
-                                        delay(50)
-                                        lazyGridState.animateScrollToItem(0)
+                    Row {
+                        if (fullVideoList.isNotEmpty()) {
+                            IconToggleButton(
+                                modifier = Modifier,
+                                onCheckedChange = {
+                                    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                    videoListViewModel.toggleSearch(it)
+                                    if (it) {
+                                        scope.launch {
+                                            delay(50)
+                                            lazyGridState.animateScrollToItem(0)
+                                        }
                                     }
-                                }
-                            },
-                            checked = viewState.isSearching
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = stringResource(R.string.search)
-                            )
-                        }
-                        var expanded by remember { mutableStateOf(false) }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.TopEnd)
-                        ) {
-                            IconButton(onClick = { expanded = true }) {
+                                },
+                                checked = viewState.isSearching
+                            ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.MoreVert,
-                                    contentDescription = stringResource(
-                                        id = R.string.show_more_actions
-                                    )
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = stringResource(R.string.search)
                                 )
                             }
-                            DropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }) {
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Outlined.DriveFileMove,
-                                            contentDescription = null
+                            var expanded by remember { mutableStateOf(false) }
+
+                            Box(
+                                modifier = Modifier.wrapContentSize(Alignment.TopEnd)
+                            ) {
+                                IconButton(onClick = { expanded = true }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.MoreVert,
+                                        contentDescription = stringResource(
+                                            id = R.string.show_more_actions
                                         )
-                                    },
-                                    text = { Text(text = stringResource(id = R.string.export_backup)) },
-                                    onClick = { showExportDialog = true })
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    text = { Text(text = stringResource(id = R.string.import_backup)) },
-                                    onClick = { showImportDialog = true })
+                                    )
+                                }
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }) {
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Outlined.DriveFileMove,
+                                                contentDescription = null
+                                            )
+                                        },
+                                        text = { Text(text = stringResource(id = R.string.export_backup)) },
+                                        onClick = { showExportDialog = true })
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
+                                                contentDescription = null
+                                            )
+                                        },
+                                        text = { Text(text = stringResource(id = R.string.import_backup)) },
+                                        onClick = { showImportDialog = true })
+                                }
                             }
                         }
                     }
@@ -481,7 +491,9 @@ fun VideoListPage(
                                 isSelectEnabled = { isSelectEnabled },
                                 isSelected = { selectedItemIds.contains(id) },
                                 onSelect = {
-                                    if (selectedItemIds.contains(id)) selectedItemIds.remove(id)
+                                    if (selectedItemIds.contains(id)) selectedItemIds.remove(
+                                        id
+                                    )
                                     else selectedItemIds.add(id)
                                 },
                                 onClick = {
@@ -489,12 +501,14 @@ fun VideoListPage(
                                         ToastUtil.makeToastSuspend(App.context.getString(R.string.file_unavailable))
                                     }
                                 }, onLongClick = {
-                                    currentVideoInfoId = info.id
+                                    isSelectEnabled = true
+                                    selectedItemIds.add(id)
+                                    /*currentVideoInfoId = info.id
                                     scope.launch {
                                         showBottomSheet = true
                                         delay(50)
                                         sheetState.show()
-                                    }
+                                    }*/
                                 }
                             )
                         }

@@ -104,7 +104,7 @@ fun MediaListItem(
                     onLongClick()
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 },
-                onLongClickLabel = stringResource(R.string.show_more_actions)
+                onLongClickLabel = stringResource(R.string.multiselect_mode)
             )
             else selectable(selected = isSelected(), onClick = onSelect)
         }.fillMaxWidth(),
