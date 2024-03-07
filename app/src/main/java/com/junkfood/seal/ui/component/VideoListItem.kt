@@ -73,7 +73,8 @@ fun MediaListItem(
     isSelected: () -> Boolean = { false },
     onSelect: () -> Unit = {},
     onClick: () -> Unit = {},
-    onLongClick: () -> Unit = {}
+    onLongClick: () -> Unit = {},
+    onShowContextMenu: () -> Unit = {},
 ) {
     val isAudio = videoPath.contains(Regex(AUDIO_REGEX))
     val imageWeight = when (LocalWindowWidthState.current) {
@@ -170,7 +171,7 @@ fun MediaListItem(
             exit = fadeOut(tween(100))
         ) {
             IconButton(
-                modifier = Modifier.clearAndSetSemantics { }, onClick = onLongClick
+                modifier = Modifier.clearAndSetSemantics { }, onClick = onShowContextMenu
             ) {
                 Icon(
                     modifier = Modifier.size(18.dp),

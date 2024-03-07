@@ -76,6 +76,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SVGImage
@@ -503,12 +504,15 @@ fun VideoListPage(
                                 }, onLongClick = {
                                     isSelectEnabled = true
                                     selectedItemIds.add(id)
-                                    /*currentVideoInfoId = info.id
+                                },
+                                onShowContextMenu = {
+                                    view.slightHapticFeedback()
+                                    currentVideoInfoId = info.id
                                     scope.launch {
                                         showBottomSheet = true
                                         delay(50)
                                         sheetState.show()
-                                    }*/
+                                    }
                                 }
                             )
                         }
