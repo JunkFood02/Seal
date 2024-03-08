@@ -33,6 +33,7 @@ import androidx.compose.material.icons.automirrored.outlined.AssignmentReturn
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Restore
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.BottomAppBar
@@ -368,7 +369,7 @@ fun VideoListPage(
                                 DropdownMenuItem(
                                     leadingIcon = {
                                         Icon(
-                                            imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
+                                            imageVector = Icons.Outlined.Restore,
                                             contentDescription = null
                                         )
                                     },
@@ -423,7 +424,10 @@ fun VideoListPage(
                         style = MaterialTheme.typography.labelLarge
                     )
                     IconButton(
-                        onClick = { showRemoveMultipleItemsDialog = true },
+                        onClick = {
+                            view.slightHapticFeedback()
+                            showRemoveMultipleItemsDialog = true
+                        },
                         enabled = selectedItemIds.isNotEmpty()
                     ) {
                         Icon(

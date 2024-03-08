@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet4Bar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -82,7 +83,7 @@ fun SealDialog(
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties()
 ) {
-    AlertDialog(
+    BasicAlertDialog(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         properties = properties
@@ -110,7 +111,8 @@ fun SealDialog(
                 }
                 title?.let {
                     CompositionLocalProvider(LocalContentColor provides titleContentColor) {
-                        val textStyle = MaterialTheme.typography.headlineSmall
+                        val textStyle =
+                            MaterialTheme.typography.headlineSmall.copy(textAlign = TextAlign.Center)
                         ProvideTextStyle(textStyle) {
                             Box(
                                 // Align the title to the center when an icon is present.
