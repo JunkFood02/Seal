@@ -3,6 +3,7 @@
 package com.junkfood.seal.ui.page.videolist
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -18,13 +19,16 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -42,6 +46,7 @@ import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.LongTapTextButton
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.ToastUtil
 
@@ -50,6 +55,7 @@ import com.junkfood.seal.util.ToastUtil
 fun VideoDetailDrawer(
     sheetState: ModalBottomSheetState,
     info: DownloadedVideoInfo,
+    isFileAvailable: Boolean = true,
     onDismissRequest: () -> Unit = {},
     onDelete: () -> Unit = {},
 ) {
@@ -60,6 +66,19 @@ fun VideoDetailDrawer(
         onDismissRequest()
     }
 
+
+    val onReDownload = remember(info) {
+        {
+            context.startActivity(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    setPackage(context.packageName)
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, info.videoUrl)
+                })
+        }
+    }
+
     val shareTitle = stringResource(id = R.string.share)
     with(info) {
         VideoDetailDrawerImpl(
@@ -67,6 +86,8 @@ fun VideoDetailDrawer(
             title = videoTitle,
             author = videoAuthor,
             url = videoUrl,
+            isFileAvailable = isFileAvailable,
+            onReDownload = onReDownload,
             onDismissRequest = onDismissRequest,
             onDelete = {
                 onDismissRequest()
@@ -86,13 +107,15 @@ fun VideoDetailDrawer(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun DrawerPreview() {
-    VideoDetailDrawerImpl(
-        sheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    )
+    SealTheme {
+        VideoDetailDrawerImpl(
+            sheetState = ModalBottomSheetState(ModalBottomSheetValue.Expanded),
+            onReDownload = {}
+        )
+    }
 }
 
 
@@ -104,6 +127,8 @@ fun VideoDetailDrawerImpl(
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
     onDismissRequest: () -> Unit = {},
+    isFileAvailable: Boolean = true,
+    onReDownload: (() -> Unit) = {},
     onDelete: () -> Unit = {},
     onOpenLink: () -> Unit = {},
     onShareFile: () -> Unit = {}
@@ -177,12 +202,23 @@ fun VideoDetailDrawerImpl(
                     icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.remove)
                 )
-
-                FilledTonalButtonWithIcon(
-                    onClick = onShareFile,
-                    icon = Icons.Outlined.Share,
-                    text = stringResource(R.string.share)
-                )
+                if (isFileAvailable) {
+                    FilledTonalButtonWithIcon(
+                        onClick = onShareFile,
+                        icon = Icons.Outlined.Share,
+                        text = stringResource(R.string.share)
+                    )
+                } else {
+                    FilledTonalButtonWithIcon(
+                        onClick = onReDownload,
+                        icon = Icons.Outlined.FileDownload,
+                        text = stringResource(R.string.redownload),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    )
+                }
             }
         })
 }

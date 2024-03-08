@@ -443,6 +443,7 @@
     <string name="export_download_history_msg">Exporting %1$s from download history. Downloaded files and preferences won\'t be backed up.</string>
     <string name="download_history">Download history</string>
     <string name="download_history_imported">Imported %1$s to download history</string>
+    <string name="redownload">Redownload</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

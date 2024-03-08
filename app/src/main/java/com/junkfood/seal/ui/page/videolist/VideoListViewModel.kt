@@ -10,12 +10,14 @@ import com.junkfood.seal.database.backup.BackupUtil
 import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.FileUtil.getFileSize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -58,6 +60,12 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
             infoList.forEach {
                 this.add(it.extractor)
             }
+        }
+    }
+
+    val fileSizeMapFlow = videoListFlow.flowOn(Dispatchers.IO).map { list ->
+        list.associate {
+            it.id to it.videoPath.getFileSize()
         }
     }
 

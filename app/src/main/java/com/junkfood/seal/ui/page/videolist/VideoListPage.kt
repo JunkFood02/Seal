@@ -1,6 +1,7 @@
 package com.junkfood.seal.ui.page.videolist
 
 import VideoStreamSVG
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,7 +30,6 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.AssignmentReturn
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.MoreVert
@@ -63,7 +63,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,7 +82,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.backup.BackupUtil
-import com.junkfood.seal.database.backup.BackupUtil.BackupDestination.*
+import com.junkfood.seal.database.backup.BackupUtil.BackupDestination.Clipboard
+import com.junkfood.seal.database.backup.BackupUtil.BackupDestination.File
 import com.junkfood.seal.database.backup.BackupUtil.toJsonString
 import com.junkfood.seal.database.backup.BackupUtil.toURLListString
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
@@ -101,14 +101,12 @@ import com.junkfood.seal.ui.component.SealSearchBar
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.AUDIO_REGEX
 import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.FileUtil.getFileSize
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.toFileSizeText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 fun DownloadedVideoInfo.filterByType(
     videoFilter: Boolean = false,
@@ -165,20 +163,13 @@ fun VideoListPage(
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
 
-    val fileSizeMap = remember(fullVideoList.size) {
-        mutableMapOf<Int, Long>().apply {
-            putAll(videoList.map { Pair(it.id, it.videoPath.getFileSize()) })
-        }
-    }
+    val fileSizeMap by viewModel.fileSizeMapFlow.collectAsStateWithLifecycle(initialValue = emptyMap())
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val hostState = remember { SnackbarHostState() }
 
-    var currentVideoInfoId by rememberSaveable { mutableIntStateOf(0) }
 
-    val currentVideoInfo by remember(currentVideoInfoId) {
-        derivedStateOf {
-            videoList.find { it.id == currentVideoInfoId } ?: DownloadedVideoInfo()
-        }
+    var currentVideoInfo by remember {
+        mutableStateOf(DownloadedVideoInfo())
     }
 
     var isSelectEnabled by remember { mutableStateOf(false) }
@@ -496,8 +487,6 @@ fun VideoListPage(
 
             }
             for (info in videoList) {
-                val fileSize =
-                    fileSizeMap.getOrElse(info.id) { File(info.videoPath).length() }
 
                 item(
                     key = info.id,
@@ -514,7 +503,7 @@ fun VideoListPage(
                                 author = videoAuthor,
                                 thumbnailUrl = thumbnailUrl,
                                 videoPath = videoPath,
-                                videoFileSize = fileSize,
+                                videoFileSize = fileSizeMap.getOrElse(id) { 0L },
                                 videoUrl = videoUrl,
                                 isSelectEnabled = { isSelectEnabled },
                                 isSelected = { selectedItemIds.contains(id) },
@@ -534,7 +523,7 @@ fun VideoListPage(
                                 },
                                 onShowContextMenu = {
                                     view.slightHapticFeedback()
-                                    currentVideoInfoId = info.id
+                                    currentVideoInfo = info
                                     scope.launch {
                                         showBottomSheet = true
                                         delay(50)
@@ -554,9 +543,11 @@ fun VideoListPage(
 
 
     if (showBottomSheet) {
+        val isFileAvailable = fileSizeMap[currentVideoInfo.id] != 0L
         VideoDetailDrawer(
             sheetState = sheetState,
             info = currentVideoInfo,
+            isFileAvailable = isFileAvailable,
             onDismissRequest = {
                 scope.launch { sheetState.hide() }.invokeOnCompletion {
                     showBottomSheet = false
