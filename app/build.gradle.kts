@@ -51,10 +51,11 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.Stable(
+val currentVersion: Version = Version.Beta(
     versionMajor = 1,
-    versionMinor = 11,
-    versionPatch = 3,
+    versionMinor = 12,
+    versionPatch = 0,
+    versionBuild = 1
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -127,7 +128,7 @@ android {
                 val name =
                     output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
 
-                val baseAbiCode = abiCodes[name]?:2
+                val baseAbiCode = abiCodes[name] ?: 2
 
                 if (baseAbiCode != null) {
 
