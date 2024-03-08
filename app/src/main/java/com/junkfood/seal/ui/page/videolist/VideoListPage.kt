@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.videolist
 
 import VideoStreamSVG
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -84,7 +83,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.backup.BackupUtil
 import com.junkfood.seal.database.backup.BackupUtil.BackupDestination.*
-import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
 import com.junkfood.seal.database.backup.BackupUtil.toJsonString
 import com.junkfood.seal.database.backup.BackupUtil.toURLListString
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
@@ -101,7 +99,6 @@ import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealSearchBar
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.util.AUDIO_REGEX
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getFileSize
 import com.junkfood.seal.util.ToastUtil
@@ -144,16 +141,16 @@ private const val TAG = "VideoListPage"
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun VideoListPage(
-    videoListViewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
+    viewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
 ) {
-    val viewState by videoListViewModel.stateFlow.collectAsStateWithLifecycle()
-    val fullVideoList by videoListViewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
-    val searchedVideoList by videoListViewModel.searchedVideoListFlow.collectAsStateWithLifecycle(
+    val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val fullVideoList by viewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
+    val searchedVideoList by viewModel.searchedVideoListFlow.collectAsStateWithLifecycle(
         emptyList()
     )
 
     val videoList = if (viewState.isSearching) searchedVideoList else fullVideoList
-    val filterSet by videoListViewModel.filterSetFlow.collectAsState(mutableSetOf())
+    val filterSet by viewModel.filterSetFlow.collectAsState(mutableSetOf())
 
     val scrollBehavior =
         if (fullVideoList.isNotEmpty()) TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -201,13 +198,13 @@ fun VideoListPage(
             Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                 VideoFilterChip(
                     selected = viewState.audioFilter,
-                    onClick = { videoListViewModel.clickAudioFilter() },
+                    onClick = { viewModel.clickAudioFilter() },
                     label = stringResource(id = R.string.audio),
                 )
 
                 VideoFilterChip(
                     selected = viewState.videoFilter,
-                    onClick = { videoListViewModel.clickVideoFilter() },
+                    onClick = { viewModel.clickVideoFilter() },
                     label = stringResource(id = R.string.video),
                 )
                 if (filterSet.size > 1) {
@@ -222,7 +219,7 @@ fun VideoListPage(
                     for (i in 0 until filterSet.size) {
                         VideoFilterChip(
                             selected = viewState.activeFilterIndex == i,
-                            onClick = { videoListViewModel.clickExtractorFilter(i) },
+                            onClick = { viewModel.clickExtractorFilter(i) },
                             label = filterSet.elementAt(i)
                         )
                     }
@@ -291,7 +288,7 @@ fun VideoListPage(
         if (isSelectEnabled) {
             isSelectEnabled = false
         } else {
-            videoListViewModel.toggleSearch(false)
+            viewModel.toggleSearch(false)
         }
     }
 
@@ -323,7 +320,7 @@ fun VideoListPage(
                                 modifier = Modifier,
                                 onCheckedChange = {
                                     view.slightHapticFeedback()
-                                    videoListViewModel.toggleSearch(it)
+                                    viewModel.toggleSearch(it)
                                     if (it) {
                                         scope.launch {
                                             delay(50)
@@ -338,22 +335,23 @@ fun VideoListPage(
                                     contentDescription = stringResource(R.string.search)
                                 )
                             }
-                            var expanded by remember { mutableStateOf(false) }
-
-                            Box(
-                                modifier = Modifier.wrapContentSize(Alignment.TopEnd)
-                            ) {
-                                IconButton(onClick = { expanded = true }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.MoreVert,
-                                        contentDescription = stringResource(
-                                            id = R.string.show_more_actions
-                                        )
+                        }
+                        var expanded by remember { mutableStateOf(false) }
+                        Box(
+                            modifier = Modifier.wrapContentSize(Alignment.TopEnd)
+                        ) {
+                            IconButton(onClick = { expanded = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.MoreVert,
+                                    contentDescription = stringResource(
+                                        id = R.string.show_more_actions
                                     )
-                                }
-                                DropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }) {
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }) {
+                                if (visibleItemCount.intValue > 0) {
                                     DropdownMenuItem(
                                         leadingIcon = {
                                             Icon(
@@ -366,20 +364,21 @@ fun VideoListPage(
                                             showExportDialog = true
                                             expanded = false
                                         })
-                                    DropdownMenuItem(
-                                        leadingIcon = {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
-                                                contentDescription = null
-                                            )
-                                        },
-                                        text = { Text(text = stringResource(id = R.string.import_backup)) },
-                                        onClick = {
-                                            showImportDialog = true
-                                            expanded = false
-                                        })
                                 }
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Outlined.AssignmentReturn,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    text = { Text(text = stringResource(id = R.string.import_backup)) },
+                                    onClick = {
+                                        showImportDialog = true
+                                        expanded = false
+                                    })
                             }
+
                         }
                     }
                 }, scrollBehavior = scrollBehavior
@@ -480,7 +479,7 @@ fun VideoListPage(
                                     .padding(vertical = 8.dp),
                                 text = viewState.searchText,
                                 placeholderText = stringResource(R.string.search_in_downloads),
-                                onValueChange = videoListViewModel::updateSearchText
+                                onValueChange = viewModel::updateSearchText
                             )
                         }
                         FilterChips(
@@ -570,7 +569,7 @@ fun VideoListPage(
             deleteFile = deleteFile,
             onDeleteFileToggled = { deleteFile = it },
             onRemoveConfirm = {
-                videoListViewModel.deleteDownloadHistory(
+                viewModel.deleteDownloadHistory(
                     listOf(currentVideoInfo),
                     deleteFile = deleteFile
                 )
@@ -601,7 +600,7 @@ fun VideoListPage(
                 }
             }, confirmButton = {
                 ConfirmButton {
-                    videoListViewModel.deleteDownloadHistory(infoList = videoList.filter {
+                    viewModel.deleteDownloadHistory(infoList = videoList.filter {
                         selectedItemIds.contains(
                             it.id
                         )
@@ -618,28 +617,29 @@ fun VideoListPage(
         )
     }
 
+    var backupString by remember { mutableStateOf("") }
+
+    val exportLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+            uri?.let {
+                scope.launch(Dispatchers.IO) {
+                    context.contentResolver.openOutputStream(uri)?.use {
+                        it.write(backupString.toByteArray())
+                    }
+                    withContext(Dispatchers.Main) {
+                        showExportDialog = false
+                    }
+                }
+            }
+        }
+
+
     if (showExportDialog) {
         val list = if (selectedItemIds.isNotEmpty()) {
             videoList.filter { selectedItemIds.contains(it.id) }
         } else {
             videoList.filter { it.filterSort(viewState, filterSet) }
         }
-
-        var str by remember { mutableStateOf("") }
-
-        val launcher =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/plain")) { uri ->
-                uri?.let {
-                    scope.launch(Dispatchers.IO) {
-                        context.contentResolver.openOutputStream(uri)?.use {
-                            it.bufferedWriter(Charsets.UTF_8).write(str)
-                        }
-                        withContext(Dispatchers.Main) {
-                            showExportDialog = false
-                        }
-                    }
-                }
-            }
 
         ExportDialog(
             onDismissRequest = { showExportDialog = false },
@@ -649,55 +649,40 @@ fun VideoListPage(
                 when (destination) {
                     Clipboard -> clipboardManager.setText(AnnotatedString(it))
                     File -> {
-                        str = it
-                        launcher.launch(BackupUtil.getDownloadHistoryExportFilename(context = context))
+                        backupString = it
+                        exportLauncher.launch(BackupUtil.getDownloadHistoryExportFilename(context = context))
                     }
                 }
             }
         }
     }
 
-    if (showImportDialog) {
-
-        var str by remember { mutableStateOf("") }
-        val launcher =
-            rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.GetContent()
-            ) { uri ->
-                uri?.let {
-                    Log.d(TAG, uri.path.toString())
-                    Log.d(TAG, str)
-                    scope.launch(Dispatchers.IO) {
-                        context.contentResolver.openInputStream(uri)?.use { input ->
-                            input.bufferedReader(Charsets.UTF_8).readText().run {
-                                str.decodeToBackup().onSuccess {
-                                    val res = DatabaseUtil.importBackup(
-                                        backup = it,
-                                        types = setOf(BackupUtil.BackupType.DownloadHistory)
-                                    )
-                                    hostState.showSnackbar(
-                                        message = context.getString(R.string.download_history_imported)
-                                            .format(
-                                                context.resources.getQuantityString(
-                                                    R.plurals.item_count,
-                                                    res
-                                                ).format(res)
-                                            )
-                                    )
-                                }
-                            }
-
-                        }
-                    }
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent()
+        ) { uri ->
+            uri?.let {
+                viewModel.importBackupFromUri(context, uri) {
+                    viewModel.showImportedSnackbar(hostState, context, it)
                 }
             }
+        }
+
+    if (showImportDialog) {
 
         ImportDialog(onDismissRequest = { showImportDialog = false }) { destination ->
             scope.launch {
                 when (destination) {
-                    Clipboard -> clipboardManager.getText()?.text?.let { str = it }
+                    Clipboard -> {
+                        clipboardManager.getText()?.text?.let { str ->
+                            viewModel.importBackupFromText(str) {
+                                viewModel.showImportedSnackbar(hostState, context, it)
+                            }
+                        }
+                    }
+
                     File -> {
-                        launcher.launch("text/plain")
+                        importLauncher.launch("text/plain")
                     }
                 }
             }

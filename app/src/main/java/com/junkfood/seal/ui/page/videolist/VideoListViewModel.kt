@@ -1,7 +1,13 @@
 package com.junkfood.seal.ui.page.videolist
 
+import android.content.Context
+import android.net.Uri
+import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.junkfood.seal.R
+import com.junkfood.seal.database.backup.BackupUtil
+import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "VideoListViewModel"
@@ -34,10 +41,13 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         else list.filter {
             state.searchText.let { text ->
                 with(it) {
-                    videoTitle.contains(text, ignoreCase = true)
-                            || videoAuthor.contains(text, ignoreCase = true)
-                            || extractor.contains(text, ignoreCase = true)
-                            || videoPath.contains(text, ignoreCase = true)
+                    videoTitle.contains(text, ignoreCase = true) || videoAuthor.contains(
+                        text,
+                        ignoreCase = true
+                    ) || extractor.contains(text, ignoreCase = true) || videoPath.contains(
+                        text,
+                        ignoreCase = true
+                    )
                 }
             }
         }
@@ -82,6 +92,54 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
     fun deleteDownloadHistory(infoList: List<DownloadedVideoInfo>, deleteFile: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             DatabaseUtil.deleteInfoList(infoList = infoList, deleteFile = deleteFile)
+        }
+    }
+
+    fun importBackupFromUri(
+        context: Context, uri: Uri, onComplete: suspend (Int) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            var res = 0
+            context.contentResolver.openInputStream(uri)?.use { input ->
+                input.bufferedReader(Charsets.UTF_8).readText().let {
+                    res = importBackupFromText(it)
+                }
+            }
+            withContext(Dispatchers.Main) {
+                onComplete(res)
+            }
+        }
+    }
+
+    fun importBackupFromText(
+        string: String, onComplete: suspend (Int) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = importBackupFromText(string)
+            withContext(Dispatchers.Main) {
+                onComplete(res)
+            }
+        }
+    }
+
+    private suspend fun importBackupFromText(string: String): Int {
+        string.decodeToBackup().onSuccess {
+            return DatabaseUtil.importBackup(
+                backup = it, types = setOf(BackupUtil.BackupType.DownloadHistory)
+            )
+        }
+        return 0
+    }
+
+    fun showImportedSnackbar(hostState: SnackbarHostState, context: Context, importedCount: Int) {
+        viewModelScope.launch(Dispatchers.Main) {
+            hostState.showSnackbar(
+                message = context.getString(R.string.download_history_imported).format(
+                    context.resources.getQuantityString(
+                        R.plurals.item_count, importedCount
+                    ).format(importedCount)
+                )
+            )
         }
     }
 
