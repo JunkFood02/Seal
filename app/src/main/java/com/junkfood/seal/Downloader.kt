@@ -10,7 +10,7 @@ import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.startService
 import com.junkfood.seal.App.Companion.stopService
-import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil

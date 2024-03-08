@@ -2,7 +2,7 @@ package com.junkfood.seal.ui.page.settings.network
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.junkfood.seal.database.CookieProfile
+import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.util.DatabaseUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.internal.closeQuietly
 import java.io.File
+import java.nio.charset.Charset
 import java.util.Date
 
 const val AUDIO_REGEX = "(mp3|aac|opus|m4a)$"
@@ -244,37 +245,6 @@ object FileUtil {
         return Environment.getExternalStorageDirectory().absolutePath + "/$last"
     }
 
-    @Composable
-    fun getDownloadHistoryExportFilename(): String {
-        val context = LocalContext.current
-        return listOf(
-            context.getString(R.string.app_name),
-            App.packageInfo.versionName,
-            DateFormat.getDateFormat(context).format(Date())
-        ).joinToString(separator = "-") { it }
-    }
-
-    /**
-     * Create a new text file with [fileName] and write [fileContent] to it
-     */
-    @Composable
-    fun createTextFile(fileName: String, fileContent: String): Result<Unit> {
-        val scope = rememberCoroutineScope()
-        val context = LocalContext.current
-        return runCatching {
-            rememberLauncherForActivityResult(
-                ActivityResultContracts.CreateDocument("*/*")
-            ) { result ->
-                result?.let { uri ->
-                    scope.launch(Dispatchers.IO) {
-                        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                            outputStream.write(fileContent.toByteArray())
-                        }
-                    }
-                }
-            }.launch(fileName)
-        }
-    }
 
 
     private const val TAG = "FileUtil"

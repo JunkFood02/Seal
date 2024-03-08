@@ -1,7 +1,10 @@
 package com.junkfood.seal.ui.page.videolist
 
 import VideoStreamSVG
+import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -42,6 +45,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TriStateCheckbox
@@ -63,20 +68,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
-import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
+import com.junkfood.seal.database.backup.BackupUtil
+import com.junkfood.seal.database.backup.BackupUtil.BackupDestination.*
+import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
+import com.junkfood.seal.database.backup.BackupUtil.toJsonString
+import com.junkfood.seal.database.backup.BackupUtil.toURLListString
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SVGImage
@@ -98,6 +109,7 @@ import com.junkfood.seal.util.toFileSizeText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 fun DownloadedVideoInfo.filterByType(
@@ -150,9 +162,10 @@ fun VideoListPage(
         ) else TopAppBarDefaults.pinnedScrollBehavior()
 
     val scope = rememberCoroutineScope()
-    val focusManager = LocalFocusManager.current
     val softKeyboardController = LocalSoftwareKeyboardController.current
     val view = LocalView.current
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
 
     val fileSizeMap = remember(fullVideoList.size) {
         mutableMapOf<Int, Long>().apply {
@@ -160,6 +173,7 @@ fun VideoListPage(
         }
     }
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val hostState = remember { SnackbarHostState() }
 
     var currentVideoInfoId by rememberSaveable { mutableIntStateOf(0) }
 
@@ -228,8 +242,8 @@ fun VideoListPage(
     }
 
 
-    val selectedVideos = remember(selectedItemIds.size) {
-        mutableStateOf(
+    val selectedVideoCount = remember(selectedItemIds.size) {
+        mutableIntStateOf(
             videoList.count { info ->
                 selectedItemIds.contains(info.id) && info.filterByType(
                     videoFilter = true,
@@ -237,8 +251,8 @@ fun VideoListPage(
                 )
             })
     }
-    val selectedAudioFiles = remember(selectedItemIds.size) {
-        mutableStateOf(
+    val selectedAudioCount = remember(selectedItemIds.size) {
+        mutableIntStateOf(
             videoList.count { info ->
                 selectedItemIds.contains(info.id) && info.filterByType(
                     videoFilter = false,
@@ -257,13 +271,13 @@ fun VideoListPage(
 
     val visibleItemCount = remember(
         videoList, viewState
-    ) { mutableStateOf(videoList.count { it.filterSort(viewState, filterSet) }) }
+    ) { mutableIntStateOf(videoList.count { it.filterSort(viewState, filterSet) }) }
 
     val checkBoxState by remember(selectedItemIds, visibleItemCount) {
         derivedStateOf {
             if (selectedItemIds.isEmpty())
                 ToggleableState.Off
-            else if (selectedItemIds.size == visibleItemCount.value && selectedItemIds.isNotEmpty())
+            else if (selectedItemIds.size == visibleItemCount.intValue && selectedItemIds.isNotEmpty())
                 ToggleableState.On
             else
                 ToggleableState.Indeterminate
@@ -348,7 +362,10 @@ fun VideoListPage(
                                             )
                                         },
                                         text = { Text(text = stringResource(id = R.string.export_backup)) },
-                                        onClick = { showExportDialog = true })
+                                        onClick = {
+                                            showExportDialog = true
+                                            expanded = false
+                                        })
                                     DropdownMenuItem(
                                         leadingIcon = {
                                             Icon(
@@ -357,7 +374,10 @@ fun VideoListPage(
                                             )
                                         },
                                         text = { Text(text = stringResource(id = R.string.import_backup)) },
-                                        onClick = { showImportDialog = true })
+                                        onClick = {
+                                            showImportDialog = true
+                                            expanded = false
+                                        })
                                 }
                             }
                         }
@@ -380,6 +400,7 @@ fun VideoListPage(
                         },
                         state = checkBoxState,
                         onClick = {
+                            view.slightHapticFeedback()
                             when (checkBoxState) {
                                 ToggleableState.On -> selectedItemIds.clear()
                                 else -> {
@@ -397,8 +418,8 @@ fun VideoListPage(
                     Text(
                         modifier = Modifier.weight(1f),
                         text = stringResource(R.string.multiselect_item_count).format(
-                            selectedVideos.value,
-                            selectedAudioFiles.value
+                            selectedVideoCount.intValue,
+                            selectedAudioCount.intValue
                         ),
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -413,6 +434,9 @@ fun VideoListPage(
                     }
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = hostState)
         }
     ) { innerPadding ->
         if (fullVideoList.isEmpty())
@@ -591,6 +615,103 @@ fun VideoListPage(
                 }
             }
         )
+    }
+
+    if (showExportDialog) {
+        val list = if (selectedItemIds.isNotEmpty()) {
+            videoList.filter { selectedItemIds.contains(it.id) }
+        } else {
+            videoList.filter { it.filterSort(viewState, filterSet) }
+        }
+
+        var str by remember { mutableStateOf("") }
+
+        val launcher =
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+                uri?.let {
+                    scope.launch(Dispatchers.IO) {
+                        context.contentResolver.openOutputStream(uri)?.use {
+                            it.bufferedWriter(Charsets.UTF_8).write(str)
+                        }
+                        withContext(Dispatchers.Main) {
+                            showExportDialog = false
+                        }
+                    }
+                }
+            }
+
+        ExportDialog(
+            onDismissRequest = { showExportDialog = false },
+            itemCount = list.size
+        ) { type, destination ->
+            list.backupToString(type).let {
+                when (destination) {
+                    Clipboard -> clipboardManager.setText(AnnotatedString(it))
+                    File -> {
+                        str = it
+                        launcher.launch(BackupUtil.getDownloadHistoryExportFilename(context = context))
+                    }
+                }
+            }
+        }
+    }
+
+    if (showImportDialog) {
+
+        var str by remember { mutableStateOf("") }
+        val launcher =
+            rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent()
+            ) { uri ->
+                uri?.let {
+                    Log.d(TAG, uri.path.toString())
+                    Log.d(TAG, str)
+                    scope.launch(Dispatchers.IO) {
+                        context.contentResolver.openInputStream(uri)?.use { input ->
+                            input.bufferedReader(Charsets.UTF_8).readText().run {
+                                str.decodeToBackup().onSuccess {
+                                    val res = DatabaseUtil.importBackup(
+                                        backup = it,
+                                        types = setOf(BackupUtil.BackupType.DownloadHistory)
+                                    )
+                                    hostState.showSnackbar(
+                                        message = context.getString(R.string.download_history_imported)
+                                            .format(
+                                                context.resources.getQuantityString(
+                                                    R.plurals.item_count,
+                                                    res
+                                                ).format(res)
+                                            )
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        ImportDialog(onDismissRequest = { showImportDialog = false }) { destination ->
+            scope.launch {
+                when (destination) {
+                    Clipboard -> clipboardManager.getText()?.text?.let { str = it }
+                    File -> {
+                        launcher.launch("text/plain")
+                    }
+                }
+            }
+            showImportDialog = false
+        }
+    }
+}
+
+fun List<DownloadedVideoInfo>.backupToString(
+    type: BackupUtil.BackupType,
+): String {
+    return when (type) {
+        BackupUtil.BackupType.DownloadHistory -> toJsonString()
+        BackupUtil.BackupType.URLList -> toURLListString()
+        else -> throw IllegalArgumentException()
     }
 }
 

@@ -112,7 +112,7 @@ import kotlinx.coroutines.withContext
 
 
 private enum class DownloadType {
-    AUDIO, VIDEO, COMMAND, NONE
+    Audio, Video, Command, None
 }
 
 @OptIn(
@@ -144,16 +144,16 @@ fun DownloadSettingDialog(
             when (DOWNLOAD_TYPE_INITIALIZATION.getInt()) {
                 USE_PREVIOUS_SELECTION -> {
                     if (CUSTOM_COMMAND.getBoolean()) {
-                        DownloadType.COMMAND
+                        DownloadType.Command
                     } else if (EXTRACT_AUDIO.getBoolean()) {
-                        DownloadType.AUDIO
+                        DownloadType.Audio
                     } else {
-                        DownloadType.VIDEO
+                        DownloadType.Video
                     }
                 }
 
                 else -> {
-                    DownloadType.NONE
+                    DownloadType.None
                 }
             }
         )
@@ -197,9 +197,9 @@ fun DownloadSettingDialog(
 
     val updatePreferences = {
         scope.launch {
-            PreferenceUtil.updateValue(EXTRACT_AUDIO, type == DownloadType.AUDIO)
+            PreferenceUtil.updateValue(EXTRACT_AUDIO, type == DownloadType.Audio)
             PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
-            PreferenceUtil.updateValue(CUSTOM_COMMAND, type == DownloadType.COMMAND)
+            PreferenceUtil.updateValue(CUSTOM_COMMAND, type == DownloadType.Command)
             PreferenceUtil.updateValue(PLAYLIST, playlist)
             PreferenceUtil.updateValue(SUBTITLE, subtitle)
         }
@@ -232,25 +232,25 @@ fun DownloadSettingDialog(
                 SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                     SingleChoiceSegmentedButton(
                         text = stringResource(id = R.string.audio),
-                        selected = type == DownloadType.AUDIO,
+                        selected = type == DownloadType.Audio,
                         position = SegmentedButtonValues.START
                     ) {
-                        type = DownloadType.AUDIO
+                        type = DownloadType.Audio
                         updatePreferences()
                     }
                     SingleChoiceSegmentedButton(
                         text = stringResource(id = R.string.video),
-                        selected = type == DownloadType.VIDEO
+                        selected = type == DownloadType.Video
                     ) {
-                        type = DownloadType.VIDEO
+                        type = DownloadType.Video
                         updatePreferences()
                     }
                     SingleChoiceSegmentedButton(
                         text = stringResource(id = R.string.commands),
-                        selected = type == DownloadType.COMMAND,
+                        selected = type == DownloadType.Command,
                         position = SegmentedButtonValues.END
                     ) {
-                        type = DownloadType.COMMAND
+                        type = DownloadType.Command
                         updatePreferences()
                     }
                 }
@@ -262,7 +262,7 @@ fun DownloadSettingDialog(
                         selected = !formatSelection || playlist, onClick = {
                             formatSelection = false
                             FORMAT_SELECTION.updateBoolean(false)
-                        }, enabled = type != DownloadType.COMMAND,
+                        }, enabled = type != DownloadType.Command,
                         label = stringResource(id = R.string.auto)
                     )
                     SingleChoiceChip(
@@ -271,20 +271,20 @@ fun DownloadSettingDialog(
                             formatSelection = true
                             FORMAT_SELECTION.updateBoolean(true)
                         },
-                        enabled = type != DownloadType.COMMAND && !playlist,
+                        enabled = type != DownloadType.Command && !playlist,
                         label = stringResource(id = R.string.custom)
                     )
                 }
             }
 
-            DrawerSheetSubtitle(text = stringResource(id = if (type == DownloadType.COMMAND) R.string.template_selection else R.string.format_preference))
+            DrawerSheetSubtitle(text = stringResource(id = if (type == DownloadType.Command) R.string.template_selection else R.string.format_preference))
             AnimatedContent(targetState = type, label = "", transitionSpec = {
                 (materialSharedAxisYIn(initialOffsetX = { it / 4 })).togetherWith(
                     fadeOut(tween(durationMillis = 80))
                 )
             }) { type ->
                 when (type) {
-                    DownloadType.COMMAND -> {
+                    DownloadType.Command -> {
                         LazyRow(
                             modifier = Modifier,
                         ) {
@@ -321,12 +321,12 @@ fun DownloadSettingDialog(
                                 .fillMaxWidth()
                                 .horizontalScroll(rememberScrollState())
                         ) {
-                            if (type != DownloadType.AUDIO) {
+                            if (type != DownloadType.Audio) {
                                 ButtonChip(
                                     onClick = {
                                         showVideoFormatDialog = true
                                     },
-                                    enabled = !formatSorting && type != DownloadType.NONE,
+                                    enabled = !formatSorting && type != DownloadType.None,
                                     label = PreferenceStrings.getVideoFormatLabel(
                                         videoFormatPreference
                                     ),
@@ -336,7 +336,7 @@ fun DownloadSettingDialog(
                                 ButtonChip(
                                     label = PreferenceStrings.getVideoResolutionDescComp(),
                                     icon = Icons.Outlined.HighQuality,
-                                    enabled = !formatSorting && type != DownloadType.NONE,
+                                    enabled = !formatSorting && type != DownloadType.None,
                                     iconDescription = stringResource(id = R.string.video_quality)
                                 ) {
                                     showVideoQualityDialog = true
@@ -346,7 +346,7 @@ fun DownloadSettingDialog(
                                 onClick = {
                                     showAudioSettingsDialog = true
                                 },
-                                enabled = !formatSorting && type != DownloadType.NONE,
+                                enabled = !formatSorting && type != DownloadType.None,
                                 label = stringResource(R.string.audio_format),
                                 icon = Icons.Outlined.AudioFile
                             )
@@ -354,7 +354,7 @@ fun DownloadSettingDialog(
                             val convertToM4a = stringResource(id = R.string.convert_to, "m4a")
                             val notConvert = stringResource(id = R.string.not_convert)
 
-                            if (type == DownloadType.AUDIO) {
+                            if (type == DownloadType.Audio) {
                                 val convertAudioLabelText by remember(
                                     showAudioConversionDialog,
                                     type
@@ -385,7 +385,7 @@ fun DownloadSettingDialog(
 
             }
 
-            AnimatedVisibility(visible = type == DownloadType.COMMAND) {
+            AnimatedVisibility(visible = type == DownloadType.Command) {
 
 
             }
@@ -415,7 +415,7 @@ fun DownloadSettingDialog(
                     FilterChip(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         selected = formatSorting,
-                        enabled = type != DownloadType.COMMAND,
+                        enabled = type != DownloadType.Command,
                         onClick = { showFormatSortingDialog = true },
                         label = {
                             Text(text = stringResource(id = R.string.format_sorting))
@@ -424,7 +424,7 @@ fun DownloadSettingDialog(
                 }
                 if (!isQuickDownload) {
                     VideoFilterChip(
-                        selected = playlist, enabled = type != DownloadType.COMMAND, onClick = {
+                        selected = playlist, enabled = type != DownloadType.Command, onClick = {
                             playlist = !playlist
                             formatSelection = false
                             updatePreferences()
@@ -432,13 +432,13 @@ fun DownloadSettingDialog(
                     )
                 }
                 VideoFilterChip(
-                    selected = subtitle, enabled = type != DownloadType.COMMAND, onClick = {
+                    selected = subtitle, enabled = type != DownloadType.Command, onClick = {
                         subtitle = !subtitle
                         updatePreferences()
                     }, label = stringResource(id = R.string.download_subtitles)
                 )
                 VideoFilterChip(
-                    selected = thumbnail, enabled = type != DownloadType.COMMAND, onClick = {
+                    selected = thumbnail, enabled = type != DownloadType.Command, onClick = {
                         thumbnail = !thumbnail
                         updatePreferences()
                     }, label = stringResource(R.string.create_thumbnail)
@@ -497,7 +497,7 @@ fun DownloadSettingDialog(
                                     onClick = downloadButtonCallback,
                                     icon = Icons.Outlined.DownloadDone,
                                     text = stringResource(R.string.start_download),
-                                    enabled = type != DownloadType.NONE
+                                    enabled = type != DownloadType.None
                                 )
                             }
                         }

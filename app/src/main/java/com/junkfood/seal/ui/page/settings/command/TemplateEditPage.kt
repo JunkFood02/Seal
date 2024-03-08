@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.ui.component.AdjacentLabel
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ClearButton

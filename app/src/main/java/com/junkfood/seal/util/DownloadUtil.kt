@@ -19,8 +19,8 @@ import com.junkfood.seal.Downloader.onTaskError
 import com.junkfood.seal.Downloader.onTaskStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
-import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.ui.page.settings.network.Cookie
 import com.junkfood.seal.util.FileUtil.getArchiveFile
 import com.junkfood.seal.util.FileUtil.getConfigFile

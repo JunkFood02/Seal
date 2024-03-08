@@ -11,7 +11,7 @@ import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.kyant.monet.PaletteStyle

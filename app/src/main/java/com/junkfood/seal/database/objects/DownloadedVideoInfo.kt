@@ -1,4 +1,4 @@
-package com.junkfood.seal.database
+package com.junkfood.seal.database.objects
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -28,5 +28,6 @@ data class DownloadedVideoInfo(
         videoPath = "Path",
         extractor = "Unknown"
     )
+
 }
 

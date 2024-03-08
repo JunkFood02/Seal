@@ -45,8 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.google.accompanist.flowlayout.FlowRow
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
-import com.junkfood.seal.database.OptionShortcut
+import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.database.objects.OptionShortcut
 import com.junkfood.seal.ui.component.AddButton
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton

@@ -53,13 +53,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
-import com.junkfood.seal.database.CommandTemplate
+import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton

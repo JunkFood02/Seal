@@ -1,4 +1,4 @@
-package com.junkfood.seal.database
+package com.junkfood.seal.database.objects
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

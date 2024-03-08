@@ -1,15 +1,8 @@
 package com.junkfood.seal.ui.page.videolist
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.ViewModel
-import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.util.BackupUtil.toJson
-import com.junkfood.seal.util.BackupUtil.toURLs
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
-import com.junkfood.seal.util.FileUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +14,8 @@ import javax.inject.Inject
 
 private const val TAG = "VideoListViewModel"
 
-@OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
 class VideoListViewModel @Inject constructor() : ViewModel() {
-
 
     private val mutableStateFlow = MutableStateFlow(VideoListViewState())
     val stateFlow = mutableStateFlow.asStateFlow()
@@ -85,29 +76,6 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         mutableStateFlow.update { it.copy(searchText = text) }
     }
 
-    fun List<DownloadedVideoInfo>.backupToString(
-        type: BackupType,
-    ): String {
-        return if (type == BackupType.Full) toJson() else toURLs()
-    }
-
-    @Composable
-    fun String.backupTo(destination: BackupDestination): Result<Unit> {
-        val clipboardManager = LocalClipboardManager.current
-        return when (destination) {
-            BackupDestination.File -> {
-                FileUtil.createTextFile(
-                    fileName = FileUtil.getDownloadHistoryExportFilename(),
-                    fileContent = this
-                )
-            }
-
-            BackupDestination.Clipboard -> {
-                runCatching { clipboardManager.setText(AnnotatedString(this)) }
-            }
-        }
-    }
-
     data class VideoListViewState(
         val activeFilterIndex: Int = -1,
         val videoFilter: Boolean = false,
@@ -115,13 +83,5 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
         val isSearching: Boolean = false,
         val searchText: String = "",
     )
-
-    enum class BackupType {
-        Full, URL
-    }
-
-    enum class BackupDestination {
-        File, Clipboard
-    }
 
 }

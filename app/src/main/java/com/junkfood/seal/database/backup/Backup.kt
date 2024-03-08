@@ -1,5 +1,8 @@
-package com.junkfood.seal.database
+package com.junkfood.seal.database.backup
 
+import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.OptionShortcut
 import kotlinx.serialization.Serializable
 
 @Serializable

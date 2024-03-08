@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.database.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.ui.component.CheckBoxItem
 import com.junkfood.seal.ui.component.SealDialog
 

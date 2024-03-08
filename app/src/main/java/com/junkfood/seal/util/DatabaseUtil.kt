@@ -4,11 +4,13 @@ import androidx.room.Room
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.database.AppDatabase
-import com.junkfood.seal.database.Backup
-import com.junkfood.seal.database.CommandTemplate
-import com.junkfood.seal.database.CookieProfile
-import com.junkfood.seal.database.DownloadedVideoInfo
-import com.junkfood.seal.database.OptionShortcut
+import com.junkfood.seal.database.backup.Backup
+import com.junkfood.seal.database.backup.BackupUtil.BackupType
+import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
+import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.database.objects.CookieProfile
+import com.junkfood.seal.database.objects.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.OptionShortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -67,38 +69,12 @@ object DatabaseUtil {
         dao.updateTemplate(commandTemplate)
     }
 
-    suspend fun importTemplatesFromJson(json: String): Int {
-        val templateList = getTemplateList()
-        val shortcutList = getShortcutList()
+    suspend fun importBackup(backup: Backup, types: Set<BackupType>): Int {
         var cnt = 0
-        try {
-            BackupUtil.format.decodeFromString<Backup>(json).run {
-                if (templates != null) {
-                    dao.importTemplates(
-                        templateList.filterNot {
-                            templateList.contains(it)
-                        }.map { it.copy(id = 0) }.also { cnt += it.size }
-                    )
-                }
-                if (shortcuts != null) {
-                    dao.insertAllShortcuts(
-                        shortcuts.filterNot {
-                            shortcutList.contains(it)
-                        }.map { it.copy(id = 0) }.apply { cnt += size }
-                    )
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return cnt
-    }
+        backup.run {
+            if (types.contains(BackupType.DownloadHistory)) {
+                val itemList = getDownloadHistory()
 
-    suspend fun importDownloadHistoryFromJson(json: String): Int {
-        val itemList = getDownloadHistory()
-        var cnt = 0
-        BackupUtil.format.runCatching {
-            decodeFromString<Backup>(json).run {
                 if (!downloadHistory.isNullOrEmpty()) {
                     dao.insertAll(
                         downloadHistory
@@ -108,8 +84,38 @@ object DatabaseUtil {
                     )
                 }
             }
+            if (types.contains(BackupType.CommandTemplate)) {
+                if (templates != null) {
+                    val templateList = getTemplateList()
+                    dao.importTemplates(
+                        templateList.filterNot {
+                            templateList.contains(it)
+                        }.map { it.copy(id = 0) }.also { cnt += it.size }
+                    )
+                }
+            }
+            if (types.contains(BackupType.CommandShortcut)) {
+                val shortcutList = getShortcutList()
+                if (shortcuts != null) {
+                    dao.insertAllShortcuts(
+                        shortcuts.filterNot {
+                            shortcutList.contains(it)
+                        }.map { it.copy(id = 0) }.also { cnt += it.size }
+                    )
+                }
+            }
         }
         return cnt
+    }
+
+    suspend fun importTemplatesFromJson(json: String): Int {
+        json.decodeToBackup().onSuccess { backup ->
+            return importBackup(
+                backup = backup,
+                types = setOf(BackupType.CommandTemplate, BackupType.CommandShortcut)
+            )
+        }.onFailure { it.printStackTrace() }
+        return 0
     }
 
     suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
