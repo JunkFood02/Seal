@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
+## [v1.12.0][1.12.0] - unreleased
+
+### Added
+* Search from download history
+* Search from subtitles in format selection page
+* Export download history to file/clipboard
+* Import download history from file/clipboard
+* Re-download unavailable videos
+* Download auto-translated subtitles
+* Remember subtitle selection for next downloads
+* Configuration for not using the download type in the last download
+* Haptic feedback BZZZTT!!1!
+
+
+### Changed
+* Long pressing on an item in download history now selects it
+* Metadata is also added to videos now
+* A few UI changes that I forgot
+
+### Fixed
+* Fix a permission issue when using Seal in a different user profile or private space
+* Fix an issue where the text cannot be copied in the menu of the download history
+
 ## [v1.11.3][1.11.3] - 2024-01-22
 
 ### Added
