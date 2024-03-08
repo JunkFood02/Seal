@@ -267,7 +267,7 @@
     <string name="format_selection_desc">Select the format to download before starting the download</string>
     <string name="generate_new_cookies">Generate new cookies</string>
     <string name="use_cookies">Use Cookies</string>
-    <string name="remove_cookie_profile_desc">Remove cookies for \"%1$s\"?</string>
+    <string name="remove_cookie_profile_desc">Remove this entry for \"%1$s\"? Please note that the cookies stored for this site will not be cleared.</string>
     <string name="custom_command_enabled_hint">Some options are unavailable when using custom command</string>
     <string name="how_does_it_work">How does it work?</string>
     <string name="cookies_usage_msg">Downloading from some sites requires account authentication information. Click \"Generate new cookies\", enter the URL of the website and then log in with your account in the browser page, the app will generate it for you.</string>
