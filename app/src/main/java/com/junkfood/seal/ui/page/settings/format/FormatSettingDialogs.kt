@@ -54,14 +54,15 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
+import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DialogSingleChoiceItem
+import com.junkfood.seal.ui.component.DialogSingleChoiceItemWithLabel
+import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.DialogSingleChoiceItem
-import com.junkfood.seal.ui.component.DialogSingleChoiceItemWithLabel
-import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
@@ -78,7 +79,6 @@ import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
@@ -686,11 +686,16 @@ private const val sortingFormats = "https://github.com/yt-dlp/yt-dlp#sorting-for
 
 @Composable
 fun SubtitleLanguageDialog(onDismissRequest: () -> Unit) {
-    val languages = SUBTITLE_LANGUAGE.getString()
+    var languages by SUBTITLE_LANGUAGE.stringState
     SubtitleLanguageDialogImpl(
         onDismissRequest = onDismissRequest,
         initialLanguages = languages,
-        onReset = { with(SUBTITLE_LANGUAGE) { updateString(getStringDefault()) } },
+        onReset = {
+            SUBTITLE_LANGUAGE.let {
+                languages = it.getStringDefault()
+                it.updateString(languages)
+            }
+        },
         onConfirm = { SUBTITLE_LANGUAGE.updateString(it) },
     )
 }
@@ -704,7 +709,7 @@ private fun SubtitleLanguageDialogImpl(
     onReset: () -> Unit = {},
     onConfirm: (String) -> Unit = {},
 ) {
-    var languages by remember { mutableStateOf(initialLanguages) }
+    var languages by remember(initialLanguages) { mutableStateOf(initialLanguages) }
     val uriHandler = LocalUriHandler.current
     SealDialog(
         onDismissRequest = onDismissRequest,
