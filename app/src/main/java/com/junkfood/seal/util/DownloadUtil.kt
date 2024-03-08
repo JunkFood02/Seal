@@ -302,6 +302,8 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences,
     ): YoutubeDLRequest = this.apply {
         downloadPreferences.run {
+            addOption("--add-metadata")
+            addOption("--no-embed-info-json")
             if (formatIdString.isNotEmpty()) {
                 addOption("-f", formatIdString)
                 if (mergeAudioStream) {
