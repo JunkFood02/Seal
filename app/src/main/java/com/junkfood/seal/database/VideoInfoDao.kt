@@ -52,14 +52,9 @@ interface VideoInfoDao {
     @Delete
     suspend fun deleteInfo(vararg info: DownloadedVideoInfo)
 
+    @Delete
     @Transaction
-    suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) {
-        idList.forEach { id ->
-            val info = getInfoById(id)
-            if (deleteFile) FileUtil.deleteFile(info.videoPath)
-            deleteInfo(info)
-        }
-    }
+    suspend fun deleteInfoList(idList: List<DownloadedVideoInfo>)
 
     @Query("SELECT * FROM CommandTemplate")
     fun getTemplateFlow(): Flow<List<CommandTemplate>>

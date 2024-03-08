@@ -1,15 +1,18 @@
 package com.junkfood.seal.ui.page.videolist
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.util.DatabaseUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "VideoListViewModel"
@@ -74,6 +77,12 @@ class VideoListViewModel @Inject constructor() : ViewModel() {
 
     fun updateSearchText(text: String) {
         mutableStateFlow.update { it.copy(searchText = text) }
+    }
+
+    fun deleteDownloadHistory(infoList: List<DownloadedVideoInfo>, deleteFile: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            DatabaseUtil.deleteInfoList(infoList = infoList, deleteFile = deleteFile)
+        }
     }
 
     data class VideoListViewState(

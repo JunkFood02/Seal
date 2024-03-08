@@ -570,12 +570,10 @@ fun VideoListPage(
             deleteFile = deleteFile,
             onDeleteFileToggled = { deleteFile = it },
             onRemoveConfirm = {
-                scope.launch(Dispatchers.IO) {
-                    DatabaseUtil.deleteInfoListByIdList(
-                        listOf(currentVideoInfoId),
-                        deleteFile = deleteFile
-                    )
-                }
+                videoListViewModel.deleteDownloadHistory(
+                    listOf(currentVideoInfo),
+                    deleteFile = deleteFile
+                )
             }, onDismissRequest = {
                 showRemoveDialog = false
             })
@@ -603,11 +601,14 @@ fun VideoListPage(
                 }
             }, confirmButton = {
                 ConfirmButton {
-                    scope.launch {
-                        DatabaseUtil.deleteInfoListByIdList(selectedItemIds, deleteFile)
-                    }
+                    videoListViewModel.deleteDownloadHistory(infoList = videoList.filter {
+                        selectedItemIds.contains(
+                            it.id
+                        )
+                    }, deleteFile = deleteFile)
                     showRemoveMultipleItemsDialog = false
                     isSelectEnabled = false
+
                 }
             }, dismissButton = {
                 DismissButton {

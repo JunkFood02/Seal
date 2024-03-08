@@ -56,8 +56,15 @@ object DatabaseUtil {
     suspend fun updateCookieProfile(profile: CookieProfile) = dao.updateCookieProfile(profile)
     suspend fun getTemplateList() = dao.getTemplateList()
     suspend fun getShortcutList() = dao.getShortcutList()
-    suspend fun deleteInfoListByIdList(idList: List<Int>, deleteFile: Boolean = false) =
-        dao.deleteInfoListByIdList(idList, deleteFile)
+    suspend fun deleteInfoList(
+        infoList: List<DownloadedVideoInfo>,
+        deleteFile: Boolean = false
+    ) {
+        dao.deleteInfoList(infoList)
+        infoList.forEach { info ->
+            if (deleteFile) FileUtil.deleteFile(info.videoPath)
+        }
+    }
 
     suspend fun getInfoById(id: Int): DownloadedVideoInfo = dao.getInfoById(id)
     suspend fun deleteInfoById(id: Int) = dao.deleteInfoById(id)
