@@ -368,4 +368,20 @@
     <string name="dont_allow">不允许</string>
     <string name="download_with_cellular_request">允许用移动网络数据下载吗？</string>
     <string name="allow_always">始终允许</string>
+    <string name="merge_audiostream">合并多个音频流</string>
+    <string name="merge_audiostream_desc">允许多个音频流被合并到单一文件</string>
+    <string name="search_in_downloads">在下载中搜索</string>
+    <string name="search">搜索</string>
+    <string name="auto_translated_subtitles">自动翻译的字幕</string>
+    <string name="auto_translated_subtitles_msg">将在下载中找到所有语言的自动翻译字幕。这些字幕可能不精确且难以理解。</string>
+    <string name="remember_for_next_download">下次下载时仍使用这些设置</string>
+    <string name="look_and_feel">外观&amp;感觉</string>
+    <string name="use_previous_selection">使用先前所选</string>
+    <string name="none">无</string>
+    <string name="subtitle_language_desc">指定在自动格式选择中要下载哪些语言的字幕，语言名称间用英文逗号隔开。</string>
+    <string name="reset">重置</string>
+    <string name="no_thanks">不，谢了</string>
+    <string name="update_language_msg">今后下载文件时将下载下列语言的字幕：</string>
+    <string name="update_subtitle_languages">更新字幕语言？</string>
+    <string name="search_in_subtitles">在字幕中搜索</string>
 </resources>

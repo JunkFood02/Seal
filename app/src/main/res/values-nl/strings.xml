@@ -105,7 +105,7 @@
     <string name="print_details">Gedetailleerde output</string>
     <string name="on">Aan</string>
     <string name="advanced_settings">Geavanceerd</string>
-    <string name="thumbnail">voorvertoning</string>
+    <string name="thumbnail">Voorvertoning</string>
     <string name="close_never_show_again">Niet meer laten zien</string>
     <string name="channel_description">Gedownloade bestanden en voortgang melden</string>
     <string name="download_finish_notification">Download voltooid. Klik om te openen.</string>
@@ -121,7 +121,7 @@
     <string name="concurrent_download_num">%d thread(s) worden gebruikt om DASH/HLS native video gelijktijdig te downloaden.</string>
     <string name="share_success_msg">Videolink aan het lezen vanuit gedeelde inhoud…</string>
     <string name="download_notification">Downloadnotificatie</string>
-    <string name="playlist_indicator_text">Afspeellijst aan het downloaden (%1$d/%2$d), klik om te stoppen.</string>
+    <string name="playlist_indicator_text">Afspeellijst (%1$d/%2$d) aan het downloaden, klik om te stoppen.</string>
     <string name="permission_issue_desc">Mappen buiten Download/ en Documents/ worden niet ondersteund</string>
     <string name="to">Einde</string>
     <string name="download_range_desc">Geef de reeks video\'s op die u wilt downloaden van de afspeellijst ‘%3$s’ (van %1$d tot %2$d).</string>
@@ -133,7 +133,7 @@
     <string name="prefix">Path template</string>
     <string name="app_up_to_date">De huidige versie is up-to-date</string>
     <string name="template_selection">Sjabloon selectie</string>
-    <string name="sponsorblock_desc">Haal segmenten weg van videos met SponserBlock API</string>
+    <string name="sponsorblock_desc">Verwijder of markeer segmenten van videos met SponserBlock API</string>
     <string name="update">Update</string>
     <string name="clear_temp_files">Haal tijdelijke bestanden weg</string>
     <string name="copy_error_report">Foutrapport</string>
@@ -164,13 +164,13 @@
     <string name="remove_template">Weghalen\?</string>
     <string name="status_error">Fout</string>
     <string name="custom_command_template_desc">Wijzig en beheer de commando sjablonen</string>
-    <string name="downloading_indicator_text">Download in werking, klik om te stoppen.</string>
+    <string name="downloading_indicator_text">Download in werking…</string>
     <string name="network">Netwerk</string>
     <string name="rate_limit">Begrenzing</string>
     <string name="embed_subtitles">Sluit ondertitels in</string>
-    <string name="embed_subtitles_desc">Sluit voorziene ondertitels in video\'s indien beschikbaar</string>
+    <string name="embed_subtitles_desc">Verwerk voorziene ondertitels in video\'s indien beschikbaar</string>
     <string name="remove_template_desc">Haal \"%1$s\" weg uit commando sjablonen voor altijd\?</string>
-    <string name="sponsorblock_categories_desc">Specificeer SponserBlock categorieën om weg te halen uit het videobestand</string>
+    <string name="sponsorblock_categories_desc">Specificeer SponserBlock categorie om te verwijder of markeren van het videobestand</string>
     <string name="download_with_cellular">Download met mobiele data</string>
     <string name="status_completed">Voltooid</string>
     <string name="restart">Begin opnieuw</string>
@@ -184,4 +184,8 @@
     <string name="github_issue_desc">Dien een probleem in voor bug report of functie verzoek</string>
     <string name="github_issue">GitHub probleem</string>
     <string name="ytdlp_update_action">Update yt-dlp</string>
+    <string name="status_canceled">Onderbroken</string>
+    <string name="status_fetching_video_info">Informatie aan het ophalen</string>
+    <string name="open_file">Bestand openen</string>
+    <string name="status_downloading">Aan het downloaden</string>
 </resources>

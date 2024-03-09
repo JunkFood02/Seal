@@ -220,7 +220,7 @@
     <string name="cookies_usage_msg">Le téléchargement à partir de certains sites nécessite des informations d\'authentification du compte. Cliquez sur « Générer de nouveaux cookies », saisissez l\'URL du site web, puis connectez-vous avec votre compte dans la page du navigateur, l\'application les générera pour vous.</string>
     <string name="telegram_channel">Canal Telegram</string>
     <string name="use_cookies">Utiliser les cookies</string>
-    <string name="remove_cookie_profile_desc">Retirer les cookies pour « %1$s » \?</string>
+    <string name="remove_cookie_profile_desc">Retirer les cookies pour « %1$s » ?</string>
     <string name="custom_command_enabled_hint">Certaines options ne sont pas disponibles lors de l\'utilisation de commande(s) personnalisée(s)</string>
     <string name="how_does_it_work">Comment ça fonctionne \?</string>
     <string name="matrix_space">Espace Matrix</string>

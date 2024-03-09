@@ -219,7 +219,7 @@
     <string name="telegram_channel">Telegram канал</string>
     <string name="how_does_it_work">Як це працює\?</string>
     <string name="use_cookies">Використовувати cookies</string>
-    <string name="remove_cookie_profile_desc">Видалити cookies для \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Видалити cookies для \"%1$s\"?</string>
     <string name="custom_command_enabled_hint">Деякі параметри недоступні при використанні користувацької команди</string>
     <string name="cookies_usage_msg">Для завантаження з деяких сайтів потрібна інформація про логін. Натисніть «Згенерувати нові cookies», введіть URL-адресу вебсайту, а потім увійдіть за допомогою свого облікового запису на сторінці браузера, застосунок згенерує його для вас.</string>
     <string name="matrix_space">Кімната Matrix</string>
@@ -368,4 +368,16 @@
     <string name="force_ipv4_desc">Виконувати всі підключення через IPv4</string>
     <string name="keep_subtitle_files">Зберігати файли субтитрів</string>
     <string name="allow_once">Дозволити один раз</string>
+    <string name="allow_always">Завжди дозволяти</string>
+    <string name="dont_allow">Не дозволяти</string>
+    <string name="download_with_cellular_request">Дозволити завантаження через мобільні дані?</string>
+    <string name="merge_audiostream">Об\'єднати кілька аудіопотоків</string>
+    <string name="merge_audiostream_desc">Дозволяє об\'єднувати кілька аудіопотоків в один файл</string>
+    <string name="search_in_downloads">Пошук у завантаженнях</string>
+    <string name="search">Пошук</string>
+    <string name="auto_translated_subtitles_msg">У завантаженнях можна буде вибрати субтитри, створені автоматично для кожної мови. Вони можуть бути неточними та важкими для розуміння.</string>
+    <string name="auto_translated_subtitles">Субтитри з автоперекладом</string>
+    <string name="remember_for_next_download">Запам\'ятати для майбутнього завантаження</string>
+    <string name="look_and_feel">Оформлення</string>
+    <string name="subtitle_language_desc">Мова субтитрів для завантаження в автоматичному виборі формату, розділених комами.</string>
 </resources>

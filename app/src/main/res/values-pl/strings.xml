@@ -123,7 +123,7 @@
     <string name="show_more_actions">Pokaż więcej akcji</string>
     <string name="download_notification">Powiadomienie o pobieraniu</string>
     <string name="subdirectory">Zapisz w podfolderze</string>
-    <string name="subdirectory_desc">Zapisz pliki w folderach nazwanych tak jak strony internetowe, z których pochodzą</string>
+    <string name="subdirectory_desc">Zapisz pliki w folderach o nazwach odpowiadających poszczególnym polom</string>
     <string name="permission_issue">Problem z uprawnieniami</string>
     <string name="permission_issue_desc">Foldery poza Download/ i Documents/ nie są wspierane</string>
     <string name="battery_configuration">Ustawienia baterii</string>
@@ -177,7 +177,7 @@
     <string name="status_downloading">Pobieranie</string>
     <string name="open_file">Otwórz plik</string>
     <string name="copy_error_report">Raport błędu</string>
-    <string name="sponsorblock_categories_desc">Określ kategorie SponsorBlock, które mają zostać usunięte z pliku wideo</string>
+    <string name="sponsorblock_categories_desc">Określ kategorie SponsorBlock do usunięcia lub zaznaczenia w pliku wideo</string>
     <string name="multiselect_mode">Tryb wielokrotnego wyboru</string>
     <string name="private_mode">Tryb prywatny</string>
     <string name="matrix_space">Kanał Matrix</string>
@@ -215,13 +215,15 @@
     <string name="info_copied">Informacja skopiowana do schowka</string>
     <string name="network_settings_desc">Limit szybkości, program do pobierania, ciasteczka</string>
     <string name="use_cookies">Użyj ciasteczek</string>
-    <string name="remove_cookie_profile_desc">Usuń ciasteczka dla \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Usuń ciasteczka dla \"%1$s\"?</string>
     <string name="generate_new_cookies">Wygeneruj nowe ciasteczka</string>
     <string name="disable_preview">Wyłącz podgląd</string>
     <string name="private_directory_desc">Przechowuj pobrane pliki w ukrytym katalogu</string>
     <string name="github_issue_desc">Prześlij zgłoszenie błędu lub zaproponuj nową funkcję</string>
     <string name="dynamic_color">Dynamiczny kolor</string>
-    <string name="clear_temp_files_info">Pliki tymczasowe mogą być użyte do wznowienia przerwanych pobrań. Czy na pewno chcesz usunąć wszystkie te pliki\?</string>
+    <string name="clear_temp_files_info">Pliki tymczasowe mogą być użyte do wznowienia przerwanych pobrań. Czy na pewno chcesz usunąć wszystkie te pliki?
+\n
+\nDostęp do tych plików można uzyskać w %1$s</string>
     <string name="cookies_usage_msg">Pobieranie z niektórych witryn wymaga informacji uwierzytelniających konto. Kliknij „Wygeneruj nowe ciasteczka”, wprowadź adres URL witryny, a następnie zaloguj się swoim kontem na stronie przeglądarki, aplikacja wygeneruje je za Ciebie.</string>
     <string name="general_settings_desc">Wersja Yt-dlp, powiadomienia, playlista</string>
     <string name="how_does_it_work">Jak to działa\?</string>
@@ -292,7 +294,7 @@
 \n
 \nW tych wersjach wystąpią pewne niestabilności, więc nie wahaj się przekazać nam opinii, jeśli napotkasz jakiekolwiek problemy, które pomogą nam ulepszyć aplikację na przyszłość.</string>
     <string name="logs">Dziennik</string>
-    <string name="embed_subtitles_mkv_msg">Dla osadzenia napisów, wideo będzie zremiksowane do kontenera mkv.</string>
+    <string name="embed_subtitles_mkv_msg">Aby osadzić napisy, filmy zostaną zremiksowane do kontenera mkv. Do oglądania filmów z osadzonymi napisami można użyć VLC Media Player lub innych kompatybilnych aplikacji.</string>
     <string name="update_channel">Zaktualizuj kanał</string>
     <string name="folder_picker">Wybieranie folderu</string>
     <string name="split_video">Podziel wideo</string>
@@ -336,4 +338,39 @@
     <string name="restrict_filenames">Ogranicz nazwy plików</string>
     <string name="download_archive_desc">Zapisz identyfikatory pobranych filmów w archiwum w celu uniknięcia duplikatów pobrań</string>
     <string name="embed_metadata_desc">Nanieś metadane i miniatury wideo w pliku audio</string>
+    <string name="remove_multiple_templates_msg">Usunąć %1$s z szablonów poleceń na dobre?</string>
+    <plurals name="item_count">
+        <item quantity="one">%d element</item>
+        <item quantity="few">%d elementy</item>
+        <item quantity="many">%d elementów</item>
+        <item quantity="other">%d elementów</item>
+    </plurals>
+    <string name="refresh_cookies_desc">Kliknij, aby otworzyć stronę do generowania nowych plików cookie:</string>
+    <string name="split_video_msg">Wideo będzie podzielone na %1$d rozdziałów</string>
+    <string name="allow_once">Pozwól raz</string>
+    <string name="allow_always">Pozwalaj zawsze</string>
+    <string name="download_with_cellular_request">Pozwolić na pobieranie przez sieć komórkową?</string>
+    <string name="dont_allow">Nie pozwalaj</string>
+    <string name="merge_audiostream">Scal wiele strumieni audio</string>
+    <string name="merge_audiostream_desc">Umożliwia łączenie wielu strumieni audio w jeden plik</string>
+    <string name="convert_subtitle_desc">Konwertuj napisy na inny format</string>
+    <string name="unknown_error_title">Ups! Coś poszło nie tak</string>
+    <string name="ua_header">Nagłówek User-Agent</string>
+    <string name="download_video_desc">Pobierz wideo z adresu URL</string>
+    <string name="keep_subtitle_files">Zachowaj pliki z napisami</string>
+    <string name="proxy_desc">Użyj serwer proxy do połączenia z internetem</string>
+    <string name="enable_notifications_desc">Aplikacja potrzebuje Twojej zgody, by wyświetlać powiadomienia o statusie i postępie pobierania.</string>
+    <string name="show_all_items">Pokaż wszystkie %1$d elementów</string>
+    <string name="custom_command_usage_msg">yt-dlp to potężne narzędzie wiersza poleceń do pobierania plików wideo. Seal ułatwia korzystanie z yt-dlp, zapewniając intuicyjny graficzny interfejs użytkownika, gotowe presety dla często używanych poleceń i inne dodatkowe funkcje.
+\n
+\nW celu zaawansowanego korzystania z yt-dlp Seal umożliwia tworzenie, zapisywanie i wykonywanie niestandardowych szablonów poleceń tak jak w terminalu.
+\n
+\nPodczas korzystania z niestandardowych poleceń większość opcji i funkcji GUI będzie wyłączona.</string>
+    <string name="set_directory_desc">Kliknij, aby wybrać katalog</string>
+    <string name="custom_command_directory_desc">Określ katalogu wyjściowy podczas korzystania z poleceń niestandardowych</string>
+    <string name="export_to_file">Eksportuj do pliku</string>
+    <string name="custom_command_directory">Niestandardowy katalog poleceń</string>
+    <string name="system_settings">Ustawienia systemowe</string>
+    <string name="force_ipv4">Wymuś IPv4</string>
+    <string name="force_ipv4_desc">Nawiązuj wszystkie połączenia przez IPv4</string>
 </resources>

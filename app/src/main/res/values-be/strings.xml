@@ -203,7 +203,7 @@
     <string name="video_creator_sample_text">Прыклад аўтара відэа</string>
     <string name="subtitle_desc">Мовы, убудаваныя субтытры, аўтаматычныя субтытры</string>
     <string name="format_selection">Выбар фармату</string>
-    <string name="remove_cookie_profile_desc">Выдаліць файлы cookie для \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Выдаліць файлы cookie для \"%1$s\"?</string>
     <string name="subtitle_language">Мовы субтытраў</string>
     <string name="selected_item_count">%1$d выбрана</string>
     <string name="private_directory">Прыватны каталог</string>
@@ -367,4 +367,17 @@
     <string name="force_ipv4">Прымусова выкарыстоўваць IPv4</string>
     <string name="force_ipv4_desc">Выконваць усе падключэнні праз IPv4</string>
     <string name="keep_subtitle_files">Захаваць файлы субтытраў</string>
+    <string name="allow_once">Дазволіць адзін раз</string>
+    <string name="allow_always">Дазваляць заўсёды</string>
+    <string name="dont_allow">Не дазваляць</string>
+    <string name="download_with_cellular_request">Дазволіць спампоўку праз мабільную перадачу даных?</string>
+    <string name="merge_audiostream">Аб\'яднаць некалькі аўдыёпатокаў</string>
+    <string name="merge_audiostream_desc">Дазволіць аб\'ядноўваць некалькі аўдыяпатокаў у адзін файл</string>
+    <string name="search_in_downloads">Пошук у загрузках</string>
+    <string name="search">Пошук</string>
+    <string name="auto_translated_subtitles">Субтытры з аўтаперакладам</string>
+    <string name="auto_translated_subtitles_msg">У загрузках можна будзе абраць субтытры, створаныя аўтаматычна для кожнай мовы. Яны могуць быць недакладнымі і цяжкімі для разумення.</string>
+    <string name="subtitle_language_desc">Мова субтытраў для загрузкі ў аўтаматычным выбары фармату, падзеленыя коскамі.</string>
+    <string name="remember_for_next_download">Запомніць для будучай загрузкі</string>
+    <string name="look_and_feel">Афармленне</string>
 </resources>

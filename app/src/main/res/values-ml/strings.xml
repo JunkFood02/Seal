@@ -216,7 +216,7 @@
     <string name="format_selection_desc">ഡൗൺലോഡ് ആരംഭിക്കുന്നതിന് മുമ്പ് ഡൗൺലോഡ് ചെയ്യേണ്ട ഫോർമാറ്റ് തിരഞ്ഞെടുക്കുക</string>
     <string name="subtitle_sponsorblock">സ്പോൺസർബ്ലോക്ക് സെഗ്‌മെന്റുകൾ നീക്കം ചെയ്യുമ്പോൾ സബ്‌ടൈറ്റിലുകൾ തെറ്റായി വന്നേക്കാം.</string>
     <string name="use_cookies">കുക്കികൾ ഉപയോഗിക്കുക</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\" എന്നതിനുള്ള കുക്കികൾ നീക്കം ചെയ്യണോ\?</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" എന്നതിനുള്ള കുക്കികൾ നീക്കം ചെയ്യണോ?</string>
     <string name="how_does_it_work">അതെങ്ങനെയാണ് പ്രവര്ത്തിക്കുന്നത്\?</string>
     <string name="abs_hint">മിക്ക വീഡിയോ സ്ട്രീമിംഗ് പ്ലാറ്റ്‌ഫോമുകളും ഓഡിയോയും വീഡിയോയും വെവ്വേറെ ഡെലിവർ ചെയ്യുന്നു, നിങ്ങൾക്ക് ഒരു ഓഡിയോ മാത്രമുള്ള ഫോർമാറ്റ് തിരഞ്ഞെടുത്ത് ഒരു വീഡിയോ മാത്രമുള്ള ഫോർമാറ്റിൽ ഒരു വീഡിയോയിലേക്ക് ലയിപ്പിക്കാം.</string>
     <string name="custom_command_enabled_hint">കസ്റ്റം കമാൻഡ് ഉപയോഗിക്കുമ്പോൾ ചില ഓപ്ഷനുകൾ ലഭ്യമല്ല</string>
