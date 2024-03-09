@@ -28,7 +28,7 @@
     <string name="cancel">Anulează</string>
     <string name="settings_before_download">Configurați înainte de a descărca</string>
     <string name="error_copied">Raport de eroare copiat în clipboard</string>
-    <string name="thumbnail">miniatură</string>
+    <string name="thumbnail">Miniatură</string>
     <string name="paste">Lipește</string>
     <string name="url_empty">Linkul nu poate fi gol</string>
     <string name="extract_audio_summary">Descarcă și salvează audio, în loc de video</string>
@@ -60,13 +60,13 @@
     <string name="template_selection">Selectarea șablonului</string>
     <string name="template_label">Etichetă</string>
     <string name="remove_template">Elimină\?</string>
-    <string name="downloading_indicator_text">Descărcare în curs, atingeți pentru a anula.</string>
+    <string name="downloading_indicator_text">Descărcare în curs…</string>
     <string name="task_canceled">Descărcați sarcina anulată</string>
     <string name="status_canceled">Anulat</string>
     <string name="open_file">Deschide fișierul</string>
     <string name="restart">Reîncepe</string>
     <string name="copy_error_report">Raport de eroare</string>
-    <string name="sponsorblock_categories_desc">Specificați categoriile SponsorBlock pentru a fi eliminate din fișierul video</string>
+    <string name="sponsorblock_categories_desc">Specificați categoriile SponsorBlock pentru a elimina sau marca în fișierul video</string>
     <string name="check_for_updates">Căutați actualizări</string>
     <string name="cookies">Cookie-uri</string>
     <string name="check_for_updates_desc">Verificați automat cea mai recentă versiune pe GitHub</string>
@@ -91,7 +91,9 @@
     <string name="translate">Traduceți</string>
     <string name="video_resolution">Rezoluție video</string>
     <string name="general_settings_desc">Versiunea YT-dlp, notificare, playlist</string>
-    <string name="clear_temp_files_info">Fișierele temporare pot fi folosite pentru a relua descărcările anulate. Sunteți sigur că ștergeți toate aceste fișiere\?</string>
+    <string name="clear_temp_files_info">Fișierele temporare pot fi utilizate pentru a relua descărcările anulate. Ești sigur că vrei să ștergi toate aceste fișiere?
+\n
+\nPoți accesa aceste fișiere în %1$s</string>
     <string name="embed_subtitles_desc">Încorporează subtitrări furnizate în videoclipuri, dacă sunt disponibile</string>
     <string name="format_settings_desc">Format de fișier, calitate video, subtitrări</string>
     <string name="selected_item_count">%1$d selectat</string>
@@ -106,7 +108,7 @@
     <string name="update">Actualizare</string>
     <string name="video_file_size">Dimensiunea fișierului video</string>
     <string name="multiselect_item_count">%1$d video(uri), %2$d fișier(e) audio</string>
-    <string name="remove_cookie_profile_desc">Elimină cookie-urile pentru \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Elimină cookie-urile pentru \"%1$s\"?</string>
     <string name="new_template">Șablon nou</string>
     <string name="status_fetching_video_info">Preluare informații</string>
     <string name="private_mode_desc">Dezactivează istoricul descărcărilor</string>
@@ -126,13 +128,13 @@
     <string name="status_error">Eroare</string>
     <string name="status_completed">Efectuat</string>
     <string name="export_to_clipboard">Exportați în clipboard</string>
-    <string name="clear_temp_files_desc">Ștergeți toate fișierele temporare din directorul intern</string>
-    <string name="private_mode">Modul incognito</string>
+    <string name="clear_temp_files_desc">Ștergeți toate fișierele temporare din directorul temporar</string>
+    <string name="private_mode">Incognito</string>
     <string name="download_disabled_with_cellular">Descărcarea cu rețeaua celulară este dezactivată conform setărilor dvs</string>
     <string name="format_selection_desc">Selectați formatul de descărcat înainte de a începe descărcarea</string>
     <string name="github_issue_desc">Trimiteți o problemă pentru raportul de eroare sau cererea de funcții</string>
     <string name="remove_template_desc">Eliminați definitiv \"%1$s\" din șabloanele de comandă\?</string>
-    <string name="sponsorblock_desc">Eliminați segmente din videoclipuri cu SponsorBlock API</string>
+    <string name="sponsorblock_desc">Eliminați sau marcați segmente în videoclipuri cu SponsorBlock API</string>
     <string name="delete_multiple_items_msg">Eliminați definitiv articolele %1$d din istoricul de descărcare\?</string>
     <string name="cookies_desc">Utilizați cookie-uri formatate Netscape pentru descărcări</string>
     <string name="clear_temp_files">Ștergeți fișierele temporare</string>
@@ -144,7 +146,7 @@
     <string name="download_range_selection">Selecția playlistului</string>
     <string name="to">Sfârşit</string>
     <string name="invalid_index_range">Interval de indexare invalid</string>
-    <string name="playlist_indicator_text">Descărcarea listei de redare (%1$d/%2$d), atingeți pentru a opri.</string>
+    <string name="playlist_indicator_text">Descărcarea listei de redare (%1$d/%2$d)…</string>
     <string name="audio_directory">Dosar audio</string>
     <string name="not_specified">Nespecificat (implicit)</string>
     <string name="video_format_preference">Format video preferat</string>
@@ -171,7 +173,7 @@
     <string name="paste_desc">Faceți clic pe \"Lipește\" pentru a obține link-ul video din clipboard.</string>
     <string name="channel_name">Descarcă</string>
     <string name="options">Opțiuni</string>
-    <string name="preferred_format_desc">Formatul ales atunci când sunt furnizate mai multe</string>
+    <string name="preferred_format_desc">Formatul preferat atunci când sunt furnizate mai multe</string>
     <string name="download_history_desc">Verificați și gestionați descărcările în aplicație, inclusiv videoclipuri și fișiere audio.</string>
     <string name="defaults">Implicit</string>
     <string name="filesize_gb">%.2f G</string>
@@ -206,7 +208,7 @@
     <string name="clip_start">Pornire</string>
     <string name="on">Pe</string>
     <string name="video_quality">Calitatea video</string>
-    <string name="best_quality">Cea mai bună calitate (implicit)</string>
+    <string name="best_quality">Cea mai bună calitate</string>
     <string name="template_imported">Șablon(uri) %1$d importat(e)</string>
     <string name="settings_before_download_desc">Configurați preferințele înainte de descărcare</string>
     <string name="check_download_settings_desc">Aruncă o privire la setările de descărcare și asigură-te că ai cea mai recentă versiune de yt-dlp înainte de a o folosi.</string>
@@ -227,7 +229,7 @@
     <string name="not_convert">Neconvertit</string>
     <string name="convert_audio">Converti</string>
     <string name="subdirectory">Salvare în subdirector</string>
-    <string name="subdirectory_desc">Salvați fișierele în foldere numite site-uri web respective</string>
+    <string name="subdirectory_desc">Salvați fișierele în folderele numite ca și câmpurile respective</string>
     <string name="multiselect_mode">Modul Multiselect</string>
     <string name="print_details_desc">Imprimă mesaje detaliate la descărcare</string>
     <string name="service_title">Seal se descarcă…</string>
@@ -305,4 +307,5 @@
     <string name="new_task">Sarcină nouă de descărcare</string>
     <string name="edit_template">Editați \"%1$s\"</string>
     <string name="start">Pornire</string>
+    <string name="ytdlp_update_action">Actualizează yt-dlp</string>
 </resources>

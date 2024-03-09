@@ -217,7 +217,7 @@
     <string name="crop_artwork">ਕ੍ਰੌਪ ਆਰਟਵਰਕ</string>
     <string name="crop_artwork_desc">ਏਮਬੇਡ ਚਿੱਤਰ ਨੂੰ ਵਰਗ ਵਿੱਚ ਕੱਟੋ</string>
     <string name="use_cookies">ਕੂਕੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
-    <string name="remove_cookie_profile_desc">ਕੀ \"%1$s\" ਲਈ ਕੂਕੀਜ਼ ਨੂੰ ਹਟਾਉਣਾ ਹੈ\?</string>
+    <string name="remove_cookie_profile_desc">ਕੀ \"%1$s\" ਲਈ ਕੂਕੀਜ਼ ਨੂੰ ਹਟਾਉਣਾ ਹੈ?</string>
     <string name="how_does_it_work">ਇਹ ਕਿਵੇਂ ਚਲਦਾ ਹੈ\?</string>
     <string name="telegram_channel">ਟੈਲੀਗ੍ਰਾਮ ਚੈਨਲ</string>
     <string name="custom_command_enabled_hint">ਕਸਟਮ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਵਿਕਲਪ ਉਪਲਬਧ ਨਹੀਂ ਹਨ</string>
@@ -365,4 +365,24 @@
     <string name="force_ipv4">IPv4 ਨੂੰ ਫੋਰਸ ਕਰੋ</string>
     <string name="force_ipv4_desc">ਸਾਰੇ ਕੁਨੈਕਸ਼ਨ IPv4 ਰਾਹੀਂ ਬਣਾਓ</string>
     <string name="keep_subtitle_files">ਸਬਟਾਈਟਲ ਫਾਈਲਾਂ ਨੂੰ ਰੱਖੋ</string>
+    <string name="dont_allow">ਇਜਾਜ਼ਤ ਨਾ ਦਿਓ</string>
+    <string name="merge_audiostream">ਮਲਟੀਪਲ ਆਡੀਓ ਸਟ੍ਰੀਮ ਨੂੰ ਮਿਲਾਓ</string>
+    <string name="allow_once">ਇੱਕ ਵਾਰ ਆਗਿਆ ਦਿਓ</string>
+    <string name="allow_always">ਹਮੇਸ਼ਾ ਇਜਾਜ਼ਤ ਦਿਓ</string>
+    <string name="download_with_cellular_request">ਕੀ ਮੋਬਾਈਲ ਡਾਟਾ ਨਾਲ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣੀ ਹੈ?</string>
+    <string name="merge_audiostream_desc">ਮਲਟੀਪਲ ਆਡੀਓ ਸਟ੍ਰੀਮਾਂ ਨੂੰ ਇੱਕ ਸਿੰਗਲ ਫਾਈਲ ਵਿੱਚ ਵਿਲੀਨ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="search">ਖੋਜ ਕਰੋ</string>
+    <string name="search_in_downloads">ਡਾਊਨਲੋਡਸ ਵਿੱਚ ਖੋਜ ਕਰੋ</string>
+    <string name="auto_translated_subtitles">ਸਵੈ-ਅਨੁਵਾਦਿਤ ਉਪਸਿਰਲੇਖ</string>
+    <string name="auto_translated_subtitles_msg">ਸਾਰੀਆਂ ਭਾਸ਼ਾਵਾਂ ਲਈ ਸਵੈ-ਅਨੁਵਾਦਿਤ ਉਪਸਿਰਲੇਖ ਡਾਊਨਲੋਡਾਂ ਵਿੱਚ ਉਪਲਬਧ ਹੋਣਗੇ। ਇਹ ਉਪਸਿਰਲੇਖ ਗਲਤ ਅਤੇ ਸਮਝਣ ਵਿੱਚ ਮੁਸ਼ਕਲ ਹੋ ਸਕਦੇ ਹਨ।</string>
+    <string name="subtitle_language_desc">ਆਟੋ ਫਾਰਮੈਟ ਚੋਣ ਵਿੱਚ ਡਾਉਨਲੋਡ ਕਰਨ ਲਈ ਉਪਸਿਰਲੇਖਾਂ ਦੀ ਭਾਸ਼ਾ, ਕਾਮਿਆਂ ਦੁਆਰਾ ਵੱਖ ਕੀਤੀ ਗਈ।</string>
+    <string name="remember_for_next_download">ਅਗਲੇ ਡਾਊਨਲੋਡ ਲਈ ਯਾਦ ਰੱਖੋ</string>
+    <string name="look_and_feel">ਦਿੱਖ ਅਤੇ ਅਹਿਸਾਸ</string>
+    <string name="use_previous_selection">ਪਿਛਲੀ ਚੋਣ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="none">ਕੋਈ ਵੀ ਨਹੀਂ</string>
+    <string name="reset">ਰੀਸੈੱਟ ਕਰੋ</string>
+    <string name="search_in_subtitles">ਉਪਸਿਰਲੇਖਾਂ ਵਿੱਚ ਖੋਜ ਕਰੋ</string>
+    <string name="no_thanks">ਨਹੀਂ ਧੰਨਵਾਦ</string>
+    <string name="update_subtitle_languages">ਉਪਸਿਰਲੇਖ ਭਾਸ਼ਾਵਾਂ ਅੱਪਡੇਟ ਕਰੀਏ?</string>
+    <string name="update_language_msg">ਭਵਿੱਖ ਦੇ ਡਾਊਨਲੋਡਾਂ ਲਈ ਤੁਹਾਡੀ ਤਰਜੀਹ ਵਿੱਚ ਅੱਗੇ ਦਿੱਤੀਆਂ ਭਾਸ਼ਾਵਾਂ ਸ਼ਾਮਲ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ:</string>
 </resources>

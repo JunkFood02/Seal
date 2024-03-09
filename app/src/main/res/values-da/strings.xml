@@ -223,7 +223,7 @@
     <string name="generate_new_cookies">Generer nye cookies</string>
     <string name="format_selection_desc">Vælg det format, der skal downloades, før du starter download</string>
     <string name="use_cookies">Brug Cookies</string>
-    <string name="remove_cookie_profile_desc">Fjern cookies for \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Fjern cookies for \"%1$s\"?</string>
     <string name="custom_command_enabled_hint">Nogle muligheder er utilgængelige, når brugerdefineret kommando bruges</string>
     <string name="cookies_usage_msg">Download fra nogle websteder kræver kontogodkendelse. Klik på \"Generer nye cookies\", indtast webadressen på hjemmesiden og log derefter ind med din konto på browsersiden; appen genererer den nye cookie for dig.</string>
     <string name="telegram_channel">Telegram-kanal</string>

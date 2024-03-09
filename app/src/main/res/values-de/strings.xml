@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="create_thumbnail">Vorschaubild speichern</string>
+    <string name="create_thumbnail">Miniaturansicht speichern</string>
     <string name="url_empty">Der Link darf nicht leer sein</string>
     <string name="extract_audio_summary">Audio herunterladen und speichern, statt Video</string>
     <string name="create_thumbnail_summary">Vorschaubild des Videos als Datei speichern</string>
     <string name="yt_dlp_up_to_date">Verwendung der neuesten Version von yt-dlp</string>
     <string name="fetching_info">Videoinformationen werden abgerufen…</string>
-    <string name="permission_denied">Berechtigung verweigert</string>
+    <string name="permission_denied">Keine Berechtigung</string>
     <string name="download_success_msg">Download abgeschlossen</string>
     <string name="download_error_msg">Datei konnte nicht heruntergeladen werden</string>
     <string name="download_start_msg">„%1$s“ herunterladen</string>
     <string name="fetch_info_error_msg">Videoinformationen konnten nicht abgerufen werden</string>
     <string name="general_settings">Allgemein</string>
-    <string name="language_settings">Sprache festlegen</string>
+    <string name="language_settings">Anzeigesprache festlegen</string>
     <string name="task_running">Eine bestehende Download-Aufgabe wird bereits ausgeführt</string>
-    <string name="paste_msg">URL aus der Zwischenablage einfügen</string>
+    <string name="paste_msg">Link aus der Zwischenablage einfügen</string>
     <string name="delete_info">Entfernen\?</string>
     <string name="delete_info_msg">„%1$s“ für immer aus deinem Downloadverlauf entfernen\?</string>
     <string name="confirm">Bestätigen</string>
@@ -55,11 +55,11 @@
     <string name="video_format">Videoformat</string>
     <string name="video_quality">Videoqualität</string>
     <string name="best_quality">Beste Qualität</string>
-    <string name="video_directory">Videoordner</string>
+    <string name="video_directory">Videoverzeichnis</string>
     <string name="settings">Einstellungen</string>
     <string name="yt_dlp_update_fail">Die neueste Version von yt-dlp konnte nicht installiert werden. Bitte stelle sicher, dass du mit dem Internet verbunden bist.</string>
-    <string name="language">Sprache</string>
-    <string name="paste_fail_msg">URL in der Zwischenablage konnte nicht gefunden werden</string>
+    <string name="language">Angezeigte Sprache</string>
+    <string name="paste_fail_msg">Link in der Zwischenablage konnte nicht gefunden werden</string>
     <string name="ytdlp_version">Yt-dlp-Version</string>
     <string name="ytdlp_update">Klicke hier, um die neueste Version von yt-dlp zu installieren</string>
     <string name="options">Optionen</string>
@@ -97,7 +97,7 @@
     <string name="download_range_selection">Wiedergabeliste-Auswahl</string>
     <string name="download_directory_desc">Wähle den Speicherort für Videos und Audiodateien</string>
     <string name="subdirectory">In Unterordner speichern</string>
-    <string name="subdirectory_desc">Dateien in Ordnern mit den Namen der jeweiligen Webseiten speichern</string>
+    <string name="subdirectory_desc">Dateien in Ordnern mit den Namen der jeweiligen Felder speichern</string>
     <string name="permission_issue">Problem mit der Speicherberechtigung</string>
     <string name="battery_configuration">Akkukonfiguration</string>
     <string name="battery_configuration_desc">Akku-Optimierung für diese App ignorieren, um im Hintergrund herunterzuladen</string>
@@ -217,7 +217,7 @@
     <string name="format_selection_desc">Wähle das herunterzuladende Format, bevor du den Download startest</string>
     <string name="generate_new_cookies">Neue Cookies generieren</string>
     <string name="use_cookies">Cookies verwenden</string>
-    <string name="remove_cookie_profile_desc">Cookies für „%1$s“ entfernen\?</string>
+    <string name="remove_cookie_profile_desc">Cookies für „%1$s“ entfernen?</string>
     <string name="custom_command_enabled_hint">Einige Optionen sind bei Verwendung des benutzerdefinierten Befehls nicht verfügbar</string>
     <string name="how_does_it_work">Wie funktioniert das\?</string>
     <string name="cookies_usage_msg">Für das Herunterladen von einigen Webseiten sind Informationen zur Kontoauthentifizierung erforderlich. Klicke auf „Neue Cookies generieren“, gib die URL der Webseite ein und melde dich dann mit deinem Konto auf der Browserseite an, damit die App sie für dich generieren kann.</string>
@@ -324,7 +324,7 @@
     <string name="learn_more">Mehr erfahren</string>
     <string name="download_type">Art des Herunterladens</string>
     <string name="custom_command_directory">Benutzerdefiniertes Befehlsverzeichnis</string>
-    <string name="custom_command_directory_desc">Geben Sie das Ausgabeverzeichnis an, wenn Sie benutzerdefinierte Befehle verwenden</string>
+    <string name="custom_command_directory_desc">Gib das Ausgabeverzeichnis an, wenn du benutzerdefinierte Befehle verwendest</string>
     <string name="set_directory_desc">Tippen, um Verzeichnis einzurichten</string>
     <string name="ua_header">User-Agent Header</string>
     <string name="format_preference">Format Präferenz</string>
@@ -356,7 +356,7 @@
     <string name="output_template_desc">Vorlage für Ausgabedateinamen angeben</string>
     <string name="restrict_filenames">Dateinamen einschränken</string>
     <string name="edit_file">Datei bearbeiten</string>
-    <string name="download_archive_desc">Erfassen Sie heruntergeladene Video-IDs in einem Archiv, um doppelte Downloads zu vermeiden</string>
+    <string name="download_archive_desc">Erfasse heruntergeladene Video-IDs in einem Archiv, um doppelte Downloads zu vermeiden</string>
     <string name="embed_metadata_desc">Metadaten und Video-Thumbnail in die Audiodatei einbetten</string>
     <string name="playlist_title">Titel der Playliste</string>
     <string name="download_archive">Archiv herunterladen</string>
@@ -364,4 +364,25 @@
     <string name="legacy">Legacy</string>
     <string name="system_settings">Systemeinstellungen</string>
     <string name="force_ipv4_desc">Nutze für alle Verbindungen nur IPv4</string>
+    <string name="allow_once">Einmalig erlauben</string>
+    <string name="allow_always">Immer erlauben</string>
+    <string name="dont_allow">Nicht erlauben</string>
+    <string name="download_with_cellular_request">Herunterladen über Mobilfunknetz zulassen?</string>
+    <string name="merge_audiostream_desc">Zusammenführung von mehreren Audiospuren in eine einzelne Datei zulassen</string>
+    <string name="keep_subtitle_files">Untertiteldateien behalten</string>
+    <string name="merge_audiostream">Mehrere Audiospuren zusammenfügen</string>
+    <string name="search_in_downloads">In Downloads suchen</string>
+    <string name="search">Suchen</string>
+    <string name="subtitle_language_desc">Alle Sprachen der automatisch übersetzten Untertitel findest du hier, kommagetrennt aufgelistet. Für einzelne Sprachen kannst du auch die \"Benutzerdefinierte Formatauswahl\" nutzen.</string>
+    <string name="remember_for_next_download">Für den nächsten Download speichern</string>
+    <string name="look_and_feel">Aussehen und Haptik</string>
+    <string name="use_previous_selection">Vorherige Auswahl übernehmen</string>
+    <string name="none">Nichts</string>
+    <string name="auto_translated_subtitles">Automatisch übersetzte Untertitel</string>
+    <string name="auto_translated_subtitles_msg">Automatisch übersetzte Untertitel für alle Sprachen werden in den Downloads verfügbar sein. Diese Untertitel können ungenau und schwer verständlich sein.</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="no_thanks">Nein danke</string>
+    <string name="search_in_subtitles">Suche in Untertiteln</string>
+    <string name="update_subtitle_languages">Sprache der Untertitel aktualisieren?</string>
+    <string name="update_language_msg">Die folgenden Sprachen werden zu deiner Präferenz für zukünftige Downloads hinzugefügt:</string>
 </resources>

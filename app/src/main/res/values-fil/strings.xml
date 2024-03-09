@@ -88,7 +88,7 @@
     <string name="edit_template_desc">output path at URL ay i dadag-dag ng app.</string>
     <string name="convert_to">I-convert sa %1$s</string>
     <string name="best_quality">Pinakamahusay na kalidad</string>
-    <string name="preferred_format_desc">Napiling pormat kapag marami ang ibinigay</string>
+    <string name="preferred_format_desc">Mas gustong format kapag marami ang ibinigay</string>
     <string name="open_settings">I-open ang settings</string>
     <string name="paste_desc">Pindutin ang \"Paste\" upang makuha ang video link na galing sa iyong clipboard.</string>
     <string name="link_copied">Ang link ay kinopya na sa clipboard</string>
@@ -109,7 +109,7 @@
     <string name="yt_dlp_up_to_date">Ginagamit ang pinakabagong bersyon ng yt-dlp</string>
     <string name="audio_directory">Polder ng audio</string>
     <string name="subdirectory">I-Save sa subdirectory</string>
-    <string name="subdirectory_desc">I-save ang mga file sa mga folder na pinangalanan bilang kani-kanilang mga website</string>
+    <string name="subdirectory_desc">I-save ang mga file sa mga folder na pinangalanan bilang ang kani-kanilang mga patlang</string>
     <string name="battery_configuration_desc">Wag pansinin ang battery optimization para sa app na ito upang makapag download kahit nasa background</string>
     <string name="yt_dlp_update_fail">Hindi ma install ang pinakabagong bersyon ng yt-dlp, siguraduhing naka connect ang iyong device sa internet.</string>
     <string name="delete_file">Burahin</string>
@@ -125,14 +125,14 @@
     <string name="release">Pinakabagong release</string>
     <string name="display_settings">Madilim na tema, paiba-ibang kulay, wika</string>
     <string name="video_format">Pormat ng video</string>
-    <string name="playlist_indicator_text">Dina-download ang kasalukuyang playlist (%1$d/%2$d), I-tap para ihinto.</string>
+    <string name="playlist_indicator_text">Dina-download ang kasalukuyang playlist (%1$d/%2$d), tapikin para ihinto.</string>
     <string name="from">Simula</string>
     <string name="permission_issue">May issue sa paghingi ng permisso para sa storage</string>
     <string name="service_title">Nag da-download si Seal…</string>
     <string name="battery_configuration">Configuration ng baterya</string>
     <string name="prefix">Path template</string>
     <string name="restart">I-restart</string>
-    <string name="downloading_indicator_text">Isinasagwa ang download, i-tap para kanselahin.</string>
+    <string name="downloading_indicator_text">Isinasagwa ang download, tapikin para i-kansel.</string>
     <string name="video_file_size">Laki ng video file</string>
     <string name="new_template">Bagong template</string>
     <string name="open_file">Buksan ang file</string>
@@ -200,7 +200,7 @@
     <string name="lowest_quality">Pinakamababang Quality</string>
     <string name="delete_multiple_items_msg">Tangalin %1$d aytem(s) mula sa iyong download history para sa kabutihan\?</string>
     <string name="network">Network</string>
-    <string name="remove_cookie_profile_desc">Tangalin ang cookies para sa\"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Tangalin ang cookies para sa\"%1$s\"?</string>
     <string name="private_directory">Pribado na directory</string>
     <string name="private_directory_desc">Ilagay ang mga downloads sa isang nakatagong direktoryo</string>
     <string name="clear_temp_files_count">Tinanggal na ang %1$d temporary file(s)</string>

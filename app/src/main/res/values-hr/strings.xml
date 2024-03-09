@@ -366,4 +366,24 @@
     <string name="system_settings">Postavke sustava</string>
     <string name="force_ipv4">Prisili IPv4</string>
     <string name="force_ipv4_desc">Uspostavi sve veze putem IPv4</string>
+    <string name="allow_once">Dozvoli jednom</string>
+    <string name="dont_allow">Nemoj dozvoliti</string>
+    <string name="allow_always">Dozvoli uvijek</string>
+    <string name="merge_audiostream_desc">Dozvoli sjedinjavanje audio strimova u jednu datoteku</string>
+    <string name="download_with_cellular_request">Dozvoliti preuzimanje putem mobilnih podataka?</string>
+    <string name="merge_audiostream">Sjedini audio strimove</string>
+    <string name="auto_translated_subtitles">Automatski prevedeni titlovi</string>
+    <string name="auto_translated_subtitles_msg">Automatski prevedeni titlovi za sve jezike će biti dostupni za preuzimanje. Ovi titlovi mogu biti netočni i teško razumljivi.</string>
+    <string name="look_and_feel">Izgled i osjećaj</string>
+    <string name="use_previous_selection">Koristi prethodni odabir</string>
+    <string name="none">Ništa</string>
+    <string name="remember_for_next_download">Zapamti za sljedeće preuzimanje</string>
+    <string name="subtitle_language_desc">Jezik titlova za preuzimanje u odabiru automatskog formata, odvojen zarezima.</string>
+    <string name="reset">Resetiraj</string>
+    <string name="search_in_subtitles">Traži u titlovima</string>
+    <string name="no_thanks">Ne hvala</string>
+    <string name="update_language_msg">Sljedeći jezici će se dodati tvojim postavkama za buduća preuzimanja:</string>
+    <string name="update_subtitle_languages">Aktualizirati jezike titlova?</string>
+    <string name="search">Traži</string>
+    <string name="search_in_downloads">Traži u preuzimanjima</string>
 </resources>

@@ -10,7 +10,7 @@
     <string name="extract_audio_summary">Video əvəzində, səs yüklə və saxla</string>
     <string name="create_thumbnail_summary">Video miniatürü fayl kimi saxla</string>
     <string name="yt_dlp_up_to_date">yt-dlp-nin ən son versiyası işlədilir</string>
-    <string name="yt_dlp_update_fail">Ən son yt-dlp versiyasın quraşdırmaq alınmadı.Zəhmət olmasa, İnternetə qoşduğunuzdan əmin olun.</string>
+    <string name="yt_dlp_update_fail">Ən son yt-dlp versiyasın quraşdırmaq alınmadı. Zəhmət olmasa, İnternetə qoşduğunuzdan əmin olun.</string>
     <string name="fetching_info">Video məlumatı alınır…</string>
     <string name="permission_denied">İcazə rədd edildi</string>
     <string name="download_success_msg">Yükləmə bitdi</string>
@@ -217,7 +217,7 @@
     <string name="format_selection_desc">Yükləmə başlamazdan əvvəl yükləmək üçün format seç</string>
     <string name="generate_new_cookies">Yeni məlumat bazası yarat</string>
     <string name="use_cookies">Məlumat bazası istifadə et</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\" üçün məlumat bazası təmizlənsin\?</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" üçün məlumat bazası təmizlənsin?</string>
     <string name="custom_command_enabled_hint">Fərdi əmr istifadə edərkən bəzi seçimlər əlçatmazdır</string>
     <string name="how_does_it_work">Bu necə işləyir\?</string>
     <string name="cookies_usage_msg">Bəzi saytlardan yükləmə zamanı hesab təsdiqləmə məlumatı tələb olunur. \"Yeni məlumat bazası yarada\" kliklə, vebsayt URL-ni daxil et və sonra brauzer səhifəsində hesabınızla daxil olun, tətbiq sizin üçün bunu yaradacaq.</string>
@@ -365,4 +365,10 @@
     <string name="edit_file">Fayla düzəliş edin</string>
     <string name="embed_metadata_desc">Səs faylına əlavə məlumat və video miniatürü yerləşdir</string>
     <string name="playlist_title">Oynatma siyahısı başlığı (adı)</string>
+    <string name="allow_once">Bir dəfə icazə ver</string>
+    <string name="download_with_cellular_request">Mobil ilə yükləməyə icazə verilsin?</string>
+    <string name="merge_audiostream">Çoxlu səs axının birləşdir</string>
+    <string name="merge_audiostream_desc">Çoxlu səs axınların bir faylda birləşdirməyə icazə ver</string>
+    <string name="allow_always">Həmişə icazə ver</string>
+    <string name="dont_allow">İcazə vermə</string>
 </resources>

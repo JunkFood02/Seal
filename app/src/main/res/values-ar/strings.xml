@@ -367,4 +367,11 @@
     <string name="force_ipv4">فرض IPv4</string>
     <string name="system_settings">إعدادات النظام</string>
     <string name="force_ipv4_desc">قم بإجراء كافة الاتصالات عبر IPv4</string>
+    <string name="allow_once">السماح مرة واحدة</string>
+    <string name="allow_always">السماح دائماً</string>
+    <string name="dont_allow">عدم السماح</string>
+    <string name="download_with_cellular_request">هل تسمح بالتنزيل باستخدام بيانات الهاتف ؟</string>
+    <string name="merge_audiostream">دمج بث صوتي متعدد</string>
+    <string name="merge_audiostream_desc">السماح بدمج بث صوتي متعدد في ملف واحد</string>
+    <string name="keep_subtitle_files">حفظ ملفات الترجمة</string>
 </resources>

@@ -205,7 +205,7 @@
     <string name="check_for_updates">Sjå etter oppdateringar</string>
     <string name="high_contrast">Svart vising</string>
     <string name="use_cookies">Bruk infokapslar</string>
-    <string name="remove_cookie_profile_desc">Tak bort infokapslar for «%1$s»\?</string>
+    <string name="remove_cookie_profile_desc">Tak bort infokapslar for «%1$s»?</string>
     <string name="custom_command_enabled_hint">Nokre val er utilgjengelege når « bruk eigne påbod» er slegen på</string>
     <string name="how_does_it_work">Korleis verkar det\?</string>
     <string name="cookies_usage_msg">Henting ifrå somme nettstadar krev kontostadfestingsopplysingar. Trykk på «lag nye infokapslar», skriv inn nettadressa til nettstaden, og logg deg so inn i nettlesersida som appen fører deg til.</string>

@@ -271,7 +271,7 @@
     <string name="got_it">わかった</string>
     <string name="feature_unavailable">機能を利用できません</string>
     <string name="audio_format_preference">希望する音声形式</string>
-    <string name="unlimited">制限なし</string>
+    <string name="unlimited">上限なし</string>
     <string name="lowest_bitrate">最低ビットレート</string>
     <string name="format_sorting">形式の並び替え</string>
     <string name="format_sorting_desc">yt-dlpの-Sオプションで形式を並び替える</string>
@@ -364,4 +364,24 @@
     <string name="playlist_title">再生リストの題名</string>
     <string name="required">必須</string>
     <string name="keep_subtitle_files">字幕ファイルを保持</string>
+    <string name="allow_once">1度許可</string>
+    <string name="allow_always">常に許可</string>
+    <string name="dont_allow">許可しない</string>
+    <string name="merge_audiostream_desc">複数の音声ストリームを1つのファイルへと結合する</string>
+    <string name="merge_audiostream">複数の音声ストリームを結合</string>
+    <string name="download_with_cellular_request">モバイル接続でダウンロードしますか (従量課金の場合)？</string>
+    <string name="auto_translated_subtitles_msg">すべての言語で自動翻訳された字幕をダウンロードできます。これらの字幕は不正確で理解しにくいことがあります。</string>
+    <string name="auto_translated_subtitles">自動翻訳された字幕</string>
+    <string name="none">なし</string>
+    <string name="use_previous_selection">前回の選択を使用</string>
+    <string name="look_and_feel">表示</string>
+    <string name="remember_for_next_download">次回のダウンロード用に記憶</string>
+    <string name="reset">初期化</string>
+    <string name="search_in_subtitles">字幕を検索</string>
+    <string name="no_thanks">いいえ</string>
+    <string name="update_subtitle_languages">字幕の言語を更新しますか？</string>
+    <string name="update_language_msg">以下の言語が、次回のダウンロード時の優先候補に追加されます:</string>
+    <string name="subtitle_language_desc">自動の形式選択でダウンロードする字幕の言語。カンマ区切り。</string>
+    <string name="search_in_downloads">ダウンロード一覧から検索</string>
+    <string name="search">検索</string>
 </resources>

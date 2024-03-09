@@ -211,7 +211,7 @@
     <string name="check_download_settings_desc">ดูที่การตั้งค่าการดาวน์โหลดและแน่ใจว่าคุณมีเวอร์ชันล่าสุดของ yt-dlp ก่อนที่จะใช้มัน</string>
     <string name="download_history_desc">ตรวจสอบและจัดการการดาวน์โหลดในแอปรวมถึงวิดีโอและไฟล์เสียง</string>
     <string name="video_format_preference">รูปแบบวิดีโอที่ชอบ</string>
-    <string name="remove_cookie_profile_desc">ลบคุกกี้สำหรับ \"%1$s\" \?</string>
+    <string name="remove_cookie_profile_desc">ลบคุกกี้สำหรับ \"%1$s\" ?</string>
     <string name="use_cookies">ใช้คุกกี้</string>
     <string name="auto_subtitle_desc">ดาวน์โหลดคำบรรยายที่สร้างขึ้นอัตโนมัติ</string>
     <string name="generate_new_cookies">สร้างคุกกี้ใหม่</string>

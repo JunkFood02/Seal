@@ -220,7 +220,7 @@
     <string name="cookies">Kuki</string>
     <string name="generate_new_cookies">Menjana kuki baharu</string>
     <string name="telegram_channel">Saluran Telegram</string>
-    <string name="remove_cookie_profile_desc">Buang kuki untuk \"%1$s\"\?</string>
+    <string name="remove_cookie_profile_desc">Buang kuki untuk \"%1$s\"?</string>
     <string name="custom_command_enabled_hint">Sebahagian pilihan tidak ada apabila menggunakan arahan tersuai</string>
     <string name="how_does_it_work">Bagaimana ia berfungsi\?</string>
     <string name="matrix_space">Ruang Matrix</string>

@@ -364,4 +364,10 @@
     <string name="system_settings">系統設定</string>
     <string name="force_ipv4_desc">讓所有連線皆透過 IPv4 進行</string>
     <string name="keep_subtitle_files">保留字幕檔案</string>
+    <string name="allow_once">允許一次</string>
+    <string name="allow_always">永久允許</string>
+    <string name="dont_allow">不允許</string>
+    <string name="download_with_cellular_request">是否允許使用行動網路下載？</string>
+    <string name="merge_audiostream">合併多個音訊串流</string>
+    <string name="merge_audiostream_desc">允許將多個音訊串流合併成單一檔案</string>
 </resources>
