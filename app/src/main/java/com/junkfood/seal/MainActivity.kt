@@ -7,11 +7,9 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.collectAsState
-import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,9 +23,8 @@ import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
+import com.junkfood.seal.util.setLanguage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
@@ -43,10 +40,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         runBlocking {
-            if (Build.VERSION.SDK_INT < 33)
-                AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
-                )
+            if (Build.VERSION.SDK_INT < 33) {
+                setLanguage(PreferenceUtil.getLocaleFromPreference())
+            }
         }
         context = this.baseContext
         setContent {
@@ -109,17 +105,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         private var sharedUrl = ""
-
-
-        fun setLanguage(locale: String) {
-            Log.d(TAG, "setLanguage: $locale")
-            val localeListCompat =
-                if (locale.isEmpty()) LocaleListCompat.getEmptyLocaleList()
-                else LocaleListCompat.forLanguageTags(locale)
-            App.applicationScope.launch(Dispatchers.Main) {
-                AppCompatDelegate.setApplicationLocales(localeListCompat)
-            }
-        }
 
     }
 

@@ -27,9 +27,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.junkfood.seal.MainActivity
+import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.HorizontalDivider
@@ -50,17 +50,17 @@ import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.page.settings.about.weblate
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.util.LANGUAGE
+import com.junkfood.seal.util.LocaleLanguageCodeMap
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.getLanguageConfiguration
-import com.junkfood.seal.util.SYSTEM_DEFAULT
-import com.junkfood.seal.util.getLanguageDesc
-import com.junkfood.seal.util.languageMap
+import com.junkfood.seal.util.setLanguage
+import com.junkfood.seal.util.toDisplayName
+import java.util.Locale
 
 
 @Composable
 fun LanguagePage(onBackPressed: () -> Unit = {}) {
-    var language by remember { mutableStateOf(PreferenceUtil.getLanguageNumber()) }
+    val selectedLocale by remember { mutableStateOf(Locale.getDefault()) }
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
@@ -81,18 +81,17 @@ fun LanguagePage(onBackPressed: () -> Unit = {}) {
         }
     LanguagePageImpl(
         onBackPressed = onBackPressed,
-        languageMap = languageMap,
+        localeSet = LocaleLanguageCodeMap.keys,
         isSystemLocaleSettingsAvailable = isSystemLocaleSettingsAvailable,
         onNavigateToSystemLocaleSettings = {
             if (isSystemLocaleSettingsAvailable) {
                 context.startActivity(intent)
             }
         },
-        selectedLanguage = language,
+        selectedLocale = selectedLocale,
     ) {
-        language = it
-        PreferenceUtil.encodeInt(LANGUAGE, language)
-        MainActivity.setLanguage(getLanguageConfiguration())
+        PreferenceUtil.saveLocalePreference(it)
+        setLanguage(it)
     }
 }
 
@@ -100,11 +99,11 @@ fun LanguagePage(onBackPressed: () -> Unit = {}) {
 @Composable
 private fun LanguagePageImpl(
     onBackPressed: () -> Unit = {},
-    languageMap: Map<Int, String>,
+    localeSet: Set<Locale>,
     isSystemLocaleSettingsAvailable: Boolean = false,
     onNavigateToSystemLocaleSettings: () -> Unit,
-    selectedLanguage: Int,
-    onLanguageSelected: (Int) -> Unit = {}
+    selectedLocale: Locale,
+    onLanguageSelected: (Locale?) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -141,23 +140,27 @@ private fun LanguagePageImpl(
                         icon = Icons.Outlined.Translate,
                     ) { uriHandler.openUri(weblate) }
                 }
+
+
                 item {
                     PreferenceSingleChoiceItem(
-                        text = stringResource(R.string.follow_system),
-                        selected = selectedLanguage == SYSTEM_DEFAULT,
+                        text = stringResource(id = R.string.follow_system),
+                        selected = !localeSet.contains(selectedLocale),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
-                    ) { onLanguageSelected(SYSTEM_DEFAULT) }
+                    ) { onLanguageSelected(null) }
                 }
 
-                for (languageData in languageMap) {
+                for (locale in localeSet) {
                     item {
                         PreferenceSingleChoiceItem(
-                            text = getLanguageDesc(languageData.key),
-                            selected = selectedLanguage == languageData.key,
+                            text = locale.toDisplayName(),
+                            selected = selectedLocale == locale,
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
-                        ) { onLanguageSelected(languageData.key) }
+                        ) { onLanguageSelected(locale) }
                     }
                 }
+
+
                 if (isSystemLocaleSettingsAvailable) {
                     item {
                         HorizontalDivider()
@@ -188,7 +191,9 @@ private fun LanguagePageImpl(
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Outlined.ArrowForwardIos,
                                     contentDescription = null,
-                                    modifier = Modifier.padding(end = 16.dp).size(18.dp)
+                                    modifier = Modifier
+                                        .padding(end = 16.dp)
+                                        .size(18.dp)
                                 )
                             }
                         }
@@ -202,19 +207,19 @@ private fun LanguagePageImpl(
 @Composable
 private fun LanguagePagePreview() {
     var language by remember {
-        mutableIntStateOf(1)
+        mutableStateOf(Locale.JAPANESE)
     }
-    val map = buildMap<Int, String> {
+    val map = buildSet<Locale> {
         repeat(38) {
-            put(it + 1, "")
+            add(Locale("en"))
         }
     }
     SealTheme {
         LanguagePageImpl(
-            languageMap = map,
+            localeSet = map,
             isSystemLocaleSettingsAvailable = true,
             onNavigateToSystemLocaleSettings = { /*TODO*/ },
-            selectedLanguage = language
+            selectedLocale = language
         ) {
             language = it
         }

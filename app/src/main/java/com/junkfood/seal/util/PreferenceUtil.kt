@@ -1,10 +1,10 @@
 package com.junkfood.seal.util
 
 import android.os.Build
+import androidx.annotation.DeprecatedSinceApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.core.os.LocaleListCompat
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 const val CUSTOM_COMMAND = "custom_command"
@@ -56,7 +57,7 @@ const val SDCARD_URI = "sd_card_uri"
 const val SUBDIRECTORY_EXTRACTOR = "sub-directory"
 const val SUBDIRECTORY_PLAYLIST_TITLE = "subdirectory_playlist_title"
 const val PLAYLIST = "playlist"
-const val LANGUAGE = "language"
+private const val LANGUAGE = "language"
 const val NOTIFICATION = "notification"
 private const val THEME_COLOR = "theme_color"
 const val PALETTE_STYLE = "palette_style"
@@ -228,20 +229,18 @@ object PreferenceUtil {
 
     fun isAutoUpdateEnabled() = AUTO_UPDATE.getBoolean(!isFDroidBuild())
 
+    @DeprecatedSinceApi(api = 33)
+    fun getLocaleFromPreference(): Locale? {
+        val languageCode = LANGUAGE.getInt()
+        return LocaleLanguageCodeMap.entries.find { it.value == languageCode }?.key
+    }
 
-    fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =
-        languageMap.getOrElse(languageNumber) { "" }
-
-
-    private fun getLanguageNumberByCode(languageCode: String): Int =
-        languageMap.entries.find { it.value == languageCode }?.key ?: SYSTEM_DEFAULT
-
-
-    fun getLanguageNumber(): Int {
-        return if (Build.VERSION.SDK_INT >= 33) getLanguageNumberByCode(
-            LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
-        )
-        else LANGUAGE.getInt()
+    fun saveLocalePreference(locale: Locale?) {
+        if (Build.VERSION.SDK_INT >= 33) {
+            // No op
+        } else {
+            LANGUAGE.updateInt(LocaleLanguageCodeMap[locale] ?: SYSTEM_DEFAULT)
+        }
     }
 
     fun getConcurrentFragments(level: Int = CONCURRENT.getInt()): Float {

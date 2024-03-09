@@ -77,8 +77,8 @@ import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.STYLE_MONOCHROME
 import com.junkfood.seal.util.STYLE_TONAL_SPOT
 import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
-import com.junkfood.seal.util.getLanguageDesc
 import com.junkfood.seal.util.paletteStyles
+import com.junkfood.seal.util.toDisplayName
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.PaletteStyle
 import com.kyant.monet.TonalPalettes
@@ -87,6 +87,7 @@ import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
 import io.material.hct.Hct
+import java.util.Locale
 
 val colorList = ((4..10) + (1..3)).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
 
@@ -211,11 +212,13 @@ fun AppearancePreferences(
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },
                     onClick = { navController.navigate(Route.DARK_THEME) })
-                if (Build.VERSION.SDK_INT >= 24) PreferenceItem(
-                    title = stringResource(R.string.language),
-                    icon = Icons.Outlined.Language,
-                    description = getLanguageDesc()
-                ) { navController.navigate(Route.LANGUAGES) }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    PreferenceItem(
+                        title = stringResource(R.string.language),
+                        icon = Icons.Outlined.Language,
+                        description = Locale.getDefault().toDisplayName()
+                    ) { navController.navigate(Route.LANGUAGES) }
+                }
                 PreferenceSubtitle(text = stringResource(id = R.string.settings_before_download))
 
                 PreferenceItem(

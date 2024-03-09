@@ -1,27 +1,16 @@
 package com.junkfood.seal.util
 
-import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
-import com.junkfood.seal.util.PreferenceUtil.getInt
-
-
-private fun getLanguageNumberByCode(languageCode: String): Int =
-    languageMap.entries.find { it.value == languageCode }?.key ?: SYSTEM_DEFAULT
-
-fun getLanguageNumber(): Int {
-    return if (Build.VERSION.SDK_INT >= 33)
-        getLanguageNumberByCode(
-            LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
-        )
-    else LANGUAGE.getInt()
-}
+import java.util.Locale
 
 
 @Composable
-fun getLanguageDesc(language: Int = getLanguageNumber()): String {
+@Deprecated("See Locale.toDisplayName()")
+fun getLanguageDesc(language: Int): String {
     return stringResource(
         when (language) {
             SIMPLIFIED_CHINESE -> R.string.la_zh_CN
@@ -61,7 +50,7 @@ fun getLanguageDesc(language: Int = getLanguageNumber()): String {
             TAMIL -> R.string.la_ta
             KOREAN -> R.string.la_ko
             SWEDISH -> R.string.la_sv
-            PORTUGUESE -> R.string.la_pt
+            PORTUGUESE_PORTUGAL -> R.string.la_pt
             else -> R.string.follow_system
         }
     )
@@ -105,46 +94,65 @@ private const val PUNJABI = 34
 private const val TAMIL = 35
 private const val KOREAN = 36
 private const val SWEDISH = 37
-private const val PORTUGUESE = 38
+private const val PORTUGUESE_PORTUGAL = 38
+private const val CATALAN = 39
+private const val HEBREW = 40
+private const val PORTUGUESE = 41
 
-// Sorted alphabetically
-val languageMap: Map<Int, String> = mapOf(
-    ARABIC to "ar",
-    AZERBAIJANI to "az",
-    BASQUE to "eu",
-    BELARUSIAN to "be",
-    SIMPLIFIED_CHINESE to "zh-CN",
-    TRADITIONAL_CHINESE to "zh-TW",
-    CROATIAN to "hr",
-    CZECH to "cs",
-    DANISH to "da",
-    DUTCH to "nl",
-    ENGLISH to "en-US",
-    FILIPINO to "fil",
-    FRENCH to "fr",
-    GERMAN to "de",
-    HINDI to "hi",
-    HUNGARIAN to "hu",
-    INDONESIAN to "in",
-    ITALIAN to "it",
-    JAPANESE to "ja",
-    KOREAN to "ko",
-    MALAY to "ms",
-    MALAYALAM to "ml",
-    NORWEGIAN_BOKMAL to "nb",
-    NORWEGIAN_NYNORSK to "nn",
-    PERSIAN to "fa",
-    POLISH to "pl",
-    PORTUGUESE to "pt",
-    PORTUGUESE_BRAZIL to "pt-BR",
-    PUNJABI to "pa",
-    RUSSIAN to "ru",
-    SERBIAN to "sr",
-    SINHALA to "si",
-    SPANISH to "es",
-    SWEDISH to "sv",
-    TAMIL to "ta",
-    TURKISH to "tr",
-    UKRAINIAN to "uk",
-    VIETNAMESE to "vi",
+val LocaleLanguageCodeMap =
+    mapOf(
+        Locale("ar") to ARABIC,
+        Locale("az") to AZERBAIJANI,
+        Locale("eu") to BASQUE,
+        Locale("be") to BELARUSIAN,
+        Locale.forLanguageTag("zh-Hans") to SIMPLIFIED_CHINESE,
+        Locale.forLanguageTag("zh-Hant") to TRADITIONAL_CHINESE,
+        Locale("ca") to CATALAN,
+        Locale("hr") to CROATIAN,
+        Locale("cs") to CZECH,
+        Locale("da") to DANISH,
+        Locale("nl") to DUTCH,
+        Locale("en", "US") to ENGLISH,
+        Locale("fil") to FILIPINO,
+        Locale("fr") to FRENCH,
+        Locale("de") to GERMAN,
+        Locale("he") to HEBREW,
+        Locale("hi") to HINDI,
+        Locale("hu") to HUNGARIAN,
+        Locale("in") to INDONESIAN,
+        Locale("it") to ITALIAN,
+        Locale("ja") to JAPANESE,
+        Locale("ko") to KOREAN,
+        Locale("ms") to MALAY,
+        Locale("ml") to MALAYALAM,
+        Locale("nb") to NORWEGIAN_BOKMAL,
+        Locale("nn") to NORWEGIAN_NYNORSK,
+        Locale("fa") to PERSIAN,
+        Locale("pl") to POLISH,
+        Locale("pt") to PORTUGUESE,
+        Locale("pt", "PT") to PORTUGUESE_PORTUGAL,
+        Locale("pt", "BR") to PORTUGUESE_BRAZIL,
+        Locale("pa") to PUNJABI,
+        Locale("ru") to RUSSIAN,
+        Locale("sr") to SERBIAN,
+        Locale("si") to SINHALA,
+        Locale("es") to SPANISH,
+        Locale("sv") to SWEDISH,
+        Locale("ta") to TAMIL,
+        Locale("tr") to TURKISH,
+        Locale("uk") to UKRAINIAN,
+        Locale("vi") to VIETNAMESE,
+    )
+
+
+@Composable
+fun Locale?.toDisplayName(): String = this?.getDisplayName(this) ?: stringResource(
+    id = R.string.follow_system
 )
+
+fun setLanguage(locale: Locale?) {
+    val localeList = locale?.let {
+        LocaleListCompat.create(it)
+    } ?: LocaleListCompat.getEmptyLocaleList()
+    AppCompatDelegate.setApplicationLocales(localeList)
+}

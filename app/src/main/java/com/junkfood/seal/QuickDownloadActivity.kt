@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -19,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -33,6 +31,7 @@ import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.matchUrlFromSharedText
+import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -95,10 +94,9 @@ class QuickDownloadActivity : ComponentActivity() {
         }
         handleShareIntent(intent)
         runBlocking {
-            if (Build.VERSION.SDK_INT < 33)
-                AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
-                )
+            if (Build.VERSION.SDK_INT < 33) {
+                setLanguage(PreferenceUtil.getLocaleFromPreference())
+            }
         }
         val isDialogEnabled = CONFIGURE.getBoolean()
 
@@ -126,7 +124,7 @@ class QuickDownloadActivity : ComponentActivity() {
                     var showDialog by remember { mutableStateOf(true) }
                     val sheetState =
                         rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                    
+
                     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
                     DownloadSettingDialog(
                         useDialog = useDialog,
