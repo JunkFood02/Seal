@@ -17,6 +17,7 @@ import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 
@@ -269,11 +271,15 @@ object PreferenceUtil {
     }.stateIn(applicationScope, started = SharingStarted.Eagerly, null)
 
     fun getTemplate(): CommandTemplate {
-        while (true) {
-            val template = templateStateFlow.value
-            if (template != null)
-                return template
+        var template: CommandTemplate? = null
+        runBlocking {
+            for (cnt in 1..5) {
+                template = templateStateFlow.value
+                if (template != null) return@runBlocking
+                delay(100)
+            }
         }
+        return template ?: throw NoSuchElementException()
     }
 
     suspend fun initializeTemplateSample() {
