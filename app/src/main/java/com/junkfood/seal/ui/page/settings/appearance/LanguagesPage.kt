@@ -41,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.HorizontalDivider
@@ -209,11 +208,7 @@ private fun LanguagePagePreview() {
     var language by remember {
         mutableStateOf(Locale.JAPANESE)
     }
-    val map = buildSet<Locale> {
-        repeat(38) {
-            add(Locale("en"))
-        }
-    }
+    val map = setOf(Locale.forLanguageTag("zh"))
     SealTheme {
         LanguagePageImpl(
             localeSet = map,
