@@ -94,7 +94,11 @@ fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
                 TextButton(
                     modifier = Modifier.padding(end = 8.dp), onClick = {
                         Downloader.downloadVideoInPlaylistByIndexList(
-                            url = playlistInfo.webpageUrl.toString(), indexList = selectedItems
+                            url = playlistInfo.webpageUrl.toString(),
+                            indexList = selectedItems,
+                            playlistItemList = playlistInfo.entries?.filterIndexed { index, _ ->
+                                selectedItems.contains(index)
+                            } ?: emptyList()
                         )
                         onDismissRequest()
                     }, enabled = selectedItems.isNotEmpty()

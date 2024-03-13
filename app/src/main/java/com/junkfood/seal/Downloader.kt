@@ -13,6 +13,7 @@ import com.junkfood.seal.App.Companion.stopService
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.Entries
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
@@ -309,7 +310,8 @@ object Downloader {
             )
                 .onFailure {
                     manageDownloadError(
-                        it,
+                        th = it,
+                        title = url,
                         isFetchingInfo = true,
                         isTaskAborted = true
                     )
@@ -375,7 +377,8 @@ object Downloader {
             )
                 .onFailure {
                     manageDownloadError(
-                        it,
+                        th = it,
+                        title = url,
                         isFetchingInfo = true,
                         isTaskAborted = true
                     )
@@ -504,8 +507,9 @@ object Downloader {
             )
         }.onFailure {
             manageDownloadError(
-                it,
-                false,
+                th = it,
+                title = videoInfo.title,
+                isFetchingInfo = false,
                 notificationId = notificationId,
                 isTaskAborted = !isDownloadingPlaylist
             )
@@ -532,6 +536,7 @@ object Downloader {
     fun downloadVideoInPlaylistByIndexList(
         url: String,
         indexList: List<Int>,
+        playlistItemList: List<Entries> = emptyList(),
         preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
     ) {
         val itemCount = indexList.size
@@ -553,6 +558,7 @@ object Downloader {
                 )
 
                 val playlistIndex = indexList[i]
+                val title = playlistItemList[playlistIndex].title
 
                 DownloadUtil.fetchVideoInfoFromUrl(
                     url = url,
@@ -569,14 +575,16 @@ object Downloader {
                             preferences = preferences,
                         ).onFailure { th ->
                             manageDownloadError(
-                                th,
+                                th = th,
+                                title = it.title,
                                 isFetchingInfo = false,
                                 isTaskAborted = false
                             )
                         }
                 }.onFailure { th ->
                     manageDownloadError(
-                        th,
+                        th = th,
+                        title = title,
                         isFetchingInfo = true,
                         isTaskAborted = false
                     )
@@ -601,6 +609,7 @@ object Downloader {
      */
     fun manageDownloadError(
         th: Throwable,
+        title: String?,
         isFetchingInfo: Boolean,
         isTaskAborted: Boolean = true,
         notificationId: Int? = null,
@@ -619,6 +628,7 @@ object Downloader {
         notificationId?.let {
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
+                title = title,
                 text = context.getString(R.string.download_error_msg),
             )
         }
