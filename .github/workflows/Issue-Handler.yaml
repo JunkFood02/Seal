@@ -33,7 +33,7 @@ jobs:
           script: |
             // Define keywords and labels for issue filtering
             const keywordsToCheck = ['instagram', 'facebook', 'twitter'];
-            const requiredLabels = ['bug', 'enhancement'];
+            const requiredLabel = 'new issue';
             const referenceIssueNumber = 733;
             const actionClosedLabel = 'action-closed'; // Unique label to track action-closed issues
 
@@ -45,8 +45,7 @@ jobs:
 
               // Determine if the issue should be closed
               const shouldCloseIssue = !wasClosedByAction && 
-                keywordsToCheck.some(keyword => issueBody.includes(keyword)) &&
-                requiredLabels.some(label => issueLabels.includes(label));
+                keywordsToCheck.some(keyword => issueBody.includes(keyword)) && issueLabels.includes(label);
 
               // Close the issue if it meets the criteria
               if (shouldCloseIssue) {
@@ -65,11 +64,18 @@ jobs:
                   labels: ['wontfix', actionClosedLabel]
                 });
 
+                  await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  name: requiredLabel
+                });
+
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  body: `This issue has been closed and labeled as wontfix. Please see issue #${referenceIssueNumber} for more details.`
+                  body: `This issue has been closed and labeled as wontfix. Please see issue #${referenceIssueNumber} for more details. If you believe this is not the case, you can reopen this issue.`
                 });
               }
             }
@@ -79,13 +85,3 @@ jobs:
               await processIssue(context.payload.issue);
             }
 
-            // Fetch and process all open issues in the repo
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open'
-            });
-
-            for (const issue of issues.data) {
-              await processIssue(issue);
-            }
