@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -264,17 +263,15 @@ object PreferenceUtil {
             applicationScope, started = SharingStarted.Eagerly, emptyList()
         )
 
-    private val templateStateFlow: StateFlow<CommandTemplate?> = templateListStateFlow.map { list ->
-        with(list) {
-            find { it.id == TEMPLATE_ID.getInt() }
-        }
-    }.stateIn(applicationScope, started = SharingStarted.Eagerly, null)
+    private val List<CommandTemplate>.selectedTemplate: CommandTemplate?
+        get() = find { it.id == TEMPLATE_ID.getInt() }
+
 
     fun getTemplate(): CommandTemplate {
         var template: CommandTemplate? = null
         runBlocking {
             for (cnt in 1..5) {
-                template = templateStateFlow.value
+                template = templateListStateFlow.value.selectedTemplate
                 if (template != null) return@runBlocking
                 delay(100)
             }

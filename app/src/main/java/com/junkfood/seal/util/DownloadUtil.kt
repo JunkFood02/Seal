@@ -35,6 +35,7 @@ import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.yausername.youtubedl_android.YoutubeDL
+import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
 import kotlinx.coroutines.Dispatchers
@@ -536,7 +537,13 @@ object DownloadUtil {
                     addOption("-v")
                 }
                 if (useDownloadArchive) {
-                    useDownloadArchive()
+                    val archiveFile = context.getArchiveFile()
+                    val archiveFileContent = archiveFile.readText()
+                    if (archiveFileContent.contains("${videoInfo.extractor} ${videoInfo.id}")) {
+                        return Result.failure(YoutubeDLException(context.getString(R.string.download_archive_error)))
+                    } else {
+                        useDownloadArchive()
+                    }
                 }
 
                 if (rateLimit && maxDownloadRate.isNumberInRange(1, 1000000)) {

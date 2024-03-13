@@ -69,7 +69,7 @@ fun TemplateEditPage(onDismissRequest: () -> Unit, templateId: Int) {
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val commandTemplate =
-        PreferenceUtil.templateStateFlow.collectAsState().value.find { it.id == templateId }
+        PreferenceUtil.templateListStateFlow.collectAsState().value.find { it.id == templateId }
             ?: CommandTemplate(0, "", "")
 
     var templateText by remember { mutableStateOf(commandTemplate.template) }

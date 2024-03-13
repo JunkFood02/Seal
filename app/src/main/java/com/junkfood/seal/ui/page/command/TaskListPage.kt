@@ -81,7 +81,6 @@ import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -328,7 +327,7 @@ fun ColumnScope.TaskCreatorDialogContent(
 
 @Composable
 fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
-    val templateList by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
+    val templateList by PreferenceUtil.templateListStateFlow.collectAsStateWithLifecycle()
     var selectedId by TEMPLATE_ID.intState
     val scrollState =
         rememberLazyListState(initialFirstVisibleItemIndex = templateList.indexOfFirst { it.id == selectedId }

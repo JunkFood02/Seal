@@ -140,7 +140,7 @@ private const val TAG = "VideoListPage"
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun VideoListPage(
-    viewModel: VideoListViewModel = hiltViewModel(), onBackPressed: () -> Unit
+    viewModel: VideoListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), onBackPressed: () -> Unit
 ) {
     val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val fullVideoList by viewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())

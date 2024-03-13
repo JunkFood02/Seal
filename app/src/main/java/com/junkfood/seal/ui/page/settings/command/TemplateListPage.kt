@@ -94,7 +94,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
-    val templates by PreferenceUtil.templateStateFlow.collectAsStateWithLifecycle()
+    val templates by PreferenceUtil.templateListStateFlow.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
     val view = LocalView.current
