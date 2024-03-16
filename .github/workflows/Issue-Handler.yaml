@@ -45,7 +45,7 @@ jobs:
 
               // Determine if the issue should be closed
               const shouldCloseIssue = !wasClosedByAction && 
-                keywordsToCheck.some(keyword => issueBody.includes(keyword)) && issueLabels.includes(label);
+                keywordsToCheck.some(keyword => issueBody.includes(keyword)) && issueLabels.includes(requiredLabel);
 
               // Close the issue if it meets the criteria
               if (shouldCloseIssue) {
