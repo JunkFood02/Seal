@@ -1001,7 +1001,7 @@ fun <T : Collection<String>> T.filterWithRegex(subtitleLanguageRegex: String): S
     val regexGroup = subtitleLanguageRegex.split(',')
     return filter { language ->
         regexGroup.any {
-            language.contains(Regex(it))
+            Regex(it).matchEntire(language) != null
         }
     }.toSet()
 }
