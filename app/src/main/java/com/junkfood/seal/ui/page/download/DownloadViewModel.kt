@@ -17,7 +17,6 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PlaylistResult
-import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -86,7 +85,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess {
             showFormatSelectionPageOrDownload(it)
         }.onFailure {
-            manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true)
+            manageDownloadError(th = it, title = url, isFetchingInfo = true, isTaskAborted = true)
         }
         Downloader.updateState(State.Idle)
     }
@@ -114,7 +113,12 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }.onFailure {
-                manageDownloadError(it, isFetchingInfo = true, isTaskAborted = true)
+                manageDownloadError(
+                    th = it,
+                    title = url,
+                    isFetchingInfo = true,
+                    isTaskAborted = true
+                )
             }
         }
 
