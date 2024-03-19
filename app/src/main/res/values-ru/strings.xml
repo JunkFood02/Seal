@@ -218,7 +218,7 @@
     <string name="suggested">Предложенный</string>
     <string name="use_cookies">Использовать файлы cookie</string>
     <string name="how_does_it_work">Как это работает\?</string>
-    <string name="remove_cookie_profile_desc">Удалить файлы cookie для \"%1$s\"?</string>
+    <string name="remove_cookie_profile_desc">Удалить эту запись для \"%1$s\"? Обратите внимание, что файлы cookie, сохранённые на этом сайте, не будут удалены.</string>
     <string name="telegram_channel">Telegram канал</string>
     <string name="custom_command_enabled_hint">Некоторые настройки недоступны, когда используется своя команда</string>
     <string name="cookies_usage_msg">Загрузка с некоторых сайтов требует информацию для авторизации аккаунта. Нажмите \"Сгенерировать новые файлы cookie\", введите URL-адрес сайта и затем войдите в ваш аккаунт на странице браузера, приложение создаст это для Вас.</string>
@@ -398,4 +398,10 @@
     <string name="full_backup">Полное резервное копирование</string>
     <string name="import_download_history_msg">Загруженные файлы не будут импортированы. Вам придётся загрузить их обратно вручную</string>
     <string name="export_download_history_msg">Экспорт %1$s из истории загрузок. Загруженные файлы и настройки не будут скопированы.</string>
+    <string name="interface_and_interaction">Интерфейс и взаимодействие</string>
+    <string name="download_history">История загрузок</string>
+    <string name="download_history_imported">Импортирован %1$s в историю загрузок</string>
+    <string name="redownload">Скачать заново</string>
+    <string name="download_archive_error">Видео было загружено. Если это не ожидаемое поведение, пожалуйста, проверьте архив загрузки.</string>
+    <string name="none">Нет</string>
 </resources>

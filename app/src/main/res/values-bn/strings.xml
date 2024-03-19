@@ -89,4 +89,11 @@
     <string name="user_guide">ব্যবহারকারীর নির্দেশিকা</string>
     <string name="video_quality_desc">একাধিক উপস্থিত থাকলে ভিডিওর কোয়ালিটি লিমিট করুন</string>
     <string name="preferred_format_desc">পছন্দের ফরমেট যখন একাধিক দেওয়া থাকে</string>
+    <string name="check_download_settings_desc">ব্যাবহার করার আগে ডাউনলোড সেটিংস দেখুন এবং নিশ্চিত করুন yt-dlp এর সর্বোচ্চ ভার্সনে আছে কি না।</string>
+    <string name="download_history_desc">ভিডিও এবং অডিও ফাইল সহ অ্যাপ-মধ্যস্থ ডাউনলোডগুলি পরীক্ষা করুন এবং পরিচালনা করুন।</string>
+    <string name="download_desc">এরপর সেটিংস ঠিক করে ডাউনলোড এ ক্লিক করুন।</string>
+    <string name="download_playlist_desc">প্লেলিস্ট থেকে একাধিক ভিডিও ডাউনলোড করুন</string>
+    <string name="defaults">নরমাল</string>
+    <string name="channel_name">ডাউনলোড</string>
+    <string name="download_playlist">প্লে-লিস্ট ডাউনলোড করুন</string>
 </resources>

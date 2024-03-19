@@ -217,7 +217,7 @@
     <string name="format_selection_desc">Wähle das herunterzuladende Format, bevor du den Download startest</string>
     <string name="generate_new_cookies">Neue Cookies generieren</string>
     <string name="use_cookies">Cookies verwenden</string>
-    <string name="remove_cookie_profile_desc">Cookies für „%1$s“ entfernen?</string>
+    <string name="remove_cookie_profile_desc">Diesen Eintrag für „%1$s“ entfernen? Bitte beachte, dass gespeicherte Cookies für diese Seite nicht gelöscht werden.</string>
     <string name="custom_command_enabled_hint">Einige Optionen sind bei Verwendung des benutzerdefinierten Befehls nicht verfügbar</string>
     <string name="how_does_it_work">Wie funktioniert das\?</string>
     <string name="cookies_usage_msg">Für das Herunterladen von einigen Webseiten sind Informationen zur Kontoauthentifizierung erforderlich. Klicke auf „Neue Cookies generieren“, gib die URL der Webseite ein und melde dich dann mit deinem Konto auf der Browserseite an, damit die App sie für dich generieren kann.</string>
@@ -373,9 +373,9 @@
     <string name="merge_audiostream">Mehrere Audiospuren zusammenfügen</string>
     <string name="search_in_downloads">In Downloads suchen</string>
     <string name="search">Suchen</string>
-    <string name="subtitle_language_desc">Alle Sprachen der automatisch übersetzten Untertitel findest du hier, kommagetrennt aufgelistet. Für einzelne Sprachen kannst du auch die \"Benutzerdefinierte Formatauswahl\" nutzen.</string>
+    <string name="subtitle_language_desc">Sprachen der herunterzuladenen Untertitel in automatischer Formatauswahl, kommagetrennt aufgelistet.</string>
     <string name="remember_for_next_download">Für den nächsten Download speichern</string>
-    <string name="look_and_feel">Aussehen und Haptik</string>
+    <string name="look_and_feel">Look &amp; feel</string>
     <string name="use_previous_selection">Vorherige Auswahl übernehmen</string>
     <string name="none">Nichts</string>
     <string name="auto_translated_subtitles">Automatisch übersetzte Untertitel</string>
@@ -385,4 +385,21 @@
     <string name="search_in_subtitles">Suche in Untertiteln</string>
     <string name="update_subtitle_languages">Sprache der Untertitel aktualisieren?</string>
     <string name="update_language_msg">Die folgenden Sprachen werden zu deiner Präferenz für zukünftige Downloads hinzugefügt:</string>
+    <string name="download_archive_error">Dieses Video wurde heruntergeladen. Wenn du dieses Verhalten nicht erwartet hast, überprüfe dein Download Archiv.</string>
+    <string name="backup_type">Backup Typ</string>
+    <string name="file">Datei</string>
+    <string name="full_backup">Vollständiges Backup</string>
+    <string name="clipboard">Zwischenablage</string>
+    <string name="export_download_history">Downloadhistorie exportieren?</string>
+    <string name="export_backup">Exportieren</string>
+    <string name="import_backup">Importieren</string>
+    <string name="import_from">Importieren von</string>
+    <string name="import_download_history">Downloadhistorie importieren?</string>
+    <string name="import_download_history_msg">Heruntergeladene Dateien werden nicht importiert. Du musst die manuell erneut herunterladen</string>
+    <string name="export_download_history_msg">Exportiere %1$s vom Download-Verlauf. Heruntergeladen Dateien und einstellen werden nicht gesichert.</string>
+    <string name="download_history">Download-Verlauf</string>
+    <string name="download_history_imported">%1$s in Download-Verlauf importiert</string>
+    <string name="redownload">Erneut herunterladen</string>
+    <string name="export_to">Exportieren nach</string>
+    <string name="interface_and_interaction">Interface &amp; Bedienung</string>
 </resources>

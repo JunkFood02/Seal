@@ -219,7 +219,7 @@
     <string name="format_selection_desc">在开始下载前选择要下载的格式</string>
     <string name="generate_new_cookies">生成新的 Cookies</string>
     <string name="use_cookies">启用 Cookies</string>
-    <string name="remove_cookie_profile_desc">确定要移除为 \"%1$s\" 储存的 Cookies 吗?</string>
+    <string name="remove_cookie_profile_desc">删除 \"%1$s\" 的此条目？请注意这不会清理此站点的 cookies 文件。</string>
     <string name="custom_command_enabled_hint">部分选项在自定义命令模式下不可用</string>
     <string name="how_does_it_work">使用说明</string>
     <string name="cookies_usage_msg">从某些站点下载需要帐户验证信息。 点击“生成新的 Cookies”，输入网站的 URL，然后在浏览器页面使用你的账户登录，应用将会自动生成并在下载时输入认证信息。</string>
@@ -384,4 +384,21 @@
     <string name="update_language_msg">今后下载文件时将下载下列语言的字幕：</string>
     <string name="update_subtitle_languages">更新字幕语言？</string>
     <string name="search_in_subtitles">在字幕中搜索</string>
+    <string name="export_backup">导出</string>
+    <string name="import_backup">导入</string>
+    <string name="export_download_history">导出下载历史记录？</string>
+    <string name="export_download_history_msg">正在从下载历史记录中导出 %1$s。已下载的文件和偏好设置不会被备份。</string>
+    <string name="interface_and_interaction">界面与互动</string>
+    <string name="full_backup">完整备份</string>
+    <string name="backup_type">备份类型</string>
+    <string name="file">文件</string>
+    <string name="clipboard">剪贴板</string>
+    <string name="import_from">导入位置</string>
+    <string name="import_download_history">导入下载历史记录？</string>
+    <string name="import_download_history_msg">已下载的文件不会被导入 您需要手动重新下载它们</string>
+    <string name="download_history">下载历史</string>
+    <string name="download_history_imported">已将 %1$s 导入下载历史记录</string>
+    <string name="redownload">重新下载</string>
+    <string name="export_to">导出到</string>
+    <string name="download_archive_error">此视频已被下载。如果这不是预期的行为，请检查你的下载存档。</string>
 </resources>

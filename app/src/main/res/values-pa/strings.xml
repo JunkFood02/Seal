@@ -217,7 +217,7 @@
     <string name="crop_artwork">ਕ੍ਰੌਪ ਆਰਟਵਰਕ</string>
     <string name="crop_artwork_desc">ਏਮਬੇਡ ਚਿੱਤਰ ਨੂੰ ਵਰਗ ਵਿੱਚ ਕੱਟੋ</string>
     <string name="use_cookies">ਕੂਕੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
-    <string name="remove_cookie_profile_desc">ਕੀ \"%1$s\" ਲਈ ਕੂਕੀਜ਼ ਨੂੰ ਹਟਾਉਣਾ ਹੈ?</string>
+    <string name="remove_cookie_profile_desc">ਕੀ \"%1$s\" ਲਈ ਇਸ ਐਂਟਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਕਿਰਪਾ ਕਰਕੇ ਧਿਆਨ ਦਿਓ ਕਿ ਇਸ ਸਾਈਟ ਲਈ ਸਟੋਰ ਕੀਤੀਆਂ ਕੁੱਕੀਜ਼ ਨੂੰ ਸਾਫ਼ ਨਹੀਂ ਕੀਤਾ ਜਾਵੇਗਾ।</string>
     <string name="how_does_it_work">ਇਹ ਕਿਵੇਂ ਚਲਦਾ ਹੈ\?</string>
     <string name="telegram_channel">ਟੈਲੀਗ੍ਰਾਮ ਚੈਨਲ</string>
     <string name="custom_command_enabled_hint">ਕਸਟਮ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਵਿਕਲਪ ਉਪਲਬਧ ਨਹੀਂ ਹਨ</string>
@@ -385,4 +385,21 @@
     <string name="no_thanks">ਨਹੀਂ ਧੰਨਵਾਦ</string>
     <string name="update_subtitle_languages">ਉਪਸਿਰਲੇਖ ਭਾਸ਼ਾਵਾਂ ਅੱਪਡੇਟ ਕਰੀਏ?</string>
     <string name="update_language_msg">ਭਵਿੱਖ ਦੇ ਡਾਊਨਲੋਡਾਂ ਲਈ ਤੁਹਾਡੀ ਤਰਜੀਹ ਵਿੱਚ ਅੱਗੇ ਦਿੱਤੀਆਂ ਭਾਸ਼ਾਵਾਂ ਸ਼ਾਮਲ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ:</string>
+    <string name="export_backup">ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="file">ਫ਼ਾਈਲ</string>
+    <string name="interface_and_interaction">ਇੰਟਰਫੇਸ ਅਤੇ ਪਰਸਪਰ ਪ੍ਰਭਾਵ</string>
+    <string name="import_backup">ਇੰਪੋਰਟ ਕਰੋ</string>
+    <string name="full_backup">ਪੂਰਾ ਬੈਕਅੱਪ</string>
+    <string name="backup_type">ਬੈਕਅੱਪ ਕਿਸਮ</string>
+    <string name="export_to">ਇਸ ਥਾਂ ਤੇ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="import_download_history">ਕੀ ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਇੰਪੋਰਟ ਕਰਨਾ ਹੈ?</string>
+    <string name="download_history">ਡਾਊਨਲੋਡ ਦਾ ਇਤਿਹਾਸ</string>
+    <string name="download_history_imported">ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਲਈ %1$s ਨੂੰ ਇੰਪੋਰਟ ਕੀਤਾ</string>
+    <string name="redownload">ਮੁੜ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="clipboard">ਕਲਿੱਪਬੋਰਡ</string>
+    <string name="import_from">ਤੋਂ ਇੰਪੋਰਟ ਕਰੋ</string>
+    <string name="export_download_history">ਕੀ ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਐਕਸਪੋਰਟ ਕਰਨਾ ਹੈ?</string>
+    <string name="export_download_history_msg">ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਤੋਂ %1$s ਨੂੰ ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ। ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਅਤੇ ਤਰਜੀਹਾਂ ਦਾ ਬੈਕਅੱਪ ਨਹੀਂ ਲਿਆ ਜਾਵੇਗਾ।</string>
+    <string name="import_download_history_msg">ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੰਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾਵੇਗਾ। ਤੁਹਾਨੂੰ ਉਹਨਾਂ ਨੂੰ ਹੱਥੀਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਪਵੇਗੀ</string>
+    <string name="download_archive_error">ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰ ਲਿਆ ਗਿਆ ਹੈ। ਜੇਕਰ ਅਜਿਹੇ ਵਿਵਹਾਰ ਉਮੀਦ ਮੁਤਾਬਿਕ ਨਹੀਂ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਡਾਊਨਲੋਡ ਆਰਕਾਈਵ ਵਿੱਚ ਜਾਂਚ ਕਰੋ।</string>
 </resources>

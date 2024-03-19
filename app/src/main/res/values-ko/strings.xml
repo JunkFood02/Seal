@@ -251,7 +251,7 @@
     <string name="telegram_channel">텔레그램 채널</string>
     <string name="matrix_space">행렬 공간</string>
     <string name="use_cookies">쿠키 사용</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\"의 쿠키를 제거하시겠습니까?</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\"의 항목를 제거하시겠습니까? 이 사이트를 위해 저장된 쿠키는 삭제되지 않습니다.</string>
     <string name="how_does_it_work">어떻게 작동합니까\?</string>
     <string name="cookies_usage_msg">일부 사이트에서 다운로드하려면 계정 인증 정보가 필요합니다. \"새 쿠키 생성\"을 클릭하고 웹 사이트의 URL을 입력한 다음 브라우저 페이지에서 계정으로 로그인하면 앱에서 해당 쿠키를 생성합니다.</string>
     <string name="abs_hint">대부분의 비디오 스트리밍 플랫폼은 오디오와 비디오를 별도로 제공하므로 오디오 전용 형식을 비디오 전용 형식으로 선택하여 단일 비디오로 병합할 수 있습니다.</string>
@@ -382,4 +382,23 @@
     <string name="search_in_subtitles">자막에서 검색</string>
     <string name="no_thanks">괜찮아요</string>
     <string name="auto_translated_subtitles_msg">모든 언어에 대해 자동 번역된 자막들을 다운로드합니다. 이 자막들은 정확하지 않아 이해하기 어려울 수 있습니다.</string>
+    <string name="import_backup">불러오기</string>
+    <string name="import_download_history_msg">다운로드된 파일들은 불러오지 않으며, 수동으로 다시 다운로드해야 합니다</string>
+    <string name="download_archive_error">비디오가 다운로드되었습니다. 이게 예상치 못한 현상이라면, 다운로드 아카이브를 확인해주세요.</string>
+    <string name="import_from">불러오기</string>
+    <string name="import_download_history">다운로드 기록을 불러올까요?</string>
+    <string name="interface_and_interaction">인터페이스 &amp; 상호작용</string>
+    <string name="export_backup">내보내기</string>
+    <string name="full_backup">전체 백업</string>
+    <string name="backup_type">백업 유형</string>
+    <string name="export_to">내보내기</string>
+    <string name="file">파일</string>
+    <string name="clipboard">클립보드</string>
+    <string name="export_download_history">다운로드 기록을 내보낼까요?</string>
+    <string name="export_download_history_msg">다운로드 기록에서 %1$s를 내보내는 중입니다. 다운로드된 파일들과 설정은 백업되지 않습니다.</string>
+    <string name="download_history">다운로드 기록</string>
+    <string name="update_language_msg">다음 언어들이 미래의 다운로드들을 위한 설정에 추가됩니다:</string>
+    <string name="update_subtitle_languages">자막 언어를 업데이트할까요?</string>
+    <string name="download_history_imported">다운로드 기록에 %1$s를 불러옴</string>
+    <string name="redownload">재다운로드</string>
 </resources>
