@@ -402,4 +402,5 @@
     <string name="download_history">Descargar el historial</string>
     <string name="download_history_imported">Importado %1$s al historial de descargas</string>
     <string name="redownload">Descargar de nuevo</string>
+    <string name="download_archive_error">El vídeo se ha descargado. Si este comportamiento no es el esperado, compruebe su archivo de descargas.</string>
 </resources>

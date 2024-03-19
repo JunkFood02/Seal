@@ -221,7 +221,7 @@
     <string name="how_does_it_work">यह कैसे काम करता है\?</string>
     <string name="telegram_channel">टेलीग्राम चैनल</string>
     <string name="cookies_usage_msg">कुछ साइटों से डाउनलोड करने के लिए खाता प्रमाणीकरण जानकारी की आवश्यकता होती है। \"नई कुकी जनरेट करें\" पर क्लिक करें, वेबसाइट का URL दर्ज करें और फिर ब्राउज़र पेज में अपने खाते से लॉग इन करें, ऐप इसे आपके लिए जनरेट कर देगा।</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\" के लिए कुकीज़ हटाएं?</string>
+    <string name="remove_cookie_profile_desc">\"%1$s\" के लिए यह एंट्री हटाएँ? कृपया ध्यान दें कि इस साइट के लिए संग्रहित कुकीज़ साफ़ नहीं की जाएंगी।</string>
     <string name="cookies">कुकीज़</string>
     <string name="matrix_space">मैट्रिक्स स्पेस</string>
     <string name="add">जोड़ें</string>
@@ -385,4 +385,21 @@
     <string name="no_thanks">जी नहीं, धन्यवाद</string>
     <string name="update_language_msg">भविष्य में डाउनलोड के लिए निम्नलिखित भाषाओं को आपकी प्राथमिकता में जोड़ा जाएगा:</string>
     <string name="update_subtitle_languages">सबटाइटलों की भाषाएँ अपडेट करें?</string>
+    <string name="export_backup">निर्यात करें</string>
+    <string name="import_download_history_msg">डाउनलोड की गई फ़ाइलें आयात नहीं की जाएंगी। आपको उन्हें मैन्युअल रूप से वापस डाउनलोड करना होगा</string>
+    <string name="interface_and_interaction">इंटरफ़ेस और इंटरैक्शन</string>
+    <string name="import_backup">आयात करें</string>
+    <string name="full_backup">पूर्ण बैकअप</string>
+    <string name="backup_type">बैकअप की किसम</string>
+    <string name="export_to">इस जगह निर्यात करें</string>
+    <string name="file">फाईल</string>
+    <string name="clipboard">क्लिपबोर्ड</string>
+    <string name="import_from">से आयात करें</string>
+    <string name="export_download_history">डाउनलोड इतिहास निर्यात करें?</string>
+    <string name="import_download_history">डाउनलोड इतिहास आयात करें?</string>
+    <string name="export_download_history_msg">डाउनलोड इतिहास से %1$s निर्यात किया जा रहा है। डाउनलोड की गई फ़ाइलों और प्राथमिकताओं का बैकअप नहीं लिया जाएगा।</string>
+    <string name="download_history">डाउनलोड इतिहास</string>
+    <string name="redownload">दोबारा डाउनलोड करें</string>
+    <string name="download_archive_error">वीडियो डाउनलोड कर लिया गया है. यदि यह अपेक्षित व्यवहार नहीं है, तो कृपया अपना डाउनलोड संग्रह में जांचें।</string>
+    <string name="download_history_imported">डाउनलोड इतिहास के लिए %1$s आयात किया गया</string>
 </resources>

@@ -401,4 +401,5 @@
     <string name="interface_and_interaction">Arayüz</string>
     <string name="download_history_imported">İndirme geçmişine %1$s aktarıldı</string>
     <string name="redownload">Yeniden indir</string>
+    <string name="download_archive_error">Video indirildi. Bu beklenen bir davranış değilse, lütfen indirme arşivinizi gözden geçirin.</string>
 </resources>

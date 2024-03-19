@@ -357,4 +357,22 @@
         <item quantity="other">%d éléments</item>
     </plurals>
     <string name="edit_file">Modifier le fichier</string>
+    <string name="allow_always">Toujours autoriser</string>
+    <string name="dont_allow">Ne pas autoriser</string>
+    <string name="download_with_cellular_request">Autoriser l\'utilisation des données mobiles ?</string>
+    <string name="merge_audiostream">Combiner plusieurs pistes audios</string>
+    <string name="merge_audiostream_desc">Autorise plusieurs pistes audio combinées en une seule</string>
+    <string name="subdirectory_hint">Vos téléchargement seront enregistrés sous:</string>
+    <string name="keep_subtitle_files">Garder le fichier des sous-titres</string>
+    <string name="restrict_filenames_desc">Limiter les noms de fichiers à certains caractères pour assurer la compatibilité</string>
+    <string name="website">Site Web</string>
+    <string name="playlist_title">Titre de la playlist</string>
+    <string name="auto_translated_subtitles">Sous-titres automatiquement traduits</string>
+    <string name="remember_for_next_download">Se souvenir pour le prochain téléchargement</string>
+    <string name="system_settings">Paramètres système</string>
+    <string name="force_ipv4">Forcer en IPv4</string>
+    <string name="force_ipv4_desc">Établit toutes les connexions en IPv4</string>
+    <string name="search_in_downloads">Rechercher dans les téléchargements</string>
+    <string name="search">Rechercher</string>
+    <string name="auto_translated_subtitles_msg">Des sous-titres automatiquement traduits seront disponibles dans les téléchargements. Ces sous-titres peuvent être imprécis et difficiles à comprendre.</string>
 </resources>

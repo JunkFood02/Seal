@@ -346,10 +346,10 @@
     <string name="presets">Predefinições</string>
     <string name="output_template">Modelo de saída</string>
     <string name="output_template_desc">Especificar o modelo para nomes de arquivos de saída</string>
-    <string name="clear_download_archive">Limpar arquivo de download\?</string>
-    <string name="clear_download_archive_desc">Remover %1$s do arquivo de download\?</string>
-    <string name="download_archive_desc">Salve os IDs dos vídeos baixados em um arquivo para evitar downloads duplicados</string>
-    <string name="download_archive">Arquivo de download</string>
+    <string name="clear_download_archive">Limpar o arquivamento de download?</string>
+    <string name="clear_download_archive_desc">Remover %1$s do arquivamento de download?</string>
+    <string name="download_archive_desc">Salvar IDs dos vídeos baixados para evitar downloads duplicados</string>
+    <string name="download_archive">Arquivar downloads</string>
     <string name="embed_metadata">Incorporar metadados</string>
     <string name="embed_metadata_desc">Incorporar metadados e miniaturas de vídeo no arquivo de áudio</string>
     <string name="required">Obrigatório</string>
@@ -402,4 +402,5 @@
     <string name="export_download_history_msg">Exportando %1$s do histórico de downloads. Os arquivos baixados e as preferências não serão exportados.</string>
     <string name="redownload">Baixar novamente</string>
     <string name="download_history_imported">Importou %1$s para o histórico de downloads</string>
+    <string name="download_archive_error">O vídeo foi baixado. Se este não for o comportamento esperado, verifique o arquivamento de download.</string>
 </resources>

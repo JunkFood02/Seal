@@ -402,4 +402,5 @@
     <string name="export_download_history_msg">A exportar %1$s do histórico de descargas. Os ficheiros descarregados e as preferências não serão guardados.</string>
     <string name="download_history_imported">Importou %1$s para o histórico de descargas</string>
     <string name="redownload">Descarregar novamente</string>
+    <string name="download_archive_error">O vídeo foi descarregado. Se este não for o comportamento esperado, verifique o seu arquivo de descarga.</string>
 </resources>

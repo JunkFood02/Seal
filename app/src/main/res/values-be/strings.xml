@@ -203,7 +203,7 @@
     <string name="video_creator_sample_text">Прыклад аўтара відэа</string>
     <string name="subtitle_desc">Мовы, убудаваныя субтытры, аўтаматычныя субтытры</string>
     <string name="format_selection">Выбар фармату</string>
-    <string name="remove_cookie_profile_desc">Выдаліць файлы cookie для \"%1$s\"?</string>
+    <string name="remove_cookie_profile_desc">Выдаліць гэты запіс для \"%1$s\"? Звярніце ўвагу, што файлы cookie, захаваныя для гэтага сайта, не будуць выдалены.</string>
     <string name="subtitle_language">Мовы субтытраў</string>
     <string name="selected_item_count">%1$d выбрана</string>
     <string name="private_directory">Прыватны каталог</string>
@@ -380,4 +380,9 @@
     <string name="subtitle_language_desc">Мова субтытраў для загрузкі ў аўтаматычным выбары фармату, падзеленыя коскамі.</string>
     <string name="remember_for_next_download">Запомніць для будучай загрузкі</string>
     <string name="look_and_feel">Афармленне</string>
+    <string name="search_in_subtitles">Пошук ў субтытрах</string>
+    <string name="interface_and_interaction">Інтэрфейс і ўзаемадзеянне</string>
+    <string name="use_previous_selection">Выкарыстаць папярэдні выбар</string>
+    <string name="no_thanks">Не, дзякуй</string>
+    <string name="reset">Скід</string>
 </resources>
