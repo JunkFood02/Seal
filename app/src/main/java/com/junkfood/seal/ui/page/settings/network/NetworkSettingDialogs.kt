@@ -1,7 +1,10 @@
 package com.junkfood.seal.ui.page.settings.network
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -14,11 +17,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,6 +33,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.junkfood.seal.R
@@ -97,11 +103,12 @@ fun RateLimitDialog(onDismissRequest: () -> Unit) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConcurrentDownloadDialog(
     onDismissRequest: () -> Unit,
 ) {
-    var concurrentFragments by remember { mutableStateOf(PreferenceUtil.getConcurrentFragments()) }
+    var concurrentFragments by remember { mutableFloatStateOf(PreferenceUtil.getConcurrentFragments()) }
     val count by remember {
         derivedStateOf {
             if (concurrentFragments <= 0.125f) 1 else ((concurrentFragments * 3f).roundToInt()) * 8
@@ -126,12 +133,23 @@ fun ConcurrentDownloadDialog(
         title = { Text(stringResource(R.string.concurrent_download)) },
         text = {
             Column {
+                val interactionSource = remember { MutableInteractionSource() }
                 Text(text = stringResource(R.string.concurrent_download_num, count))
+
+                Spacer(modifier = Modifier.height(8.dp))
+
                 Slider(
                     value = concurrentFragments,
                     onValueChange = { concurrentFragments = it },
                     steps = 2,
-                    valueRange = 0f..1f
+                    valueRange = 0f..1f,
+                    thumb = {
+                        SliderDefaults.Thumb(
+                            modifier = Modifier,
+                            interactionSource = interactionSource,
+                            thumbSize = DpSize(4.dp, 32.dp)
+                        )
+                    }
                 )
             }
         })
