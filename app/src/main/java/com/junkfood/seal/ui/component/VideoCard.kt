@@ -50,7 +50,7 @@ fun VideoCard(
     showCancelButton: Boolean = false,
     onCancel: () -> Unit = {},
     onClick: () -> Unit = {},
-    progress: Float = 100f,
+    progress: Float = 90f,
     fileSizeApprox: Double = 1024 * 1024 * 69.0,
     duration: Int = 359,
     isPreview: Boolean = false
@@ -142,7 +142,7 @@ fun VideoCard(
             }
             val progressAnimationValue by animateFloatAsState(
                 targetValue = progress,
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec, label = ""
             )
             if (progress < 0f)
                 LinearProgressIndicator(
@@ -150,8 +150,9 @@ fun VideoCard(
                 )
             else
                 LinearProgressIndicator(
+                    progress = { progressAnimationValue / 100f },
                     modifier = Modifier.fillMaxWidth(),
-                    progress = progressAnimationValue / 100f,
+                    drawStopIndicator = null
                 )
         }
     }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -68,14 +67,14 @@ fun CustomRangeSlider(
     colors: SliderColors = SliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumbSize: DpSize = DpSize(12.dp, 12.dp)
+    thumbSize: DpSize = DpSize(4.dp, 24.dp)
 ) {
     RangeSlider(modifier = modifier,
         state = state,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
         startThumb = {
-            Box(modifier = Modifier.size(20.dp)) {
+            Box(modifier = Modifier) {
                 SliderDefaults.Thumb(
                     modifier = Modifier.align(Alignment.Center),
                     interactionSource = startInteractionSource,
@@ -86,7 +85,7 @@ fun CustomRangeSlider(
             }
         },
         endThumb = {
-            Box(modifier = Modifier.size(20.dp)) {
+            Box(modifier = Modifier) {
                 SliderDefaults.Thumb(
                     modifier = Modifier.align(Alignment.Center),
                     interactionSource = startInteractionSource,

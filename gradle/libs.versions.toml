@@ -1,14 +1,14 @@
 [versions]
 accompanist = "0.34.0"
 androidGradlePlugin = "8.4.0-alpha12"
-androidxComposeBom = "2024.02.01"
+androidxComposeBom = "2024.03.00-alpha02"
 androidxComposeCompiler = "1.5.3"
 androidxCore = "1.12.0"
 androidMaterial = "1.11.0"
 androidxAppCompat = "1.7.0-alpha03"
 androidxActivity = "1.8.2"
 
-androidxLifecycle = "2.6.2"
+androidxLifecycle = "2.7.0"
 androidxNavigation = "2.7.7"
 androidxFoundation = "1.6.0-beta03"
 androidxComposeMaterial3 = "1.2.0-beta01"
@@ -58,7 +58,9 @@ accompanist-pager-layouts = { group = "com.google.accompanist", name = "accompan
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+#androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }

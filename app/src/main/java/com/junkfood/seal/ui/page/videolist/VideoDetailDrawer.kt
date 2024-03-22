@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -112,7 +113,7 @@ fun VideoDetailDrawer(
 private fun DrawerPreview() {
     SealTheme {
         VideoDetailDrawerImpl(
-            sheetState = ModalBottomSheetState(ModalBottomSheetValue.Expanded),
+            sheetState = ModalBottomSheetState(ModalBottomSheetValue.Expanded, density = LocalDensity.current),
             onReDownload = {}
         )
     }
@@ -122,7 +123,7 @@ private fun DrawerPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoDetailDrawerImpl(
-    sheetState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden),
+    sheetState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden, density = LocalDensity.current),
     title: String = stringResource(id = R.string.video_title_sample_text),
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
