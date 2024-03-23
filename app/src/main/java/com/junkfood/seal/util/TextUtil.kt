@@ -33,10 +33,14 @@ private const val GIGA_BYTES = 1024f * 1024f * 1024f
 private const val MEGA_BYTES = 1024f * 1024f
 
 @Composable
-fun Number.toFileSizeText() = this.toFloat().run {
-    if (this > GIGA_BYTES)
-        stringResource(R.string.filesize_gb).format(this / GIGA_BYTES)
-    else stringResource(R.string.filesize_mb).format(this / MEGA_BYTES)
+fun Number?.toFileSizeText(): String {
+    if (this == null) return stringResource(id = R.string.unknown)
+
+    return this.toFloat().run {
+        if (this > GIGA_BYTES)
+            stringResource(R.string.filesize_gb).format(this / GIGA_BYTES)
+        else stringResource(R.string.filesize_mb).format(this / MEGA_BYTES)
+    }
 }
 
 /**
@@ -99,11 +103,11 @@ fun matchUrlFromString(s: String, isMatchingMultiLink: Boolean = false): String 
 }
 
 
-fun connectWithDelimiter(vararg strings: String, delimiter: String): String =
+fun connectWithDelimiter(vararg strings: String?, delimiter: String): String =
     strings
         .toList()
-        .filter { it.isNotEmpty() && it.isNotBlank() }
-        .joinToString(separator = delimiter) { it }
+        .filter { !it.isNullOrBlank() }
+        .joinToString(separator = delimiter) { it.toString() }
 
 
 fun connectWithBlank(s1: String, s2: String): String {

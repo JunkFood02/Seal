@@ -58,6 +58,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.connectWithBlank
 import com.junkfood.seal.util.connectWithDelimiter
 import com.junkfood.seal.util.toDurationText
@@ -230,22 +231,113 @@ fun VideoInfoPreview() {
 }
 
 @Composable
-fun FormatItem(
-    formatInfo: Format, selected: Boolean = false,
-    outlineColor: Color = MaterialTheme.colorScheme.primary,
-    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    onLongClick: () -> Unit = {},
+fun SuggestedFormatItem(
+    modifier: Modifier = Modifier,
+    videoInfo: VideoInfo,
+    selected: Boolean = false,
     onClick: () -> Unit = {},
 ) {
+    val requestedFormats = videoInfo.requestedFormats ?: emptyList()
+    val duration = videoInfo.duration ?: 0.0
+
+    val containsVideo = requestedFormats.any { it.vcodec.toEmpty().isNotEmpty() }
+    val containsAudio = requestedFormats.any { it.acodec.toEmpty().isNotEmpty() }
+
+    val title = requestedFormats.joinToString(separator = " + ") { it.format.toString() }
+
+    val totalFileSize = requestedFormats.fold(initial = 0.0) { acc: Double, format: Format ->
+        acc + (format.fileSize ?: format.fileSizeApprox ?: (duration * (format.tbr ?: 0.0) * 125))
+        // kbps -> bytes 1000/8
+    }
+    val fileSizeText = totalFileSize.toFileSizeText()
+
+    val totalTbr = requestedFormats.fold(initial = 0.0) { acc: Double, format: Format ->
+        acc + (format.tbr ?: 0.0)
+    }
+
+    val tbrText =
+        when {
+            totalTbr <= 0f -> "" // i don't care
+            totalTbr < 1024f -> "%.1f Kbps".format(
+                totalTbr
+            )
+
+            else -> "%.2f Mbps".format(totalTbr / 1024f)
+        }
+
+    val firstLineText = connectWithDelimiter(fileSizeText, tbrText, delimiter = " ")
+
+    val vcodecText = videoInfo.vcodec.toEmpty().substringBefore(".")
+    val acodecText = videoInfo.acodec.toEmpty().substringBefore(".")
+
+    val codecText = connectWithBlank(
+        vcodecText,
+        acodecText
+    ).run { if (isNotBlank()) "($this)" else this }
+
+    val secondLineText =
+        connectWithDelimiter(videoInfo.ext, codecText, delimiter = " ").uppercase()
+
+    FormatItem(
+        modifier = modifier,
+        title = title,
+        containsAudio = containsAudio,
+        containsVideo = containsVideo,
+        firstLineText = firstLineText,
+        secondLineText = secondLineText,
+        selected = selected,
+        onClick = onClick
+    )
+
+}
+
+@Composable
+fun FormatItem(
+    modifier: Modifier = Modifier,
+    formatInfo: Format,
+    duration: Double,
+    selected: Boolean = false,
+    outlineColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    onLongClick: (() -> Unit)? = null,
+    onClick: () -> Unit = {},
+) {
+
     with(formatInfo) {
+        val vcodecText = vcodec.toEmpty().substringBefore(".")
+        val acodecText = acodec.toEmpty().substringBefore(".")
+
+        val codec = connectWithBlank(
+            vcodecText,
+            acodecText
+        ).run { if (isNotBlank()) "($this)" else this }
+
+        val tbrText =
+            when {
+                tbr == null -> "" // i don't care
+                tbr < 1024f -> "%.1f Kbps".format(
+                    tbr
+                )
+
+                else -> "%.2f Mbps".format(tbr / 1024f)
+            }
+
+        val fileSize = fileSize ?: fileSizeApprox ?: (tbr?.times(duration * 125))
+        val fileSizeText = fileSize.toFileSizeText()
+
+        val firstLineText = connectWithDelimiter(fileSizeText, tbrText, delimiter = " ")
+
+        val secondLineText =
+            connectWithDelimiter(ext, codec, delimiter = " ").uppercase()
+
+
         FormatItem(
-            formatDesc = format.toString(),
-            resolution = resolution.toString(),
-            vcodec = vcodec,
-            acodec = acodec,
-            ext = ext.toString(),
-            bitRate = tbr?.toFloat() ?: 0f,
-            fileSize = fileSize ?: fileSizeApprox ?: .0,
+            modifier = modifier,
+            title = format.toString(),
+            containsAudio = acodecText.isNotEmpty(),
+            containsVideo = vcodecText.isNotEmpty(),
+            firstLineText = firstLineText,
+            secondLineText = secondLineText,
             outlineColor = outlineColor,
             containerColor = containerColor,
             selected = selected,
@@ -259,13 +351,11 @@ fun FormatItem(
 @Composable
 fun FormatItem(
     modifier: Modifier = Modifier,
-    formatDesc: String = "247 - 1280x720 (720p)",
-    resolution: String = "1920x1080",
-    vcodec: String? = null,
-    acodec: String? = null,
-    ext: String = "mp4",
-    bitRate: Float = 745.67f,
-    fileSize: Double = 1024 * 1024 * 69.0,
+    title: String = "247 - 1280x720 (720p)",
+    containsAudio: Boolean = false,
+    containsVideo: Boolean = false,
+    firstLineText: String,
+    secondLineText: String,
     selected: Boolean = false,
     outlineColor: Color = MaterialTheme.colorScheme.primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
@@ -300,34 +390,25 @@ fun FormatItem(
         )
         .background(animatedContainerColor)
     ) {
-        val vcodecText = vcodec.toEmpty().substringBefore(".")
-        val acodecText = acodec.toEmpty().substringBefore(".")
+
         Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.Start) {
             Text(
-                text = formatDesc,
+                text = title,
                 style = MaterialTheme.typography.titleSmall,
                 minLines = 2,
                 maxLines = 2,
                 color = animatedTitleColor, overflow = TextOverflow.Clip
             )
-            val codec = connectWithBlank(
-                vcodecText,
-                acodecText
-            ).run { if (isNotBlank()) "($this)" else this }
 
-            val bitRateText =
-                if (bitRate < 1024f) "%.1f Kbps".format(bitRate) else "%.2f Mbps".format(bitRate / 1024f)
-            val fileSizeText = fileSize.toFileSizeText()
-            val codecText = "$ext $codec".uppercase()
             Text(
-                text = connectWithDelimiter(fileSizeText, bitRateText, delimiter = " "),
+                text = firstLineText,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = 6.dp),
-                color = MaterialTheme.colorScheme.onSurface, maxLines = 1
+                color = MaterialTheme.colorScheme.onSurface, maxLines = 2
             )
 
             Text(
-                text = codecText,
+                text = secondLineText,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = 2.dp),
                 color = MaterialTheme.colorScheme.onSurface, maxLines = 1
@@ -338,21 +419,21 @@ fun FormatItem(
                 .padding(bottom = 6.dp, end = 6.dp)
                 .align(Alignment.BottomEnd)
         ) {
-            if (vcodecText.isNotEmpty())
+            if (containsVideo)
                 Icon(
                     imageVector = Icons.Rounded.Videocam,
                     tint = outlineColor,
                     contentDescription = stringResource(id = R.string.video),
                     modifier = Modifier.size(16.dp)
                 )
-            if (acodecText.isNotEmpty())
+            if (containsAudio)
                 Icon(
                     imageVector = Icons.Rounded.Audiotrack,
                     tint = outlineColor,
                     contentDescription = stringResource(id = R.string.audio),
                     modifier = Modifier.size(16.dp)
                 )
-            if (acodecText.isEmpty() && vcodecText.isEmpty()) {
+            if (!containsVideo && !containsAudio) {
                 Icon(
                     imageVector = Icons.Rounded.QuestionMark,
                     tint = outlineColor,
@@ -397,7 +478,13 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
         )
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
-        FormatItem(selected = selected == 1, acodec = "MP4A", vcodec = "AV01") { onClick(1) }
+        FormatItem(
+            selected = selected == 1,
+            containsAudio = true,
+            containsVideo = true,
+            firstLineText = "? MB + 16.00 MB, (? + 200) Kbps",
+            secondLineText = "MKV (Unknown + OPUS)"
+        ) { onClick(1) }
     }
 
     item(span = { GridItemSpan(maxLineSpan) }) {
@@ -409,15 +496,29 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
                 .padding(horizontal = 12.dp)
         )
     }
-    for (i in 0..2) {
+    for (i in 0..1) {
         item {
             FormatItem(
                 selected = selected == i,
                 outlineColor = MaterialTheme.colorScheme.tertiary,
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                vcodec = "", acodec = "OPUS", ext = "OPUS"
+                containsVideo = false,
+                containsAudio = true,
+                firstLineText = "",
+                secondLineText = "OPUS (OPUS)"
             ) { onClick(i) }
         }
+    }
+    item {
+        FormatItem(
+            selected = selected == 2,
+            outlineColor = MaterialTheme.colorScheme.tertiary,
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            containsVideo = false,
+            containsAudio = true,
+            firstLineText = "",
+            secondLineText = "Unknown (Unknown)"
+        ) { onClick(2) }
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
         FormatSubtitle(
@@ -428,7 +529,13 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
     }
     for (i in 0..2) {
         item {
-            FormatItem(selected = selected == i, vcodec = "AVC1", acodec = "none") { onClick(i) }
+            FormatItem(
+                selected = selected == i,
+                containsVideo = true,
+                containsAudio = false,
+                firstLineText = "69.00MB 745.7Kbps",
+                secondLineText = "MP4 (AVC1)"
+            ) { onClick(i) }
         }
     }
     item(span = { GridItemSpan(maxLineSpan) }) {
@@ -445,8 +552,10 @@ fun LazyGridScope.FormatPreviewContent(selected: Int = 0, onClick: (Int) -> Unit
                 selected = selected == i,
                 outlineColor = MaterialTheme.colorScheme.secondary,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                vcodec = "AVC1",
-                acodec = "MP4A"
+                containsVideo = true,
+                containsAudio = true,
+                firstLineText = "",
+                secondLineText = ""
             ) { onClick(i) }
         }
     }
@@ -469,7 +578,7 @@ fun FormatSubtitle(
 @Preview
 @Composable
 fun FormatItemPreview() {
-    FormatItem()
+    FormatItem(formatInfo = Format(), duration = 20.0)
 }
 
 

@@ -84,6 +84,7 @@ import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealSearchBar
+import com.junkfood.seal.ui.component.SuggestedFormatItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
@@ -232,7 +233,16 @@ private fun FormatPagePreview() {
                     add(Format(formatId = "$it", vcodec = "avc1", acodec = "none"))
                 }
                 repeat(7) {
-                    add(Format(formatId = "$it", acodec = "aac", vcodec = "none"))
+                    add(
+                        Format(
+                            formatId = "$it",
+                            acodec = "aac",
+                            vcodec = "none",
+                            format = "251 - audio only (medium)",
+                            fileSizeApprox = 2000000.0,
+                            tbr = 128.0
+                        )
+                    )
                 }
             },
             subtitles = subMap, automaticCaptions = captionsMap,
@@ -256,7 +266,7 @@ private fun FormatPagePreview() {
                     )
                 )
             },
-            duration = 100000.0
+            duration = 180.0
         )
     SealTheme {
         FormatPageImpl(
@@ -289,6 +299,8 @@ fun FormatPageImpl(
     val videoAudioFormats =
         videoInfo.formats.filter { it.acodec != "none" && it.vcodec != "none" }.reversed()
 
+    val duration = videoInfo.duration ?: 0.0
+
     var videoOnlyItemLimit by remember { mutableIntStateOf(6) }
     var audioOnlyItemLimit by remember { mutableIntStateOf(6) }
     var videoAudioItemLimit by remember { mutableIntStateOf(6) }
@@ -316,12 +328,12 @@ fun FormatPageImpl(
     var isSplittingVideo by remember { mutableStateOf(false) }
     val isSplitByChapterAvailable = !videoInfo.chapters.isNullOrEmpty()
 
-    val videoDuration = 0f..(videoInfo.duration?.toFloat() ?: 0f)
+    val videoDurationRange = 0f..(videoInfo.duration?.toFloat() ?: 0f)
     var showVideoClipDialog by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
     var showSubtitleSelectionDialog by remember { mutableStateOf(false) }
 
-    var videoClipDuration by remember { mutableStateOf(videoDuration) }
+    var videoClipDuration by remember { mutableStateOf(videoDurationRange) }
     var videoTitle by remember { mutableStateOf("") }
 
     val suggestedSubtitleMap: Map<String, List<SubtitleFormat>> =
@@ -333,7 +345,7 @@ fun FormatPageImpl(
 
     LaunchedEffect(isClippingVideo) {
         delay(200)
-        videoClipDuration = videoDuration
+        videoClipDuration = videoDurationRange
     }
 
     val formatList: List<Format> by remember {
@@ -395,7 +407,7 @@ fun FormatPageImpl(
                         title = videoTitle.ifEmpty { title },
                         author = uploader ?: channel ?: uploaderId.toString(),
                         thumbnailUrl = thumbnail.toHttpsUrl(),
-                        duration = (duration ?: .0).roundToInt(),
+                        duration = duration.roundToInt(),
                         isClippingVideo = isClippingVideo,
                         isSplittingVideo = isSplittingVideo,
                         isClippingAvailable = isClippingAvailable,
@@ -421,7 +433,7 @@ fun FormatPageImpl(
                                     RangeSliderState(
                                         activeRangeStart = videoClipDuration.start,
                                         activeRangeEnd = videoClipDuration.endInclusive,
-                                        valueRange = videoDuration,
+                                        valueRange = videoDurationRange,
                                         onValueChangeFinished = {
                                             shouldUpdateClipDuration = true
                                         }
@@ -528,30 +540,26 @@ fun FormatPageImpl(
                         FormatSubtitle(text = stringResource(R.string.suggested))
                     }
                 }
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    val onClick = {
-                        isSuggestedFormatSelected = true
-                        selectedAudioOnlyFormats.clear()
-                        selectedVideoAudioFormat = NOT_SELECTED
-                        selectedVideoOnlyFormat = NOT_SELECTED
-                    }
+                if (!requestedFormats.isNullOrEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        val onClick = {
+                            isSuggestedFormatSelected = true
+                            selectedAudioOnlyFormats.clear()
+                            selectedVideoAudioFormat = NOT_SELECTED
+                            selectedVideoOnlyFormat = NOT_SELECTED
+                        }
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        FormatItem(
-                            modifier = Modifier.weight(1f),
-                            formatDesc = format.toString(),
-                            resolution = resolution.toString(),
-                            acodec = acodec,
-                            vcodec = vcodec,
-                            ext = ext,
-                            bitRate = tbr?.toFloat() ?: 0f,
-                            fileSize = fileSize ?: fileSizeApprox ?: .0,
-                            selected = isSuggestedFormatSelected,
-                            onClick = onClick
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            SuggestedFormatItem(
+                                modifier = Modifier.weight(1f),
+                                videoInfo = this@run,
+                                selected = isSuggestedFormatSelected,
+                                onClick = onClick
+                            )
+                        }
                     }
                 }
             }
@@ -588,7 +596,9 @@ fun FormatPageImpl(
                     toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size)
                 )
             ) { index, formatInfo ->
-                FormatItem(formatInfo = formatInfo,
+                FormatItem(
+                    formatInfo = formatInfo,
+                    duration = duration,
                     selected = selectedAudioOnlyFormats.contains(index),
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     outlineColor = MaterialTheme.colorScheme.secondary,
@@ -640,7 +650,9 @@ fun FormatPageImpl(
                         min(videoOnlyItemLimit, videoOnlyFormats.size)
                     )
                 ) { index, formatInfo ->
-                    FormatItem(formatInfo = formatInfo,
+                    FormatItem(
+                        formatInfo = formatInfo,
+                        duration = duration,
                         selected = selectedVideoOnlyFormat == index,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         outlineColor = MaterialTheme.colorScheme.tertiary,
@@ -688,7 +700,9 @@ fun FormatPageImpl(
                         min(videoAudioItemLimit, videoAudioFormats.size)
                     )
                 ) { index, formatInfo ->
-                    FormatItem(formatInfo = formatInfo,
+                    FormatItem(
+                        formatInfo = formatInfo,
+                        duration = duration,
                         selected = selectedVideoAudioFormat == index,
                         onLongClick = { formatInfo.url.share() }) {
                         selectedVideoAudioFormat =
@@ -720,7 +734,7 @@ fun FormatPageImpl(
     }
     if (showVideoClipDialog) VideoClipDialog(onDismissRequest = { showVideoClipDialog = false },
         initialValue = videoClipDuration,
-        valueRange = videoDuration,
+        valueRange = videoDurationRange,
         onConfirm = { videoClipDuration = it })
 
     if (showRenameDialog) RenameDialog(initialValue = videoTitle.ifEmpty { videoInfo.title },
