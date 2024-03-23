@@ -242,13 +242,13 @@ fun DownloadPageImplV2(
                         )
                     }
                 }
-                AnimatedVisibility(visible = errorState.isErrorOccurred()) {
+/*                AnimatedVisibility(visible = errorState.isErrorOccurred()) {
                     ErrorMessage(
                         url = viewState.url,
                         errorMessageResId = errorState.errorMessageResId,
                         errorReport = errorState.errorReport
                     )
-                }
+                }*/
                 content()
 //                val output = Downloader.mutableProcessOutput
 //                LazyRow() {
@@ -459,7 +459,7 @@ private fun DownloadPagePreview() {
 
                     ),
                 viewState = DownloadViewModel.ViewState(),
-                errorState = Downloader.ErrorState(errorReport = "This is an error report!"),
+                errorState = Downloader.ErrorState.None,
                 processCount = 2,
                 isPreview = true,
                 showDownloadProgress = true,

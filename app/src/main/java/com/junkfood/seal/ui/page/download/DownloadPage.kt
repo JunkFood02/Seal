@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.download
 import android.Manifest
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -24,6 +25,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,6 +42,7 @@ import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -46,9 +50,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
@@ -73,12 +79,12 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -93,6 +99,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ClearButton
@@ -100,6 +107,7 @@ import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.theme.PreviewThemeLight
+import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
@@ -329,6 +337,7 @@ fun DownloadPageImpl(
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
+    val clipboardManager = LocalClipboardManager.current
 
     val showCancelButton =
         downloaderState is Downloader.State.DownloadingPlaylist || downloaderState is Downloader.State.DownloadingVideo
@@ -460,7 +469,7 @@ fun DownloadPageImpl(
                         url = viewState.url,
                         progress = progress,
                         showDownloadProgress = showDownloadProgress && !showVideoCard,
-                        error = errorState.isErrorOccurred(),
+                        error = errorState != Downloader.ErrorState.None,
                         showCancelButton = showCancelButton && !showVideoCard,
                         onCancel = cancelCallback,
                         onDone = downloadCallback,
@@ -480,12 +489,15 @@ fun DownloadPageImpl(
                         )
                     }
                 }
-                AnimatedVisibility(visible = errorState.isErrorOccurred()) {
+                AnimatedVisibility(visible = errorState != Downloader.ErrorState.None) {
                     ErrorMessage(
-                        url = viewState.url,
-                        errorMessageResId = errorState.errorMessageResId,
-                        errorReport = errorState.errorReport
-                    )
+                        title = errorState.title,
+                        errorReport = errorState.report
+                    ) {
+                        view.longPressHapticFeedback()
+                        clipboardManager.setText(AnnotatedString(App.getVersionReport() + "\nURL: ${errorState.url}\n${errorState.report}"))
+                        ToastUtil.makeToast(R.string.error_copied)
+                    }
                 }
                 content()
 //                val output = Downloader.mutableProcessOutput
@@ -561,7 +573,7 @@ fun InputUrl(
                     .clip(MaterialTheme.shapes.large),
             )
             else LinearProgressIndicator(
-                progress = progressAnimationValue,
+                progress = { progressAnimationValue },
                 modifier = Modifier
                     .weight(0.75f)
                     .clip(MaterialTheme.shapes.large),
@@ -635,33 +647,95 @@ fun TitleWithProgressIndicator(
 @Composable
 fun ErrorMessage(
     modifier: Modifier = Modifier,
-    url: String,
-    errorReport: String = "",
-    errorMessageResId: Int,
+    title: String,
+    errorReport: String,
+    onButtonClicked: () -> Unit = {}
 ) {
-    val clipboardManager = LocalClipboardManager.current
-    val context = LocalContext.current
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .run {
-            if (errorReport.isNotEmpty()) {
-                clip(MaterialTheme.shapes.large).clickable {
-                    clipboardManager.setText(AnnotatedString(App.getVersionReport() + "\nURL: $url\n$errorReport"))
-                    ToastUtil.makeToastSuspend(context.getString(R.string.error_copied))
+    val view = LocalView.current
+    Surface(
+        color = MaterialTheme.colorScheme.errorContainer,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier
+            .padding(vertical = 16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .animateContentSize()
+                .padding(horizontal = 16.dp, vertical = 16.dp)
+        ) {
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top
+            ) {
+                Icon(
+                    Icons.Outlined.Error,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier,
+                        text = title,
+                        color = MaterialTheme.colorScheme.onErrorContainer,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
-            } else this
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            var isExpanded by remember { mutableStateOf(false) }
+
+            Text(
+                text = errorReport,
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = if (isExpanded) Int.MAX_VALUE else 8,
+                modifier = Modifier.clickable(
+                    enabled = !isExpanded, onClickLabel = stringResource(
+                        id = R.string.expand
+                    )
+                ) {
+                    view.slightHapticFeedback()
+                    isExpanded = true
+                }
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+
+            Row(modifier = Modifier.align(Alignment.End)) {
+                OutlinedButton(
+                    onClick = onButtonClicked,
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                ) {
+                    Text(text = stringResource(id = R.string.copy_error_report))
+                }
+            }
+
         }
-        .padding(horizontal = 8.dp, vertical = 8.dp)) {
-        Icon(
-            Icons.Outlined.Error, contentDescription = null, tint = MaterialTheme.colorScheme.error
-        )
-        Text(
-            maxLines = 10,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 6.dp),
-            text = errorReport.ifEmpty { stringResource(id = errorMessageResId) },
-            color = MaterialTheme.colorScheme.error
-        )
+
+    }
+}
+
+@Preview
+@Composable
+private fun ErrorPreview() {
+    SealTheme {
+        Surface {
+            LazyColumn {
+                item {
+                    ErrorMessage(
+                        title = stringResource(id = R.string.download_error_msg),
+                        errorReport = ERROR_REPORT_SAMPLE,
+                    ) {}
+                }
+            }
+
+        }
     }
 }
 
@@ -707,7 +781,10 @@ fun DownloadPagePreview() {
                 downloaderState = Downloader.State.DownloadingVideo,
                 taskState = Downloader.DownloadTaskItem(),
                 viewState = DownloadViewModel.ViewState(),
-                errorState = Downloader.ErrorState(),
+                errorState = Downloader.ErrorState.DownloadError(
+                    url = "",
+                    report = ERROR_REPORT_SAMPLE
+                ),
                 processCount = 99,
                 isPreview = true,
                 showDownloadProgress = true,
@@ -716,3 +793,13 @@ fun DownloadPagePreview() {
         }
     }
 }
+
+private const val ERROR_REPORT_SAMPLE =
+    """[sample] Extracting URL: https://www.example.com
+[sample] sample: Downloading webpage
+[sample] sample: Downloading android player API JSON
+[info] Available automatic captions for sample:
+[info] Available automatic captions for sample:
+[sample] sample: Downloading android player API JSON
+[info] Available automatic captions for sample:
+[info] Available automatic captions for sample:"""

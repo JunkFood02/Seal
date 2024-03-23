@@ -6,10 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
+import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.Downloader.State
 import com.junkfood.seal.Downloader.manageDownloadError
-import com.junkfood.seal.Downloader.showErrorMessage
 import com.junkfood.seal.Downloader.updatePlaylistResult
 import com.junkfood.seal.R
 import com.junkfood.seal.util.CUSTOM_COMMAND
@@ -18,6 +18,7 @@ import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.VideoInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +64,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         if (!Downloader.isDownloaderAvailable())
             return
         if (url.isBlank()) {
-            showErrorMessage(R.string.url_empty)
+            ToastUtil.makeToast(context.getString(R.string.url_empty))
             return
         }
         if (PLAYLIST.getBoolean()) {
@@ -85,7 +86,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
         DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess {
             showFormatSelectionPageOrDownload(it)
         }.onFailure {
-            manageDownloadError(th = it, title = url, isFetchingInfo = true, isTaskAborted = true)
+            manageDownloadError(th = it, url = url, isFetchingInfo = true, isTaskAborted = true)
         }
         Downloader.updateState(State.Idle)
     }
@@ -115,7 +116,7 @@ class DownloadViewModel @Inject constructor() : ViewModel() {
             }.onFailure {
                 manageDownloadError(
                     th = it,
-                    title = url,
+                    url = url,
                     isFetchingInfo = true,
                     isTaskAborted = true
                 )

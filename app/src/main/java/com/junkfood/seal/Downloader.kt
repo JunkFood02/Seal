@@ -3,8 +3,10 @@ package com.junkfood.seal
 import android.app.PendingIntent
 import android.util.Log
 import androidx.annotation.CheckResult
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
@@ -53,12 +55,24 @@ object Downloader {
         object Idle : State()
     }
 
-    data class ErrorState(
-        val errorReport: String = "",
-        val errorMessageResId: Int = R.string.unknown_error,
+    sealed class ErrorState(
+        open val url: String = "",
+        open val report: String = "",
     ) {
-        fun isErrorOccurred(): Boolean =
-            errorMessageResId != R.string.unknown_error || errorReport.isNotEmpty()
+        data class DownloadError(override val url: String, override val report: String) :
+            ErrorState(url = url, report = report)
+
+        data class FetchInfoError(override val url: String, override val report: String) :
+            ErrorState(url = url, report = report)
+
+        data object None : ErrorState()
+
+        val title: String
+            @Composable get() = when (this) {
+                is DownloadError -> stringResource(id = R.string.download_error_msg)
+                is FetchInfoError -> stringResource(id = R.string.fetch_info_error_msg)
+                None -> ""
+            }
     }
 
 
@@ -142,7 +156,7 @@ object Downloader {
     private val mutableDownloaderState: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     private val mutableTaskState = MutableStateFlow(DownloadTaskItem())
     private val mutablePlaylistResult = MutableStateFlow(PlaylistResult())
-    private val mutableErrorState = MutableStateFlow(ErrorState())
+    private val mutableErrorState: MutableStateFlow<ErrorState> = MutableStateFlow(ErrorState.None)
     private val mutableProcessCount = MutableStateFlow(0)
     private val mutableQuickDownloadCount = MutableStateFlow(0)
 
@@ -276,13 +290,17 @@ object Downloader {
     fun updateState(state: State) = mutableDownloaderState.update { state }
 
     fun clearErrorState() {
-        mutableErrorState.update { ErrorState() }
+        mutableErrorState.update { ErrorState.None }
     }
 
-    fun showErrorMessage(resId: Int) {
-        ToastUtil.makeToastSuspend(context.getString(resId))
-        mutableErrorState.update { ErrorState(errorMessageResId = resId) }
+    private fun fetchInfoError(url: String, errorReport: String) {
+        mutableErrorState.update { ErrorState.FetchInfoError(url, errorReport) }
     }
+
+    private fun downloadError(url: String, errorReport: String) {
+        mutableErrorState.update { ErrorState.DownloadError(url, errorReport) }
+    }
+
 
     private fun clearProgressState(isFinished: Boolean) {
         mutableTaskState.update {
@@ -311,6 +329,7 @@ object Downloader {
                 .onFailure {
                     manageDownloadError(
                         th = it,
+                        url = url,
                         title = url,
                         isFetchingInfo = true,
                         isTaskAborted = true
@@ -378,7 +397,7 @@ object Downloader {
                 .onFailure {
                     manageDownloadError(
                         th = it,
-                        title = url,
+                        url = url,
                         isFetchingInfo = true,
                         isTaskAborted = true
                     )
@@ -508,6 +527,7 @@ object Downloader {
         }.onFailure {
             manageDownloadError(
                 th = it,
+                url = videoInfo.originalUrl,
                 title = videoInfo.title,
                 isFetchingInfo = false,
                 notificationId = notificationId,
@@ -558,7 +578,8 @@ object Downloader {
                 )
 
                 val playlistIndex = indexList[i]
-                val title = playlistItemList[playlistIndex].title
+                val playlistEntry = playlistItemList[playlistIndex]
+                val title = playlistEntry.title
 
                 DownloadUtil.fetchVideoInfoFromUrl(
                     url = url,
@@ -576,6 +597,7 @@ object Downloader {
                         ).onFailure { th ->
                             manageDownloadError(
                                 th = th,
+                                url = it.originalUrl,
                                 title = it.title,
                                 isFetchingInfo = false,
                                 isTaskAborted = false
@@ -584,6 +606,7 @@ object Downloader {
                 }.onFailure { th ->
                     manageDownloadError(
                         th = th,
+                        url = playlistEntry.url,
                         title = title,
                         isFetchingInfo = true,
                         isTaskAborted = false
@@ -609,7 +632,8 @@ object Downloader {
      */
     fun manageDownloadError(
         th: Throwable,
-        title: String?,
+        url: String?,
+        title: String? = null,
         isFetchingInfo: Boolean,
         isTaskAborted: Boolean = true,
         notificationId: Int? = null,
@@ -620,15 +644,18 @@ object Downloader {
             if (isFetchingInfo) R.string.fetch_info_error_msg else R.string.download_error_msg
         ToastUtil.makeToastSuspend(context.getString(resId))
 
-        mutableErrorState.update {
-            ErrorState(
-                errorReport = th.message.toString()
-            )
+        val notificationTitle = title ?: url
+
+        if (isFetchingInfo) {
+            fetchInfoError(url = url.toString(), errorReport = th.stackTraceToString())
+        } else {
+            downloadError(url = url.toString(), errorReport = th.stackTraceToString())
         }
+
         notificationId?.let {
             NotificationUtil.finishNotification(
                 notificationId = notificationId,
-                title = title,
+                title = notificationTitle,
                 text = context.getString(R.string.download_error_msg),
             )
         }
