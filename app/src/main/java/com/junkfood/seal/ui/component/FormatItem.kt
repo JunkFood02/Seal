@@ -363,18 +363,19 @@ fun FormatItem(
     onClick: () -> Unit = {}
 ) {
     val animatedOutlineColor by animateColorAsState(
-        targetValue = MaterialTheme.colorScheme.run {
-            if (selected) outlineColor else outlineVariant
-        }, animationSpec = tween(100)
+        targetValue = if (selected) outlineColor else MaterialTheme.colorScheme.outlineVariant,
+        animationSpec = tween(100), label = ""
     )
+
+
     val animatedTitleColor by animateColorAsState(
-        targetValue = MaterialTheme.colorScheme.run {
-            if (selected) outlineColor else onSurface
-        }, animationSpec = tween(100)
+        if (selected) outlineColor else MaterialTheme.colorScheme.onSurface,
+        animationSpec = tween(100), label = ""
     )
+
     val animatedContainerColor by animateColorAsState(
         if (selected) containerColor else MaterialTheme.colorScheme.surface,
-        animationSpec = tween(100)
+        animationSpec = tween(100), label = ""
     )
 
     Box(modifier = modifier
