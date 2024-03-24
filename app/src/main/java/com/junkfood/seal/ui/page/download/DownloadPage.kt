@@ -31,7 +31,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.ContentPaste
@@ -50,12 +49,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
@@ -75,11 +74,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -125,8 +120,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalPermissionsApi::class,
-    ExperimentalMaterialApi::class,
-    ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class,
 )
 @Composable
 fun DownloadPage(
@@ -194,6 +188,7 @@ fun DownloadPage(
 
 
     val downloadCallback: () -> Unit = {
+        keyboardController?.hide()
         if (NOTIFICATION.getBoolean() && notificationPermission?.status?.isGranted == false) {
             showNotificationDialog = true
         }
@@ -206,7 +201,6 @@ fun DownloadPage(
         } else {
             checkPermissionOrDownload()
         }
-        keyboardController?.hide()
     }
 
     if (showNotificationDialog) {
@@ -260,7 +254,6 @@ fun DownloadPage(
             !PreferenceUtil.getValue(DISABLE_PREVIEW)
         )
     }
-
 
     Box(
         modifier = Modifier
@@ -534,8 +527,6 @@ fun InputUrl(
     onCancel: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = url,
@@ -544,18 +535,13 @@ fun InputUrl(
         label = { Text(stringResource(R.string.video_url)) },
         modifier = Modifier
             .padding(0f.dp, 16f.dp)
-            .fillMaxWidth()
-            .focusRequester(focusRequester),
+            .fillMaxWidth(),
         textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 3,
         trailingIcon = {
             if (url.isNotEmpty()) ClearButton { onValueChange("") }
 //            else PasteUrlButton { onPaste() }
-        }, keyboardActions = KeyboardActions(onDone = {
-            softwareKeyboardController?.hide()
-            focusManager.moveFocus(FocusDirection.Down)
-            onDone()
-        }),
+        }, keyboardActions = KeyboardActions(onDone = { onDone() }),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
     )
     AnimatedVisibility(visible = showDownloadProgress) {
@@ -661,11 +647,13 @@ fun ErrorMessage(
         Column(
             modifier = Modifier
                 .animateContentSize()
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(horizontal = 12.dp, vertical = 16.dp)
         ) {
             Row(
-                modifier = modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Top
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     Icons.Outlined.Error,
@@ -685,7 +673,7 @@ fun ErrorMessage(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             var isExpanded by remember { mutableStateOf(false) }
 
@@ -694,23 +682,29 @@ fun ErrorMessage(
                 style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 8,
-                modifier = Modifier.clickable(
-                    enabled = !isExpanded, onClickLabel = stringResource(
-                        id = R.string.expand
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .clickable(
+                        enabled = !isExpanded, onClickLabel = stringResource(
+                            id = R.string.expand
+                        ), onClick = {
+                            view.slightHapticFeedback()
+                            isExpanded = true
+                        }
                     )
-                ) {
-                    view.slightHapticFeedback()
-                    isExpanded = true
+                    .padding(4.dp),
+                onTextLayout = {
+                    isExpanded = !it.hasVisualOverflow
                 }
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
 
             Row(modifier = Modifier.align(Alignment.End)) {
-                OutlinedButton(
+                TextButton(
                     onClick = onButtonClicked,
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                 ) {
                     Text(text = stringResource(id = R.string.copy_error_report))
                 }

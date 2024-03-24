@@ -647,9 +647,9 @@ object Downloader {
         val notificationTitle = title ?: url
 
         if (isFetchingInfo) {
-            fetchInfoError(url = url.toString(), errorReport = th.stackTraceToString())
+            fetchInfoError(url = url.toString(), errorReport = th.message.toString())
         } else {
-            downloadError(url = url.toString(), errorReport = th.stackTraceToString())
+            downloadError(url = url.toString(), errorReport = th.message.toString())
         }
 
         notificationId?.let {
