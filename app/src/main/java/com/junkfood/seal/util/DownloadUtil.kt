@@ -226,7 +226,8 @@ object DownloadUtil {
         val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
         val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated(),
         val forceIpv4: Boolean = FORCE_IPV4.getBoolean(),
-        val mergeAudioStream: Boolean = false
+        val mergeAudioStream: Boolean = false,
+        val sponsorMark: Boolean = PreferenceUtil.getValue(SPONSOR_MARK),
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -613,6 +614,10 @@ object DownloadUtil {
                 if (splitByChapter) {
                     addOption("-o", OUTPUT_TEMPLATE_CHAPTERS)
                     addOption("--split-chapters")
+                }
+
+                if(sponsorMark){
+                    addOption("--sponsorblock-mark", "all")
                 }
 
                 val output =
