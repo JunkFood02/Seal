@@ -686,11 +686,11 @@ fun VideoListPage(
     }
 }
 
-fun List<DownloadedVideoInfo>.backupToString(
+private fun List<DownloadedVideoInfo>.backupToString(
     type: BackupUtil.BackupType,
 ): String {
     return when (type) {
-        BackupUtil.BackupType.DownloadHistory -> toJsonString()
+        BackupUtil.BackupType.DownloadHistory -> reversed().toJsonString()
         BackupUtil.BackupType.URLList -> toURLListString()
         else -> throw IllegalArgumentException()
     }
