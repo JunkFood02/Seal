@@ -100,6 +100,7 @@ import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SORTING_FIELDS
+import com.junkfood.seal.util.SPONSOR_MARK
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
@@ -133,6 +134,7 @@ fun DownloadSettingDialog(
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
     var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
+    var sponsorMark by remember { mutableStateOf(PreferenceUtil.getValue(SPONSOR_MARK)) }
     var formatSelection by FORMAT_SELECTION.booleanState
     var videoFormatPreference by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
@@ -202,6 +204,7 @@ fun DownloadSettingDialog(
             PreferenceUtil.updateValue(CUSTOM_COMMAND, type == DownloadType.Command)
             PreferenceUtil.updateValue(PLAYLIST, playlist)
             PreferenceUtil.updateValue(SUBTITLE, subtitle)
+            PreferenceUtil.updateValue(SPONSOR_MARK, sponsorMark)
         }
     }
 
@@ -443,6 +446,11 @@ fun DownloadSettingDialog(
                         updatePreferences()
                     }, label = stringResource(R.string.create_thumbnail)
                 )
+                VideoFilterChip(
+                    selected = sponsorMark, enabled = type != DownloadType.Command, onClick = {
+                        sponsorMark = !sponsorMark
+                        updatePreferences()
+                    }, label = "Mark Sponsor Sections")
             }
 
 
