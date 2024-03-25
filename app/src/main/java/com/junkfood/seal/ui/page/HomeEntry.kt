@@ -61,6 +61,7 @@ import com.junkfood.seal.ui.page.settings.directory.DownloadDirectoryPreferences
 import com.junkfood.seal.ui.page.settings.format.DownloadFormatPreferences
 import com.junkfood.seal.ui.page.settings.format.SubtitlePreference
 import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
+import com.junkfood.seal.ui.page.settings.interaction.InteractionPreferencePage
 import com.junkfood.seal.ui.page.settings.network.CookieProfilePage
 import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
@@ -301,6 +302,7 @@ fun NavGraphBuilder.settingsGraph(
         animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
         animatedComposable(Route.AUTO_UPDATE) { UpdatePage { onBackPressed() } }
         animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
+        animatedComposable(Route.INTERACTION) { InteractionPreferencePage(onBack = onBackPressed) }
         animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onBackPressed() }

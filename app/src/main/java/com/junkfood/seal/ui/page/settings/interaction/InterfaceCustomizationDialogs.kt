@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.settings.appearance
+package com.junkfood.seal.ui.page.settings.interaction
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn

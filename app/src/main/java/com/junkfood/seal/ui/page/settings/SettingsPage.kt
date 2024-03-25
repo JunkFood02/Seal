@@ -17,18 +17,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Aod
 import androidx.compose.material.icons.rounded.AudioFile
+import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.SettingsApplications
 import androidx.compose.material.icons.rounded.SignalCellular4Bar
 import androidx.compose.material.icons.rounded.SignalWifi4Bar
-import androidx.compose.material.icons.rounded.VideoFile
-import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.Terminal
+import androidx.compose.material.icons.rounded.VideoFile
+import androidx.compose.material.icons.rounded.ViewComfy
 import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -220,6 +219,17 @@ fun SettingsPage(
                     icon = Icons.Rounded.Palette
                 ) {
                     navController.navigate(Route.APPEARANCE) { launchSingleTop = true }
+                }
+            }
+            item {
+                SettingItem(
+                    title = stringResource(id = R.string.interface_and_interaction),
+                    description = stringResource(
+                        id = R.string.settings_before_download
+                    ),
+                    icon = Icons.Rounded.ViewComfy
+                ) {
+                    navController.navigate(Route.INTERACTION) { launchSingleTop = true }
                 }
             }
             item {

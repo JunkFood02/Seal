@@ -68,6 +68,7 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.ui.page.settings.interaction.DownloadTypeCustomizationDialog
 import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
