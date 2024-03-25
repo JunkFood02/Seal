@@ -67,7 +67,7 @@ private const val TAG = "AboutPage"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutPage(
-    onBackPressed: () -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToCreditsPage: () -> Unit,
     onNavigateToUpdatePage: () -> Unit,
     onNavigateToDonatePage: () -> Unit
@@ -106,7 +106,7 @@ fun AboutPage(
             )
         }, navigationIcon = {
             BackButton {
-                onBackPressed()
+                onNavigateBack()
             }
         }, scrollBehavior = scrollBehavior
         )

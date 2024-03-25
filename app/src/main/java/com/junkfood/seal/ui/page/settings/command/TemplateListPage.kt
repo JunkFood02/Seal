@@ -90,7 +90,7 @@ private const val TAG = "TemplateListPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> Unit) {
+fun TemplateListPage(onNavigateBack: () -> Unit, onNavigateToEditPage: (Int) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true })
@@ -147,7 +147,7 @@ fun TemplateListPage(onBackPressed: () -> Unit, onNavigateToEditPage: (Int) -> U
                 )
             }, navigationIcon = {
                 BackButton {
-                    onBackPressed()
+                    onNavigateBack()
                 }
             }, actions = {
                 var expanded by remember { mutableStateOf(false) }

@@ -53,7 +53,7 @@ import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubtitlePreference(onBackPressed: () -> Unit) {
+fun SubtitlePreference(onNavigateBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -107,7 +107,7 @@ fun SubtitlePreference(onBackPressed: () -> Unit) {
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

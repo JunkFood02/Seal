@@ -62,7 +62,7 @@ const val materialMotionCompose = "https://github.com/fornewid/material-motion-c
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreditsPage(onBackPressed: () -> Unit) {
+fun CreditsPage(onNavigateBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -108,7 +108,7 @@ fun CreditsPage(onBackPressed: () -> Unit) {
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

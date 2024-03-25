@@ -52,7 +52,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.R
@@ -97,7 +96,8 @@ val colorList = ((4..10) + (1..3)).map { it * 35.0 }.map { Color(Hct.from(it, 40
 )
 @Composable
 fun AppearancePreferences(
-    navController: NavHostController
+    onNavigateBack: () -> Unit,
+    onNavigateTo: (String) -> Unit
 ) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
@@ -127,9 +127,7 @@ fun AppearancePreferences(
                     text = stringResource(id = R.string.look_and_feel),
                 )
             }, navigationIcon = {
-                BackButton {
-                    navController.popBackStack()
-                }
+                BackButton(onNavigateBack)
             }, scrollBehavior = scrollBehavior
             )
         },
@@ -212,13 +210,13 @@ fun AppearancePreferences(
                     isChecked = isDarkTheme,
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },
-                    onClick = { navController.navigate(Route.DARK_THEME) })
+                    onClick = { onNavigateTo(Route.DARK_THEME) })
                 if (Build.VERSION.SDK_INT >= 24) {
                     PreferenceItem(
                         title = stringResource(R.string.language),
                         icon = Icons.Outlined.Language,
                         description = Locale.getDefault().toDisplayName()
-                    ) { navController.navigate(Route.LANGUAGES) }
+                    ) { onNavigateTo(Route.LANGUAGES) }
                 }
                 PreferenceSubtitle(text = stringResource(id = R.string.settings_before_download))
 

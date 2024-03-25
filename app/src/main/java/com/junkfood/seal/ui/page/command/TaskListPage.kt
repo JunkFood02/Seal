@@ -84,7 +84,7 @@ import kotlinx.coroutines.launch
     ExperimentalFoundationApi::class
 )
 @Composable
-fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
+fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -101,7 +101,7 @@ fun TaskListPage(onBackPressed: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             }, navigationIcon = {
-                BackButton { onBackPressed() }
+                BackButton { onNavigateBack() }
             }, actions = {}, scrollBehavior = scrollBehavior
             )
         },

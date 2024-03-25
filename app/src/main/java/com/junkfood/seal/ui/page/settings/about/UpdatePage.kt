@@ -59,7 +59,7 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdatePage(onBackPressed: () -> Unit) {
+fun UpdatePage(onNavigateBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -83,7 +83,7 @@ fun UpdatePage(onBackPressed: () -> Unit) {
             )
         }, navigationIcon = {
             BackButton {
-                onBackPressed()
+                onNavigateBack()
             }
         }, scrollBehavior = scrollBehavior
         )
@@ -181,7 +181,7 @@ fun UpdatePage(onBackPressed: () -> Unit) {
     if (showUnavailableDialog) {
         AutoUpdateUnavailableDialog {
             showUnavailableDialog = false
-            onBackPressed()
+            onNavigateBack()
         }
     }
 }

@@ -57,7 +57,7 @@ import java.util.Locale
 
 
 @Composable
-fun LanguagePage(onBackPressed: () -> Unit = {}) {
+fun LanguagePage(onNavigateBack: () -> Unit = {}) {
     val selectedLocale by remember { mutableStateOf(Locale.getDefault()) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -79,7 +79,7 @@ fun LanguagePage(onBackPressed: () -> Unit = {}) {
             false
         }
     LanguagePageImpl(
-        onBackPressed = onBackPressed,
+        onNavigateBack = onNavigateBack,
         localeSet = LocaleLanguageCodeMap.keys,
         isSystemLocaleSettingsAvailable = isSystemLocaleSettingsAvailable,
         onNavigateToSystemLocaleSettings = {
@@ -97,7 +97,7 @@ fun LanguagePage(onBackPressed: () -> Unit = {}) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LanguagePageImpl(
-    onBackPressed: () -> Unit = {},
+    onNavigateBack: () -> Unit = {},
     localeSet: Set<Locale>,
     isSystemLocaleSettingsAvailable: Boolean = false,
     onNavigateToSystemLocaleSettings: () -> Unit,
@@ -123,7 +123,7 @@ private fun LanguagePageImpl(
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

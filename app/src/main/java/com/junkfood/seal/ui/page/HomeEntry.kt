@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -119,7 +118,7 @@ fun HomeEntry(
         }
     }
 
-    val onBackPressed: () -> Unit = {
+    val onNavigateBack: () -> Unit = {
         with(navController) {
             if (currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
                 popBackStack()
@@ -169,10 +168,10 @@ fun HomeEntry(
                     downloadViewModel = downloadViewModel
                 )
             }
-            animatedComposable(Route.DOWNLOADS) { VideoListPage { onBackPressed() } }
+            animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
             animatedComposableVariant(Route.TASK_LIST) {
                 TaskListPage(
-                    onBackPressed = onBackPressed,
+                    onNavigateBack = onNavigateBack,
                     onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) }
                 )
             }
@@ -181,18 +180,22 @@ fun HomeEntry(
                 arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType })
             ) {
                 TaskLogPage(
-                    onBackPressed = onBackPressed,
+                    onNavigateBack = onNavigateBack,
                     taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1
                 )
             }
 
-//            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onBackPressed() } }
-            slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onBackPressed() } }
-            slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onBackPressed() } }
+//            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onNavigateBack() } }
+            slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onNavigateBack() } }
+            slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onNavigateBack() } }
             settingsGraph(
-                navController = navController,
                 cookiesViewModel = cookiesViewModel,
-                onBackPressed = onBackPressed
+                onNavigateBack = onNavigateBack,
+                onNavigateTo = { route ->
+                    navController.navigate(route = route) {
+                        launchSingleTop = true
+                    }
+                }
             )
 
         }
@@ -266,75 +269,80 @@ fun HomeEntry(
 }
 
 fun NavGraphBuilder.settingsGraph(
-    navController: NavHostController,
     cookiesViewModel: CookiesViewModel,
-    onBackPressed: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateTo: (route: String) -> Unit
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
-            DownloadDirectoryPreferences { onBackPressed() }
+            DownloadDirectoryPreferences(onNavigateBack)
         }
         animatedComposable(Route.SETTINGS_PAGE) {
             SettingsPage(
-                navController = navController,
-                onBackPressed = onBackPressed
+                onNavigateBack = onNavigateBack,
+                onNavigateTo = onNavigateTo
             )
         }
         animatedComposable(Route.GENERAL_DOWNLOAD_PREFERENCES) {
             GeneralDownloadPreferences(
-                onBackPressed = { onBackPressed() },
-            ) { navController.navigate(Route.TEMPLATE) }
+                onNavigateBack = { onNavigateBack() },
+            ) { onNavigateTo(Route.TEMPLATE) }
         }
         animatedComposable(Route.DOWNLOAD_FORMAT) {
-            DownloadFormatPreferences(onBackPressed = onBackPressed) {
-                navController.navigate(Route.SUBTITLE_PREFERENCES)
+            DownloadFormatPreferences(onNavigateBack = onNavigateBack) {
+                onNavigateTo(Route.SUBTITLE_PREFERENCES)
             }
         }
-        animatedComposable(Route.SUBTITLE_PREFERENCES) { SubtitlePreference { onBackPressed() } }
+        animatedComposable(Route.SUBTITLE_PREFERENCES) { SubtitlePreference { onNavigateBack() } }
         animatedComposable(Route.ABOUT) {
             AboutPage(
-                onBackPressed = { onBackPressed() },
-                onNavigateToCreditsPage = { navController.navigate(Route.CREDITS) },
-                onNavigateToUpdatePage = { navController.navigate(Route.AUTO_UPDATE) },
-                onNavigateToDonatePage = { navController.navigate(Route.DONATE) })
+                onNavigateBack = onNavigateBack,
+                onNavigateToCreditsPage = { onNavigateTo(Route.CREDITS) },
+                onNavigateToUpdatePage = { onNavigateTo(Route.AUTO_UPDATE) },
+                onNavigateToDonatePage = { onNavigateTo(Route.DONATE) })
         }
-        animatedComposable(Route.DONATE) { DonatePage { onBackPressed() } }
-        animatedComposable(Route.CREDITS) { CreditsPage { onBackPressed() } }
-        animatedComposable(Route.AUTO_UPDATE) { UpdatePage { onBackPressed() } }
-        animatedComposable(Route.APPEARANCE) { AppearancePreferences(navController) }
-        animatedComposable(Route.INTERACTION) { InteractionPreferencePage(onBack = onBackPressed) }
-        animatedComposable(Route.LANGUAGES) { LanguagePage { onBackPressed() } }
+        animatedComposable(Route.DONATE) { DonatePage(onNavigateBack) }
+        animatedComposable(Route.CREDITS) { CreditsPage(onNavigateBack) }
+        animatedComposable(Route.AUTO_UPDATE) { UpdatePage(onNavigateBack) }
+        animatedComposable(Route.APPEARANCE) {
+            AppearancePreferences(
+                onNavigateBack = onNavigateBack,
+                onNavigateTo = onNavigateTo
+            )
+        }
+        animatedComposable(Route.INTERACTION) { InteractionPreferencePage(onBack = onNavigateBack) }
+        animatedComposable(Route.LANGUAGES) { LanguagePage { onNavigateBack() } }
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
-            DownloadDirectoryPreferences { onBackPressed() }
+            DownloadDirectoryPreferences { onNavigateBack() }
         }
         animatedComposable(Route.TEMPLATE) {
-            TemplateListPage(onBackPressed = onBackPressed) {
-                navController.navigate(Route.TEMPLATE_EDIT id it)
+            TemplateListPage(onNavigateBack = onNavigateBack) {
+                onNavigateTo(Route.TEMPLATE_EDIT id it)
             }
         }
         animatedComposable(
             Route.TEMPLATE_EDIT arg Route.TEMPLATE_ID,
             arguments = listOf(navArgument(Route.TEMPLATE_ID) { type = NavType.IntType })
         ) {
-            TemplateEditPage(onBackPressed, it.arguments?.getInt(Route.TEMPLATE_ID) ?: -1)
+            TemplateEditPage(onNavigateBack, it.arguments?.getInt(Route.TEMPLATE_ID) ?: -1)
         }
-        animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onBackPressed() } }
+        animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onNavigateBack() } }
         animatedComposable(Route.NETWORK_PREFERENCES) {
             NetworkPreferences(navigateToCookieProfilePage = {
-                navController.navigate(Route.COOKIE_PROFILE)
-            }) { onBackPressed() }
+                onNavigateTo(Route.COOKIE_PROFILE)
+            }) { onNavigateBack() }
         }
         animatedComposable(Route.COOKIE_PROFILE) {
             CookieProfilePage(
                 cookiesViewModel = cookiesViewModel,
-                navigateToCookieGeneratorPage = { navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW) },
-            ) { onBackPressed() }
+                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) },
+            ) { onNavigateBack() }
         }
         animatedComposable(
             Route.COOKIE_GENERATOR_WEBVIEW
         ) {
             WebViewPage(cookiesViewModel) {
-                onBackPressed()
+                onNavigateBack()
                 CookieManager.getInstance().flush()
             }
         }

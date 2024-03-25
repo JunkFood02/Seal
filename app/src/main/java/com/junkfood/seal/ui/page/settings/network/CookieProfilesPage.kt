@@ -108,7 +108,7 @@ import java.io.File
 fun CookieProfilePage(
     cookiesViewModel: CookiesViewModel = viewModel(),
     navigateToCookieGeneratorPage: () -> Unit = {},
-    onBackPressed: () -> Unit = {}
+    onNavigateBack: () -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -144,7 +144,7 @@ fun CookieProfilePage(
                 )
             }, navigationIcon = {
                 BackButton {
-                    onBackPressed()
+                    onNavigateBack()
                 }
             }, actions = {
                 var expanded by remember { mutableStateOf(false) }

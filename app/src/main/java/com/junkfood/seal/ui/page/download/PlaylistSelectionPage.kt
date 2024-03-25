@@ -52,9 +52,9 @@ import com.junkfood.seal.ui.component.PlaylistItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistSelectionPage(onBackPressed: () -> Unit = {}) {
+fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
     val onDismissRequest = {
-        onBackPressed()
+        onNavigateBack()
     }
     val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
     val selectedItems = rememberSaveable(saver = listSaver<MutableList<Int>, Int>(

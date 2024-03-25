@@ -31,7 +31,7 @@ import com.junkfood.seal.util.PreferenceUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DarkThemePreferences(onBackPressed: () -> Unit) {
+fun DarkThemePreferences(onNavigateBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -51,7 +51,7 @@ fun DarkThemePreferences(onBackPressed: () -> Unit) {
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

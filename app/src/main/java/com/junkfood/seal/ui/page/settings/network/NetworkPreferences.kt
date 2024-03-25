@@ -49,7 +49,7 @@ import com.junkfood.seal.util.RATE_LIMIT
 @Composable
 fun NetworkPreferences(
     navigateToCookieProfilePage: () -> Unit = {},
-    onBackPressed: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -77,7 +77,7 @@ fun NetworkPreferences(
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

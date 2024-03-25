@@ -68,7 +68,7 @@ import com.junkfood.seal.util.VIDEO_QUALITY
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage: () -> Unit) {
+fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage: () -> Unit) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
             canScroll = { true })
@@ -118,7 +118,7 @@ fun DownloadFormatPreferences(onBackPressed: () -> Unit, navigateToSubtitlePage:
                 )
             }, navigationIcon = {
                 BackButton {
-                    onBackPressed()
+                    onNavigateBack()
                 }
             }, scrollBehavior = scrollBehavior
             )

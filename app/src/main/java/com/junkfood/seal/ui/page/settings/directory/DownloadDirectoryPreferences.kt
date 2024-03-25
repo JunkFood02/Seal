@@ -131,7 +131,7 @@ enum class Directory {
     ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class
 )
 @Composable
-fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
+fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
 
     val uriHandler = LocalUriHandler.current
     val clipboardManager = LocalClipboardManager.current
@@ -246,7 +246,7 @@ fun DownloadDirectoryPreferences(onBackPressed: () -> Unit) {
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

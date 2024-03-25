@@ -112,7 +112,7 @@ import kotlinx.coroutines.withContext
 )
 @Composable
 fun GeneralDownloadPreferences(
-    onBackPressed: () -> Unit,
+    onNavigateBack: () -> Unit,
     navigateToTemplate: () -> Unit
 ) {
     val context = LocalContext.current
@@ -170,7 +170,7 @@ fun GeneralDownloadPreferences(
             com.junkfood.seal.ui.component.LargeTopAppBar(
                 title = { Text(text = stringResource(id = R.string.general_settings)) },
                 navigationIcon = {
-                    BackButton { onBackPressed() }
+                    BackButton { onNavigateBack() }
                 },
                 scrollBehavior = scrollBehavior
             )

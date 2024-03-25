@@ -110,7 +110,7 @@ import kotlin.math.roundToInt
 private const val TAG = "FormatPage"
 
 @Composable
-fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit = {}) {
+fun FormatPage(downloadViewModel: DownloadViewModel, onNavigateBack: () -> Unit = {}) {
     val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     if (videoInfo.formats.isNullOrEmpty()) return
     val audioOnly = EXTRACT_AUDIO.getBoolean()
@@ -130,7 +130,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
 
     FormatPageImpl(
         videoInfo = videoInfo,
-        onBackPressed = onBackPressed,
+        onNavigateBack = onNavigateBack,
         audioOnly = audioOnly,
         mergeAudioStream = !audioOnly && mergeAudioStream,
         selectedSubtitleCodes = initialSelectedSubtitles,
@@ -153,7 +153,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
         if (diffSubtitleLanguages.isNotEmpty()) {
             showUpdateSubtitleDialog = true
         } else {
-            onBackPressed()
+            onNavigateBack()
         }
     }
 
@@ -163,7 +163,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
             languages = diffSubtitleLanguages,
             onDismissRequest = {
                 showUpdateSubtitleDialog = false
-                onBackPressed()
+                onNavigateBack()
             },
             onConfirm = {
                 SUBTITLE_LANGUAGE.updateString(
@@ -171,7 +171,7 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onBackPressed: () -> Unit =
                         separator = ",",
                     ) { it })
                 showUpdateSubtitleDialog = false
-                onBackPressed()
+                onNavigateBack()
             }
         )
     }
@@ -286,7 +286,7 @@ fun FormatPageImpl(
     mergeAudioStream: Boolean = false,
     isClippingAvailable: Boolean = false,
     selectedSubtitleCodes: Set<String>,
-    onBackPressed: () -> Unit = {},
+    onNavigateBack: () -> Unit = {},
     onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, List<String>) -> Unit = { _, _, _, _, _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -375,7 +375,7 @@ fun FormatPageImpl(
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             }, scrollBehavior = scrollBehavior, navigationIcon = {
-                IconButton(onClick = { onBackPressed() }) {
+                IconButton(onClick = { onNavigateBack() }) {
                     Icon(Icons.Outlined.Close, stringResource(R.string.close))
                 }
             }, actions = {

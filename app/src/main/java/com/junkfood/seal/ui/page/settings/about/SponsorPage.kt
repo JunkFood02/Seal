@@ -91,7 +91,7 @@ private const val SUPPORTERS = "Supporters 💖"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DonatePage(onBackPressed: () -> Unit) {
+fun DonatePage(onNavigateBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         canScroll = { true }
@@ -149,7 +149,7 @@ fun DonatePage(onBackPressed: () -> Unit) {
                     )
                 }, navigationIcon = {
                     BackButton {
-                        onBackPressed()
+                        onNavigateBack()
                     }
                 }, scrollBehavior = scrollBehavior
             )

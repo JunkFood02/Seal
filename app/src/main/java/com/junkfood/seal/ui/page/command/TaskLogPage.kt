@@ -54,7 +54,7 @@ private const val TAG = "TaskLogPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskLogPage(onBackPressed: () -> Unit, taskHashCode: Int) {
+fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
     Log.d(TAG, "TaskLogPage: $taskHashCode")
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val task = Downloader.mutableTaskList.values.find { it.hashCode() == taskHashCode } ?: return
@@ -70,7 +70,7 @@ fun TaskLogPage(onBackPressed: () -> Unit, taskHashCode: Int) {
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             }, navigationIcon = {
-                IconButton(onClick = { onBackPressed() }) {
+                IconButton(onClick = { onNavigateBack() }) {
                     Icon(Icons.Outlined.Close, stringResource(R.string.close))
                 }
             }, actions = {
