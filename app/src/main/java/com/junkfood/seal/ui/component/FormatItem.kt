@@ -362,11 +362,6 @@ fun FormatItem(
     onLongClick: (() -> Unit)? = null,
     onClick: () -> Unit = {}
 ) {
-    val animatedOutlineColor by animateColorAsState(
-        targetValue = if (selected) outlineColor else MaterialTheme.colorScheme.outlineVariant,
-        animationSpec = tween(100), label = ""
-    )
-
 
     val animatedTitleColor by animateColorAsState(
         if (selected) outlineColor else MaterialTheme.colorScheme.onSurface,
@@ -375,6 +370,11 @@ fun FormatItem(
 
     val animatedContainerColor by animateColorAsState(
         if (selected) containerColor else MaterialTheme.colorScheme.surface,
+        animationSpec = tween(100), label = ""
+    )
+
+    val animatedOutlineColor by animateColorAsState(
+        targetValue = if (selected) outlineColor else MaterialTheme.colorScheme.outlineVariant,
         animationSpec = tween(100), label = ""
     )
 
