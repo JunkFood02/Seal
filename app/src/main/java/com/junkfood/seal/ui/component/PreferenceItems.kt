@@ -764,14 +764,14 @@ fun TemplateItem(
     Surface(
         modifier = Modifier.run {
             if (!isMultiSelectEnabled) then(
-                combinedClickable(
+                this.combinedClickable(
                     onClick = onClick,
                     onClickLabel = stringResource(R.string.edit),
                     onLongClick = onLongClick,
                     onLongClickLabel = stringResource(R.string.multiselect_mode)
                 )
             ) else {
-                then(toggleable(value = checked, onValueChange = onCheckedChange))
+                then(this.toggleable(value = checked, onValueChange = onCheckedChange))
             }
         }
     ) {
