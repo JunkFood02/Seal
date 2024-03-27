@@ -11,9 +11,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 object SponsorUtil {
     private const val TAG = "SponsorUtil"
-    private const val MAGIC_STRING_0 = "Z2hwX2xjNm"
-    private const val MAGIC_STRING_1 = "RsN3R1M3BoSGx5em0xZ"
-    private const val MAGIC_STRING_2 = "GxtNks0RlJPTXNpTjFqaGtXeA"
+    private const val MAGIC_STRING_0 = "Z2hwX1Rzb2"
+    private const val MAGIC_STRING_1 = "JNU2xHNDZzNlVZNlBE"
+    private const val MAGIC_STRING_2 = "TXowRWJIYlVYNGNEZTJvaE5Ncg"
 
     // pls don't abuse
     private val magicString =
