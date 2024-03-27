@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="extract_audio">Saglabāt kā audio</string>
+    <string name="create_thumbnail">saglabāt sīktēlu</string>
+    <string name="settings">Iestatījumi</string>
+    <string name="video_directory">Video mape</string>
+</resources>

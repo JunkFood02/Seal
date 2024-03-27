@@ -143,7 +143,7 @@
     <string name="battery_configuration_desc">バックグラウンドでダウンロードするにはこのアプリのバッテリー最適化を無効にしてください</string>
     <string name="translate">翻訳</string>
     <string name="remove_template_desc">「%1$s」をコマンドテンプレートから削除しますか？</string>
-    <string name="downloading_indicator_text">ダウンロード進行中…</string>
+    <string name="downloading_indicator_text">ダウンロード中…</string>
     <string name="status_error">エラー</string>
     <string name="copy_error_report">エラー情報</string>
     <string name="status_completed">完了</string>
@@ -154,7 +154,7 @@
     <string name="open_file">ファイルを開く</string>
     <string name="restart">再開</string>
     <string name="copy_link">リンクをコピー</string>
-    <string name="sponsorblock_desc">SponsorBlockで動画のシーンを削除またはマークする</string>
+    <string name="sponsorblock_desc">SponsorBlockで動画のシーンを削除または識別</string>
     <string name="sponsorblock_categories">SponsorBlockのカテゴリ</string>
     <string name="import_from_clipboard">クリップボードからインポート</string>
     <string name="export_to_clipboard">クリップボードにエクスポート</string>
@@ -166,7 +166,7 @@
     <string name="recently_added">最近追加された項目</string>
     <string name="multiselect_item_count">%1$d の動画ファイル、%2$d の音声ファイル</string>
     <string name="delete_multiple_items_msg">%1$d 項目をダウンロード履歴から除去しますか？</string>
-    <string name="sponsorblock_categories_desc">動画ファイルから削除またはマークする SponsorBlock のカテゴリを指定します</string>
+    <string name="sponsorblock_categories_desc">動画ファイルから削除または識別する SponsorBlock のカテゴリを指定します</string>
     <string name="check_for_updates">更新を確認</string>
     <string name="unavailable">利用不可</string>
     <string name="use_custom_command">カスタムコマンドを使用する</string>
@@ -215,7 +215,7 @@
     <string name="download_selection_desc">再生リスト「%1$s」からダウンロードする動画を選択</string>
     <string name="selected_item_count">%1$d項目を選択</string>
     <string name="use_cookies">クッキーを使用する</string>
-    <string name="remove_cookie_profile_desc">「%1$s」のクッキーを削除しますか？</string>
+    <string name="remove_cookie_profile_desc">「%1$s」用のこの項目を削除しますか？このサイト向けに保存したクッキーは削除されません。</string>
     <string name="video_only">動画 (音声なし)</string>
     <string name="crop_artwork">アートワークを切り抜く</string>
     <string name="crop_artwork_desc">埋め込んだ画像を正方形に切り抜く</string>
@@ -384,4 +384,21 @@
     <string name="subtitle_language_desc">自動の形式選択でダウンロードする字幕の言語。カンマ区切り。</string>
     <string name="search_in_downloads">ダウンロード一覧から検索</string>
     <string name="search">検索</string>
+    <string name="download_archive_error">動画がダウンロードされました。これが予期しない動作ならダウンロードアーカイブをご確認ください。</string>
+    <string name="download_history_imported">ダウンロード履歴に %1$s 個をインポートしました</string>
+    <string name="export_backup">エクスポート</string>
+    <string name="export_download_history_msg">ダウンロード履歴から %1$s 個をエクスポート中。ダウンロードしたファイルと設定はバックアップされません。</string>
+    <string name="import_download_history_msg">ダウンロードしたファイルはインポートされません。手動で再ダウンロードしてください</string>
+    <string name="import_backup">インポート</string>
+    <string name="full_backup">完全バックアップ</string>
+    <string name="interface_and_interaction">外観と動的変化</string>
+    <string name="backup_type">バックアップの種類</string>
+    <string name="file">ファイル</string>
+    <string name="clipboard">クリップボード</string>
+    <string name="download_history">ダウンロード履歴</string>
+    <string name="export_to">エクスポート先</string>
+    <string name="import_from">インポート元</string>
+    <string name="import_download_history">ダウンロード履歴をインポートしますか？</string>
+    <string name="export_download_history">ダウンロード履歴をエクスポートしますか？</string>
+    <string name="redownload">再ダウンロード</string>
 </resources>

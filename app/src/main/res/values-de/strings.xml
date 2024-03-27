@@ -400,6 +400,6 @@
     <string name="download_history">Download-Verlauf</string>
     <string name="download_history_imported">%1$s in Download-Verlauf importiert</string>
     <string name="redownload">Erneut herunterladen</string>
-    <string name="export_to">Exportieren nach</string>
+    <string name="export_to">Exportieren als</string>
     <string name="interface_and_interaction">Interface &amp; Bedienung</string>
 </resources>
