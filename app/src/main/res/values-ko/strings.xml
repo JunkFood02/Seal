@@ -82,7 +82,7 @@
     <string name="download_desc">설정을 조정한 후 \"다운로드\"를 클릭하세요.</string>
     <string name="download_history_desc">비디오 및 오디오 파일을 포함한 앱 내 다운로드를 확인하고 관리합니다.</string>
     <string name="check_download_settings_desc">다운로드 설정을 살펴보고 yt-dlp의 최신 버전이 있는지 확인한 후 사용하십시오.</string>
-    <string name="concurrent_download_desc">M3U8/MPD 비디오의 더 많은 부분을 병렬로 다운로드</string>
+    <string name="concurrent_download_desc">더 많은 M3U8/MPD 비디오 부분들을 동시에 다운로드</string>
     <string name="concurrent_download_num">%d 스레드는 DASH/HLS 기본 비디오를 동시에 다운로드하는 데 사용됩니다.</string>
     <string name="embed_subtitles">자막 포함</string>
     <string name="new_template">새 템플릿</string>
@@ -126,7 +126,7 @@
     <string name="permission_issue_desc">Download/ 및 Documents/ 이외의 외부 디렉토리는 지원되지 않습니다</string>
     <string name="service_title">Seal 다운로드 중…</string>
     <string name="translate">번역</string>
-    <string name="translate_desc">Hosted Weblate 사이트에서 이 앱의 번역을 도울수 있습니다</string>
+    <string name="translate_desc">Hosted Weblate에서 이 앱의 번역을 도울수 있습니다</string>
     <string name="prefix">접두사</string>
     <string name="to">끝</string>
     <string name="follow_system">시스템</string>
@@ -196,7 +196,7 @@
     <string name="template_exported">%1$d개의 템플릿을 내보냈습니다</string>
     <string name="template_imported">%1$d개의 템플릿을 가져왔습니다</string>
     <string name="delete_multiple_items_msg">다운로드 기록에서 %1$d 항목을 제거하시겠습니까\?</string>
-    <string name="download_with_cellular">모바일 데이터를사용하여 다운로드</string>
+    <string name="download_with_cellular">모바일 데이터를 사용하여 다운로드</string>
     <string name="rate_limit_desc">다운로드 최대 속도 제한</string>
     <string name="status_downloading">다운로드 중</string>
     <string name="status_fetching_video_info">정보를 가져오는 중</string>

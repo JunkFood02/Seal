@@ -400,4 +400,5 @@
     <string name="download_history">Lịch sử tải xuống</string>
     <string name="download_history_imported">Đã nhập %1$s vào lịch sử tải xuống</string>
     <string name="redownload">Tải xuống lại</string>
+    <string name="download_archive_error">Video đã được tải xuống. Nếu đây không phải là hành vi mong đợi, vui lòng kiểm tra kho lưu trữ tải xuống của bạn.</string>
 </resources>

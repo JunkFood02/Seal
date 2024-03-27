@@ -37,7 +37,7 @@
     <string name="language">שפת תצוגה</string>
     <string name="language_settings">הגדר שפת תצוגה</string>
     <string name="task_running">משימת הורדה כבר פועלת</string>
-    <string name="paste_msg">הדבק כתובת URL מהלוח</string>
+    <string name="paste_msg">הודבקה כתובת URL מהלוח</string>
     <string name="paste_fail_msg">לא נמצאה כתובת URL בלוח</string>
     <string name="ytdlp_version">גרסת yt-dlp</string>
     <string name="ytdlp_update">לחץ כדי להתקין את גרסת yt-dlp העדכנית ביותר</string>
@@ -55,7 +55,7 @@
     <string name="print_details">פלט מפורט</string>
     <string name="defaults">ברירת מחדל</string>
     <string name="channel_name">הורדה</string>
-    <string name="video_url">קישור לוידאו</string>
+    <string name="video_url">קישור לסרטון</string>
     <string name="options">אפשרויות</string>
     <string name="no_downloaded_media">לא הורדה מדיה</string>
     <string name="enable_experimental_feature">להפעיל תכונה ניסיונית?</string>
@@ -89,10 +89,10 @@
     <string name="discard">השלכה</string>
     <string name="sponsor">חסות</string>
     <string name="feedback">משוב</string>
-    <string name="convert_subtitle">המר כיתוביות</string>
+    <string name="convert_subtitle">המרת כתוביות</string>
     <string name="sponsor_msg2">תודה רבה לך!</string>
     <string name="split_video">פיצול וידאו</string>
-    <string name="convert_subtitle_desc">המר את הכיתוביות לפורמט אחר</string>
+    <string name="convert_subtitle_desc">המר את הכתוביות לפורמט אחר</string>
     <string name="unknown_error_title">אופס! משהו השתבש</string>
     <string name="copy_and_exit">העתקה ויציאה</string>
     <string name="status_error">שגיאה</string>
@@ -138,7 +138,7 @@
     <string name="download_with_cellular_desc">אפשר הורדה גם כאשר אתה מחובר לרשת נמדדת</string>
     <string name="high_contrast">ערכת נושא כהה עם ניגודיות גבוהה</string>
     <string name="multiselect_mode">מצב בחירה מרובה</string>
-    <string name="private_mode">אנונימי</string>
+    <string name="private_mode">מצב אנונימי</string>
     <string name="suggested">מוצע</string>
     <string name="telegram_channel">ערוץ טלגרם</string>
     <string name="auto_subtitle">כתוביות אוטומטיות</string>
@@ -160,12 +160,12 @@
     <string name="to">סיום</string>
     <string name="invalid_index_range">אינדקס לא חוקי (מחוץ לטווח)</string>
     <string name="audio_directory">תיקיית אודיו</string>
-    <string name="download_directory_desc">בחר היכן לאחסן קבצי וידאו/אודיו</string>
+    <string name="download_directory_desc">בחר היכן לאחסן קובצי וידאו/אודיו</string>
     <string name="remove_template">אישור הסרה</string>
     <string name="use_cookies">השתמש בעוגיות</string>
     <string name="error_copied">דו\"ח שגיאה הועתק ללוח</string>
     <string name="open_settings">פתח הגדרות</string>
-    <string name="convert_to">המרה ל%1$s</string>
+    <string name="convert_to">המרה ל-%1$s</string>
     <string name="rate_limit_desc">הגבל את כמות ההורדות במקביל</string>
     <string name="generate_new_cookies">צור עוגיות חדשות</string>
     <string name="crop_artwork">חתוך תמונת אלבום</string>
@@ -188,11 +188,11 @@
     <string name="on">מופעל</string>
     <string name="off">כבוי</string>
     <string name="cancel">ביטול</string>
-    <string name="settings_before_download">הגדר לפני הורדה</string>
+    <string name="settings_before_download">הגדרה לפני הורדה</string>
     <string name="settings_before_download_text">התאם הורדה זאת</string>
     <string name="settings_before_download_desc">הגדר העדפות לפני הורדה</string>
     <string name="thumbnail">תמונה ממוזערת</string>
-    <string name="not_convert">לא מומר</string>
+    <string name="not_convert">ללא המרה</string>
     <string name="video_quality_desc">הגבל את איכות הווידאו כאשר קיימות מספר אופציות</string>
     <string name="not_specified">לא צוין (ברירת מחדל)</string>
     <string name="video_format_preference">פורמט וידאו מועדף</string>
@@ -217,7 +217,7 @@
     <string name="permission_issue">בעיית הרשאות אחסון</string>
     <string name="battery_configuration_desc">התעלם מאופטימיזציה של סוללה כדי לאפשר לאפליקציה להוריד ברקע</string>
     <string name="translate">תרגום</string>
-    <string name="embed_subtitles">כיתוביות מוטמעות</string>
+    <string name="embed_subtitles">כתוביות מוטמעות</string>
     <string name="custom_command_template_desc">ערוך ונהל תבניות פקודות</string>
     <string name="github_issue">בעיית GitHub</string>
     <string name="github_issue_desc">צור בעיה כדי לדווח באג או לבקש תכונה</string>
@@ -245,7 +245,7 @@
     <string name="auto_subtitle_desc">הורד כתוביות שנוצרו באופן אוטומטי</string>
     <string name="video_creator_sample_text">יוצר וידאו לדוגמה</string>
     <string name="share">שיתוף</string>
-    <string name="unlimited">לא מוגבל</string>
+    <string name="unlimited">לא מוגבלת</string>
     <string name="audio_quality">איכות אודיו</string>
     <string name="title">כותרת</string>
     <string name="clear_all_cookies">ניקוי כל העוגיות</string>
@@ -263,7 +263,7 @@
 \nתיתכן חוסר יציבות בגרסאות אלה, אז אנא אל תהסס לשלוח לנו משוב אם אתה נתקל בבעיות כלשהן, כדי לעזור לנו לשפר את האפליקציה בעתיד.</string>
     <string name="auto_update">עדכון אוטומטי</string>
     <string name="sponsor_desc">תמכו באפליקציה זו על ידי מתן חסות ב-GitHub</string>
-    <string name="subtitle">כיתוביות</string>
+    <string name="subtitle">כתוביות</string>
     <string name="clip_video">חיתוך וידאו</string>
     <string name="clip_start">התחלה</string>
     <string name="audio_quality_desc">הגבל את קצב סיביות השמע כאשר קיימות איכויות מרובות</string>
@@ -272,7 +272,7 @@
     <string name="print_details_desc">הדפס הודעות מפורטות בזמן הורדה</string>
     <string name="disabled">מושבת</string>
     <string name="folder_picker">בוחר תיקיה</string>
-    <string name="convert_audio_format_desc">קידוד מחדש של קבצי אודיו יגרום לאובדן איכות שמע ולהגדלת גודל הקובץ.</string>
+    <string name="convert_audio_format_desc">קידוד מחדש של קובצי אודיו יגרום לאובדן איכות שמע ולהגדלת גודל הקובץ.</string>
     <string name="task_canceled">משימת ההורדה בוטלה</string>
     <string name="clear_temp_files">נקה קבצים זמניים</string>
     <string name="battery_settings_desc">אנא הגדר את השימוש בסוללה של אפליקציה זו ל\"בלתי מוגבל\" בהגדרות המערכת כדי להוריד ברקע.</string>
@@ -381,7 +381,7 @@
     <string name="use_format_sorting">השתמש במיון פורמטים</string>
     <string name="merge_audiostream_desc">אפשר למזג זרמי אודיו מרובים לקובץ בודד</string>
     <string name="format_sorting">מיון פורמטים</string>
-    <string name="download_directory">הורדת תיקיה</string>
+    <string name="download_directory">תיקיית הורדה</string>
     <string name="yt_dlp_docs">הוראות לשימוש ב-yt-dlp</string>
     <string name="edit_template_desc">נתיב פלט וכתובת URL יתווספו על ידי האפליקציה.</string>
     <string name="subdirectory_desc">שמור קבצים בתיקיות ששמן על פי השדות המתאימים (לדוגמה שם ערוץ)</string>
@@ -392,7 +392,7 @@
     <string name="restrict_filenames_desc">הגבל שמות קבצים לתווים ספציפיים כדי להבטיח תאימות</string>
     <string name="lowest_bitrate">קצב סיביות הנמוך ביותר</string>
     <string name="presets">הגדרות קבועות מראש</string>
-    <string name="output_template_desc">בחר את התבנית עבור שמות קבצי הפלט</string>
+    <string name="output_template_desc">בחר את התבנית עבור שמות קובצי הפלט</string>
     <string name="subtitle_language_desc">שפת הכתוביות להורדה בבחירת פורמט \"אוטומטי\", מופרדת בפסיקים.</string>
     <string name="update_language_msg">השפות הבאות יתווספו להעדפה שלך להורדות עתידיות:</string>
     <string name="update_subtitle_languages">לעדכן את שפות הכתוביות?</string>

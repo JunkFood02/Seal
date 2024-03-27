@@ -217,7 +217,7 @@
     <string name="matrix_space">Spazio Matrix</string>
     <string name="cookies">Cookie</string>
     <string name="use_cookies">Usa i cookie</string>
-    <string name="remove_cookie_profile_desc">Rimuovere i cookie per «%1$s»?</string>
+    <string name="remove_cookie_profile_desc">Rimuovere i cookie per «%1$s»? Nota che i cookie salvati per questo sito non saranno rimossi.</string>
     <string name="custom_command_enabled_hint">Alcune opzioni non sono disponibili quando si utilizza un comando personalizzato</string>
     <string name="how_does_it_work">Come funziona\?</string>
     <string name="telegram_channel">Canale Telegram</string>
@@ -370,4 +370,35 @@
         <item quantity="other"/>
     </plurals>
     <string name="clear_download_archive">Cancellare l\'archivio dei download?</string>
+    <string name="download_archive_error">Il video è stato scaricato con successo. Se questo è stato un comportamento inaspettato, controllare l\'archivio dei download.</string>
+    <string name="backup_type">Tipo di backup</string>
+    <string name="export_to">Esportare in</string>
+    <string name="auto_translated_subtitles">Sottotitoli tradotti automaticamente</string>
+    <string name="auto_translated_subtitles_msg">I sottotitoli automaticamente tradotti saranno disponibili nei download. I sottotitoli possono essere inaccurati e difficile da capire.</string>
+    <string name="remember_for_next_download">Ricorda per i prossimi download</string>
+    <string name="subtitle_language_desc">Lingua dei sottotitoli da scaricare nella sezione formato automatico, separati da virgole.</string>
+    <string name="look_and_feel">Aspetto</string>
+    <string name="interface_and_interaction">Interfaccia ed interrogazioni</string>
+    <string name="use_previous_selection">Usa selezione precedente</string>
+    <string name="none">Nulla</string>
+    <string name="reset">Reset</string>
+    <string name="search_in_subtitles">Cerca nei sottotitoli</string>
+    <string name="no_thanks">No grazie</string>
+    <string name="update_language_msg">La lingua seguente verrà aggiunta alle preferenze per i download futuri:</string>
+    <string name="export_backup">Esportare</string>
+    <string name="import_backup">Importare</string>
+    <string name="full_backup">Backup completo</string>
+    <string name="file">File</string>
+    <string name="clipboard">Appunti</string>
+    <string name="import_from">Importare da</string>
+    <string name="export_download_history">Esportare la cronologia sei download?</string>
+    <string name="import_download_history">Importare la cronologia dei download?</string>
+    <string name="import_download_history_msg">I file scaricati non saranno importati. Dovrai scaricarli di nuovo manualmente</string>
+    <string name="export_download_history_msg">Esportazione in corso di %1$s dalla cronologia dei download. I file scaricati e le preferenze non saranno esportate nel backup.</string>
+    <string name="download_history">Cronologia dei download</string>
+    <string name="update_subtitle_languages">Aggiornare le lingue dei sottotitoli?</string>
+    <string name="download_history_imported">%1$s importato dai download con successo</string>
+    <string name="redownload">Riscarica</string>
+    <string name="search_in_downloads">Cerca nei file scaricati</string>
+    <string name="search">Cerca</string>
 </resources>
