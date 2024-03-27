@@ -1,8 +1,6 @@
 package com.junkfood.seal.ui.component
 
 import android.content.res.Configuration
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -363,20 +361,13 @@ fun FormatItem(
     onClick: () -> Unit = {}
 ) {
 
-    val animatedTitleColor by animateColorAsState(
-        if (selected) outlineColor else MaterialTheme.colorScheme.onSurface,
-        animationSpec = tween(100), label = ""
-    )
+    val animatedTitleColor = if (selected) outlineColor else MaterialTheme.colorScheme.onSurface
 
-    val animatedContainerColor by animateColorAsState(
-        if (selected) containerColor else MaterialTheme.colorScheme.surface,
-        animationSpec = tween(100), label = ""
-    )
 
-    val animatedOutlineColor by animateColorAsState(
-        targetValue = if (selected) outlineColor else MaterialTheme.colorScheme.outlineVariant,
-        animationSpec = tween(100), label = ""
-    )
+    val animatedContainerColor = if (selected) containerColor else MaterialTheme.colorScheme.surface
+
+    val animatedOutlineColor =
+        if (selected) outlineColor else MaterialTheme.colorScheme.outlineVariant
 
     Box(modifier = modifier
         .clip(MaterialTheme.shapes.medium)
