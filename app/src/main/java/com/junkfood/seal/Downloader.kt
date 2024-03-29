@@ -578,8 +578,11 @@ object Downloader {
                 )
 
                 val playlistIndex = indexList[i]
-                val playlistEntry = playlistItemList[playlistIndex]
-                val title = playlistEntry.title
+                val playlistEntry = playlistItemList.getOrNull(i)
+
+                Log.d(TAG, playlistEntry?.title.toString())
+
+                val title = playlistEntry?.title
 
                 DownloadUtil.fetchVideoInfoFromUrl(
                     url = url,
@@ -606,7 +609,7 @@ object Downloader {
                 }.onFailure { th ->
                     manageDownloadError(
                         th = th,
-                        url = playlistEntry.url,
+                        url = playlistEntry?.url,
                         title = title,
                         isFetchingInfo = true,
                         isTaskAborted = false
