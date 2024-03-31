@@ -51,11 +51,11 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.Beta(
+val currentVersion: Version = Version.ReleaseCandidate(
     versionMajor = 1,
     versionMinor = 12,
     versionPatch = 0,
-    versionBuild = 2
+    versionBuild = 1
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -87,7 +87,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 34
-        versionCode = 11130
+        versionCode = 11200
 
         if (splitApks) {
             splits {
