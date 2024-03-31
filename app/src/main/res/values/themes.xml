@@ -12,4 +12,11 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+    <style name="Theme.Seal.Splashscreen" parent="Theme.Splashscreen">
+        <item name="postSplashScreenTheme">@style/Theme.Seal</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
