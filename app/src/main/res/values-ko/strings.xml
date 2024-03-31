@@ -275,7 +275,7 @@
     <string name="edit_shortcuts_desc">명령 템플릿을 작성하는 데 사용할 수 있는 사용자 지정 바로 가기를 편집합니다.</string>
     <string name="clear">지우기</string>
     <string name="embed_subtitles_mkv_msg">자막을 삽입하기 위해 동영상은 mkv 컨테이너로 리먹스됩니다. VLC 미디어 플레이어 등 지원되는 플레이어로 재생할 수 있습니다.</string>
-    <string name="sponsor">후원자</string>
+    <string name="sponsor">후원하기</string>
     <string name="format_selection_desc">다운로드를 시작하기 전에 다운로드할 형식 선택</string>
     <string name="subtitle_sponsorblock">SponsorBlock 세그먼트를 제거할 때 자막이 누락될 수 있습니다.</string>
     <string name="update_channel_desc">새로운 기능과 변경 사항을 미리 보기위해 시험판 빌드를 설치합니다.
