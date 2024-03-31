@@ -34,7 +34,6 @@ const val CONCURRENT = "concurrent_fragments"
 const val EXTRACT_AUDIO = "extract_audio"
 const val THUMBNAIL = "create_thumbnail"
 const val YT_DLP = "yt-dlp_init"
-const val YT_DLP_NIGHTLY = "yt-dlp_nightly"
 const val YT_DLP_UPDATE = "yt-dlp_auto_update"
 const val DEBUG = "debug"
 const val CONFIGURE = "configure"
@@ -107,6 +106,8 @@ const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 
 const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
 
+const val YT_DLP_UPDATE_CHANNEL = "yt-dlp_update_channel"
+
 const val NOT_SPECIFIED = 0
 const val DEFAULT = NOT_SPECIFIED
 const val SYSTEM_DEFAULT = NOT_SPECIFIED
@@ -120,9 +121,11 @@ const val CONVERT_LRC = 2
 const val CONVERT_SRT = 3
 const val CONVERT_VTT = 4
 
-
 const val STABLE = 0
 const val PRE_RELEASE = 1
+
+const val YT_DLP_STABLE = 0
+const val YT_DLP_NIGHTLY = 1
 
 const val OPUS = 1
 const val M4A = 2
@@ -189,6 +192,7 @@ private val IntPreferenceDefaults = mapOf(
     SHOW_SPONSOR_MSG to 0,
     CONVERT_SUBTITLE to NOT_SPECIFIED,
     DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
+    YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY
 )
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }

@@ -10,7 +10,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.util.FileUtil.getFileProvider
-import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
@@ -55,9 +54,14 @@ object UpdateUtil {
 
     suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
         withContext(Dispatchers.IO) {
+            val channel = when (YT_DLP_UPDATE_CHANNEL.getInt()) {
+                YT_DLP_NIGHTLY -> YoutubeDL.UpdateChannel.NIGHTLY
+                else -> YoutubeDL.UpdateChannel.STABLE
+            }
+
             YoutubeDL.getInstance().updateYoutubeDL(
-                context,
-                if (YT_DLP_NIGHTLY.getBoolean()) YoutubeDL.UpdateChannel.NIGHTLY else YoutubeDL.UpdateChannel.STABLE
+                appContext = context,
+                updateChannel = channel
             ).apply {
                 if (this == YoutubeDL.UpdateStatus.DONE)
                     YoutubeDL.getInstance().version(context)?.let {
