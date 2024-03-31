@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
-## [v1.12.0][1.12.0] - unreleased
+## [v1.12.0][1.12.0] - 2024-01-22
 
 ### Added
 * Search from download history
@@ -20,17 +20,26 @@ Under development, please stay tuned!
 * Download auto-translated subtitles
 * Remember subtitle selection for next downloads
 * Configuration for not using the download type in the last download
+* Improve UI/UX for download error handling
 * Haptic feedback BZZZTT!!1!
 
 
 ### Changed
 * Long pressing on an item in download history now selects it
+* Use nightly builds for yt-dlp by default
+* Migrate `Slider` & `ProgressIndicator` to the new visual styles in MD3
+* Use default display name from system for locales
 * Metadata is also added to videos now
 * A few UI changes that I forgot
 
 ### Fixed
 * Fix a permission issue when using Seal in a different user profile or private space
 * Fix an issue where the text cannot be copied in the menu of the download history
+* Display approximate file size for formats when there's no exact value available
+* Fix an issue causes app to crash when the selected template is not available
+
+### Known issues
+* TextFields(IME) fallback to plain character mode when showing a ModalBottomSheet
 
 ## [v1.11.3][1.11.3] - 2024-01-22
 
