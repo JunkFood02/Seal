@@ -98,6 +98,8 @@ private const val PORTUGUESE_PORTUGAL = 38
 private const val CATALAN = 39
 private const val HEBREW = 40
 private const val PORTUGUESE = 41
+private const val THAI = 42
+private const val BENGALI = 43
 
 val LocaleLanguageCodeMap =
     mapOf(
@@ -105,9 +107,10 @@ val LocaleLanguageCodeMap =
         Locale("az") to AZERBAIJANI,
         Locale("eu") to BASQUE,
         Locale("be") to BELARUSIAN,
+        Locale("bn") to BENGALI,
+        Locale("ca") to CATALAN,
         Locale.forLanguageTag("zh-Hans") to SIMPLIFIED_CHINESE,
         Locale.forLanguageTag("zh-Hant") to TRADITIONAL_CHINESE,
-        Locale("ca") to CATALAN,
         Locale("hr") to CROATIAN,
         Locale("cs") to CZECH,
         Locale("da") to DANISH,
@@ -139,6 +142,7 @@ val LocaleLanguageCodeMap =
         Locale("es") to SPANISH,
         Locale("sv") to SWEDISH,
         Locale("ta") to TAMIL,
+        Locale("th") to THAI,
         Locale("tr") to TURKISH,
         Locale("uk") to UKRAINIAN,
         Locale("vi") to VIETNAMESE,
