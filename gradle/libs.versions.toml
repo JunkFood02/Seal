@@ -7,6 +7,7 @@ androidxCore = "1.12.0"
 androidMaterial = "1.11.0"
 androidxAppCompat = "1.7.0-alpha03"
 androidxActivity = "1.8.2"
+androidxSplashscreen = "1.0.1"
 
 androidxLifecycle = "2.7.0"
 androidxNavigation = "2.7.7"
@@ -46,6 +47,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashscreen" }
 
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
@@ -152,6 +154,7 @@ youtubedlAndroid = ["youtubedl-android-library",
     "youtubedl-android-aria2c"]
 
 core = ["androidx-activity-compose",
+    "androidx-splashscreen",
     "android-material",
     "androidx-appcompat",
     "androidx-core-ktx"]
