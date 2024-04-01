@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.settings.appearance
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +36,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,20 +65,14 @@ import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItem
-import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.page.settings.interaction.DownloadTypeCustomizationDialog
-import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.getInt
-import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.STYLE_MONOCHROME
 import com.junkfood.seal.util.STYLE_TONAL_SPOT
-import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
 import com.junkfood.seal.util.paletteStyles
 import com.junkfood.seal.util.toDisplayName
 import com.kyant.monet.LocalTonalPalettes
@@ -87,12 +83,19 @@ import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
 import io.material.hct.Hct
+import kotlinx.coroutines.delay
 import java.util.Locale
 
-val colorList = ((4..10) + (1..3)).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
+private val ColorList =
+    ((4..10) + (1..3)).map { it * 35.0 }.map { Color(Hct.from(it, 40.0, 40.0).toInt()) }
+
+private val DrawableList = listOf(
+    R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
+)
+
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun AppearancePreferences(
@@ -102,24 +105,21 @@ fun AppearancePreferences(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
             canScroll = { true })
-    val image by remember {
+
+    val index by remember {
+        mutableIntStateOf(DrawableList.indices.random())
+    }
+
+    val image by remember(index) {
         mutableIntStateOf(
-            listOf(
-                R.drawable.sample, R.drawable.sample1, R.drawable.sample2, R.drawable.sample3
-            ).random()
+            DrawableList[index]
         )
     }
 
-    var showDownloadTypeDialog by remember { mutableStateOf(false) }
-    val initialType by remember(showDownloadTypeDialog) {
-        mutableIntStateOf(
-            DOWNLOAD_TYPE_INITIALIZATION.getInt()
-        )
-    }
-
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(title = {
                 Text(
@@ -141,10 +141,10 @@ fun AppearancePreferences(
                 VideoCard(
                     modifier = Modifier.padding(18.dp), thumbnailUrl = image
                 )
-                val pageCount = colorList.size + 1
+                val pageCount = ColorList.size + 1
 
                 val pagerState =
-                    rememberPagerState(initialPage = if (LocalPaletteStyleIndex.current == STYLE_MONOCHROME) pageCount else colorList.indexOf(
+                    rememberPagerState(initialPage = if (LocalPaletteStyleIndex.current == STYLE_MONOCHROME) pageCount else ColorList.indexOf(
                         Color(LocalSeedColor.current)
                     ).run { if (this == -1) 0 else this }) {
                         pageCount
@@ -161,7 +161,7 @@ fun AppearancePreferences(
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
-                        ) { ColorButtons(colorList[page]) }
+                        ) { ColorButtons(ColorList[page]) }
                     } else {
                         // ColorButton for Monochrome theme
                         val isSelected =
@@ -218,29 +218,10 @@ fun AppearancePreferences(
                         description = Locale.getDefault().toDisplayName()
                     ) { onNavigateTo(Route.LANGUAGES) }
                 }
-                PreferenceSubtitle(text = stringResource(id = R.string.settings_before_download))
-
-                PreferenceItem(
-                    title = stringResource(id = R.string.download_type),
-                    description = when (initialType) {
-                        USE_PREVIOUS_SELECTION -> stringResource(id = R.string.use_previous_selection)
-                        else -> stringResource(id = R.string.none)
-                    }
-                ) {
-                    showDownloadTypeDialog = true
-                }
             }
-        })
-
-    if (showDownloadTypeDialog) {
-        DownloadTypeCustomizationDialog(
-            onDismissRequest = { showDownloadTypeDialog = false },
-            selectedItem = initialType
-        ) {
-            DOWNLOAD_TYPE_INITIALIZATION.updateInt(it)
-            showDownloadTypeDialog = false
         }
-    }
+    )
+
 }
 
 @Composable

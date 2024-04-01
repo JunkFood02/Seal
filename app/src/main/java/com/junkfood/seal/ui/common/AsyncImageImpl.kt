@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -106,7 +107,7 @@ fun AsyncImageImpl(
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
-    isPreview: Boolean = false
+    isPreview: Boolean = LocalInspectionMode.current
 ) {
     if (isPreview) Image(
         painter = painterResource(R.drawable.sample),

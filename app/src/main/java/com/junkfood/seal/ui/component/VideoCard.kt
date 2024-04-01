@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.component
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -62,17 +63,20 @@ fun VideoCard(
     ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
-                AsyncImageImpl(
-                    modifier = Modifier
-                        .padding()
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                        .clip(MaterialTheme.shapes.small),
-                    model = thumbnailUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    isPreview = isPreview
-                )
+                Crossfade(targetState = thumbnailUrl, label = "") {
+                    AsyncImageImpl(
+                        modifier = Modifier
+                            .padding()
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                            .clip(MaterialTheme.shapes.small),
+                        model = it,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        isPreview = isPreview
+                    )
+                }
+
                 Surface(
                     modifier = Modifier
                         .padding(4.dp)
