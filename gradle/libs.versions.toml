@@ -1,8 +1,8 @@
 [versions]
 accompanist = "0.34.0"
-androidGradlePlugin = "8.4.0-alpha13"
+androidGradlePlugin = "8.5.0-alpha02"
 androidxComposeBom = "2024.03.00-alpha02"
-androidxComposeCompiler = "1.5.3"
+androidxComposeCompiler = "1.5.11"
 androidxCore = "1.12.0"
 androidMaterial = "1.11.0"
 androidxAppCompat = "1.7.0-alpha03"
@@ -27,14 +27,14 @@ hilt = "2.45"
 hiltExt = "1.0.0"
 
 junit4 = "4.13.2"
-kotlin = "1.9.10"
+kotlin = "1.9.23"
 kotlinxCoroutines = "1.7.1"
 kotlinxDatetime = "0.4.0"
 kotlinxSerializationJson = "1.6.2"
 okhttp = "5.0.0-alpha.10"
 
 room = "2.6.0"
-ksp = "1.9.10-1.0.13"
+ksp = "1.9.23-1.0.19"
 
 youtubedlAndroid = "23b26d55f8"
 

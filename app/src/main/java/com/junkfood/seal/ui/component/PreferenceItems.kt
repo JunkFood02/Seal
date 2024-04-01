@@ -352,17 +352,20 @@ fun PreferenceSwitch(
     checkedIcon: ImageVector = Icons.Outlined.Check,
     onClick: (() -> Unit) = {},
 ) {
-    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
-        {
-            Icon(
-                imageVector = checkedIcon,
-                contentDescription = null,
-                modifier = Modifier.size(SwitchDefaults.IconSize),
-            )
+    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
+        if (isChecked) {
+            {
+                Icon(
+                    imageVector = checkedIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                )
+            }
+        } else {
+            null
         }
-    } else {
-        null
     }
+
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
         modifier = Modifier.toggleable(
@@ -425,17 +428,20 @@ fun PreferenceSwitchWithDivider(
     onClick: (() -> Unit) = {},
     onChecked: () -> Unit = {}
 ) {
-    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
-        {
-            Icon(
-                imageVector = checkedIcon,
-                contentDescription = null,
-                modifier = Modifier.size(SwitchDefaults.IconSize),
-            )
+    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
+        if (isChecked) {
+            {
+                Icon(
+                    imageVector = checkedIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                )
+            }
+        } else {
+            null
         }
-    } else {
-        null
     }
+
     Surface(
         modifier = Modifier.clickable(
             enabled = enabled,
@@ -635,17 +641,20 @@ fun PreferenceSwitchWithContainer(
     isChecked: Boolean,
     onClick: () -> Unit,
 ) {
-    val thumbContent: (@Composable () -> Unit)? = if (isChecked) {
-        {
-            Icon(
-                imageVector = Icons.Outlined.Check,
-                contentDescription = null,
-                modifier = Modifier.size(SwitchDefaults.IconSize),
-            )
+    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
+        if (isChecked) {
+            {
+                Icon(
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                )
+            }
+        } else {
+            null
         }
-    } else {
-        null
     }
+
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier

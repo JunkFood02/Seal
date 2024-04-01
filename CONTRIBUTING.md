@@ -9,6 +9,10 @@ For bug reports and feature requests, please search in issues first (including t
 For questions or any other ideas to improve, you can join our official [Telegram group](https://t.me/seal_app_group) or [Matrix space](https://matrix.to/#/#seal-space:matrix.org).
 
 
+## Disclaimer
+
+This is a toy project I use to learn Android development. Please do not have any expectations or assumptions about the quality of the code.
+
 
 ## Bug Report
 
