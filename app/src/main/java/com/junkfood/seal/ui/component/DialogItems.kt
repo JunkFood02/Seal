@@ -80,7 +80,7 @@ fun SingleChoiceItemPreview() {
 
             }
             DialogSingleChoiceItem(text = "Preview", selected = true) {
-                
+
             }
         }
 
@@ -178,17 +178,20 @@ fun DialogSwitchItem(
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.weight(1f)
         )
-        val thumbContent: (@Composable () -> Unit)? = if (value) {
-            {
-                Icon(
-                    imageVector = Icons.Outlined.Check,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                )
+        val thumbContent: (@Composable () -> Unit)? = remember(value) {
+            if (value) {
+                {
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize)
+                    )
+                }
+            } else {
+                null
             }
-        } else {
-            null
         }
+
         val density = LocalDensity.current
         CompositionLocalProvider(
             LocalDensity provides Density(
