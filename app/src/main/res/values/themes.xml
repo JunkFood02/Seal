@@ -16,7 +16,5 @@
     <style name="Theme.Seal.Splashscreen" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.Seal</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 </resources>
