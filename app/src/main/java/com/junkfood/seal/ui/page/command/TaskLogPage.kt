@@ -154,14 +154,17 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
             modifier = Modifier
                 .padding(paddings)
                 .fillMaxSize()
-                .padding(horizontal = 24.dp)
                 .verticalScroll(scrollState)
-                .then(if (expandLog) Modifier.horizontalScroll(rememberScrollState()) else Modifier)
-
         ) {
             SelectionContainer() {
                 Text(
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier
+                        .run {
+                            if (expandLog) horizontalScroll(rememberScrollState())
+                            else this
+                        }
+                        .padding(top = 12.dp)
+                        .padding(horizontal = 20.dp),
                     text = task.output,
                     style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
                 )
