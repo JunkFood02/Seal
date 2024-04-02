@@ -144,6 +144,7 @@ data class PlaylistResult(
     @SerialName("_type") val type: String? = null,
     val entries: List<Entries>? = emptyList(),
     @SerialName("webpage_url") val webpageUrl: String? = null,
+    @SerialName("original_url") val originalUrl: String? = null,
     @SerialName("extractor_key") val extractorKey: String? = null,
 ) : YoutubeDLInfo
 

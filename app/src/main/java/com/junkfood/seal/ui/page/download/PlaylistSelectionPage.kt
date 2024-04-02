@@ -94,7 +94,7 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                 TextButton(
                     modifier = Modifier.padding(end = 8.dp), onClick = {
                         Downloader.downloadVideoInPlaylistByIndexList(
-                            url = playlistInfo.webpageUrl.toString(),
+                            url = playlistInfo.originalUrl ?: playlistInfo.webpageUrl.toString(),
                             indexList = selectedItems,
                             playlistItemList = playlistInfo.entries?.filterIndexed { index, _ ->
                                 selectedItems.contains(index)
