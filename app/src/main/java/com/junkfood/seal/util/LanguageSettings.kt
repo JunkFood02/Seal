@@ -100,6 +100,8 @@ private const val HEBREW = 40
 private const val PORTUGUESE = 41
 private const val THAI = 42
 private const val BENGALI = 43
+private const val KHMER = 44
+private const val KANNADA = 45
 
 val LocaleLanguageCodeMap =
     mapOf(
@@ -125,6 +127,8 @@ val LocaleLanguageCodeMap =
         Locale("in") to INDONESIAN,
         Locale("it") to ITALIAN,
         Locale("ja") to JAPANESE,
+        Locale("kn") to KANNADA,
+        Locale("km") to KHMER,
         Locale("ko") to KOREAN,
         Locale("ms") to MALAY,
         Locale("ml") to MALAYALAM,
