@@ -699,7 +699,7 @@ object DownloadUtil {
         downloadPreferences.run {
             val taskId = Downloader.makeKey(url = url, templateName = template.name)
             val notificationId = taskId.toNotificationId()
-            val urlList = url.split(Regex("[\n ]"))
+            val urlList = url.split(Regex("[\n ]")).filter { it.isNotBlank() }
 
             ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
             val request = YoutubeDLRequest(urlList).apply {
