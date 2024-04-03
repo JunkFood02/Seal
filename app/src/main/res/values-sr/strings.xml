@@ -3,7 +3,7 @@
     <string name="download_desc">Затим, кликните на „Преузми“ након прилагођавања подешавања.</string>
     <string name="check_download_settings_desc">Погледајте подешавања преузимања и уверите се да имате најновију верзију yt-dlp пре коришћења.</string>
     <string name="download_playlist">Преузми плејлисту</string>
-    <string name="download_playlist_desc">Преузмите више видео снимака из плејлисте</string>
+    <string name="download_playlist_desc">Преузмите више видео снимака с плејлисте</string>
     <string name="defaults">Подразумевано</string>
     <string name="app_update_failed">Ажурирање на најновију верзију није успело</string>
     <string name="private_mode_desc">Онемогућите историју преузимања</string>

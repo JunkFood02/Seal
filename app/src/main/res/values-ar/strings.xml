@@ -374,7 +374,7 @@
     <string name="merge_audiostream">دمج بث صوتي متعدد</string>
     <string name="merge_audiostream_desc">السماح بدمج بث صوتي متعدد في ملف واحد</string>
     <string name="keep_subtitle_files">حفظ ملفات الترجمة</string>
-    <string name="download_archive_error">تم تحميل الفيديو. اذا لم يكن هذا ما تريد،من فضلك قم بالتحقب من تنزيلاتك المخزنة.</string>
+    <string name="download_archive_error">تم تحميل الفيديو. إذا لم يكن هذا هو السلوك المتوقع، يرجى التحقق من أرشيف التحميل الخاص بك.</string>
     <string name="full_backup">حفظ احتياطي كامل</string>
     <string name="backup_type">نوع الحفظ الاحتياطي</string>
     <string name="file">ملف</string>

@@ -375,4 +375,18 @@
     <string name="search_in_downloads">Rechercher dans les téléchargements</string>
     <string name="search">Rechercher</string>
     <string name="auto_translated_subtitles_msg">Des sous-titres automatiquement traduits seront disponibles dans les téléchargements. Ces sous-titres peuvent être imprécis et difficiles à comprendre.</string>
+    <string name="none">Aucun</string>
+    <string name="no_thanks">Non merci</string>
+    <string name="allow_once">Autoriser une fois seulement</string>
+    <string name="import_backup">Importer</string>
+    <string name="import_download_history_msg">Les fichiers téléchargés ne seront pas importer , vous devrais lea télécharger manuellement</string>
+    <string name="subtitle_language_desc">La langue des sous-titres a télécharger en auto-sélection de format, séparée par des virgules.</string>
+    <string name="search_in_subtitles">Rechercher dans sous-titres</string>
+    <string name="interface_and_interaction">Interface et interactions</string>
+    <string name="use_previous_selection">Utiliser la selection précédante</string>
+    <string name="file">Fichier</string>
+    <string name="clipboard">Presse-papier</string>
+    <string name="import_download_history">Importer l\'historique de téléchargement ?</string>
+    <string name="update_language_msg">Les langues suivantes vont être ajoutées a vos préférences pour les prochains téléchargements</string>
+    <string name="update_subtitle_languages">Mettre à jour les langues de sous-titres?</string>
 </resources>
