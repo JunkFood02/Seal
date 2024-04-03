@@ -21,6 +21,7 @@ Under development, please stay tuned!
 * Remember subtitle selection for next downloads
 * Configuration for not using the download type in the last download
 * Improve UI/UX for download error handling
+* Add splash screen
 * Haptic feedback BZZZTT!!1!
 
 
@@ -29,7 +30,7 @@ Under development, please stay tuned!
 * Use nightly builds for yt-dlp by default
 * Migrate `Slider` & `ProgressIndicator` to the new visual styles in MD3
 * Use default display name from system for locales
-* Metadata is also added to videos now
+* Metadata of videos is also embedded in the files now
 * A few UI changes that I forgot
 
 ### Fixed
@@ -37,9 +38,13 @@ Under development, please stay tuned!
 * Fix an issue where the text cannot be copied in the menu of the download history
 * Display approximate file size for formats when there's no exact value available
 * Fix an issue causes app to crash when the selected template is not available
+* Custom command now ignore empty URLs, which means you can insert URLs along with arguments in command templates
+* Fix an issue where some formats may be unavailable when downloading playlists
 
 ### Known issues
 * TextFields(IME) fallback to plain character mode when showing a ModalBottomSheet
+* ModalBottomSheet handles insets incorrectly on devices below API 30
+* Splash screen shows cropped icon on devices below API 31
 
 ## [v1.11.3][1.11.3] - 2024-01-22
 
