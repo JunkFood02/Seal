@@ -35,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.App
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.HorizontalDivider
@@ -47,6 +46,7 @@ import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.page.UpdateDialog
 import com.junkfood.seal.util.AUTO_UPDATE
 import com.junkfood.seal.util.PRE_RELEASE
+import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.STABLE
@@ -64,7 +64,7 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
         rememberTopAppBarState(),
         canScroll = { true }
     )
-    var autoUpdate by AUTO_UPDATE.booleanState
+    var autoUpdate by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
     var updateChannel by UPDATE_CHANNEL.intState
     val scope = rememberCoroutineScope()
     val context = LocalContext.current

@@ -26,12 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -203,10 +205,16 @@ fun HomeEntry(
         WelcomeDialog {
             navController.navigate(Route.SETTINGS)
         }
+
+        val downloaderState by Downloader.downloaderState.collectAsStateWithLifecycle()
+
         LaunchedEffect(Unit) {
-            if (!YT_DLP_UPDATE.getBoolean()
-                && YT_DLP.getString().isNotEmpty()
+            if (downloaderState !is Downloader.State.Idle) return@LaunchedEffect
+
+            if (!YT_DLP_UPDATE.getBoolean() && YT_DLP.getString()
+                    .isNotEmpty()
             ) return@LaunchedEffect
+
             runCatching {
                 withContext(Dispatchers.IO) {
                     val res = UpdateUtil.updateYtDlp()
@@ -218,6 +226,7 @@ fun HomeEntry(
                 it.printStackTrace()
             }
         }
+
         LaunchedEffect(Unit) {
             if (!PreferenceUtil.isNetworkAvailableForDownload() || !PreferenceUtil.isAutoUpdateEnabled()
             )
