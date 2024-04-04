@@ -65,7 +65,7 @@ object UpdateUtil {
             ).apply {
                 if (this == YoutubeDL.UpdateStatus.DONE)
                     YoutubeDL.getInstance().version(context)?.let {
-                        PreferenceUtil.encodeString(YT_DLP, it)
+                        PreferenceUtil.encodeString(YT_DLP_VERSION, it)
                     }
             }
         }

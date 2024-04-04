@@ -33,8 +33,8 @@ const val CUSTOM_COMMAND = "custom_command"
 const val CONCURRENT = "concurrent_fragments"
 const val EXTRACT_AUDIO = "extract_audio"
 const val THUMBNAIL = "create_thumbnail"
-const val YT_DLP = "yt-dlp_init"
-const val YT_DLP_UPDATE = "yt-dlp_auto_update"
+const val YT_DLP_VERSION = "yt-dlp_init"
+const val YT_DLP_AUTO_UPDATE = "yt-dlp_update"
 const val DEBUG = "debug"
 const val CONFIGURE = "configure"
 const val DARK_THEME_VALUE = "dark_theme_value"
@@ -174,7 +174,7 @@ private val BooleanPreferenceDefaults = mapOf(
     FORMAT_SELECTION to true,
     CONFIGURE to true,
     CELLULAR_DOWNLOAD to false,
-    YT_DLP_UPDATE to true,
+    YT_DLP_AUTO_UPDATE to false,
     NOTIFICATION to true,
     EMBED_METADATA to true,
 )

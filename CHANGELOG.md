@@ -28,6 +28,7 @@ Under development, please stay tuned!
 ### Changed
 * Long pressing on an item in download history now selects it
 * Use nightly builds for yt-dlp by default
+* Auto update of yt-dlp is now disabled by default 
 * Migrate `Slider` & `ProgressIndicator` to the new visual styles in MD3
 * Use default display name from system for locales
 * Metadata of videos is also embedded in the files now

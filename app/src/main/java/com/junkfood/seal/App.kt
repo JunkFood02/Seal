@@ -18,7 +18,6 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
-import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
@@ -32,7 +31,7 @@ import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SDCARD_URI
 import com.junkfood.seal.util.UpdateUtil
 import com.junkfood.seal.util.VIDEO_DIRECTORY
-import com.junkfood.seal.util.YT_DLP
+import com.junkfood.seal.util.YT_DLP_VERSION
 import com.tencent.mmkv.MMKV
 import com.yausername.aria2c.Aria2c
 import com.yausername.ffmpeg.FFmpeg
@@ -42,7 +41,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -197,7 +195,7 @@ class App : Application() {
             return StringBuilder().append("App version: $versionName ($versionCode)\n")
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
-                .append("Yt-dlp version: ${YT_DLP.getString()}\n").toString()
+                .append("Yt-dlp version: ${YT_DLP_VERSION.getString()}\n").toString()
         }
 
         fun isFDroidBuild(): Boolean = packageInfo.versionName.contains("F-Droid")

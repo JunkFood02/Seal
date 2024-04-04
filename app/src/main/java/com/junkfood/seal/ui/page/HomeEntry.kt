@@ -73,8 +73,8 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.UpdateUtil
-import com.junkfood.seal.util.YT_DLP
-import com.junkfood.seal.util.YT_DLP_UPDATE
+import com.junkfood.seal.util.YT_DLP_VERSION
+import com.junkfood.seal.util.YT_DLP_AUTO_UPDATE
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -211,7 +211,7 @@ fun HomeEntry(
         LaunchedEffect(Unit) {
             if (downloaderState !is Downloader.State.Idle) return@LaunchedEffect
 
-            if (!YT_DLP_UPDATE.getBoolean() && YT_DLP.getString()
+            if (!YT_DLP_AUTO_UPDATE.getBoolean() && YT_DLP_VERSION.getString()
                     .isNotEmpty()
             ) return@LaunchedEffect
 
@@ -219,7 +219,7 @@ fun HomeEntry(
                 withContext(Dispatchers.IO) {
                     val res = UpdateUtil.updateYtDlp()
                     if (res == YoutubeDL.UpdateStatus.DONE) {
-                        ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP.getString()})")
+                        ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP_VERSION.getString()})")
                     }
                 }
             }.onFailure {
