@@ -101,6 +101,7 @@ const val EMBED_METADATA = "embed_metadata"
 const val RESTRICT_FILENAMES = "restrict_filenames"
 const val AV1_HARDWARE_ACCELERATED = "av1_hardware_accelerated"
 const val FORCE_IPV4 = "force_ipv4"
+const val MERGE_OUTPUT_MKV = "merge_to_mkv"
 
 const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 

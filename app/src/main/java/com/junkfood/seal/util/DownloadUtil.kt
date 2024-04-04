@@ -226,7 +226,8 @@ object DownloadUtil {
         val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
         val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated(),
         val forceIpv4: Boolean = FORCE_IPV4.getBoolean(),
-        val mergeAudioStream: Boolean = false
+        val mergeAudioStream: Boolean = false,
+        val mergeToMkv: Boolean = embedSubtitle || MERGE_OUTPUT_MKV.getBoolean()
     )
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
@@ -322,7 +323,6 @@ object DownloadUtil {
                 }
                 subtitleLanguage.takeIf { it.isNotEmpty() }?.let { addOption("--sub-langs", it) }
                 if (embedSubtitle) {
-                    addOption("--remux-video", "mkv")
                     addOption("--embed-subs")
                     if (keepSubtitle) {
                         addOption("--write-subs")
@@ -337,6 +337,10 @@ object DownloadUtil {
                     CONVERT_LRC -> addOption("--convert-subs", "lrc")
                     else -> {}
                 }
+            }
+            if (mergeToMkv) {
+                addOption("--remux-video", "mkv")
+                addOption("--merge-output-format", "mkv")
             }
             if (embedThumbnail) {
                 addOption("--embed-thumbnail")
