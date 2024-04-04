@@ -128,10 +128,9 @@ android {
                 val name =
                     output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
 
-                val baseAbiCode = abiCodes[name] ?: 2
+                val baseAbiCode = abiCodes[name]
 
                 if (baseAbiCode != null) {
-
                     output.versionCode.set(baseAbiCode + (output.versionCode.get() ?: 0))
                 }
 
@@ -145,12 +144,17 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
-            if (keystorePropertiesFile.exists())
+            if (keystorePropertiesFile.exists()) {
                 signingConfig = signingConfigs.getByName("debug")
+            }
         }
         debug {
-            if (keystorePropertiesFile.exists())
+            if (keystorePropertiesFile.exists()) {
                 signingConfig = signingConfigs.getByName("debug")
+            }
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            resValue ("string", "app_name", "Seal Debug")
         }
     }
 
