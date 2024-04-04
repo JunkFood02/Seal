@@ -45,7 +45,6 @@ Under development, please stay tuned!
 ### Known issues
 * TextFields(IME) fallback to plain character mode when showing a ModalBottomSheet
 * ModalBottomSheet handles insets incorrectly on devices below API 30
-* Splash screen shows cropped icon on devices below API 31
 
 ## [v1.11.3][1.11.3] - 2024-01-22
 
