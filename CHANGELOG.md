@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
-## [v1.12.0][1.12.0] - 2024-01-22
+## [v1.12.0][1.12.0] - 2024-04-05
 
 ### Added
 * Search from download history
@@ -19,6 +19,7 @@ Under development, please stay tuned!
 * Re-download unavailable videos
 * Download auto-translated subtitles
 * Remember subtitle selection for next downloads
+* Remux videos into mkv container for better compatibility
 * Configuration for not using the download type in the last download
 * Improve UI/UX for download error handling
 * Add splash screen
@@ -317,3 +318,5 @@ Under development, please stay tuned!
 [1.11.2]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.2
 
 [1.11.3]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.3
+
+[1.12.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.12.0
