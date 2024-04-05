@@ -217,10 +217,7 @@ fun HomeEntry(
 
             runCatching {
                 withContext(Dispatchers.IO) {
-                    val res = UpdateUtil.updateYtDlp()
-                    if (res == YoutubeDL.UpdateStatus.DONE) {
-                        ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP_VERSION.getString()})")
-                    }
+                    UpdateUtil.updateYtDlp()
                 }
             }.onFailure {
                 it.printStackTrace()

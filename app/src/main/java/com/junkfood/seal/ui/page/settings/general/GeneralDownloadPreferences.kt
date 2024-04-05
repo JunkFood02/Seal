@@ -226,7 +226,7 @@ fun GeneralDownloadPreferences(
                                     th.printStackTrace()
                                     ToastUtil.makeToastSuspend(App.context.getString(R.string.yt_dlp_update_fail))
                                 }.onSuccess {
-                                    ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date))
+                                    ToastUtil.makeToastSuspend(context.getString(R.string.yt_dlp_up_to_date) + " (${YT_DLP_VERSION.getString()})")
                                 }
                                 isUpdating = false
                             }
