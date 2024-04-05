@@ -402,4 +402,6 @@
     <string name="download_history_imported">İndirme geçmişine %1$s aktarıldı</string>
     <string name="redownload">Yeniden indir</string>
     <string name="download_archive_error">Video indirildi. Bu beklenen bir davranış değilse, lütfen indirme arşivinizi gözden geçirin.</string>
+    <string name="remux_container_mkv">Yeniden düzenlenen video konteyneri</string>
+    <string name="remux_container_mkv_desc">Daha iyi uyumluluk için videoları MKV konteynerine yeniden düzenleyin</string>
 </resources>

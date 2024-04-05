@@ -401,4 +401,6 @@
     <string name="download_history_imported">%1$s telah diimpor ke riwayat unduhan</string>
     <string name="redownload">Unduh ulang</string>
     <string name="download_archive_error">Video ini sudah diunduh. Jika ini bukan perilaku yang diharapkan, silakan periksa arsip unduhan Anda.</string>
+    <string name="remux_container_mkv">Mux ulang kontainer video</string>
+    <string name="remux_container_mkv_desc">Mux ulang video dalam kontainer MKV untuk kompatibilitas yang lebih baik</string>
 </resources>
