@@ -61,6 +61,7 @@ val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
+val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
 
 android {
@@ -91,7 +92,7 @@ android {
         if (splitApks) {
             splits {
                 abi {
-                    isEnable = !project.hasProperty("noSplits")
+                    isEnable = true
                     reset()
                     include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
                     isUniversalApk = true
@@ -111,12 +112,11 @@ android {
             arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             arg("room.incremental", "true")
         }
-        if (!splitApks)
+        if (!splitApks) {
             ndk {
-                (properties["ABI_FILTERS"] as String).split(';').forEach {
-                    abiFilters.add(it)
-                }
+                abiFilters.addAll(abiFilterList)
             }
+        }
     }
     val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
@@ -125,7 +125,11 @@ android {
 
             variant.outputs.forEach { output ->
                 val name =
-                    output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
+                    if (splitApks) {
+                        output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
+                    } else {
+                        abiFilterList.firstOrNull()
+                    }
 
                 val baseAbiCode = abiCodes[name]
 
@@ -153,7 +157,7 @@ android {
             }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            resValue ("string", "app_name", "Seal Debug")
+            resValue("string", "app_name", "Seal Debug")
         }
     }
 
