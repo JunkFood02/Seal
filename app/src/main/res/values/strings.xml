@@ -36,7 +36,7 @@
     <string name="link_copied">Link copied to clipboard</string>
     <string name="open_url">Open link</string>
     <string name="remove">Remove</string>
-    <string name="delete_file">Delete</string>
+    <string name="delete_file">Delete file</string>
     <string name="about">About</string>
     <string name="about_page">Version, feedback, auto update</string>
     <string name="back">Back</string>

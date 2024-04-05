@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.font.FontFamily
@@ -60,6 +61,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
@@ -87,6 +89,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
+    val view = LocalView.current
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -225,6 +228,7 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
                     item {
                         FilledButtonWithIcon(
                             onClick = {
+                                view.slightHapticFeedback()
                                 Downloader.executeCommandWithUrl(url)
                                 onDismissRequest()
                             },
@@ -292,7 +296,7 @@ fun ColumnScope.TaskCreatorDialogContent(
         textAlign = TextAlign.Center,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 16.dp)
+            .padding(bottom = 24.dp)
     )
 
     OutlinedTextField(
@@ -318,16 +322,16 @@ fun ColumnScope.TaskCreatorDialogContent(
         }
         item {
             OutlinedButtonChip(
-                icon = Icons.Outlined.NewLabel,
-                label = stringResource(id = R.string.new_template),
-                onClick = onNewTemplateClicked
+                icon = Icons.Outlined.Edit,
+                label = stringResource(id = R.string.edit_template, template.name),
+                onClick = onEditClicked
             )
         }
         item {
             OutlinedButtonChip(
-                icon = Icons.Outlined.Edit,
-                label = stringResource(id = R.string.edit_template, template.name),
-                onClick = onEditClicked
+                icon = Icons.Outlined.NewLabel,
+                label = stringResource(id = R.string.new_template),
+                onClick = onNewTemplateClicked
             )
         }
     }

@@ -155,6 +155,7 @@ fun DownloadPage(
     val clipboardManager = LocalClipboardManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
+    val view = LocalView.current
     var showDownloadDialog by rememberSaveable { mutableStateOf(false) }
     var showMeteredNetworkDialog by remember { mutableStateOf(false) }
 
@@ -188,6 +189,7 @@ fun DownloadPage(
 
 
     val downloadCallback: () -> Unit = {
+        view.slightHapticFeedback()
         keyboardController?.hide()
         if (NOTIFICATION.getBoolean() && notificationPermission?.status?.isGranted == false) {
             showNotificationDialog = true
