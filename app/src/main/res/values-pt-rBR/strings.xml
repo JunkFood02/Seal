@@ -403,4 +403,6 @@
     <string name="redownload">Baixar novamente</string>
     <string name="download_history_imported">Importou %1$s para o histórico de downloads</string>
     <string name="download_archive_error">O vídeo foi baixado. Se este não for o comportamento esperado, verifique o arquivamento de download.</string>
+    <string name="remux_container_mkv">Contêiner de vídeo Remux</string>
+    <string name="remux_container_mkv_desc">Remuxar vídeos em contêiner MKV para melhor compatibilidade</string>
 </resources>

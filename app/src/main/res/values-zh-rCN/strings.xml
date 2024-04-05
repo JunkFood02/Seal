@@ -401,4 +401,6 @@
     <string name="redownload">重新下载</string>
     <string name="export_to">导出到</string>
     <string name="download_archive_error">此视频已被下载。如果这不是预期的行为，请检查你的下载存档。</string>
+    <string name="remux_container_mkv">复用视频容器</string>
+    <string name="remux_container_mkv_desc">复用视频至 MKV 容器，改进兼容性</string>
 </resources>
