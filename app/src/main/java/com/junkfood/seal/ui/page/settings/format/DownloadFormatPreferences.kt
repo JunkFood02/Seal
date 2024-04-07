@@ -64,6 +64,7 @@ import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.SORTING_FIELDS
+import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
@@ -81,6 +82,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
     var isArtworkCroppingEnabled by remember {
         mutableStateOf(PreferenceUtil.getValue(CROP_ARTWORK))
     }
+    val downloadSubtitle by SUBTITLE.booleanState
     val embedSubtitle by EMBED_SUBTITLE.booleanState
     var remuxToMkv by MERGE_OUTPUT_MKV.booleanState
     var embedMetadata by EMBED_METADATA.booleanState
@@ -240,16 +242,16 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                         description = stringResource(
                             id = R.string.remux_container_mkv_desc
                         ),
-                        isChecked = embedSubtitle || remuxToMkv,
+                        isChecked = (downloadSubtitle && embedSubtitle) || remuxToMkv,
                         icon = Icons.Outlined.Movie,
-                        enabled = !embedSubtitle && !isCustomCommandEnabled && !audioSwitch,
+                        enabled = !(downloadSubtitle && embedSubtitle) && !isCustomCommandEnabled && !audioSwitch,
                         onClick = {
                             remuxToMkv = !remuxToMkv
                             MERGE_OUTPUT_MKV.updateBoolean(remuxToMkv)
                         },
                     )
                 }
-                if (embedSubtitle) {
+                if (downloadSubtitle && embedSubtitle) {
                     item {
                         PreferenceInfo(text = stringResource(id = R.string.embed_subtitles_mkv_msg))
                     }
