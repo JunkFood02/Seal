@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.settings.network
 import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.CookieManager
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,7 +28,6 @@ import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 import com.google.android.material.R
 import com.junkfood.seal.util.PreferenceUtil.updateString
-import com.junkfood.seal.util.USER_AGENT
 import com.junkfood.seal.util.USER_AGENT_STRING
 import com.junkfood.seal.util.connectWithDelimiter
 
@@ -115,6 +115,15 @@ fun WebViewPage(
                 override fun onPageFinished(view: WebView, url: String?) {
                     super.onPageFinished(view, url)
                     if (url.isNullOrEmpty()) return
+                }
+
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
+                    return if (request?.url?.scheme?.contains("http") == true)
+                        super.shouldOverrideUrlLoading(view, request)
+                    else true
                 }
             }
 
