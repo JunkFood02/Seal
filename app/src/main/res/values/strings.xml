@@ -447,6 +447,7 @@
     <string name="download_archive_error">The video has been downloaded. If this is not the expected behavior, please check your download archive.</string>
     <string name="remux_container_mkv">Remux video container</string>
     <string name="remux_container_mkv_desc">Remux videos into MKV container for better compatibility</string>
+    <string name="cookies_in_database">%1$d cookies in database</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

@@ -50,6 +50,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -77,6 +78,7 @@ import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
+import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
 import com.junkfood.seal.ui.component.HorizontalDivider
@@ -85,12 +87,12 @@ import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.FileUtil.getFileProvider
@@ -124,10 +126,15 @@ fun CookieProfilePage(
     val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
 
+    var cookieListSize by remember {
+        mutableIntStateOf(0)
+    }
+
     LaunchedEffect(state.showEditDialog) {
         withContext(Dispatchers.IO) {
-            DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
-                FileUtil.writeContentToFile(it, context.getCookiesFile())
+            DownloadUtil.getCookieListFromDatabase().getOrNull()?.let {
+                cookieListSize = it.size
+                FileUtil.writeContentToFile(it.toCookiesFileContent(), context.getCookiesFile())
             }
         }
     }
@@ -188,7 +195,7 @@ fun CookieProfilePage(
                         text = {
                             Text(stringResource(id = R.string.export_to_file))
                         },
-                        enabled = cookieManager.hasCookies(),
+                        enabled = cookieListSize != 0,
                         onClick = {
                             expanded = false
                             scope.launch(Dispatchers.IO) {
@@ -276,15 +283,15 @@ fun CookieProfilePage(
                     icon = Icons.Outlined.Add
                 ) { cookiesViewModel.showEditCookieDialog() }
             }
-            /*            item {
-                            Spacer(modifier = Modifier.height(12.dp))
-                            HorizontalDivider()
-                            PreferenceInfo(
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                icon = Icons.Outlined.HelpOutline,
-                                text = stringResource(id = R.string.cookies_usage_msg)
-                            )
-                        }*/
+            item {
+                HorizontalDivider()
+                Text(
+                    text = stringResource(R.string.cookies_in_database, cookieListSize),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
 
     }

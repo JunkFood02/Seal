@@ -245,7 +245,7 @@ object DownloadUtil {
 
 
     @CheckResult
-    fun getCookiesContentFromDatabase(): Result<String> = runCatching {
+    fun getCookieListFromDatabase(): Result<List<Cookie>> = runCatching {
         CookieManager.getInstance().run {
             if (!hasCookies()) throw Exception("There is no cookies in the database!")
             flush()
@@ -288,13 +288,18 @@ object DownloadUtil {
                 close()
             }
             close()
-            Log.d(TAG, "Loaded ${cookieList.size} cookies from database!")
-            cookieList.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
-                acc.append(cookie.toNetscapeCookieString()).append("\n")
-            }.toString()
+            cookieList
         }
     }
 
+    fun List<Cookie>.toCookiesFileContent(): String =
+        this.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
+            acc.append(cookie.toNetscapeCookieString()).append("\n")
+        }.toString()
+
+    fun getCookiesContentFromDatabase(): Result<String> = getCookieListFromDatabase().mapCatching {
+        it.toCookiesFileContent()
+    }
 
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")
