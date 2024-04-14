@@ -32,7 +32,7 @@ import androidx.compose.ui.zIndex
 @Composable
 fun SealModalBottomSheetM2(
     modifier: Modifier = Modifier,
-    drawerState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
+    sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
     ),
     sheetContent: @Composable ColumnScope.() -> Unit = {},
@@ -46,9 +46,9 @@ fun SealModalBottomSheetM2(
             bottomEnd = 0.0.dp,
             bottomStart = 0.0.dp
         ),
-        sheetState = drawerState,
+        sheetState = sheetState,
         sheetBackgroundColor = MaterialTheme.colorScheme.surfaceContainer,
-        sheetElevation = if (drawerState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
+        sheetElevation = if (sheetState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
         sheetContent = {
             Column {
                 Surface(

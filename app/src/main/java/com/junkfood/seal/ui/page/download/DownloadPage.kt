@@ -184,8 +184,6 @@ fun DownloadPage(
             storagePermission.launchPermissionRequest()
         }
     }
-    val sheetState =
-        rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
 
     val downloadCallback: () -> Unit = {
@@ -196,10 +194,6 @@ fun DownloadPage(
         }
         if (CONFIGURE.getBoolean()) {
             showDownloadDialog = true
-            if (!useDialog) scope.launch {
-                delay(50)
-                sheetState.show()
-            }
         } else {
             checkPermissionOrDownload()
         }
@@ -290,17 +284,10 @@ fun DownloadPage(
 
         DownloadSettingDialog(useDialog = useDialog,
             showDialog = showDownloadDialog,
-            sheetState = sheetState,
             onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
             onDownloadConfirm = { checkPermissionOrDownload() },
             onDismissRequest = {
-                if (!useDialog) {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        showDownloadDialog = false
-                    }
-                } else {
-                    showDownloadDialog = false
-                }
+                showDownloadDialog = false
             }
         )
     }

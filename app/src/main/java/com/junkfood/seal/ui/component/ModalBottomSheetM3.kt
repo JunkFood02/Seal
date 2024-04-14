@@ -1,16 +1,13 @@
 package com.junkfood.seal.ui.component
 
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -48,32 +45,10 @@ fun SealModalBottomSheet(
             content()
             Spacer(modifier = Modifier.height(28.dp))
         }
-        Spacer(
+        NavigationBarSpacer(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                 .fillMaxWidth()
-                .height(
-                    with(
-                        WindowInsets.navigationBars
-                            .asPaddingValues()
-                            .calculateBottomPadding()
-                    ) {
-                        when {
-                            this.value > 30f -> {
-                                this
-                            }
-
-                            // FIXME: https://issuetracker.google.com/issues/290798798
-                            Build.VERSION.SDK_INT < 30 -> {
-                                48.dp
-                            }
-
-                            else -> {
-                                0.dp
-                            }
-                        }
-                    }
-                )
         )
     }
 }

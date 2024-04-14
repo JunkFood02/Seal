@@ -140,7 +140,7 @@ fun VideoDetailDrawerImpl(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    SealModalBottomSheetM2(drawerState = sheetState,
+    SealModalBottomSheetM2(sheetState = sheetState,
         horizontalPadding = PaddingValues(horizontal = 20.dp),
         sheetContent = {
             Column(

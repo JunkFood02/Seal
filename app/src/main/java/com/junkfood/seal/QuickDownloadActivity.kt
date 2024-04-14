@@ -9,7 +9,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -32,7 +31,6 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 private const val TAG = "ShareActivity"
@@ -122,26 +120,17 @@ class QuickDownloadActivity : ComponentActivity() {
 
 
                     var showDialog by remember { mutableStateOf(true) }
-                    val sheetState =
-                        rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
                     val useDialog = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
                     DownloadSettingDialog(
                         useDialog = useDialog,
                         showDialog = showDialog,
                         isQuickDownload = true,
-                        sheetState = sheetState,
                         onDownloadConfirm = {
                             onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
                         },
                         onDismissRequest = {
-                            if (!useDialog) {
-                                scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                    showDialog = false
-                                }
-                            } else {
-                                showDialog = false
-                            }
+                            showDialog = false
                             this@QuickDownloadActivity.finish()
                         },
                     )
