@@ -1,9 +1,9 @@
 package com.junkfood.seal.ui.page.settings.network
 
-import android.content.ClipData
-import android.content.Intent
 import android.content.res.Configuration
 import android.webkit.CookieManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -50,7 +50,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -69,10 +68,8 @@ import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.ui.common.booleanState
@@ -95,7 +92,6 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
-import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
@@ -103,7 +99,6 @@ import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -126,18 +121,30 @@ fun CookieProfilePage(
     val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
 
-    var cookieListSize by remember {
-        mutableIntStateOf(0)
+    var cookieList by remember {
+        mutableStateOf(listOf<Cookie>())
     }
 
     LaunchedEffect(state.showEditDialog) {
         withContext(Dispatchers.IO) {
             DownloadUtil.getCookieListFromDatabase().getOrNull()?.let {
-                cookieListSize = it.size
+                cookieList = it
                 FileUtil.writeContentToFile(it.toCookiesFileContent(), context.getCookiesFile())
             }
         }
     }
+
+
+    val exportLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+            uri?.let {
+                scope.launch(Dispatchers.IO) {
+                    context.contentResolver.openOutputStream(uri)?.use {
+                        it.write(cookieList.toCookiesFileContent().toByteArray())
+                    }
+                }
+            }
+        }
 
     Scaffold(
         modifier = Modifier
@@ -195,39 +202,10 @@ fun CookieProfilePage(
                         text = {
                             Text(stringResource(id = R.string.export_to_file))
                         },
-                        enabled = cookieListSize != 0,
+                        enabled = cookieList.isNotEmpty(),
                         onClick = {
                             expanded = false
-                            scope.launch(Dispatchers.IO) {
-                                File(
-                                    App.videoDownloadDir,
-                                    "cookies_exported${System.currentTimeMillis()}.txt"
-                                ).run {
-                                    if (createNewFile()) {
-                                        DownloadUtil.getCookiesContentFromDatabase().getOrNull()
-                                            ?.let {
-                                                FileUtil.writeContentToFile(it, this)
-                                                context.startActivity(Intent.createChooser(Intent().apply {
-                                                    val data = FileProvider.getUriForFile(
-                                                        context,
-                                                        context.getFileProvider(),
-                                                        this@run
-                                                    )
-                                                    setDataAndType(data, "text/plain")
-                                                    action = Intent.ACTION_SEND
-                                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                                    putExtra(Intent.EXTRA_STREAM, data)
-
-                                                    clipData = ClipData(
-                                                        null,
-                                                        arrayOf("text/plain"),
-                                                        ClipData.Item(data)
-                                                    )
-                                                }, null))
-                                            }
-                                    }
-                                }
-                            }
+                            exportLauncher.launch("cookies_exported${System.currentTimeMillis()}.txt")
                         })
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Outlined.DeleteForever, null) },
@@ -285,9 +263,11 @@ fun CookieProfilePage(
             }
             item {
                 HorizontalDivider()
+                val cookiesCount = cookieList.size
+                val siteCount = cookieList.distinctBy { it.domain }.size
                 Text(
-                    text = stringResource(R.string.cookies_in_database, cookieListSize),
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = stringResource(R.string.cookies_in_database, cookiesCount, siteCount),
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
