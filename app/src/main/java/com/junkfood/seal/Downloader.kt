@@ -574,7 +574,7 @@ object Downloader {
                     else return@launch
                 }
 
-                NotificationUtil.updateServiceNotification(
+                NotificationUtil.updateServiceNotificationForPlaylist(
                     index = i + 1, itemCount = itemCount
                 )
 

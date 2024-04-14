@@ -143,10 +143,11 @@ object NotificationUtil {
         notificationManager.notify(notificationId, builder.build())
     }
 
-    fun makeServiceNotification(intent: PendingIntent): Notification {
+    fun makeServiceNotification(intent: PendingIntent, text: String? = null): Notification {
         serviceNotification = NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(context.getString(R.string.service_title))
+            .setContentText(text)
             .setOngoing(true)
             .setContentIntent(intent)
             .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
@@ -154,7 +155,7 @@ object NotificationUtil {
         return serviceNotification
     }
 
-    fun updateServiceNotification(index: Int, itemCount: Int) {
+    fun updateServiceNotificationForPlaylist(index: Int, itemCount: Int) {
         serviceNotification = NotificationCompat.Builder(context, serviceNotification)
             .setContentTitle(context.getString(R.string.service_title) + " ($index/$itemCount)")
             .build()

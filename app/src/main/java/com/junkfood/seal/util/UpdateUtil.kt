@@ -11,6 +11,7 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
 import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil.getInt
+import com.junkfood.seal.util.PreferenceUtil.updateLong
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -62,11 +63,14 @@ object UpdateUtil {
             YoutubeDL.getInstance().updateYoutubeDL(
                 appContext = context,
                 updateChannel = channel
-            ).apply {
-                if (this == YoutubeDL.UpdateStatus.DONE)
+            ).also {
+                if (it == YoutubeDL.UpdateStatus.DONE) {
                     YoutubeDL.getInstance().version(context)?.let {
                         PreferenceUtil.encodeString(YT_DLP_VERSION, it)
                     }
+                }
+                val now = System.currentTimeMillis()
+                YT_DLP_UPDATE_TIME.updateLong(now)
             }
         }
 

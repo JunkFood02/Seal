@@ -108,6 +108,8 @@ const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
 
 const val YT_DLP_UPDATE_CHANNEL = "yt-dlp_update_channel"
+const val YT_DLP_UPDATE_TIME = "yt-dlp_last_update"
+const val YT_DLP_UPDATE_INTERVAL = 86_400_000L // 24 hours
 
 const val NOT_SPECIFIED = 0
 const val DEFAULT = NOT_SPECIFIED
@@ -210,9 +212,13 @@ object PreferenceUtil {
     fun String.getBoolean(default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }): Boolean =
         kv.decodeBool(this, default)
 
+    fun String.getLong(default: Long = 0L) = kv.decodeLong(this, default)
+
     fun String.updateString(newString: String) = kv.encode(this, newString)
 
     fun String.updateInt(newInt: Int) = kv.encode(this, newInt)
+
+    fun String.updateLong(newLong: Long) = kv.encode(this, newLong)
 
     fun String.updateBoolean(newValue: Boolean) = kv.encode(this, newValue)
     fun updateValue(key: String, b: Boolean) = key.updateBoolean(b)
