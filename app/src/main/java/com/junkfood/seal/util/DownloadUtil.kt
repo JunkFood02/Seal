@@ -251,7 +251,7 @@ object DownloadUtil {
             flush()
         }
         SQLiteDatabase.openDatabase(
-            "/data/data/com.junkfood.seal/app_webview/Default/Cookies", null, OPEN_READONLY
+            "/data/data/${context.packageName}/app_webview/Default/Cookies", null, OPEN_READONLY
         ).run {
             val projection = arrayOf(
                 CookieScheme.HOST,
