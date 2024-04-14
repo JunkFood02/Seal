@@ -50,9 +50,10 @@ object Downloader {
             val itemCount: Int = 0,
         ) : State()
 
-        object DownloadingVideo : State()
-        object FetchingInfo : State()
-        object Idle : State()
+        data object DownloadingVideo : State()
+        data object FetchingInfo : State()
+        data object Idle : State()
+        data object Updating : State()
     }
 
     sealed class ErrorState(
