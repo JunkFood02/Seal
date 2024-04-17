@@ -18,7 +18,7 @@
     <string name="confirm">Подтвердить</string>
     <string name="open_url">Открыть ссылку</string>
     <string name="remove">Удалить</string>
-    <string name="delete_file">Удалить</string>
+    <string name="delete_file">Удалить файл</string>
     <string name="back">Назад</string>
     <string name="about_page">Версия, обратная связь, автообновление</string>
     <string name="release">Новейшая версия</string>
@@ -404,4 +404,5 @@
     <string name="redownload">Скачать заново</string>
     <string name="download_archive_error">Видео было загружено. Если это не ожидаемое поведение, пожалуйста, проверьте архив загрузки.</string>
     <string name="none">Нет</string>
+    <string name="remux_container_mkv">Remux видео контейнер</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="video_directory">Pasta de Vídeo</string>
     <string name="create_thumbnail">Salvar miniatura</string>
     <string name="download_settings_desc">Geral, formato, comando personalizado</string>
-    <string name="download">Baixar</string>
+    <string name="download">Download</string>
     <string name="url_empty">O link não pode estar vazio</string>
     <string name="extract_audio_summary">Baixar e salvar o áudio ao invés do vídeo</string>
     <string name="create_thumbnail_summary">Salvar miniatura do vídeo como um arquivo</string>
@@ -28,7 +28,7 @@
     <string name="link_copied">Link copiado para a área de transferência</string>
     <string name="open_url">Abrir link</string>
     <string name="remove">Remover</string>
-    <string name="delete_file">Excluir</string>
+    <string name="delete_file">Excluir arquivo</string>
     <string name="about">Sobre</string>
     <string name="version">Versão</string>
     <string name="release">Versão mais recente</string>
@@ -48,24 +48,24 @@
     <string name="convert_audio_format">Converter formato de áudio</string>
     <string name="not_convert">Não convertido</string>
     <string name="convert_to">Converter para %1$s</string>
-    <string name="format">Processamento</string>
+    <string name="format">Formato</string>
     <string name="best_quality">Melhor qualidade</string>
     <string name="video_quality_desc">Limitar a qualidade do vídeo quando várias qualidades estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
-    <string name="start_download">Baixar</string>
+    <string name="start_download">Download</string>
     <string name="settings_before_download">Configurar antes de baixar</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
     <string name="about_page">Versão, feedback, atualização</string>
-    <string name="settings_before_download_desc">Configure as preferências antes de baixar</string>
+    <string name="settings_before_download_desc">Configurar preferências antes de baixar</string>
     <string name="convert_audio">Converter</string>
     <string name="paste_fail_msg">Não foi possível corresponder ao URL na área de transferência</string>
     <string name="task_running">Uma tarefa de download existente já está em execução</string>
     <string name="dismiss">Cancelar</string>
     <string name="video_format">Formato de vídeo</string>
-    <string name="release_desc">Procure por registros de alterações e novas versões</string>
+    <string name="release_desc">Procurar registros de alterações e novas versões</string>
     <string name="edit_template_desc">O caminho de saída e a URL serão adicionados pelo aplicativo.</string>
-    <string name="convert_audio_format_desc">Re-encodar arquivos de áudio resultará na perda da qualidade de áudio e aumentará o tamanho do arquivo.</string>
+    <string name="convert_audio_format_desc">A recodificação de arquivos de áudio causará perda na qualidade do áudio e aumento no tamanho do arquivo.</string>
     <string name="video_quality">Qualidade do vídeo</string>
     <string name="preferred_format_desc">Formato preferido quando vários formatos estiverem presentes</string>
     <string name="language">Idioma de exibição</string>
@@ -77,7 +77,7 @@
     <string name="download_playlist">Baixar playlist</string>
     <string name="download_playlist_desc">Baixe vários vídeos de uma playlist</string>
     <string name="defaults">Padrão</string>
-    <string name="channel_name">Baixar</string>
+    <string name="channel_name">Download</string>
     <string name="channel_description">Notificar sobre arquivos baixados e progresso</string>
     <string name="video_url">Link do vídeo</string>
     <string name="download_finish_notification">Download concluído. Toque para abrir.</string>
@@ -92,7 +92,7 @@
     <string name="from">Início</string>
     <string name="to">Fim</string>
     <string name="invalid_index_range">Intervalo de índice inválido</string>
-    <string name="playlist_indicator_text">Baixando playlist (%1$d/%2$d)…</string>
+    <string name="playlist_indicator_text">Fazendo o download da playlist (%1$d/%2$d)…</string>
     <string name="audio_directory">Pasta de Áudio</string>
     <string name="download_directory">Pasta de Download</string>
     <string name="download_directory_desc">Selecione onde armazenar vídeos e arquivos de áudio</string>
@@ -100,7 +100,7 @@
     <string name="subdirectory_desc">Salve arquivos em pastas nomeadas como respectivos campos</string>
     <string name="battery_configuration">Configuração da bateria</string>
     <string name="download_history_desc">Verifique e gerencie downloads no aplicativo, incluindo vídeos e arquivos de áudio.</string>
-    <string name="download_desc">Em seguida, clique em “Baixar” depois de ajustar suas configurações.</string>
+    <string name="download_desc">Em seguida, clique em “Download” depois de ajustar suas configurações.</string>
     <string name="check_download_settings_desc">Dê uma olhada nas configurações de download e verifique se você tem a versão mais recente do yt-dlp antes de usá-lo.</string>
     <string name="concurrent_download_desc">Número de fragmentos de um vídeo nativo em M3U8/MPD para baixar paralelamente</string>
     <string name="permission_issue_desc">Diretórios fora de Download/ e Documents/ não são suportados</string>
@@ -129,11 +129,11 @@
     <string name="close">Fechar</string>
     <string name="download_notification">Notificação de download</string>
     <string name="download_range_selection">Seleção de playlist</string>
-    <string name="service_title">Seal está baixando…</string>
+    <string name="service_title">Seal está fazendo o download…</string>
     <string name="prefix">Prefixo</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="restart">Reiniciar</string>
-    <string name="status_downloading">Baixando</string>
+    <string name="status_downloading">Fazendo o download</string>
     <string name="status_error">Erro</string>
     <string name="copy_link">Copiar link</string>
     <string name="copy_error_report">Relatório de erros</string>
@@ -146,19 +146,19 @@
     <string name="new_template">Novo modelo</string>
     <string name="template_label">Título</string>
     <string name="remove_template">Remover\?</string>
-    <string name="remove_template_desc">Remover %1$s dos templates de comandos\?</string>
+    <string name="remove_template_desc">Remover %1$s dos modelos de comandos?</string>
     <string name="template_selection">Seleção de modelos</string>
     <string name="custom_command_template_desc">Editar e gerenciar modelos de comandos</string>
     <string name="downloading_indicator_text">Download em andamento…</string>
     <string name="task_canceled">Tarefa de download cancelada</string>
-    <string name="github_issue">GitHub issue</string>
+    <string name="github_issue">Relatar problema no GitHub</string>
     <string name="github_issue_desc">Envie um problema para relatório de bug ou solicitação de recursos</string>
     <string name="info_copied">Informação copiada para a área de transferência</string>
     <string name="video_resolution">Resolução de Vídeo</string>
     <string name="video_file_size">Tamanho do arquivo de vídeo</string>
     <string name="import_from_clipboard">Importar da área de transferência</string>
     <string name="template_imported">%1$d modelo(s) importado(s)</string>
-    <string name="download_task_count">%1$d Tarefa(s) de download(s)</string>
+    <string name="download_task_count">%1$d tarefa(s) de download(s)</string>
     <string name="recently_added">Adicionado recentemente</string>
     <string name="multiselect_item_count">%1$d vídeo(s), %2$d arquivo(s) de áudio</string>
     <string name="delete_multiple_items_msg">Remover %1$d item(s) do seu histórico de downloads\?</string>
@@ -166,7 +166,7 @@
     <string name="export_to_clipboard">Exportar para a área de transferência</string>
     <string name="check_for_updates">Buscar atualizações</string>
     <string name="check_for_updates_desc">Verificar automaticamente a versão mais recente no GitHub</string>
-    <string name="app_up_to_date">A versão atual está atualizada</string>
+    <string name="app_up_to_date">Você já possui a atualização mais recente</string>
     <string name="app_update_failed">Falha ao atualizar para a versão mais recente</string>
     <string name="update">Atualizar</string>
     <string name="aria2_desc">Usar aria2c como ferramenta de download padrão</string>
@@ -180,12 +180,12 @@
 \nVocê pode acessar esses arquivos em %1$s</string>
     <string name="sponsorblock_categories_desc">Especifique as categorias SponsorBlock para remover ou marcar no arquivo de vídeo</string>
     <string name="sponsorblock_categories">Categorias do SponsorBlock</string>
-    <string name="sponsorblock_desc">Remova ou marque segmentos em vídeos com a API SponsorBlock</string>
+    <string name="sponsorblock_desc">Remover ou marcar segmentos em vídeos com a API SponsorBlock</string>
     <string name="high_contrast">Tema escuro de alto contraste</string>
     <string name="invalid_input">Entrada inválida</string>
     <string name="lowest_quality">Qualidade mais baixa</string>
     <string name="private_mode">Anônimo</string>
-    <string name="private_mode_desc">Baixar sem adicionar no histórico</string>
+    <string name="private_mode_desc">Faça o download sem adicionar no histórico</string>
     <string name="dynamic_color">Cor dinâmica</string>
     <string name="dynamic_color_desc">Aplicar cores do papel de parede ao tema do aplicativo</string>
     <string name="file_unavailable">Esse arquivo não está mais disponível</string>
@@ -204,12 +204,12 @@
     <string name="private_directory_desc">Armazenar downloads em um diretório oculto</string>
     <string name="crop_artwork_desc">Recortar miniatura em um quadrado</string>
     <string name="crop_artwork">Cortar miniatura</string>
-    <string name="download_with_cellular_desc">Permitir baixar mídia quando conectado em redes limitadas</string>
+    <string name="download_with_cellular_desc">Permite fazer o download quando conectado na rede móvel</string>
     <string name="download_disabled_with_cellular">O download com a rede móvel está desabilitado de acordo com suas configurações</string>
     <string name="use_custom_command">Usar comando personalizado</string>
-    <string name="download_with_cellular">Baixar usando rede móvel</string>
+    <string name="download_with_cellular">Fazer download usando a rede móvel</string>
     <string name="select_all">Selecionar tudo</string>
-    <string name="download_selection_desc">Selecione vídeos para baixar da playlist “%1$s”</string>
+    <string name="download_selection_desc">Selecionar vídeos para fazer o download da playlist “%1$s”</string>
     <string name="selected_item_count">%1$d selecionado(s)</string>
     <string name="unlimited">Ilimitado</string>
     <string name="lowest_bitrate">Taxa de bits mais baixa</string>
@@ -243,7 +243,7 @@
     <string name="discard">Descartar</string>
     <string name="apply">Aplicar</string>
     <string name="clip_video">Cortar vídeo</string>
-    <string name="clip_start">Iniciar</string>
+    <string name="clip_start">Início</string>
     <string name="clip_end">Fim</string>
     <string name="suggested">Sugerido</string>
     <string name="how_does_it_work">Como funciona\?</string>
@@ -262,7 +262,7 @@
     <string name="download_subtitles">Baixar legenda</string>
     <string name="subtitle_language">Idiomas das legendas</string>
     <string name="copy_log">Copiar registro</string>
-    <string name="clear">Claro</string>
+    <string name="clear">Limpar</string>
     <string name="add">Adicionar</string>
     <string name="shortcuts">Atalhos</string>
     <string name="running_tasks">Tarefas em execução</string>
@@ -315,12 +315,12 @@
     <string name="disabled">Desabilitado</string>
     <string name="folder_picker">Selecionar pasta</string>
     <string name="custom_command_directory_desc">Especifique o diretório de saída ao usar comandos personalizados</string>
-    <string name="prefer_quality_desc">Prefira os formatos AV1, VP9 ou H.265 para assistir em aplicativos compatíveis</string>
-    <string name="legacy">Legado</string>
+    <string name="prefer_quality_desc">Preferir formatos AV1, VP9 ou H.265 para assistir em aplicativos compatíveis</string>
+    <string name="legacy">Antiga</string>
     <string name="quality">Qualidade</string>
     <string name="enable_notifications">Ativar notificações\?</string>
     <string name="enable_notifications_desc">O aplicativo precisa da sua permissão para postar notificações sobre o status e o progresso do download.</string>
-    <string name="prefer_compatibility_desc">Prefira os formatos MP4(H.264) para compartilhar com outros aplicativos</string>
+    <string name="prefer_compatibility_desc">Preferir formatos MP4(H.264) para compartilhar com outros aplicativos</string>
     <string name="proxy">Proxy</string>
     <string name="download_type">Tipo de download</string>
     <string name="custom">Personalizado</string>
@@ -334,11 +334,11 @@
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="many">%d itens</item>
-        <item quantity="other">%d item(s)</item>
+        <item quantity="other">%d itens</item>
     </plurals>
     <string name="ua_header">Cabeçalho de requisição User-Agent</string>
-    <string name="export_to_file">Exportar para arquivo</string>
-    <string name="custom_command_usage_msg">O yt-dlp é uma poderosa ferramenta de linha de comando para baixar vídeos. Seal facilita o uso do yt-dlp, fornecendo uma GUI intuitiva, predefinições para comandos comuns e outros recursos adicionais.
+    <string name="export_to_file">Exportar como arquivo</string>
+    <string name="custom_command_usage_msg">O yt-dlp é uma poderosa ferramenta de linha de comando para fazer download de vídeos. Seal facilita o uso do yt-dlp, fornecendo uma GUI intuitiva, predefinições para comandos comuns e outros recursos adicionais.
 \n
 \nPara uso avançado do yt-dlp, o Seal permite criar, salvar e executar modelos de comandos personalizados diretamente, como em um terminal.
 \n
@@ -346,7 +346,7 @@
     <string name="presets">Predefinições</string>
     <string name="output_template">Modelo de saída</string>
     <string name="output_template_desc">Especificar o modelo para nomes de arquivos de saída</string>
-    <string name="clear_download_archive">Limpar o arquivamento de download?</string>
+    <string name="clear_download_archive">Limpar arquivamento de download?</string>
     <string name="clear_download_archive_desc">Remover %1$s do arquivamento de download?</string>
     <string name="download_archive_desc">Salvar IDs dos vídeos baixados para evitar downloads duplicados</string>
     <string name="download_archive">Arquivar downloads</string>
@@ -364,8 +364,8 @@
     <string name="subdirectory_hint">Seus downloads serão salvos como:</string>
     <string name="system_settings">Configurações de sistema</string>
     <string name="force_ipv4">Forçar IPv4</string>
-    <string name="force_ipv4_desc">Faça todas as conexões via IPv4</string>
-    <string name="keep_subtitle_files">Mantenha os arquivos de legenda</string>
+    <string name="force_ipv4_desc">Efetuar todas as conexões com IPv4</string>
+    <string name="keep_subtitle_files">Manter arquivos de legenda</string>
     <string name="allow_once">Permitir uma vez</string>
     <string name="merge_audiostream">Mesclar vários fluxos de áudio</string>
     <string name="allow_always">Sempre permitir</string>
@@ -405,4 +405,5 @@
     <string name="download_archive_error">O vídeo foi baixado. Se este não for o comportamento esperado, verifique o arquivamento de download.</string>
     <string name="remux_container_mkv">Contêiner de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos em contêiner MKV para melhor compatibilidade</string>
+    <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
 </resources>

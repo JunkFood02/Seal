@@ -21,7 +21,7 @@
     <string name="downloads_history">التحميلات</string>
     <string name="open_url">افتح الرابط</string>
     <string name="remove">إزالة</string>
-    <string name="delete_file">حذف</string>
+    <string name="delete_file">حذف المِلَفّ</string>
     <string name="about">نُبذة</string>
     <string name="about_page">الإصدار، التعليقات، التحديث التلقائي</string>
     <string name="version">الإصدار</string>
@@ -405,4 +405,6 @@
     <string name="redownload">إعادة التحميل</string>
     <string name="search_in_downloads">البحث في التنزيلات</string>
     <string name="search">البحث</string>
+    <string name="remux_container_mkv_desc">تحويل صيغة الفيديوهات إلى MKV لتوافق أفضل</string>
+    <string name="remux_container_mkv">ريمكس صيغة الفيديو</string>
 </resources>

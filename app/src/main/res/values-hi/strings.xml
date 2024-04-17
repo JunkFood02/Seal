@@ -23,7 +23,7 @@
     <string name="audio">ऑडियो</string>
     <string name="link_copied">लिंक को क्लिपबोर्ड पर कॉपी किया गया</string>
     <string name="remove">हटाएं</string>
-    <string name="delete_file">मिटाएं</string>
+    <string name="delete_file">फाईल मिटाएं</string>
     <string name="about">हमारे बारे में</string>
     <string name="about_page">संस्करण, प्रतिक्रिया, ऑटो अपडेट</string>
     <string name="back">पीछे</string>
@@ -400,6 +400,8 @@
     <string name="export_download_history_msg">डाउनलोड इतिहास से %1$s निर्यात किया जा रहा है। डाउनलोड की गई फ़ाइलों और प्राथमिकताओं का बैकअप नहीं लिया जाएगा।</string>
     <string name="download_history">डाउनलोड इतिहास</string>
     <string name="redownload">दोबारा डाउनलोड करें</string>
-    <string name="download_archive_error">वीडियो डाउनलोड कर लिया गया है. यदि यह अपेक्षित व्यवहार नहीं है, तो कृपया अपना डाउनलोड संग्रह में जांचें</string>
+    <string name="download_archive_error">वीडियो डाउनलोड कर लिया गया है. यदि यह अपेक्षित व्यवहार नहीं है, तो कृपया अपने डाउनलोड संग्रह में से जांचें।</string>
     <string name="download_history_imported">डाउनलोड इतिहास के लिए %1$s आयात किया गया</string>
+    <string name="remux_container_mkv">रीमक्स वीडियो कंटेनर</string>
+    <string name="remux_container_mkv_desc">बेहतर अनुकूलता के लिए वीडियो को एमकेवी कंटेनर में रीमक्स करें</string>
 </resources>

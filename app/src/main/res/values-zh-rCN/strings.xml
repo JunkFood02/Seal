@@ -36,7 +36,7 @@
     <string name="link_copied">链接已复制到剪贴板</string>
     <string name="open_url">打开链接</string>
     <string name="remove">移除</string>
-    <string name="delete_file">同时删除文件</string>
+    <string name="delete_file">删除文件</string>
     <string name="about">关于</string>
     <string name="about_page">版本、意见反馈、自动更新</string>
     <string name="back">返回</string>
@@ -403,4 +403,5 @@
     <string name="download_archive_error">此视频已被下载。如果这不是预期的行为，请检查你的下载存档。</string>
     <string name="remux_container_mkv">复用视频容器</string>
     <string name="remux_container_mkv_desc">复用视频至 MKV 容器，改进兼容性</string>
+    <string name="cookies_in_database">共 %1$d 个 cookies，来自 %2$d 个站点</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="delete_file">Eliminar</string>
+    <string name="delete_file">Eliminar ficheiro</string>
     <string name="template_imported">Modelo(s) importado(s) %1$d</string>
     <string name="video_resolution">Resolução de vídeo</string>
     <string name="switch_to_github_builds">mudar para compilações do GitHub</string>
@@ -303,7 +303,7 @@
     <string name="battery_settings_desc">Defina a utilização da bateria desta aplicação como \"Sem restrições\" nas definições do sistema para descarregar em segundo plano.</string>
     <string name="refresh_cookies_desc">Toque para abrir a página Web para gerar novos cookies:</string>
     <string name="not_specified">Não especificado (predefinição)</string>
-    <string name="status_downloading">Descarregando</string>
+    <string name="status_downloading">A descarregar</string>
     <string name="settings">Definições</string>
     <string name="yt_dlp_up_to_date">Usando a versão mais recente do yt-dlp</string>
     <string name="status_error">Erro</string>
@@ -405,4 +405,5 @@
     <string name="download_archive_error">O vídeo foi descarregado. Se este não for o comportamento esperado, verifique o seu arquivo de descarga.</string>
     <string name="remux_container_mkv">Recipiente de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos para um recipiente MKV para uma melhor compatibilidade</string>
+    <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
 </resources>

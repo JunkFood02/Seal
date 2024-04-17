@@ -62,7 +62,7 @@
     <string name="link_copied">Collegamento copiato negli appunti</string>
     <string name="open_url">Apri il collegamento</string>
     <string name="remove">Rimuovi</string>
-    <string name="delete_file">Elimina</string>
+    <string name="delete_file">Elimina file</string>
     <string name="credits_desc">Crediti e software liberi</string>
     <string name="custom_command">Comando personalizzato</string>
     <string name="custom_command_template">Template di comando</string>

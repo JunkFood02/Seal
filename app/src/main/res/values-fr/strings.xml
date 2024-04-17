@@ -14,11 +14,11 @@
     <string name="language">Langue d\'affichage</string>
     <string name="ytdlp_version">Version Yt-dlp</string>
     <string name="ytdlp_update">Cliquez pour installer la dernière version de yt-dlp</string>
-    <string name="delete_info">Retirer \?</string>
+    <string name="delete_info">Retirer ?</string>
     <string name="confirm">Confirmer</string>
     <string name="dismiss">Annuler</string>
     <string name="downloads_history">Téléchargements</string>
-    <string name="delete_file">Supprimer</string>
+    <string name="delete_file">Supprimer le fichier</string>
     <string name="create_thumbnail_summary">Enregistrer la miniature de la vidéo dans un fichier</string>
     <string name="audio">Audio</string>
     <string name="release">Dernière version</string>
@@ -53,7 +53,7 @@
     <string name="open_url">Ouvrir le lien</string>
     <string name="task_running">Une tâche de téléchargement est déjà en cours d\'exécution</string>
     <string name="paste_msg">Coller l\'URL depuis le presse-papiers</string>
-    <string name="delete_info_msg">Supprimer définitivement « %1$s » de l\'historique de vos téléchargements \?</string>
+    <string name="delete_info_msg">Supprimer définitivement « %1$s » de l\'historique de vos téléchargements ?</string>
     <string name="remove">Retirer</string>
     <string name="print_details">Sortie détaillée</string>
     <string name="about">À propos</string>
@@ -102,7 +102,7 @@
     <string name="concurrent_download_desc">Télécharger plus de parties de vidéos M3U8/MPD en parallèle</string>
     <string name="concurrent_download_num">%d processus seraient utilisés pour télécharger simultanément des vidéos natives DASH/HLS.</string>
     <string name="subdirectory">Enregistrer dans un sous-répertoire</string>
-    <string name="subdirectory_desc">Enregistrer les fichiers dans des dossiers portant le nom des sites web respectifs</string>
+    <string name="subdirectory_desc">Enregistrer les fichiers dans des dossiers portant le nom des champs respectifs</string>
     <string name="audio_directory">Dossier audio</string>
     <string name="download_directory">Répertoire de téléchargement</string>
     <string name="download_directory_desc">Sélectionner où stocker les fichiers vidéo et audio</string>
@@ -138,7 +138,7 @@
     <string name="github_issue_desc">Soumettre un ticket pour signaler un bug ou suggérer une fonctionnalité</string>
     <string name="new_template">Nouveau modèle</string>
     <string name="template_label">Étiquette</string>
-    <string name="remove_template">Retirer \?</string>
+    <string name="remove_template">Retirer ?</string>
     <string name="remove_template_desc">Retirer définitivement « %1$s » des modèles de commande \?</string>
     <string name="custom_command_template_desc">Modifier et gérer les modèles de commande</string>
     <string name="task_canceled">Téléchargement annulé</string>
@@ -161,7 +161,7 @@
     <string name="clear_temp_files">Effacer les fichiers temporaires</string>
     <string name="clear_temp_files_desc">Supprimer tous les fichiers temporaires du répertoire temporaire</string>
     <string name="clear_temp_files_count">%1$d fichier(s) temporaire(s) supprimé(s)</string>
-    <string name="clear_temp_files_info">Les fichiers temporaires peuvent être utilisés pour reprendre les téléchargements annulés. Voulez vous vraiment supprimer tous ces fichiers ?
+    <string name="clear_temp_files_info">Les fichiers temporaires peuvent être utilisés pour reprendre les téléchargements annulés. Voulez vous vraiment supprimer tous ces fichiers ?
 \n
 \nVous pouvez accéder à ces fichiers dans %1$s</string>
     <string name="app_up_to_date">La version actuelle est à jour</string>
@@ -175,7 +175,7 @@
     <string name="template_exported">%1$d modèle(s) exporté(s)</string>
     <string name="download_task_count">%1$d tâches de téléchargement</string>
     <string name="import_from_clipboard">Importer à partir du Presse-papier</string>
-    <string name="delete_multiple_items_msg">Supprimer définitivement le(s) élément(s) %1$d de votre historique de téléchargement \?</string>
+    <string name="delete_multiple_items_msg">Supprimer définitivement le(s) élément(s) %1$d de votre historique de téléchargement ?</string>
     <string name="template_imported">%1$d modèle(s) importé(s)</string>
     <string name="sponsorblock_desc">Supprimer ou marquer des segments de vidéos avec l\'API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Spécifiez les catégories SponsorBlock à supprimer ou marquer dans le fichier vidéo</string>
@@ -220,9 +220,9 @@
     <string name="cookies_usage_msg">Le téléchargement à partir de certains sites nécessite des informations d\'authentification du compte. Cliquez sur « Générer de nouveaux cookies », saisissez l\'URL du site web, puis connectez-vous avec votre compte dans la page du navigateur, l\'application les générera pour vous.</string>
     <string name="telegram_channel">Canal Telegram</string>
     <string name="use_cookies">Utiliser les cookies</string>
-    <string name="remove_cookie_profile_desc">Retirer les cookies pour « %1$s » ?</string>
+    <string name="remove_cookie_profile_desc">Retirer cette entrée pour « %1$s » ? Veuillez noter que les cookies stockés pour ce site ne seront pas effacés.</string>
     <string name="custom_command_enabled_hint">Certaines options ne sont pas disponibles lors de l\'utilisation de commande(s) personnalisée(s)</string>
-    <string name="how_does_it_work">Comment ça fonctionne \?</string>
+    <string name="how_does_it_work">Comment ça fonctionne ?</string>
     <string name="matrix_space">Espace Matrix</string>
     <string name="abs_hint">La plupart des plateformes de streaming vidéo fournissent l\'audio et la vidéo séparément. Vous pouvez sélectionner et fusionner un format uniquement audio avec un format uniquement vidéo pour obtenir une seule vidéo.</string>
     <string name="sdcard_directory">Dossier de la carte SD</string>
@@ -255,7 +255,7 @@
     <string name="audio_format">Format audio</string>
     <string name="no_downloaded_media">Aucun média téléchargé</string>
     <string name="beta_features">Bêta</string>
-    <string name="enable_experimental_feature">Activer la fonction expérimentale \?</string>
+    <string name="enable_experimental_feature">Activer la fonction expérimentale ?</string>
     <string name="clip_video_desc">Réaliser des clips vidéo dans la page de sélection du format</string>
     <string name="stable_channel">Stable</string>
     <string name="share">Partager</string>
@@ -281,7 +281,7 @@
     <string name="clip_start">Début</string>
     <string name="minute">minute</string>
     <string name="clear_all_cookies">Effacer tous les cookies</string>
-    <string name="clear_all_cookies_desc">Supprimer définitivement tous les cookies stockés dans l\'application \?</string>
+    <string name="clear_all_cookies_desc">Supprimer définitivement tous les cookies stockés dans l\'application ?</string>
     <string name="sponsor">Sponsor</string>
     <string name="sponsor_desc">Soutenez cette application en la parrainant sur GitHub</string>
     <string name="sponsor_msg">Seal sera toujours libre et gratuit pour tout le monde. Si vous l\'aimez, pensez à me parrainer sur GitHub !</string>
@@ -331,13 +331,13 @@
     <string name="auto">Automatique</string>
     <string name="proxy_desc">Utiliser un proxy pour les connexions internet</string>
     <string name="quality">Qualité</string>
-    <string name="refresh_cookies_desc">Touchez pour ouvrir la page web permettant de générer de nouveaux cookies :</string>
+    <string name="refresh_cookies_desc">Touchez pour ouvrir la page web permettant de générer de nouveaux cookies :</string>
     <string name="ytdlp_update_action">Mettre à jour yt-dlp</string>
-    <string name="remove_multiple_templates_msg">Supprimer définitivement %1$s des modèles de commande \?</string>
-    <string name="enable_notifications">Activer les notifications \?</string>
+    <string name="remove_multiple_templates_msg">Supprimer définitivement %1$s des modèles de commande ?</string>
+    <string name="enable_notifications">Activer les notifications ?</string>
     <string name="proxy">Proxy</string>
-    <string name="clear_download_archive">Effacer l\'archive de téléchargement \?</string>
-    <string name="clear_download_archive_desc">Supprimer %1$s dans le fichier d\'archive pour de bon \?</string>
+    <string name="clear_download_archive">Effacer l\'archive de téléchargement ?</string>
+    <string name="clear_download_archive_desc">Supprimer %1$s dans le fichier d\'archive pour de bon ?</string>
     <string name="legacy">Hérité</string>
     <string name="embed_metadata">Intégrer les métadonnées</string>
     <string name="presets">Préréglages</string>
@@ -361,11 +361,11 @@
     <string name="dont_allow">Ne pas autoriser</string>
     <string name="download_with_cellular_request">Autoriser l\'utilisation des données mobiles ?</string>
     <string name="merge_audiostream">Combiner plusieurs pistes audios</string>
-    <string name="merge_audiostream_desc">Autorise plusieurs pistes audio combinées en une seule</string>
-    <string name="subdirectory_hint">Vos téléchargement seront enregistrés sous:</string>
+    <string name="merge_audiostream_desc">Autoriser plusieurs pistes audio a être fusionnées en un seule fichier</string>
+    <string name="subdirectory_hint">Vos téléchargements seront enregistrés dans :</string>
     <string name="keep_subtitle_files">Garder le fichier des sous-titres</string>
     <string name="restrict_filenames_desc">Limiter les noms de fichiers à certains caractères pour assurer la compatibilité</string>
-    <string name="website">Site Web</string>
+    <string name="website">Site web</string>
     <string name="playlist_title">Titre de la playlist</string>
     <string name="auto_translated_subtitles">Sous-titres automatiquement traduits</string>
     <string name="remember_for_next_download">Se souvenir pour le prochain téléchargement</string>
@@ -374,10 +374,10 @@
     <string name="force_ipv4_desc">Établit toutes les connexions en IPv4</string>
     <string name="search_in_downloads">Rechercher dans les téléchargements</string>
     <string name="search">Rechercher</string>
-    <string name="auto_translated_subtitles_msg">Des sous-titres automatiquement traduits seront disponibles dans les téléchargements. Ces sous-titres peuvent être imprécis et difficiles à comprendre.</string>
+    <string name="auto_translated_subtitles_msg">Des sous-titres automatiquement traduits seront disponibles pour toutes les langues dans les téléchargements. Ces sous-titres peuvent être imprécis et difficiles à comprendre.</string>
     <string name="none">Aucun</string>
     <string name="no_thanks">Non merci</string>
-    <string name="allow_once">Autoriser une fois seulement</string>
+    <string name="allow_once">Autoriser une fois</string>
     <string name="import_backup">Importer</string>
     <string name="import_download_history_msg">Les fichiers téléchargés ne seront pas importer , vous devrais lea télécharger manuellement</string>
     <string name="subtitle_language_desc">La langue des sous-titres a télécharger en auto-sélection de format, séparée par des virgules.</string>
@@ -387,6 +387,19 @@
     <string name="file">Fichier</string>
     <string name="clipboard">Presse-papier</string>
     <string name="import_download_history">Importer l\'historique de téléchargement ?</string>
-    <string name="update_language_msg">Les langues suivantes vont être ajoutées a vos préférences pour les prochains téléchargements</string>
-    <string name="update_subtitle_languages">Mettre à jour les langues de sous-titres?</string>
+    <string name="update_language_msg">Les langues suivantes vont être ajoutées a vos préférences pour les prochains téléchargements :</string>
+    <string name="update_subtitle_languages">Mettre à jour les langues des sous-titres ?</string>
+    <string name="restrict_filenames">Restreindre les noms de fichiers</string>
+    <string name="download_archive_error">La vidéo a été téléchargée. Si ce n\'est pas le comportement attendu, veuillez vérifier votre archive téléchargée.</string>
+    <string name="export_download_history_msg">Exportation de %1$s depuis l\'historique de téléchargement. Les fichiers téléchargés et les préférences ne seront pas sauvegardés.</string>
+    <string name="export_backup">Exporter</string>
+    <string name="full_backup">Sauvegarde complète</string>
+    <string name="backup_type">Type de sauvegarde</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="export_to">Exporter vers</string>
+    <string name="import_from">Importer depuis</string>
+    <string name="export_download_history">Exporter l\'historique des téléchargements ?</string>
+    <string name="download_history">Historique des téléchargements</string>
+    <string name="download_history_imported">Importation de %1$s dans l\'historique des téléchargements</string>
+    <string name="redownload">Retélécharger</string>
 </resources>

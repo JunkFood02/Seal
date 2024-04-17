@@ -12,7 +12,7 @@
     <string name="audio">音訊</string>
     <string name="open_url">開啟連結</string>
     <string name="remove">移除</string>
-    <string name="delete_file">刪除</string>
+    <string name="delete_file">刪除檔案</string>
     <string name="about">關於</string>
     <string name="about_page">版本、意見反應、自動更新</string>
     <string name="back">返回</string>
@@ -401,4 +401,7 @@
     <string name="download_history_imported">已將 %1$s 匯入下載記錄</string>
     <string name="search_in_downloads">在下載中搜尋</string>
     <string name="search">搜尋</string>
+    <string name="remux_container_mkv">重新混流影片容器</string>
+    <string name="cookies_in_database">總共來自 %2$d 個網站的 %1$d 個 cookies</string>
+    <string name="remux_container_mkv_desc">將影片重新混流至 MKV 容器以提高兼容性</string>
 </resources>
