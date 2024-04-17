@@ -13,7 +13,6 @@ Under development, please stay tuned!
 
 ### Added
 
-* Add/removal animation for download history
 * Add auto update interval for yt-dlp
 * Cookies page now shows the current count of cookies stored in the database
 

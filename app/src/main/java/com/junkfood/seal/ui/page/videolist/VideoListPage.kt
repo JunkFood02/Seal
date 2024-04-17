@@ -489,7 +489,7 @@ fun VideoListPage(
                     contentType = { info.videoPath.contains(AUDIO_REGEX) }) {
                     with(info) {
                         AnimatedVisibility(
-                            modifier = Modifier.animateItem(),
+                            modifier = Modifier,
                             visible = info.filterSort(viewState, filterSet),
                             exit = shrinkVertically() + fadeOut(),
                             enter = expandVertically() + fadeIn()
