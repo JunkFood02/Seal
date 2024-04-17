@@ -109,7 +109,20 @@ const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
 
 const val YT_DLP_UPDATE_CHANNEL = "yt-dlp_update_channel"
 const val YT_DLP_UPDATE_TIME = "yt-dlp_last_update"
-const val YT_DLP_UPDATE_INTERVAL = 86_400_000L // 24 hours
+const val YT_DLP_UPDATE_INTERVAL = "yt-dlp_update_interval"
+
+private const val INTERVAL_DAY = 86_400_000L
+private const val INTERVAL_WEEK = 86_400_000L * 7
+private const val INTERVAL_MONTH = 86_400_000L * 30
+
+const val DEFAULT_INTERVAL = INTERVAL_WEEK  // every week
+
+val UpdateIntervalList =
+    mapOf(
+        INTERVAL_DAY to R.string.every_day,
+        INTERVAL_WEEK to R.string.every_week,
+        INTERVAL_MONTH to R.string.every_month
+    )
 
 const val NOT_SPECIFIED = 0
 const val DEFAULT = NOT_SPECIFIED
@@ -198,6 +211,10 @@ private val IntPreferenceDefaults = mapOf(
     YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY
 )
 
+private val LongPreferenceDefaults = mapOf(
+    YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL
+)
+
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
 private val kv: MMKV = MMKV.defaultMMKV()
@@ -212,7 +229,8 @@ object PreferenceUtil {
     fun String.getBoolean(default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }): Boolean =
         kv.decodeBool(this, default)
 
-    fun String.getLong(default: Long = 0L) = kv.decodeLong(this, default)
+    fun String.getLong(default: Long = LongPreferenceDefaults.getOrElse(this) { 0L }) =
+        kv.decodeLong(this, default)
 
     fun String.updateString(newString: String) = kv.encode(this, newString)
 
@@ -492,5 +510,17 @@ object PreferenceStrings {
             FORMAT_COMPATIBILITY -> stringResource(id = R.string.legacy)
             else -> stringResource(id = R.string.quality)
         }
+    }
+
+    @Composable
+    fun getUpdateIntervalText(interval: Long): String {
+        return stringResource(
+            id = when (interval) {
+                INTERVAL_DAY -> R.string.every_day
+                INTERVAL_WEEK -> R.string.every_week
+                INTERVAL_MONTH -> R.string.every_month
+                else -> R.string.disabled
+            }
+        )
     }
 }

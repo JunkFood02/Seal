@@ -226,7 +226,7 @@ fun HomeEntry(
             val lastUpdateTime = YT_DLP_UPDATE_TIME.getLong()
             val currentTime = System.currentTimeMillis()
 
-            if (currentTime < lastUpdateTime + YT_DLP_UPDATE_INTERVAL) {
+            if (currentTime < lastUpdateTime + YT_DLP_UPDATE_INTERVAL.getLong()) {
                 return@LaunchedEffect
             }
 

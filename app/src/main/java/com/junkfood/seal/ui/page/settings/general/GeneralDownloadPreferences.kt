@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.DoneAll
@@ -36,7 +38,10 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +55,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -92,20 +98,25 @@ import com.junkfood.seal.util.NOTIFICATION
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PRIVATE_MODE
+import com.junkfood.seal.util.PreferenceStrings.getUpdateIntervalText
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getLong
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
+import com.junkfood.seal.util.PreferenceUtil.updateLong
 import com.junkfood.seal.util.SPONSORBLOCK
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.ToastUtil
+import com.junkfood.seal.util.UpdateIntervalList
 import com.junkfood.seal.util.UpdateUtil
-import com.junkfood.seal.util.YT_DLP_VERSION
+import com.junkfood.seal.util.YT_DLP_AUTO_UPDATE
 import com.junkfood.seal.util.YT_DLP_NIGHTLY
 import com.junkfood.seal.util.YT_DLP_STABLE
-import com.junkfood.seal.util.YT_DLP_AUTO_UPDATE
 import com.junkfood.seal.util.YT_DLP_UPDATE_CHANNEL
+import com.junkfood.seal.util.YT_DLP_UPDATE_INTERVAL
+import com.junkfood.seal.util.YT_DLP_VERSION
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -422,12 +433,15 @@ fun GeneralDownloadPreferences(
     if (showYtdlpDialog) {
         var ytdlpUpdateChannel by YT_DLP_UPDATE_CHANNEL.intState
         var ytdlpAutoUpdate by YT_DLP_AUTO_UPDATE.booleanState
+        var updateInterval by remember { mutableLongStateOf(YT_DLP_UPDATE_INTERVAL.getLong()) }
+
         SealDialog(
             onDismissRequest = { showYtdlpDialog = false },
             confirmButton = {
                 ConfirmButton {
                     YT_DLP_AUTO_UPDATE.updateBoolean(ytdlpAutoUpdate)
                     YT_DLP_UPDATE_CHANNEL.updateInt(ytdlpUpdateChannel)
+                    YT_DLP_UPDATE_INTERVAL.updateLong(updateInterval)
                     showYtdlpDialog = false
                 }
             },
@@ -447,9 +461,7 @@ fun GeneralDownloadPreferences(
                                 .fillMaxWidth()
                                 .padding(horizontal = 24.dp)
                                 .padding(top = 16.dp, bottom = 8.dp),
-                            color = MaterialTheme.colorScheme.run {
-                                if (ytdlpUpdateChannel == YT_DLP_NIGHTLY) tertiary else primary
-                            },
+                            color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.labelLarge
                         )
                     }
@@ -478,17 +490,52 @@ fun GeneralDownloadPreferences(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 24.dp)
-                                .padding(top = 16.dp, bottom = 8.dp),
+                                .padding(top = 16.dp, bottom = 16.dp),
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.labelLarge
                         )
                     }
                     item {
-                        DialogCheckBoxItem(
-                            text = stringResource(id = R.string.auto_update),
-                            checked = ytdlpAutoUpdate
-                        ) {
-                            ytdlpAutoUpdate = !ytdlpAutoUpdate
+                        var expanded by remember { mutableStateOf(false) }
+
+                        ExposedDropdownMenuBox(
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            expanded = expanded,
+                            onExpandedChange = { expanded = it }) {
+                            OutlinedTextField(
+                                value = if (!ytdlpAutoUpdate) stringResource(id = R.string.disabled)
+                                else getUpdateIntervalText(updateInterval),
+                                onValueChange = {},
+                                label = { Text(text = stringResource(id = R.string.auto_update)) },
+                                readOnly = true,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .menuAnchor(),
+                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                                },
+                            )
+                            ExposedDropdownMenu(
+                                modifier = Modifier.verticalScroll(rememberScrollState()),
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(id = R.string.disabled)) },
+                                    onClick = {
+                                        ytdlpAutoUpdate = false
+                                        expanded = false
+                                    })
+                                for ((interval, stringId) in UpdateIntervalList) {
+                                    DropdownMenuItem(
+                                        text = { Text(text = stringResource(id = stringId)) },
+                                        onClick = {
+                                            ytdlpAutoUpdate = true
+                                            updateInterval = interval
+                                            expanded = false
+                                        })
+                                }
+                            }
                         }
                     }
                 }

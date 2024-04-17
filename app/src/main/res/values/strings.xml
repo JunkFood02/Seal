@@ -448,6 +448,9 @@
     <string name="remux_container_mkv">Remux video container</string>
     <string name="remux_container_mkv_desc">Remux videos into MKV container for better compatibility</string>
     <string name="cookies_in_database">%1$d cookies from %2$d websites in total</string>
+    <string name="every_day">Every day</string>
+    <string name="every_week">Every week</string>
+    <string name="every_month">Every month</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
