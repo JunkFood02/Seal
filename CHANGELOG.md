@@ -9,9 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
+## [v1.12.0][1.12.0] - 2024-04-17
+
+### Added
+
+* Add/removal animation for download history
+* Add auto update interval for yt-dlp
+* Cookies page now shows the current count of cookies stored in the database
+
+### Fixed
+
+* Intercept non-HTTP(s) URLs opened in WebView
+* Videos are remuxed to mkv evem when download subtitle is disabled
+* Use MD2 ModalBottomSheetLayout in devices on API < 30
+* Block downloads when updating yt-dlp
+
+### Known issues
+
+* TextFields(IME) fallback to plain character mode when showing a ModalBottomSheet
+* yt-dlp might be broken if you tried to download something while it was
+  updating (`bad local file header`). To fix it, you just need to update yt-dlp again
+
 ## [v1.12.0][1.12.0] - 2024-04-05
 
 ### Added
+
 * Search from download history
 * Search from subtitles in format selection page
 * Export download history to file/clipboard
@@ -25,8 +47,8 @@ Under development, please stay tuned!
 * Add splash screen
 * Haptic feedback BZZZTT!!1!
 
-
 ### Changed
+
 * Long pressing on an item in download history now selects it
 * Use nightly builds for yt-dlp by default
 * Migrate `Slider` & `ProgressIndicator` to the new visual styles in MD3
@@ -35,66 +57,79 @@ Under development, please stay tuned!
 * A few UI changes that I forgot
 
 ### Fixed
+
 * Fix a permission issue when using Seal in a different user profile or private space
 * Fix an issue where the text cannot be copied in the menu of the download history
 * Display approximate file size for formats when there's no exact value available
 * Fix an issue causes app to crash when the selected template is not available
-* Custom command now ignore empty URLs, which means you can insert URLs along with arguments in command templates
+* Custom command now ignore empty URLs, which means you can insert URLs along with arguments in
+  command templates
 * Fix an issue where some formats may be unavailable when downloading playlists
 
 ### Known issues
+
 * TextFields(IME) fallback to plain character mode when showing a ModalBottomSheet
 * ModalBottomSheet handles insets incorrectly on devices below API 30
 
 ## [v1.11.3][1.11.3] - 2024-01-22
 
 ### Added
+
 * Merge multiple audio streams into a single file
 * Allow downloading with cellular network temporarily
 
 ### Fixed
+
 * App creates duplicated command templates on initialization
 * Cannot make video clip in FormatPage
 
-
 ## [v1.11.2][1.11.2] - 2024-01-06
+
 ### Added
+
 * Keep subtitles files after embedding into videos
 * Force all connections via ipv4
 * Prefer vp9.2 if av1 hardware decoding unavailable
 * Add system locale settings for Android 13+
 
 ### Fixed
+
 * User agent gets enabled when refreshing cookies
 * Restrict filenames not working in custom commands
 
 ### Changed
+
 * Transition animation should look more smooth now
 
 ## [v1.11.1][1.11.1] - 2023-12-16
 
 ### Added
+
 * Add `--restrict-filenames` option in yt-dlp
 * Add playlist title as an option for subdirectory
 * Add more thanks to sponsors
 
 ### Fixed
+
 * Fix some minor UI bugs
-* Fix an issue causing error when parsing video info 
+* Fix an issue causing error when parsing video info
 
 ## [v1.11.0][1.11.0] - 2023-11-18
 
 ### Added
+
 * Custom output template (`-o` option in yt-dlp)
 * Export cookies to a text file
 * Make embed metadata in audio files optional
 * Add the ability to record download archive, and skip duplicate downloads
 * Add cancel button to the download page
 * Add input chips for sponsorblock categories
-* Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle selection
+* Add subtitle selection dialog in format page, make auto-translated subtitles available in subtitle
+  selection
 * Add more thanks to sponsors
 
 ### Changed
+
 * Move the directory for storing temporary files to external storage (`Seal/tmp`)
 * Change the default output template to `%(title)s.%(ext)s`
 * Temporary directory now are enabled by default for downloads in general mode
@@ -102,13 +137,14 @@ Under development, please stay tuned!
 * Download subtitles are now available when downloading audio files
 * `android:enableOnBackInvokedCallback` is changed to `false` due to compatibility issues
 
-
 ### Fixed
+
 * Fix an issue causes sharing videos to fail on certain devices
 * Fix an issue causes uploader marked as null, make uploader_id as a fallback to uploader
 * Fix an issue when a user performs multiple clicks causing duplicate navigating behaviors
 
 ### Removed
+
 * Custom prefix for output template has been removed, please migrate to custom output template
 
 ## [v1.10.0][1.10.0] - 2023-08-30
