@@ -645,6 +645,8 @@ fun VideoListPage(
                         exportLauncher.launch(BackupUtil.getDownloadHistoryExportFilename(context = context))
                     }
                 }
+                view.slightHapticFeedback()
+                showExportDialog = false
             }
         }
     }
@@ -678,6 +680,7 @@ fun VideoListPage(
                     }
                 }
             }
+            view.slightHapticFeedback()
             showImportDialog = false
         }
     }
