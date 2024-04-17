@@ -9,7 +9,7 @@ import java.util.Locale
 
 
 @Composable
-@Deprecated("See Locale.toDisplayName()")
+@Deprecated(message = "See Locale.toDisplayName()", level = DeprecationLevel.HIDDEN)
 fun getLanguageDesc(language: Int): String {
     return stringResource(
         when (language) {
@@ -102,6 +102,7 @@ private const val THAI = 42
 private const val BENGALI = 43
 private const val KHMER = 44
 private const val KANNADA = 45
+private const val GREEK = 46
 
 val LocaleLanguageCodeMap =
     mapOf(
@@ -121,6 +122,7 @@ val LocaleLanguageCodeMap =
         Locale("fil") to FILIPINO,
         Locale("fr") to FRENCH,
         Locale("de") to GERMAN,
+        Locale("el") to GREEK,
         Locale("he") to HEBREW,
         Locale("hi") to HINDI,
         Locale("hu") to HUNGARIAN,
