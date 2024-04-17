@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Under development, please stay tuned!
 
-## [v1.12.0][1.12.0] - 2024-04-17
+## [v1.12.1][1.12.1] - 2024-04-17
 
 ### Added
 
@@ -355,3 +355,5 @@ Under development, please stay tuned!
 [1.11.3]: https://github.com/JunkFood02/Seal/releases/tag/v1.11.3
 
 [1.12.0]: https://github.com/JunkFood02/Seal/releases/tag/v1.12.0
+
+[1.12.1]: https://github.com/JunkFood02/Seal/releases/tag/v1.12.1
