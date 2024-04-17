@@ -1,7 +1,6 @@
 package com.junkfood.seal.ui.page.videolist
 
 import VideoStreamSVG
-import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,11 +19,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ExperimentalMaterialApi
@@ -77,7 +75,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
@@ -140,7 +137,8 @@ private const val TAG = "VideoListPage"
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun VideoListPage(
-    viewModel: VideoListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), onNavigateBack: () -> Unit
+    viewModel: VideoListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    onNavigateBack: () -> Unit
 ) {
     val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val fullVideoList by viewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
@@ -178,7 +176,7 @@ fun VideoListPage(
     var showExportDialog by remember { mutableStateOf(false) }
     var showImportDialog by remember { mutableStateOf(false) }
 
-    val lazyGridState = rememberLazyGridState()
+    val lazyListState = rememberLazyListState()
 
     @Composable
     fun FilterChips(modifier: Modifier = Modifier) {
@@ -316,7 +314,7 @@ fun VideoListPage(
                                     if (it) {
                                         scope.launch {
                                             delay(50)
-                                            lazyGridState.animateScrollToItem(0)
+                                            lazyListState.animateScrollToItem(0)
                                         }
                                     }
                                 },
@@ -459,13 +457,12 @@ fun VideoListPage(
             else -> 1
         }
         val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
-        LazyVerticalGrid(
+        LazyColumn(
             modifier = Modifier.padding(innerPadding),
-            columns = GridCells.Fixed(cellCount),
-            state = lazyGridState
+            state = lazyListState
         ) {
             if (fullVideoList.isNotEmpty()) {
-                item(span = span) {
+                item {
                     Column {
                         AnimatedVisibility(visible = viewState.isSearching) {
                             SealSearchBar(
@@ -484,7 +481,6 @@ fun VideoListPage(
                         )
                     }
                 }
-
             }
             for (info in videoList) {
 
@@ -493,6 +489,7 @@ fun VideoListPage(
                     contentType = { info.videoPath.contains(AUDIO_REGEX) }) {
                     with(info) {
                         AnimatedVisibility(
+                            modifier = Modifier.animateItem(),
                             visible = info.filterSort(viewState, filterSet),
                             exit = shrinkVertically() + fadeOut(),
                             enter = expandVertically() + fadeIn()

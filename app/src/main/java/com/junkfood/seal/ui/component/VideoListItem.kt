@@ -79,7 +79,7 @@ fun MediaListItem(
     val isAudio = videoPath.contains(Regex(AUDIO_REGEX))
     val imageWeight = when (LocalWindowWidthState.current) {
         WindowWidthSizeClass.Expanded -> {
-            if (isAudio) 0.30f else 0.55f
+            if (isAudio) 0.30f else 0.40f
         }
 
         WindowWidthSizeClass.Medium -> {
