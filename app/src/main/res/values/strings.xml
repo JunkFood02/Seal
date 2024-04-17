@@ -139,7 +139,7 @@
     <string name="translate_desc">Help translate this app on Hosted Weblate</string>
     <string name="prefix">Prefix</string>
     <string name="embed_subtitles">Embed subtitles</string>
-    <string name="embed_subtitles_desc">Embed provided subtitles into videos if available</string>
+    <string name="embed_subtitles_desc">Embed soft-subs into videos if available</string>
     <string name="new_template">New template</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Remove?</string>
@@ -240,7 +240,7 @@
     <string name="file_unavailable">This file is no longer available</string>
     <string name="network">Network</string>
     <string name="rate_limit">Rate limit</string>
-    <string name="rate_limit_desc">Limit the maximum rate for downloads</string>
+    <string name="rate_limit_desc">Limit the maximum download speed</string>
     <string name="max_rate">Maximum rate</string>
     <string name="high_contrast">High contrast dark theme</string>
     <string name="invalid_input">Invalid input</string>
@@ -295,7 +295,7 @@
     <string name="show_logs">Show log</string>
     <string name="logs">Log</string>
     <string name="subtitle_sponsorblock">Subtitles may be mistimed when removing SponsorBlock segments.</string>
-    <string name="embed_subtitles_mkv_msg">To embed subtitles, videos will be remuxed into mkv container. You can use VLC Media Player or other compatible apps to watch videos with embedded subtitles.</string>
+    <string name="embed_subtitles_mkv_msg">To embed soft subtitles, videos will be remuxed into mkv container. You can use VLC Media Player or other compatible apps to watch videos with soft subtitles.</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="share">Share</string>
