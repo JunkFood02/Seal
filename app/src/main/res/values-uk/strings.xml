@@ -34,7 +34,7 @@
     <string name="link_copied">Посилання скопiйовано до буфера обмiну</string>
     <string name="open_url">Відкрити посилання</string>
     <string name="remove">Вилучити</string>
-    <string name="delete_file">Видалити</string>
+    <string name="delete_file">Видалити файл</string>
     <string name="about">Про застосунок</string>
     <string name="about_page">Версія, зворотний зв\'язок та оновлення</string>
     <string name="back">Назад</string>
@@ -404,4 +404,5 @@
     <string name="full_backup">Повне резервне копіювання</string>
     <string name="export_download_history_msg">Експортування %1$s з історії завантажень. Завантажені файли і налаштування не будуть повернені.</string>
     <string name="download_archive_error">Відео було завантажено. Якщо це не очікувана поведінка, будь ласка, перевірте ваш архів завантаження.</string>
+    <string name="remux_container_mkv">Контейнер для відео Remux</string>
 </resources>

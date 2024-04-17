@@ -36,7 +36,7 @@
     <string name="delete_info_msg">Remover \"%1$s\" do seu histórico de descargas para sempre?</string>
     <string name="confirm">Confirmar</string>
     <string name="open_url">Abrir ligação</string>
-    <string name="delete_file">Eliminar</string>
+    <string name="delete_file">Eliminar ficheiro</string>
     <string name="about_page">Versão, feedback, atualização automática</string>
     <string name="dismiss">Cancelar</string>
     <string name="downloads_history">Descargas</string>
@@ -190,7 +190,7 @@
     <string name="network_settings_desc">Limite de velocidade, descarregador, cookies</string>
     <string name="disable_preview">Desativar a pré-visualização</string>
     <string name="private_directory_desc">Armazenar descargas num diretório oculto</string>
-    <string name="status_downloading">Descarregando</string>
+    <string name="status_downloading">A descarregar</string>
     <string name="multiselect_item_count">%1$d vídeo(s), %2$d ficheiro(s) áudio</string>
     <string name="delete_multiple_items_msg">Remover %1$d item(ns) do seu histórico de descargas para sempre?</string>
     <string name="disable_preview_desc">Não exibir miniaturas durante a descarga</string>
@@ -405,4 +405,5 @@
     <string name="download_archive_error">O vídeo foi descarregado. Se este não for o comportamento esperado, verifique o seu arquivo de descarga.</string>
     <string name="remux_container_mkv">Recipiente de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos para um recipiente MKV para uma melhor compatibilidade</string>
+    <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
 </resources>

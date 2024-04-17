@@ -82,7 +82,7 @@
     <string name="display_settings">Tema gelap, warna dinamis, bahasa</string>
     <string name="yt_dlp_docs">Referensi penggunaan yt-dlp</string>
     <string name="delete_info_msg">Hapus \"%1$s\" dari riwayat unduhan Anda untuk selamanya\?</string>
-    <string name="delete_file">Hapus</string>
+    <string name="delete_file">Hapus berkas</string>
     <string name="video">Video</string>
     <string name="checked">Terperiksa</string>
     <string name="credits">Kredit</string>
@@ -403,4 +403,5 @@
     <string name="download_archive_error">Video ini sudah diunduh. Jika ini bukan perilaku yang diharapkan, silakan periksa arsip unduhan Anda.</string>
     <string name="remux_container_mkv">Mux ulang kontainer video</string>
     <string name="remux_container_mkv_desc">Mux ulang video dalam kontainer MKV untuk kompatibilitas yang lebih baik</string>
+    <string name="cookies_in_database">%1$d kuki dari %2$d situs web keseluruhan</string>
 </resources>

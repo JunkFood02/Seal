@@ -403,4 +403,6 @@
     <string name="download_history_imported">Importado %1$s al historial de descargas</string>
     <string name="redownload">Descargar de nuevo</string>
     <string name="download_archive_error">El vídeo se ha descargado. Si este no es el comportamiento esperado, compruebe su archivo de descargas.</string>
+    <string name="remux_container_mkv">Contenedor de vídeo Remux</string>
+    <string name="remux_container_mkv_desc">Remezcla vídeos en contenedores MKV para mejorar la compatibilidad</string>
 </resources>

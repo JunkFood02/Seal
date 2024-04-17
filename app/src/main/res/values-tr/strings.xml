@@ -88,7 +88,7 @@
     <string name="remove">Kaldır</string>
     <string name="channel_name">İndir</string>
     <string name="link_copied">Bağlantı panoya kopyalandı</string>
-    <string name="delete_file">Sil</string>
+    <string name="delete_file">Dosyayı sil</string>
     <string name="credits_desc">Künye ve libre yazılımlar</string>
     <string name="print_details">Detaylı çıktı</string>
     <string name="convert_audio_format">Ses formatını dönüştür</string>
@@ -404,4 +404,5 @@
     <string name="download_archive_error">Video indirildi. Bu beklenen bir davranış değilse, lütfen indirme arşivinizi gözden geçirin.</string>
     <string name="remux_container_mkv">Yeniden düzenlenen video konteyneri</string>
     <string name="remux_container_mkv_desc">Daha iyi uyumluluk için videoları MKV konteynerine yeniden düzenleyin</string>
+    <string name="cookies_in_database">%1$d çerez (%2$d web sitesinden)</string>
 </resources>

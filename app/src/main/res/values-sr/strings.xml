@@ -56,7 +56,7 @@
     <string name="dismiss">Откажи</string>
     <string name="downloads_history">Преузимања</string>
     <string name="open_url">Отвори линк</string>
-    <string name="delete_file">Избриши</string>
+    <string name="delete_file">Избриши фајл</string>
     <string name="about_page">Верзија, повратне информације, аутоматско ажурирање</string>
     <string name="credits_desc">Кредити и слободни софтвер</string>
     <string name="custom_command">Прилагођена команда</string>
@@ -221,7 +221,7 @@
     <string name="how_does_it_work">Како то функционише\?</string>
     <string name="telegram_channel">Telegram канал</string>
     <string name="remove_cookie_profile_desc">Желите ли да уклоните овај унос за „%1$s“? Имајте на уму да колачићи сачувани за ову страницу неће бити обрисани.</string>
-    <string name="cookies_usage_msg">Преузимање с неких сајтова захтева информације о аутентификацији налога. Кликните на „Генериши нове колачиће“, унесите URL адресу веб-сајта, а затим се пријавите са својим налогом на страници у претраживачу и апликација ће их генерисати за вас.</string>
+    <string name="cookies_usage_msg">Преузимање с неких сајтова захтева информације о аутентификацији налога. Кликните на „Генериши нове колачиће“, унесите URL адресу веб-сајта, а затим се пријавите са својим налогом на страници у прегледачу и апликација ће их генерисати за вас.</string>
     <string name="cookies">Колачићи</string>
     <string name="matrix_space">Matrix простор</string>
     <string name="abs_hint">Већина платформи за стримовање видео снимака одвојено испоручује аудио и видео снимке, можете изабрати и спојити формат само за аудио снимак с форматом само за видео снимак, у један видео снимак.</string>
@@ -403,4 +403,7 @@
     <string name="download_history_imported">Увезен %1$s у историју преузимања</string>
     <string name="redownload">Поново преузми</string>
     <string name="download_archive_error">Видео снимак је преузет. Ако ово није очекивано понашање, проверите своју архиву преузимања.</string>
+    <string name="remux_container_mkv_desc">Пребаци видео снимке у MKV контејнер ради боље компатибилности</string>
+    <string name="remux_container_mkv">Пребаци контејнер видео снимка</string>
+    <string name="cookies_in_database">Укупно %1$d колачића са %2$d веб-сајтова</string>
 </resources>
