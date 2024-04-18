@@ -19,7 +19,7 @@ Under development, please stay tuned!
 ### Fixed
 
 * Intercept non-HTTP(s) URLs opened in WebView
-* Videos are remuxed to mkv evem when download subtitle is disabled
+* Videos are remuxed to mkv even when download subtitle is disabled
 * Use MD2 ModalBottomSheetLayout in devices on API < 30
 * Block downloads when updating yt-dlp
 
