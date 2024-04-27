@@ -122,7 +122,7 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
                             .clip(MaterialTheme.shapes.large)
                             .clickable { }
                             .clearAndSetSemantics { },
-                        color = MaterialTheme.colorScheme.surfaceContainer
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
                     ) {
                         val painter = rememberVectorPainter(image = DynamicColorImageVectors.coder())
                         Image(

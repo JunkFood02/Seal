@@ -126,7 +126,7 @@ fun PreferenceItem(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = if (icon == null && leadingIcon == null) 12.dp else 0.dp)
+                    .padding(horizontal = if (icon == null && leadingIcon == null) 8.dp else 0.dp)
                     .padding(end = 8.dp)
             ) {
                 PreferenceItemTitle(text = title, enabled = enabled)
@@ -343,28 +343,93 @@ fun PreferenceSwitchWithDividerPreview() {
 }
 
 @Composable
+fun rememberThumbContent(
+    isChecked: Boolean,
+    checkedIcon: ImageVector = Icons.Outlined.Check,
+): (@Composable () -> Unit)? = remember(isChecked, checkedIcon) {
+    if (isChecked) {
+        {
+            Icon(
+                imageVector = checkedIcon,
+                contentDescription = null,
+                modifier = Modifier.size(SwitchDefaults.IconSize),
+            )
+        }
+    } else {
+        null
+    }
+}
+
+@Composable
+fun PreferenceSwitchVariant(
+    title: String,
+    description: String? = null,
+    icon: ImageVector? = null,
+    enabled: Boolean = true,
+    isChecked: Boolean = true,
+    thumbContent: (@Composable () -> Unit)? = rememberThumbContent(isChecked = isChecked),
+    onClick: (() -> Unit) = {},
+) {
+
+    val interactionSource = remember { MutableInteractionSource() }
+    Surface(
+        modifier = Modifier.toggleable(
+            value = isChecked,
+            enabled = enabled,
+            onValueChange = { onClick() },
+            indication = LocalIndication.current,
+            interactionSource = interactionSource
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal.dp, vertical.dp)
+                .padding(start = if (icon == null) 12.dp else 0.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 16.dp)
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                PreferenceItemTitle(
+                    text = title, enabled = enabled
+                )
+                if (!description.isNullOrEmpty()) PreferenceItemDescription(
+                    text = description, enabled = enabled
+                )
+            }
+            Switch(
+                checked = isChecked,
+                onCheckedChange = null,
+                interactionSource = interactionSource,
+                modifier = Modifier.padding(start = 20.dp, end = 6.dp),
+                enabled = enabled,
+                thumbContent = thumbContent
+            )
+        }
+    }
+}
+
+@Composable
 fun PreferenceSwitch(
     title: String,
     description: String? = null,
     icon: ImageVector? = null,
     enabled: Boolean = true,
     isChecked: Boolean = true,
-    checkedIcon: ImageVector = Icons.Outlined.Check,
+    thumbContent: (@Composable () -> Unit)? = rememberThumbContent(isChecked = isChecked),
     onClick: (() -> Unit) = {},
 ) {
-    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
-        if (isChecked) {
-            {
-                Icon(
-                    imageVector = checkedIcon,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            null
-        }
-    }
 
     val interactionSource = remember { MutableInteractionSource() }
     Surface(
@@ -424,23 +489,10 @@ fun PreferenceSwitchWithDivider(
     enabled: Boolean = true,
     isSwitchEnabled: Boolean = enabled,
     isChecked: Boolean = true,
-    checkedIcon: ImageVector = Icons.Outlined.Check,
+    thumbContent: (@Composable () -> Unit)? = rememberThumbContent(isChecked = isChecked),
     onClick: (() -> Unit) = {},
     onChecked: () -> Unit = {}
 ) {
-    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
-        if (isChecked) {
-            {
-                Icon(
-                    imageVector = checkedIcon,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            null
-        }
-    }
 
     Surface(
         modifier = Modifier.clickable(
@@ -639,21 +691,9 @@ fun PreferenceSwitchWithContainer(
     title: String,
     icon: ImageVector? = null,
     isChecked: Boolean,
+    thumbContent: @Composable (() -> Unit)? = rememberThumbContent(isChecked = isChecked),
     onClick: () -> Unit,
 ) {
-    val thumbContent: (@Composable () -> Unit)? = remember(isChecked) {
-        if (isChecked) {
-            {
-                Icon(
-                    imageVector = Icons.Outlined.Check,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            null
-        }
-    }
 
     val interactionSource = remember { MutableInteractionSource() }
     Row(
@@ -691,7 +731,7 @@ fun PreferenceSwitchWithContainer(
             Text(
                 text = title,
                 maxLines = 2,
-                style = preferenceTitle,
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
