@@ -451,6 +451,7 @@
     <string name="every_day">Every day</string>
     <string name="every_week">Every week</string>
     <string name="every_month">Every month</string>
+    <string name="all_languages">All languages</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

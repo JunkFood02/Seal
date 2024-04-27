@@ -68,6 +68,10 @@ import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 private const val horizontal = 8
 private const val vertical = 12
 
+private val PreferenceTitleVariant: TextStyle
+    @Composable get() = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp)
+
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItem(
@@ -238,7 +242,7 @@ fun PreferenceSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 18.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
     onClick: () -> Unit
 ) {
     Surface(
@@ -260,7 +264,7 @@ fun PreferenceSingleChoiceItem(
                 Text(
                     text = text,
                     maxLines = 1,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    style = PreferenceTitleVariant,
                     color = MaterialTheme.colorScheme.onSurface,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -402,7 +406,9 @@ fun PreferenceSwitchVariant(
                 modifier = Modifier.weight(1f)
             ) {
                 PreferenceItemTitle(
-                    text = title, enabled = enabled
+                    text = title,
+                    enabled = enabled,
+                    style = PreferenceTitleVariant
                 )
                 if (!description.isNullOrEmpty()) PreferenceItemDescription(
                     text = description, enabled = enabled
@@ -589,7 +595,7 @@ fun PreferencesCautionCard(
                 Text(
                     text = title,
                     maxLines = 1,
-                    style = typography.titleLarge.copy(fontSize = 20.sp),
+                    style = PreferenceTitleVariant,
                     color = colorScheme.onErrorContainer.harmonizeWithPrimary()
                 )
                 if (description != null) Text(
@@ -657,7 +663,7 @@ fun PreferencesHintCard(
                 Text(
                     text = title,
                     maxLines = 1,
-                    style = typography.titleLarge.copy(fontSize = 20.sp),
+                    style = PreferenceTitleVariant,
                     color = contentColor
                 )
                 if (description != null) Text(
@@ -731,7 +737,7 @@ fun PreferenceSwitchWithContainer(
             Text(
                 text = title,
                 maxLines = 2,
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                style = PreferenceTitleVariant,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
@@ -882,15 +888,17 @@ fun TemplateItem(
 @Composable
 fun PreferenceSubtitle(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(start = 16.dp, top = 20.dp, bottom = 8.dp),
+    contentPadding: PaddingValues = PaddingValues(
+        start = 16.dp,
+        top = 20.dp,
+        bottom = 8.dp,
+    ),
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Text(
         text = text,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(contentPadding),
+        modifier = modifier.padding(contentPadding),
         color = color,
         style = MaterialTheme.typography.labelLarge
     )

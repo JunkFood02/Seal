@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowForwardIos
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -41,11 +42,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.HorizontalDivider
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
+import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.page.settings.about.weblate
 import com.junkfood.seal.ui.theme.SealTheme
@@ -70,6 +72,41 @@ fun LanguagePage(onNavigateBack: () -> Unit = {}) {
         Intent()
     }
 
+    val preferredLocales = remember {
+        val defaultLocaleListCompat = LocaleListCompat.getDefault()
+        val mLocaleSet = mutableSetOf<Locale>()
+
+        for (index in 0..defaultLocaleListCompat.size()) {
+            val locale = defaultLocaleListCompat[index]
+            if (locale != null) {
+                mLocaleSet.add(locale)
+            }
+        }
+
+        return@remember mLocaleSet
+    }
+
+    val supportedLocales = LocaleLanguageCodeMap.keys
+
+    val suggestedLocales = remember(preferredLocales) {
+        val localeSet = mutableSetOf<Locale>()
+
+        preferredLocales.forEach { desired ->
+            val matchedLocale = supportedLocales.firstOrNull { supported ->
+                LocaleListCompat.matchesLanguageAndScript(
+                    /* supported = */ desired, /* desired = */ supported
+                )
+            }
+            if (matchedLocale != null) {
+                localeSet.add(matchedLocale)
+            }
+        }
+
+        return@remember localeSet
+    }
+
+    val otherLocales = supportedLocales - suggestedLocales
+
     val isSystemLocaleSettingsAvailable =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.queryIntentActivities(
@@ -80,7 +117,8 @@ fun LanguagePage(onNavigateBack: () -> Unit = {}) {
         }
     LanguagePageImpl(
         onNavigateBack = onNavigateBack,
-        localeSet = LocaleLanguageCodeMap.keys,
+        suggestedLocales = suggestedLocales,
+        otherLocales = otherLocales,
         isSystemLocaleSettingsAvailable = isSystemLocaleSettingsAvailable,
         onNavigateToSystemLocaleSettings = {
             if (isSystemLocaleSettingsAvailable) {
@@ -98,7 +136,8 @@ fun LanguagePage(onNavigateBack: () -> Unit = {}) {
 @Composable
 private fun LanguagePageImpl(
     onNavigateBack: () -> Unit = {},
-    localeSet: Set<Locale>,
+    suggestedLocales: Set<Locale>,
+    otherLocales: Set<Locale>,
     isSystemLocaleSettingsAvailable: Boolean = false,
     onNavigateToSystemLocaleSettings: () -> Unit,
     selectedLocale: Locale,
@@ -128,9 +167,9 @@ private fun LanguagePageImpl(
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
+
             LazyColumn(
-                modifier = Modifier
-                    .padding(it)
+                modifier = Modifier.padding(it)
             ) {
                 item {
                     PreferencesHintCard(
@@ -141,24 +180,45 @@ private fun LanguagePageImpl(
                 }
 
 
-                item {
-                    PreferenceSingleChoiceItem(
-                        text = stringResource(id = R.string.follow_system),
-                        selected = !localeSet.contains(selectedLocale),
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
-                    ) { onLanguageSelected(null) }
+                if (suggestedLocales.isNotEmpty()) {
+
+                    item {
+                        PreferenceSubtitle(text = stringResource(id = R.string.suggested))
+                    }
+
+                    if (!suggestedLocales.contains(Locale.getDefault())) {
+                        item {
+                            PreferenceSingleChoiceItem(
+                                text = stringResource(id = R.string.follow_system),
+                                selected = !suggestedLocales.contains(selectedLocale),
+                            ) { onLanguageSelected(null) }
+                        }
+                    }
+
+                    for (locale in suggestedLocales) {
+                        item {
+                            PreferenceSingleChoiceItem(
+                                text = locale.toDisplayName(),
+                                selected = selectedLocale == locale,
+                            ) { onLanguageSelected(locale) }
+                        }
+                    }
+
                 }
 
-                for (locale in localeSet) {
+                item {
+                    PreferenceSubtitle(text = stringResource(id = R.string.all_languages))
+                }
+
+
+                for (locale in otherLocales) {
                     item {
                         PreferenceSingleChoiceItem(
                             text = locale.toDisplayName(),
                             selected = selectedLocale == locale,
-                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 18.dp)
                         ) { onLanguageSelected(locale) }
                     }
                 }
-
 
                 if (isSystemLocaleSettingsAvailable) {
                     item {
@@ -171,7 +231,7 @@ private fun LanguagePageImpl(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(PaddingValues(horizontal = 12.dp, vertical = 18.dp)),
+                                    .padding(PaddingValues(horizontal = 8.dp, vertical = 16.dp)),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Column(
@@ -208,10 +268,11 @@ private fun LanguagePagePreview() {
     var language by remember {
         mutableStateOf(Locale.JAPANESE)
     }
-    val map = setOf(Locale.forLanguageTag("zh"))
+    val map = setOf(Locale.forLanguageTag("en-US"))
     SealTheme {
         LanguagePageImpl(
-            localeSet = map,
+            suggestedLocales = map,
+            otherLocales = map + Locale.forLanguageTag("ja-JP"),
             isSystemLocaleSettingsAvailable = true,
             onNavigateToSystemLocaleSettings = { /*TODO*/ },
             selectedLocale = language
