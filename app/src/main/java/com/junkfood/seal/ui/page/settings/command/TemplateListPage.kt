@@ -30,6 +30,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -72,11 +73,10 @@ import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
 import com.junkfood.seal.ui.component.TemplateItem
-import com.junkfood.seal.ui.page.settings.about.ytdlpUrl
+import com.junkfood.seal.ui.page.settings.about.YtdlpRepository
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
@@ -407,7 +407,7 @@ fun TemplateListPage(onNavigateBack: () -> Unit, onNavigateToEditPage: (Int) -> 
         ) {
             TextButton(onClick = {
                 showHelpDialog = false
-                uriHandler.openUri(ytdlpUrl)
+                uriHandler.openUri(YtdlpRepository)
             }) {
                 Text(text = stringResource(id = R.string.learn_more))
             }

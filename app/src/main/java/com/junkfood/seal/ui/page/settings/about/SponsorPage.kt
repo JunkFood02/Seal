@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
@@ -23,11 +24,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.House
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.VolunteerActivism
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
@@ -63,7 +66,6 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.HorizontalDivider
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SponsorItem
@@ -92,10 +94,9 @@ private const val SUPPORTERS = "Supporters 💖"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DonatePage(onNavigateBack: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
+            canScroll = { true })
     val uriHandler = LocalUriHandler.current
     val sponsorList = remember { mutableStateListOf<SponsorShip>() }
     val backerList = remember { mutableStateListOf<SponsorShip>() }
@@ -136,27 +137,26 @@ fun DonatePage(onNavigateBack: () -> Unit) {
             }
         }
     }
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier,
-                        text = stringResource(id = R.string.sponsors),
-                    )
-                }, navigationIcon = {
-                    BackButton {
-                        onNavigateBack()
-                    }
-                }, scrollBehavior = scrollBehavior
+            LargeTopAppBar(title = {
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.sponsors),
+                )
+            }, navigationIcon = {
+                BackButton {
+                    onNavigateBack()
+                }
+            }, scrollBehavior = scrollBehavior
             )
-        }, content = {
+        },
+        content = { values ->
             LazyVerticalGrid(
                 modifier = Modifier
-                    .padding(it)
+                    .padding(values)
                     .padding(horizontal = 12.dp),
                 columns = GridCells.Fixed(12),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -164,18 +164,19 @@ fun DonatePage(onNavigateBack: () -> Unit) {
             ) {
 
                 if (supporterList.isNotEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }, key = SUPPORTERS
+                    ) {
                         PreferenceSubtitle(
-                            text = SUPPORTERS,
-                            contentPadding = PaddingValues(
-                                start = 12.dp,
-                                top = 24.dp,
-                                bottom = 12.dp
+                            text = SUPPORTERS, contentPadding = PaddingValues(
+                                start = 12.dp, top = 24.dp, bottom = 12.dp
                             )
                         )
                     }
 
-                    items(supporterList, span = { GridItemSpan(maxLineSpan / 3) }) { sponsorShip ->
+                    items(items = supporterList,
+                        span = { GridItemSpan(maxLineSpan / 3) },
+                        key = { it.sponsorEntity.login }) { sponsorShip ->
                         SponsorItem(sponsorShip = sponsorShip) {
                             onSponsorClick(sponsorShip)
                         }
@@ -183,18 +184,17 @@ fun DonatePage(onNavigateBack: () -> Unit) {
                 }
 
                 if (backerList.isNotEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
+                    item(span = { GridItemSpan(maxLineSpan) }, key = BACKERS) {
                         PreferenceSubtitle(
-                            text = BACKERS,
-                            contentPadding = PaddingValues(
-                                start = 12.dp,
-                                top = 12.dp,
-                                bottom = 12.dp
+                            text = BACKERS, contentPadding = PaddingValues(
+                                start = 12.dp, top = 12.dp, bottom = 12.dp
                             )
                         )
                     }
 
-                    items(backerList, span = { GridItemSpan(maxLineSpan / 3) }) { sponsorShip ->
+                    items(items = backerList,
+                        span = { GridItemSpan(maxLineSpan / 3) },
+                        key = { it.sponsorEntity.login }) { sponsorShip ->
                         SponsorItem(sponsorShip = sponsorShip) {
                             onSponsorClick(sponsorShip)
                         }
@@ -202,18 +202,17 @@ fun DonatePage(onNavigateBack: () -> Unit) {
                 }
 
                 if (sponsorList.isNotEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
+                    item(span = { GridItemSpan(maxLineSpan) }, key = SPONSORS) {
                         PreferenceSubtitle(
-                            text = SPONSORS,
-                            contentPadding = PaddingValues(
-                                start = 12.dp,
-                                top = 12.dp,
-                                bottom = 12.dp
+                            text = SPONSORS, contentPadding = PaddingValues(
+                                start = 12.dp, top = 12.dp, bottom = 12.dp
                             )
                         )
                     }
 
-                    items(sponsorList, span = { GridItemSpan(maxLineSpan / 4) }) { sponsorShip ->
+                    items(items = sponsorList,
+                        span = { GridItemSpan(maxLineSpan / 4) },
+                        key = { it.sponsorEntity.login }) { sponsorShip ->
                         SponsorItem(sponsorShip = sponsorShip) {
                             onSponsorClick(sponsorShip)
                         }
@@ -267,7 +266,7 @@ fun DonatePage(onNavigateBack: () -> Unit) {
                                 }
                             }
 
-                            FilledTonalButton(
+                            Button(
                                 onClick = {
                                     uriHandler.openUri("https://github.com/sponsors/JunkFood02")
                                 },
@@ -316,15 +315,15 @@ fun Conversation(modifier: Modifier = Modifier, text: String) {
             .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge
+            text = text, style = MaterialTheme.typography.bodyLarge
         )
     }
 }
 
 @Composable
-fun SponsorItem(sponsorShip: SponsorShip, onClick: () -> Unit) {
+fun LazyGridItemScope.SponsorItem(sponsorShip: SponsorShip, onClick: () -> Unit) {
     SponsorItem(
+        modifier = Modifier,
         userName = sponsorShip.sponsorEntity.name,
         userLogin = sponsorShip.sponsorEntity.login,
         onClick = onClick
@@ -335,30 +334,27 @@ fun SponsorItem(sponsorShip: SponsorShip, onClick: () -> Unit) {
 @Composable
 fun SponsorDialog(sponsorShip: SponsorShip, sheetState: SheetState, onDismissRequest: () -> Unit) {
     val amount = sponsorShip.tier?.monthlyPriceInDollars ?: 0
-    val tierText =
-        if (amount in 5 until 10) {
-            SPONSORS
-        } else if (amount in 10 until 25) {
-            BACKERS
-        } else if (amount > 25) {
-            SUPPORTERS
-        } else {
-            null
-        }
+    val tierText = if (amount in 5 until 10) {
+        SPONSORS
+    } else if (amount in 10 until 25) {
+        BACKERS
+    } else if (amount > 25) {
+        SUPPORTERS
+    } else {
+        null
+    }
 
     SealModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         horizontalPadding = PaddingValues(0.dp)
     ) {
-        SponsorDialogContent(
-            userLogin = sponsorShip.sponsorEntity.login,
+        SponsorDialogContent(userLogin = sponsorShip.sponsorEntity.login,
             userName = sponsorShip.sponsorEntity.name,
             avatarUrl = gitHubAvatar(sponsorShip.sponsorEntity.login),
             tierText = tierText,
             website = sponsorShip.sponsorEntity.websiteUrl,
-            socialLinks = sponsorShip.sponsorEntity.socialAccounts?.nodes?.map { it.url.toString() }
-        )
+            socialLinks = sponsorShip.sponsorEntity.socialAccounts?.nodes?.map { it.url.toString() })
     }
 }
 
@@ -457,30 +453,26 @@ private fun LinkItem(modifier: Modifier = Modifier, icon: ImageVector, link: Str
 @Composable
 private fun SponsorDialogContentPreview() {
 
-    val sponsorShip =
-        SponsorShip(
-            sponsorEntity = SponsorEntity(
-                "example",
-                "example",
-                "https://www.example.com",
-                socialAccounts = SocialAccounts(buildList {
-                    repeat(4) {
-                        add(SocialAccount(displayName = "Example", url = "https://www.example.com"))
-                    }
-                })
-            ),
-            tier = Tier(10)
-        )
+    val sponsorShip = SponsorShip(
+        sponsorEntity = SponsorEntity(
+            "example",
+            "example",
+            "https://www.example.com",
+            socialAccounts = SocialAccounts(buildList {
+                repeat(4) {
+                    add(SocialAccount(displayName = "Example", url = "https://www.example.com"))
+                }
+            })
+        ), tier = Tier(10)
+    )
 
     SealTheme {
         Surface {
-            SponsorDialogContent(
-                userLogin = sponsorShip.sponsorEntity.login,
+            SponsorDialogContent(userLogin = sponsorShip.sponsorEntity.login,
                 userName = sponsorShip.sponsorEntity.name,
                 avatarUrl = gitHubAvatar(sponsorShip.sponsorEntity.login),
                 website = sponsorShip.sponsorEntity.websiteUrl,
-                socialLinks = sponsorShip.sponsorEntity.socialAccounts?.nodes?.map { it.url.toString() }
-            )
+                socialLinks = sponsorShip.sponsorEntity.socialAccounts?.nodes?.map { it.url.toString() })
         }
     }
 
@@ -491,28 +483,23 @@ private fun SponsorDialogContentPreview() {
 @Composable
 private fun SponsorDialogPreview() {
     val density = LocalDensity.current
-    val sheetState =
-        remember {
-            SheetState(
-                skipPartiallyExpanded = true,
-                density = density,
-                initialValue = SheetValue.Expanded
-            )
-        }
-    val sponsorShip =
-        SponsorShip(
-            sponsorEntity = SponsorEntity(
-                "example",
-                "example",
-                "https://www.example.com",
-                socialAccounts = SocialAccounts(buildList {
-                    repeat(4) {
-                        add(SocialAccount(displayName = "Example", url = "https://www.example.com"))
-                    }
-                })
-            ),
-            tier = Tier(10)
+    val sheetState = remember {
+        SheetState(
+            skipPartiallyExpanded = true, density = density, initialValue = SheetValue.Expanded
         )
+    }
+    val sponsorShip = SponsorShip(
+        sponsorEntity = SponsorEntity(
+            "example",
+            "example",
+            "https://www.example.com",
+            socialAccounts = SocialAccounts(buildList {
+                repeat(4) {
+                    add(SocialAccount(displayName = "Example", url = "https://www.example.com"))
+                }
+            })
+        ), tier = Tier(10)
+    )
 
 
     SponsorDialog(sponsorShip = sponsorShip, onDismissRequest = {}, sheetState = sheetState)
