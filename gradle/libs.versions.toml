@@ -1,12 +1,12 @@
 [versions]
 accompanist = "0.34.0"
 androidGradlePlugin = "8.5.0-alpha06"
-androidxComposeBom = "2024.04.00-alpha01"
-androidxComposeCompiler = "1.5.11"
-androidxCore = "1.12.0"
+androidxComposeBom = "2024.04.00-alpha02"
+androidxComposeCompiler = "1.5.12"
+androidxCore = "1.13.0"
 androidMaterial = "1.11.0"
 androidxAppCompat = "1.7.0-alpha03"
-androidxActivity = "1.8.2"
+androidxActivity = "1.9.0"
 androidxSplashscreen = "1.0.1"
 
 androidxLifecycle = "2.7.0"
@@ -16,19 +16,15 @@ androidxComposeMaterial3 = "1.2.0-beta01"
 androidxComposeAnimation = "1.5.0-beta01"
 
 androidxEspresso = "3.5.0"
-androidxHiltNavigationCompose = "1.0.0"
-
-
 androidxTestExt = "1.1.4"
 
 
 coil = "2.5.0"
 hilt = "2.45"
-hiltExt = "1.0.0"
 
 junit4 = "4.13.2"
 kotlin = "1.9.23"
-kotlinxCoroutines = "1.7.1"
+kotlinxCoroutines = "1.8.0"
 kotlinxDatetime = "0.4.0"
 kotlinxSerializationJson = "1.6.2"
 okhttp = "5.0.0-alpha.10"
@@ -39,7 +35,6 @@ ksp = "1.9.23-1.0.19"
 youtubedlAndroid = "23b26d55f8"
 
 mmkv = "1.3.2"
-androidSvg = "1.4"
 [libraries]
 
 
@@ -52,13 +47,9 @@ androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", v
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 
-accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist" }
-accompanist-pager-layouts = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
-accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 
 #androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
@@ -80,10 +71,6 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
-caverock-androidsvg = { group = "com.caverock", name = "androidsvg-aar", version.ref = "androidSvg" }
-
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
-
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
@@ -92,10 +79,6 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 
 
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
@@ -123,7 +106,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-gradlePlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -131,11 +113,8 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 [bundles]
 accompanist = [
     "accompanist-permissions",
-#    "accompanist-systemuicontroller",
     "accompanist-webview",
-#    "accompanist-pager-layouts",
     "accompanist-pager-indicators",
-#    "accompanist-flowlayout"
 ]
 
 androidxCompose = ["androidx-compose-ui",
