@@ -44,6 +44,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -182,7 +183,7 @@ fun GeneralDownloadPreferences(
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            com.junkfood.seal.ui.component.LargeTopAppBar(
+            LargeTopAppBar(
                 title = { Text(text = stringResource(id = R.string.general_settings)) },
                 navigationIcon = {
                     BackButton { onNavigateBack() }

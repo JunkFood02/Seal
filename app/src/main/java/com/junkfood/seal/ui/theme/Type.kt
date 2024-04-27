@@ -38,9 +38,4 @@ private fun TextStyle.applyTextDirection(): TextStyle =
     this.copy(textDirection = TextDirection.Content)
 
 
-val preferenceTitle = TextStyle(
-    fontFamily = FontFamily.Default,
-    fontWeight = FontWeight.Normal,
-    fontSize = 20.sp, lineHeight = 24.sp,
-    lineBreak = LineBreak.Paragraph,
-)
+val preferenceTitle = Typography.titleMedium

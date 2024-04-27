@@ -39,7 +39,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 20.dp),
+                .padding(horizontal = 8.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {

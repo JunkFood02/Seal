@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.CreditItem
-import com.junkfood.seal.ui.component.LargeTopAppBar
+import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.coder
 

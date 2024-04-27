@@ -30,7 +30,9 @@ import androidx.compose.material.icons.rounded.VideoFile
 import androidx.compose.material.icons.rounded.ViewComfy
 import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,8 +51,6 @@ import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferencesHintCard
 import com.junkfood.seal.ui.component.SettingItem
-import com.junkfood.seal.ui.component.SettingTitle
-import com.junkfood.seal.ui.component.SmallTopAppBar
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
@@ -97,7 +97,7 @@ fun SettingsPage(
                 showBatteryHint = !pm.isIgnoringBatteryOptimizations(context.packageName)
             }
         }
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val showSponsorMessage by SHOW_SPONSOR_MSG.intState
 
@@ -109,18 +109,16 @@ fun SettingsPage(
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SmallTopAppBar(
-                titleText = stringResource(id = R.string.settings),
+            LargeTopAppBar(
+                title = { Text(text = stringResource(id = R.string.settings)) },
                 navigationIcon = { BackButton(onNavigateBack) },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                expandedHeight = TopAppBarDefaults.LargeAppBarExpandedHeight,
             )
         }) {
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
-            item {
-                SettingTitle(text = stringResource(id = R.string.settings))
-            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             ) {
                 item {

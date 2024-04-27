@@ -66,7 +66,7 @@ import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 
 private const val horizontal = 8
-private const val vertical = 16
+private const val vertical = 12
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -307,7 +307,7 @@ internal fun PreferenceItemDescription(
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
     Text(
-        modifier = modifier.padding(top = 2.dp),
+        modifier = modifier,
         text = text,
         maxLines = maxLines,
         style = style,
@@ -842,7 +842,7 @@ fun TemplateItem(
 @Composable
 fun PreferenceSubtitle(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(start = 20.dp, top = 24.dp, bottom = 12.dp),
+    contentPadding: PaddingValues = PaddingValues(start = 16.dp, top = 20.dp, bottom = 8.dp),
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {

@@ -82,7 +82,7 @@ import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
 import com.junkfood.seal.ui.component.HorizontalDivider
-import com.junkfood.seal.ui.component.LargeTopAppBar
+import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
