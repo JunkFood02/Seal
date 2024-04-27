@@ -61,7 +61,6 @@ import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.applyOpacity
 import com.junkfood.seal.ui.theme.harmonizeWithPrimary
-import com.junkfood.seal.ui.theme.preferenceTitle
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 
@@ -70,6 +69,9 @@ private const val vertical = 12
 
 private val PreferenceTitleVariant: TextStyle
     @Composable get() = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp)
+
+private val PreferenceTitle
+    @Composable get() = MaterialTheme.typography.titleMedium
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -259,7 +261,7 @@ fun PreferenceSingleChoiceItem(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 10.dp)
+                    .padding(start = 8.dp)
             ) {
                 Text(
                     text = text,
@@ -285,7 +287,7 @@ internal fun PreferenceItemTitle(
     modifier: Modifier = Modifier,
     text: String,
     maxLines: Int = 2,
-    style: TextStyle = preferenceTitle,
+    style: TextStyle = PreferenceTitle,
     enabled: Boolean,
     color: Color = MaterialTheme.colorScheme.onBackground,
     overflow: TextOverflow = TextOverflow.Ellipsis

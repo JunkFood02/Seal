@@ -36,6 +36,3 @@ val Typography =
 private fun TextStyle.applyLinebreak(): TextStyle = this.copy(lineBreak = LineBreak.Paragraph)
 private fun TextStyle.applyTextDirection(): TextStyle =
     this.copy(textDirection = TextDirection.Content)
-
-
-val preferenceTitle = Typography.titleMedium

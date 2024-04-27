@@ -237,7 +237,7 @@ private fun LanguagePageImpl(
                                 Column(
                                     modifier = Modifier
                                         .weight(1f)
-                                        .padding(start = 10.dp)
+                                        .padding(start = 8.dp)
                                 ) {
                                     Text(
                                         text = stringResource(R.string.system_settings),
