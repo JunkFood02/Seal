@@ -133,7 +133,7 @@
     <string name="translate">अनुवाद करें</string>
     <string name="prefix">पथ टेम्पलेट</string>
     <string name="embed_subtitles">सबटाइटल एम्बेड करें</string>
-    <string name="embed_subtitles_desc">उपलब्ध होने पर प्रदान किए सबटाइटल वीडियोज में एम्बेड करें</string>
+    <string name="embed_subtitles_desc">यदि उपलब्ध हो तो वीडियोज में सॉफ्ट सबटाइटल एम्बेड करें</string>
     <string name="new_template">नया टेम्पलेट</string>
     <string name="template_label">लेबल</string>
     <string name="remove_template">हटाना है\?</string>
@@ -207,7 +207,7 @@
     <string name="private_mode_desc">डाउनलोड इतिहास अक्षम करें</string>
     <string name="dynamic_color_desc">वॉलपेपर से ऐप थीम पर रंग लागू करें</string>
     <string name="download_with_cellular_desc">मीटर्ड नेटवर्क पर मीडिया को डाउनलोड करने की अनुमति दें</string>
-    <string name="rate_limit_desc">डाउनलोड के लिए अधिकतम दर सीमित करें</string>
+    <string name="rate_limit_desc">अधिकतम डाउनलोड गति सीमित करें</string>
     <string name="general_settings_desc">Yt-dlp वर्शन, सूचना, प्लेलिस्ट</string>
     <string name="disable_preview_desc">डाउनलोड के समय थंमनेल ना दिखाएं</string>
     <string name="download_selection_desc">प्लेलिस्ट \"%1$s\" से डाउनलोड करने के लिए वीडियो चुनें</string>
@@ -245,7 +245,7 @@
     <string name="auto_subtitle">स्वचालित कैप्शन</string>
     <string name="auto_subtitle_desc">स्वत: जनरेट किए गए कैप्शन डाउनलोड करें</string>
     <string name="logs">लॉग</string>
-    <string name="embed_subtitles_mkv_msg">सबटाइटल एम्बेड करने के लिए, वीडियो को एमकेवी कंटेनर में फिर से जोड़ा जाएगा। आप एम्बेडेड उपशीर्षक के साथ वीडियो देखने के लिए वीएलसी मीडिया प्लेयर या अन्य संगत ऐप्स का उपयोग कर सकते हैं।</string>
+    <string name="embed_subtitles_mkv_msg">साफ्ट सबटाइटल एम्बेड करने के लिए, वीडियो को एमकेवी कंटेनर में फिर से जोड़ा जाएगा। आप साफ्ट सबटाइटल के साथ वीडियो देखने के लिए वीएलसी मीडिया प्लेयर या अन्य संगत ऐप्स का उपयोग कर सकते हैं।</string>
     <string name="audio_format_preference">पसंदीदा ऑडियो प्रारूप</string>
     <string name="unlimited">असीमित</string>
     <string name="lowest_bitrate">सबसे कम बिटरेट</string>
@@ -404,4 +404,8 @@
     <string name="download_history_imported">डाउनलोड इतिहास के लिए %1$s आयात किया गया</string>
     <string name="remux_container_mkv">रीमक्स वीडियो कंटेनर</string>
     <string name="remux_container_mkv_desc">बेहतर अनुकूलता के लिए वीडियो को एमकेवी कंटेनर में रीमक्स करें</string>
+    <string name="cookies_in_database">कुल मिलाकर %2$d वेबसाइटों से %1$d कुकीज़</string>
+    <string name="every_day">हर दिन</string>
+    <string name="every_week">हर हफ्ते</string>
+    <string name="every_month">हर महीने</string>
 </resources>

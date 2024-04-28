@@ -191,7 +191,7 @@
     <string name="file_unavailable">Ce fichier n\'est plus disponible</string>
     <string name="network">Réseau</string>
     <string name="rate_limit">Limite de débit</string>
-    <string name="rate_limit_desc">Limiter le débit maximal des téléchargements</string>
+    <string name="rate_limit_desc">Limiter le débit maximal de téléchargement</string>
     <string name="max_rate">Débit maximal</string>
     <string name="high_contrast">Thème sombre à fort contraste</string>
     <string name="invalid_input">Entrée invalide</string>
@@ -402,4 +402,11 @@
     <string name="download_history">Historique des téléchargements</string>
     <string name="download_history_imported">Importation de %1$s dans l\'historique des téléchargements</string>
     <string name="redownload">Retélécharger</string>
+    <string name="look_and_feel">Regardez et ressentez</string>
+    <string name="cookies_in_database">%1$d cookies de %2$d sites web au total</string>
+    <string name="remux_container_mkv_desc">Remuxez les vidéos dans un conteneur MKV pour une meilleure compatibilité</string>
+    <string name="remux_container_mkv">Conteneur vidéo Remux</string>
+    <string name="every_day">Tous les jours</string>
+    <string name="every_week">Toutes les semaines</string>
+    <string name="every_month">Chaque mois</string>
 </resources>

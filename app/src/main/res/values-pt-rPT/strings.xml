@@ -18,10 +18,10 @@
     <string name="clear_download_archive">Limpar o arquivo de download?</string>
     <string name="clip_start">Início</string>
     <string name="max_rate">Taxa máxima</string>
-    <string name="embed_subtitles_desc">Incorporar as legendas fornecidas nos vídeos, se disponíveis</string>
+    <string name="embed_subtitles_desc">Incorporar legendas fornecidas nos vídeos, se disponíveis</string>
     <string name="close">Fechar</string>
     <string name="dynamic_color_desc">Aplicar cores dos papéis de parede ao tema da aplicação</string>
-    <string name="rate_limit_desc">Limitar a taxa máxima de descarregamentos</string>
+    <string name="rate_limit_desc">Limitar velocidade máxima de descarga</string>
     <string name="save">Guardar</string>
     <string name="print_details">Saída detalhada</string>
     <string name="user_guide">Guia do utilizador</string>
@@ -406,4 +406,7 @@
     <string name="remux_container_mkv">Recipiente de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos para um recipiente MKV para uma melhor compatibilidade</string>
     <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
+    <string name="every_month">Mensalmente</string>
+    <string name="every_day">Diariamente</string>
+    <string name="every_week">Semanalmente</string>
 </resources>

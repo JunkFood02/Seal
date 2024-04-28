@@ -404,4 +404,6 @@
     <string name="remux_container_mkv">Mux ulang kontainer video</string>
     <string name="remux_container_mkv_desc">Mux ulang video dalam kontainer MKV untuk kompatibilitas yang lebih baik</string>
     <string name="cookies_in_database">%1$d kuki dari %2$d situs web keseluruhan</string>
+    <string name="every_week">Setiap minggu</string>
+    <string name="every_month">Setiap bulan</string>
 </resources>

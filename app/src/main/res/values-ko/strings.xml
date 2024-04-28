@@ -403,4 +403,8 @@
     <string name="redownload">재다운로드</string>
     <string name="remux_container_mkv">비디오 컨테이너 리묵스</string>
     <string name="remux_container_mkv_desc">더 나은 호환성을 위해 비디오를 MKV 컨테이너로 리묵스하기</string>
+    <string name="every_week">매주</string>
+    <string name="every_month">매월</string>
+    <string name="every_day">매일</string>
+    <string name="cookies_in_database">%2$d개의 웹사이트의 총 %1$d개의 쿠키 저장 중</string>
 </resources>

@@ -25,7 +25,7 @@
     <string name="confirm">Potvrdi</string>
     <string name="dismiss">Odustani</string>
     <string name="downloads_history">Preuzimanja</string>
-    <string name="delete_file">Izbriši</string>
+    <string name="delete_file">Izbriši datoteku</string>
     <string name="about">O aplikaciji</string>
     <string name="about_page">Inačica, povratne informacije, automatsko ažuriranje</string>
     <string name="back">Natrag</string>
@@ -90,7 +90,7 @@
     <string name="battery_configuration_desc">Ignorirajte optimizaciju baterije kako bi aplikacija mogla preuzimati u pozadini</string>
     <string name="service_title">Seal preuzima…</string>
     <string name="unknown_error">Nepoznata greška</string>
-    <string name="translate_desc">Pomozite nam prevesti ovu aplikaciju pomoću Hosted Weblate</string>
+    <string name="translate_desc">Pomognite prevesti ovu aplikaciju pomoću Hosted Weblate</string>
     <string name="prefix">Predložak puta</string>
     <string name="embed_subtitles_desc">Ugradite ponuđene titlove u videozapise, ako su dostupni</string>
     <string name="new_template">Novi predložak</string>
@@ -202,7 +202,7 @@
     <string name="download_selection_desc">Odaberite videozapise koje želite preuzeti s popisa za reprodukciju „%1$s“</string>
     <string name="video_only">Video (bez zvuka)</string>
     <string name="generate_new_cookies">Generiraj nove kolačiće</string>
-    <string name="remove_cookie_profile_desc">Ukloniti kolačiće za „%1$s“?</string>
+    <string name="remove_cookie_profile_desc">Ukloniti kolačiće za „%1$s“? Spremljeni kolačići za ovu stranicu se neće izbrisati.</string>
     <string name="custom_command_enabled_hint">Neke opcije neće biti dostupne prilikom korištenja prilagođenih naredbi</string>
     <string name="format_selection_desc">Odaberite oblik datoteke prije preuzimanja</string>
     <string name="how_does_it_work">Kako to funkcionira\?</string>
@@ -227,7 +227,7 @@
     <string name="subtitle_sponsorblock">Titlovi mogu biti pogrešno tempirani nakon uklanjanja SponsorBlock segmenta.</string>
     <string name="max_rate">Maksimalna brzina</string>
     <string name="high_contrast">Tamna tema visokog kontrasta</string>
-    <string name="rate_limit_desc">Ograničite maksimalnu brzinu za preuzimanja</string>
+    <string name="rate_limit_desc">Ograničite maksimalnu brzinu preuzimanja</string>
     <string name="format_selection">Odabir oblika</string>
     <string name="use_cookies">Koristi kolačiće</string>
     <string name="cookies">Kolačići</string>
@@ -386,4 +386,25 @@
     <string name="update_subtitle_languages">Aktualizirati jezike titlova?</string>
     <string name="search">Traži</string>
     <string name="search_in_downloads">Traži u preuzimanjima</string>
+    <string name="clipboard">Međuspremnik</string>
+    <string name="import_from">Uvezi iz</string>
+    <string name="export_download_history_msg">Izvoz %1$s iz povijesti preuzimanja. Preuzete datoteke i postavke se neće sigurnosno kopirati.</string>
+    <string name="cookies_in_database">Ukupno %1$d kolačića od %2$d web stranica</string>
+    <string name="interface_and_interaction">Sučelje i interakcija</string>
+    <string name="export_backup">Izvezi</string>
+    <string name="import_backup">Uvezi</string>
+    <string name="full_backup">Potpuna sigurnosna kopija</string>
+    <string name="backup_type">Vrsta sigurnosne kopije</string>
+    <string name="export_to">Izvezi u</string>
+    <string name="file">Datoteka</string>
+    <string name="export_download_history">Izvesti povijest preuzimanja?</string>
+    <string name="import_download_history">Uvesti povijest preuzimanja?</string>
+    <string name="import_download_history_msg">Preuzete datoteke se neće uvesti. Morat ćete ih ponovo preuzeti ručno</string>
+    <string name="download_history">Povijest preuzimanja</string>
+    <string name="every_day">Svaki dan</string>
+    <string name="every_week">Svaki tjedan</string>
+    <string name="every_month">Svaki mjesec</string>
+    <string name="download_history_imported">%1$s uvezeno u povijest preuzimanja</string>
+    <string name="redownload">Preuzmi ponovo</string>
+    <string name="download_archive_error">Video je preuzet. Ako ovo nije očekivano ponašanje, provjeri svoju arhivu preuzimanja.</string>
 </resources>

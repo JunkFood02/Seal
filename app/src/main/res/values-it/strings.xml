@@ -401,4 +401,7 @@
     <string name="redownload">Riscarica</string>
     <string name="search_in_downloads">Cerca nei file scaricati</string>
     <string name="search">Cerca</string>
+    <string name="every_day">Ogni giorno</string>
+    <string name="every_week">Ogni settimana</string>
+    <string name="every_month">Ogni mese</string>
 </resources>

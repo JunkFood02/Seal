@@ -184,23 +184,25 @@
     <string name="use_cookies">Gumamit ng cookies</string>
     <string name="disable_preview_desc">Huwag i-display ang thumbnail habang nag da-download</string>
     <string name="generate_new_cookies">Gumawa ng bagong cookies</string>
-    <string name="sponsorblock_desc">Alisin ang mga segment mula sa mga video gamit ang SponsorBlock API</string>
+    <string name="sponsorblock_desc">Alisin o im-marka ang mga segment sa mga video gamit ang SponsorBlock API</string>
     <string name="app_update_failed">Nabigong i-update sa pinakabagong bersyon</string>
-    <string name="sponsorblock_categories_desc">Tukuyin ang mga kategorya ng SponsorBlock na aalisin sa video file</string>
+    <string name="sponsorblock_categories_desc">Tukuyin ang kategorya ng SponsorBlock na aalisin o i-marka sa video file</string>
     <string name="sponsorblock_categories">Mga kategorya ng SponsorBlock</string>
     <string name="check_for_updates_desc">Awtomatikong tingnan ang pinakabagong bersyon sa GitHub</string>
     <string name="check_for_updates">Tingnan kung may update</string>
     <string name="app_up_to_date">Ang bersyon na ito ay up to date</string>
     <string name="clear_temp_files">Tangalin ang Temporary files</string>
-    <string name="clear_temp_files_desc">Tanggalin ang lahat ng pansamantalang file mula sa panloob na direktoryo</string>
-    <string name="clear_temp_files_info">Maaaring gamitin ang mga pansamantalang file upang ipagpatuloy ang mga nakanselang pag-download. Sigurado ka bang tatanggalin ang lahat ng mga file na ito\?</string>
+    <string name="clear_temp_files_desc">Tanggalin ang lahat ng pansamantalang file mula sa pansamantalang direktoryo</string>
+    <string name="clear_temp_files_info">Maaaring gamitin ang pansamantalang mga file para magpatuloy sa mga nakanselong pag-download. Nais mo bang tanggalin ang lahat ng mga file na ito?
+\n
+\nMapupuntahan mo ang mga file na ito sa %1$s</string>
     <string name="multiselect_mode">Maramihang Pagpili</string>
     <string name="private_mode">Private mode</string>
     <string name="private_mode_desc">I-off ang download history</string>
     <string name="lowest_quality">Pinakamababang Quality</string>
     <string name="delete_multiple_items_msg">Tangalin %1$d aytem(s) mula sa iyong download history para sa kabutihan\?</string>
     <string name="network">Network</string>
-    <string name="remove_cookie_profile_desc">Tangalin ang cookies para sa\"%1$s\"?</string>
+    <string name="remove_cookie_profile_desc">Alisin ang entry na ito para sa \"%1$s\"? Mangyaring tandaan na ang mga cookies na naka-imbak para sa site na ito ay hindi matatanggal.</string>
     <string name="private_directory">Pribado na directory</string>
     <string name="private_directory_desc">Ilagay ang mga downloads sa isang nakatagong direktoryo</string>
     <string name="clear_temp_files_count">Tinanggal na ang %1$d temporary file(s)</string>
@@ -209,10 +211,22 @@
     <string name="update">Update</string>
     <string name="download_disabled_with_cellular">Ang pag-download gamit ang cellular network ay hindi pwede ayon sa iyong mga setting</string>
     <string name="download_with_cellular">I-download gamit ang cellular</string>
-    <string name="rate_limit_desc">Limitahan ang maximum na rate para sa mga download</string>
+    <string name="rate_limit_desc">Limitahan ang maksimum na bilis ng pag-download</string>
     <string name="enable_experimental_feature">I-on ang eksperimento feature\?</string>
     <string name="second">Segundo</string>
     <string name="minute">minuto</string>
     <string name="clear_all_cookies">Tangalin lahat ang mga Cookies</string>
     <string name="ytdlp_update_action">I-update ang yt-dlp</string>
+    <string name="invalid_input">Hindi wastong input</string>
+    <string name="suggested">Iminungkahi</string>
+    <string name="high_contrast">Madilim na tema na may mataas na kontrast</string>
+    <string name="dynamic_color">Dinamikong kulay</string>
+    <string name="format_selection_desc">Piliin ang format na i-download bago magsimula ang pag-download</string>
+    <string name="format_settings_desc">Pormat ng file, kalidad ng video, mga subtitles</string>
+    <string name="download_with_cellular_desc">Payagan ang pag-download ng media kapag nakakonekta sa mga metreng network</string>
+    <string name="dynamic_color_desc">Gumamit ng mga kulay mula sa mga wallpaper sa tema ng app</string>
+    <string name="general_settings_desc">Bersyon ng yt-dlp, abiso, playlist</string>
+    <string name="network_settings_desc">Limitahan ang dami, pampababa, mga cookies</string>
+    <string name="download_selection_desc">Pumili ng mga video na i-download mula sa playlist na \"%1$s\"</string>
+    <string name="selected_item_count">%1$d napili</string>
 </resources>
