@@ -171,6 +171,15 @@ android {
             dimension = "publishChannel"
             applicationIdSuffix = ".preview"
             resValue("string", "app_name", "Seal Preview")
+            splits {
+                abi {
+                    isEnable = true
+                    reset()
+                    //noinspection ChromeOsAbiSupport
+                    include("arm64-v8a")
+                    isUniversalApk = false
+                }
+            }
         }
     }
 
