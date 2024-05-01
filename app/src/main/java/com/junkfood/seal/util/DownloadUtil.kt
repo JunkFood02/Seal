@@ -137,43 +137,51 @@ object DownloadUtil {
 
     @CheckResult
     fun fetchVideoInfoFromUrl(
-        url: String, playlistItem: Int = 0, preferences: DownloadPreferences = DownloadPreferences()
-    ): Result<VideoInfo> = YoutubeDLRequest(url).apply {
-        preferences.run {
-            addOption("-o", BASENAME)
-            if (restrictFilenames) {
-                addOption("--restrict-filenames")
-            }
-            if (extractAudio) {
-                addOption("-x")
-            }
-            applyFormatSorter(preferences, toFormatSorter())
-            if (cookies) {
-                enableCookies(userAgentString)
-            }
-            if (proxy) {
-                enableProxy(proxyUrl)
-            }
-            if (forceIpv4) {
-                addOption("-4")
-            }
-            /*            if (debug) {
-                            addOption("-v")
-                        }*/
-            if (autoSubtitle) {
-                addOption("--write-auto-subs")
-                if (!autoTranslatedSubtitles) {
-                    addOption("--extractor-args", "youtube:skip=translated_subs")
+        url: String, playlistItem: Int = 0,
+        preferences: DownloadPreferences = DownloadPreferences()
+    ): Result<VideoInfo> {
+        with(preferences) {
+            val request = YoutubeDLRequest(url).apply {
+                addOption("-o", BASENAME)
+                if (restrictFilenames) {
+                    addOption("--restrict-filenames")
                 }
+                if (extractAudio) {
+                    addOption("-x")
+                }
+                applyFormatSorter(this@with, toFormatSorter())
+                if (cookies) {
+                    enableCookies(userAgentString)
+                }
+                if (proxy) {
+                    enableProxy(proxyUrl)
+                }
+                if (forceIpv4) {
+                    addOption("-4")
+                }
+                /*            if (debug) {
+                                addOption("-v")
+                            }*/
+                if (autoSubtitle) {
+                    addOption("--write-auto-subs")
+                    if (!autoTranslatedSubtitles) {
+                        addOption("--extractor-args", "youtube:skip=translated_subs")
+                    }
+                }
+
+                addOption("--dump-single-json")
+                addOption("-R", "1")
+                addOption("--no-playlist")
+                if (playlistItem != 0) {
+                    addOption("--playlist-items", playlistItem)
+                } else {
+                    addOption("--playlist-items", "1")
+                }
+                addOption("--socket-timeout", "5")
             }
+            return getVideoInfo(request)
         }
-        addOption("--dump-json")
-        addOption("-R", "1")
-        addOption("--no-playlist")
-        if (playlistItem != 0) addOption("--playlist-items", playlistItem)
-        else addOption("--playlist-items", "1")
-        addOption("--socket-timeout", "5")
-    }.run { getVideoInfo(this) }
+    }
 
     data class DownloadPreferences(
         val extractAudio: Boolean = PreferenceUtil.getValue(EXTRACT_AUDIO),
