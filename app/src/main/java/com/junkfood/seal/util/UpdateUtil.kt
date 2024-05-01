@@ -259,6 +259,7 @@ object UpdateUtil {
             val patch = matcher.group(3)?.toInt() ?: 0
             val buildNumber = matcher.group(6)?.toInt() ?: 0
             when (matcher.group(5)) {
+                "alpha" -> Version.Alpha(major, minor, patch, buildNumber)
                 "beta" -> Version.Beta(major, minor, patch, buildNumber)
                 "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
                 else -> Version.Stable(major, minor, patch)
@@ -283,24 +284,28 @@ object UpdateUtil {
         abstract fun toVersionName(): String
         abstract fun toNumber(): Long
 
-        class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
+        class Alpha(
+            versionMajor: Int = 0,
+            versionMinor: Int = 0,
+            versionPatch: Int = 0,
+            versionBuild: Int = 0
+        ) :
             Version(versionMajor, versionMinor, versionPatch, versionBuild) {
             override fun toVersionName(): String =
-                "${major}.${minor}.${patch}-beta.$build"
+                "${major}.${minor}.${patch}-alpha.$build"
 
             override fun toNumber(): Long =
                 major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
 
         }
 
-        class Stable(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
-            Version(versionMajor, versionMinor, versionPatch) {
+        class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
+            Version(versionMajor, versionMinor, versionPatch, versionBuild) {
             override fun toVersionName(): String =
-                "${major}.${minor}.${patch}"
+                "${major}.${minor}.${patch}-beta.$build"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 100
-            // Prioritize stable versions
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 25
 
         }
 
@@ -315,16 +320,17 @@ object UpdateUtil {
                 "${major}.${minor}.${patch}-rc.$build"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 25
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
         }
 
-        class Alpha(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
+        class Stable(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
             Version(versionMajor, versionMinor, versionPatch) {
             override fun toVersionName(): String =
-                "${major}.${minor}.${patch}-alpha.$build"
+                "${major}.${minor}.${patch}"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 99
+            // Prioritize stable versions
 
         }
 
