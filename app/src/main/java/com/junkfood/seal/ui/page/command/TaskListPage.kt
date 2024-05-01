@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.command
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Cancel
@@ -33,11 +35,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,20 +64,23 @@ import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
+import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.SealDialog
-import com.junkfood.seal.ui.component.SealModalBottomSheet
+import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.ui.component.TaskStatus
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.matchUrlFromString
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -90,7 +93,10 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = androidx.compose.material.rememberModalBottomSheetState(
+        skipHalfExpanded = true,
+        initialValue = ModalBottomSheetValue.Hidden
+    )
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -108,7 +114,11 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                showBottomSheet = true
+                scope.launch {
+                    showBottomSheet = true
+                    delay(50)
+                    sheetState.show()
+                }
             }, modifier = Modifier.padding(vertical = 18.dp, horizontal = 6.dp)) {
                 Icon(Icons.Outlined.Add, stringResource(id = R.string.new_task))
             }
@@ -141,7 +151,7 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
                         onShowLog = {
                             onNavigateToDetail(hashCode())
                         },
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItem()
                     )
                 }
             }
@@ -151,10 +161,13 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
         scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
     }
 
-    if (showBottomSheet) SealModalBottomSheet(
+    BackHandler(showBottomSheet) {
+        onDismissRequest()
+    }
+
+    if (showBottomSheet) SealModalBottomSheetM2(
         sheetState = sheetState,
-        onDismissRequest = onDismissRequest,
-        content = {
+        sheetContent = {
             val clipboardManager = LocalClipboardManager.current
 
             var showTemplateSelectionDialog by remember { mutableStateOf(false) }
@@ -170,7 +183,7 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
             var url by remember { mutableStateOf("") }
 
             LaunchedEffect(sheetState.targetValue) {
-                if (sheetState.targetValue == SheetValue.Expanded) url =
+                if (sheetState.targetValue == ModalBottomSheetValue.Expanded) url =
                     matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
 
             }
@@ -277,10 +290,17 @@ fun ColumnScope.TaskCreatorDialogContent(
     OutlinedTextField(
         value = url,
         onValueChange = onValueChange,
-        label = { Text(text = stringResource(id = R.string.video_url))},
+        label = { Text(text = stringResource(id = R.string.video_url)) },
         modifier = Modifier.fillMaxWidth(),
         minLines = 3,
         maxLines = 3,
+        trailingIcon = {
+            if (url.isNotEmpty()) {
+                ClearButton { onValueChange("") }
+            } else {
+                PasteFromClipBoardButton(onPaste = onValueChange)
+            }
+        },
         textStyle = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace)
     )
 
