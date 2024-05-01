@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -36,7 +37,7 @@ import com.junkfood.seal.util.WELCOME_DIALOG
 @Composable
 fun WelcomeDialog(onClick: () -> Unit) {
     var showWelcomeDialog by rememberSaveable {
-        mutableStateOf(WELCOME_DIALOG.getInt())
+        mutableIntStateOf(WELCOME_DIALOG.getInt())
     }
     var disableDialog by remember { mutableStateOf(false) }
     val onDismissRequest = {

@@ -9,6 +9,7 @@ import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
+import com.junkfood.seal.App.Companion.isDebugBuild
 import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CommandTemplate
@@ -257,7 +258,13 @@ object PreferenceUtil {
     fun isNetworkAvailableForDownload() =
         CELLULAR_DOWNLOAD.getBoolean() || !App.connectivityManager.isActiveNetworkMetered
 
-    fun isAutoUpdateEnabled() = AUTO_UPDATE.getBoolean(!isFDroidBuild())
+    fun isAutoUpdateEnabled(): Boolean {
+        return when {
+            isFDroidBuild() -> false
+            isDebugBuild() -> false
+            else -> AUTO_UPDATE.getBoolean()
+        }
+    }
 
     @DeprecatedSinceApi(api = 33)
     fun getLocaleFromPreference(): Locale? {

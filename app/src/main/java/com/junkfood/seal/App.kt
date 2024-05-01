@@ -197,6 +197,7 @@ class App : Application() {
         }
 
         fun isFDroidBuild(): Boolean = packageInfo.versionName.contains("F-Droid")
+        fun isDebugBuild(): Boolean = packageInfo.versionName.contains("debug", ignoreCase = true)
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
