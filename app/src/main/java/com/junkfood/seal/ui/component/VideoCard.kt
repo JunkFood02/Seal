@@ -156,7 +156,7 @@ fun VideoCard(
                 LinearProgressIndicator(
                     progress = { progressAnimationValue / 100f },
                     modifier = Modifier.fillMaxWidth(),
-                    drawStopIndicator = null
+                    drawStopIndicator = {}
                 )
         }
     }
