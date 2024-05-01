@@ -189,6 +189,12 @@ fun AboutPage(
                     ToastUtil.makeToast(R.string.info_copied)
                 }
             }
+            item {
+                PreferenceItem(title = "Package name", description = context.packageName) {
+                    clipboardManager.setText(AnnotatedString(context.packageName))
+                    ToastUtil.makeToast(R.string.info_copied)
+                }
+            }
         }
     })
 }
