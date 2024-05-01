@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.command
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,7 +62,6 @@ import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
-import com.junkfood.seal.ui.common.SVGImage
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ClearButton
@@ -76,11 +76,11 @@ import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.ui.component.TaskStatus
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
-import com.junkfood.seal.ui.svg.TaskSVG
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.matchUrlFromString
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -93,8 +93,10 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState =
-        androidx.compose.material.rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val sheetState = androidx.compose.material.rememberModalBottomSheetState(
+        skipHalfExpanded = true,
+        initialValue = ModalBottomSheetValue.Hidden
+    )
 
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -112,7 +114,11 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                showBottomSheet = true
+                scope.launch {
+                    showBottomSheet = true
+                    delay(50)
+                    sheetState.show()
+                }
             }, modifier = Modifier.padding(vertical = 18.dp, horizontal = 6.dp)) {
                 Icon(Icons.Outlined.Add, stringResource(id = R.string.new_task))
             }
@@ -145,41 +151,22 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
                         onShowLog = {
                             onNavigateToDetail(hashCode())
                         },
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItem()
                     )
                 }
             }
-        }
-        if (Downloader.mutableTaskList.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    SVGImage(
-                        SVGString = TaskSVG,
-                        contentDescription = null,
-                        modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.no_custom_command_tasks),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
         }
     }
     val onDismissRequest: () -> Unit = {
         scope.launch { sheetState.hide() }.invokeOnCompletion { showBottomSheet = false }
     }
 
+    BackHandler(showBottomSheet) {
+        onDismissRequest()
+    }
+
     if (showBottomSheet) SealModalBottomSheetM2(
         sheetState = sheetState,
-//        onDismissRequest = onDismissRequest,
         sheetContent = {
             val clipboardManager = LocalClipboardManager.current
 
@@ -198,6 +185,7 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
             LaunchedEffect(sheetState.targetValue) {
                 if (sheetState.targetValue == ModalBottomSheetValue.Expanded) url =
                     matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
+
             }
 
             Column(
@@ -306,15 +294,14 @@ fun ColumnScope.TaskCreatorDialogContent(
         modifier = Modifier.fillMaxWidth(),
         minLines = 3,
         maxLines = 3,
-        textStyle = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace),
         trailingIcon = {
             if (url.isNotEmpty()) {
                 ClearButton { onValueChange("") }
             } else {
                 PasteFromClipBoardButton(onPaste = onValueChange)
             }
-
-        }
+        },
+        textStyle = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace)
     )
 
 
