@@ -237,7 +237,10 @@ fun SuggestedFormatItem(
     selected: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    val requestedFormats = videoInfo.requestedFormats ?: emptyList()
+    val requestedFormats =
+        videoInfo.requestedFormats
+            ?: videoInfo.requestedDownloads?.map { it.toFormat() }
+            ?: emptyList()
     val duration = videoInfo.duration ?: 0.0
 
     val containsVideo = requestedFormats.any { it.vcodec.toEmpty().isNotEmpty() }

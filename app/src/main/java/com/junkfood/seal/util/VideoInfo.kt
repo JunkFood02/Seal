@@ -132,7 +132,28 @@ data class RequestedDownload(
     @SerialName("filesize") val fileSize: Double? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
     val filename: String? = null,
-)
+) {
+    fun toFormat(): Format = Format(
+        formatId = formatId,
+        formatNote = formatNote,
+        ext = ext,
+        acodec = acodec,
+        vcodec = vcodec,
+        url = url,
+        width = width,
+        height = height,
+        fps = fps,
+        audioExt = audioExt,
+        videoExt = videoExt,
+        format = format,
+        resolution = resolution,
+        vbr = vbr,
+        abr = abr,
+        tbr = tbr,
+        fileSize = fileSize,
+        fileSizeApprox = fileSizeApprox,
+    )
+}
 
 @Serializable
 data class PlaylistResult(
