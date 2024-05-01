@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -17,10 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import com.junkfood.seal.ui.common.LocalDarkTheme
-import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.download.DownloadSettingDialog
@@ -67,16 +64,11 @@ class QuickDownloadActivity : ComponentActivity() {
     }
 
     @OptIn(
-        ExperimentalMaterial3WindowSizeClassApi::class,
-        ExperimentalMaterial3Api::class
+        ExperimentalMaterial3WindowSizeClassApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
-            v.setPadding(0, 0, 0, 0)
-            insets
-        }
+        enableEdgeToEdge()
 
         window.run {
             setBackgroundDrawable(ColorDrawable(0))
@@ -91,11 +83,13 @@ class QuickDownloadActivity : ComponentActivity() {
             }
         }
         handleShareIntent(intent)
-        runBlocking {
-            if (Build.VERSION.SDK_INT < 33) {
+
+        if (Build.VERSION.SDK_INT < 33) {
+            runBlocking {
                 setLanguage(PreferenceUtil.getLocaleFromPreference())
             }
         }
+
         val isDialogEnabled = CONFIGURE.getBoolean()
 
         if (url.isEmpty()) {
@@ -115,7 +109,6 @@ class QuickDownloadActivity : ComponentActivity() {
                 SealTheme(
                     darkTheme = LocalDarkTheme.current.isDarkTheme(),
                     isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                    isDynamicColorEnabled = LocalDynamicColorSwitch.current,
                 ) {
 
 
