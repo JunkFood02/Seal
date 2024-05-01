@@ -100,7 +100,7 @@
     <string name="download_error_msg">Faylı yükləmək mümkün olmadı</string>
     <string name="ytdlp_version">Yt-dlp versiyası</string>
     <string name="audio">Səs</string>
-    <string name="delete_file">Sil</string>
+    <string name="delete_file">Faylı sil</string>
     <string name="about_page">Versiya, əks əlaqə, avtomatik yeniləmə</string>
     <string name="readme_desc">GitHub anbarı və README-ni yoxla</string>
     <string name="on">Aç</string>

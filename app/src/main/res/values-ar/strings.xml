@@ -132,7 +132,7 @@
     <string name="fetching_playlist_info">جارٍ جلبُ معلومات قائمة التشغيل …</string>
     <string name="prefix">قالب المسار</string>
     <string name="embed_subtitles">دمج الترجمة</string>
-    <string name="embed_subtitles_desc">اُدمج الترجمة المقدمة في الفيديوهات إذا كانت متوفرة</string>
+    <string name="embed_subtitles_desc">تضمين الترجمة المقدمة في الفيديوهات إذا كانت متوفرة</string>
     <string name="new_template">قالب جديد</string>
     <string name="template_label">اسم القالب</string>
     <string name="remove_template">حذف؟</string>
@@ -191,7 +191,7 @@
     <string name="network">شبكة</string>
     <string name="rate_limit">حدود المعدل</string>
     <string name="max_rate">أقصى معدل</string>
-    <string name="rate_limit_desc">تحديد الحد الأقصى لمعدل التنزيلات</string>
+    <string name="rate_limit_desc">تحديد الحد الأقصى لسرعة التنزيل</string>
     <string name="high_contrast">مظهر داكن عالي التباين</string>
     <string name="invalid_input">إدخال غير صالح</string>
     <string name="lowest_quality">أدنى جودة</string>
@@ -244,7 +244,7 @@
     <string name="subtitle">الترجمة</string>
     <string name="edit_shortcuts_desc">قم بتعديل الاختصارات المخصصة التي يمكن استخدامها لإنشاء قوالب الأوامر.</string>
     <string name="subtitle_sponsorblock">من الوارد ان يصبح توقيت الترجمة غير دقيق عند إزالة أجزاء ال SponsorBlock.</string>
-    <string name="embed_subtitles_mkv_msg">لتضمين الترجمات، سيتم إعادة صاغية مقاطع الفيديو في حاوية mkv. يمكنك استخدام مشغل VLC أو تطبيقات متوافقة أخرى لمشاهدة مقاطع الفيديو مع الترجمة المضمنة.</string>
+    <string name="embed_subtitles_mkv_msg">لتضمين الترجمات، سيتم إعادة صاغية مقاطع الفيديو بصيغة mkv. يمكنك استخدام مشغل VLC أو تطبيقات متوافقة أخرى لمشاهدة مقاطع الفيديو مع الترجمة المضمنة.</string>
     <string name="filesize_mb">%.2f م.ب</string>
     <string name="filesize_gb">%.2f ج.ب</string>
     <string name="share">شارك</string>
@@ -407,4 +407,8 @@
     <string name="search">البحث</string>
     <string name="remux_container_mkv_desc">تحويل صيغة الفيديوهات إلى MKV لتوافق أفضل</string>
     <string name="remux_container_mkv">ريمكس صيغة الفيديو</string>
+    <string name="cookies_in_database">"%1$d  ملفات تعربف إرتباط مخزنة لعدد  %2$d  موقع"</string>
+    <string name="every_day">كل يوم</string>
+    <string name="every_week">كل اسبوع</string>
+    <string name="every_month">كل شهر</string>
 </resources>

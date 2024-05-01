@@ -132,7 +132,7 @@
     <string name="fetching_info">Adquiriendo información del vídeo…</string>
     <string name="prefix">Plantilla de ruta</string>
     <string name="embed_subtitles">Agregar subtítulos</string>
-    <string name="embed_subtitles_desc">Incrustar los subtítulos proporcionados en los videos si están disponibles</string>
+    <string name="embed_subtitles_desc">Insertar subtítulos proporcionados en videos si están disponibles</string>
     <string name="new_template">Nueva plantilla</string>
     <string name="template_label">Etiqueta</string>
     <string name="remove_template">¿Eliminar\?</string>
@@ -189,7 +189,7 @@
     <string name="download_with_cellular_desc">Permitir la descarga de medios cuando se está conectado a redes de uso medido</string>
     <string name="download_disabled_with_cellular">La descarga con la red móvil está desactivada según tu configuración</string>
     <string name="file_unavailable">Este archivo ya no está disponible</string>
-    <string name="rate_limit_desc">Limita la cantidad de datos que se pueden usar para las descargas</string>
+    <string name="rate_limit_desc">Limitar la velocidad máxima de descarga</string>
     <string name="high_contrast">Tema de alto contraste (AMOLED)</string>
     <string name="network">Redes e Internet</string>
     <string name="rate_limit">Límite de uso de datos</string>
@@ -245,7 +245,7 @@
     <string name="logs">Registro</string>
     <string name="edit_shortcuts_desc">Edita los accesos directos a los argumentos que puedes usar para crear plantillas de comandos.</string>
     <string name="subtitle_sponsorblock">Los subtítulos pueden estar mal sincronizados cuando se eliminan segmentos del SponsorBlock.</string>
-    <string name="embed_subtitles_mkv_msg">Para insertar los subtítulos, los vídeos se remezclarán en un contenedor mkv. Puedes utilizar VLC Media Player u otras aplicaciones compatibles para ver los vídeos con los subtítulos añadidos.</string>
+    <string name="embed_subtitles_mkv_msg">Para insertar subtítulos suaves, los videos se remuxificarán en el contenedor mkv. Puede utilizar VLC Media Player u otras aplicaciones compatibles para ver vídeos con subtítulos suaves.</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="share">Compartir</string>
@@ -405,4 +405,8 @@
     <string name="download_archive_error">El vídeo se ha descargado. Si este no es el comportamiento esperado, compruebe su archivo de descargas.</string>
     <string name="remux_container_mkv">Contenedor de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remezcla vídeos en contenedores MKV para mejorar la compatibilidad</string>
+    <string name="every_day">A diario</string>
+    <string name="every_week">Semanalmente</string>
+    <string name="every_month">Mensual</string>
+    <string name="cookies_in_database">%1$d cookies de %2$d páginas web en total</string>
 </resources>

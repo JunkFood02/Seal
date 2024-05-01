@@ -110,7 +110,7 @@
     <string name="concurrent_download_num">%d fragmento(s) seriam usados para baixar vídeo nativo DASH/HLS simultaneamente.</string>
     <string name="permission_issue">Problema de permissão de armazenamento</string>
     <string name="translate">Traduzir</string>
-    <string name="battery_configuration_desc">Ignorar a \"Otimização da Bateria\" para este aplicativo fazer download em segundo plano</string>
+    <string name="battery_configuration_desc">Ignorar \"Otimização da Bateria\" para este aplicativo fazer download em segundo plano</string>
     <string name="unknown_error">Erro desconhecido</string>
     <string name="translate_desc">Ajude a traduzir este aplicativo em seu idioma usando Weblate</string>
     <string name="back">Voltar</string>
@@ -183,7 +183,7 @@
     <string name="sponsorblock_desc">Remover ou marcar segmentos em vídeos com a API SponsorBlock</string>
     <string name="high_contrast">Tema escuro de alto contraste</string>
     <string name="invalid_input">Entrada inválida</string>
-    <string name="lowest_quality">Qualidade mais baixa</string>
+    <string name="lowest_quality">Menor qualidade</string>
     <string name="private_mode">Anônimo</string>
     <string name="private_mode_desc">Faça o download sem adicionar no histórico</string>
     <string name="dynamic_color">Cor dinâmica</string>
@@ -191,7 +191,7 @@
     <string name="file_unavailable">Esse arquivo não está mais disponível</string>
     <string name="network">Rede</string>
     <string name="rate_limit">Limite de conexão</string>
-    <string name="rate_limit_desc">Limitar a taxa máxima de downloads</string>
+    <string name="rate_limit_desc">Limitar velocidade máxima de download</string>
     <string name="max_rate">Taxa máxima</string>
     <string name="unavailable">Indisponível</string>
     <string name="format_settings_desc">Formato, qualidade, legendas</string>
@@ -316,8 +316,8 @@
     <string name="folder_picker">Selecionar pasta</string>
     <string name="custom_command_directory_desc">Especifique o diretório de saída ao usar comandos personalizados</string>
     <string name="prefer_quality_desc">Preferir formatos AV1, VP9 ou H.265 para assistir em aplicativos compatíveis</string>
-    <string name="legacy">Antiga</string>
-    <string name="quality">Qualidade</string>
+    <string name="legacy">Legado</string>
+    <string name="quality">Melhor formato</string>
     <string name="enable_notifications">Ativar notificações\?</string>
     <string name="enable_notifications_desc">O aplicativo precisa da sua permissão para postar notificações sobre o status e o progresso do download.</string>
     <string name="prefer_compatibility_desc">Preferir formatos MP4(H.264) para compartilhar com outros aplicativos</string>
@@ -406,4 +406,7 @@
     <string name="remux_container_mkv">Contêiner de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos em contêiner MKV para melhor compatibilidade</string>
     <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
+    <string name="every_week">Semanalmente</string>
+    <string name="every_month">Mensalmente</string>
+    <string name="every_day">Diariamente</string>
 </resources>
