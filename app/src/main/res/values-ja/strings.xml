@@ -401,4 +401,7 @@
     <string name="import_download_history">ダウンロード履歴をインポートしますか？</string>
     <string name="export_download_history">ダウンロード履歴をエクスポートしますか？</string>
     <string name="redownload">再ダウンロード</string>
+    <string name="remux_container_mkv_desc">互換性改善のため動画をMKVコンテナへと再多重化</string>
+    <string name="remux_container_mkv">動画コンテナを再多重化</string>
+    <string name="cookies_in_database">%2$dのサイトから%1$d個のクッキーがあります</string>
 </resources>

@@ -150,7 +150,7 @@
     <string name="translate">Traduzir</string>
     <string name="prefix">Prefixo</string>
     <string name="embed_subtitles">Incorporar legendas</string>
-    <string name="embed_subtitles_desc">Incorporar as legendas fornecidas nos vídeos, se disponíveis</string>
+    <string name="embed_subtitles_desc">Incorporar legendas fornecidas nos vídeos, se disponíveis</string>
     <string name="new_template">Novo modelo</string>
     <string name="template_label">Rótulos</string>
     <string name="remove_template_desc">Remover \"%1$s\" dos modelos de comando para sempre\?</string>
@@ -217,7 +217,7 @@
     <string name="download_selection_desc">Selecionar vídeos a descarregar da lista de reprodução \"%1$s\"</string>
     <string name="rate_limit">Limite de taxa</string>
     <string name="sponsorblock_categories">Categorias de SponsorBlock</string>
-    <string name="rate_limit_desc">Limitar a taxa máxima de descargas</string>
+    <string name="rate_limit_desc">Limitar velocidade máxima de descarga</string>
     <string name="copy_error_report">Relatório de erro</string>
     <string name="video_resolution">Resolução de vídeo</string>
     <string name="check_for_updates">Verificar se há actualizações</string>
@@ -406,4 +406,7 @@
     <string name="remux_container_mkv">Recipiente de vídeo Remux</string>
     <string name="remux_container_mkv_desc">Remuxar vídeos para um recipiente MKV para uma melhor compatibilidade</string>
     <string name="cookies_in_database">%1$d cookies de %2$d sites no total</string>
+    <string name="every_day">Diariamente</string>
+    <string name="every_week">Semanalmente</string>
+    <string name="every_month">Mensalmente</string>
 </resources>

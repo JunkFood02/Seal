@@ -33,7 +33,7 @@
     <string name="downloading_indicator_text">Преузимање је у току…</string>
     <string name="task_canceled">Задатак преузимања је отказан</string>
     <string name="info_copied">Информације су копиране у привремену меморију</string>
-    <string name="status_enqueued">Додато у ред чекања</string>
+    <string name="status_enqueued">Стављено у редослед</string>
     <string name="status_canceled">Отказано</string>
     <string name="github_issue">GitHub пријава проблема</string>
     <string name="github_issue_desc">Пријавите проблем или пошаљите захтев за нову функцију</string>
@@ -245,7 +245,7 @@
     <string name="show_logs">Прикажи евиденцију</string>
     <string name="logs">Евиденција</string>
     <string name="subtitle_sponsorblock">Приликом уклањања SponsorBlock сегмената, титлови могу бити несинхронизовани.</string>
-    <string name="embed_subtitles_mkv_msg">Да би се уградили титлови, видео снимци ће бити пребачени у mkv контејнер. Можете користити VLC Media Player или друге компатибилне апликације за гледање видео снимака с уграђеним титловима.</string>
+    <string name="embed_subtitles_mkv_msg">Да би се уградили обезбеђени титлови, видео снимци ће бити пребачени у mkv контејнер. Можете користити VLC Media Player или друге компатибилне апликације за гледање видео снимака с обезбеђеним титловима.</string>
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="share">Дели</string>
@@ -406,4 +406,7 @@
     <string name="remux_container_mkv_desc">Пребаци видео снимке у MKV контејнер ради боље компатибилности</string>
     <string name="remux_container_mkv">Пребаци контејнер видео снимка</string>
     <string name="cookies_in_database">Укупно %1$d колачића са %2$d веб-сајтова</string>
+    <string name="every_day">Сваки дан</string>
+    <string name="every_week">Сваке недеље</string>
+    <string name="every_month">Сваког месеца</string>
 </resources>

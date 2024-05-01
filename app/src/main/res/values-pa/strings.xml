@@ -42,7 +42,7 @@
     <string name="link_copied">ਲਿੰਕ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ</string>
     <string name="open_url">ਲਿੰਕ ਖੋਲ੍ਹੋ</string>
     <string name="remove">ਹਟਾਓ</string>
-    <string name="delete_file">ਮਿਟਾਓ</string>
+    <string name="delete_file">ਫ਼ਾਈਲ ਮਿਟਾਓ</string>
     <string name="about">ਦੇ ਬਾਰੇ</string>
     <string name="about_page">ਸੰਸਕਰਣ, ਸੁਝਾਅ, ਆਟੋ-ਅੱਪਡੇਟ</string>
     <string name="back">ਵਾਪਸ</string>
@@ -155,14 +155,14 @@
     <string name="file_unavailable">ਇਹ ਫ਼ਾਈਲ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
     <string name="network">ਨੈੱਟਵਰਕ</string>
     <string name="rate_limit">ਦਰ ਸੀਮਾ</string>
-    <string name="rate_limit_desc">ਡਾਉਨਲੋਡਸ ਲਈ ਅਧਿਕਤਮ ਦਰ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
+    <string name="rate_limit_desc">ਅਧਿਕਤਮ ਡਾਊਨਲੋਡ ਸਪੀਡ ਨੂੰ ਸੀਮਤ ਕਰੋ</string>
     <string name="generate_new_cookies">ਨਵੀਆਂ ਕੁਕੀਜ਼ ਤਿਆਰ ਕਰੋ</string>
     <string name="video_only">ਵੀਡੀਓ (ਕੋਈ ਆਡੀਓ ਨਹੀਂ)</string>
     <string name="suggested">ਸੁਝਾਏ ਗਏ</string>
     <string name="format_selection">ਫਾਰਮੈਟ ਚੋਣ</string>
     <string name="format_selection_desc">ਡਾਊਨਲੋਡ ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਫਾਰਮੈਟ ਚੁਣੋ</string>
     <string name="subdirectory">ਸਬ-ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਹੇਜੋ</string>
-    <string name="embed_subtitles_desc">ਉਪਲਬਧ ਕੀਤੇ ਹੋਣ ਤਾਂ ਸਬਟਾਈਟਲਾਂ ਨੂੰ ਵੀਡੀਓ ਵਿੱਚ ਏਮਬੇਡ ਕਰੋ</string>
+    <string name="embed_subtitles_desc">ਜਦ ਉਪਲਬਧ ਹੋਣ ਤਾਂ ਸਾਫਟ ਸਬਟਾਈਟਲਾਂ ਨੂੰ ਵੀਡੀਓਜ਼ ਵਿੱਚ ਏਮਬੇਡ ਕਰੋ</string>
     <string name="remove_template_desc">ਕੀ ਚੰਗੇ ਲਈ ਕਮਾਂਡ ਟੈਮਪਲੇਟਸ ਤੋਂ \"%1$s\" ਨੂੰ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="custom_command_template_desc">ਕਮਾਂਡ ਟੈਂਪਲੇਟਸ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ ਅਤੇ ਪ੍ਰਬੰਧਿਤ ਕਰੋ</string>
     <string name="github_issue">ਗਿਟਹੱਬ ਮੁੱਦਾ</string>
@@ -245,7 +245,7 @@
     <string name="clear">ਸਾਫ ਕਰੋ</string>
     <string name="edit_shortcuts">ਸ਼ਾਰਟਕੱਟ ਸੋਧ</string>
     <string name="subtitle_sponsorblock">ਸਪਾਂਸਰ-ਬਲਾਕ ਖੰਡਾਂ ਨੂੰ ਹਟਾਉਂਦੇ ਸਮੇਂ ਸਬ-ਟਾਈਟਲ ਗਲਤ ਸਮੇਂ ਤੇ ਹੋ ਸਕਦੇ ਹਨ।</string>
-    <string name="embed_subtitles_mkv_msg">ਉਪਸਿਰਲੇਖਾਂ ਨੂੰ ਏਮਬੈਡ ਕਰਨ ਲਈ, ਵੀਡੀਓ ਨੂੰ mkv ਕੰਟੇਨਰ ਵਿੱਚ ਫਿਰ ਤੋਂ ਜੋੜਿਆ ਜਾਵੇਗਾ। ਤੁਸੀਂ VLC ਮੀਡੀਆ ਪਲੇਅਰ ਜਾਂ ਹੋਰ ਅਨੁਕੂਲ ਐਪਾਂ ਦੀ ਵਰਤੋਂ ਏਮਬੈਡਡ ਸਬਟਾਈਟਲਾਂ ਵਾਲੇ ਵੀਡੀਓ ਵੇਖਣ ਲਈ ਕਰ ਸਕਦੇ ਹੋ।</string>
+    <string name="embed_subtitles_mkv_msg">ਸਾਫ਼ਟ ਸਬਟਾਈਟਲਾਂ ਨੂੰ ਏਮਬੈਡ ਕਰਨ ਲਈ, ਵੀਡੀਓ ਨੂੰ mkv ਕੰਟੇਨਰ ਵਿੱਚ ਫਿਰ ਤੋਂ ਜੋੜਿਆ ਜਾਵੇਗਾ। ਤੁਸੀਂ VLC ਮੀਡੀਆ ਪਲੇਅਰ ਜਾਂ ਹੋਰ ਅਨੁਕੂਲ ਐਪਾਂ ਦੀ ਵਰਤੋਂ ਸਾਫ਼ਟ ਸਬਟਾਈਟਲਾਂ ਵਾਲੇ ਵੀਡੀਓ ਵੇਖਣ ਲਈ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <string name="audio_format_preference">ਤਰਜੀਹੀ ਆਡੀਓ ਫਾਰਮੈਟ</string>
     <string name="unlimited">ਅਸੀਮਤ</string>
     <string name="lowest_bitrate">ਸਭ ਤੋਂ ਘੱਟ ਬਿਟਰੇਟ</string>
@@ -402,4 +402,10 @@
     <string name="export_download_history_msg">ਡਾਊਨਲੋਡ ਇਤਿਹਾਸ ਤੋਂ %1$s ਨੂੰ ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ। ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਅਤੇ ਤਰਜੀਹਾਂ ਦਾ ਬੈਕਅੱਪ ਨਹੀਂ ਲਿਆ ਜਾਵੇਗਾ।</string>
     <string name="import_download_history_msg">ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੰਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾਵੇਗਾ। ਤੁਹਾਨੂੰ ਉਹਨਾਂ ਨੂੰ ਹੱਥੀਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਪਵੇਗੀ</string>
     <string name="download_archive_error">ਵੀਡੀਓ ਡਾਊਨਲੋਡ ਕਰ ਲਿਆ ਗਿਆ ਹੈ। ਜੇਕਰ ਅਜਿਹੇ ਵਿਵਹਾਰ ਉਮੀਦ ਮੁਤਾਬਿਕ ਨਹੀਂ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਡਾਊਨਲੋਡ ਆਰਕਾਈਵ ਵਿੱਚ ਜਾਂਚ ਕਰੋ।</string>
+    <string name="remux_container_mkv">Remux ਵੀਡੀਓ ਕੰਟੇਨਰ</string>
+    <string name="remux_container_mkv_desc">ਬਿਹਤਰ ਅਨੁਕੂਲਤਾ ਲਈ MKV ਕੰਟੇਨਰ ਵਿੱਚ ਵੀਡੀਓਜ਼ ਨੂੰ ਰੀਮਕਸ ਕਰੋ</string>
+    <string name="cookies_in_database">ਕੁੱਲ ਮਿਲਾ ਕੇ %2$d ਵੈੱਬਸਾਈਟਾਂ ਤੋਂ %1$d ਕੂਕੀਜ਼</string>
+    <string name="every_day">ਹਰ ਰੋਜ਼</string>
+    <string name="every_week">ਹਰ ਹਫ਼ਤੇ</string>
+    <string name="every_month">ਹਰ ਮਹੀਨੇ</string>
 </resources>

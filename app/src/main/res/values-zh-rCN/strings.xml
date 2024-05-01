@@ -133,7 +133,7 @@
     <string name="translate_desc">在 Weblate 上帮助我们翻译此应用</string>
     <string name="prefix">输出路径模板</string>
     <string name="embed_subtitles">封装字幕</string>
-    <string name="embed_subtitles_desc">将下载的字幕封装到视频文件中</string>
+    <string name="embed_subtitles_desc">如可用将软字幕嵌入到视频中</string>
     <string name="new_template">新建命令模板</string>
     <string name="template_label">模板标签</string>
     <string name="remove_template">移除？</string>
@@ -193,7 +193,7 @@
     <string name="file_unavailable">无法打开此文件，其可能已被移动或删除</string>
     <string name="network">网络</string>
     <string name="rate_limit">限速下载</string>
-    <string name="rate_limit_desc">限制下载时使用的最大速率</string>
+    <string name="rate_limit_desc">限制最大下载速度</string>
     <string name="max_rate">最高速率</string>
     <string name="high_contrast">高对比度深色主题</string>
     <string name="invalid_input">输入不合法</string>
@@ -246,7 +246,7 @@
     <string name="show_logs">显示日志</string>
     <string name="logs">日志</string>
     <string name="subtitle_sponsorblock">从视频中移除 SponsorBlock 段落会导致字幕时间轴错位。</string>
-    <string name="embed_subtitles_mkv_msg">字幕与视频会被重封装到 MKV 容器中；使用 VLC 播放器或其他兼容的应用以播放封装有字幕的视频文件。</string>
+    <string name="embed_subtitles_mkv_msg">为嵌入软字幕，视频将被封装到 MKV 容器中。你可以使用 VLC 播放器或其他兼容的应用播放内嵌软字幕的视频。</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="share">分享</string>
@@ -401,7 +401,10 @@
     <string name="redownload">重新下载</string>
     <string name="export_to">导出到</string>
     <string name="download_archive_error">此视频已被下载。如果这不是预期的行为，请检查你的下载存档。</string>
-    <string name="remux_container_mkv">复用视频容器</string>
-    <string name="remux_container_mkv_desc">复用视频至 MKV 容器，改进兼容性</string>
+    <string name="remux_container_mkv">视频封装容器</string>
+    <string name="remux_container_mkv_desc">封装视频至 MKV 容器，改进兼容性</string>
     <string name="cookies_in_database">共 %1$d 个 cookies，来自 %2$d 个站点</string>
+    <string name="every_day">每天</string>
+    <string name="every_week">每周</string>
+    <string name="every_month">每月</string>
 </resources>

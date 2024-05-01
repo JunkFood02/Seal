@@ -132,7 +132,7 @@
     <string name="translate_desc">Допомогти перекласти Seal на Weblate</string>
     <string name="prefix">Шаблон шляху</string>
     <string name="embed_subtitles">Вбудовані субтитри</string>
-    <string name="embed_subtitles_desc">Вставляйте надані субтитри у відео, якщо вони доступні</string>
+    <string name="embed_subtitles_desc">Вставляти м\'які субтитри у відео, якщо вони доступні</string>
     <string name="new_template">Новий шаблон</string>
     <string name="template_label">Позначка</string>
     <string name="remove_template">Видалити\?</string>
@@ -245,7 +245,7 @@
     <string name="edit_shortcuts_desc">Відредагувати власні комбінації клавіш, які можна використовувати для створення шаблонів команд.</string>
     <string name="logs">Лог</string>
     <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
-    <string name="embed_subtitles_mkv_msg">Для вбудовування субтитрів, відео буде перетворено у контейнер mkv. Ви зможете використати VLC Media Player або інші сумісні застосунки для перегляду.</string>
+    <string name="embed_subtitles_mkv_msg">Для вбудовування м\'яких субтитрів, відео буде перетворено у контейнер mkv. Ви зможете використати VLC Media Player або інші сумісні застосунки для перегляду.</string>
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="stable_channel">Стабільний</string>
@@ -405,4 +405,9 @@
     <string name="export_download_history_msg">Експортування %1$s з історії завантажень. Завантажені файли і налаштування не будуть повернені.</string>
     <string name="download_archive_error">Відео було завантажено. Якщо це не очікувана поведінка, будь ласка, перевірте ваш архів завантаження.</string>
     <string name="remux_container_mkv">Контейнер для відео Remux</string>
+    <string name="every_week">Щотижня</string>
+    <string name="every_month">Щомісяця</string>
+    <string name="remux_container_mkv_desc">Ремукс відео в контейнер MKV для кращої сумісності</string>
+    <string name="cookies_in_database">Всього %1$d файлів cookie з %2$d вебсайтів</string>
+    <string name="every_day">Щодня</string>
 </resources>
