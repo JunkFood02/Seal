@@ -49,10 +49,11 @@ sealed class Version(
     }
 }
 
-val currentVersion: Version = Version.Stable(
-    versionMajor = 1,
-    versionMinor = 12,
-    versionPatch = 1,
+val currentVersion: Version = Version.Alpha(
+    versionMajor = 2,
+    versionMinor = 0,
+    versionPatch = 0,
+    versionBuild = 1
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -85,7 +86,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 21
         targetSdk = 34
-        versionCode = 11210
+        versionCode = 20000
 
         if (splitApks) {
             splits {
@@ -156,6 +157,20 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             resValue("string", "app_name", "Seal Debug")
+        }
+    }
+
+    flavorDimensions += "publishChannel"
+
+    productFlavors {
+        create("generic") {
+            dimension = "publishChannel"
+        }
+
+        create("githubPreview") {
+            dimension = "publishChannel"
+            applicationIdSuffix = ".preview"
+            resValue("string", "app_name", "Seal Preview")
         }
     }
 
