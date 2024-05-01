@@ -170,6 +170,11 @@ fun PreferenceItemPreview() {
                     description = "description",
                     icon = Icons.Outlined.Update
                 )
+                PreferenceItemVariant(
+                    title = "title",
+                    description = "description",
+                    icon = Icons.Outlined.Update
+                )
             }
         }
     }
@@ -200,7 +205,7 @@ fun PreferenceItemVariant(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(12.dp, vertical.dp),
+                .padding(12.dp, 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {
@@ -219,19 +224,9 @@ fun PreferenceItemVariant(
                     .padding(horizontal = if (icon == null) 12.dp else 0.dp)
                     .padding(end = 8.dp)
             ) {
-                with(MaterialTheme) {
-                    Text(
-                        text = title,
-                        maxLines = 1,
-                        style = typography.titleMedium,
-                        color = colorScheme.onSurface.applyOpacity(enabled)
-                    )
-                    if (description != null) Text(
-                        text = description,
-                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                PreferenceItemTitle(text = title, enabled = enabled)
+                if (description != null) {
+                    PreferenceItemDescription(text = description, enabled = enabled)
                 }
             }
         }
