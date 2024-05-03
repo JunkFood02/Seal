@@ -168,15 +168,14 @@ object DownloadUtil {
                         addOption("--extractor-args", "youtube:skip=translated_subs")
                     }
                 }
-
-                addOption("--dump-single-json")
-                addOption("-R", "1")
-                addOption("--no-playlist")
                 if (playlistItem != 0) {
                     addOption("--playlist-items", playlistItem)
+                    addOption("--dump-json")
                 } else {
-                    addOption("--playlist-items", "1")
+                    addOption("--dump-single-json")
                 }
+                addOption("-R", "1")
+                addOption("--no-playlist")
                 addOption("--socket-timeout", "5")
             }
             return getVideoInfo(request)
