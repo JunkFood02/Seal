@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.page.download
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -35,7 +35,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -67,9 +66,7 @@ import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2
-import com.junkfood.seal.ui.component.SegmentedButtonValues
 import com.junkfood.seal.ui.component.SingleChoiceChip
-import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.command.TemplatePickerDialog
 import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
@@ -116,7 +113,40 @@ import kotlinx.coroutines.withContext
 
 
 private enum class DownloadType {
-    Audio, Video, Command, None
+    Audio, Video, Playlist, Command
+}
+
+@Composable
+private fun DownloadType.label(): String = stringResource(
+    when (this) {
+        DownloadType.Audio -> R.string.audio
+        DownloadType.Video -> R.string.video
+        DownloadType.Command -> R.string.commands
+        DownloadType.Playlist -> R.string.playlist
+    }
+)
+
+private fun DownloadType.updatePreference() {
+    when (this) {
+        DownloadType.Audio -> {
+            EXTRACT_AUDIO.updateBoolean(true)
+            CUSTOM_COMMAND.updateBoolean(false)
+        }
+
+        DownloadType.Video -> {
+            EXTRACT_AUDIO.updateBoolean(false)
+            CUSTOM_COMMAND.updateBoolean(false)
+        }
+
+        DownloadType.Command -> {
+            CUSTOM_COMMAND.updateBoolean(true)
+        }
+
+        DownloadType.Playlist -> {
+            PLAYLIST.updateBoolean(true)
+            CUSTOM_COMMAND.updateBoolean(false)
+        }
+    }
 }
 
 @OptIn(
@@ -134,7 +164,6 @@ fun DownloadSettingDialog(
 //    val audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
 
     var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
-    var playlist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
     var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
     var formatSelection by FORMAT_SELECTION.booleanState
     var videoFormatPreference by VIDEO_FORMAT.intState
@@ -142,7 +171,15 @@ fun DownloadSettingDialog(
     var cookies by COOKIES.booleanState
     var formatSorting by FORMAT_SORTING.booleanState
 
-    var type by remember(showDialog) {
+    val downloadTypes = remember(isQuickDownload) {
+        if (isQuickDownload) {
+            DownloadType.entries - DownloadType.Playlist
+        } else {
+            DownloadType.entries
+        }
+    }
+
+    var selectedType by remember(showDialog) {
         mutableStateOf(
             when (DOWNLOAD_TYPE_INITIALIZATION.getInt()) {
                 USE_PREVIOUS_SELECTION -> {
@@ -156,7 +193,7 @@ fun DownloadSettingDialog(
                 }
 
                 else -> {
-                    DownloadType.None
+                    null
                 }
             }
         )
@@ -198,96 +235,53 @@ fun DownloadSettingDialog(
         }
     }
 
-    LaunchedEffect(showDialog) {
-        if (showDialog) {
-
-        }
-    }
-
-    val updatePreferences = {
-        scope.launch {
-            PreferenceUtil.updateValue(EXTRACT_AUDIO, type == DownloadType.Audio)
-            PreferenceUtil.updateValue(THUMBNAIL, thumbnail)
-            PreferenceUtil.updateValue(CUSTOM_COMMAND, type == DownloadType.Command)
-            PreferenceUtil.updateValue(PLAYLIST, playlist)
-            PreferenceUtil.updateValue(SUBTITLE, subtitle)
-        }
-    }
-
     val downloadButtonCallback = {
-        updatePreferences()
         onDismissRequest()
         onDownloadConfirm()
     }
 
     val sheetContent: @Composable () -> Unit = {
         Column {
-            Text(
-                text = stringResource(R.string.settings_before_download_text),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-//                    .clickable { }
-            )
             DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
-            Row(
-                modifier = Modifier
-//                    .horizontalScroll(rememberScrollState())
 
-            ) {
-
-                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                    SingleChoiceSegmentedButton(
-                        text = stringResource(id = R.string.audio),
-                        selected = type == DownloadType.Audio,
-                        position = SegmentedButtonValues.START
+            LazyRow(modifier = Modifier.fillMaxWidth()) {
+                items(downloadTypes) { type ->
+                    SingleChoiceChip(
+                        selected = type == selectedType,
+                        label = type.label()
                     ) {
-                        type = DownloadType.Audio
-                        updatePreferences()
-                    }
-                    SingleChoiceSegmentedButton(
-                        text = stringResource(id = R.string.video),
-                        selected = type == DownloadType.Video
-                    ) {
-                        type = DownloadType.Video
-                        updatePreferences()
-                    }
-                    SingleChoiceSegmentedButton(
-                        text = stringResource(id = R.string.commands),
-                        selected = type == DownloadType.Command,
-                        position = SegmentedButtonValues.END
-                    ) {
-                        type = DownloadType.Command
-                        updatePreferences()
+                        selectedType = type
+                        type.updatePreference()
                     }
                 }
             }
+
             if (!isQuickDownload) {
                 DrawerSheetSubtitle(text = stringResource(id = R.string.format_selection))
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     SingleChoiceChip(
-                        selected = !formatSelection || playlist, onClick = {
+                        selected = !formatSelection || selectedType == DownloadType.Playlist,
+                        onClick = {
                             formatSelection = false
                             FORMAT_SELECTION.updateBoolean(false)
-                        }, enabled = type != DownloadType.Command,
+                        },
+                        enabled = selectedType != DownloadType.Command,
                         label = stringResource(id = R.string.auto)
                     )
                     SingleChoiceChip(
-                        selected = formatSelection && !playlist,
+                        selected = formatSelection && selectedType != DownloadType.Playlist,
                         onClick = {
                             formatSelection = true
                             FORMAT_SELECTION.updateBoolean(true)
                         },
-                        enabled = type != DownloadType.Command && !playlist,
+                        enabled = selectedType != DownloadType.Command && selectedType != DownloadType.Playlist,
                         label = stringResource(id = R.string.custom)
                     )
                 }
             }
 
-            DrawerSheetSubtitle(text = stringResource(id = if (type == DownloadType.Command) R.string.template_selection else R.string.format_preference))
-            AnimatedContent(targetState = type, label = "", transitionSpec = {
+            DrawerSheetSubtitle(text = stringResource(id = if (selectedType == DownloadType.Command) R.string.template_selection else R.string.format_preference))
+            AnimatedContent(targetState = selectedType, label = "", transitionSpec = {
                 (materialSharedAxisYIn(initialOffsetX = { it / 4 })).togetherWith(
                     fadeOut(tween(durationMillis = 80))
                 )
@@ -335,7 +329,7 @@ fun DownloadSettingDialog(
                                     onClick = {
                                         showVideoFormatDialog = true
                                     },
-                                    enabled = !formatSorting && type != DownloadType.None,
+                                    enabled = !formatSorting && type != null,
                                     label = PreferenceStrings.getVideoFormatLabel(
                                         videoFormatPreference
                                     ),
@@ -345,7 +339,7 @@ fun DownloadSettingDialog(
                                 ButtonChip(
                                     label = PreferenceStrings.getVideoResolutionDescComp(),
                                     icon = Icons.Outlined.HighQuality,
-                                    enabled = !formatSorting && type != DownloadType.None,
+                                    enabled = !formatSorting && type != null,
                                     iconDescription = stringResource(id = R.string.video_quality)
                                 ) {
                                     showVideoQualityDialog = true
@@ -355,7 +349,7 @@ fun DownloadSettingDialog(
                                 onClick = {
                                     showAudioSettingsDialog = true
                                 },
-                                enabled = !formatSorting && type != DownloadType.None,
+                                enabled = !formatSorting && type != null,
                                 label = stringResource(R.string.audio_format),
                                 icon = Icons.Outlined.AudioFile
                             )
@@ -394,11 +388,6 @@ fun DownloadSettingDialog(
 
             }
 
-            AnimatedVisibility(visible = type == DownloadType.Command) {
-
-
-            }
-
             DrawerSheetSubtitle(
                 text = stringResource(
                     R.string.additional_settings
@@ -424,33 +413,31 @@ fun DownloadSettingDialog(
                     FilterChip(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         selected = formatSorting,
-                        enabled = type != DownloadType.Command,
+                        enabled = selectedType != DownloadType.Command,
                         onClick = { showFormatSortingDialog = true },
                         label = {
                             Text(text = stringResource(id = R.string.format_sorting))
                         }
                     )
                 }
-                if (!isQuickDownload) {
-                    VideoFilterChip(
-                        selected = playlist, enabled = type != DownloadType.Command, onClick = {
-                            playlist = !playlist
-                            formatSelection = false
-                            updatePreferences()
-                        }, label = stringResource(R.string.download_playlist)
-                    )
-                }
+
                 VideoFilterChip(
-                    selected = subtitle, enabled = type != DownloadType.Command, onClick = {
+                    selected = subtitle,
+                    enabled = selectedType != DownloadType.Command,
+                    onClick = {
                         subtitle = !subtitle
-                        updatePreferences()
-                    }, label = stringResource(id = R.string.download_subtitles)
+                        SUBTITLE.updateBoolean(subtitle)
+                    },
+                    label = stringResource(id = R.string.download_subtitles)
                 )
                 VideoFilterChip(
-                    selected = thumbnail, enabled = type != DownloadType.Command, onClick = {
+                    selected = thumbnail,
+                    enabled = selectedType != DownloadType.Command,
+                    onClick = {
                         thumbnail = !thumbnail
-                        updatePreferences()
-                    }, label = stringResource(R.string.create_thumbnail)
+                        THUMBNAIL.updateBoolean(thumbnail)
+                    },
+                    label = stringResource(R.string.create_thumbnail)
                 )
             }
 
@@ -500,7 +487,7 @@ fun DownloadSettingDialog(
                             onClick = downloadButtonCallback,
                             icon = Icons.Outlined.DownloadDone,
                             text = stringResource(R.string.start_download),
-                            enabled = type != DownloadType.None
+                            enabled = selectedType != null
                         )
                     }
                 }

@@ -109,15 +109,14 @@ fun OutlinedButtonChip(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleChoiceChip(
     modifier: Modifier = Modifier,
     selected: Boolean,
     enabled: Boolean = true,
-    onClick: () -> Unit,
     label: String,
-    leadingIcon: ImageVector = Icons.Outlined.Check
+    leadingIcon: ImageVector = Icons.Outlined.Check,
+    onClick: () -> Unit,
 ) {
     FilterChip(
         modifier = modifier.padding(horizontal = 4.dp),
@@ -143,7 +142,6 @@ fun SingleChoiceChip(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoFilterChip(
     modifier: Modifier = Modifier,
