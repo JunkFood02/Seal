@@ -1,24 +1,28 @@
 package com.junkfood.seal.ui.page.downloadv2
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoInfo
+import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DownloadDialogViewModel : ViewModel() {
 
     sealed interface State {
         data object Hidden : State
         data object Configure : State
-        data object Loading : State
+        data class Loading(val taskKey: String, val job: Job) : State
         data class PlaylistSelection(val result: PlaylistResult) : State
         data class FormatSelection(val info: VideoInfo) : State
         data class Error(val throwable: Throwable) : State
@@ -30,7 +34,7 @@ class DownloadDialogViewModel : ViewModel() {
         data class FetchPlaylist(val url: String) : Action
         data object DownloadItemsWithPreset : Action
         data class FetchFormats(val url: String, val audioOnly: Boolean) : Action
-        data class DownloadWithInfo(val url: String, val info: VideoInfo) : Action
+        data class DownloadWithInfoAndConfiguration(val url: String, val info: VideoInfo) : Action
         data class DownloadWithPreset(val url: String, val audioOnly: Boolean) : Action
         data class RunCommand(val url: String, val template: CommandTemplate) : Action
         data object Cancel : Action
@@ -43,58 +47,78 @@ class DownloadDialogViewModel : ViewModel() {
     fun postAction(action: Action) {
         with(action) {
             when (this) {
-                is Action.FetchFormats -> fetchFormat(action = this)
+                is Action.FetchFormats -> fetchFormat(url = url)
                 is Action.FetchPlaylist -> fetchPlaylist(url = url)
-                is Action.DownloadWithPreset -> downloadWithPreset(url= url)
+                is Action.DownloadWithPreset -> downloadWithPreset(url = url)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.Hide -> hideDialog()
                 Action.Show -> showDialog()
                 Action.DownloadItemsWithPreset -> TODO()
-                is Action.DownloadWithInfo -> TODO()
+                is Action.DownloadWithInfoAndConfiguration -> TODO()
                 Action.Cancel -> TODO()
             }
         }
     }
 
     private fun fetchPlaylist(url: String) {
-        mStateFlow.update { State.Loading }
         // TODO: handle downloader state
-//        Downloader.updateState(Downloader.State.FetchingInfo)
         Downloader.clearErrorState()
 
-        // TODO: Make it cancellable
-        DownloadUtil.getPlaylistOrVideoInfo(playlistURL = url).onSuccess { info ->
-            when (info) {
-                is PlaylistResult -> {
-                    mStateFlow.update { State.PlaylistSelection(result = info) }
-                }
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            DownloadUtil.getPlaylistOrVideoInfo(playlistURL = url).onSuccess { info ->
+                withContext(Dispatchers.Main) {
+                    when (info) {
+                        is PlaylistResult -> {
+                            mStateFlow.update { State.PlaylistSelection(result = info) }
+                        }
 
-                is VideoInfo -> {
-                    mStateFlow.update { State.FormatSelection(info = info) }
+                        is VideoInfo -> {
+                            mStateFlow.update { State.FormatSelection(info = info) }
+                        }
+                    }
                 }
-            }
-        }.onFailure {
+            }.onFailure {
 //            Downloader.manageDownloadError(
 //                th = it, url = url, isFetchingInfo = true, isTaskAborted = true
 //            )
-            // TODO: Handle error state
+                // TODO: Handle error state
+            }
         }
+        mStateFlow.update { State.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
-    private fun fetchFormat(action: Action.FetchFormats) {
-        mStateFlow.update { State.Loading }
+    private fun fetchFormat(url: String) {
         // TODO: handle downloader state
 
-        DownloadUtil.fetchVideoInfoFromUrl(url = action.url).onSuccess { info ->
-            mStateFlow.update { State.FormatSelection(info = info) }
-        }.onFailure {
-            // TODO: Handle error state
+        Downloader.isDownloaderAvailable()
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess { info ->
+                withContext(Dispatchers.Main) {
+                    mStateFlow.update { State.FormatSelection(info = info) }
+                }
+            }.onFailure {
+                withContext(Dispatchers.Main) {
+                }
+                // TODO: Handle error state
+            }
         }
+
+        mStateFlow.update { State.Loading(taskKey = "FetchFormat_$url", job = job) }
+
 
     }
 
     private fun downloadWithPreset(url: String) {
         Downloader.getInfoAndDownload(url)
+    }
+
+    private fun downloadPlaylistItemsWithPreset(url: String) {
+
+    }
+
+    private fun downloadWithInfoAndConfiguration(info: VideoInfo) {
+
     }
 
     private fun runCommand(url: String, template: CommandTemplate) {
@@ -115,5 +139,20 @@ class DownloadDialogViewModel : ViewModel() {
         mStateFlow.update { State.Configure }
     }
 
+    private fun cancel(): Boolean {
+        val res = when (val state = state) {
+            is State.Loading -> {
+                state.job.cancel()
+                YoutubeDL.destroyProcessById(id = state.taskKey)
+            }
+
+            else -> false
+        }
+
+        if (res) {
+            mStateFlow.update { State.Configure }
+        }
+        return res
+    }
 
 }

@@ -12,19 +12,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
-import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,14 +48,13 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.ui.component.SegmentedButtonValues
-import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
+import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 
- enum class DownloadType {
+enum class DownloadType {
     Audio, Video, Playlist, Command
 }
 
@@ -110,30 +112,44 @@ fun DownloadDialogV2() {
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center
             )
+/*            DrawerSheetSubtitle(text = stringResource(id = R.string.video_url))
+
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier.fillMaxWidth(),
+                minLines = 1,
+                trailingIcon = { PasteButton() }
+            )*/
+
 
             var selectedType: DownloadType? by remember { mutableStateOf(DownloadType.Video) }
             DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
 
             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                SingleChoiceSegmentedButton(
-                    text = stringResource(id = R.string.audio),
+                SegmentedButton(
                     selected = selectedType == DownloadType.Audio,
-                    position = SegmentedButtonValues.START
+                    onClick = { selectedType = DownloadType.Audio },
+                    modifier = Modifier.height(36.dp),
+                    shape = SegmentedButtonDefaults.itemShape(0, 3)
                 ) {
-
+                    Text(text = stringResource(id = R.string.audio))
                 }
-                SingleChoiceSegmentedButton(
-                    text = stringResource(id = R.string.video),
-                    selected = selectedType == DownloadType.Video
+                SegmentedButton(
+                    selected = selectedType == DownloadType.Video,
+                    onClick = { selectedType = DownloadType.Video },
+                    modifier = Modifier.height(36.dp),
+                    shape = SegmentedButtonDefaults.itemShape(1, 3)
                 ) {
-
+                    Text(text = stringResource(id = R.string.video))
                 }
-                SingleChoiceSegmentedButton(
-                    text = stringResource(id = R.string.playlist),
+                SegmentedButton(
                     selected = selectedType == DownloadType.Playlist,
-                    position = SegmentedButtonValues.END
+                    onClick = { selectedType = DownloadType.Playlist },
+                    modifier = Modifier.height(36.dp),
+                    shape = SegmentedButtonDefaults.itemShape(2, 3)
                 ) {
-
+                    Text(text = stringResource(id = R.string.playlist))
                 }
             }
 
@@ -141,18 +157,6 @@ fun DownloadDialogV2() {
 
             FormatSelectionAuto()
             FormatSelectionCustom()
-//            LazyRow(modifier = Modifier.fillMaxWidth()) {
-//                item {
-//                    SingleChoiceChip(selected = true, label = stringResource(R.string.auto)) {
-//
-//                    }
-//                }
-//                item {
-//                    SingleChoiceChip(selected = false, label = stringResource(R.string.custom)) {
-//
-//                    }
-//                }
-//            }
 
             AdditionalSettings()
 
@@ -229,74 +233,83 @@ private fun AdditionalSettings() {
 @Preview
 @Composable
 private fun FormatSelectionAuto() {
-    Surface {
-
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { }
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+    MaterialTheme {
+        var selected by remember { mutableStateOf(false) }
+        Surface {
+            SingleChoiceItem(
+                title = stringResource(R.string.presets),
+                desc = "Prefer Quality, 1080p",
+                icon = Icons.Outlined.VideoFile,
+                selected = selected
             ) {
-                Spacer(modifier = Modifier.width(4.dp))
-
-                Icon(imageVector = Icons.Outlined.VideoFile, contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = stringResource(R.string.presets),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = "Prefer Quality, 1080p",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-                Checkbox(checked = true, onCheckedChange = null)
-
+                selected = !selected
             }
         }
+    }
+}
+
+@Composable
+fun SingleChoiceItem(
+    modifier: Modifier = Modifier,
+    title: String,
+    desc: String,
+    icon: ImageVector,
+    selected: Boolean,
+    onClick: () -> Unit = {}
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectable(
+                selected = selected,
+                onClick = onClick,
+            )
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Icon(
+            imageVector = icon, contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = desc,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Spacer(Modifier.width(12.dp))
+        RadioButton(
+            selected = selected,
+            onClick = null,
+        )
     }
 }
 
 @Preview
 @Composable
 private fun FormatSelectionCustom() {
-    Surface {
-
-        Column {
-            Spacer(Modifier.height(4.dp))
-//            HorizontalDivider(thickness = Dp.Hairline)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { }
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+    MaterialTheme {
+        var selected by remember { mutableStateOf(true) }
+        Surface {
+            SingleChoiceItem(
+                title = "Custom",
+                desc = "Select from formats, subtitles, and customize further",
+                icon = Icons.Outlined.VideoSettings,
+                selected = selected
             ) {
-                Spacer(modifier = Modifier.width(4.dp))
-
-                Icon(imageVector = Icons.Outlined.VideoSettings, contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = "Custom",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = "Select from all formats, more preferences",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-                Checkbox(checked = false, onCheckedChange = null)
-
+                selected = !selected
             }
         }
     }
