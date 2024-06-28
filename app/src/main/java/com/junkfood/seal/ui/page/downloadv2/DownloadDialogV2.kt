@@ -16,20 +16,24 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,11 +48,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
-import com.junkfood.seal.ui.component.PasteButton
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.PLAYLIST
@@ -91,6 +95,50 @@ private fun DownloadType.updatePreference() {
     }
 }
 
+@Composable
+private fun ConfigurePage(
+    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onDownload: () -> Unit
+) {
+    Column(modifier = modifier) {
+
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun Loading() {
+    Surface {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.format_selection),
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(imageVector = Icons.Outlined.Close, contentDescription = null)
+                    }
+                })
+            Spacer(Modifier.height(40.dp))
+            Column(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+                Spacer(Modifier.height(12.dp))
+                Text("Fetching formats...", style = MaterialTheme.typography.labelMedium)
+            }
+
+            Spacer(Modifier.height(40.dp))
+        }
+    }
+}
 
 @Composable
 @Preview
@@ -111,16 +159,15 @@ fun DownloadDialogV2() {
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center
-            )
-/*            DrawerSheetSubtitle(text = stringResource(id = R.string.video_url))
+            )/*            DrawerSheetSubtitle(text = stringResource(id = R.string.video_url))
 
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 1,
-                trailingIcon = { PasteButton() }
-            )*/
+                        OutlinedTextField(
+                            value = "",
+                            onValueChange = {},
+                            modifier = Modifier.fillMaxWidth(),
+                            minLines = 1,
+                            trailingIcon = { PasteButton() }
+                        )*/
 
 
             var selectedType: DownloadType? by remember { mutableStateOf(DownloadType.Video) }
@@ -203,13 +250,11 @@ private fun AdditionalSettings() {
         Column {
             Spacer(Modifier.height(8.dp))
             HorizontalDivider(thickness = Dp.Hairline)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { }
-                    .padding(vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .clickable { }
+                .padding(vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "Additional settings",
@@ -220,8 +265,7 @@ private fun AdditionalSettings() {
                 Icon(
                     imageVector = Icons.Outlined.ExpandMore,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(16.dp)
+                    modifier = Modifier.size(16.dp)
                 )
 
             }
@@ -264,14 +308,12 @@ fun SingleChoiceItem(
                 selected = selected,
                 onClick = onClick,
             )
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(modifier = Modifier.width(4.dp))
 
         Icon(
-            imageVector = icon, contentDescription = null,
-            modifier = Modifier.size(24.dp)
+            imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp)
         )
 
         Spacer(modifier = Modifier.width(12.dp))

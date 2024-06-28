@@ -28,14 +28,18 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +48,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RangeSliderState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -88,6 +91,7 @@ import com.junkfood.seal.ui.component.SuggestedFormatItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
+import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.EXTRACT_AUDIO
@@ -158,22 +162,19 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onNavigateBack: () -> Unit 
     }
 
     if (showUpdateSubtitleDialog) {
-        UpdateSubtitleLanguageDialog(
-            modifier = Modifier,
+        UpdateSubtitleLanguageDialog(modifier = Modifier,
             languages = diffSubtitleLanguages,
             onDismissRequest = {
                 showUpdateSubtitleDialog = false
                 onNavigateBack()
             },
             onConfirm = {
-                SUBTITLE_LANGUAGE.updateString(
-                    (diffSubtitleLanguages + subtitleLanguageRegex).joinToString(
-                        separator = ",",
-                    ) { it })
+                SUBTITLE_LANGUAGE.updateString((diffSubtitleLanguages + subtitleLanguageRegex).joinToString(
+                    separator = ",",
+                ) { it })
                 showUpdateSubtitleDialog = false
                 onNavigateBack()
-            }
-        )
+            })
     }
 
 }
@@ -189,16 +190,12 @@ private fun FormatPagePreview() {
         "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
         "zh-Hans-en" to listOf(
             SubtitleFormat(
-                ext = "",
-                url = "",
-                name = "Chinese (Simplified) from English"
+                ext = "", url = "", name = "Chinese (Simplified) from English"
             )
         ),
         "zh-Hant-en" to listOf(
             SubtitleFormat(
-                ext = "",
-                url = "",
-                name = "Chinese (Traditional) from English"
+                ext = "", url = "", name = "Chinese (Traditional) from English"
             )
         ),
     )
@@ -207,67 +204,58 @@ private fun FormatPagePreview() {
         put(
             "en", listOf(
                 SubtitleFormat(
-                    ext = "ass",
-                    url = "",
-                    name = "English"
+                    ext = "ass", url = "", name = "English"
                 )
             )
         )
         put(
             "ja", listOf(
                 SubtitleFormat(
-                    ext = "ass",
-                    url = "",
-                    name = "Japanese"
+                    ext = "ass", url = "", name = "Japanese"
                 )
             )
         )
     }
-    val videoInfo =
-        VideoInfo(
-            formats = buildList {
-                repeat(7) {
-                    add(Format(formatId = "$it"))
-                }
-                repeat(7) {
-                    add(Format(formatId = "$it", vcodec = "avc1", acodec = "none"))
-                }
-                repeat(7) {
-                    add(
-                        Format(
-                            formatId = "$it",
-                            acodec = "aac",
-                            vcodec = "none",
-                            format = "251 - audio only (medium)",
-                            fileSizeApprox = 2000000.0,
-                            tbr = 128.0
-                        )
-                    )
-                }
-            },
-            subtitles = subMap, automaticCaptions = captionsMap,
-            requestedFormats = buildList {
-                add(
-                    Format(
-                        formatId = "616",
-                        format = "616 - 1920x1080 (Premium)",
-                        acodec = "none",
-                        vcodec = "vp09.00.40.08",
-                        ext = "webm"
-                    )
+    val videoInfo = VideoInfo(formats = buildList {
+        repeat(7) {
+            add(Format(formatId = "$it"))
+        }
+        repeat(7) {
+            add(Format(formatId = "$it", vcodec = "avc1", acodec = "none"))
+        }
+        repeat(7) {
+            add(
+                Format(
+                    formatId = "$it",
+                    acodec = "aac",
+                    vcodec = "none",
+                    format = "251 - audio only (medium)",
+                    fileSizeApprox = 2000000.0,
+                    tbr = 128.0
                 )
-                add(
-                    Format(
-                        formatId = "251",
-                        format = "251 - audio only (medium)",
-                        acodec = "opus",
-                        vcodec = "none",
-                        ext = "webm"
-                    )
-                )
-            },
-            duration = 180.0
+            )
+        }
+    }, subtitles = subMap, automaticCaptions = captionsMap, requestedFormats = buildList {
+        add(
+            Format(
+                formatId = "616",
+                format = "616 - 1920x1080 (Premium)",
+                acodec = "none",
+                vcodec = "vp09.00.40.08",
+                ext = "webm"
+            )
         )
+        add(
+            Format(
+                formatId = "251",
+                format = "251 - audio only (medium)",
+                acodec = "opus",
+                vcodec = "none",
+                ext = "webm"
+            )
+        )
+    }, duration = 180.0
+    )
     SealTheme {
         FormatPageImpl(
             videoInfo = videoInfo,
@@ -373,28 +361,42 @@ fun FormatPageImpl(
         .fillMaxSize()
         .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = stringResource(R.string.format_selection),
-                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
-                )
-            }, scrollBehavior = scrollBehavior, navigationIcon = {
-                IconButton(onClick = { onNavigateBack() }) {
-                    Icon(Icons.Outlined.Close, stringResource(R.string.close))
-                }
-            }, actions = {
-                TextButton(onClick = {
-                    onDownloadPressed(
-                        formatList,
-                        if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
-                        isSplittingVideo,
-                        videoTitle,
-                        selectedLanguageList
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.format_selection),
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                     )
-                }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
-                    Text(text = stringResource(R.string.download))
-                }
-            })
+                },
+                scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    IconButton(onClick = { onNavigateBack() }) {
+                        Icon(Icons.Outlined.Close, stringResource(R.string.close))
+                    }
+                },
+                /*                actions = {
+                                TextButton(onClick = {
+                                    onDownloadPressed(
+                                        formatList,
+                                        if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
+                                        isSplittingVideo,
+                                        videoTitle,
+                                        selectedLanguageList
+                                    )
+                                }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
+                                    Text(text = stringResource(R.string.download))
+                                }
+                            }*/
+            )
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                icon = { Icon(Icons.Outlined.Download, null, modifier = Modifier.size(24.dp)) },
+                text = {
+                    Text("Download")
+                },
+                onClick = {}, containerColor = FixedAccentColors.primaryFixed, expanded = true
+            )
         }) { paddingValues ->
 
         LazyVerticalGrid(
@@ -435,14 +437,12 @@ fun FormatPageImpl(
                     AnimatedVisibility(visible = isClippingVideo) {
                         Column {
                             val state = remember(isClippingVideo, showVideoClipDialog) {
-                                RangeSliderState(
-                                    activeRangeStart = videoClipDuration.start,
+                                RangeSliderState(activeRangeStart = videoClipDuration.start,
                                     activeRangeEnd = videoClipDuration.endInclusive,
                                     valueRange = videoDurationRange,
                                     onValueChangeFinished = {
                                         shouldUpdateClipDuration = true
-                                    }
-                                )
+                                    })
                             }
                             DisposableEffect(shouldUpdateClipDuration) {
                                 videoClipDuration = state.activeRangeStart..state.activeRangeEnd
@@ -494,7 +494,8 @@ fun FormatPageImpl(
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
                                 .padding(top = 12.dp)
                                 .padding(horizontal = 12.dp)
                         ) {
@@ -517,8 +518,7 @@ fun FormatPageImpl(
                         LazyRow(modifier = Modifier.padding()) {
                             for ((code, formats) in suggestedSubtitleMap) {
                                 item {
-                                    VideoFilterChip(
-                                        selected = selectedLanguageList.contains(code),
+                                    VideoFilterChip(selected = selectedLanguageList.contains(code),
                                         onClick = {
                                             if (selectedLanguageList.contains(code)) {
                                                 selectedLanguageList.remove(code)
@@ -526,8 +526,7 @@ fun FormatPageImpl(
                                                 selectedLanguageList.add(code)
                                             }
                                         },
-                                        label = formats.first()
-                                            .run { name ?: protocol ?: code })
+                                        label = formats.first().run { name ?: protocol ?: code })
                                 }
                             }
                         }
@@ -540,7 +539,8 @@ fun FormatPageImpl(
             if (isSuggestedFormatAvailable) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
                             .padding(top = 12.dp, bottom = 4.dp)
                             .padding(horizontal = 12.dp)
                     ) {
@@ -572,7 +572,8 @@ fun FormatPageImpl(
 
             if (audioOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
                         .padding(top = 16.dp)
                         .padding(horizontal = 12.dp)
                 ) {
@@ -598,18 +599,15 @@ fun FormatPageImpl(
 
             itemsIndexed(
                 audioOnlyFormats.subList(
-                    fromIndex = 0,
-                    toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size)
+                    fromIndex = 0, toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size)
                 )
             ) { index, formatInfo ->
-                FormatItem(
-                    formatInfo = formatInfo,
+                FormatItem(formatInfo = formatInfo,
                     duration = duration,
                     selected = selectedAudioOnlyFormats.contains(index),
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     outlineColor = MaterialTheme.colorScheme.secondary,
-                    onLongClick = { formatInfo.url.share() }
-                ) {
+                    onLongClick = { formatInfo.url.share() }) {
                     if (selectedAudioOnlyFormats.contains(index)) {
                         selectedAudioOnlyFormats.remove(index)
                     } else {
@@ -626,7 +624,8 @@ fun FormatPageImpl(
             if (!audioOnly) {
                 if (videoOnlyFormats.isNotEmpty()) item(span = { GridItemSpan(maxLineSpan) }) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
                             .padding(top = 16.dp)
                             .padding(horizontal = 12.dp)
                     ) {
@@ -641,8 +640,7 @@ fun FormatPageImpl(
                         ClickableTextAction(
                             visible = videoOnlyItemLimit < videoOnlyFormats.size,
                             text = stringResource(
-                                R.string.show_all_items,
-                                videoOnlyFormats.size
+                                R.string.show_all_items, videoOnlyFormats.size
                             ),
                         ) {
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -652,12 +650,10 @@ fun FormatPageImpl(
                 }
                 itemsIndexed(
                     videoOnlyFormats.subList(
-                        0,
-                        min(videoOnlyItemLimit, videoOnlyFormats.size)
+                        0, min(videoOnlyItemLimit, videoOnlyFormats.size)
                     )
                 ) { index, formatInfo ->
-                    FormatItem(
-                        formatInfo = formatInfo,
+                    FormatItem(formatInfo = formatInfo,
                         duration = duration,
                         selected = selectedVideoOnlyFormat == index,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -677,7 +673,8 @@ fun FormatPageImpl(
             if (videoAudioFormats.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
                             .padding(top = 16.dp)
                             .padding(horizontal = 12.dp)
                     ) {
@@ -690,8 +687,7 @@ fun FormatPageImpl(
                         ClickableTextAction(
                             visible = videoAudioItemLimit < videoAudioFormats.size,
                             text = stringResource(
-                                R.string.show_all_items,
-                                videoAudioFormats.size
+                                R.string.show_all_items, videoAudioFormats.size
                             ),
                         ) {
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -702,12 +698,10 @@ fun FormatPageImpl(
                 }
                 itemsIndexed(
                     videoAudioFormats.subList(
-                        0,
-                        min(videoAudioItemLimit, videoAudioFormats.size)
+                        0, min(videoAudioItemLimit, videoAudioFormats.size)
                     )
                 ) { index, formatInfo ->
-                    FormatItem(
-                        formatInfo = formatInfo,
+                    FormatItem(formatInfo = formatInfo,
                         duration = duration,
                         selected = selectedVideoAudioFormat == index,
                         onLongClick = { formatInfo.url.share() }) {
@@ -747,8 +741,7 @@ fun FormatPageImpl(
         onDismissRequest = { showRenameDialog = false }) {
         videoTitle = it
     }
-    if (showSubtitleSelectionDialog) SubtitleSelectionDialog(
-        suggestedSubtitles = suggestedSubtitleMap,
+    if (showSubtitleSelectionDialog) SubtitleSelectionDialog(suggestedSubtitles = suggestedSubtitleMap,
         autoCaptions = otherSubtitleMap,
         selectedSubtitleCodes = selectedLanguageList,
         onDismissRequest = { showSubtitleSelectionDialog = false },
@@ -759,15 +752,12 @@ fun FormatPageImpl(
             }
             showSubtitleSelectionDialog = false
 
-        }
-    )
+        })
 }
 
 @Composable
 private fun RenameDialog(
-    initialValue: String,
-    onDismissRequest: () -> Unit,
-    onConfirm: (String) -> Unit
+    initialValue: String, onDismissRequest: () -> Unit, onConfirm: (String) -> Unit
 ) {
     var filename by remember { mutableStateOf(initialValue) }
     SealDialog(onDismissRequest = onDismissRequest, confirmButton = {
@@ -795,9 +785,10 @@ private fun RenameDialog(
 private fun (Map<String, List<SubtitleFormat>>).filterWithSearchText(searchText: String): Map<String, List<SubtitleFormat>> {
     return this.filter {
         it.run {
-            searchText.isBlank()
-                    || key.contains(searchText, ignoreCase = true)
-                    || value.any { format ->
+            searchText.isBlank() || key.contains(
+                searchText,
+                ignoreCase = true
+            ) || value.any { format ->
                 format.name?.contains(searchText, ignoreCase = true) ?: false
             }
         }
@@ -857,13 +848,13 @@ private fun SubtitleSelectionDialog(
     val autoCaptionsFiltered =
         autoCaptions.filterWithSearchText(searchText).sortedWithSelection(selectedSubtitles)
 
-    SealDialog(
-        onDismissRequest = onDismissRequest,
+    SealDialog(onDismissRequest = onDismissRequest,
         confirmButton = {
             ConfirmButton {
                 onConfirm(selectedSubtitles)
             }
-        }, dismissButton = {
+        },
+        dismissButton = {
             DismissButton {
                 onDismissRequest()
             }
@@ -893,8 +884,7 @@ private fun SubtitleSelectionDialog(
                     }
                     for ((code, formats) in suggestedSubtitlesFiltered) {
                         item(key = code) {
-                            DialogCheckBoxItem(
-                                modifier = Modifier.animateItemPlacement(),
+                            DialogCheckBoxItem(modifier = Modifier.animateItemPlacement(),
                                 checked = selectedSubtitles.contains(code),
                                 onClick = {
                                     if (selectedSubtitles.contains(code)) {
@@ -914,15 +904,13 @@ private fun SubtitleSelectionDialog(
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(
-                                    horizontal = 24.dp,
-                                    vertical = 12.dp
+                                    horizontal = 24.dp, vertical = 12.dp
                                 )
                             )
                         }
                         for ((code, formats) in autoCaptionsFiltered) {
                             item(key = code) {
-                                DialogCheckBoxItem(
-                                    modifier = Modifier.animateItemPlacement(),
+                                DialogCheckBoxItem(modifier = Modifier.animateItemPlacement(),
                                     checked = selectedSubtitles.contains(code),
                                     onClick = {
                                         if (selectedSubtitles.contains(code)) {
@@ -949,16 +937,12 @@ private fun SubtitleSelectionDialogPreview() {
         "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
         "zh-Hans-en" to listOf(
             SubtitleFormat(
-                ext = "",
-                url = "",
-                name = "Chinese (Simplified) from English"
+                ext = "", url = "", name = "Chinese (Simplified) from English"
             )
         ),
         "zh-Hant-en" to listOf(
             SubtitleFormat(
-                ext = "",
-                url = "",
-                name = "Chinese (Traditional) from English"
+                ext = "", url = "", name = "Chinese (Traditional) from English"
             )
         ),
     )
@@ -967,18 +951,14 @@ private fun SubtitleSelectionDialogPreview() {
         put(
             "en", listOf(
                 SubtitleFormat(
-                    ext = "ass",
-                    url = "",
-                    name = "English"
+                    ext = "ass", url = "", name = "English"
                 )
             )
         )
         put(
             "ja", listOf(
                 SubtitleFormat(
-                    ext = "ass",
-                    url = "",
-                    name = "Japanese"
+                    ext = "ass", url = "", name = "Japanese"
                 )
             )
         )
@@ -996,14 +976,10 @@ private fun SubtitleSelectionDialogPreview() {
 
 @Composable
 private fun ClickableTextAction(
-    visible: Boolean,
-    text: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    visible: Boolean, text: String, modifier: Modifier = Modifier, onClick: () -> Unit
 ) {
     AnimatedVisibility(
-        visible = visible,
-        exit = fadeOut(animationSpec = spring())
+        visible = visible, exit = fadeOut(animationSpec = spring())
     ) {
         Text(
             text = text,
@@ -1035,65 +1011,57 @@ fun UpdateSubtitleLanguageDialog(
     onDismissRequest: () -> Unit = {},
     onConfirm: () -> Unit = {}
 ) {
-    AlertDialog(onDismissRequest = onDismissRequest,
-        title = {
-            Text(
-                text = stringResource(R.string.update_subtitle_languages),
-                textAlign = TextAlign.Center
-            )
-        },
-        icon = {
-            Icon(
-                imageVector = Icons.Filled.Subtitles,
-                contentDescription = null
-            )
-        },
-        text = {
-            Column {
-                Text(text = stringResource(R.string.update_language_msg))
+    AlertDialog(onDismissRequest = onDismissRequest, title = {
+        Text(
+            text = stringResource(R.string.update_subtitle_languages),
+            textAlign = TextAlign.Center
+        )
+    }, icon = {
+        Icon(
+            imageVector = Icons.Filled.Subtitles, contentDescription = null
+        )
+    }, text = {
+        Column {
+            Text(text = stringResource(R.string.update_language_msg))
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    languages.forEach {
-                        Row(
-                            modifier = Modifier,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .size(16.dp)
-                                    .background(
-                                        color = it
-                                            .hashCode()
-                                            .generateLabelColor(), shape = CircleShape
-                                    )
-                                    .clearAndSetSemantics { }
-                            ) {}
-                            Text(
-                                text = it,
-                                modifier = Modifier,
-                                style = MaterialTheme.typography.bodySmall
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                languages.forEach {
+                    Row(
+                        modifier = Modifier,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Box(modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(16.dp)
+                            .background(
+                                color = it
+                                    .hashCode()
+                                    .generateLabelColor(), shape = CircleShape
                             )
-                        }
+                            .clearAndSetSemantics { }) {}
+                        Text(
+                            text = it,
+                            modifier = Modifier,
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
             }
-        },
-        confirmButton = {
-            Button(onClick = onConfirm) {
-                Text(text = stringResource(id = R.string.okay))
-            }
-        },
-        dismissButton = {
-            OutlinedButton(onClick = onDismissRequest) {
-                Text(text = stringResource(id = R.string.no_thanks))
-            }
-        })
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }, confirmButton = {
+        Button(onClick = onConfirm) {
+            Text(text = stringResource(id = R.string.okay))
+        }
+    }, dismissButton = {
+        OutlinedButton(onClick = onDismissRequest) {
+            Text(text = stringResource(id = R.string.no_thanks))
+        }
+    })
 
 }
