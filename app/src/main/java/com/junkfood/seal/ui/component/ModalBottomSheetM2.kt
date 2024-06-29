@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
@@ -35,8 +36,9 @@ fun SealModalBottomSheetM2(
     sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
     ),
-    sheetContent: @Composable ColumnScope.() -> Unit = {},
     horizontalPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
+    sheetGesturesEnabled: Boolean = true,
+    sheetContent: @Composable ColumnScope.() -> Unit = {},
 ) {
     androidx.compose.material.ModalBottomSheetLayout(
         modifier = modifier,
@@ -49,11 +51,11 @@ fun SealModalBottomSheetM2(
         sheetState = sheetState,
         sheetBackgroundColor = MaterialTheme.colorScheme.surfaceContainer,
         sheetElevation = if (sheetState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
+        sheetGesturesEnabled = sheetGesturesEnabled,
         sheetContent = {
             Column {
                 Surface(
                     color = MaterialTheme.colorScheme.surfaceContainer,
-                    tonalElevation = 6.dp,
                 ) {
                     Box(modifier = Modifier.padding(horizontalPadding)) {
                         Row(
@@ -89,5 +91,45 @@ fun SealModalBottomSheetM2(
                 )
             }
         },
-    ){}
+    ) {}
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SealModalBottomSheetM2Variant(
+    modifier: Modifier = Modifier,
+    sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
+        ModalBottomSheetValue.Hidden
+    ),
+    horizontalPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
+    sheetGesturesEnabled: Boolean = true,
+    sheetContent: @Composable ColumnScope.() -> Unit = {},
+) {
+    androidx.compose.material.ModalBottomSheetLayout(
+        modifier = modifier,
+        sheetShape = RoundedCornerShape(
+            topStart = 0.dp,
+            topEnd = 0.dp,
+            bottomEnd = 0.dp,
+            bottomStart = 0.dp
+        ),
+        sheetState = sheetState,
+        sheetBackgroundColor = Color.Transparent,
+        sheetElevation = if (sheetState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
+        sheetGesturesEnabled = sheetGesturesEnabled,
+        sheetContent = {
+            Column {
+                Box(modifier = Modifier.padding(horizontalPadding)) {
+                    Column {
+                        sheetContent()
+                    }
+                }
+            }
+            NavigationBarSpacer(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .fillMaxWidth()
+            )
+        },
+    ) {}
 }

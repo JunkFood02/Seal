@@ -184,7 +184,7 @@ private const val NOT_SELECTED = -1
 
 @Preview
 @Composable
-private fun FormatPagePreview() {
+fun FormatPagePreview() {
     val captionsMap = mapOf(
         "en-en" to listOf(SubtitleFormat(ext = "", url = "", name = "English from English")),
         "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
