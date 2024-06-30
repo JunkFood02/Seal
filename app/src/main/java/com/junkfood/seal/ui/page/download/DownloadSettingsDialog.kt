@@ -520,7 +520,7 @@ fun DownloadSettingDialog(
 
                 SealModalBottomSheetM2(
                     sheetState = sheetState,
-                    horizontalPadding = PaddingValues(horizontal = 20.dp),
+                    contentPadding = PaddingValues(horizontal = 20.dp),
                     sheetContent = {
                         SheetContent(onDismissRequest = {
                             scope.launch {

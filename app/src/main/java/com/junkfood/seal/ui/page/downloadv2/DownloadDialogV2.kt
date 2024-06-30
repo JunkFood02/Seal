@@ -1,6 +1,8 @@
 package com.junkfood.seal.ui.page.downloadv2
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,23 +18,30 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.ArrowForwardIos
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.UnfoldMore
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
@@ -44,6 +53,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -58,6 +69,7 @@ import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2Variant
+import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
 import com.junkfood.seal.ui.page.download.FormatPagePreview
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CUSTOM_COMMAND
@@ -128,7 +140,8 @@ private fun BottomSheet() {
                 initialValue = ModalBottomSheetValue.Expanded,
                 skipHalfExpanded = true
             ),
-            sheetGesturesEnabled = false
+            sheetGesturesEnabled = false,
+            contentPadding = PaddingValues()
         ) {
             AnimatedContent(
                 targetState = show,
@@ -155,7 +168,11 @@ private fun BottomSheet() {
 
             }
         }
-        SealModalBottomSheetM2Variant(sheetState = sheetState, sheetGesturesEnabled = false, horizontalPadding = PaddingValues(0.dp)) {
+        SealModalBottomSheetM2Variant(
+            sheetState = sheetState,
+            sheetGesturesEnabled = false,
+            horizontalPadding = PaddingValues(0.dp)
+        ) {
             FormatPagePreview()
         }
     }
@@ -203,53 +220,46 @@ fun DownloadDialogV2(onClick: () -> Unit = {}) {
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center
-        )/*            DrawerSheetSubtitle(text = stringResource(id = R.string.video_url))
-
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier.fillMaxWidth(),
-                            minLines = 1,
-                            trailingIcon = { PasteButton() }
-                        )*/
-
+        )
 
         var selectedType: DownloadType? by remember { mutableStateOf(DownloadType.Video) }
-        DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
 
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            SegmentedButton(
-                selected = selectedType == DownloadType.Audio,
-                onClick = { selectedType = DownloadType.Audio },
-                modifier = Modifier.height(36.dp),
-                colors = SegmentedButtonDefaults.colors(),
-                shape = SegmentedButtonDefaults.itemShape(0, 3)
-            ) {
-                Text(text = stringResource(id = R.string.audio))
-            }
-            SegmentedButton(
-                selected = selectedType == DownloadType.Video,
-                onClick = { selectedType = DownloadType.Video },
-                modifier = Modifier.height(36.dp),
-                shape = SegmentedButtonDefaults.itemShape(1, 3)
-            ) {
-                Text(text = stringResource(id = R.string.video))
-            }
-            SegmentedButton(
-                selected = selectedType == DownloadType.Playlist,
-                onClick = { selectedType = DownloadType.Playlist },
-                modifier = Modifier.height(36.dp),
-                shape = SegmentedButtonDefaults.itemShape(2, 3)
-            ) {
-                Text(text = stringResource(id = R.string.playlist))
+        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+            DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
+
+            SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                SingleChoiceSegmentedButton(
+                    selected = selectedType == DownloadType.Audio,
+                    onClick = { selectedType = DownloadType.Audio },
+                    shape = SegmentedButtonDefaults.itemShape(0, 3)
+                ) {
+                    Text(text = stringResource(id = R.string.audio))
+                }
+                SingleChoiceSegmentedButton(
+                    selected = selectedType == DownloadType.Video,
+                    onClick = { selectedType = DownloadType.Video },
+                    shape = SegmentedButtonDefaults.itemShape(1, 3)
+                ) {
+                    Text(text = stringResource(id = R.string.video))
+                }
+                SingleChoiceSegmentedButton(
+                    selected = selectedType == DownloadType.Playlist,
+                    onClick = { selectedType = DownloadType.Playlist },
+                    shape = SegmentedButtonDefaults.itemShape(2, 3)
+                ) {
+                    Text(text = stringResource(id = R.string.playlist))
+                }
             }
         }
 
-        DrawerSheetSubtitle(text = stringResource(id = R.string.format_selection))
+        DrawerSheetSubtitle(
+            text = stringResource(id = R.string.format_selection),
+            modifier = Modifier.padding(horizontal = 20.dp)
+        )
 
+//        SingleChoiceItem()
         FormatSelectionAuto()
         FormatSelectionCustom()
-
         AdditionalSettings()
 
         Spacer(Modifier.height(12.dp))
@@ -259,6 +269,7 @@ fun DownloadDialogV2(onClick: () -> Unit = {}) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 20.dp)
                 .padding(top = 12.dp),
             horizontalArrangement = Arrangement.End,
             state = state,
@@ -293,11 +304,11 @@ private fun AdditionalSettings() {
 
     Column {
         Spacer(Modifier.height(8.dp))
-        HorizontalDivider(thickness = Dp.Hairline)
+        HorizontalDivider(thickness = Dp.Hairline, modifier = Modifier.padding(horizontal = 20.dp))
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable { }
-            .padding(vertical = 12.dp),
+            .padding(horizontal = 20.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.width(4.dp))
             Text(
@@ -321,12 +332,18 @@ private fun AdditionalSettings() {
 @Composable
 private fun FormatSelectionAuto() {
     MaterialTheme {
-        var selected by remember { mutableStateOf(false) }
+        var selected by remember { mutableStateOf(true) }
         SingleChoiceItem(
             title = stringResource(R.string.presets),
             desc = "Prefer Quality, 1080p",
             icon = Icons.Outlined.VideoFile,
-            selected = selected
+            selected = selected,
+            action = {
+                Icon(
+                    imageVector = Icons.Outlined.MoreVert,
+                    contentDescription = null, modifier = Modifier.size(18.dp),
+                )
+            }
         ) {
             selected = !selected
         }
@@ -340,43 +357,50 @@ fun SingleChoiceItem(
     desc: String,
     icon: ImageVector,
     selected: Boolean,
+    action: (@Composable () -> Unit)? = null,
     onClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 4.dp)
+            .clip(MaterialTheme.shapes.large)
+            .background(if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
             .selectable(
                 selected = selected,
                 onClick = onClick,
             )
-            .padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 12.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.width(4.dp))
-
-        Icon(
-            imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp)
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(end = 12.dp)
+                        .size(20.dp)
+                )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
             Text(
                 text = desc,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                minLines = 1,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 32.dp)
             )
         }
-        Spacer(Modifier.width(12.dp))
-        RadioButton(
-            selected = selected,
-            onClick = null,
-        )
+        action?.invoke()
+
     }
 }
 
@@ -384,7 +408,7 @@ fun SingleChoiceItem(
 @Composable
 private fun FormatSelectionCustom() {
     MaterialTheme {
-        var selected by remember { mutableStateOf(true) }
+        var selected by remember { mutableStateOf(false) }
         SingleChoiceItem(
             title = "Custom",
             desc = "Select from formats, subtitles, and customize further",
