@@ -453,6 +453,9 @@
     <string name="every_month">Every month</string>
     <string name="all_languages">All languages</string>
     <string name="playlist">Playlist</string>
+    <string name="proceed">Continue</string>
+    <string name="preset">Preset</string>
+    <string name="prefer_placeholder">Prefer %1$s</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

@@ -28,7 +28,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -347,7 +346,7 @@ fun SponsorDialog(sponsorShip: SponsorShip, sheetState: SheetState, onDismissReq
     SealModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        horizontalPadding = PaddingValues(0.dp)
+        contentPadding = PaddingValues(0.dp)
     ) {
         SponsorDialogContent(userLogin = sponsorShip.sponsorEntity.login,
             userName = sponsorShip.sponsorEntity.name,

@@ -541,7 +541,7 @@ fun DownloadSettingDialog(
 
                 SealModalBottomSheet(
                     sheetState = sheetState,
-                    horizontalPadding = PaddingValues(horizontal = 20.dp),
+                    contentPadding = PaddingValues(horizontal = 20.dp),
                     onDismissRequest = onDismissRequest,
                     content = {
                         SheetContent(onDismissRequest = onSheetDismiss)

@@ -107,6 +107,7 @@ const val MERGE_OUTPUT_MKV = "merge_to_mkv"
 const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 
 const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
+private const val DOWNLOAD_TYPE = "download_type"
 
 const val YT_DLP_UPDATE_CHANNEL = "yt-dlp_update_channel"
 const val YT_DLP_UPDATE_TIME = "yt-dlp_last_update"
@@ -132,6 +133,13 @@ const val NOT_CONVERT = NOT_SPECIFIED
 
 const val NONE = NOT_SPECIFIED
 const val USE_PREVIOUS_SELECTION = 1
+
+enum class DownloadType {
+    Audio,
+    Video,
+    Playlist,
+    Command
+}
 
 const val CONVERT_ASS = 1
 const val CONVERT_LRC = 2
@@ -209,7 +217,8 @@ private val IntPreferenceDefaults = mapOf(
     SHOW_SPONSOR_MSG to 0,
     CONVERT_SUBTITLE to NOT_SPECIFIED,
     DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
-    YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY
+    YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY,
+    DOWNLOAD_TYPE to DownloadType.Video.ordinal
 )
 
 private val LongPreferenceDefaults = mapOf(
@@ -254,6 +263,12 @@ object PreferenceUtil {
     fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()
 
     fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
+
+    fun getDownloadType(): DownloadType =
+        DownloadType.entries.firstOrNull { it.ordinal == DOWNLOAD_TYPE.getInt() }
+            ?: DownloadType.Video
+
+    fun updateDownloadType(type: DownloadType) = DOWNLOAD_TYPE.updateInt(type.ordinal)
 
     fun isNetworkAvailableForDownload() =
         CELLULAR_DOWNLOAD.getBoolean() || !App.connectivityManager.isActiveNetworkMetered

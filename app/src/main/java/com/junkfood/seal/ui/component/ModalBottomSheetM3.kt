@@ -1,11 +1,9 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,7 +30,7 @@ fun SealModalBottomSheet(
         initialValue = SheetValue.Hidden
     ),
     onDismissRequest: () -> Unit,
-    horizontalPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     ModalBottomSheet(
@@ -40,7 +38,7 @@ fun SealModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        Column(modifier = Modifier.padding(paddingValues = horizontalPadding)) {
+        Column(modifier = Modifier.padding(paddingValues = contentPadding)) {
             content()
             Spacer(modifier = Modifier.height(28.dp))
         }
