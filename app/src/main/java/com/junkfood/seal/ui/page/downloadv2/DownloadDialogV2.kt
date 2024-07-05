@@ -1,12 +1,21 @@
 package com.junkfood.seal.ui.page.downloadv2
 
+import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,10 +33,16 @@ import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,7 +53,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,14 +64,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
-import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.Download
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.FetchInfo
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.StartTask
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
+import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
 import com.junkfood.seal.util.DownloadType
@@ -62,6 +81,7 @@ import com.junkfood.seal.util.DownloadType.Audio
 import com.junkfood.seal.util.DownloadType.Command
 import com.junkfood.seal.util.DownloadType.Playlist
 import com.junkfood.seal.util.DownloadType.Video
+import com.junkfood.seal.util.DownloadType.entries
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_QUALITY
@@ -115,14 +135,67 @@ private fun DownloadType.updatePreference() {
     }
 }
 
+private val PreferencesMock = DownloadUtil.DownloadPreferences(
+    extractAudio = false,
+    createThumbnail = false,
+    downloadPlaylist = false,
+    subdirectoryExtractor = false,
+    subdirectoryPlaylistTitle = false,
+    commandDirectory = "",
+    downloadSubtitle = false,
+    embedSubtitle = false,
+    keepSubtitle = false,
+    subtitleLanguage = "",
+    autoSubtitle = false,
+    autoTranslatedSubtitles = false,
+    convertSubtitle = 0,
+    concurrentFragments = 0,
+    sponsorBlock = false,
+    sponsorBlockCategory = "",
+    cookies = false,
+    aria2c = false,
+    audioFormat = 0,
+    audioQuality = 0,
+    convertAudio = false,
+    formatSorting = false,
+    sortingFields = "",
+    audioConvertFormat = 0,
+    videoFormat = 0,
+    formatIdString = "",
+    videoResolution = 0,
+    privateMode = false,
+    rateLimit = false,
+    maxDownloadRate = "",
+    privateDirectory = false,
+    cropArtwork = false,
+    sdcard = false,
+    sdcardUri = "",
+    embedThumbnail = false,
+    videoClips = emptyList(),
+    splitByChapter = false,
+    debug = false,
+    proxy = false,
+    proxyUrl = "",
+    newTitle = "",
+    userAgentString = "",
+    outputTemplate = "",
+    useDownloadArchive = false,
+    embedMetadata = false,
+    restrictFilenames = false,
+    supportAv1HardwareDecoding = false,
+    forceIpv4 = false,
+    mergeAudioStream = false,
+    mergeToMkv = false
+)
+
 data class Config(
     val usePreviousType: Boolean = DOWNLOAD_TYPE_INITIALIZATION.getInt() == USE_PREVIOUS_SELECTION,
     val downloadType: DownloadType = PreferenceUtil.getDownloadType(),
-    val useFormatSelection: Boolean = FORMAT_SELECTION.getBoolean(),
     val typeEntries: List<DownloadType> = when (CUSTOM_COMMAND.getBoolean()) {
         true -> DownloadType.entries
         false -> DownloadType.entries - Command
-    }
+    },
+    val useFormatSelection: Boolean = FORMAT_SELECTION.getBoolean(),
 ) {
     companion object {
         fun updatePreferences(downloadType: DownloadType, useFormatSelection: Boolean) {
@@ -137,6 +210,35 @@ fun ConfigurePage(
     modifier: Modifier = Modifier, onActionPosted: (Action) -> Unit
 ) {
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+
+@Composable
+private fun ConfigurePagePreview() {
+    SealTheme() {
+        SealModalBottomSheet(
+            sheetState = SheetState(
+                skipPartiallyExpanded = true,
+                LocalDensity.current,
+                SheetValue.Expanded,
+                { true },
+                false,
+            ),
+            onDismissRequest = {}, contentPadding = PaddingValues()
+        ) {
+            ConfigurePageImpl(
+                config = Config(
+                    usePreviousType = false,
+                    downloadType = Audio,
+                    useFormatSelection = true,
+                    typeEntries = entries - DownloadType.Command
+                ), preference = PreferencesMock
+            ) { }
+        }
+    }
 }
 
 @Composable
@@ -155,31 +257,50 @@ private fun ConfigurePageImpl(
             }
         )
     }
-    val useFormatSelection by remember { mutableStateOf(config.useFormatSelection) }
+    var useFormatSelection by remember { mutableStateOf(config.useFormatSelection) }
     val canProceed = selectedType in config.typeEntries
 
     Column {
-        Header()
-        DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
-        DownloadTypeSelectionGroup(typeEntries = config.typeEntries,
-            selectedType = selectedType,
-            onSelect = { selectedType = it })
-        DrawerSheetSubtitle(
-            text = stringResource(id = R.string.format_selection),
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
+        Column(modifier = modifier.padding(horizontal = 20.dp)) {
+            Header(modifier = Modifier.align(Alignment.CenterHorizontally))
+            DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
+            DownloadTypeSelectionGroup(typeEntries = config.typeEntries,
+                selectedType = selectedType,
+                onSelect = { selectedType = it })
+            DrawerSheetSubtitle(
+                text = stringResource(id = R.string.format_selection), modifier = Modifier
+            )
+            Preset(modifier = Modifier.animateContentSize(),
+                preference = preference,
+                selected = !useFormatSelection,
+                downloadType = selectedType,
+                onClick = { useFormatSelection = false },
+                showIconButton = !useFormatSelection && selectedType != Playlist,
+                onIconButtonClicked = {
+                    // TODO: show preset dialog
+                })
+            Custom(
+                selected = useFormatSelection,
+                enabled = selectedType != Playlist,
+                onClick = { useFormatSelection = true }
+            )
+        }
+
+        AdditionalSettings()
+
         ActionButtons(
+            modifier = Modifier.padding(horizontal = 20.dp),
             canProceed = canProceed,
             selectedType = selectedType,
             useFormatSelection = useFormatSelection,
             onCancel = { onActionPosted(Action.Hide) },
-            onDownload = { onActionPosted(Action.DownloadWithPreset()) },
-            onFetchInfo = { onActionPosted() },
+            onDownload = { },
+            onFetchInfo = { },
             onTaskStart = {},
         )
     }
-
 }
+
 
 @Preview
 @Composable
@@ -203,43 +324,20 @@ private fun AdditionalSettings(modifier: Modifier = Modifier, onClick: () -> Uni
                 contentDescription = null,
                 modifier = Modifier.size(20.dp)
             )
-            Spacer(modifier = Modifier.width(12.dp))
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun FormatSelectionAuto() {
-    MaterialTheme {
-        var selected by remember { mutableStateOf(true) }
-        SingleChoiceItem(title = "Preset", desc = "Prefer Quality, 1080p", icon = {
-            Icon(
-                imageVector = if (selected) Icons.Filled.SettingsSuggest else Icons.Outlined.SettingsSuggest,
-                null,
-                modifier = Modifier.size(20.dp)
-            )
-        }, selected = selected, action = {
-            if (selected) {
-                Icon(
-                    imageVector = Icons.Outlined.ExpandMore,
-                    contentDescription = null, modifier = Modifier.size(20.dp),
-                )
-            }
-        }) {
-            selected = !selected
+            Spacer(modifier = Modifier.width(28.dp))
         }
     }
 }
 
 @Composable
-fun SingleChoiceItem(
+private fun SingleChoiceItem(
     modifier: Modifier = Modifier,
     title: String,
     desc: String,
     selected: Boolean,
     icon: (@Composable () -> Unit)? = null,
     action: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     Surface(
@@ -247,13 +345,22 @@ fun SingleChoiceItem(
         onClick = onClick,
         color = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
         shape = MaterialTheme.shapes.large,
-        modifier = modifier.padding(horizontal = 20.dp, vertical = 4.dp)
+        modifier = modifier
+            .padding(vertical = 4.dp)
+            .run {
+                if (!enabled) alpha(0.32f) else this
+            },
+        enabled = enabled
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .heightIn(min = 48.dp)
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -275,28 +382,6 @@ fun SingleChoiceItem(
                 )
             }
             action?.invoke()
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun FormatSelectionCustom() {
-    MaterialTheme {
-        var selected by remember { mutableStateOf(false) }
-        SingleChoiceItem(
-            title = "Custom",
-            desc = "Select from formats, subtitles, and customize further",
-            icon = {
-                Icon(
-                    if (selected) Icons.Filled.VideoFile else Icons.Outlined.VideoFile,
-                    null,
-                    modifier = Modifier.size(20.dp)
-                )
-            },
-            selected = selected
-        ) {
-            selected = !selected
         }
     }
 }
@@ -358,59 +443,74 @@ private fun DownloadTypeSelectionGroup(
 private fun Preset(
     modifier: Modifier = Modifier,
     preference: DownloadUtil.DownloadPreferences,
-    type: DownloadType,
+    downloadType: DownloadType?,
     selected: Boolean,
+    showIconButton: Boolean,
+    onIconButtonClicked: () -> Unit,
     onClick: () -> Unit
 ) {
     val description = preference.run {
-        when (type) {
+        when (downloadType) {
             Audio -> {
-                val preferredFormat = when (audioFormat) {
-                    M4A -> "M4A"
-                    OPUS -> "OPUS"
-                    else -> null
-                }
-                val preferredQuality = when (audioQuality) {
-                    NOT_SPECIFIED -> stringResource(R.string.unlimited)
-                    HIGH -> "192 Kbps"
-                    MEDIUM -> "128 Kbps"
-                    LOW -> "64 Kbps"
-                    ULTRA_LOW -> "32 Kbps"
-                    else -> stringResource(R.string.lowest_bitrate)
+                if (convertAudio) {
+                    when (audioConvertFormat) {
+                        CONVERT_MP3 -> stringResource(R.string.convert_to, "MP3")
+                        else -> stringResource(R.string.convert_to, "M4A")
+                    }
+                } else {
+                    val preferredFormat = when (audioFormat) {
+                        M4A -> stringResource(R.string.prefer_placeholder, "M4A")
+                        OPUS -> stringResource(R.string.prefer_placeholder, "OPUS")
+                        else -> null
+                    }
+                    val preferredQuality =
+                        stringResource(R.string.audio_quality) + ": " + when (audioQuality) {
+                            NOT_SPECIFIED -> stringResource(R.string.unlimited)
+                            HIGH -> "192 Kbps"
+                            MEDIUM -> "128 Kbps"
+                            LOW -> "64 Kbps"
+                            ULTRA_LOW -> "32 Kbps"
+                            else -> stringResource(R.string.lowest_bitrate)
+                        }
+                    listOfNotNull(preferredFormat, preferredQuality).joinToString(separator = ", ")
                 }
             }
 
             Video -> {
-                val preferredFormat =
-                    stringResource(
-                        id = R.string.prefer_placeholder,
-                        stringResource(id = if (videoFormat == FORMAT_QUALITY) R.string.quality else R.string.legacy)
-                    )
-                val preferredResolution = PreferenceStrings.getVideoResolutionDescRes()
+                val preferredFormat = stringResource(
+                    id = R.string.prefer_placeholder,
+                    stringResource(id = if (videoFormat == FORMAT_QUALITY) R.string.quality else R.string.legacy)
+                )
+                val preferredResolution =
+                    PreferenceStrings.getVideoResolutionDescRes(videoResolution)
                 listOf(preferredFormat, preferredResolution).joinToString(separator = ", ")
             }
-            Playlist -> TODO()
-            Command -> TODO()
+
+            Playlist -> stringResource(R.string.preset_format_selection_desc)
+            else -> ""
         }
     }
 
     SingleChoiceItem(
-        modifier = modifier, title = stringResource(R.string.preset),
-        desc = "Prefer Quality, 1080p",
+        modifier = modifier,
+        title = stringResource(R.string.preset),
+        desc = description,
         icon = {
             Icon(
-                imageVector = if (!selected) Icons.Filled.SettingsSuggest else Icons.Outlined.SettingsSuggest,
+                imageVector = if (selected) Icons.Filled.SettingsSuggest else Icons.Outlined.SettingsSuggest,
                 null,
                 modifier = Modifier.size(20.dp)
             )
         },
-        selected = !selected,
+        selected = selected,
         action = {
-            if (!selected) {
-                Icon(
-                    imageVector = Icons.Outlined.ExpandMore,
-                    contentDescription = null, modifier = Modifier.size(20.dp),
-                )
+            if (showIconButton) {
+                IconButton(onClick = onIconButtonClicked) {
+                    Icon(
+                        imageVector = Icons.Outlined.ExpandMore,
+                        contentDescription = null, modifier = Modifier.size(20.dp),
+                    )
+                }
             }
         },
         onClick = onClick
@@ -418,47 +518,52 @@ private fun Preset(
 }
 
 @Composable
-private fun Custom(modifier: Modifier = Modifier) {
-
-}
-
-@Composable
-private fun DownloadModeSelectionGroup(
-    modifier: Modifier = Modifier,
-    preference: DownloadUtil.DownloadPreferences,
-    formatSelectionEnabled: Boolean,
-    useFormatSelection: Boolean,
-    onPresetClicked: () -> Unit,
-    onCustomClicked: () -> Unit
+private fun Custom(
+    modifier: Modifier = Modifier, selected: Boolean, enabled: Boolean, onClick: () -> Unit
 ) {
-    Column(modifier = modifier) {
-        SingleChoiceItem(
-            title = stringResource(R.string.preset),
-            desc = "Prefer Quality, 1080p",
-            icon = {
-                Icon(
-                    imageVector = if (!useFormatSelection) Icons.Filled.SettingsSuggest else Icons.Outlined.SettingsSuggest,
-                    null,
-                    modifier = Modifier.size(20.dp)
-                )
-            },
-            selected = !useFormatSelection,
-            action = {
-                if (!useFormatSelection) {
-                    Icon(
-                        imageVector = Icons.Outlined.ExpandMore,
-                        contentDescription = null, modifier = Modifier.size(20.dp),
-                    )
-                }
-            },
-            onClick = onPresetClicked
-        )
-    }
-
+    SingleChoiceItem(
+        modifier = modifier,
+        title = stringResource(R.string.custom),
+        desc = stringResource(R.string.custom_format_selection_desc),
+        icon = {
+            Icon(
+                if (selected) Icons.Filled.VideoFile else Icons.Outlined.VideoFile,
+                null,
+                modifier = Modifier.size(20.dp)
+            )
+        },
+        selected = selected,
+        enabled = enabled,
+        onClick = onClick
+    )
 }
 
 private enum class ActionButton {
     FetchInfo, Download, StartTask
+}
+
+@Composable
+private fun ActionButton.Icon() {
+    Icon(
+        imageVector = when (this) {
+            FetchInfo -> Icons.AutoMirrored.Filled.ArrowForward
+            Download -> Icons.Filled.Download
+            StartTask -> Icons.Filled.DownloadDone
+        }, contentDescription = null, modifier = Modifier.size(18.dp)
+    )
+}
+
+@Composable
+private fun ActionButton.Label() {
+    Text(
+        stringResource(
+            when (this) {
+                FetchInfo -> R.string.proceed
+                Download -> R.string.download
+                StartTask -> R.string.start
+            }
+        ), modifier = Modifier.padding(start = 8.dp)
+    )
 }
 
 @Composable
@@ -486,19 +591,10 @@ private fun ActionButtons(
         StartTask -> Icons.Filled.DownloadDone
     }
 
-    val actionLabel = stringResource(
-        when (action) {
-            FetchInfo -> R.string.proceed
-            Download -> R.string.download
-            StartTask -> R.string.start
-        }
-    )
-
     val state = rememberLazyListState()
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
             .padding(top = 12.dp),
         horizontalArrangement = Arrangement.End,
         state = state,
@@ -513,9 +609,8 @@ private fun ActionButtons(
             )
         }
         item {
-            FilledButtonWithIcon(
+            Button(
                 modifier = Modifier,
-                enabled = canProceed,
                 onClick = {
                     when (action) {
                         FetchInfo -> onFetchInfo()
@@ -523,9 +618,23 @@ private fun ActionButtons(
                         StartTask -> onTaskStart()
                     }
                 },
-                icon = actionIcon,
-                text = actionLabel,
-            )
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                enabled = canProceed
+            ) {
+                AnimatedContent(targetState = action, label = "", transitionSpec = {
+                    (fadeIn(animationSpec = tween(220, delayMillis = 90))).togetherWith(
+                        fadeOut(
+                            animationSpec = tween(90)
+                        )
+                    )
+                }) { action ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        action.Icon()
+                        action.Label()
+                    }
+                }
+
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.Entries
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
@@ -31,12 +32,38 @@ class DownloadDialogViewModel : ViewModel() {
     sealed interface Action {
         data object Hide : Action
         data object Show : Action
-        data class FetchPlaylist(val url: String) : Action
-        data object DownloadItemsWithPreset : Action
-        data class FetchFormats(val url: String, val audioOnly: Boolean) : Action
-        data class DownloadWithInfoAndConfiguration(val url: String, val info: VideoInfo) : Action
-        data class DownloadWithPreset(val url: String, val audioOnly: Boolean) : Action
+
+        data class FetchPlaylist(
+            val url: String,
+            val preferences: DownloadUtil.DownloadPreferences
+        ) : Action
+
+        data class DownloadItemsWithPreset(
+            val url: String,
+            val indexList: List<Int>,
+            val playlistItemList: List<Entries> = emptyList(),
+            val preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+        ) : Action
+
+        data class FetchFormats(
+            val url: String,
+            val audioOnly: Boolean,
+            val preferences: DownloadUtil.DownloadPreferences
+        ) : Action
+
+        data class DownloadWithInfoAndConfiguration(
+            val url: String,
+            val info: VideoInfo,
+            val preferences: DownloadUtil.DownloadPreferences
+        ) : Action
+
+        data class DownloadWithPreset(
+            val url: String,
+            val preferences: DownloadUtil.DownloadPreferences
+        ) : Action
+
         data class RunCommand(val url: String, val template: CommandTemplate) : Action
+
         data object Cancel : Action
     }
 
@@ -47,13 +74,13 @@ class DownloadDialogViewModel : ViewModel() {
     fun postAction(action: Action) {
         with(action) {
             when (this) {
-                is Action.FetchFormats -> fetchFormat(url = url)
-                is Action.FetchPlaylist -> fetchPlaylist(url = url)
-                is Action.DownloadWithPreset -> downloadWithPreset(url = url)
+                is Action.FetchFormats -> fetchFormat(url, preferences)
+                is Action.FetchPlaylist -> fetchPlaylist(url)
+                is Action.DownloadWithPreset -> downloadWithPreset(url)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.Hide -> hideDialog()
                 Action.Show -> showDialog()
-                Action.DownloadItemsWithPreset -> TODO()
+                is Action.DownloadItemsWithPreset -> TODO()
                 is Action.DownloadWithInfoAndConfiguration -> TODO()
                 Action.Cancel -> TODO()
             }
@@ -87,21 +114,22 @@ class DownloadDialogViewModel : ViewModel() {
         mStateFlow.update { State.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
-    private fun fetchFormat(url: String) {
+    private fun fetchFormat(url: String, preferences: DownloadUtil.DownloadPreferences) {
         // TODO: handle downloader state
 
         Downloader.isDownloaderAvailable()
 
         val job = viewModelScope.launch(Dispatchers.IO) {
-            DownloadUtil.fetchVideoInfoFromUrl(url = url).onSuccess { info ->
-                withContext(Dispatchers.Main) {
-                    mStateFlow.update { State.FormatSelection(info = info) }
+            DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
+                .onSuccess { info ->
+                    withContext(Dispatchers.Main) {
+                        mStateFlow.update { State.FormatSelection(info = info) }
+                    }
+                }.onFailure {
+                    withContext(Dispatchers.Main) {
+                    }
+                    // TODO: Handle error state
                 }
-            }.onFailure {
-                withContext(Dispatchers.Main) {
-                }
-                // TODO: Handle error state
-            }
         }
 
         mStateFlow.update { State.Loading(taskKey = "FetchFormat_$url", job = job) }
