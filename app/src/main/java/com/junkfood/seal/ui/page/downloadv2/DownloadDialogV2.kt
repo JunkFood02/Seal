@@ -94,7 +94,6 @@ import com.junkfood.seal.util.DownloadType.Playlist
 import com.junkfood.seal.util.DownloadType.Video
 import com.junkfood.seal.util.DownloadType.entries
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.HIGH
@@ -103,7 +102,6 @@ import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.MEDIUM
 import com.junkfood.seal.util.NOT_SPECIFIED
 import com.junkfood.seal.util.OPUS
-import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -125,29 +123,6 @@ private fun DownloadType.label(): String = stringResource(
         Playlist -> R.string.playlist
     }
 )
-
-private fun DownloadType.updatePreference() {
-    when (this) {
-        Audio -> {
-            EXTRACT_AUDIO.updateBoolean(true)
-            CUSTOM_COMMAND.updateBoolean(false)
-        }
-
-        Video -> {
-            EXTRACT_AUDIO.updateBoolean(false)
-            CUSTOM_COMMAND.updateBoolean(false)
-        }
-
-        Command -> {
-            CUSTOM_COMMAND.updateBoolean(true)
-        }
-
-        Playlist -> {
-            PLAYLIST.updateBoolean(true)
-            CUSTOM_COMMAND.updateBoolean(false)
-        }
-    }
-}
 
 private val PreferencesMock = DownloadUtil.DownloadPreferences(
     extractAudio = false,
@@ -282,6 +257,9 @@ private fun ConfigurePagePreviewPreference() {
                     scope.launch { preference = DownloadUtil.DownloadPreferences() }
                 }, settingChips = {
                     AdditionalSettings(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 12.dp),
                         isQuickDownload = false,
                         preference = preference,
                         selectedType = Audio,
@@ -371,6 +349,7 @@ private fun ConfigurePageImpl(
 
 @Composable
 private fun AdditionalSettings(
+    modifier: Modifier = Modifier,
     isQuickDownload: Boolean,
     selectedType: DownloadType?,
     preference: DownloadUtil.DownloadPreferences,
@@ -381,8 +360,11 @@ private fun AdditionalSettings(
     var showCookiesDialog by rememberSaveable { mutableStateOf(false) }
 
     with(preference) {
-
-        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+        ) {
             if (cookiesProfiles.isNotEmpty()) {
                 VideoFilterChip(
                     selected = preference.cookies,
@@ -443,38 +425,46 @@ fun ExpandableTitle(
     onClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column {
         Spacer(Modifier.height(8.dp))
         HorizontalDivider(thickness = Dp.Hairline, modifier = Modifier.padding(horizontal = 20.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
+        Column(
+            modifier = modifier
                 .clickable(
                     onClick = onClick,
                     onClickLabel = stringResource(R.string.show_more_actions),
                     enabled = !expanded
                 )
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(top = 12.dp, bottom = 8.dp)
         ) {
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(R.string.additional_settings),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            if (!expanded) {
-                Icon(
-                    imageVector = Icons.Outlined.ExpandMore,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.width(24.dp))
+                Text(
+                    text = stringResource(R.string.additional_settings),
+                    style = MaterialTheme.typography.labelLarge,
                 )
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.weight(1f))
+                if (!expanded) {
+                    Icon(
+                        imageVector = Icons.Outlined.ExpandMore,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                }
+            }
+            AnimatedVisibility(expanded) {
+                Column {
+                    Spacer(Modifier.height(8.dp))
+                    content()
+                }
             }
         }
-        AnimatedVisibility(expanded) {
-            content()
-        }
+
     }
 }
 
