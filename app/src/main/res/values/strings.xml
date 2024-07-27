@@ -458,6 +458,7 @@
     <string name="prefer_placeholder">Prefer %1$s</string>
     <string name="custom_format_selection_desc">Choose from formats, subtitles, and customize further</string>
     <string name="preset_format_selection_desc">Download automatically using your format preferences</string>
+    <string name="edit_preset">Edit preset</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

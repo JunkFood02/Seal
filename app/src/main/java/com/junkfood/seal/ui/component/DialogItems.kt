@@ -1,10 +1,13 @@
 package com.junkfood.seal.ui.component
 
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
@@ -23,11 +26,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.junkfood.seal.R
 
 @Composable
 fun DialogSingleChoiceItem(
@@ -36,24 +41,28 @@ fun DialogSingleChoiceItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
             .selectable(
                 selected = selected,
                 enabled = true,
                 onClick = onClick,
+                indication = LocalIndication.current,
+                interactionSource = interactionSource
             )
             .fillMaxWidth()
-            .padding(horizontal = 12.dp),
+            .padding(horizontal = 8.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
         RadioButton(
             modifier = Modifier
-                .padding(end = 8.dp)
+                .padding(horizontal = 12.dp)
                 .clearAndSetSemantics { },
             selected = selected,
-            onClick = onClick
+            onClick = null,
+            interactionSource = interactionSource
         )
         Text(text = text, style = LocalTextStyle.current.copy(fontSize = 16.sp))
     }
@@ -63,14 +72,18 @@ fun DialogSingleChoiceItem(
 @Composable
 fun SingleChoiceItemPreview() {
     Surface {
-        Column {
+        Column(modifier = Modifier.width(300.dp)) {
             DialogSingleChoiceItemWithLabel(
-                text = "Better compatibility", label = "For sharing to other apps", selected = false
+                text = "Better compatibility",
+                label = stringResource(R.string.prefer_compatibility_desc),
+                selected = false
             ) {
 
             }
             DialogSingleChoiceItemWithLabel(
-                text = "Better quality", label = "For watching in compatible apps", selected = true
+                text = "Better quality",
+                label = stringResource(R.string.prefer_quality_desc),
+                selected = true
             ) {
 
             }
@@ -104,20 +117,22 @@ fun DialogSingleChoiceItemWithLabel(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        RadioButton(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .clearAndSetSemantics { },
-            selected = selected,
-            onClick = onClick
-        )
         Column {
-            Text(text = text, style = MaterialTheme.typography.bodyLarge)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(
+                    modifier = Modifier
+                        .padding(start = 12.dp, end = 12.dp)
+                        .clearAndSetSemantics { },
+                    selected = selected,
+                    onClick = null
+                )
+                Text(text = text, style = MaterialTheme.typography.titleMedium)
+            }
             label?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding()
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp, start = 48.dp)
                 )
             }
         }

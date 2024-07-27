@@ -23,9 +23,9 @@ import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
-import androidx.compose.material.icons.outlined._4k
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +34,8 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -58,11 +60,13 @@ import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DialogSingleChoiceItem
 import com.junkfood.seal.ui.component.DialogSingleChoiceItemWithLabel
+import com.junkfood.seal.ui.component.DialogSubtitle
 import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
+import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
@@ -82,10 +86,10 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.PreferenceUtil.updateString
+import com.junkfood.seal.util.RES_HIGHEST
+import com.junkfood.seal.util.RES_LOWEST
 import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.ULTRA_LOW
-import com.junkfood.seal.util.VIDEO_FORMAT
-import com.junkfood.seal.util.VIDEO_QUALITY
 import com.junkfood.seal.util.getStringDefault
 
 
@@ -204,120 +208,157 @@ fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
         })
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun VideoResolutionSelectField(
+    modifier: Modifier = Modifier, videoResolution: Int, onSelect: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val videoResolutionText = PreferenceStrings.getVideoResolutionDescComp(videoResolution)
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }) {
+        SealTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            value = videoResolutionText,
+            onValueChange = {},
+            readOnly = true,
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+//            label = { Text(stringResource(id = R.string.video_resolution)) }
+        )
+        ExposedDropdownMenu(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }) {
+            for (i in RES_HIGHEST..RES_LOWEST)
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getVideoResolutionDescComp(i)) },
+                    onClick = {
+                        onSelect(i)
+                        expanded = false
+                    }
+                )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideoQuickSettingsDialog(onDismissRequest: () -> Unit = {}) {
-    var videoResolution by VIDEO_QUALITY.intState
-    var videoFormat by VIDEO_FORMAT.intState
+fun VideoFormatPreferenceSelectField(
+    modifier: Modifier = Modifier,
+    videoFormatPreference: Int,
+    onSelect: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val videoFormatText = PreferenceStrings.getVideoFormatLabel(videoFormatPreference)
 
-    @Composable
-    fun videoResolutionSelectField(modifier: Modifier = Modifier) {
-        var expanded by remember { mutableStateOf(false) }
-        var videoResolutionText = PreferenceStrings.getVideoResolutionDesc(videoResolution)
-
-        ExposedDropdownMenuBox(
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }) {
+        OutlinedTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            value = videoFormatText,
+            onValueChange = {},
+            readOnly = true,
+            leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+            label = { Text(stringResource(id = R.string.video_format_preference)) }
+        )
+        ExposedDropdownMenu(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
-            OutlinedTextField(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = videoResolutionText,
-                onValueChange = {},
-                readOnly = true,
-                leadingIcon = { Icon(Icons.Outlined._4k, null) },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                label = { Text(stringResource(id = R.string.video_resolution)) }
-            )
-            ExposedDropdownMenu(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                for (i in 0..7)
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getVideoResolutionDesc(i)) },
-                        onClick = {
-//                            videoResolutionText =
-//                                PreferenceStrings.getVideoResolutionDesc(i)
-                            videoResolution = i
-                            expanded = false
-                        })
-            }
+            onDismissRequest = { expanded = false }) {
+            for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getVideoFormatLabel(i)) },
+                    onClick = {
+                        onSelect(i)
+                        expanded = false
+                    }
+                )
         }
     }
-
-    @Composable
-    fun videoFormatSelectField(modifier: Modifier = Modifier) {
-        var expanded by remember { mutableStateOf(false) }
-        var videoFormatText by remember { mutableStateOf(PreferenceStrings.getVideoFormatDesc()) }
-
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
-            OutlinedTextField(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = videoFormatText,
-                onValueChange = {},
-                readOnly = true,
-                leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                label = { Text(stringResource(id = R.string.video_format_preference)) }
-            )
-            ExposedDropdownMenu(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                for (i in listOf(NOT_SPECIFIED, FORMAT_COMPATIBILITY, FORMAT_QUALITY))
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getVideoFormatDesc(i)) },
-                        onClick = {
-                            videoFormatText =
-                                PreferenceStrings.getVideoFormatDesc(i)
-                            videoFormat = i
-                            expanded = false
-                        })
-            }
-        }
-    }
+}
 
 
-    AlertDialog(
+@Composable
+fun VideoQuickSettingsDialog(
+    videoResolution: Int,
+    videoFormatPreference: Int,
+    onResolutionSelect: (Int) -> Unit,
+    onFormatSelect: (Int) -> Unit,
+    onSave: () -> Unit = {},
+    onDismissRequest: () -> Unit = {}
+) {
+    SealDialog(
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Outlined.VideoFile, null) },
         title = {
             Text(
-                text = stringResource(id = R.string.video_format)
+                text = stringResource(id = R.string.edit_preset)
             )
         }, dismissButton = {
-            DismissButton {
-                onDismissRequest()
+            OutlinedButton(onClick = onDismissRequest) {
+                Text(stringResource(R.string.cancel))
             }
         }, confirmButton = {
-            ConfirmButton {
-                VIDEO_FORMAT.updateInt(videoFormat)
-                VIDEO_QUALITY.updateInt(videoResolution)
+            Button(onClick = {
+                onSave()
                 onDismissRequest()
+            }) {
+                Text(text = stringResource(R.string.save))
             }
         }, text = {
-            LazyColumn() {
-                item {
-                    videoFormatSelectField()
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
-                item {
-                    videoResolutionSelectField()
+            Column {
+                LazyColumn() {
+                    item {
+                        DialogSubtitle(text = stringResource(R.string.video_format_preference))
+                    }
+                    for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) {
+                        item {
+                            DialogSingleChoiceItemWithLabel(
+                                modifier = Modifier,
+                                text = PreferenceStrings.getVideoFormatLabel(i),
+                                label = PreferenceStrings.getVideoFormatDescComp(i),
+                                selected = videoFormatPreference == i,
+                            ) { onFormatSelect(i) }
+                        }
+                    }
+                    item {
+                        DialogSubtitle(text = stringResource(R.string.video_resolution))
+                    }
+                    item {
+                        VideoResolutionSelectField(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            videoResolution = videoResolution,
+                            onSelect = onResolutionSelect
+                        )
+                    }
                 }
             }
-        })
+
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun VideoPreview() {
+    VideoQuickSettingsDialog(
+        videoResolution = RES_HIGHEST,
+        videoFormatPreference = FORMAT_QUALITY, onResolutionSelect = {}, onFormatSelect = {}
+    ) {}
 }
 
 

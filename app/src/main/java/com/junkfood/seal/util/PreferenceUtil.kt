@@ -166,6 +166,15 @@ const val MEDIUM = 2
 const val LOW = 3
 const val ULTRA_LOW = 4
 
+const val RES_HIGHEST = 0
+const val RES_2160P = 1
+const val RES_1440P = 2
+const val RES_1080P = 3
+const val RES_720P = 4
+const val RES_480P = 5
+const val RES_360P = 6
+const val RES_LOWEST = 7
+
 
 const val TEMPLATE_EXAMPLE = """--no-mtime -S "ext""""
 
