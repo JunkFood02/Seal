@@ -183,10 +183,6 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
     lint {
         disable.addAll(listOf("MissingTranslation", "ExtraTranslation", "MissingQuantity"))
     }
