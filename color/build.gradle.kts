@@ -21,9 +21,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         sourceCompatibility = JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        compose = true
-    }
     buildTypes {
         all {
             proguardFiles(
