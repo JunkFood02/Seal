@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.HighQuality
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
@@ -32,6 +34,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
@@ -40,6 +43,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -59,7 +63,7 @@ import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DialogSingleChoiceItem
-import com.junkfood.seal.ui.component.DialogSingleChoiceItemWithLabel
+import com.junkfood.seal.ui.component.DialogSingleChoiceItemVariant
 import com.junkfood.seal.ui.component.DialogSubtitle
 import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
@@ -233,7 +237,8 @@ fun VideoResolutionSelectField(
 //            label = { Text(stringResource(id = R.string.video_resolution)) }
         )
         ExposedDropdownMenu(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
+            modifier = Modifier,
+            scrollState = rememberScrollState(),
             expanded = expanded,
             onDismissRequest = { expanded = false }) {
             for (i in RES_HIGHEST..RES_LOWEST)
@@ -327,10 +332,10 @@ fun VideoQuickSettingsDialog(
                     }
                     for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) {
                         item {
-                            DialogSingleChoiceItemWithLabel(
+                            DialogSingleChoiceItemVariant(
                                 modifier = Modifier,
-                                text = PreferenceStrings.getVideoFormatLabel(i),
-                                label = PreferenceStrings.getVideoFormatDescComp(i),
+                                title = PreferenceStrings.getVideoFormatLabel(i),
+                                desc = PreferenceStrings.getVideoFormatDescComp(i),
                                 selected = videoFormatPreference == i,
                             ) { onFormatSelect(i) }
                         }
@@ -347,7 +352,6 @@ fun VideoQuickSettingsDialog(
                     }
                 }
             }
-
         }
     )
 }
@@ -359,6 +363,62 @@ private fun VideoPreview() {
         videoResolution = RES_HIGHEST,
         videoFormatPreference = FORMAT_QUALITY, onResolutionSelect = {}, onFormatSelect = {}
     ) {}
+}
+
+@Preview
+@Composable
+private fun AudioPreview() {
+    AudioQuickSettingsDialog()
+}
+
+@Composable
+fun AudioQuickSettingsDialog(modifier: Modifier = Modifier, onDismissRequest: () -> Unit = {}) {
+    SealDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        icon = { Icon(Icons.Outlined.AudioFile, null) },
+        title = { Text(stringResource(R.string.edit_preset)) },
+        text = {
+            LazyColumn {
+                item {
+                    DialogSubtitle(text = stringResource(R.string.presets))
+                }
+                item {
+                    DialogSingleChoiceItemVariant(
+                        title = stringResource(R.string.best_quality),
+                        selected = true,
+                        desc = null
+                    ) { }
+                }
+                item {
+                    DialogSingleChoiceItemVariant(
+                        title = stringResource(R.string.custom),
+                        selected = false,
+                        desc = null,
+                        action = {
+                            Spacer(Modifier.width(8.dp))
+                            VerticalDivider(Modifier.height(32.dp))
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = stringResource(R.string.edit)
+                                )
+                            }
+                        }
+                    ) { }
+                }
+            }
+
+        },
+        dismissButton = {
+            OutlinedButton(onClick = onDismissRequest) {
+                Text(
+                    stringResource(R.string.cancel)
+                )
+            }
+        },
+        confirmButton = { Button(onClick = {}) { Text(stringResource(R.string.save)) } }
+    )
 }
 
 
@@ -494,10 +554,10 @@ fun VideoFormatDialog(
 
                     for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY))
                         item {
-                            DialogSingleChoiceItemWithLabel(
+                            DialogSingleChoiceItemVariant(
                                 modifier = Modifier,
-                                text = PreferenceStrings.getVideoFormatLabel(i),
-                                label = PreferenceStrings.getVideoFormatDescComp(i),
+                                title = PreferenceStrings.getVideoFormatLabel(i),
+                                desc = PreferenceStrings.getVideoFormatDescComp(i),
                                 selected = preference == i,
                             ) { preference = i }
                         }

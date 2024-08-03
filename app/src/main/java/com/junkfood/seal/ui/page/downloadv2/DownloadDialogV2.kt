@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.Button
@@ -52,6 +53,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -80,6 +82,7 @@ import com.junkfood.seal.ui.page.downloadv2.ActionButton.Download
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.FetchInfo
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.StartTask
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
+import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CONVERT_MP3
@@ -107,10 +110,13 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.ULTRA_LOW
 import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
+import com.junkfood.seal.util.VIDEO_FORMAT
+import com.junkfood.seal.util.VIDEO_QUALITY
 import kotlinx.coroutines.launch
 
 
@@ -231,11 +237,11 @@ private fun ConfigurePagePreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 private fun ConfigurePagePreviewPreference() {
 
     var preference by remember { mutableStateOf(DownloadUtil.DownloadPreferences()) }
     val scope = rememberCoroutineScope()
+    var showVideoPresetDialog by remember { mutableStateOf(false) }
     SealTheme() {
         SealModalBottomSheet(
             sheetState = SheetState(
@@ -253,9 +259,25 @@ private fun ConfigurePagePreviewPreference() {
                     downloadType = Audio,
                     useFormatSelection = true,
                     typeEntries = entries - Command
-                ), preference = preference, onPreferenceUpdate = {
+                ),
+                preference = preference,
+                onPresetEdit = { type ->
+                    when (type) {
+                        Audio -> {
+                            TODO()
+                        }
+
+                        Video -> {
+                            showVideoPresetDialog = true
+                        }
+
+                        else -> {}
+                    }
+                },
+                onPreferenceUpdate = {
                     scope.launch { preference = DownloadUtil.DownloadPreferences() }
-                }, settingChips = {
+                },
+                settingChips = {
                     AdditionalSettings(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
@@ -270,6 +292,22 @@ private fun ConfigurePagePreviewPreference() {
                 }
             ) { }
         }
+        if (showVideoPresetDialog) {
+            var res by remember(preference) { mutableIntStateOf(preference.videoResolution) }
+            var format by remember(preference) { mutableIntStateOf(preference.videoFormat) }
+            VideoQuickSettingsDialog(
+                res,
+                format,
+                { res = it },
+                { format = it },
+                onDismissRequest = { showVideoPresetDialog = false },
+                onSave = {
+                    VIDEO_FORMAT.updateInt(format)
+                    VIDEO_QUALITY.updateInt(res)
+                    preference = DownloadUtil.DownloadPreferences()
+                }
+            )
+        }
     }
 }
 
@@ -279,6 +317,7 @@ private fun ConfigurePageImpl(
     config: Config,
     preference: DownloadUtil.DownloadPreferences,
     settingChips: @Composable () -> Unit,
+    onPresetEdit: (DownloadType?) -> Unit = {},
     onPreferenceUpdate: () -> Unit,
     onActionPosted: (Action) -> Unit
 ) {
@@ -319,7 +358,7 @@ private fun ConfigurePageImpl(
                 onClick = { useFormatSelection = false },
                 showEditIcon = !useFormatSelection && selectedType != Playlist,
                 onEdit = {
-                    // TODO: show preset dialog
+                    onPresetEdit(selectedType)
                 }
             )
             Custom(
@@ -454,7 +493,7 @@ fun ExpandableTitle(
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(modifier = Modifier.width(32.dp))
                 }
             }
             AnimatedVisibility(expanded) {
@@ -663,11 +702,9 @@ private fun Preset(
         action = {
             if (showEditIcon) {
                 Icon(
-                    imageVector = Icons.Outlined.MoreHoriz,
+                    imageVector = Icons.Outlined.MoreVert,
                     contentDescription = stringResource(R.string.edit),
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .size(20.dp),
+                    modifier = Modifier.size(20.dp),
                 )
             }
         },

@@ -5,18 +5,25 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -72,18 +79,30 @@ fun DialogSingleChoiceItem(
 @Composable
 fun SingleChoiceItemPreview() {
     Surface {
-        Column(modifier = Modifier.width(300.dp)) {
-            DialogSingleChoiceItemWithLabel(
-                text = "Better compatibility",
-                label = stringResource(R.string.prefer_compatibility_desc),
+        Column(modifier = Modifier.width(400.dp)) {
+            DialogSingleChoiceItemVariant(
+                title = "Better compatibility",
+                desc = stringResource(R.string.prefer_compatibility_desc),
                 selected = false
             ) {
 
             }
-            DialogSingleChoiceItemWithLabel(
-                text = "Better quality",
-                label = stringResource(R.string.prefer_quality_desc),
+            DialogSingleChoiceItemVariant(
+                title = "Better quality",
+                desc = stringResource(R.string.prefer_quality_desc),
                 selected = true
+            ) {
+
+            }
+            DialogSingleChoiceItemVariant(
+                title = "Better quality",
+                desc = stringResource(R.string.prefer_quality_desc),
+                selected = true,
+                action = {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    VerticalDivider(modifier = Modifier.height(32.dp))
+                    IconButton(onClick = {}) { Icon(Icons.Outlined.Settings, null) }
+                }
             ) {
 
             }
@@ -97,11 +116,12 @@ fun SingleChoiceItemPreview() {
 }
 
 @Composable
-fun DialogSingleChoiceItemWithLabel(
+fun DialogSingleChoiceItemVariant(
     modifier: Modifier = Modifier,
-    text: String,
-    label: String?,
+    title: String,
+    desc: String?,
     selected: Boolean,
+    action: (@Composable () -> Unit)? = null,
     onClick: () -> Unit
 ) {
     Row(
@@ -111,13 +131,16 @@ fun DialogSingleChoiceItemWithLabel(
                 enabled = true,
                 onClick = onClick,
             )
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 16.dp)
-            .padding(vertical = 8.dp),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        Column {
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 8.dp)
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     modifier = Modifier
@@ -126,9 +149,9 @@ fun DialogSingleChoiceItemWithLabel(
                     selected = selected,
                     onClick = null
                 )
-                Text(text = text, style = MaterialTheme.typography.titleMedium)
+                Text(text = title, style = MaterialTheme.typography.titleMedium)
             }
-            label?.let {
+            desc?.let {
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodySmall,
@@ -136,6 +159,7 @@ fun DialogSingleChoiceItemWithLabel(
                 )
             }
         }
+        action?.invoke() ?: Spacer(modifier = Modifier.width(16.dp))
     }
 }
 
