@@ -71,6 +71,7 @@ import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealTextField
+import com.junkfood.seal.ui.page.downloadv2.PreferencesMock
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
@@ -80,6 +81,7 @@ import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.CONVERT_SUBTITLE
 import com.junkfood.seal.util.CONVERT_VTT
 import com.junkfood.seal.util.DEFAULT
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FORMAT_COMPATIBILITY
 import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.M4A
@@ -218,7 +220,7 @@ fun VideoResolutionSelectField(
     modifier: Modifier = Modifier, videoResolution: Int, onSelect: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val videoResolutionText = PreferenceStrings.getVideoResolutionDescComp(videoResolution)
+    val videoResolutionText = PreferenceStrings.getVideoResolutionDesc(videoResolution)
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -243,7 +245,7 @@ fun VideoResolutionSelectField(
             onDismissRequest = { expanded = false }) {
             for (i in RES_HIGHEST..RES_LOWEST)
                 DropdownMenuItem(
-                    text = { Text(PreferenceStrings.getVideoResolutionDescComp(i)) },
+                    text = { Text(PreferenceStrings.getVideoResolutionDesc(i)) },
                     onClick = {
                         onSelect(i)
                         expanded = false
@@ -372,7 +374,11 @@ private fun AudioPreview() {
 }
 
 @Composable
-fun AudioQuickSettingsDialog(modifier: Modifier = Modifier, onDismissRequest: () -> Unit = {}) {
+fun AudioQuickSettingsDialog(
+    modifier: Modifier = Modifier,
+    preferences: DownloadUtil.DownloadPreferences = PreferencesMock,
+    onDismissRequest: () -> Unit = {}
+) {
     SealDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
@@ -387,14 +393,14 @@ fun AudioQuickSettingsDialog(modifier: Modifier = Modifier, onDismissRequest: ()
                     DialogSingleChoiceItemVariant(
                         title = stringResource(R.string.best_quality),
                         selected = true,
-                        desc = null
+                        desc = stringResource(R.string.best_quality_desc)
                     ) { }
                 }
                 item {
                     DialogSingleChoiceItemVariant(
                         title = stringResource(R.string.custom),
                         selected = false,
-                        desc = null,
+                        desc = PreferenceStrings.getAudioPresetText(preferences),
                         action = {
                             Spacer(Modifier.width(8.dp))
                             VerticalDivider(Modifier.height(32.dp))
@@ -950,7 +956,7 @@ fun VideoResolutionChip(
         onClick = onClick,
         label = {
             Text(
-                text = PreferenceStrings.getVideoResolutionDescComp(videoResolution)
+                text = PreferenceStrings.getVideoResolutionDesc(videoResolution)
             )
         },
         leadingIcon = {

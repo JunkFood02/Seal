@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.ExpandMore
-import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
@@ -85,7 +84,6 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.util.CONVERT_MP3
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
@@ -97,14 +95,7 @@ import com.junkfood.seal.util.DownloadType.Playlist
 import com.junkfood.seal.util.DownloadType.Video
 import com.junkfood.seal.util.DownloadType.entries
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.FORMAT_SELECTION
-import com.junkfood.seal.util.HIGH
-import com.junkfood.seal.util.LOW
-import com.junkfood.seal.util.M4A
-import com.junkfood.seal.util.MEDIUM
-import com.junkfood.seal.util.NOT_SPECIFIED
-import com.junkfood.seal.util.OPUS
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -113,7 +104,6 @@ import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
-import com.junkfood.seal.util.ULTRA_LOW
 import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
@@ -130,7 +120,7 @@ private fun DownloadType.label(): String = stringResource(
     }
 )
 
-private val PreferencesMock = DownloadUtil.DownloadPreferences(
+val PreferencesMock = DownloadUtil.DownloadPreferences(
     extractAudio = false,
     createThumbnail = false,
     downloadPlaylist = false,
@@ -626,66 +616,19 @@ private fun Preset(
     onEdit: () -> Unit,
     onClick: () -> Unit
 ) {
-    val description = preference.run {
-        when (downloadType) {
-            Audio -> {
-                when {
-                    formatSorting -> {
-                        sortingFields
-                    }
-
-                    convertAudio -> {
-                        when (audioConvertFormat) {
-                            CONVERT_MP3 -> stringResource(R.string.convert_to, "MP3")
-                            else -> stringResource(R.string.convert_to, "M4A")
-                        }
-                    }
-
-                    else -> {
-                        val preferredFormat = when (audioFormat) {
-                            M4A -> stringResource(R.string.prefer_placeholder, "M4A")
-                            OPUS -> stringResource(R.string.prefer_placeholder, "OPUS")
-                            else -> null
-                        }
-                        val preferredQuality =
-                            when (audioQuality) {
-                                NOT_SPECIFIED -> stringResource(R.string.best_quality)
-                                HIGH -> "192 Kbps"
-                                MEDIUM -> "128 Kbps"
-                                LOW -> "64 Kbps"
-                                ULTRA_LOW -> "32 Kbps"
-                                else -> stringResource(R.string.lowest_bitrate)
-                            }
-                        listOfNotNull(
-                            preferredFormat,
-                            preferredQuality
-                        ).joinToString(separator = ", ")
-                    }
-                }
-            }
-
-            Video -> {
-                when {
-                    formatSorting -> {
-                        sortingFields
-                    }
-
-                    else -> {
-                        val preferredFormat = stringResource(
-                            id = R.string.prefer_placeholder,
-                            stringResource(id = if (videoFormat == FORMAT_QUALITY) R.string.quality else R.string.legacy)
-                        )
-                        val preferredResolution =
-                            PreferenceStrings.getVideoResolutionDescRes(videoResolution)
-                        listOf(preferredFormat, preferredResolution).joinToString(separator = ", ")
-                    }
-                }
-            }
-
-            Playlist -> stringResource(R.string.preset_format_selection_desc)
-            else -> ""
+    val description = when (downloadType) {
+        Audio -> {
+            PreferenceStrings.getAudioPresetText(preference)
         }
+
+        Video -> {
+            PreferenceStrings.getVideoPresetText(preference)
+        }
+
+        Playlist -> stringResource(R.string.preset_format_selection_desc)
+        else -> ""
     }
+
 
     SingleChoiceItem(
         modifier = modifier,

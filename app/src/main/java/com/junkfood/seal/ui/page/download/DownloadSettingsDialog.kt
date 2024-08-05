@@ -337,7 +337,7 @@ fun DownloadSettingDialog(
                                     iconDescription = stringResource(id = R.string.video_format_preference)
                                 )
                                 ButtonChip(
-                                    label = PreferenceStrings.getVideoResolutionDescComp(),
+                                    label = PreferenceStrings.getVideoResolutionDesc(),
                                     icon = Icons.Outlined.HighQuality,
                                     enabled = !formatSorting && type != null,
                                     iconDescription = stringResource(id = R.string.video_quality)

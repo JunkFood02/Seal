@@ -477,14 +477,6 @@ object PreferenceStrings {
         }
     }
 
-    fun getVideoFormatDesc(videoFormatCode: Int = PreferenceUtil.getVideoFormat()): String {
-        return when (videoFormatCode) {
-            FORMAT_COMPATIBILITY -> context.getString(R.string.prefer_compatibility_desc)
-            FORMAT_QUALITY -> context.getString(R.string.prefer_quality_desc)
-            else -> context.getString(R.string.not_specified)
-        }
-    }
-
     @Composable
     fun getVideoFormatDescComp(videoFormatCode: Int = PreferenceUtil.getVideoFormat()): String {
         return when (videoFormatCode) {
@@ -495,34 +487,7 @@ object PreferenceStrings {
     }
 
     @Composable
-    fun getVideoResolutionDescRes(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
-        return when (videoQualityCode) {
-            1 -> "2160p"
-            2 -> "1440p"
-            3 -> "1080p"
-            4 -> "720p"
-            5 -> "480p"
-            6 -> "360p"
-            7 -> stringResource(R.string.lowest_quality)
-            else -> stringResource(R.string.best_quality)
-        }
-    }
-
     fun getVideoResolutionDesc(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
-        return when (videoQualityCode) {
-            1 -> "2160p"
-            2 -> "1440p"
-            3 -> "1080p"
-            4 -> "720p"
-            5 -> "480p"
-            6 -> "360p"
-            7 -> App.Companion.context.getString(R.string.lowest_quality)
-            else -> context.getString(R.string.best_quality)
-        }
-    }
-
-    @Composable
-    fun getVideoResolutionDescComp(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
         return when (videoQualityCode) {
             1 -> "2160p"
             2 -> "1440p"
@@ -553,5 +518,65 @@ object PreferenceStrings {
                 else -> R.string.disabled
             }
         )
+    }
+
+    @Composable
+    fun getAudioPresetText(preferences: DownloadUtil.DownloadPreferences): String {
+        return with(preferences) {
+            when {
+                formatSorting -> {
+                    sortingFields
+                }
+
+                convertAudio -> {
+                    when (audioConvertFormat) {
+                        CONVERT_MP3 -> stringResource(R.string.convert_to, "MP3")
+                        else -> stringResource(R.string.convert_to, "M4A")
+                    }
+                }
+
+                else -> {
+                    val preferredFormat = when (audioFormat) {
+                        M4A -> stringResource(R.string.prefer_placeholder, "M4A")
+                        OPUS -> stringResource(R.string.prefer_placeholder, "OPUS")
+                        else -> null
+                    }
+                    val preferredQuality =
+                        when (audioQuality) {
+                            NOT_SPECIFIED -> stringResource(R.string.best_quality)
+                            HIGH -> "192 Kbps"
+                            MEDIUM -> "128 Kbps"
+                            LOW -> "64 Kbps"
+                            ULTRA_LOW -> "32 Kbps"
+                            else -> stringResource(R.string.lowest_bitrate)
+                        }
+                    listOfNotNull(
+                        preferredFormat,
+                        preferredQuality
+                    ).joinToString(separator = ", ")
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun getVideoPresetText(preferences: DownloadUtil.DownloadPreferences): String {
+        return with(preferences) {
+            when {
+                formatSorting -> {
+                    sortingFields
+                }
+
+                else -> {
+                    val preferredFormat = stringResource(
+                        id = R.string.prefer_placeholder,
+                        stringResource(id = if (videoFormat == FORMAT_QUALITY) R.string.quality else R.string.legacy)
+                    )
+                    val preferredResolution =
+                        getVideoResolutionDesc(videoResolution)
+                    listOf(preferredFormat, preferredResolution).joinToString(separator = ", ")
+                }
+            }
+        }
     }
 }

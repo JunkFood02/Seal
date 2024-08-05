@@ -217,7 +217,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_quality),
-                        description = PreferenceStrings.getVideoResolutionDescComp(videoQuality),
+                        description = PreferenceStrings.getVideoResolutionDesc(videoQuality),
                         icon = Icons.Outlined.HighQuality,
                         enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
                     ) { showVideoQualityDialog = true }

@@ -181,17 +181,6 @@
           <option name="screenY" value="2400" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-          <option name="api" value="31" />
-          <option name="brand" value="samsung" />
-          <option name="codename" value="q2q" />
-          <option name="id" value="q2q" />
-          <option name="manufacturer" value="Samsung" />
-          <option name="name" value="Galaxy Z Fold3" />
-          <option name="screenDensity" value="420" />
-          <option name="screenX" value="1768" />
-          <option name="screenY" value="2208" />
-        </PersistentDeviceSelectionData>
-        <PersistentDeviceSelectionData>
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
           <option name="codename" value="q5q" />
