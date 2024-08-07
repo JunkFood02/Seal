@@ -89,7 +89,8 @@ object DownloadUtil {
 
     @CheckResult
     fun getPlaylistOrVideoInfo(
-        playlistURL: String, downloadPreferences: DownloadPreferences = DownloadPreferences()
+        playlistURL: String,
+        downloadPreferences: DownloadPreferences = DownloadPreferences.createFromPreferences()
     ): Result<YoutubeDLInfo> = YoutubeDL.runCatching {
         ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
         val request = YoutubeDLRequest(playlistURL)
@@ -138,7 +139,7 @@ object DownloadUtil {
     @CheckResult
     fun fetchVideoInfoFromUrl(
         url: String, playlistItem: Int = 0,
-        preferences: DownloadPreferences = DownloadPreferences()
+        preferences: DownloadPreferences = DownloadPreferences.createFromPreferences()
     ): Result<VideoInfo> {
         with(preferences) {
             val request = YoutubeDLRequest(url).apply {
@@ -183,59 +184,119 @@ object DownloadUtil {
     }
 
     data class DownloadPreferences(
-        val extractAudio: Boolean = PreferenceUtil.getValue(EXTRACT_AUDIO),
-        val createThumbnail: Boolean = PreferenceUtil.getValue(THUMBNAIL),
-        val downloadPlaylist: Boolean = PreferenceUtil.getValue(PLAYLIST),
-        val subdirectoryExtractor: Boolean = PreferenceUtil.getValue(SUBDIRECTORY_EXTRACTOR),
-        val subdirectoryPlaylistTitle: Boolean = SUBDIRECTORY_PLAYLIST_TITLE.getBoolean(),
-        val commandDirectory: String = COMMAND_DIRECTORY.getString(),
-        val downloadSubtitle: Boolean = PreferenceUtil.getValue(SUBTITLE),
-        val embedSubtitle: Boolean = EMBED_SUBTITLE.getBoolean(),
-        val keepSubtitle: Boolean = KEEP_SUBTITLE_FILES.getBoolean(),
-        val subtitleLanguage: String = SUBTITLE_LANGUAGE.getString(),
-        val autoSubtitle: Boolean = PreferenceUtil.getValue(AUTO_SUBTITLE),
-        val autoTranslatedSubtitles: Boolean = AUTO_TRANSLATED_SUBTITLES.getBoolean(),
-        val convertSubtitle: Int = CONVERT_SUBTITLE.getInt(),
-        val concurrentFragments: Int = CONCURRENT.getInt(),
-        val sponsorBlock: Boolean = PreferenceUtil.getValue(SPONSORBLOCK),
-        val sponsorBlockCategory: String = PreferenceUtil.getSponsorBlockCategories(),
-        val cookies: Boolean = COOKIES.getBoolean(),
-        val aria2c: Boolean = PreferenceUtil.getValue(ARIA2C),
-        val audioFormat: Int = AUDIO_FORMAT.getInt(),
-        val audioQuality: Int = AUDIO_QUALITY.getInt(),
-        val convertAudio: Boolean = AUDIO_CONVERT.getBoolean(),
-        val formatSorting: Boolean = FORMAT_SORTING.getBoolean(),
-        val sortingFields: String = SORTING_FIELDS.getString(),
-        val audioConvertFormat: Int = PreferenceUtil.getAudioConvertFormat(),
-        val videoFormat: Int = PreferenceUtil.getVideoFormat(),
-        val formatIdString: String = "",
-        val videoResolution: Int = PreferenceUtil.getVideoResolution(),
-        val privateMode: Boolean = PreferenceUtil.getValue(PRIVATE_MODE),
-        val rateLimit: Boolean = PreferenceUtil.getValue(RATE_LIMIT),
-        val maxDownloadRate: String = PreferenceUtil.getMaxDownloadRate(),
-        val privateDirectory: Boolean = PreferenceUtil.getValue(PRIVATE_DIRECTORY),
-        val cropArtwork: Boolean = PreferenceUtil.getValue(CROP_ARTWORK),
-        val sdcard: Boolean = PreferenceUtil.getValue(SDCARD_DOWNLOAD),
-        val sdcardUri: String = SDCARD_URI.getString(),
-        val embedThumbnail: Boolean = EMBED_THUMBNAIL.getBoolean(),
-        val videoClips: List<VideoClip> = emptyList(),
-        val splitByChapter: Boolean = false,
-        val debug: Boolean = DEBUG.getBoolean(),
-        val proxy: Boolean = PROXY.getBoolean(),
-        val proxyUrl: String = PROXY_URL.getString(),
-        val newTitle: String = "",
-        val userAgentString: String = USER_AGENT_STRING.run {
-            if (USER_AGENT.getBoolean()) getString() else ""
-        },
-        val outputTemplate: String = OUTPUT_TEMPLATE.getString(),
-        val useDownloadArchive: Boolean = DOWNLOAD_ARCHIVE.getBoolean(),
-        val embedMetadata: Boolean = EMBED_METADATA.getBoolean(),
-        val restrictFilenames: Boolean = RESTRICT_FILENAMES.getBoolean(),
-        val supportAv1HardwareDecoding: Boolean = checkIfAv1HardwareAccelerated(),
-        val forceIpv4: Boolean = FORCE_IPV4.getBoolean(),
-        val mergeAudioStream: Boolean = false,
-        val mergeToMkv: Boolean = (downloadSubtitle && embedSubtitle) || MERGE_OUTPUT_MKV.getBoolean()
-    )
+        val extractAudio: Boolean,
+        val createThumbnail: Boolean,
+        val downloadPlaylist: Boolean,
+        val subdirectoryExtractor: Boolean,
+        val subdirectoryPlaylistTitle: Boolean,
+        val commandDirectory: String,
+        val downloadSubtitle: Boolean,
+        val embedSubtitle: Boolean,
+        val keepSubtitle: Boolean,
+        val subtitleLanguage: String,
+        val autoSubtitle: Boolean,
+        val autoTranslatedSubtitles: Boolean,
+        val convertSubtitle: Int,
+        val concurrentFragments: Int,
+        val sponsorBlock: Boolean,
+        val sponsorBlockCategory: String,
+        val cookies: Boolean,
+        val aria2c: Boolean,
+        val useCustomAudioPreset: Boolean,
+        val audioFormat: Int,
+        val audioQuality: Int,
+        val convertAudio: Boolean,
+        val formatSorting: Boolean,
+        val sortingFields: String,
+        val audioConvertFormat: Int,
+        val videoFormat: Int,
+        val formatIdString: String,
+        val videoResolution: Int,
+        val privateMode: Boolean,
+        val rateLimit: Boolean,
+        val maxDownloadRate: String,
+        val privateDirectory: Boolean,
+        val cropArtwork: Boolean,
+        val sdcard: Boolean,
+        val sdcardUri: String,
+        val embedThumbnail: Boolean,
+        val videoClips: List<VideoClip>,
+        val splitByChapter: Boolean,
+        val debug: Boolean,
+        val proxy: Boolean,
+        val proxyUrl: String,
+        val newTitle: String,
+        val userAgentString: String,
+        val outputTemplate: String,
+        val useDownloadArchive: Boolean,
+        val embedMetadata: Boolean,
+        val restrictFilenames: Boolean,
+        val supportAv1HardwareDecoding: Boolean,
+        val forceIpv4: Boolean,
+        val mergeAudioStream: Boolean,
+        val mergeToMkv: Boolean,
+    ) {
+        companion object {
+            fun createFromPreferences(): DownloadPreferences {
+                val downloadSubtitle = SUBTITLE.getBoolean()
+                val embedSubtitle = EMBED_SUBTITLE.getBoolean()
+                return DownloadPreferences(
+                    extractAudio = EXTRACT_AUDIO.getBoolean(),
+                    createThumbnail = THUMBNAIL.getBoolean(),
+                    downloadPlaylist = PLAYLIST.getBoolean(),
+                    subdirectoryExtractor = SUBDIRECTORY_EXTRACTOR.getBoolean(),
+                    subdirectoryPlaylistTitle = SUBDIRECTORY_PLAYLIST_TITLE.getBoolean(),
+                    commandDirectory = COMMAND_DIRECTORY.getString(),
+                    downloadSubtitle = downloadSubtitle,
+                    embedSubtitle = embedSubtitle,
+                    keepSubtitle = KEEP_SUBTITLE_FILES.getBoolean(),
+                    subtitleLanguage = SUBTITLE_LANGUAGE.getString(),
+                    autoSubtitle = AUTO_SUBTITLE.getBoolean(),
+                    autoTranslatedSubtitles = AUTO_TRANSLATED_SUBTITLES.getBoolean(),
+                    convertSubtitle = CONVERT_SUBTITLE.getInt(),
+                    concurrentFragments = CONCURRENT.getInt(),
+                    sponsorBlock = SPONSORBLOCK.getBoolean(),
+                    sponsorBlockCategory = PreferenceUtil.getSponsorBlockCategories(),
+                    cookies = COOKIES.getBoolean(),
+                    aria2c = ARIA2C.getBoolean(),
+                    useCustomAudioPreset = USE_CUSTOM_AUDIO_PRESET.getBoolean(),
+                    audioFormat = AUDIO_FORMAT.getInt(),
+                    audioQuality = AUDIO_QUALITY.getInt(),
+                    convertAudio = AUDIO_CONVERT.getBoolean(),
+                    formatSorting = FORMAT_SORTING.getBoolean(),
+                    sortingFields = SORTING_FIELDS.getString(),
+                    audioConvertFormat = PreferenceUtil.getAudioConvertFormat(),
+                    videoFormat = PreferenceUtil.getVideoFormat(),
+                    formatIdString = "",
+                    videoResolution = PreferenceUtil.getVideoResolution(),
+                    privateMode = PRIVATE_MODE.getBoolean(),
+                    rateLimit = RATE_LIMIT.getBoolean(),
+                    maxDownloadRate = PreferenceUtil.getMaxDownloadRate(),
+                    privateDirectory = PRIVATE_DIRECTORY.getBoolean(),
+                    cropArtwork = CROP_ARTWORK.getBoolean(),
+                    sdcard = SDCARD_DOWNLOAD.getBoolean(),
+                    sdcardUri = SDCARD_URI.getString(),
+                    embedThumbnail = EMBED_THUMBNAIL.getBoolean(),
+                    videoClips = emptyList(),
+                    splitByChapter = false,
+                    debug = DEBUG.getBoolean(),
+                    proxy = PROXY.getBoolean(),
+                    proxyUrl = PROXY_URL.getString(),
+                    newTitle = "",
+                    userAgentString = USER_AGENT_STRING.run { if (USER_AGENT.getBoolean()) getString() else "" },
+                    outputTemplate = OUTPUT_TEMPLATE.getString(),
+                    useDownloadArchive = DOWNLOAD_ARCHIVE.getBoolean(),
+                    embedMetadata = EMBED_METADATA.getBoolean(),
+                    restrictFilenames = RESTRICT_FILENAMES.getBoolean(),
+                    supportAv1HardwareDecoding = checkIfAv1HardwareAccelerated(),
+                    forceIpv4 = FORCE_IPV4.getBoolean(),
+                    mergeAudioStream = false,
+                    mergeToMkv = (downloadSubtitle && embedSubtitle) || MERGE_OUTPUT_MKV.getBoolean(),
+                )
+
+            }
+        }
+    }
 
     private fun YoutubeDLRequest.enableCookies(userAgentString: String): YoutubeDLRequest =
         this.addOption("--cookies", context.getCookiesFile().absolutePath).apply {
@@ -710,7 +771,7 @@ object DownloadUtil {
     suspend fun executeCommandInBackground(
         url: String,
         template: CommandTemplate = PreferenceUtil.getTemplate(),
-        downloadPreferences: DownloadPreferences = DownloadPreferences(),
+        downloadPreferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
     ) {
         downloadPreferences.run {
             val taskId = Downloader.makeKey(url = url, templateName = template.name)

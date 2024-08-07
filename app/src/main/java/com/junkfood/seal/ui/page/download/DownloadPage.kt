@@ -238,7 +238,7 @@ fun DownloadPage(
         mutableStateOf(DEBUG.getBoolean())
     }
     LaunchedEffect(downloaderState) {
-        showOutput = PreferenceUtil.getValue(DEBUG) && downloaderState !is Downloader.State.Idle
+        showOutput = DEBUG.getBoolean() && downloaderState !is Downloader.State.Idle
     }
     if (viewState.isUrlSharingTriggered) {
         downloadViewModel.onShareIntentConsumed()
@@ -247,7 +247,7 @@ fun DownloadPage(
 
     val showVideoCard by remember(downloaderState) {
         mutableStateOf(
-            !PreferenceUtil.getValue(DISABLE_PREVIEW)
+            !DISABLE_PREVIEW.getBoolean()
         )
     }
 

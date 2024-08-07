@@ -319,7 +319,7 @@ object Downloader {
 
     fun quickDownload(
         url: String,
-        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
         applicationScope.launch(Dispatchers.IO) {
             mutableQuickDownloadCount.update { it + 1 }
@@ -387,7 +387,7 @@ object Downloader {
 
     fun getInfoAndDownload(
         url: String,
-        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
         currentJob = applicationScope.launch(Dispatchers.IO) {
             updateState(State.FetchingInfo)
@@ -443,7 +443,7 @@ object Downloader {
 
             val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
 
-            val downloadPreferences = DownloadUtil.DownloadPreferences(
+            val downloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences().copy(
                 formatIdString = formatId,
                 videoClips = videoClips,
                 splitByChapter = splitByChapter,
@@ -487,7 +487,7 @@ object Downloader {
         playlistIndex: Int = 0,
         playlistUrl: String = "",
         videoInfo: VideoInfo,
-        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
     ): Result<List<String>> {
 
         Log.d(TAG, preferences.subtitleLanguage)
@@ -558,7 +558,7 @@ object Downloader {
         url: String,
         indexList: List<Int>,
         playlistItemList: List<Entries> = emptyList(),
-        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
         val itemCount = indexList.size
 

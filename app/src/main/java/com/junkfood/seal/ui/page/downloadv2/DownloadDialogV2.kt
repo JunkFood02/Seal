@@ -170,7 +170,8 @@ val PreferencesMock = DownloadUtil.DownloadPreferences(
     supportAv1HardwareDecoding = false,
     forceIpv4 = false,
     mergeAudioStream = false,
-    mergeToMkv = false
+    mergeToMkv = false,
+    useCustomAudioPreset = false
 )
 
 data class Config(
@@ -229,7 +230,7 @@ private fun ConfigurePagePreview() {
 @Composable
 private fun ConfigurePagePreviewPreference() {
 
-    var preference by remember { mutableStateOf(DownloadUtil.DownloadPreferences()) }
+    var preference by remember { mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences()) }
     val scope = rememberCoroutineScope()
     var showVideoPresetDialog by remember { mutableStateOf(false) }
     SealTheme() {
@@ -265,7 +266,7 @@ private fun ConfigurePagePreviewPreference() {
                     }
                 },
                 onPreferenceUpdate = {
-                    scope.launch { preference = DownloadUtil.DownloadPreferences() }
+                    scope.launch { preference = DownloadUtil.DownloadPreferences.createFromPreferences() }
                 },
                 settingChips = {
                     AdditionalSettings(
@@ -276,7 +277,7 @@ private fun ConfigurePagePreviewPreference() {
                         preference = preference,
                         selectedType = Audio,
                         onPreferenceUpdate = {
-                            scope.launch { preference = DownloadUtil.DownloadPreferences() }
+                            scope.launch { preference = DownloadUtil.DownloadPreferences.createFromPreferences() }
                         }
                     )
                 }
@@ -294,7 +295,7 @@ private fun ConfigurePagePreviewPreference() {
                 onSave = {
                     VIDEO_FORMAT.updateInt(format)
                     VIDEO_QUALITY.updateInt(res)
-                    preference = DownloadUtil.DownloadPreferences()
+                    preference = DownloadUtil.DownloadPreferences.createFromPreferences()
                 }
             )
         }

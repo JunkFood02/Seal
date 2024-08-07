@@ -101,6 +101,7 @@ import com.junkfood.seal.util.PLAYLIST
 import com.junkfood.seal.util.PRIVATE_MODE
 import com.junkfood.seal.util.PreferenceStrings.getUpdateIntervalText
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getLong
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
@@ -142,17 +143,17 @@ fun GeneralDownloadPreferences(
     val downloadSubtitle by SUBTITLE.booleanState
 
     var displayErrorReport by DEBUG.booleanState
-    var downloadPlaylist by remember { mutableStateOf(PreferenceUtil.getValue(PLAYLIST)) }
-    var isSponsorBlockEnabled by remember { mutableStateOf(PreferenceUtil.getValue(SPONSORBLOCK)) }
+    var downloadPlaylist by remember { mutableStateOf(PLAYLIST.getBoolean()) }
+    var isSponsorBlockEnabled by remember { mutableStateOf(SPONSORBLOCK.getBoolean()) }
     var downloadNotification by remember {
-        mutableStateOf(PreferenceUtil.getValue(NOTIFICATION))
+        mutableStateOf(NOTIFICATION.getBoolean())
     }
 
     var isPrivateModeEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(PRIVATE_MODE))
+        mutableStateOf(PRIVATE_MODE.getBoolean())
     }
 
-    var isPreviewDisabled by remember { mutableStateOf(PreferenceUtil.getValue(DISABLE_PREVIEW)) }
+    var isPreviewDisabled by remember { mutableStateOf(DISABLE_PREVIEW.getBoolean()) }
     var isNotificationPermissionGranted by remember {
         mutableStateOf(NotificationUtil.areNotificationsEnabled())
     }
@@ -194,7 +195,7 @@ fun GeneralDownloadPreferences(
         content = {
             val isCustomCommandEnabled by remember {
                 mutableStateOf(
-                    PreferenceUtil.getValue(CUSTOM_COMMAND)
+                    CUSTOM_COMMAND.getBoolean()
                 )
             }
             LazyColumn(
@@ -299,7 +300,7 @@ fun GeneralDownloadPreferences(
                 item {
                     var thumbnailSwitch by remember {
                         mutableStateOf(
-                            PreferenceUtil.getValue(THUMBNAIL)
+                            THUMBNAIL.getBoolean()
                         )
                     }
                     PreferenceSwitch(title = stringResource(id = R.string.create_thumbnail),

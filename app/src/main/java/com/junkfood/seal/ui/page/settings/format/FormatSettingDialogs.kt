@@ -40,6 +40,7 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
@@ -257,6 +258,27 @@ private fun AudioPreview() {
     AudioQuickSettingsDialog()
 }
 
+@Preview
+@Composable
+private fun AudioPreview2() {
+    var b by remember { mutableStateOf(false) }
+    var i1 by remember { mutableIntStateOf(1) }
+    var i2 by remember { mutableIntStateOf(0) }
+    Surface {
+        Column {
+            AudioFormatSelectField(
+                convertAudio = b,
+                preferredFormat = i1,
+                conversionFormat = i2,
+                onConvertToggled = { b = it },
+                onPreferredSelect = { i1 = it },
+                onConversionSelect = { i2 = it })
+        }
+
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AudioFormatSelectField(
@@ -313,12 +335,12 @@ private fun AudioFormatSelectField(
                     )
             }
         }
-        DialogSwitchItem(
-            text = stringResource(R.string.convert_audio_format),
-            value = convertAudio,
-            onValueChange = onConvertToggled
-        )
     }
+    DialogSwitchItem(
+        text = stringResource(R.string.convert_audio_format),
+        value = convertAudio,
+        onValueChange = onConvertToggled
+    )
 }
 
 @Composable
@@ -379,10 +401,10 @@ fun AudioQuickSettingsDialog(
 @Composable
 fun AudioConversionDialog(
     onDismissRequest: () -> Unit,
-    onConfirm: () -> Unit = {}
+    audioFormat: Int,
+    onConfirm: (Int) -> Unit = {}
 ) {
-    var audioFormat by remember { mutableStateOf(PreferenceUtil.getAudioConvertFormat()) }
-    var convertAudio by AUDIO_CONVERT.booleanState
+    var audioFormat by remember { mutableIntStateOf(audioFormat) }
     SealDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
@@ -396,7 +418,7 @@ fun AudioConversionDialog(
         }, confirmButton = {
             TextButton(onClick = {
                 AUDIO_CONVERSION_FORMAT.updateInt(audioFormat)
-                onConfirm()
+                onConfirm(audioFormat)
                 onDismissRequest()
             }) {
                 Text(text = stringResource(R.string.confirm))

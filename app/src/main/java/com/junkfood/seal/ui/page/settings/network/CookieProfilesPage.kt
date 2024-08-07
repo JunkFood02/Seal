@@ -96,6 +96,7 @@ import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
 import com.junkfood.seal.util.matchUrlFromClipboard
@@ -120,7 +121,7 @@ fun CookieProfilePage(
     val clipboardManager = LocalClipboardManager.current
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
-    var isCookieEnabled by remember { mutableStateOf(PreferenceUtil.getValue(COOKIES)) }
+    var isCookieEnabled by remember { mutableStateOf(COOKIES.getBoolean()) }
     val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
     val view = LocalView.current

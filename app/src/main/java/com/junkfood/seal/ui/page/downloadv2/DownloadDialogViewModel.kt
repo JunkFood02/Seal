@@ -42,7 +42,7 @@ class DownloadDialogViewModel : ViewModel() {
             val url: String,
             val indexList: List<Int>,
             val playlistItemList: List<Entries> = emptyList(),
-            val preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences()
+            val preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
         ) : Action
 
         data class FetchFormats(

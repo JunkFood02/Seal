@@ -147,7 +147,7 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
 
 
     var isPrivateDirectoryEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(PRIVATE_DIRECTORY))
+        mutableStateOf(PRIVATE_DIRECTORY.getBoolean())
     }
 
     var videoDirectoryText by remember(isPrivateDirectoryEnabled) {
@@ -162,7 +162,7 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
     var customCommandDirectory by COMMAND_DIRECTORY.stringState
 
     var sdcardDownload by remember {
-        mutableStateOf(PreferenceUtil.getValue(SDCARD_DOWNLOAD))
+        mutableStateOf(SDCARD_DOWNLOAD.getBoolean())
     }
 
     var showClearTempDialog by remember { mutableStateOf(false) }
@@ -173,7 +173,7 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
 
     val isCustomCommandEnabled by remember {
         mutableStateOf(
-            PreferenceUtil.getValue(CUSTOM_COMMAND)
+            CUSTOM_COMMAND.getBoolean()
         )
     }
 

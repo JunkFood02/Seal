@@ -80,6 +80,7 @@ import com.junkfood.seal.ui.page.settings.about.YtdlpRepository
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.TEMPLATE_ID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -118,7 +119,7 @@ fun TemplateListPage(onNavigateBack: () -> Unit, onNavigateToEditPage: (Int) -> 
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showShortcutsDialog by remember { mutableStateOf(false) }
     var isCustomCommandEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(CUSTOM_COMMAND))
+        mutableStateOf(CUSTOM_COMMAND.getBoolean())
     }
 
     var selectedTemplateId by TEMPLATE_ID.intState

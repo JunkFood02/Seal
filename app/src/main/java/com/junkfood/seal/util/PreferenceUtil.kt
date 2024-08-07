@@ -262,7 +262,6 @@ object PreferenceUtil {
     fun String.updateBoolean(newValue: Boolean) = kv.encode(this, newValue)
     fun updateValue(key: String, b: Boolean) = key.updateBoolean(b)
     fun encodeInt(key: String, int: Int) = key.updateInt(int)
-    fun getValue(key: String): Boolean = key.getBoolean()
     fun encodeString(key: String, string: String) = key.updateString(string)
     fun containsKey(key: String) = kv.containsKey(key)
 

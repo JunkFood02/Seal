@@ -161,10 +161,10 @@ fun DownloadSettingDialog(
     onDownloadConfirm: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-//    val audio by remember { mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO)) }
+//    val audio by remember { mutableStateOf(EXTRACT_AUDIO.getBoolean()) }
 
-    var thumbnail by remember { mutableStateOf(PreferenceUtil.getValue(THUMBNAIL)) }
-    var subtitle by remember { mutableStateOf(PreferenceUtil.getValue(SUBTITLE)) }
+    var thumbnail by remember { mutableStateOf(THUMBNAIL.getBoolean()) }
+    var subtitle by remember { mutableStateOf(SUBTITLE.getBoolean()) }
     var formatSelection by FORMAT_SELECTION.booleanState
     var videoFormatPreference by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
@@ -640,7 +640,7 @@ fun DownloadSettingDialog(
                 formatSorting = it
                 FORMAT_SORTING.updateBoolean(it)
             }, onImport = {
-                sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+                sortingFields = DownloadUtil.DownloadPreferences.createFromPreferences().toFormatSorter()
             }, onDismissRequest = { showFormatSortingDialog = false },
             onConfirm = {
                 sortingFields = it

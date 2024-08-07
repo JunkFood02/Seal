@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -39,12 +40,12 @@ import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.CROP_ARTWORK
 import com.junkfood.seal.util.CUSTOM_COMMAND
@@ -59,6 +60,7 @@ import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.MERGE_OUTPUT_MKV
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
@@ -77,10 +79,10 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
             canScroll = { true })
 
     var audioSwitch by remember {
-        mutableStateOf(PreferenceUtil.getValue(EXTRACT_AUDIO))
+        mutableStateOf(EXTRACT_AUDIO.getBoolean())
     }
     var isArtworkCroppingEnabled by remember {
-        mutableStateOf(PreferenceUtil.getValue(CROP_ARTWORK))
+        mutableStateOf(CROP_ARTWORK.getBoolean())
     }
     val downloadSubtitle by SUBTITLE.booleanState
     val embedSubtitle by EMBED_SUBTITLE.booleanState
@@ -97,12 +99,12 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
 
     var videoFormat by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
-    var convertFormat by remember { mutableStateOf(PreferenceStrings.getAudioConvertDesc()) }
+    var convertFormat by AUDIO_CONVERSION_FORMAT.intState
     var sortingFields by remember(showFormatSorterDialog) { mutableStateOf(SORTING_FIELDS.getString()) }
-    val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
+//    val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
     var convertAudio by AUDIO_CONVERT.booleanState
     var isFormatSortingEnabled by FORMAT_SORTING.booleanState
-    val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
+//    val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
     var isVideoClipEnabled by VIDEO_CLIP.booleanState
     var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
     var mergeAudioStream by MERGE_MULTI_AUDIO_STREAM.booleanState
@@ -127,7 +129,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
         content = {
             val isCustomCommandEnabled by remember {
                 mutableStateOf(
-                    PreferenceUtil.getValue(CUSTOM_COMMAND)
+                    CUSTOM_COMMAND.getBoolean()
                 )
             }
             LazyColumn(Modifier.padding(it)) {
@@ -150,25 +152,25 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                             PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
                         })
                 }
-                item {
-                    PreferenceItem(title = stringResource(id = R.string.audio_format_preference),
-                        description = audioFormat,
-                        icon = Icons.Outlined.AudioFile,
-                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled,
-                        onClick = { showAudioFormatDialog = true })
-                }
-                item {
-                    PreferenceItem(
-                        title = stringResource(id = R.string.audio_quality),
-                        description = audioQuality,
-                        icon = Icons.Outlined.HighQuality,
-                        onClick = { showAudioQualityDialog = true },
-                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled
-                    )
-                }
+//                item {
+//                    PreferenceItem(title = stringResource(id = R.string.audio_format_preference),
+//                        description = audioFormat,
+//                        icon = Icons.Outlined.AudioFile,
+//                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled,
+//                        onClick = { showAudioFormatDialog = true })
+//                }
+//                item {
+//                    PreferenceItem(
+//                        title = stringResource(id = R.string.audio_quality),
+//                        description = audioQuality,
+//                        icon = Icons.Outlined.HighQuality,
+//                        onClick = { showAudioQualityDialog = true },
+//                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled
+//                    )
+//                }
                 item {
                     PreferenceSwitchWithDivider(title = stringResource(R.string.convert_audio_format),
-                        description = convertFormat,
+                        description = PreferenceStrings.getAudioConvertDesc(convertFormat),
                         icon = Icons.Outlined.Sync,
                         enabled = audioSwitch && !isCustomCommandEnabled,
                         onClick = { showAudioConvertDialog = true },
@@ -337,9 +339,14 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
         AudioQualityDialog { showAudioQualityDialog = false }
     }
     if (showAudioConvertDialog) {
-        AudioConversionDialog(onDismissRequest = { showAudioConvertDialog = false }) {
-            convertFormat = PreferenceStrings.getAudioConvertDesc()
-        }
+        AudioConversionDialog(
+            onDismissRequest = { showAudioConvertDialog = false },
+            audioFormat = convertFormat,
+            onConfirm = {
+                convertFormat = it
+                AUDIO_CONVERSION_FORMAT.updateInt(it)
+            }
+        )
     }
     if (showVideoQualityDialog) {
         VideoQualityDialog(videoQuality = videoQuality,
@@ -360,7 +367,8 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
         FormatSortingDialog(
             fields = sortingFields,
             onImport = {
-                sortingFields = DownloadUtil.DownloadPreferences().toFormatSorter()
+                sortingFields =
+                    DownloadUtil.DownloadPreferences.createFromPreferences().toFormatSorter()
             },
             onDismissRequest = { showFormatSorterDialog = false },
             showSwitch = false, onConfirm = {

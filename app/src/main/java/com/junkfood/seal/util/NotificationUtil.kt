@@ -22,6 +22,7 @@ import com.junkfood.seal.NotificationActionReceiver.Companion.ERROR_REPORT_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.NOTIFICATION_ID_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.TASK_ID_KEY
 import com.junkfood.seal.R
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 
 private const val TAG = "NotificationUtil"
 
@@ -70,7 +71,7 @@ object NotificationUtil {
         taskId: String? = null,
         text: String? = null
     ) {
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        if (!NOTIFICATION.getBoolean()) return
         val pendingIntent = taskId?.let {
             Intent(context.applicationContext, NotificationActionReceiver::class.java)
                 .putExtra(TASK_ID_KEY, taskId)
@@ -111,7 +112,7 @@ object NotificationUtil {
     ) {
         Log.d(TAG, "finishNotification: ")
         notificationManager.cancel(notificationId)
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        if (!NOTIFICATION.getBoolean()) return
 
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
@@ -171,7 +172,7 @@ object NotificationUtil {
         notificationId: Int,
         error: String,
     ) {
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        if (!NOTIFICATION.getBoolean()) return
 
         val intent = Intent()
             .setClass(context, NotificationActionReceiver::class.java)
@@ -207,7 +208,7 @@ object NotificationUtil {
         templateName: String,
         taskUrl: String
     ) {
-        if (!PreferenceUtil.getValue(NOTIFICATION)) return
+        if (!NOTIFICATION.getBoolean()) return
 
         val intent = Intent(context.applicationContext, NotificationActionReceiver::class.java)
             .putExtra(TASK_ID_KEY, taskId)

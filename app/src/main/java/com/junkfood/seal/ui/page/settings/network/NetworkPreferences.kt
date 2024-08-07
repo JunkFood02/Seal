@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInterne
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -28,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -40,7 +40,7 @@ import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.FORCE_IPV4
 import com.junkfood.seal.util.PROXY
-import com.junkfood.seal.util.PreferenceUtil.getValue
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateValue
 import com.junkfood.seal.util.RATE_LIMIT
@@ -59,7 +59,7 @@ fun NetworkPreferences(
     var showConcurrentDownloadDialog by remember { mutableStateOf(false) }
     var showRateLimitDialog by remember { mutableStateOf(false) }
     var showProxyDialog by remember { mutableStateOf(false) }
-    var aria2c by remember { mutableStateOf(getValue(ARIA2C)) }
+    var aria2c by remember { mutableStateOf(ARIA2C.getBoolean()) }
     var proxy by PROXY.booleanState
     var isCookiesEnabled by COOKIES.booleanState
     var forceIpv4 by FORCE_IPV4.booleanState
@@ -94,7 +94,7 @@ fun NetworkPreferences(
                 }
                 item {
                     var isRateLimitEnabled by remember {
-                        mutableStateOf(getValue(RATE_LIMIT))
+                        mutableStateOf(RATE_LIMIT.getBoolean())
                     }
 
                     PreferenceSwitchWithDivider(
@@ -115,7 +115,7 @@ fun NetworkPreferences(
                 }
                 item {
                     var isDownloadWithCellularEnabled by remember {
-                        mutableStateOf(getValue(CELLULAR_DOWNLOAD))
+                        mutableStateOf(CELLULAR_DOWNLOAD.getBoolean())
                     }
                     PreferenceSwitch(
                         title = stringResource(R.string.download_with_cellular),

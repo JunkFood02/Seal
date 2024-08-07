@@ -120,7 +120,7 @@ class QuickDownloadActivity : ComponentActivity() {
                         showDialog = showDialog,
                         isQuickDownload = true,
                         onDownloadConfirm = {
-                            onDownloadStarted(PreferenceUtil.getValue(CUSTOM_COMMAND))
+                            onDownloadStarted(CUSTOM_COMMAND.getBoolean())
                         },
                         onDismissRequest = {
                             showDialog = false
