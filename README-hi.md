@@ -48,6 +48,10 @@ English
 [![Matrix](https://img.shields.io/matrix/seal-space%3Amatrix.org?server_fqdn=matrix.org&style=flat&logo=element&label=Matrix&color=%230DBD8B)
 ](https://matrix.to/#/#seal-space:matrix.org)
 
+
+</div>
+
+
 ## 📱 स्क्रीनशॉट
 
 <div align="center">
