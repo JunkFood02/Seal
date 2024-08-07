@@ -103,6 +103,7 @@ const val RESTRICT_FILENAMES = "restrict_filenames"
 const val AV1_HARDWARE_ACCELERATED = "av1_hardware_accelerated"
 const val FORCE_IPV4 = "force_ipv4"
 const val MERGE_OUTPUT_MKV = "merge_to_mkv"
+const val USE_CUSTOM_AUDIO_PRESET = "custom_audio_preset"
 
 const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
 
@@ -210,6 +211,7 @@ private val BooleanPreferenceDefaults = mapOf(
     YT_DLP_AUTO_UPDATE to true,
     NOTIFICATION to true,
     EMBED_METADATA to true,
+    USE_CUSTOM_AUDIO_PRESET to false,
 )
 
 private val IntPreferenceDefaults = mapOf(
@@ -453,27 +455,30 @@ object PreferenceStrings {
             else -> context.getString(R.string.not_convert)
         }
 
+    @Composable
     fun getAudioFormatDesc(audioFormatCode: Int = PreferenceUtil.getAudioFormat()): String =
         when (audioFormatCode) {
             M4A -> "M4A"
             OPUS -> "OPUS"
-            else -> context.getString(R.string.not_specified)
+            else -> stringResource(R.string.not_specified)
         }
 
+    @Composable
     fun getAudioQualityDesc(audioQualityCode: Int = PreferenceUtil.getAudioQuality()): String =
         when (audioQualityCode) {
-            NOT_SPECIFIED -> context.getString(R.string.unlimited)
+            NOT_SPECIFIED -> stringResource(R.string.unlimited)
             HIGH -> "192 Kbps"
             MEDIUM -> "128 Kbps"
             LOW -> "64 Kbps"
             ULTRA_LOW -> "32 Kbps"
-            else -> context.getString(R.string.lowest_bitrate)
+            else -> stringResource(R.string.lowest_bitrate)
         }
 
+    @Composable
     fun getAudioConvertDesc(audioFormatCode: Int = PreferenceUtil.getAudioConvertFormat()): String {
         return when (audioFormatCode) {
-            0 -> App.Companion.context.getString(R.string.convert_to).format("mp3")
-            else -> App.Companion.context.getString(R.string.convert_to).format("m4a")
+            0 -> stringResource(R.string.convert_to).format("mp3")
+            else -> stringResource(R.string.convert_to).format("m4a")
         }
     }
 

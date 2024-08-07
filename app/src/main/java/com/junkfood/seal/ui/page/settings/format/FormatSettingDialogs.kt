@@ -25,7 +25,6 @@ import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
@@ -98,121 +97,6 @@ import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 import com.junkfood.seal.util.ULTRA_LOW
 import com.junkfood.seal.util.getStringDefault
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AudioQuickSettingsDialog(onDismissRequest: () -> Unit) {
-    var audioQuality by AUDIO_QUALITY.intState
-    var audioFormat by AUDIO_FORMAT.intState
-
-    @Composable
-    fun audioQualitySelectField(modifier: Modifier = Modifier) {
-        var expanded by remember { mutableStateOf(false) }
-        var audioQualityText by remember { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
-
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
-            OutlinedTextField(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = audioQualityText,
-                onValueChange = {},
-                readOnly = true,
-                leadingIcon = { Icon(Icons.Outlined.HighQuality, null) },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                label = { Text(stringResource(id = R.string.audio_quality)) }
-            )
-            ExposedDropdownMenu(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                for (i in NOT_SPECIFIED..ULTRA_LOW)
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioQualityDesc(i)) },
-                        onClick = {
-                            audioQualityText =
-                                PreferenceStrings.getAudioQualityDesc(i)
-                            audioQuality = i
-                            expanded = false
-                        })
-            }
-        }
-    }
-
-    @Composable
-    fun audioFormatSelectField(modifier: Modifier = Modifier) {
-        var expanded by remember { mutableStateOf(false) }
-        var audioFormatText by remember { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
-
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }) {
-            OutlinedTextField(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = audioFormatText,
-                onValueChange = {},
-                readOnly = true,
-                leadingIcon = { Icon(Icons.Outlined.AudioFile, null) },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                label = { Text(stringResource(id = R.string.audio_format_preference)) }
-            )
-            ExposedDropdownMenu(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                for (i in NOT_SPECIFIED..M4A)
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
-                        onClick = {
-                            audioFormatText =
-                                PreferenceStrings.getAudioFormatDesc(i)
-                            audioFormat = i
-                            expanded = false
-                        })
-            }
-        }
-    }
-
-
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        icon = { Icon(Icons.Outlined.AudioFile, null) },
-        title = {
-            Text(
-                text = stringResource(id = R.string.audio_format)
-            )
-        }, dismissButton = {
-            DismissButton {
-                onDismissRequest()
-            }
-        }, confirmButton = {
-            ConfirmButton {
-                AUDIO_FORMAT.updateInt(audioFormat)
-                AUDIO_QUALITY.updateInt(audioQuality)
-                onDismissRequest()
-            }
-        }, text = {
-            LazyColumn() {
-                item {
-                    audioFormatSelectField()
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
-                item {
-                    audioQualitySelectField()
-                }
-            }
-        })
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -371,6 +255,70 @@ private fun VideoPreview() {
 @Composable
 private fun AudioPreview() {
     AudioQuickSettingsDialog()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AudioFormatSelectField(
+    modifier: Modifier = Modifier,
+    convertAudio: Boolean,
+    preferredFormat: Int,
+    conversionFormat: Int,
+    onConvertToggled: (Boolean) -> Unit,
+    onPreferredSelect: (Int) -> Unit,
+    onConversionSelect: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val preferredFormatText = PreferenceStrings.getAudioFormatDesc(preferredFormat)
+    val conversionFormatText = PreferenceStrings.getAudioConvertDesc(conversionFormat)
+    val userSelectionText = if (convertAudio) conversionFormatText else preferredFormatText
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }) {
+        SealTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            value = userSelectionText,
+            onValueChange = {},
+            readOnly = true,
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+        )
+        ExposedDropdownMenu(
+            modifier = Modifier,
+            scrollState = rememberScrollState(),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }) {
+            if (convertAudio) {
+                for (i in RES_HIGHEST..RES_LOWEST)
+                    DropdownMenuItem(
+                        text = { Text(PreferenceStrings.getAudioConvertDesc(i)) },
+                        onClick = {
+                            onConversionSelect(i)
+                            expanded = false
+                        }
+                    )
+            } else {
+                for (i in RES_HIGHEST..RES_LOWEST)
+                    DropdownMenuItem(
+                        text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
+                        onClick = {
+                            onPreferredSelect(i)
+                            expanded = false
+                        }
+                    )
+            }
+        }
+        DialogSwitchItem(
+            text = stringResource(R.string.convert_audio_format),
+            value = convertAudio,
+            onValueChange = onConvertToggled
+        )
+    }
 }
 
 @Composable

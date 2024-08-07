@@ -363,6 +363,7 @@ object DownloadUtil {
 
     @CheckResult
     private fun DownloadPreferences.toAudioFormatSorter(): String = this.run {
+        if (!useCustomAudioPreset) return@run ""
         val format = when (audioFormat) {
             M4A -> "acodec:aac"
             OPUS -> "acodec:opus"
