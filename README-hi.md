@@ -96,10 +96,10 @@ English
 
 अधिकांश डिवाइसों के लिए, **arm64-v8a** संस्करण की स्थापना की सिफारिश की जाती है।
 
-- [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest) से नवीनतम स्थिर संस्करण डाउनलोड करें
-  - नए फीचर्स और परिवर्तनों का परीक्षण करने के लिए [pre-release](https://github.com/JunkFood02/Seal/releases/) संस्करणों को इंस्टॉल करें
+- [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest) से नवीनतम स्थिर संस्करण डाउनलोड करें।
+  - नए फीचर्स और परिवर्तनों का परीक्षण करने के लिए [pre-release](https://github.com/JunkFood02/Seal/releases/) संस्करणों को इंस्टॉल करें।
 
-- स्थिर रिलीज़ [F-Droid](https://f-droid.org/packages/com.junkfood.seal/) पर भी उपलब्ध हैं
+- स्थिर रिलीज़ [F-Droid](https://f-droid.org/packages/com.junkfood.seal/) पर भी उपलब्ध हैं।
 
 <!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
