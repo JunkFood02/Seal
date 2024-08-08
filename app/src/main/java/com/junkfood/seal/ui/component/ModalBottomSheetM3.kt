@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalBottomSheetDefaults
+import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -31,12 +33,14 @@ fun SealModalBottomSheet(
     ),
     onDismissRequest: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
+    properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     ModalBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
+        properties = properties
     ) {
         Column(modifier = Modifier.padding(paddingValues = contentPadding)) {
             content()

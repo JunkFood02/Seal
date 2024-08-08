@@ -46,7 +46,6 @@ import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.DownloadViewModel
-import com.junkfood.seal.ui.page.download.FormatPage
 import com.junkfood.seal.ui.page.download.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
@@ -70,7 +69,6 @@ import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
-import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.getLong
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.ToastUtil
@@ -79,7 +77,6 @@ import com.junkfood.seal.util.YT_DLP_AUTO_UPDATE
 import com.junkfood.seal.util.YT_DLP_UPDATE_INTERVAL
 import com.junkfood.seal.util.YT_DLP_UPDATE_TIME
 import com.junkfood.seal.util.YT_DLP_VERSION
-import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -193,7 +190,7 @@ fun HomeEntry(
 
 //            animatedComposable(Route.DOWNLOAD_QUEUE) { DownloadQueuePage { onNavigateBack() } }
             slideInVerticallyComposable(Route.PLAYLIST) { PlaylistSelectionPage { onNavigateBack() } }
-            slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onNavigateBack() } }
+//            slideInVerticallyComposable(Route.FORMAT_SELECTION) { FormatPage(downloadViewModel) { onNavigateBack() } }
             settingsGraph(
                 cookiesViewModel = cookiesViewModel,
                 onNavigateBack = onNavigateBack,

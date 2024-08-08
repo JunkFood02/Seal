@@ -58,7 +58,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -75,6 +74,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -101,6 +101,10 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
+import com.junkfood.seal.ui.page.downloadv2.Config
+import com.junkfood.seal.ui.page.downloadv2.ConfigurePage
+import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.downloadv2.FormatPage
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
@@ -108,14 +112,13 @@ import com.junkfood.seal.util.CONFIGURE
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DEBUG
 import com.junkfood.seal.util.DISABLE_PREVIEW
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.NOTIFICATION
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @OptIn(
@@ -131,6 +134,7 @@ fun DownloadPage(
     onNavigateToTaskList: () -> Unit = {},
     onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     downloadViewModel: DownloadViewModel = viewModel(),
+    downloadDialogViewModel: DownloadDialogViewModel = viewModel(),
 ) {
 
     val scope = rememberCoroutineScope()
@@ -163,7 +167,8 @@ fun DownloadPage(
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             showMeteredNetworkDialog = true
         } else {
-            downloadViewModel.startDownloadVideo()
+            downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
+//            downloadViewModel.startDownloadVideo()
         }
     }
 
@@ -260,7 +265,9 @@ fun DownloadPage(
             taskState = taskState,
             viewState = viewState,
             errorState = errorState,
-            downloadCallback = downloadCallback,
+            downloadCallback = {
+                downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
+            },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             onNavigateToTaskList = onNavigateToTaskList,
@@ -282,14 +289,37 @@ fun DownloadPage(
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) }) {}
 
 
-        DownloadSettingDialog(useDialog = useDialog,
-            showDialog = showDownloadDialog,
-            onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
-            onDownloadConfirm = { checkPermissionOrDownload() },
-            onDismissRequest = {
-                showDownloadDialog = false
+        var preferences by remember { mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences()) }
+        val state = downloadDialogViewModel.stateFlow.collectAsStateWithLifecycle().value
+
+        val focusManager = LocalFocusManager.current
+        LaunchedEffect(state) {
+            if(state==DownloadDialogViewModel.State.Configure)
+            focusManager.clearFocus()
+        }
+
+        ConfigurePage(
+            url = viewState.url,
+            state = state,
+            config = Config(),
+            preferences = preferences,
+            onPreferencesUpdate = { preferences = it },
+            onActionPosted = {
+                downloadDialogViewModel.postAction(it)
             }
         )
+        when (state) {
+            is DownloadDialogViewModel.State.FormatSelection -> FormatPage(state = state)
+            else -> {}
+        }
+//        DownloadSettingDialog(useDialog = useDialog,
+//            showDialog = showDownloadDialog,
+//            onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,
+//            onDownloadConfirm = { checkPermissionOrDownload() },
+//            onDismissRequest = {
+//                showDownloadDialog = false
+//            }
+//        )
     }
 
 }

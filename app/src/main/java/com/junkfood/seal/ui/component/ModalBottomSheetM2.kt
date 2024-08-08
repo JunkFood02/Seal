@@ -101,7 +101,6 @@ fun SealModalBottomSheetM2Variant(
     sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
     ),
-    horizontalPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
     sheetGesturesEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit = {},
 ) {
@@ -119,7 +118,7 @@ fun SealModalBottomSheetM2Variant(
         sheetGesturesEnabled = sheetGesturesEnabled,
         sheetContent = {
             Column {
-                Box(modifier = Modifier.padding(horizontalPadding)) {
+                Box(modifier = Modifier) {
                     Column {
                         sheetContent()
                     }

@@ -21,12 +21,16 @@ import kotlinx.coroutines.withContext
 class DownloadDialogViewModel : ViewModel() {
 
     sealed interface State {
-        data object Hidden : State
-        data object Configure : State
-        data class Loading(val taskKey: String, val job: Job) : State
+        data object Idle : State
+        data object ShowDialog : State
         data class PlaylistSelection(val result: PlaylistResult) : State
         data class FormatSelection(val info: VideoInfo) : State
-        data class Error(val throwable: Throwable) : State
+    }
+
+    sealed interface DialogState {
+        data object Configure : DialogState
+        data class Loading(val taskKey: String, val job: Job) : DialogState
+        data class Error(val throwable: Throwable) : DialogState
     }
 
     sealed interface Action {
@@ -67,9 +71,13 @@ class DownloadDialogViewModel : ViewModel() {
         data object Cancel : Action
     }
 
-    private val mStateFlow: MutableStateFlow<State> = MutableStateFlow(State.Hidden)
+    private val mStateFlow: MutableStateFlow<State> = MutableStateFlow(State.Idle)
+    private val mDialogStateFlow: MutableStateFlow<DialogState> =
+        MutableStateFlow(DialogState.Configure)
+    val dialogStateFlow = mDialogStateFlow.asStateFlow()
     val stateFlow = mStateFlow.asStateFlow()
-    val state get() = stateFlow.value
+    private val state get() = stateFlow.value
+    private val dialogState get() = dialogStateFlow.value
 
     fun postAction(action: Action) {
         with(action) {
@@ -111,13 +119,14 @@ class DownloadDialogViewModel : ViewModel() {
                 // TODO: Handle error state
             }
         }
-        mStateFlow.update { State.Loading(taskKey = "FetchPlaylist_$url", job = job) }
+        mDialogStateFlow.update { DialogState.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
     private fun fetchFormat(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        // TODO: handle downloader state
-
-        Downloader.isDownloaderAvailable()
+        if (!Downloader.isDownloaderAvailable()) {
+            postAction(Action.Hide)
+            return
+        }
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
@@ -125,16 +134,14 @@ class DownloadDialogViewModel : ViewModel() {
                     withContext(Dispatchers.Main) {
                         mStateFlow.update { State.FormatSelection(info = info) }
                     }
-                }.onFailure {
+                }.onFailure { th ->
                     withContext(Dispatchers.Main) {
+                        mDialogStateFlow.update { DialogState.Error(th) }
                     }
-                    // TODO: Handle error state
                 }
         }
 
-        mStateFlow.update { State.Loading(taskKey = "FetchFormat_$url", job = job) }
-
-
+        mDialogStateFlow.update { DialogState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
 
     private fun downloadWithPreset(url: String) {
@@ -160,16 +167,16 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun hideDialog() {
-        mStateFlow.update { State.Hidden }
+        mStateFlow.update { State.Idle }
     }
 
     private fun showDialog() {
-        mStateFlow.update { State.Configure }
+        mStateFlow.update { State.ShowDialog }
     }
 
     private fun cancel(): Boolean {
-        val res = when (val state = state) {
-            is State.Loading -> {
+        val res = when (val state = dialogState) {
+            is DialogState.Loading -> {
                 state.job.cancel()
                 YoutubeDL.destroyProcessById(id = state.taskKey)
             }
@@ -178,7 +185,7 @@ class DownloadDialogViewModel : ViewModel() {
         }
 
         if (res) {
-            mStateFlow.update { State.Configure }
+            mDialogStateFlow.update { DialogState.Configure }
         }
         return res
     }

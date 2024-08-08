@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.download
+package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
@@ -28,18 +28,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Subtitles
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -74,7 +73,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ClearButton
@@ -90,8 +88,9 @@ import com.junkfood.seal.ui.component.SealSearchBar
 import com.junkfood.seal.ui.component.SuggestedFormatItem
 import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.ui.page.download.VideoClipDialog
+import com.junkfood.seal.ui.page.download.VideoSelectionSlider
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
-import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.EXTRACT_AUDIO
@@ -113,9 +112,16 @@ import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
 
+private data class FormatConfig(
+    val formatList: List<Format>,
+    val videoClips: List<VideoClip>,
+    val splitByChapter: Boolean,
+    val newTitle: String,
+    val selectedSubtitleCodes: List<String>,
+)
+
 @Composable
-fun FormatPage(downloadViewModel: DownloadViewModel, onNavigateBack: () -> Unit = {}) {
-    val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
+fun FormatPage(videoInfo: VideoInfo, onNavigateBack: () -> Unit = {}) {
     if (videoInfo.formats.isNullOrEmpty()) return
     val audioOnly = EXTRACT_AUDIO.getBoolean()
     val mergeAudioStream = MERGE_MULTI_AUDIO_STREAM.getBoolean()
@@ -139,28 +145,29 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onNavigateBack: () -> Unit 
         mergeAudioStream = !audioOnly && mergeAudioStream,
         selectedSubtitleCodes = initialSelectedSubtitles,
         isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0
-    ) { formatList, videoClips, splitByChapter, title, selectedSubtitleCodes ->
+    ) { config ->
+        with(config) {
 
-        diffSubtitleLanguages = selectedSubtitleCodes.run {
-            this - this.filterWithRegex(subtitleLanguageRegex)
-        }.toSet()
+            diffSubtitleLanguages = selectedSubtitleCodes.run {
+                this - this.filterWithRegex(subtitleLanguageRegex)
+            }.toSet()
 
-        Downloader.downloadVideoWithConfigurations(
-            videoInfo = videoInfo,
-            formatList = formatList,
-            videoClips = videoClips,
-            splitByChapter = splitByChapter,
-            newTitle = title,
-            selectedSubtitleCodes = selectedSubtitleCodes,
-        )
+            Downloader.downloadVideoWithConfigurations(
+                videoInfo = videoInfo,
+                formatList = formatList,
+                videoClips = videoClips,
+                splitByChapter = splitByChapter,
+                newTitle = newTitle,
+                selectedSubtitleCodes = selectedSubtitleCodes,
+            )
 
-        if (diffSubtitleLanguages.isNotEmpty()) {
-            showUpdateSubtitleDialog = true
-        } else {
-            onNavigateBack()
+            if (diffSubtitleLanguages.isNotEmpty()) {
+                showUpdateSubtitleDialog = true
+            } else {
+                onNavigateBack()
+            }
         }
     }
-
     if (showUpdateSubtitleDialog) {
         UpdateSubtitleLanguageDialog(modifier = Modifier,
             languages = diffSubtitleLanguages,
@@ -176,7 +183,6 @@ fun FormatPage(downloadViewModel: DownloadViewModel, onNavigateBack: () -> Unit 
                 onNavigateBack()
             })
     }
-
 }
 
 
@@ -268,14 +274,14 @@ fun FormatPagePreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormatPageImpl(
+private fun FormatPageImpl(
     videoInfo: VideoInfo = VideoInfo(),
     audioOnly: Boolean = false,
     mergeAudioStream: Boolean = false,
     isClippingAvailable: Boolean = false,
     selectedSubtitleCodes: Set<String>,
     onNavigateBack: () -> Unit = {},
-    onDownloadPressed: (List<Format>, List<VideoClip>, Boolean, String, List<String>) -> Unit = { _, _, _, _, _ -> }
+    onDownloadPressed: (FormatConfig) -> Unit = { _ -> }
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -357,9 +363,10 @@ fun FormatPageImpl(
     val selectedLanguageList =
         remember { mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) } }
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = {
@@ -374,30 +381,35 @@ fun FormatPageImpl(
                         Icon(Icons.Outlined.Close, stringResource(R.string.close))
                     }
                 },
-                /*                actions = {
-                                TextButton(onClick = {
-                                    onDownloadPressed(
-                                        formatList,
-                                        if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
-                                        isSplittingVideo,
-                                        videoTitle,
-                                        selectedLanguageList
-                                    )
-                                }, enabled = isSuggestedFormatSelected || formatList.isNotEmpty()) {
-                                    Text(text = stringResource(R.string.download))
-                                }
-                            }*/
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                icon = { Icon(Icons.Outlined.Download, null, modifier = Modifier.size(24.dp)) },
-                text = {
-                    Text("Download")
-                },
-                onClick = {}, containerColor = FixedAccentColors.primaryFixed, expanded = true
-            )
-        }) { paddingValues ->
+            val isFormatSelected = isSuggestedFormatSelected || formatList.isNotEmpty()
+            AnimatedVisibility(isFormatSelected) {
+                ExtendedFloatingActionButton(onClick = {
+                    onDownloadPressed(
+                        FormatConfig(
+                            formatList,
+                            if (isClippingVideo) listOf(VideoClip(videoClipDuration)) else emptyList(),
+                            isSplittingVideo,
+                            videoTitle,
+                            selectedLanguageList
+                        )
+                    )
+                }, modifier = Modifier.padding(12.dp), icon = {
+                    Icon(
+                        imageVector = Icons.Rounded.Download,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }, text = {
+                    Text(
+                        stringResource(R.string.start_download),
+                    )
+                })
+            }
+        }, floatingActionButtonPosition = FabPosition.End
+    ) { paddingValues ->
 
         LazyVerticalGrid(
             modifier = Modifier.padding(paddingValues),
@@ -727,7 +739,7 @@ fun FormatPageImpl(
                 )
             }
             item {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(64.dp))
             }
 
         }
