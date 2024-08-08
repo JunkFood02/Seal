@@ -139,7 +139,7 @@ fun DialogSingleChoiceItemVariant(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 8.dp)
+                .padding(vertical = 12.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(

@@ -21,6 +21,17 @@
       </SelectionState>
       <SelectionState runConfigName="ConfigurePagePreviewPreference">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-08-08T14:06:11.828516Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/junkfood/.android/avd/Resizable_Experimental_API_VanillaIceCream.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="AudioPreview">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

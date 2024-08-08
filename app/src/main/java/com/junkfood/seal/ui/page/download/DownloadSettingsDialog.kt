@@ -573,7 +573,7 @@ fun DownloadSettingDialog(
 
 
     if (showAudioSettingsDialog) {
-        AudioQuickSettingsDialog(onDismissRequest = { showAudioSettingsDialog = false })
+//        AudioQuickSettingsDialog(onDismissRequest = { showAudioSettingsDialog = false })
     }
     if (showVideoFormatDialog) {
         VideoFormatDialog(videoFormatPreference = videoFormatPreference,

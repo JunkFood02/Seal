@@ -81,9 +81,14 @@ import com.junkfood.seal.ui.page.downloadv2.ActionButton.Download
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.FetchInfo
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.StartTask
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
+import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
+import com.junkfood.seal.util.AUDIO_CONVERT
+import com.junkfood.seal.util.AUDIO_FORMAT
+import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
@@ -104,6 +109,7 @@ import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
+import com.junkfood.seal.util.USE_CUSTOM_AUDIO_PRESET
 import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
@@ -228,11 +234,13 @@ private fun ConfigurePagePreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview
 private fun ConfigurePagePreviewPreference() {
 
-    var preference by remember { mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences()) }
+    var preferences by remember { mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences()) }
     val scope = rememberCoroutineScope()
     var showVideoPresetDialog by remember { mutableStateOf(false) }
+    var showAudioPresetDialog by remember { mutableStateOf(false) }
     SealTheme() {
         SealModalBottomSheet(
             sheetState = SheetState(
@@ -251,11 +259,11 @@ private fun ConfigurePagePreviewPreference() {
                     useFormatSelection = true,
                     typeEntries = entries - Command
                 ),
-                preference = preference,
+                preference = preferences,
                 onPresetEdit = { type ->
                     when (type) {
                         Audio -> {
-                            TODO()
+                            showAudioPresetDialog = true
                         }
 
                         Video -> {
@@ -266,7 +274,9 @@ private fun ConfigurePagePreviewPreference() {
                     }
                 },
                 onPreferenceUpdate = {
-                    scope.launch { preference = DownloadUtil.DownloadPreferences.createFromPreferences() }
+                    scope.launch {
+                        preferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+                    }
                 },
                 settingChips = {
                     AdditionalSettings(
@@ -274,30 +284,65 @@ private fun ConfigurePagePreviewPreference() {
                             .padding(horizontal = 16.dp)
                             .padding(bottom = 12.dp),
                         isQuickDownload = false,
-                        preference = preference,
+                        preference = preferences,
                         selectedType = Audio,
                         onPreferenceUpdate = {
-                            scope.launch { preference = DownloadUtil.DownloadPreferences.createFromPreferences() }
+                            scope.launch {
+                                preferences =
+                                    DownloadUtil.DownloadPreferences.createFromPreferences()
+                            }
                         }
                     )
                 }
             ) { }
         }
         if (showVideoPresetDialog) {
-            var res by remember(preference) { mutableIntStateOf(preference.videoResolution) }
-            var format by remember(preference) { mutableIntStateOf(preference.videoFormat) }
+            var res by remember(preferences) { mutableIntStateOf(preferences.videoResolution) }
+            var format by remember(preferences) { mutableIntStateOf(preferences.videoFormat) }
             VideoQuickSettingsDialog(
-                res,
-                format,
-                { res = it },
-                { format = it },
+                videoResolution = res,
+                videoFormatPreference = format,
+                onResolutionSelect = { res = it },
+                onFormatSelect = { format = it },
                 onDismissRequest = { showVideoPresetDialog = false },
                 onSave = {
                     VIDEO_FORMAT.updateInt(format)
                     VIDEO_QUALITY.updateInt(res)
-                    preference = DownloadUtil.DownloadPreferences.createFromPreferences()
+                    preferences = DownloadUtil.DownloadPreferences.createFromPreferences()
                 }
             )
+        }
+        if (showAudioPresetDialog) {
+            var quality by remember(preferences) { mutableIntStateOf(preferences.audioQuality) }
+            var customPreset by remember(preferences) { mutableStateOf(preferences.useCustomAudioPreset) }
+            var conversionFmt by remember(preferences) { mutableIntStateOf(preferences.audioConvertFormat) }
+            var convertAudio by remember(preferences) { mutableStateOf(preferences.convertAudio) }
+            var preferredFormat by remember(preferences) { mutableIntStateOf(preferences.audioFormat) }
+            AudioQuickSettingsDialog(
+                modifier = Modifier,
+                preferences = preferences,
+                audioQuality = quality,
+                onQualitySelect = { quality = it },
+                useCustomAudioPreset = customPreset,
+                onCustomPresetToggle = { customPreset = it },
+                convertAudio = convertAudio,
+                onConvertToggled = { convertAudio = it },
+                conversionFormat = conversionFmt,
+                onConversionSelect = { conversionFmt = it },
+                preferredFormat = preferredFormat,
+                onPreferredSelect = { preferredFormat = it },
+                onDismissRequest = { showAudioPresetDialog = false },
+                onSave = {
+                    AUDIO_QUALITY.updateInt(quality)
+                    USE_CUSTOM_AUDIO_PRESET.updateBoolean(customPreset)
+                    AUDIO_CONVERSION_FORMAT.updateInt(conversionFmt)
+                    AUDIO_CONVERT.updateBoolean(convertAudio)
+                    AUDIO_FORMAT.updateInt(preferredFormat)
+                    preferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+
+                }
+            )
+
         }
     }
 }

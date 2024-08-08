@@ -465,7 +465,7 @@ object PreferenceStrings {
     @Composable
     fun getAudioQualityDesc(audioQualityCode: Int = PreferenceUtil.getAudioQuality()): String =
         when (audioQualityCode) {
-            NOT_SPECIFIED -> stringResource(R.string.unlimited)
+            NOT_SPECIFIED -> stringResource(R.string.best_quality)
             HIGH -> "192 Kbps"
             MEDIUM -> "128 Kbps"
             LOW -> "64 Kbps"
@@ -530,6 +530,10 @@ object PreferenceStrings {
             when {
                 formatSorting -> {
                     sortingFields
+                }
+
+                !useCustomAudioPreset -> {
+                    stringResource(R.string.best_quality)
                 }
 
                 convertAudio -> {

@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.settings.format
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +41,6 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.common.intState
+import com.junkfood.seal.ui.common.motion.materialSharedAxisX
 import com.junkfood.seal.ui.common.stringState
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DialogSingleChoiceItem
@@ -69,6 +70,7 @@ import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
+import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealTextField
 import com.junkfood.seal.ui.page.downloadv2.PreferencesMock
@@ -87,6 +89,7 @@ import com.junkfood.seal.util.FORMAT_QUALITY
 import com.junkfood.seal.util.M4A
 import com.junkfood.seal.util.NOT_CONVERT
 import com.junkfood.seal.util.NOT_SPECIFIED
+import com.junkfood.seal.util.OPUS
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
@@ -255,28 +258,27 @@ private fun VideoPreview() {
 @Preview
 @Composable
 private fun AudioPreview() {
-    AudioQuickSettingsDialog()
-}
-
-@Preview
-@Composable
-private fun AudioPreview2() {
     var b by remember { mutableStateOf(false) }
+    var b1 by remember { mutableStateOf(false) }
+
     var i1 by remember { mutableIntStateOf(1) }
     var i2 by remember { mutableIntStateOf(0) }
-    Surface {
-        Column {
-            AudioFormatSelectField(
-                convertAudio = b,
-                preferredFormat = i1,
-                conversionFormat = i2,
-                onConvertToggled = { b = it },
-                onPreferredSelect = { i1 = it },
-                onConversionSelect = { i2 = it })
-        }
+    var i3 by remember { mutableIntStateOf(NOT_SPECIFIED) }
 
-    }
-
+    AudioQuickSettingsDialog(
+        preferences = PreferencesMock,
+        convertAudio = b,
+        useCustomAudioPreset = b1,
+        onCustomPresetToggle = { b1 = it },
+        preferredFormat = i1,
+        conversionFormat = i2,
+        onConvertToggled = { b = it },
+        onPreferredSelect = { i1 = it },
+        onConversionSelect = { i2 = it },
+        audioQuality = i3,
+        onQualitySelect = { i3 = it },
+        onSave = {}
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -295,6 +297,7 @@ private fun AudioFormatSelectField(
     val conversionFormatText = PreferenceStrings.getAudioConvertDesc(conversionFormat)
     val userSelectionText = if (convertAudio) conversionFormatText else preferredFormatText
 
+    PreferenceSubtitle(text = stringResource(R.string.audio_format))
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }) {
@@ -315,73 +318,165 @@ private fun AudioFormatSelectField(
             scrollState = rememberScrollState(),
             expanded = expanded,
             onDismissRequest = { expanded = false }) {
-            if (convertAudio) {
-                for (i in RES_HIGHEST..RES_LOWEST)
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioConvertDesc(i)) },
-                        onClick = {
-                            onConversionSelect(i)
-                            expanded = false
-                        }
-                    )
-            } else {
-                for (i in RES_HIGHEST..RES_LOWEST)
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
-                        onClick = {
-                            onPreferredSelect(i)
-                            expanded = false
-                        }
-                    )
+            for (i in OPUS..M4A) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
+                    onClick = {
+                        onPreferredSelect(i)
+                        onConvertToggled(false)
+                        expanded = false
+                    }
+                )
+            }
+            for (i in CONVERT_MP3..CONVERT_M4A) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioConvertDesc(i)) },
+                    onClick = {
+                        onConversionSelect(i)
+                        onConvertToggled(true)
+                        expanded = false
+                    }
+                )
+            }
+
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AudioQualitySelectField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    audioQuality: Int,
+    onSelect: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    PreferenceSubtitle(text = stringResource(R.string.audio_quality))
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }) {
+        SealTextField(
+            enabled = enabled,
+            modifier = modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable, enabled = enabled),
+            value = if (!enabled) stringResource(R.string.unavailable) else PreferenceStrings.getAudioQualityDesc(
+                audioQuality
+            ),
+            onValueChange = {},
+            readOnly = true,
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+        )
+        ExposedDropdownMenu(
+            modifier = Modifier,
+            scrollState = rememberScrollState(),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }) {
+            for (i in NOT_SPECIFIED..ULTRA_LOW) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioQualityDesc(i)) },
+                    onClick = {
+                        onSelect(i)
+                        expanded = false
+                    }
+                )
             }
         }
     }
-    DialogSwitchItem(
-        text = stringResource(R.string.convert_audio_format),
-        value = convertAudio,
-        onValueChange = onConvertToggled
-    )
 }
 
 @Composable
 fun AudioQuickSettingsDialog(
     modifier: Modifier = Modifier,
-    preferences: DownloadUtil.DownloadPreferences = PreferencesMock,
-    onDismissRequest: () -> Unit = {}
+    preferences: DownloadUtil.DownloadPreferences,
+    onDismissRequest: () -> Unit = {},
+    useCustomAudioPreset: Boolean,
+    onCustomPresetToggle: (Boolean) -> Unit,
+    convertAudio: Boolean,
+    preferredFormat: Int,
+    conversionFormat: Int,
+    onConvertToggled: (Boolean) -> Unit,
+    onPreferredSelect: (Int) -> Unit,
+    onConversionSelect: (Int) -> Unit,
+    audioQuality: Int,
+    onQualitySelect: (Int) -> Unit,
+    onSave: () -> Unit
 ) {
+    var editingPreset by remember { mutableStateOf(false) }
     SealDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Outlined.AudioFile, null) },
         title = { Text(stringResource(R.string.edit_preset)) },
         text = {
-            LazyColumn {
-                item {
-                    DialogSubtitle(text = stringResource(R.string.presets))
-                }
-                item {
-                    DialogSingleChoiceItemVariant(
-                        title = stringResource(R.string.best_quality),
-                        selected = true,
-                        desc = stringResource(R.string.best_quality_desc)
-                    ) { }
-                }
-                item {
-                    DialogSingleChoiceItemVariant(
-                        title = stringResource(R.string.custom),
-                        selected = false,
-                        desc = PreferenceStrings.getAudioPresetText(preferences),
-                        action = {
-                            Spacer(Modifier.width(8.dp))
-                            VerticalDivider(Modifier.height(32.dp))
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(R.string.edit)
-                                )
-                            }
+            AnimatedContent(
+                editingPreset,
+                transitionSpec = {
+                    materialSharedAxisX(initialOffsetX = { it / 5 },
+                        targetOffsetX = { -it / 5 })
+                }, label = ""
+            ) {
+                if (!it) {
+                    LazyColumn {
+                        item {
+                            DialogSubtitle(text = stringResource(R.string.presets))
                         }
-                    ) { }
+                        item {
+                            DialogSingleChoiceItemVariant(
+                                title = stringResource(R.string.best_quality),
+                                selected = !useCustomAudioPreset,
+                                desc = stringResource(R.string.best_quality_desc),
+                                onClick = { onCustomPresetToggle(false) }
+                            )
+                        }
+                        item {
+                            DialogSingleChoiceItemVariant(
+                                title = stringResource(R.string.custom),
+                                selected = useCustomAudioPreset,
+                                onClick = { onCustomPresetToggle(true) },
+                                desc = PreferenceStrings.getAudioPresetText(
+                                    preferences.copy(
+                                        useCustomAudioPreset = true
+                                    )
+                                ),
+                                action = {
+                                    Spacer(Modifier.width(8.dp))
+                                    VerticalDivider(Modifier.height(32.dp))
+                                    IconButton(onClick = { editingPreset = true }) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Settings,
+                                            contentDescription = stringResource(R.string.edit)
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        AudioFormatSelectField(
+                            convertAudio = convertAudio,
+                            preferredFormat = preferredFormat,
+                            conversionFormat = conversionFormat,
+                            onConvertToggled = onConvertToggled,
+                            onPreferredSelect = onPreferredSelect,
+                            onConversionSelect = onConversionSelect
+                        )
+                        AudioQualitySelectField(
+                            audioQuality = audioQuality,
+                            enabled = !convertAudio,
+                            onSelect = onQualitySelect
+                        )
+                    }
                 }
             }
 
@@ -393,7 +488,12 @@ fun AudioQuickSettingsDialog(
                 )
             }
         },
-        confirmButton = { Button(onClick = {}) { Text(stringResource(R.string.save)) } }
+        confirmButton = {
+            Button(onClick = {
+                onSave()
+                onDismissRequest()
+            }) { Text(stringResource(R.string.save)) }
+        }
     )
 }
 
