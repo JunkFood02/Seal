@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -310,11 +311,7 @@ fun ConfigureDialog(
                                                     .createFromPreferences())
                                         })
                                 },
-                                onActionPost = {
-                                    when (it) {
-                                        else -> onActionPosted(it)
-                                    }
-                                })
+                                onActionPost = { onActionPosted(it) })
                         }
 
                         is Error -> {
@@ -441,14 +438,13 @@ private fun ConfigurePageImpl(
         var expanded by remember { mutableStateOf(false) }
         ExpandableTitle(expanded = expanded, onClick = { expanded = true }) { settingChips() }
 
+        val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
         ActionButtons(
             modifier = Modifier.padding(horizontal = 20.dp),
             canProceed = canProceed,
             selectedType = selectedType,
             useFormatSelection = useFormatSelection,
-            onCancel = {
-                //                onActionPost(Action.Hide)
-            },
+            onCancel = { dispatcher?.onBackPressed() },
             onDownload = {},
             onFetchInfo = {
                 if (selectedType == Playlist) {
@@ -591,7 +587,7 @@ private fun SingleChoiceItem(
         modifier = modifier.padding(vertical = 4.dp).run { if (!enabled) alpha(0.32f) else this },
         enabled = enabled) {
             Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                     Column(modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
