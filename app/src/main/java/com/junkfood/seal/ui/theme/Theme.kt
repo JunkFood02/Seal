@@ -28,7 +28,6 @@ fun Color.harmonizeWith(other: Color) =
 fun Color.harmonizeWithPrimary(): Color =
     this.harmonizeWith(other = MaterialTheme.colorScheme.primary)
 
-
 @Composable
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -41,42 +40,44 @@ fun SealTheme(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (darkTheme) {
                 view.windowInsetsController?.setSystemBarsAppearance(
-                        0, APPEARANCE_LIGHT_STATUS_BARS
-                    )
+                    0, APPEARANCE_LIGHT_STATUS_BARS)
             } else {
                 view.windowInsetsController?.setSystemBarsAppearance(
-                        APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS
-                    )
+                    APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
             }
         }
     }
-    val colorScheme = dynamicColorScheme(!darkTheme).run {
-        if (isHighContrastModeEnabled && darkTheme) copy(
-            surface = Color.Black,
-            background = Color.Black,
-        )
-        else this
-    }
+    val colorScheme =
+        dynamicColorScheme(!darkTheme).run {
+            if (isHighContrastModeEnabled && darkTheme)
+                copy(
+                    surface = Color.Black,
+                    background = Color.Black,
+                    surfaceContainerLowest = Color.Black,
+                    surfaceContainerLow = surfaceContainerLowest,
+                    surfaceContainer = surfaceContainerLow,
+                    surfaceContainerHigh = surfaceContainerLow,
+                    surfaceContainerHighest = surfaceContainer)
+            else this
+        }
 
     ProvideTextStyle(
-        value = LocalTextStyle.current.copy(
-            lineBreak = LineBreak.Paragraph, textDirection = TextDirection.Content
-        )
-    ) {
-        MaterialTheme(
-            colorScheme = colorScheme, typography = Typography, shapes = Shapes, content = content
-        )
-    }
+        value =
+            LocalTextStyle.current.copy(
+                lineBreak = LineBreak.Paragraph, textDirection = TextDirection.Content)) {
+            MaterialTheme(
+                colorScheme = colorScheme,
+                typography = Typography,
+                shapes = Shapes,
+                content = content)
+        }
 }
 
 @Composable
-fun PreviewThemeLight(
-    content: @Composable () -> Unit
-) {
+fun PreviewThemeLight(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = dynamicColorScheme(),
         typography = Typography,
         shapes = Shapes,
-        content = content
-    )
+        content = content)
 }

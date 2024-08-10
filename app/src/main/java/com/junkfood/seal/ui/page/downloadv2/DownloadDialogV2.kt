@@ -5,7 +5,12 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,6 +32,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -65,7 +72,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -568,6 +574,7 @@ fun ExpandableTitle(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SingleChoiceItem(
     modifier: Modifier = Modifier,
@@ -579,11 +586,24 @@ private fun SingleChoiceItem(
     enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
+    val corner by
+        animateDpAsState(
+            if (selected) 28.dp else 8.dp,
+            animationSpec =
+                spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = Dp.VisibilityThreshold),
+            label = "")
+    val color by
+        animateColorAsState(
+            if (selected) MaterialTheme.colorScheme.secondaryContainer
+            else MaterialTheme.colorScheme.surfaceContainerLow)
+
     Surface(
         selected = selected,
         onClick = onClick,
-        color = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-        shape = MaterialTheme.shapes.large,
+        color = color,
+        shape = RoundedCornerShape(corner),
         modifier = modifier.padding(vertical = 4.dp).run { if (!enabled) alpha(0.32f) else this },
         enabled = enabled) {
             Row(
