@@ -1,8 +1,7 @@
 [versions]
 accompanist = "0.34.0"
 androidGradlePlugin = "8.6.0-alpha07"
-androidxComposeBom = "2024.05.00-alpha03"
-androidxComposeCompiler = "1.5.12"
+androidxComposeBom = "2024.08.00-alpha01"
 androidxCore = "1.13.1"
 androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
@@ -108,7 +107,6 @@ mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
