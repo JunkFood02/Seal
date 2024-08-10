@@ -58,6 +58,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -100,12 +101,10 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.component.rememberSheetState
 import com.junkfood.seal.ui.page.downloadv2.Config
 import com.junkfood.seal.ui.page.downloadv2.ConfigureDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
-import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetValue
 import com.junkfood.seal.ui.page.downloadv2.FormatPage
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.SealTheme
@@ -282,27 +281,22 @@ fun DownloadPage(
         }
         val sheetValue = dialogViewModel.sheetValueFlow.collectAsStateWithLifecycle().value
         val state = dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle().value
-        val sheetState =
-            rememberSheetState(showSheet = sheetValue == SheetValue.Expanded) { showSheet ->
-                if (showSheet) {
-                    dialogViewModel.postAction(Action.ShowSheet)
-                } else {
-                    dialogViewModel.postAction(Action.HideSheet)
-                }
-            }
 
-        val selectionState =
-            dialogViewModel.selectionStateFlow.collectAsStateWithLifecycle().value
+        val selectionState = dialogViewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
-        ConfigureDialog(
-            url = viewState.url,
-            state = state,
-            sheetState = sheetState,
-            config = Config(),
-            preferences = preferences,
-            onPreferencesUpdate = { preferences = it },
-            onActionPosted = { dialogViewModel.postAction(it) },
-        )
+        if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
+            val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+            ConfigureDialog(
+                url = viewState.url,
+                state = state,
+                sheetState = sheetState,
+                config = Config(),
+                preferences = preferences,
+                onPreferencesUpdate = { preferences = it },
+                onActionPosted = { dialogViewModel.postAction(it) },
+            )
+        }
         when (selectionState) {
             is DownloadDialogViewModel.SelectionState.FormatSelection ->
                 FormatPage(

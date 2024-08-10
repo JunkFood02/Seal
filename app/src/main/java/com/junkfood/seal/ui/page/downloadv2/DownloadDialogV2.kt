@@ -26,7 +26,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -79,7 +78,6 @@ import com.junkfood.seal.ui.common.motion.materialSharedAxisX
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.SealModalBottomSheet
-import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2Variant
 import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
@@ -213,7 +211,7 @@ fun ConfigureDialog(
     modifier: Modifier = Modifier,
     url: String = "",
     config: Config,
-    sheetState: ModalBottomSheetState,
+    sheetState: SheetState,
     preferences: DownloadUtil.DownloadPreferences,
     onPreferencesUpdate: (DownloadUtil.DownloadPreferences) -> Unit,
     state: DownloadDialogViewModel.SheetState = Configure,
@@ -280,68 +278,68 @@ fun ConfigureDialog(
             })
     }
 
-    SealModalBottomSheetM2(
+    SealModalBottomSheet(
         sheetState = sheetState,
         contentPadding = PaddingValues(),
-    ) {
-        AnimatedContent(
-            state,
-            label = "",
-            transitionSpec = {
-                materialSharedAxisX(initialOffsetX = { it / 4 }, targetOffsetX = { -it / 4 })
-            }) { state ->
-                when (state) {
-                    Configure -> {
-                        ConfigurePageImpl(
-                            url = url,
-                            config = config,
-                            preferences = preferences,
-                            onPresetEdit = { type ->
-                                when (type) {
-                                    Audio -> {
-                                        showAudioPresetDialog = true
+        onDismissRequest = { onActionPosted(Action.HideSheet) }) {
+            AnimatedContent(
+                targetState = state,
+                label = "",
+                transitionSpec = {
+                    materialSharedAxisX(initialOffsetX = { it / 4 }, targetOffsetX = { -it / 4 })
+                }) { state ->
+                    when (state) {
+                        Configure -> {
+                            ConfigurePageImpl(
+                                url = url,
+                                config = config,
+                                preferences = preferences,
+                                onPresetEdit = { type ->
+                                    when (type) {
+                                        Audio -> {
+                                            showAudioPresetDialog = true
+                                        }
+
+                                        Video -> {
+                                            showVideoPresetDialog = true
+                                        }
+
+                                        else -> {}
                                     }
-
-                                    Video -> {
-                                        showVideoPresetDialog = true
+                                },
+                                onPreferenceUpdate = {},
+                                settingChips = {
+                                    AdditionalSettings(
+                                        modifier = Modifier.padding(horizontal = 16.dp),
+                                        isQuickDownload = false,
+                                        preference = preferences,
+                                        selectedType = Audio,
+                                        onPreferenceUpdate = {
+                                            onPreferencesUpdate(
+                                                DownloadUtil.DownloadPreferences
+                                                    .createFromPreferences())
+                                        })
+                                },
+                                onActionPost = {
+                                    when (it) {
+                                        else -> onActionPosted(it)
                                     }
+                                })
+                        }
 
-                                    else -> {}
-                                }
-                            },
-                            onPreferenceUpdate = {},
-                            settingChips = {
-                                AdditionalSettings(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
-                                    isQuickDownload = false,
-                                    preference = preferences,
-                                    selectedType = Audio,
-                                    onPreferenceUpdate = {
-                                        onPreferencesUpdate(
-                                            DownloadUtil.DownloadPreferences
-                                                .createFromPreferences())
-                                    })
-                            },
-                            onActionPost = {
-                                when (it) {
-                                    else -> onActionPosted(it)
-                                }
-                            })
-                    }
+                        is Error -> {
+                            Text(state.throwable.stackTrace.contentToString())
+                        }
 
-                    is Error -> {
-                        Text(state.throwable.stackTrace.contentToString())
-                    }
-
-                    else -> {
-                        Column(modifier = Modifier.fillMaxWidth().padding(vertical = 120.dp)) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.CenterHorizontally))
+                        else -> {
+                            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 120.dp)) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.align(Alignment.CenterHorizontally))
+                            }
                         }
                     }
                 }
-            }
-    }
+        }
 }
 
 @Composable

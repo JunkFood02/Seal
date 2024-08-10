@@ -9,6 +9,10 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.ui.common.LocalDarkTheme
-import com.junkfood.seal.ui.component.rememberSheetState
+import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.downloadv2.Config
 import com.junkfood.seal.ui.page.downloadv2.ConfigureDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
@@ -61,6 +65,7 @@ class QuickDownloadActivity : ComponentActivity() {
         else Downloader.quickDownload(url = url)
     }
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -95,47 +100,45 @@ class QuickDownloadActivity : ComponentActivity() {
         setContent {
             val viewModel: DownloadDialogViewModel = viewModel()
 
-            SealTheme(
-                darkTheme = LocalDarkTheme.current.isDarkTheme(),
-                isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-            ) {
-                var preferences by remember {
-                    mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
-                }
-                val sheetValue = viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
-                val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
-                val sheetState =
-                    rememberSheetState(showSheet = sheetValue == SheetValue.Expanded) { showSheet ->
-                        if (showSheet) {
-                            viewModel.postAction(Action.ShowSheet)
-                        } else {
-                            viewModel.postAction(Action.HideSheet)
-                        }
+            SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
+                SealTheme(
+                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                    isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
+                ) {
+                    var preferences by remember {
+                        mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
                     }
+                    val sheetValue = viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
+                    val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
 
-                LaunchedEffect(url) { viewModel.postAction(Action.ShowSheet) }
+                    LaunchedEffect(url) { viewModel.postAction(Action.ShowSheet) }
 
-                val selectionState =
-                    viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
+                    val selectionState =
+                        viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
-                ConfigureDialog(
-                    url = url,
-                    state = state,
-                    sheetState = sheetState,
-                    config = Config(),
-                    preferences = preferences,
-                    onPreferencesUpdate = { preferences = it },
-                    onActionPosted = { viewModel.postAction(it) },
-                )
-                when (selectionState) {
-                    is SelectionState.FormatSelection ->
-                        FormatPage(
-                            state = selectionState,
-                            onDismissRequest = {
-                                viewModel.postAction(Action.Reset)
-                                this.finish()
-                            })
-                    else -> {}
+                    if (sheetValue == SheetValue.Expanded) {
+                        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+                        ConfigureDialog(
+                            url = url,
+                            state = state,
+                            sheetState = sheetState,
+                            config = Config(),
+                            preferences = preferences,
+                            onPreferencesUpdate = { preferences = it },
+                            onActionPosted = { viewModel.postAction(it) },
+                        )
+                    }
+                    when (selectionState) {
+                        is SelectionState.FormatSelection ->
+                            FormatPage(
+                                state = selectionState,
+                                onDismissRequest = {
+                                    viewModel.postAction(Action.Reset)
+                                    this.finish()
+                                })
+                        else -> {}
+                    }
                 }
             }
         }

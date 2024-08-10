@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Subtitles
@@ -343,6 +344,8 @@ private fun FormatPageImpl(
         videoClipDuration = videoDurationRange
     }
 
+    val lazyGridState = rememberLazyGridState()
+
     val formatList: List<Format> by remember {
         derivedStateOf {
             mutableListOf<Format>().apply {
@@ -352,6 +355,8 @@ private fun FormatPageImpl(
             }
         }
     }
+
+    val isFabExpanded by remember { derivedStateOf { lazyGridState.firstVisibleItemIndex > 0 } }
 
     val selectedLanguageList = remember {
         mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) }
@@ -399,12 +404,14 @@ private fun FormatPageImpl(
                         Text(
                             stringResource(R.string.start_download),
                         )
-                    })
+                    },
+                    expanded = isFabExpanded)
             }
         },
         floatingActionButtonPosition = FabPosition.End) { paddingValues ->
             LazyVerticalGrid(
                 modifier = Modifier.padding(paddingValues),
+                state = lazyGridState,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 columns = GridCells.Adaptive(150.dp),
