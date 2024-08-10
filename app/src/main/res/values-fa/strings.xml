@@ -17,7 +17,7 @@
     <string name="delete_info_msg">برای همیشه \"%1$s\" از سابقه دانلود شما حذف شود؟</string>
     <string name="confirm">تایید</string>
     <string name="link_copied">پیوند در کلیپ بورد کپی شد</string>
-    <string name="delete_file">حذف</string>
+    <string name="delete_file">حذف فایل</string>
     <string name="about">درباره</string>
     <string name="about_page">نسخه ،بازخورد، بروزرسانی خودکار</string>
     <string name="back">برگشت</string>
@@ -63,14 +63,14 @@
     <string name="print_details">خروجی انتخابی</string>
     <string name="settings_before_download_text">تنظیم دانلود</string>
     <string name="error_copied">کپی گزارش خطا در کلیپ بورد</string>
-    <string name="thumbnail">تصویر شاخص</string>
+    <string name="thumbnail">پیش‌نمایش</string>
     <string name="paste">چسباندن</string>
     <string name="yt_dlp_docs">مراجع استفاده از Yt-dlp</string>
     <string name="convert_audio_format">تبدیل فرمت صدا</string>
     <string name="convert_to">تبدیل به %1$s</string>
     <string name="format">فرمت</string>
     <string name="convert_audio_format_desc">صدا با فرمت MP3 یا M4A در اکثر دستگاه ها کار می کند.</string>
-    <string name="preferred_format_desc">فرمت انتخاب شده زمانی که چندین مورد انتخاب می شود</string>
+    <string name="preferred_format_desc">فرمت ترجیحی زمانی که چندین مورد دسترس باشند</string>
     <string name="close">بستن</string>
     <string name="close_never_show_again">دوباره نمایش نده</string>
     <string name="open_settings">باز کردن تنظیمات</string>
@@ -94,7 +94,7 @@
     <string name="to">پایان از</string>
     <string name="playlist_indicator_text">در حال دانلود لیست پخش (%1$d/%2$d)…</string>
     <string name="audio_directory">پوشه صدا</string>
-    <string name="subdirectory_desc">فایل ها را در پوشه هایی با نام وب سایت های مربوطه ذخیره کنید</string>
+    <string name="subdirectory_desc">فایل‌ها را در پوشه‌هایی با نام حیطه مربوطه ذخیره کنید</string>
     <string name="permission_issue">مشکل در مجوز ذخیره سازی</string>
     <string name="permission_issue_desc">دایرکتوری های خارج از Download/ و Documents/ پشتیبانی نمی شوند</string>
     <string name="service_title">Seal در حال دانلود است…</string>
@@ -143,7 +143,7 @@
     <string name="second">ثانیه</string>
     <string name="clear_all_cookies">حذف تمام کوکی ها</string>
     <string name="clear_all_cookies_desc">تمام کوکی های ذخیره شده در برنامه را برای همیشه حذف کنید؟</string>
-    <string name="filesize_gb">%.2f گیگ</string>
+    <string name="filesize_gb">%.2f گیگ‌بایت</string>
     <string name="invalid_input">ورودی نامعتبر</string>
     <string name="suggested">پیشنهادی</string>
     <string name="subtitle_sponsorblock">ممکن است هنگام حذف بخش‌های SponsorBlock، زیرنویس‌ها از بین بروند.</string>
@@ -162,14 +162,14 @@
     <string name="status_enqueued">در صف قرار گرفته است</string>
     <string name="status_completed">تکمیل شد</string>
     <string name="multiselect_mode">حالت چند انتخابی</string>
-    <string name="sponsorblock_desc">با وبسرویس SponsorBlock ، بخش‌ها را از ویدیوها حذف کنید</string>
+    <string name="sponsorblock_desc">حذف یا علامت گذاری بخش‌های ویدئو با کمک سرویس SponsorBlock</string>
     <string name="cookies_desc">برای دانلود از کوکی های فرمت شده Netscape استفاده کنید</string>
     <string name="clear_temp_files_info">از فایل‌های موقت می‌توان برای از سرگیری دانلودهای لغو شده استفاده کرد. آیا مطمئن هستید که همهٔ این فایل‌ها را حذف می‌کنید؟
 \n
 \nمی‌توانید این فایل‌ها را در %1$s ببینید</string>
     <string name="rate_limit">حد نرخ</string>
     <string name="network_settings_desc">محدودیت نرخ، دانلود کننده، کوکی ها</string>
-    <string name="disable_preview_desc">غیرفعال کردن پیش نمایش در دانلود ها</string>
+    <string name="disable_preview_desc">غیرفعال کردن پیش نمایش هنگام دانلود</string>
     <string name="crop_artwork">برش آثار هنری</string>
     <string name="private_directory_desc">دانلودها را در یک دایرکتوری مخفی ذخیره شود</string>
     <string name="crop_artwork_desc">تصویر جاسازی شده را به مربع برش دهید</string>
@@ -177,7 +177,7 @@
     <string name="auto_subtitle_desc">دانلود زیرنویس های خودکار ساخته شده</string>
     <string name="custom_command_enabled_hint">برخی از گزینه ها هنگام استفاده از دستور سفارشی در دسترس نیستند</string>
     <string name="cookies_usage_msg">دانلود از برخی سایت ها به اطلاعات احراز هویت حساب کاربری نیاز دارد. روی «ایجاد کوکی‌های جدید» کلیک کنید، آدرس وب سایت را وارد کنید و سپس با حساب کاربری خود در صفحه مرورگر وارد شوید، برنامه آن را برای شما تولید می‌کند.</string>
-    <string name="filesize_mb">%.2f مگ</string>
+    <string name="filesize_mb">%.2f مگابایت</string>
     <string name="rename">ویرایش نام</string>
     <string name="download_with_cellular">دانلود با استفاده از اینترنت سیم کارت</string>
     <string name="download_with_cellular_desc">هنگامی که به شبکه‌های اندازه‌گیری شده متصل می‌شوید، بارگیری رسانه را مجاز کنید</string>
@@ -200,7 +200,7 @@
     <string name="new_template">ساخت الگو جدید</string>
     <string name="copy_link">کپی پیوند</string>
     <string name="app_up_to_date">نسخه فعلی به روز است</string>
-    <string name="clear_temp_files_desc">تمام فایل های موقت را از فهرست داخلی حذف کنید</string>
+    <string name="clear_temp_files_desc">تمام فایل های موقت را از پوشه موقت حذف کنید</string>
     <string name="disable_preview">غیرفعال کردن پیش نمایش</string>
     <string name="privacy">حریم خصوصی</string>
     <string name="use_custom_command">انتخاب دستور سفارشی</string>
@@ -215,7 +215,7 @@
     <string name="cookies">کوکی ها</string>
     <string name="format_selection">انتخاب فرمت</string>
     <string name="generate_new_cookies">ساخت کوکی جدید</string>
-    <string name="embed_subtitles_desc">در صورت امکان، زیرنویس‌ های ارائه شده را در ویدیوها جاسازی شود</string>
+    <string name="embed_subtitles_desc">در صورت موجود، زیرنویس‌‌های جداگانه بر روی ویدیوها نصب شوند</string>
     <string name="template_label">عنوان</string>
     <string name="remove_template">آیا حذف شود؟</string>
     <string name="remove_template_desc">برای همیشه \"%1$s\" از الگوهای خوب حذف شود؟</string>
@@ -230,7 +230,7 @@
     <string name="export_to_clipboard">استخراج به کلیپ برد</string>
     <string name="download_task_count">%1$d عملیات در حال دانلود</string>
     <string name="use_cookies">انتخاب کوکی ها</string>
-    <string name="remove_cookie_profile_desc">کوکی‌های «%1$s» حذف شوند؟</string>
+    <string name="remove_cookie_profile_desc">این ورودی به ازای «%1$s» حذف شود؟ لطفا بخاطر داشته باشید که کوکی‌های ذخیره شده در این سایت پاک نمی‌شوند.</string>
     <string name="how_does_it_work">چگونه کار می کند؟</string>
     <string name="matrix_space">فضای ماتریس</string>
     <string name="recently_added">به تازگی اضافه شده</string>
@@ -240,7 +240,7 @@
     <string name="template_exported">%1$d الگو(های) صادر شد</string>
     <string name="template_imported">%1$d الگو(های) وارد شد</string>
     <string name="multiselect_item_count">%1$d ویدیو، %2$d فایل صوتی</string>
-    <string name="sponsorblock_categories_desc">دسته بندی SponsorBlock را برای حذف از فایل ویدیویی مشخص کنید</string>
+    <string name="sponsorblock_categories_desc">دسته‌بندی‌های SponsorBlock را برای حذف از فایل ویدئو یا علامت‌گذاری در آن مشخص کنید</string>
     <string name="sponsorblock_categories">دسته های SponsorBlock</string>
     <string name="aria2_desc">از aria2c به عنوان دانلودر خارجی استفاده کنید</string>
     <string name="private_mode">حالت خصوصی</string>
@@ -248,7 +248,7 @@
     <string name="dynamic_color">رنگ پویا</string>
     <string name="file_unavailable">این فایل دیگر در دسترس نیست</string>
     <string name="network">شبکه</string>
-    <string name="rate_limit_desc">حداکثر تعداد بارگیری را محدود کنید</string>
+    <string name="rate_limit_desc">حداکثر سرعت بارگیری را مشخص کنید</string>
     <string name="max_rate">حداکثر تعداد</string>
     <string name="high_contrast">تم تیره با کنتراست بالا</string>
     <string name="lowest_quality">پایین ترین کیفیت</string>
@@ -274,7 +274,7 @@
     <string name="shortcuts">شورتکات ها</string>
     <string name="edit_shortcuts_desc">میانبرهای سفارشی را ویرایش کنید که می توان از آنها برای نوشتن الگوهای فرمان استفاده کرد.</string>
     <string name="running_tasks">عملیات های در حال اجرا</string>
-    <string name="embed_subtitles_mkv_msg">برای جاسازی زیرنویس‌ها، فیلم‌ها به فرمتmkv تبدیل می‌شوند.</string>
+    <string name="embed_subtitles_mkv_msg">برای جاسازی زیرنویس‌ها، فیلم‌ها به فرمتmkv تبدیل می‌شوند. شما می‌توانید از VLC Media Player یا سایر برنامه‌های سازگار برای تماشای فیلم‌ها با زیرنویس نچسبیده استفاده کنید.</string>
     <string name="beta_features">آزمایشی</string>
     <string name="enable_experimental_feature">ویژگی آزمایشی فعال شود؟</string>
     <string name="clip_video_desc">در صفحه انتخاب فرمت کلیپ های ویدیویی بسازید</string>
@@ -342,4 +342,52 @@
     <string name="download_archive">بایگانی دانلود</string>
     <string name="enable_notifications">فعال کردن اعلان؟</string>
     <string name="proxy">پروکسی</string>
+    <string name="look_and_feel">بر و رو</string>
+    <string name="interface_and_interaction">رابط و تعامل</string>
+    <string name="custom_command_usage_msg">yt-dlp یک ابزار دستور متنی برای دانلود ویدئو است. Seal، استفاده از yt-dlp را با کمک محیط گرافیک قابل‌فهم، دستورات مرسوم پیش‌فرض، و قابلیت‌های اضافی آسان می‌کند.
+\n
+\nSeal با کمک ساختن، ذخیره و اجرا قالب‌های دستوری مرسوم به صورت مستقیم، همانند ترمینال، به شما اجازه می‌دهد تا از قابلیت‌های پیشرفته بهره‌مند شوید.
+\n
+\nهنگام استفاده از دستورات، اکثر تنظیمات و قابلیت‌ها غیرفعال می‌شوند.</string>
+    <string name="commands">دستورات</string>
+    <string name="format_preference">فرمت ترجیحی</string>
+    <string name="presets">تنظیمات پیش‌فرض</string>
+    <string name="embed_metadata_desc">جاسازی مِتا دیتا و پیش‌نمایش ویدئو در فایل صوتی</string>
+    <string name="embed_metadata">جاسازی مِتا دیتا</string>
+    <string name="allow_once">اجازه یکباره</string>
+    <string name="use_format_sorting">از مرتب‌سازی فرمت استفاده شود</string>
+    <string name="allow_always">اجازه همیشگی</string>
+    <string name="dont_allow">اجازه نده</string>
+    <string name="download_with_cellular_request">دانلود با دیتا گوشی اجازه داده شود؟</string>
+    <string name="subdirectory_hint">دانلود شما ذخیره می‌شود در:</string>
+    <string name="keep_subtitle_files">فایل‌های زیرنویس نگهداری شوند</string>
+    <string name="output_template_desc">قالب را برای نام‌های فایل خروجی مشخص کنید</string>
+    <string name="use_previous_selection">انتخاب قبلی استفاده شود</string>
+    <string name="remember_for_next_download">برای دانلود بعدی بخاطر داشته باش</string>
+    <string name="system_settings">تنظیمات سیستم</string>
+    <string name="reset">ریست</string>
+    <string name="search_in_subtitles">جستجو در زیرنویس‌ها</string>
+    <string name="no_thanks">نه ممنون</string>
+    <string name="import_download_history_msg">فایل‌های دانلود شده وارد نمی‌شوند. شما باید آنها را دوباره به صورت دستی دانلود کنید</string>
+    <string name="import_download_history">تاریخچه دانلود وارد شود؟</string>
+    <string name="export_download_history">تاریخچه دانلود خروجی گرفته شود؟</string>
+    <string name="import_from">وارد کردن از</string>
+    <string name="clipboard">تایخچه کپی</string>
+    <string name="file">فایل</string>
+    <string name="export_to">خروجی گرفته شود به</string>
+    <string name="backup_type">نوع بَک‌آپ</string>
+    <string name="full_backup">بَک‌آپ کامل</string>
+    <string name="none">هیچ‌ یک</string>
+    <string name="download_history">تاریخچه دانلود</string>
+    <string name="every_month">هر ماه</string>
+    <string name="every_week">هر هفته</string>
+    <string name="every_day">هر روز</string>
+    <string name="redownload">دانلود دوباره</string>
+    <string name="import_backup">وارد کردن</string>
+    <string name="export_backup">خارج کردن</string>
+    <string name="update_subtitle_languages">زبان‌های زیرنویس بروز شوند؟</string>
+    <string name="update_language_msg">زبان‌های زیر برای دانلودهای بعدی به اولویت شما اضافه می‌شوند:</string>
+    <string name="refresh_cookies_desc">برای باز کردن صفحه وب برای تولید کوکی‌های جدید، ضربه بزنید:</string>
+    <string name="custom_command_directory">پوشه دستورات سفارشی</string>
+    <string name="custom_command_directory_desc">پوشه خروجی را هنگام استفاده از دستورات سفارشی را مشخص کن</string>
 </resources>

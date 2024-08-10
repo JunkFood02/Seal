@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="extract_audio">היט ווי אַודיאָ</string>
+    <string name="create_thumbnail">היט טאַמנייל</string>
+    <string name="url_empty">דער לינק קען נישט זיין ליידיק</string>
+    <string name="extract_audio_summary">אראפקאפיע און היט אַודיאָ אַנשטאָט פון ווידעא</string>
+    <string name="create_thumbnail_summary">היט ווידעא טאַמנייל ווי אַ טעקע</string>
+    <string name="yt_dlp_up_to_date">ניצן די לעצטע ווערסיע פון yt-dlp</string>
+    <string name="permission_denied">דערלויבעניש געלייקנט</string>
+    <string name="download_success_msg">אראפקאפיע פאַרטיק</string>
+    <string name="download_error_msg">קען נישט אראפקאפיע טעקע</string>
+    <string name="download_start_msg">אראפקאפיע \"%1$s\"</string>
+    <string name="fetch_info_error_msg">קען נישט באַקומען ווידעא אינפֿאָרמאַציע</string>
+    <string name="task_running">אַן עקסיסטירטע אראפקאפיע אַרבעט איז שוין פליסנדיק</string>
+    <string name="paste_msg">פּאַפּ די URL פון די קליפּבאָרד</string>
+    <string name="ytdlp_version">Yt-dlp ווערסיע</string>
+    <string name="ytdlp_update_action">אַפּדייט yt-dlp</string>
+    <string name="delete_info">אַראָפּנעמען?</string>
+    <string name="confirm">באַשטעטיקט</string>
+    <string name="audio">אַודיאָ</string>
+    <string name="link_copied">לינק קאַפּיד צו די קליפּבאָרד</string>
+    <string name="video_directory">ווידעא</string>
+    <string name="settings">סעטטינגס</string>
+    <string name="download_settings_desc">אַלגעמיינע, פֿאָרמאַט, אייגן באַפֿעל</string>
+    <string name="download">אָפּלאָדירן</string>
+    <string name="general_settings">אַלגעמיינע</string>
+    <string name="language">ווייַז שפּראַך</string>
+    <string name="yt_dlp_update_fail">קען נישט ינסטאַלירן די לעצטע yt-dlp ווערסיע. ביטע מאַכן זיכער אַז איר זענט קאָננעקטעד צו די אינטערנעט.</string>
+    <string name="language_settings">באַשטעטיק ווייַז שפּראַך</string>
+    <string name="ytdlp_update">דריקט צו ינסטאַלירן די לעצטע yt-dlp ווערסיע</string>
+    <string name="paste_fail_msg">קען נישט גלייַכן די URL אין די קליפּבאָרד</string>
+    <string name="delete_info_msg">אַראָפּנעמען \"%1$s\" פֿון דיין דאַונלאָודינג געשיכטע פֿאַר גוט?</string>
+    <string name="fetching_info">באקומט ווידעא אינפארמאציע…</string>
+    <string name="dismiss">ביטול</string>
+    <string name="downloads_history">דאַונלאָודז</string>
+</resources>

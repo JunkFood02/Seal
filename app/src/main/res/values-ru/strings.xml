@@ -132,7 +132,7 @@
     <string name="settings_before_download_text">Настройте эту загрузку</string>
     <string name="prefix">Шаблон пути</string>
     <string name="embed_subtitles">Встраивание субтитров</string>
-    <string name="embed_subtitles_desc">Встраивать субтитры, если они доступны</string>
+    <string name="embed_subtitles_desc">Встраивать в видеофайл пререндерные субтитры, если они доступны</string>
     <string name="new_template">Новый шаблон</string>
     <string name="template_label">Заголовок</string>
     <string name="remove_template">Удалить\?</string>
@@ -190,7 +190,7 @@
     <string name="download_with_cellular_desc">Разрешать загрузку медиа, когда подключена мобильная сеть с лимитным трафиком</string>
     <string name="download_disabled_with_cellular">Согласно Вашим настройкам, загрузка через мобильную сеть отключена</string>
     <string name="network">Сеть</string>
-    <string name="rate_limit_desc">Установить лимит максимальной скорости загрузки</string>
+    <string name="rate_limit_desc">Ограничить максимальную скорость загрузки</string>
     <string name="high_contrast">Высококонтрастная тёмная тема</string>
     <string name="invalid_input">Недопустимый ввод</string>
     <string name="lowest_quality">Наименьшее качество</string>
@@ -244,7 +244,7 @@
     <string name="edit_shortcuts_desc">Изменяйте ярлыки, которые могут быть использованы для составления своих команд.</string>
     <string name="video_title_sample_text">Пример названия видео</string>
     <string name="video_creator_sample_text">Пример автора видео</string>
-    <string name="embed_subtitles_mkv_msg">Чтобы встроить субтитры, контейнер видео будет изменен на mkv. Вы можете использовать Проигрыватель VLC или другие совместимые приложения для просмотра видео с встроенными субтитрами.</string>
+    <string name="embed_subtitles_mkv_msg">Чтобы встроить пререндерные субтитры, контейнер видео будет изменен на mkv. Вы можете использовать Проигрыватель VLC или другие совместимые приложения для просмотра видео с пререндерными субтитрами.</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="share">Поделиться</string>
@@ -405,4 +405,9 @@
     <string name="download_archive_error">Видео было загружено. Если это не ожидаемое поведение, пожалуйста, проверьте архив загрузки.</string>
     <string name="none">Нет</string>
     <string name="remux_container_mkv">Remux видео контейнер</string>
+    <string name="cookies_in_database">Кол-во файлов куки: %1$d, кол-во их источников: %2$d</string>
+    <string name="remux_container_mkv_desc">Конвертировать видеофайлы в MKV контейнеры для улучшения совместимости</string>
+    <string name="every_day">Каждый день</string>
+    <string name="every_week">Каждую неделю</string>
+    <string name="every_month">Каждый месяц</string>
 </resources>

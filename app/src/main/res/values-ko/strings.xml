@@ -98,8 +98,8 @@
     <string name="display">디스플레이</string>
     <string name="display_settings">어두운 테마, 동적 색상, 언어</string>
     <string name="cancel">취소</string>
-    <string name="settings_before_download">다운로드 전 구성</string>
-    <string name="settings_before_download_desc">다운로드하기 전에 기본 설정 구성</string>
+    <string name="settings_before_download">다운로드하기 전 설정하기</string>
+    <string name="settings_before_download_desc">다운로드 전에 설정 변경하기</string>
     <string name="settings_before_download_text">이 다운로드 조정</string>
     <string name="error_copied">클립보드에 오류 보고서가 복사됨</string>
     <string name="convert_to">%1$s 로 변환</string>
@@ -225,7 +225,7 @@
     <string name="no_downloaded_media">다운로드한 미디어 없음</string>
     <string name="beta_features">베타</string>
     <string name="enable_experimental_feature">실험 기능을 사용하시겠습니까\?</string>
-    <string name="clip_video_dialog_msg">이 기능을 사용하는 다운로드는 비디오의 선택된 섹션을 다운로드할때 FFmpeg에 위임됩니다. 이 기능은 아직 실험적이며 자르기가 완전히 정확하지 않습니다. 또한 모든 형식이 이 기능을 지원하는 것은 아니며 다운로드 속도가 느려질 수 있습니다.</string>
+    <string name="clip_video_dialog_msg">이 기능을 사용하는 다운로드는 비디오의 선택된 섹션을 다운로드할때 FFmpeg에게 위임됩니다. 이 기능은 아직 실험적이며 자르기가 완전히 정확하지 않습니다. 또한 모든 형식이 이 기능을 지원하는 것은 아니며 다운로드 속도가 느려질 수 있습니다.</string>
     <string name="clip_video_desc">형식 선택 페이지에서 비디오 클립 만들기</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="filesize_gb">%.2f GB</string>
@@ -293,7 +293,7 @@
     <string name="rename">이름 바꾸기</string>
     <string name="minute">분</string>
     <string name="clear_all_cookies">모든 쿠키 지우기</string>
-    <string name="sponsor_desc">GitHub에서 후원하여 이 앱을 지원</string>
+    <string name="sponsor_desc">GitHub에서 후원하여 이 앱을 지원해주세요</string>
     <string name="feedback">피드백</string>
     <string name="sponsors">후원자</string>
     <string name="temporary_directory_desc">내부 디렉토리에 임시 파일 저장</string>

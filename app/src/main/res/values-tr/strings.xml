@@ -146,7 +146,7 @@
     <string name="status_fetching_video_info">Bilgi alınıyor</string>
     <string name="status_error">Hata</string>
     <string name="copy_link">Bağlantıyı kopyala</string>
-    <string name="copy_error_report">Haya raporu</string>
+    <string name="copy_error_report">Hata raporu</string>
     <string name="status_canceled">İptal edildi</string>
     <string name="status_downloading">İndiriliyor</string>
     <string name="task_canceled">İndirme işlemi iptal edildi</string>

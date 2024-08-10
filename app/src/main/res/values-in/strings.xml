@@ -132,7 +132,7 @@
     <string name="translate_desc">Bantu terjemahkan aplikasi ini di Hosted Weblate</string>
     <string name="prefix">Jalur templat</string>
     <string name="embed_subtitles">Sematkan takarir</string>
-    <string name="embed_subtitles_desc">Sematkan takarir yang disediakan ke dalam video jika tersedia</string>
+    <string name="embed_subtitles_desc">Sematkan subtitel yang disediakan ke dalam video jika tersedia</string>
     <string name="new_template">Templat baru</string>
     <string name="template_label">Label</string>
     <string name="template_selection">Pilihan template</string>
@@ -406,4 +406,5 @@
     <string name="cookies_in_database">%1$d kuki dari %2$d situs web keseluruhan</string>
     <string name="every_week">Setiap minggu</string>
     <string name="every_month">Setiap bulan</string>
+    <string name="every_day">Setiap hari</string>
 </resources>
