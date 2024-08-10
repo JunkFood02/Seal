@@ -74,7 +74,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -101,10 +100,7 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
-import com.junkfood.seal.ui.page.downloadv2.Config
-import com.junkfood.seal.ui.page.downloadv2.ConfigurePage
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
-import com.junkfood.seal.ui.page.downloadv2.FormatPage
 import com.junkfood.seal.ui.theme.PreviewThemeLight
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
