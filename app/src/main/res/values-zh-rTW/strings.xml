@@ -379,11 +379,11 @@
     <string name="redownload">重新下載</string>
     <string name="auto_translated_subtitles">自動翻譯字幕</string>
     <string name="auto_translated_subtitles_msg">所有自動翻譯的字幕都將在下載中可用。不過，字幕有可能不準確且難以理解。</string>
-    <string name="remember_for_next_download">下次下載時仍使用這些設定</string>
+    <string name="remember_for_next_download">記住本次下載設定</string>
     <string name="subtitle_language_desc">指定在自動格式選取中要下載哪些語言的字幕，語言名稱間以英文逗號分隔。</string>
     <string name="reset">重設</string>
     <string name="no_thanks">不，謝謝</string>
-    <string name="update_language_msg">今後下載檔案時將下載下列語言的字幕：</string>
+    <string name="update_language_msg">今後預設下載下列語言的字幕:</string>
     <string name="full_backup">完整備份</string>
     <string name="look_and_feel">介面與外觀</string>
     <string name="interface_and_interaction">介面與互動</string>

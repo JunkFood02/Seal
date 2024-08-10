@@ -38,7 +38,7 @@
     <string name="link_copied">បញ្ជាប់បានចម្លងទៅឃ្លីបប៊ត</string>
     <string name="open_url">បើកបញ្ជាប់</string>
     <string name="remove">ដកចេញ</string>
-    <string name="delete_file">លុប</string>
+    <string name="delete_file">លុបឯកសារ</string>
     <string name="about">អំពី</string>
     <string name="about_page">កំណែ, មតិកែលម្អ, ស្វ័យអាប់ដេត</string>
     <string name="back">ត្រឡប់</string>
@@ -153,4 +153,7 @@
     <string name="template_imported">បាននាំចូលពុម្ពគំរូ %1$d</string>
     <string name="download_task_count">ភារកិច្ចដោនឡូដ %1$d</string>
     <string name="recently_added">ទើបតែបន្ថែម</string>
+    <string name="aria2_desc">ប្រើ aria2c ជាការីដោនឡូដខាងក្រៅ</string>
+    <string name="embed_subtitles_desc">បង្កប់សុសរងទៅក្នុងវីដេអូ ប្រសិនបើមាន</string>
+    <string name="new_template">ពុម្ពគំរូថ្មី</string>
 </resources>

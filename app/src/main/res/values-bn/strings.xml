@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_directory">ভিডিও ফোল্ডার</string>
-    <string name="extract_audio">ভিডিও আকারে সংরক্ষণ করুন</string>
+    <string name="extract_audio">অডিও আকারে সংরক্ষণ করুন</string>
     <string name="create_thumbnail">থাম্বনেইল সংরক্ষণ করুন</string>
     <string name="settings">সেটিংস</string>
-    <string name="download_settings_desc">সাধারণ, ফর্ম্যাট, সনির্বাচিত নির্দেশ</string>
+    <string name="download_settings_desc">সাধারণ, ফর্ম্যাট, কাস্টম কমান্ড</string>
     <string name="download">ডাউনলোড</string>
     <string name="url_empty">লিংক ফাঁকা রাখা যাবে না</string>
-    <string name="extract_audio_summary">ভিডিওর বদলে অডিও ডাইনলোড ও সেভ করুন</string>
+    <string name="extract_audio_summary">ভিডিওর বদলে অডিও ডাউনলোড ও সেভ করুন</string>
     <string name="create_thumbnail_summary">ভিডিওর থাম্বনেইল ফাইল আকারে সেভ করুন</string>
-    <string name="yt_dlp_up_to_date">yt-dlpর সর্বশেষ ভার্সন ব্যবহার করা হচ্ছে</string>
-    <string name="fetching_info">ভিডিও তথ্য দেখা হচ্ছে…</string>
+    <string name="yt_dlp_up_to_date">yt-dlp র সর্বশেষ সংস্করণ ব্যবহার করা হচ্ছে</string>
+    <string name="fetching_info">ভিডিও তথ্য আনা হচ্ছে…</string>
     <string name="permission_denied">পারমিশন পাওয়া যায় নি</string>
     <string name="download_success_msg">ডাউনলোড শেষ হয়েছে</string>
     <string name="download_error_msg">ফাইল ডাউনলোড করা যায় নি</string>
-    <string name="fetch_info_error_msg">ভিডিওর তথ্য যোগার করা যায় নি</string>
+    <string name="fetch_info_error_msg">ভিডিওর তথ্য আনা যায় নি</string>
     <string name="general_settings">সাধারণ</string>
     <string name="language">ভাষা দেখান</string>
     <string name="task_running">ইতিমধ্যে একটা ডাউনলোড চলছে</string>
@@ -26,7 +26,7 @@
     <string name="link_copied">লিংক ক্লিপবোর্ডে কপি করা হয়েছে</string>
     <string name="open_url">লিংক ওপেন করুন</string>
     <string name="remove">সরান</string>
-    <string name="delete_file">মুছুন</string>
+    <string name="delete_file">ফাইল মুছো</string>
     <string name="about">সম্পর্কে</string>
     <string name="about_page">সংস্করণ, প্রতিক্রিয়া, স্বয়ংক্রিয়ভাবে হালনাগাদ</string>
     <string name="back">পেছনে যান</string>
@@ -68,7 +68,7 @@
     <string name="ytdlp_version">Yt-dlp সংস্করণ</string>
     <string name="not_convert">অপরিবর্তিত</string>
     <string name="close">বন্ধ</string>
-    <string name="download_start_msg">ডাউনলোড \"%1$s\"</string>
+    <string name="download_start_msg">\"%1$s\" ডাউনলোড করুন</string>
     <string name="display">প্রদর্শন</string>
     <string name="cancel">বাতিল করুন</string>
     <string name="edit_template_desc">আউটপুট পাথ এবং URL এই অ্যাপ দ্বারা যোগ করা হবে।</string>
@@ -182,7 +182,7 @@
     <string name="keep_subtitle_files">সাবটাইটেল ফাইল রাখুন</string>
     <string name="dynamic_color">গতিশীল রঙ</string>
     <string name="download_task_count">%1$d টাস্ক ডাউনলোড করুন</string>
-    <string name="rate_limit_desc">ডাউনলোডের জন্য সর্বোচ্চ হার সীমিত করুন</string>
+    <string name="rate_limit_desc">ডাউনলোডের জন্য সর্বোচ্চ হার নির্ধারণ করো</string>
     <string name="network_settings_desc">রেট লিমিট, ডাউনলোডার, কুকিজ</string>
     <string name="selected_item_count">%1$d নির্বাচন করা হয়েছে</string>
     <string name="custom_command_enabled_hint">কাস্টম কমান্ড ব্যবহার করার সময় কিছু বিকল্প অনুপলব্ধ</string>
@@ -371,7 +371,7 @@
 \n
 \nঅগ্রিম জন্য</string>
     <string name="shortcuts">শর্টকাট</string>
-    <string name="embed_subtitles_mkv_msg">সাবটাইটেল এম্বেড করতে, ভিডিওগুলি mkv কন্টেইনারে রিমক্স করা হবে। এমবেডেড সাবটাইটেল সহ ভিডিও দেখতে আপনি VLC মিডিয়া প্লেয়ার বা অন্যান্য সামঞ্জস্যপূর্ণ অ্যাপ ব্যবহার করতে পারেন</string>
+    <string name="embed_subtitles_mkv_msg">সাবটাইটেল এম্বেড করতে, ভিডিওগুলো mkv কন্টেইনারে রিমাক্স করা হবে। এমবেডেড সাবটাইটেল সহ ভিডিও দেখতে আপনি VLC মিডিয়া প্লেয়ার বা অন্যান্য সামঞ্জস্যপূর্ণ অ্যাপ ব্যবহার করতে পারো।</string>
     <string name="update_channel_desc">নতুন বৈশিষ্ট্য এবং পরিবর্তনের পূর্বরূপ দেখতে প্রি-রিলিজ বিল্ড ইনস্টল করুন 
 \n
 \nএই সংস্করণগুলিতে কিছু অস্থিরতা থাকবে, তাই আপনাকে সাহায্য করার জন্য কোনো সমস্যা হলে আমাদের প্রতিক্রিয়া জানাতে দ্বিধা করবেন না</string>
@@ -400,4 +400,10 @@
     <string name="redownload">পুনরায় ডাউনলোড করুন</string>
     <string name="search_in_downloads">ডাউনলোড অনুসন্ধান করুন</string>
     <string name="search">অনুসন্ধান করুন</string>
+    <string name="remux_container_mkv">রোমান্স ভিডিও কন্টেইনার</string>
+    <string name="every_day">প্রতি দিন</string>
+    <string name="remux_container_mkv_desc">উন্নত সমর্থনের জন্য ভিডিওগুলো MKV কন্টেইনারে রিমাক্স করো</string>
+    <string name="cookies_in_database">%2$dটি ওয়েবসাইট থেকে মোট %1$dটি কুকি</string>
+    <string name="every_month">প্রতি মাসে</string>
+    <string name="every_week">প্রতি সপ্তাহে</string>
 </resources>

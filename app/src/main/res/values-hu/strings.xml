@@ -17,7 +17,7 @@
     <string name="ytdlp_update">Kattints ide, hogy telepítsd a legújabb yt-dlp-t</string>
     <string name="delete_info">Eltávolítás\?</string>
     <string name="delete_info_msg">Eltávolítod véglegesen a \"%1$s\" a letöltési listádból\?</string>
-    <string name="paste_fail_msg">A vágólapon lévő URL-lel nem egyezik</string>
+    <string name="paste_fail_msg">A vágólapon lévő URL nem egyezik</string>
     <string name="audio">Hang</string>
     <string name="link_copied">A link vágólapra másolva</string>
     <string name="open_url">Link megnyitása</string>
@@ -89,7 +89,7 @@
     <string name="confirm">Megerősít</string>
     <string name="edit">Szerkesztés</string>
     <string name="dismiss">Mégsem</string>
-    <string name="delete_file">Törlés</string>
+    <string name="delete_file">Fájl törlése</string>
     <string name="video_url">Videó link</string>
     <string name="back">Vissza</string>
     <string name="version">Verzió</string>
@@ -265,4 +265,14 @@
     <string name="quality">Minőség</string>
     <string name="use_cookies">Sütik használata</string>
     <string name="custom_command_enabled_hint">Néhány opció nem elérhatő testreszabott parancsok mellett</string>
+    <string name="custom_command_usage_msg">A yt-dlp egy hatékony parancssori eszköz videók letöltéséhez. A Seal megkönnyíti a yt-dlp használatát úgy, hogy egy intuitív GUI-t, előbeállításokat gyakran használt parancsokhoz és sok mást kínál.
+\n
+\nA yt-dlp haladó használatához a Seal lehetővé teszi egyedi parancssablonok létrehozását, elmentését és lefuttatását, akárcsak egy terminálban.
+\n
+\nEgyéni parancsok használatakor a legtöbb grafikus felület opció és szolgáltatás le van tiltva.</string>
+    <string name="auto_subtitle">Automatikus feliratok</string>
+    <string name="auto_subtitle_desc">Automatikusan generált feliratok letöltése</string>
+    <string name="video_title_sample_text">Videó címének minta szövege</string>
+    <string name="subtitle_desc">Nyelvek, feliratok beágyazása, automatikus feliratozás</string>
+    <string name="remove_cookie_profile_desc">Eltávolítja ezt a bejegyzést a következőhöz: \"%1$s\"? Vegye figyelembe, hogy az ezen az oldalon tárolt cookie-k nem törlődnek.</string>
 </resources>
