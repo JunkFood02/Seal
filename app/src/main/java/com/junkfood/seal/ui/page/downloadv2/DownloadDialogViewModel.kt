@@ -22,24 +22,31 @@ class DownloadDialogViewModel : ViewModel() {
 
     sealed interface SelectionState {
         data object Idle : SelectionState
+
         data class PlaylistSelection(val result: PlaylistResult) : SelectionState
+
         data class FormatSelection(val info: VideoInfo) : SelectionState
     }
 
     sealed interface SheetState {
         data object Configure : SheetState
+
         data class Loading(val taskKey: String, val job: Job) : SheetState
+
         data class Error(val throwable: Throwable) : SheetState
     }
 
     sealed interface SheetValue {
         data object Expanded : SheetValue
+
         data object Hidden : SheetValue
     }
 
     sealed interface Action {
         data object HideSheet : Action
+
         data object ShowSheet : Action
+
         data object Reset : Action
 
         data class FetchPlaylist(
@@ -51,7 +58,8 @@ class DownloadDialogViewModel : ViewModel() {
             val url: String,
             val indexList: List<Int>,
             val playlistItemList: List<Entries> = emptyList(),
-            val preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+            val preferences: DownloadUtil.DownloadPreferences =
+                DownloadUtil.DownloadPreferences.createFromPreferences()
         ) : Action
 
         data class FetchFormats(
@@ -80,14 +88,14 @@ class DownloadDialogViewModel : ViewModel() {
         MutableStateFlow(SelectionState.Idle)
     private val mSheetStateFlow: MutableStateFlow<SheetState> =
         MutableStateFlow(SheetState.Configure)
-    private val mSheetValueFlow: MutableStateFlow<SheetValue> =
-        MutableStateFlow(SheetValue.Hidden)
+    private val mSheetValueFlow: MutableStateFlow<SheetValue> = MutableStateFlow(SheetValue.Hidden)
 
     val selectionStateFlow = mSelectionStateFlow.asStateFlow()
     val sheetStateFlow = mSheetStateFlow.asStateFlow()
     val sheetValueFlow = mSheetValueFlow.asStateFlow()
 
-    private val sheetState get() = sheetStateFlow.value
+    private val sheetState
+        get() = sheetStateFlow.value
 
     fun postAction(action: Action) {
         with(action) {
@@ -100,7 +108,7 @@ class DownloadDialogViewModel : ViewModel() {
                 Action.ShowSheet -> showDialog()
                 is Action.DownloadItemsWithPreset -> TODO()
                 is Action.DownloadWithInfoAndConfiguration -> TODO()
-                Action.Cancel -> TODO()
+                Action.Cancel -> cancel()
                 Action.Reset -> resetStates()
             }
         }
@@ -110,43 +118,50 @@ class DownloadDialogViewModel : ViewModel() {
         // TODO: handle downloader state
         Downloader.clearErrorState()
 
-        val job = viewModelScope.launch(Dispatchers.IO) {
-            DownloadUtil.getPlaylistOrVideoInfo(playlistURL = url).onSuccess { info ->
-                withContext(Dispatchers.Main) {
-                    when (info) {
-                        is PlaylistResult -> {
-                            mSelectionStateFlow.update { SelectionState.PlaylistSelection(result = info) }
-                        }
+        val job =
+            viewModelScope.launch(Dispatchers.IO) {
+                DownloadUtil.getPlaylistOrVideoInfo(playlistURL = url)
+                    .onSuccess { info ->
+                        withContext(Dispatchers.Main) {
+                            when (info) {
+                                is PlaylistResult -> {
+                                    mSelectionStateFlow.update {
+                                        SelectionState.PlaylistSelection(result = info)
+                                    }
+                                }
 
-                        is VideoInfo -> {
-                            mSelectionStateFlow.update { SelectionState.FormatSelection(info = info) }
+                                is VideoInfo -> {
+                                    mSelectionStateFlow.update {
+                                        SelectionState.FormatSelection(info = info)
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }.onFailure {
-//            Downloader.manageDownloadError(
-//                th = it, url = url, isFetchingInfo = true, isTaskAborted = true
-//            )
-                // TODO: Handle error state
+                    .onFailure { th -> mSheetStateFlow.update { SheetState.Error(th) } }
             }
-        }
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
     private fun fetchFormat(url: String, preferences: DownloadUtil.DownloadPreferences) {
 
-        val job = viewModelScope.launch(Dispatchers.IO) {
-            DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
-                .onSuccess { info ->
-                    withContext(Dispatchers.Main) {
-                        mSelectionStateFlow.update { SelectionState.FormatSelection(info = info) }
+        val job =
+            viewModelScope.launch(Dispatchers.IO) {
+                DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
+                    .onSuccess { info ->
+                        withContext(Dispatchers.Main) {
+                            mSelectionStateFlow.update {
+                                SelectionState.FormatSelection(info = info)
+                            }
+                            hideDialog()
+                        }
                     }
-                }.onFailure { th ->
-                    withContext(Dispatchers.Main) {
-                        mSheetStateFlow.update { SheetState.Error(th) }
+                    .onFailure { th ->
+                        withContext(Dispatchers.Main) {
+                            mSheetStateFlow.update { SheetState.Error(th) }
+                        }
                     }
-                }
-        }
+            }
 
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
@@ -155,20 +170,13 @@ class DownloadDialogViewModel : ViewModel() {
         Downloader.getInfoAndDownload(url)
     }
 
-    private fun downloadPlaylistItemsWithPreset(url: String) {
+    private fun downloadPlaylistItemsWithPreset(url: String) {}
 
-    }
-
-    private fun downloadWithInfoAndConfiguration(info: VideoInfo) {
-
-    }
+    private fun downloadWithInfoAndConfiguration(info: VideoInfo) {}
 
     private fun runCommand(url: String, template: CommandTemplate) {
         applicationScope.launch(Dispatchers.IO) {
-            DownloadUtil.executeCommandInBackground(
-                url = url,
-                template = template
-            )
+            DownloadUtil.executeCommandInBackground(url = url, template = template)
         }
     }
 
@@ -181,17 +189,18 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun cancel(): Boolean {
-        val res = when (val state = sheetState) {
-            is SheetState.Loading -> {
-                state.job.cancel()
-                YoutubeDL.destroyProcessById(id = state.taskKey)
+        val res =
+            when (val state = sheetState) {
+                is SheetState.Loading -> {
+                    state.job.cancel()
+                    YoutubeDL.destroyProcessById(id = state.taskKey)
+                }
+
+                else -> false
             }
 
-            else -> false
-        }
-
         if (res) {
-            mSheetStateFlow.update { SheetState.Configure }
+            resetStates()
         }
         return res
     }
@@ -201,5 +210,4 @@ class DownloadDialogViewModel : ViewModel() {
         mSelectionStateFlow.update { SelectionState.Idle }
         mSheetValueFlow.update { SheetValue.Hidden }
     }
-
 }
