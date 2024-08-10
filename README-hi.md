@@ -4,8 +4,7 @@
 
 # Seal
 
-### Video/Audio Downloader for Android
-
+### Android के लिए वीडियो/ऑडियो डाउनलोडर
 
 English
 &nbsp;&nbsp;| &nbsp;&nbsp;
@@ -53,7 +52,7 @@ English
 </div>
 
 
-## 📱 Screenshots
+## 📱 स्क्रीनशॉट
 
 <div align="center">
 <div>
@@ -71,76 +70,72 @@ English
 
 <br>
 
-## 📖 Features
+## 📖 विशेषताएँ
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly youtube-dl).
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) (पूर्व में youtube-dl) द्वारा समर्थित वीडियो प्लेटफ़ॉर्म से वीडियो और ऑडियो फ़ाइलें डाउनलोड करें।
 
-- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
+- [mutagen](https://github.com/quodlibet/mutagen) द्वारा समर्थित ऑडियो फ़ाइलों में मेटाडेटा और वीडियो थंबनेल एम्बेड करें।
 
-- Download all videos in the playlist with one click.
+- एक क्लिक में प्लेलिस्ट में सभी वीडियो डाउनलोड करें।
 
-- Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+- सभी डाउनलोड के लिए बाहरी डाउनलोडर के रूप में एम्बेडेड [aria2c](https://github.com/aria2/aria2) का उपयोग करें।
 
-- Embed subtitles into the downloaded videos.
+- डाउनलोड किए गए वीडियो में सबटाइटल एम्बेड करें।
 
-- Execute custom yt-dlp commands with templates.
+- टेम्प्लेट के साथ कस्टम yt-dlp कमांड चलाएँ।
 
-- Manage in-app downloads and custom command templates.
+- इन-ऐप डाउनलोड और कस्टम कमांड टेम्प्लेट प्रबंधित करें।
 
-- Easy to use and user-friendly.
+- उपयोग में आसान और उपयोगकर्ता-मित्रवत।
 
-- [Material Design 3](https://m3.material.io/) style UI, with dynamic color theme.
+- [Material Design 3](https://m3.material.io/) शैली UI, डायनेमिक रंग थीम के साथ।
 
-- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
+- MAD: UI और लॉजिक को शुद्ध Kotlin में लिखा गया है। एकल गतिविधि, कोई फ़्रैगमेंट नहीं, केवल संयोजनीय गंतव्य।
 
+## ⬇️ डाउनलोड
 
+अधिकांश डिवाइसों के लिए, **arm64-v8a** संस्करण की स्थापना की सिफारिश की जाती है।
 
-## ⬇️ Download
+- [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest) से नवीनतम स्थिर संस्करण डाउनलोड करें।
+  - नए फीचर्स और परिवर्तनों का परीक्षण करने के लिए [pre-release](https://github.com/JunkFood02/Seal/releases/) संस्करणों को इंस्टॉल करें।
 
-For most devices, it is recommended to install the **arm64-v8a** version of the apks
-
-- Download the latest stable version from [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
-  - Install the [pre-release](https://github.com/JunkFood02/Seal/releases/) versions to help us test out new features & changes
-
-- Stable releases are also available on [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+- स्थिर रिलीज़ [F-Droid](https://f-droid.org/packages/com.junkfood.seal/) पर भी उपलब्ध हैं।
 
 <!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
-## 💬 Contact
+## 💬 संपर्क
 
-Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
+चर्चा, घोषणाओं और रिलीज़ के लिए हमारे [Telegram Channel](https://t.me/seal_app) या [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) से जुड़ें!
 
-## 💖 Sponsors
+## 💖 प्रायोजक
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/zuble"><img src="https://github.com/zuble.png" width="60px" alt="zuble" /></a><a href="https://github.com/Dannyordaniel"><img src="https://github.com/Dannyordaniel.png" width="60px" alt="Daniel " /></a><a href="https://github.com/hundepfote"><img src="https://github.com/hundepfote.png" width="60px" alt="hundepfote" /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/zuble"><img src="https://github.com/zuble.png" width="60px" alt="zuble" /></a><a href="https://github.com/Dannyordaniel"><img src="https://github.com/Dannyordaniel.png" width="60px" alt="Daniel " /></a><!-- sponsors --></p>
 
+Seal हमेशा के लिए मुफ्त और ओपन-सोर्स रहेगा। अगर आपको पसंद आए, तो कृपया [मुझे प्रायोजित करने](https://github.com/sponsors/JunkFood02) पर विचार करें!
 
-Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+## 🤝 योगदान
 
-## 🤝 Contributing
+योगदान का स्वागत है!
 
-Contributions are welcome!
+आप [Hosted Weblate](https://hosted.weblate.org/projects/seal/) पर Seal का अनुवाद करने में मदद कर सकते हैं।
 
-You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
-	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
-	
+
 >[!Note]
 >
->For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
+>बग रिपोर्ट, फीचर अनुरोध, सवाल, या सुधार के किसी भी विचार को सबमिट करने के लिए, कृपया पहले [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) को पढ़ें।
 
-## ⭐️ Star History
+## ⭐️ स्टार इतिहास
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
+## 🧱 क्रेडिट
 
-## 🧱 Credits
+Seal एक सरल GUI है [yt-dlp](https://github.com/yt-dlp/yt-dlp) का, जो [youtubedl-android](https://github.com/yausername/youtubedl-android) पर आधारित है।
 
-Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
-
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+UI डिज़ाइन और कोड में से कुछ [Read You](https://github.com/Ashinch/ReadYou) और [Music You](https://github.com/Kyant0/MusicYou) से उधार लिए गए हैं।
 
 [dvd](https://github.com/yausername/dvd)
 
@@ -148,16 +143,16 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Monet](https://github.com/Kyant0/Monet)
 
-## 📃 License
+## 📃 लाइसेंस
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
 >[!Warning]
 >
->Except for the source code licensed under the GPLv3 license,
->all other parties are prohibited from using Seal's name as a downloader app,
->and the same is true for Seal's derivatives.
->Derivatives include but are not limited to forks and unofficial builds.
+>स्रोत कोड के GPLv3 लाइसेंस के तहत लाइसेंस प्राप्त सिवाय,
+>अन्य सभी पक्षों को Seal के नाम का उपयोग डाउनलोडर ऐप के रूप में करने से रोक दिया गया है,
+>और Seal के उपोत्पादों के लिए भी यही सच है।
+>उपोत्पादों में शामिल हैं लेकिन केवल फोर्क्स और अनधिकृत निर्माण तक सीमित नहीं हैं।
 
 <div align="right">
 <table><td>
