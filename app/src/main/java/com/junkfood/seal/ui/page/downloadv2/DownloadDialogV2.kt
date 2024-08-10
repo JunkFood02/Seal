@@ -217,16 +217,6 @@ fun ConfigureDialog(
     state: DownloadDialogViewModel.SheetState = Configure,
     onActionPosted: (Action) -> Unit = {}
 ) {
-    BackHandler {
-        when (state) {
-            is DownloadDialogViewModel.SheetState.Loading -> {
-                onActionPosted(Action.Cancel)
-            }
-            else -> {
-                onActionPosted(Action.HideSheet)
-            }
-        }
-    }
 
     var showVideoPresetDialog by remember { mutableStateOf(false) }
     var showAudioPresetDialog by remember { mutableStateOf(false) }

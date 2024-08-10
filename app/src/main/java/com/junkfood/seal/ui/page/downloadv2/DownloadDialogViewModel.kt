@@ -147,7 +147,8 @@ class DownloadDialogViewModel : ViewModel() {
 
         val job =
             viewModelScope.launch(Dispatchers.IO) {
-                DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
+                DownloadUtil.fetchVideoInfoFromUrl(
+                        url = url, preferences = preferences, taskKey = "FetchFormat_$url")
                     .onSuccess { info ->
                         withContext(Dispatchers.Main) {
                             mSelectionStateFlow.update {
@@ -182,6 +183,15 @@ class DownloadDialogViewModel : ViewModel() {
 
     private fun hideDialog() {
         mSheetValueFlow.update { SheetValue.Hidden }
+        when (sheetState) {
+            is SheetState.Error -> {
+                resetStates()
+            }
+            is SheetState.Loading -> {
+                cancel()
+            }
+            else -> {}
+        }
     }
 
     private fun showDialog() {
@@ -189,20 +199,17 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun cancel(): Boolean {
-        val res =
-            when (val state = sheetState) {
-                is SheetState.Loading -> {
+        return when (val state = sheetState) {
+            is SheetState.Loading -> {
+                val res = YoutubeDL.destroyProcessById(id = state.taskKey)
+                if (res) {
                     state.job.cancel()
-                    YoutubeDL.destroyProcessById(id = state.taskKey)
+                    resetStates()
                 }
-
-                else -> false
+                return res
             }
-
-        if (res) {
-            resetStates()
+            else -> false
         }
-        return res
     }
 
     private fun resetStates() {
