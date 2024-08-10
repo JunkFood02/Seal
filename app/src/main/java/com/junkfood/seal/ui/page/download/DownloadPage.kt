@@ -167,7 +167,7 @@ fun DownloadPage(
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             showMeteredNetworkDialog = true
         } else {
-            downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
+//            downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
 //            downloadViewModel.startDownloadVideo()
         }
     }
@@ -266,7 +266,7 @@ fun DownloadPage(
             viewState = viewState,
             errorState = errorState,
             downloadCallback = {
-                downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
+//                downloadDialogViewModel.postAction(DownloadDialogViewModel.Action.Show)
             },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
@@ -290,28 +290,28 @@ fun DownloadPage(
 
 
         var preferences by remember { mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences()) }
-        val state = downloadDialogViewModel.stateFlow.collectAsStateWithLifecycle().value
-
-        val focusManager = LocalFocusManager.current
-        LaunchedEffect(state) {
-            if(state==DownloadDialogViewModel.State.Configure)
-            focusManager.clearFocus()
-        }
-
-        ConfigurePage(
-            url = viewState.url,
-            state = state,
-            config = Config(),
-            preferences = preferences,
-            onPreferencesUpdate = { preferences = it },
-            onActionPosted = {
-                downloadDialogViewModel.postAction(it)
-            }
-        )
-        when (state) {
-            is DownloadDialogViewModel.State.FormatSelection -> FormatPage(state = state)
-            else -> {}
-        }
+////        val state = downloadDialogViewModel.stateFlow.collectAsStateWithLifecycle().value
+//
+//        val focusManager = LocalFocusManager.current
+//        LaunchedEffect(state) {
+//            if(state==DownloadDialogViewModel.State.Configure)
+//            focusManager.clearFocus()
+//        }
+//
+//        ConfigurePage(
+//            url = viewState.url,
+//            state = state,
+//            config = Config(),
+//            preferences = preferences,
+//            onPreferencesUpdate = { preferences = it },
+//            onActionPosted = {
+//                downloadDialogViewModel.postAction(it)
+//            }
+//        )
+//        when (state) {
+//            is DownloadDialogViewModel.State.FormatSelection -> FormatPage(state = state)
+//            else -> {}
+//        }
 //        DownloadSettingDialog(useDialog = useDialog,
 //            showDialog = showDownloadDialog,
 //            onNavigateToCookieGeneratorPage = onNavigateToCookieGeneratorPage,

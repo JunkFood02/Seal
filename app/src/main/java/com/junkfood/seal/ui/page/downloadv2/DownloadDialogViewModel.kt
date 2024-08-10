@@ -20,22 +20,27 @@ import kotlinx.coroutines.withContext
 
 class DownloadDialogViewModel : ViewModel() {
 
-    sealed interface State {
-        data object Idle : State
-        data object ShowDialog : State
-        data class PlaylistSelection(val result: PlaylistResult) : State
-        data class FormatSelection(val info: VideoInfo) : State
+    sealed interface SelectionState {
+        data object Idle : SelectionState
+        data class PlaylistSelection(val result: PlaylistResult) : SelectionState
+        data class FormatSelection(val info: VideoInfo) : SelectionState
     }
 
-    sealed interface DialogState {
-        data object Configure : DialogState
-        data class Loading(val taskKey: String, val job: Job) : DialogState
-        data class Error(val throwable: Throwable) : DialogState
+    sealed interface SheetState {
+        data object Configure : SheetState
+        data class Loading(val taskKey: String, val job: Job) : SheetState
+        data class Error(val throwable: Throwable) : SheetState
+    }
+
+    sealed interface SheetValue {
+        data object Expanded : SheetValue
+        data object Hidden : SheetValue
     }
 
     sealed interface Action {
-        data object Hide : Action
-        data object Show : Action
+        data object HideSheet : Action
+        data object ShowSheet : Action
+        data object Reset : Action
 
         data class FetchPlaylist(
             val url: String,
@@ -71,13 +76,18 @@ class DownloadDialogViewModel : ViewModel() {
         data object Cancel : Action
     }
 
-    private val mStateFlow: MutableStateFlow<State> = MutableStateFlow(State.Idle)
-    private val mDialogStateFlow: MutableStateFlow<DialogState> =
-        MutableStateFlow(DialogState.Configure)
-    val dialogStateFlow = mDialogStateFlow.asStateFlow()
-    val stateFlow = mStateFlow.asStateFlow()
-    private val state get() = stateFlow.value
-    private val dialogState get() = dialogStateFlow.value
+    private val mSelectionStateFlow: MutableStateFlow<SelectionState> =
+        MutableStateFlow(SelectionState.Idle)
+    private val mSheetStateFlow: MutableStateFlow<SheetState> =
+        MutableStateFlow(SheetState.Configure)
+    private val mSheetValueFlow: MutableStateFlow<SheetValue> =
+        MutableStateFlow(SheetValue.Hidden)
+
+    val selectionStateFlow = mSelectionStateFlow.asStateFlow()
+    val sheetStateFlow = mSheetStateFlow.asStateFlow()
+    val sheetValueFlow = mSheetValueFlow.asStateFlow()
+
+    private val sheetState get() = sheetStateFlow.value
 
     fun postAction(action: Action) {
         with(action) {
@@ -86,11 +96,12 @@ class DownloadDialogViewModel : ViewModel() {
                 is Action.FetchPlaylist -> fetchPlaylist(url)
                 is Action.DownloadWithPreset -> downloadWithPreset(url)
                 is Action.RunCommand -> runCommand(url, template)
-                Action.Hide -> hideDialog()
-                Action.Show -> showDialog()
+                Action.HideSheet -> hideDialog()
+                Action.ShowSheet -> showDialog()
                 is Action.DownloadItemsWithPreset -> TODO()
                 is Action.DownloadWithInfoAndConfiguration -> TODO()
                 Action.Cancel -> TODO()
+                Action.Reset -> resetStates()
             }
         }
     }
@@ -104,11 +115,11 @@ class DownloadDialogViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     when (info) {
                         is PlaylistResult -> {
-                            mStateFlow.update { State.PlaylistSelection(result = info) }
+                            mSelectionStateFlow.update { SelectionState.PlaylistSelection(result = info) }
                         }
 
                         is VideoInfo -> {
-                            mStateFlow.update { State.FormatSelection(info = info) }
+                            mSelectionStateFlow.update { SelectionState.FormatSelection(info = info) }
                         }
                     }
                 }
@@ -119,29 +130,25 @@ class DownloadDialogViewModel : ViewModel() {
                 // TODO: Handle error state
             }
         }
-        mDialogStateFlow.update { DialogState.Loading(taskKey = "FetchPlaylist_$url", job = job) }
+        mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
     private fun fetchFormat(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        if (!Downloader.isDownloaderAvailable()) {
-            postAction(Action.Hide)
-            return
-        }
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
                 .onSuccess { info ->
                     withContext(Dispatchers.Main) {
-                        mStateFlow.update { State.FormatSelection(info = info) }
+                        mSelectionStateFlow.update { SelectionState.FormatSelection(info = info) }
                     }
                 }.onFailure { th ->
                     withContext(Dispatchers.Main) {
-                        mDialogStateFlow.update { DialogState.Error(th) }
+                        mSheetStateFlow.update { SheetState.Error(th) }
                     }
                 }
         }
 
-        mDialogStateFlow.update { DialogState.Loading(taskKey = "FetchFormat_$url", job = job) }
+        mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
 
     private fun downloadWithPreset(url: String) {
@@ -163,20 +170,19 @@ class DownloadDialogViewModel : ViewModel() {
                 template = template
             )
         }
-        hideDialog()
     }
 
     private fun hideDialog() {
-        mStateFlow.update { State.Idle }
+        mSheetValueFlow.update { SheetValue.Hidden }
     }
 
     private fun showDialog() {
-        mStateFlow.update { State.ShowDialog }
+        mSheetValueFlow.update { SheetValue.Expanded }
     }
 
     private fun cancel(): Boolean {
-        val res = when (val state = dialogState) {
-            is DialogState.Loading -> {
+        val res = when (val state = sheetState) {
+            is SheetState.Loading -> {
                 state.job.cancel()
                 YoutubeDL.destroyProcessById(id = state.taskKey)
             }
@@ -185,9 +191,15 @@ class DownloadDialogViewModel : ViewModel() {
         }
 
         if (res) {
-            mDialogStateFlow.update { DialogState.Configure }
+            mSheetStateFlow.update { SheetState.Configure }
         }
         return res
+    }
+
+    private fun resetStates() {
+        mSheetStateFlow.update { SheetState.Configure }
+        mSelectionStateFlow.update { SelectionState.Idle }
+        mSheetValueFlow.update { SheetValue.Hidden }
     }
 
 }

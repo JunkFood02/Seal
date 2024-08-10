@@ -18,22 +18,94 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun rememberSheetState(
+    showSheet: Boolean, onVisibilityChange: (isVisible: Boolean) -> Unit
+): ModalBottomSheetState {
+    val state = rememberModalBottomSheetState(
+        skipHalfExpanded = true, initialValue = ModalBottomSheetValue.Hidden
+    )
+    LaunchedEffect(showSheet) {
+        if (showSheet && state.targetValue == ModalBottomSheetValue.Hidden) {
+            state.show()
+        } else if (!showSheet && state.targetValue == ModalBottomSheetValue.Expanded) {
+            state.hide()
+        }
+    }
+
+    LaunchedEffect(state.targetValue) {
+        when (state.targetValue) {
+            ModalBottomSheetValue.Hidden -> onVisibilityChange(false)
+            ModalBottomSheetValue.Expanded -> onVisibilityChange(true)
+            else -> {}
+        }
+    }
+    return state
+}
+
+@Preview
+@Composable
+private fun SheetTest() {
+    var showSheet by remember { mutableStateOf(true) }
+    val sheetState = rememberSheetState(showSheet = showSheet) { showSheet = it }
+    val scope = rememberCoroutineScope()
+    Surface {
+        Column {
+            Text("wtf")
+            Text("showSheet = $showSheet")
+            Button(onClick = {
+                showSheet = true
+            }) { Text("show sheet!") }
+            Button(onClick = {
+                scope.launch { sheetState.show() }
+            }) { Text("sheetState.hide()") }
+        }
+    }
+
+    SealModalBottomSheetM2(sheetState = sheetState) {
+        Column {
+            Button(onClick = {
+                scope.launch { sheetState.hide() }
+            }) {
+                Text("sheetState.hide()")
+            }
+
+            Button(onClick = {
+                showSheet = false
+            }) {
+                Text("showSheet = false")
+            }
+
+        }
+    }
+}
+
 @Composable
 fun SealModalBottomSheetM2(
     modifier: Modifier = Modifier,
-    sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
+    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
     ),
     contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
@@ -98,7 +170,7 @@ fun SealModalBottomSheetM2(
 @Composable
 fun SealModalBottomSheetM2Variant(
     modifier: Modifier = Modifier,
-    sheetState: ModalBottomSheetState = androidx.compose.material.rememberModalBottomSheetState(
+    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
     ),
     sheetGesturesEnabled: Boolean = true,
