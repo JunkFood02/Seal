@@ -23,7 +23,7 @@
     <string name="general_settings">General</string>
     <string name="language">Idioma</string>
     <string name="language_settings">Seleccionar idioma</string>
-    <string name="paste_msg">Pegar URL desde el portapapeles</string>
+    <string name="paste_msg">Pegar el enlace desde el portapapeles</string>
     <string name="ytdlp_version">Versión de yt-dlp</string>
     <string name="ytdlp_update">Haz clic para descargar la última versión de yt-dlp</string>
     <string name="delete_info">¿Eliminar?</string>
@@ -170,7 +170,7 @@
     <string name="check_for_updates">Buscar actualizaciones</string>
     <string name="aria2_desc">Usa aria2c como descargador externo</string>
     <string name="app_update_failed">Fallo al actualizar a la última versión</string>
-    <string name="sponsorblock_desc">Eliminar o marcar segmentos en los vídeos con la API SponsorBlock</string>
+    <string name="sponsorblock_desc">Eliminar o marcar segmentos en los vídeos con la API de SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Especifique las categorías en SponsorBlock que deseas eliminar o marcar en el archivo de vídeo</string>
     <string name="sponsorblock_categories">Categorías de SponsorBlock</string>
     <string name="cookies_desc">Usar cookies formateadas de Netscape para las descargas</string>
@@ -369,7 +369,7 @@
     <string name="allow_once">Permitir una vez</string>
     <string name="dont_allow">No permitir</string>
     <string name="allow_always">Permitir siempre</string>
-    <string name="download_with_cellular_request">¿Permitir la descarga con el móvil?</string>
+    <string name="download_with_cellular_request">¿Permitir descargas a través de los datos móviles?</string>
     <string name="merge_audiostream">Fusionar varios flujos de audio</string>
     <string name="merge_audiostream_desc">Permite fusionar varios flujos de audio en un único archivo</string>
     <string name="search">Buscar</string>
@@ -377,7 +377,7 @@
     <string name="auto_translated_subtitles">Subtítulos traducidos automáticamente</string>
     <string name="subtitle_language_desc">Idioma de los subtítulos a descargar en la selección de formato automático, separados por comas.</string>
     <string name="remember_for_next_download">Recordar para la próxima descarga</string>
-    <string name="look_and_feel">Mira y siente</string>
+    <string name="look_and_feel">Tema</string>
     <string name="use_previous_selection">Utilizar la selección anterior</string>
     <string name="none">Ninguno</string>
     <string name="reset">Restablecer</string>

@@ -16,7 +16,7 @@
     <string name="delete_info">Elimină\?</string>
     <string name="open_url">Deschide link-ul</string>
     <string name="remove">Elimina</string>
-    <string name="delete_file">Șterge</string>
+    <string name="delete_file">Șterge fișierul</string>
     <string name="back">Înainte</string>
     <string name="release">Cea mai recentă versiune</string>
     <string name="video">Video</string>
@@ -100,7 +100,7 @@
     <string name="translate_desc">Ajută la traducerea acestei aplicații pe Hosted Weblate</string>
     <string name="import_from_clipboard">Import din clipboard</string>
     <string name="network">Rețea</string>
-    <string name="rate_limit_desc">Limitați rata maximă pentru descărcări</string>
+    <string name="rate_limit_desc">Limitați rata maximă pentru viteza de descărcare</string>
     <string name="copy_link">Copiază link-ul</string>
     <string name="aria2_desc">Utilizați aria2c ca descărcător extern</string>
     <string name="unavailable">Indisponibil</string>

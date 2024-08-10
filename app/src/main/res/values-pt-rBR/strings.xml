@@ -169,7 +169,7 @@
     <string name="app_up_to_date">Você já possui a atualização mais recente</string>
     <string name="app_update_failed">Falha ao atualizar para a versão mais recente</string>
     <string name="update">Atualizar</string>
-    <string name="aria2_desc">Usar aria2c como ferramenta de download padrão</string>
+    <string name="aria2_desc">Usar aria2c como provedor de download padrão</string>
     <string name="cookies_desc">Usar cookies formatados do Netscape para download</string>
     <string name="clear_temp_files">Remover arquivos temporários</string>
     <string name="clear_temp_files_desc">Excluir todos os arquivos temporários do diretório temporário</string>
@@ -199,7 +199,7 @@
     <string name="disable_preview">Desativar pré-visualização</string>
     <string name="disable_preview_desc">Desativar pré-visualização em downloads</string>
     <string name="privacy">Privacidade</string>
-    <string name="network_settings_desc">Limite de conexão, cookies, proxy</string>
+    <string name="network_settings_desc">Limite de conexão, provedor de download, cookies</string>
     <string name="private_directory">Diretório privado</string>
     <string name="private_directory_desc">Armazenar downloads em um diretório oculto</string>
     <string name="crop_artwork_desc">Recortar miniatura em um quadrado</string>

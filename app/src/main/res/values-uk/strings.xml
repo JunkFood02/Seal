@@ -2,13 +2,13 @@
 <resources>
     <string name="video_directory">Тека для вiдео</string>
     <string name="extract_audio">Зберігати як аудiо</string>
-    <string name="create_thumbnail">Зберігати прев\'ю</string>
+    <string name="create_thumbnail">Зберігати обкладинку</string>
     <string name="settings">Налаштування</string>
     <string name="download_settings_desc">Загальні налаштування, формат, власна команда</string>
     <string name="download">Завантаження</string>
     <string name="url_empty">Посилання не може бути порожнім</string>
     <string name="extract_audio_summary">Завантажувати та зберігати аудiо, а не вiдео</string>
-    <string name="create_thumbnail_summary">Зберігати прев\'ю відео як файл</string>
+    <string name="create_thumbnail_summary">Зберігати обкладинку відео як файл</string>
     <string name="yt_dlp_up_to_date">Використовується остання версія yt-dlp</string>
     <string name="yt_dlp_update_fail">Не вдалося встановити останню версію yt-dlp. Переконайтеся, що ви підключені до інтернету.</string>
     <string name="fetching_info">Отримання інформації про відео…</string>
@@ -47,7 +47,7 @@
     <string name="credits">Подяки</string>
     <string name="credits_desc">Подяки та вільне програмне забезпечення</string>
     <string name="custom_command">Власна команда</string>
-    <string name="custom_command_desc">Запустіть yt-dlp зі своїм власним шаблоном</string>
+    <string name="custom_command_desc">Запустіть yt-dlp зі своїм шаблоном</string>
     <string name="custom_command_template">Шаблон команди</string>
     <string name="edit">Редагувати</string>
     <string name="start_execute">Запустити команду</string>
@@ -62,10 +62,10 @@
     <string name="off">Вимкнено</string>
     <string name="cancel">Скасувати</string>
     <string name="settings_before_download">Налаштуйте перед завантаженням</string>
-    <string name="settings_before_download_desc">Налаштуйте завантаження перед початком</string>
+    <string name="settings_before_download_desc">Налаштуйте завантаження перед його початком</string>
     <string name="settings_before_download_text">Параметри завантаження</string>
     <string name="error_copied">Звіт про помилку скопійовано до буфера обміну</string>
-    <string name="thumbnail">Мініатюра</string>
+    <string name="thumbnail">Обкладинка</string>
     <string name="paste">Вставити</string>
     <string name="yt_dlp_docs">Документація yt-dlp</string>
     <string name="edit_template_desc">Вихідний шлях та посилання будуть додані застосунком.</string>
@@ -77,7 +77,7 @@
     <string name="video_quality">Якiсть вiдео</string>
     <string name="best_quality">Найкраща якiсть</string>
     <string name="video_quality_desc">Обмежте якість відео за наявності кількох</string>
-    <string name="not_specified">За замовчуванням</string>
+    <string name="not_specified">Не вказано (типово)</string>
     <string name="video_format_preference">Бажаний формат відео</string>
     <string name="preferred_format_desc">Вибирати цей формат по можливості</string>
     <string name="video_format">Формат вiдео</string>
@@ -93,7 +93,7 @@
     <string name="check_download_settings_desc">Спочатку ознайомтеся з налаштуваннями завантажень та переконайтеся, що у вас встановлена остання версія yt-dlp.</string>
     <string name="download_playlist">Завантажувати плейлисти</string>
     <string name="download_playlist_desc">Завантажувати декілька відео з плейлиста</string>
-    <string name="defaults">За замовчуванням</string>
+    <string name="defaults">Типово</string>
     <string name="channel_name">Завантаження</string>
     <string name="channel_description">Повідомляти про прогрес та закінчення завантажень</string>
     <string name="video_url">Посилання на вiдео</string>
@@ -119,7 +119,7 @@
     <string name="playlist_indicator_text">Завантаження плейлиста (%1$d/%2$d)…</string>
     <string name="audio_directory">Тека для аудiо</string>
     <string name="download_directory">Тека для завантажень</string>
-    <string name="download_directory_desc">Оберіть місце для збереження вiдео та аудіофайлiв</string>
+    <string name="download_directory_desc">Оберіть, де зберігати файли</string>
     <string name="subdirectory">Зберігати до підтек</string>
     <string name="subdirectory_desc">Зберігайте файли в теках з відповідними назвами</string>
     <string name="permission_issue">Непідтримувана директорія</string>
@@ -129,12 +129,12 @@
     <string name="service_title">Seal завантажує…</string>
     <string name="unknown_error">Невідома помилка</string>
     <string name="translate">Перекласти</string>
-    <string name="translate_desc">Допомогти перекласти Seal на Weblate</string>
+    <string name="translate_desc">Допоможіть перекласти Seal на Weblate</string>
     <string name="prefix">Шаблон шляху</string>
     <string name="embed_subtitles">Вбудовані субтитри</string>
     <string name="embed_subtitles_desc">Вставляти м\'які субтитри у відео, якщо вони доступні</string>
     <string name="new_template">Новий шаблон</string>
-    <string name="template_label">Позначка</string>
+    <string name="template_label">Назва</string>
     <string name="remove_template">Видалити\?</string>
     <string name="remove_template_desc">Назавжди видалити \"%1$s\" з шаблонів команд\?</string>
     <string name="template_selection">Вибрати шаблони</string>
@@ -162,9 +162,9 @@
     <string name="check_for_updates">Перевірити наявність оновлень</string>
     <string name="app_up_to_date">Поточна версія актуальна</string>
     <string name="update">Оновлення</string>
-    <string name="cookies_desc">Для завантажень використовуйте файли cookie у форматі Netscape</string>
+    <string name="cookies_desc">Використовувати файли cookies у Netscape форматі для завантажень</string>
     <string name="check_for_updates_desc">Автоматично перевіряти GitHub на нові версії</string>
-    <string name="aria2_desc">Використати aria2c в якості зовнішнього завантажувача</string>
+    <string name="aria2_desc">Використовувати aria2c в якості зовнішнього завантажувача</string>
     <string name="clear_temp_files_info">Тимчасові файли можна використовувати для відновлення скасованих завантажень. Ви впевнені, що хочете видалити всі ці файли\?
 \n
 \nВи можете отримати доступ до цих файлів у %1$s</string>
@@ -187,21 +187,21 @@
     <string name="private_mode">Інкогніто</string>
     <string name="private_mode_desc">Вимкнути історію завантажень</string>
     <string name="dynamic_color">Динамічний колір</string>
-    <string name="dynamic_color_desc">Застосуйте кольори зі шпалер до теми застосунку</string>
+    <string name="dynamic_color_desc">Застосовувати кольори зі шпалер до теми застосунку</string>
     <string name="file_unavailable">Файл більше недоступний</string>
     <string name="network">Мережа</string>
     <string name="rate_limit">Ліміт швидкості</string>
     <string name="max_rate">Максимальна швидкість</string>
-    <string name="download_with_cellular_desc">Дозволити завантаження під час підключення до мобільних мереж</string>
+    <string name="download_with_cellular_desc">Дозволяти завантаження медіа під час підключення до мобільних мереж</string>
     <string name="download_disabled_with_cellular">Завантаження через мобільну мережу вимкнено відповідно до ваших налаштувань</string>
     <string name="download_with_cellular">Завантажувати через мобільну мережу</string>
-    <string name="rate_limit_desc">Обмежити максимальну швидкість завантаження</string>
+    <string name="rate_limit_desc">Обмежте максимальну швидкість завантаження</string>
     <string name="selected_item_count">%1$d вибрано</string>
     <string name="general_settings_desc">Yt-dlp версія, сповіщення, список відтворення</string>
-    <string name="network_settings_desc">Обмеження швидкості, завантажувач та файли cookies</string>
-    <string name="disable_preview_desc">Не відображати прев\'ю під час завантаження</string>
+    <string name="network_settings_desc">Обмеження швидкості, завантажувач та cookies</string>
+    <string name="disable_preview_desc">Не відображати обкладинки під час завантаження</string>
     <string name="privacy">Конфіденційність</string>
-    <string name="use_custom_command">Використати користувацьку команду</string>
+    <string name="use_custom_command">Використовувати ці команди</string>
     <string name="private_directory">Приватна тека</string>
     <string name="private_directory_desc">Зберігати завантаження у прихованій теці</string>
     <string name="crop_artwork">Обрізати зображення</string>
@@ -219,9 +219,9 @@
     <string name="telegram_channel">Telegram канал</string>
     <string name="how_does_it_work">Як це працює\?</string>
     <string name="use_cookies">Використовувати cookies</string>
-    <string name="remove_cookie_profile_desc">Видалити цей запис для \"%1$s\"? Зверніть увагу, що файли cookie, збережені для цього сайту, не будуть видалені.</string>
+    <string name="remove_cookie_profile_desc">Видалити цей запис для \"%1$s\"? Зверніть увагу, що файли cookies, збережені для цього сайту, не будуть видалені.</string>
     <string name="custom_command_enabled_hint">Деякі параметри недоступні при використанні користувацької команди</string>
-    <string name="cookies_usage_msg">Для завантаження з деяких сайтів потрібна інформація про логін. Натисніть «Згенерувати нові cookies», введіть URL-адресу вебсайту, а потім увійдіть за допомогою свого облікового запису на сторінці браузера, застосунок згенерує його для вас.</string>
+    <string name="cookies_usage_msg">Завантаження з деяких сайтів вимагає інформації про автентифікацію облікового запису. Натисніть «Згенерувати нові cookies», введіть URL-адресу вебсайту, а потім увійдіть за допомогою свого облікового запису на сторінці браузера, застосунок згенерує його для вас.</string>
     <string name="matrix_space">Кімната Matrix</string>
     <string name="cookies">Cookies</string>
     <string name="abs_hint">Більшість платформ надають аудіо та відео окремо, але ви можете об\'єднати формати \"лише відео\" та \"лише аудіо\" у єдине відео.</string>
@@ -242,21 +242,21 @@
     <string name="running_tasks">Запущені завдання</string>
     <string name="edit_shortcuts">Редагувати комбінації клавіш</string>
     <string name="shortcuts">Комбінації клавіш</string>
-    <string name="edit_shortcuts_desc">Відредагувати власні комбінації клавіш, які можна використовувати для створення шаблонів команд.</string>
+    <string name="edit_shortcuts_desc">Відредагуйте власні комбінації клавіш, які можна використовувати для створення шаблонів команд.</string>
     <string name="logs">Лог</string>
     <string name="subtitle_sponsorblock">При видаленні сегментів SponsorBlock субтитри можуть з\'являтися не вчасно.</string>
     <string name="embed_subtitles_mkv_msg">Для вбудовування м\'яких субтитрів, відео буде перетворено у контейнер mkv. Ви зможете використати VLC Media Player або інші сумісні застосунки для перегляду.</string>
     <string name="filesize_gb">%.2f ГБ</string>
     <string name="filesize_mb">%.2f МБ</string>
     <string name="stable_channel">Стабільний</string>
-    <string name="pre_release_channel">Прев\'ю</string>
+    <string name="pre_release_channel">Предперегляд</string>
     <string name="share">Поділитися</string>
     <string name="update_channel">Канал оновлень</string>
     <string name="auto_update">Оновлювати автоматично</string>
-    <string name="update_channel_desc">Встановіть пре-реліз, щоб переглянути нові функції та зміни.
+    <string name="update_channel_desc">Встановіть версію предперегляд, щоб переглянути нові функції та зміни.
 \n
-\nУ цих версіях буде спостерігатися деяка нестабільність, тому, будь ласка, не соромтеся повідомляти нам про будь-які проблеми, щоб допомогти нам покращити додаток у майбутньому.</string>
-    <string name="enable_auto_update">Увімкнути автоматичне оновлення</string>
+\nУ цих версіях буде спостерігатися деяка нестабільність, тому, будь ласка, не соромтеся повідомляти нам про будь-які проблеми, щоб допомогти нам покращити застосунок у майбутньому.</string>
+    <string name="enable_auto_update">Увімкнути оновлення</string>
     <string name="apply">Застосувати</string>
     <string name="clip_video">Відеокліп</string>
     <string name="clip_start">Початок</string>
@@ -288,7 +288,7 @@
     <string name="audio_format">Аудіо формат</string>
     <string name="enable_experimental_feature">Увімкнути експериментальну функцію\?</string>
     <string name="clip_video_dialog_msg">Завантаження за допомогою цієї функції буде делеговано FFmpeg для завантаження вибраних фрагментів відео, ця функція все ще експериментальна і розрізання не буде повністю точним, не всі формати підтримують цю функцію, і ви можете відчути повільну швидкість завантаження.</string>
-    <string name="auto_update_disabled_msg">Автоматичне оновлення недоступне для збірок %1$s. Якщо на вашому пристрої не встановлено %1$s або ви хочете переглянути майбутні нові функції в Seal, розгляньте %2$s.</string>
+    <string name="auto_update_disabled_msg">Автоматичне оновлення недоступне для %1$s збірок. Якщо на вашому пристрої не встановлено %1$s або ви хочете переглянути майбутні нові функції в Seal, розгляньте %2$s.</string>
     <string name="switch_to_github_builds">перехід на збірки GitHub</string>
     <string name="okay">Ок</string>
     <string name="got_it">Зрозумів</string>
@@ -315,7 +315,7 @@
     <string name="custom_command_directory">Тека для власних команд</string>
     <string name="prefer_compatibility_desc">Вибирати MP4 (H.264) для обміну у інших застосунках</string>
     <string name="prefer_quality_desc">Вибирати AV1, VP9 або H.265 для перегляду у сумісних застосунках</string>
-    <string name="proxy_desc">З\'єднуватися через проксі</string>
+    <string name="proxy_desc">Використовувати проксі для підключень до інтернету</string>
     <string name="ytdlp_update_action">Оновити yt-dlp</string>
     <string name="enable_notifications_desc">Додатку потрібен ваш дозвіл, щоб надсилати сповіщення про стан завантаження.</string>
     <string name="set_directory_desc">Натисніть, щоб налаштувати теку</string>
@@ -345,7 +345,7 @@
 \n
 \nПід час використання власних команд більшість опцій та можливостей графічного інтерфейсу буде вимкнено.</string>
     <string name="presets">Пресети</string>
-    <string name="output_template">Вивід шаблону</string>
+    <string name="output_template">Шаблон виводу</string>
     <string name="output_template_desc">Вкажіть шаблон для назв вихідних файлів</string>
     <string name="clear_download_archive">Очистити архів завантажень\?</string>
     <string name="clear_download_archive_desc">Видалити %1$s з файлу архіву назавжди\?</string>
@@ -353,7 +353,7 @@
     <string name="download_archive">Архів завантажень</string>
     <string name="embed_metadata">Вставити метадані</string>
     <string name="required">Обов\'язковий</string>
-    <string name="embed_metadata_desc">Вставте метадані та мініатюру відео в аудіофайл</string>
+    <string name="embed_metadata_desc">Вставляти метадані та обкладинку відео до аудіофайлу</string>
     <string name="show_all_items">Показати всі елементи (%1$d)</string>
     <string name="save">Зберегти</string>
     <string name="use_format_sorting">Використовуйте сортування за форматом</string>
@@ -365,13 +365,13 @@
     <string name="playlist_title">Назва списку відтворення</string>
     <string name="system_settings">Налаштування системи</string>
     <string name="force_ipv4">Примусово використовувати IPv4</string>
-    <string name="force_ipv4_desc">Виконувати всі підключення через IPv4</string>
+    <string name="force_ipv4_desc">Здійснювати всі підключення через IPv4</string>
     <string name="keep_subtitle_files">Зберігати файли субтитрів</string>
     <string name="allow_once">Дозволити один раз</string>
     <string name="allow_always">Завжди дозволяти</string>
     <string name="dont_allow">Не дозволяти</string>
     <string name="download_with_cellular_request">Дозволити завантаження через мобільні дані?</string>
-    <string name="merge_audiostream">Об\'єднати кілька аудіопотоків</string>
+    <string name="merge_audiostream">Об\'єднувати кілька аудіопотоків</string>
     <string name="merge_audiostream_desc">Дозволяє об\'єднувати кілька аудіопотоків в один файл</string>
     <string name="search_in_downloads">Пошук у завантаженнях</string>
     <string name="search">Пошук</string>
@@ -407,7 +407,7 @@
     <string name="remux_container_mkv">Контейнер для відео Remux</string>
     <string name="every_week">Щотижня</string>
     <string name="every_month">Щомісяця</string>
-    <string name="remux_container_mkv_desc">Ремукс відео в контейнер MKV для кращої сумісності</string>
+    <string name="remux_container_mkv_desc">Remux відео в контейнер MKV для кращої сумісності</string>
     <string name="cookies_in_database">Всього %1$d файлів cookie з %2$d вебсайтів</string>
     <string name="every_day">Щодня</string>
 </resources>

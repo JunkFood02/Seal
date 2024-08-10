@@ -19,16 +19,16 @@
     <string name="general_settings">Ümumi</string>
     <string name="language">Göstərilmə dili</string>
     <string name="language_settings">Göstərilmə dilin təyin et</string>
-    <string name="task_running">Mövcud yükləmə tapşırığı artıq işləyir</string>
-    <string name="paste_msg">URL-ni buferdən yapışdır</string>
-    <string name="paste_fail_msg">Buferdəki URL uyuşmadı</string>
+    <string name="task_running">Mövcud yükləmə tapşırığı artıq idarə edilir</string>
+    <string name="paste_msg">URL-ni kəsik lövhədən yapışdır</string>
+    <string name="paste_fail_msg">Kəsik lövhədəki URL uyuşmadı</string>
     <string name="ytdlp_update">Ən son yt-dlp versiyasın quraşdırmaq üçün kliklə</string>
     <string name="delete_info">Silinsin\?</string>
     <string name="delete_info_msg">\"%1$s\" yükləmə tarixçənizdən həmişəlik silinsin\?</string>
     <string name="confirm">Təsdiqlə</string>
     <string name="dismiss">Ləğv et</string>
     <string name="downloads_history">Yüklənənlər</string>
-    <string name="link_copied">Bağlantı buferə köçürüldü</string>
+    <string name="link_copied">Bağlantı lövhəyə köçürüldü</string>
     <string name="open_url">Bağlantını aç</string>
     <string name="remove">Təmizlə</string>
     <string name="about">Haqqında</string>
@@ -41,13 +41,13 @@
     <string name="credits">Köməkçilər</string>
     <string name="credits_desc">Kreditlər və pulsuz proqram təminatı</string>
     <string name="custom_command">Fərdi əmr</string>
-    <string name="custom_command_desc">yt-dlp əmrin, fərdi şablonla işlət</string>
+    <string name="custom_command_desc">yt-dlp əmrin, fərdi şablonla idarə et</string>
     <string name="custom_command_template">Əmr şablonu</string>
     <string name="edit">Redaktə et</string>
     <string name="start_execute">Əmri icra etməyə başla</string>
     <string name="advanced_settings">Qabaqcıl</string>
     <string name="print_details">Ətraflı buraxılış</string>
-    <string name="print_details_desc">Yükləmə zamanı ətraflı tapşırıqları çap et</string>
+    <string name="print_details_desc">Yükləmə zamanı ətraflı məlumatları çap et</string>
     <string name="display">Göstərilmə</string>
     <string name="display_settings">Qaranlıq tema, dinamikalı rəng, dillər</string>
     <string name="dark_theme">Qaranlıq tema</string>
@@ -56,10 +56,10 @@
     <string name="cancel">Ləğv et</string>
     <string name="settings_before_download">Yükləməzdən əvvəl konfiqurasiya et</string>
     <string name="settings_before_download_text">Bu yükləməni tənzimlə</string>
-    <string name="error_copied">Xəta məlumatı buferə köçürüldü</string>
+    <string name="error_copied">Xəta məlumatı lövhəyə köçürüldü</string>
     <string name="thumbnail">Miniatür</string>
     <string name="paste">Yapışdır</string>
-    <string name="yt_dlp_docs">Yt-dlp istifadə xatırlatmaları</string>
+    <string name="yt_dlp_docs">Yt-dlp istifadə istinadları</string>
     <string name="edit_template_desc">Buraxılış yolu və URL tətbiq tərəfindən əlavə ediləcək.</string>
     <string name="convert_audio_format">Səs formatına döndər</string>
     <string name="not_convert">Döndərilməmiş</string>
@@ -68,7 +68,7 @@
     <string name="convert_audio_format_desc">Səs faylların yenidən kodlaşdırmaq səs keyfiyyətində itkiyə və fayl həcmində artıma səbəb olacaq.</string>
     <string name="video_quality">Video keyfiyyət</string>
     <string name="best_quality">Ən yaxşı keyfiyyət</string>
-    <string name="video_quality_desc">Çoxsaylı olduqda video keyfiyyətin məhdudlaşdır</string>
+    <string name="video_quality_desc">Çoxsaylı olduqda video keyfiyyətinə məhdudiyyət qoy</string>
     <string name="not_specified">Müəyyənləşdirilməyib (standart)</string>
     <string name="video_format_preference">Üstünlük verilən video formatı</string>
     <string name="preferred_format_desc">Çoxsaylı təmin ediləndə üstünlük verilən format</string>
@@ -87,7 +87,7 @@
     <string name="video_url">Video bağlantısı</string>
     <string name="download_finish_notification">Yükləmə bitdi. Açmaq üçün toxun.</string>
     <string name="execute_command_notification">Fərdi əmrlər icra edilir…</string>
-    <string name="battery_settings_desc">Zəhmət olmasa, arxa planda yükləmək üçün, bu tətbiqin batareya istifadəsin sistem tənzimləmələrində \"Qeyri-məhdud\" kimi təyin edin.</string>
+    <string name="battery_settings_desc">Zəhmət olmasa, arxa planda yükləmək üçün bu tətbiqin batareya istifadəsin sistem seçimlərində \"Qeyri-məhdud\" kimi təyin edin.</string>
     <string name="concurrent_download">Çox yönlü yükləmə</string>
     <string name="options">Seçimlər</string>
     <string name="additional_settings">Əlavə tənzimləmələr</string>
@@ -107,8 +107,8 @@
     <string name="settings_before_download_desc">Yükləməzdən əvvəl seçimləri konfiqurasiya et</string>
     <string name="convert_audio">Döndər</string>
     <string name="close_never_show_again">Təkrar göstərmə</string>
-    <string name="paste_desc">Buferinizdən video linki əldə etmək üçün \"Yapışdır\"-a kliklə.</string>
-    <string name="check_download_settings_desc">Yükləmə tənzimləmələrinə bax və istifadədən əvvəl yt-dlp\'nin ən son versiyasına sahib olduğunuzdan əmin olun.</string>
+    <string name="paste_desc">Lövhənizdən video əlaqəsin əldə etmək üçün \"Yapışdır\"-a klikləyin.</string>
+    <string name="check_download_settings_desc">Yükləmə tənzimləmələrinə baxın və istifadədən əvvəl yt-dlp\'nin ən son versiyasına sahib olduğunuzdan əmin olun.</string>
     <string name="concurrent_download_desc">M3U8/MPD videoların daha çox hissələrin yanaşı yüklə</string>
     <string name="concurrent_download_num">%d parça(lar) DASH/HLS yerli videosun eyni vaxtda yükləmək üçün istifadə olunacaq.</string>
     <string name="download_notification_desc">Yüklənilmiş fayllar və irəliləyiş bildirilir</string>
@@ -128,17 +128,17 @@
     <string name="translate_desc">Hosted Weblate-də bu tətbiqi tərcümə etməyə kömək et</string>
     <string name="permission_issue_desc">Download/ və Documents/ xaricindəki kataloqlar dəstəklənmir</string>
     <string name="prefix">Ön şəkilçi</string>
-    <string name="downloading_indicator_text">Yükləmə davam edir . . .</string>
+    <string name="downloading_indicator_text">Yükləmə davam edir …</string>
     <string name="embed_subtitles">Titrləri yerləşdir</string>
     <string name="new_template">Yeni şablon</string>
     <string name="template_label">Etiket</string>
     <string name="remove_template">Təmizlənsin\?</string>
-    <string name="remove_template_desc">\"%1$s\" əmr şablonlarından tamamilə silinsin\?</string>
+    <string name="remove_template_desc">\"%1$s\" əmr şablonlarından həmişəlik silinsin?</string>
     <string name="template_selection">Şablon seçimi</string>
     <string name="custom_command_template_desc">Əmr şablonların redaktə et və idarə et</string>
     <string name="task_canceled">Yükləmə tapşırığı ləğv edildi</string>
     <string name="github_issue">GitHub problemi</string>
-    <string name="info_copied">Məlumat buferə köçürüldü</string>
+    <string name="info_copied">Məlumat lövhəyə köçürüldü</string>
     <string name="status_completed">Tamamlandı</string>
     <string name="status_downloading">Yüklənilir</string>
     <string name="status_canceled">Ləğv edildi</string>
@@ -149,9 +149,9 @@
     <string name="copy_error_report">Xəta məlumatı</string>
     <string name="video_resolution">Video görüntü imkanı</string>
     <string name="video_file_size">Video fayl həcmi</string>
-    <string name="export_to_clipboard">Buferə ixrac et</string>
-    <string name="import_from_clipboard">Buferdən idxal et</string>
-    <string name="download_task_count">%1$d Yükləmə Tapşırığı</string>
+    <string name="export_to_clipboard">Lövhəyə ixrac et</string>
+    <string name="import_from_clipboard">Lövhədən idxal et</string>
+    <string name="download_task_count">%1$d yükləmə tapşırığı</string>
     <string name="recently_added">Yenicə Əlavə Edilib</string>
     <string name="delete_multiple_items_msg">%1$d element yükləmə tarixçənizdən həmişəlik silinsin\?</string>
     <string name="sponsorblock_desc">SponsorBlock API ilə videolarda bölümləri təmizlə yaxud işarələ</string>
@@ -166,12 +166,12 @@
     <string name="private_mode">Gizli</string>
     <string name="dynamic_color">Dinamikalı rəng</string>
     <string name="dynamic_color_desc">Rəngləri divar kağızlarından tətbiq mövzusuna tətbiq et</string>
-    <string name="download_with_cellular">Mobil işlədərək yüklə</string>
+    <string name="download_with_cellular">Mobil şəbəkə işlədərək yüklə</string>
     <string name="download_disabled_with_cellular">Mobil şəbəkə ilə yükləmə tənzimləmələrinizə uyğun olaraq qeyri-aktivdir</string>
     <string name="file_unavailable">Bu fayl artıq mövcud deyil</string>
     <string name="network">Şəbəkə</string>
     <string name="rate_limit">Sürət həddi</string>
-    <string name="rate_limit_desc">Yükləmələr üçün maksimum sürəti məhdudlaşdır</string>
+    <string name="rate_limit_desc">Maksimum yükləmə sürətin məhdudlaşdır</string>
     <string name="max_rate">Maksimum sürət</string>
     <string name="high_contrast">Yüksək ziddiyyət, qaranlıq mövzu</string>
     <string name="lowest_quality">Ən aşağı keyfiyyət</string>
@@ -183,15 +183,15 @@
     <string name="privacy">Məxfilik</string>
     <string name="private_directory">Şəxsi kataloq</string>
     <string name="private_directory_desc">Yükləmələri gizli kataloqda saxla</string>
-    <string name="crop_artwork">Şəkili kəs</string>
+    <string name="crop_artwork">Şəkli kəs</string>
     <string name="crop_artwork_desc">Yerləşdirilən şəkli kvadrat şəklində kəs</string>
     <string name="selected_item_count">%1$d seçildi</string>
     <string name="battery_configuration">Batareya konfiqurasiyası</string>
-    <string name="battery_configuration_desc">Arxa planda yükləmək üçün, bu tətbiqin batareya optimallaşdırılmasına məhəl qoyma</string>
-    <string name="playlist_indicator_text">Oynatma siyahısı yüklənilir (%1$d/%2$d). . .</string>
+    <string name="battery_configuration_desc">Arxa planda yükləmə üçün, bu tətbiqin batareya optimallaşdırılmasın istəmə</string>
+    <string name="playlist_indicator_text">Oynatma siyahısı yüklənilir (%1$d/%2$d)…</string>
     <string name="subdirectory_desc">Faylları uyğun sahələr kimi adlandırılan qovluqlarda saxla</string>
-    <string name="github_issue_desc">Xəta məlumatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
-    <string name="embed_subtitles_desc">Təmin olunan titrlər varsa, videolara yerləşdir</string>
+    <string name="github_issue_desc">Səhv məlumatı və ya xüsusiyyət sorğusu üçün problem təqdim et</string>
+    <string name="embed_subtitles_desc">Varsa, videolara titrləri yerləşdir</string>
     <string name="status_enqueued">Növbəyə salındı</string>
     <string name="status_error">Xəta</string>
     <string name="multiselect_item_count">%1$d video, %2$d səs faylı</string>
@@ -217,7 +217,7 @@
     <string name="format_selection_desc">Yükləmə başlamazdan əvvəl yükləmək üçün format seç</string>
     <string name="generate_new_cookies">Yeni məlumat bazası yarat</string>
     <string name="use_cookies">Məlumat bazası istifadə et</string>
-    <string name="remove_cookie_profile_desc">\"%1$s\" üçün məlumat bazası təmizlənsin?</string>
+    <string name="remove_cookie_profile_desc">Bu giriş \"%1$s\" üçün silinsin? Nəzərə alın ki, bu sayt üçün saxlanılan məlumatlar silinməyəcək.</string>
     <string name="custom_command_enabled_hint">Fərdi əmr istifadə edərkən bəzi seçimlər əlçatmazdır</string>
     <string name="how_does_it_work">Bu necə işləyir\?</string>
     <string name="cookies_usage_msg">Bəzi saytlardan yükləmə zamanı hesab təsdiqləmə məlumatı tələb olunur. \"Yeni məlumat bazası yarada\" kliklə, vebsayt URL-ni daxil et və sonra brauzer səhifəsində hesabınızla daxil olun, tətbiq sizin üçün bunu yaradacaq.</string>
@@ -245,7 +245,7 @@
     <string name="edit_shortcuts_desc">Əmr şablonların tərtib etmək üçün istifadə edilən fərdi qısayolları redaktə edin.</string>
     <string name="running_tasks">İdarə edilən tapşırıqlar</string>
     <string name="subtitle_sponsorblock">SponsorBlock bölümləri silinən zaman titrlər vaxtı səhv ola bilər.</string>
-    <string name="embed_subtitles_mkv_msg">Titrləri yerləşdirmək üçün videolar mkv konteynerinə remukslaşdırılacaq. Daxili titrlə videolara baxmaq üçün VLC Media Oynadıcı və ya digər uyğun tətbiqləri istifadə edə bilərsiniz.</string>
+    <string name="embed_subtitles_mkv_msg">Titrləri yerləşdirmək üçün videolar mkv konteynerinə yenidən daxil ediləcək. Titrlərlə videolara baxmaq üçün VLC Media Player və ya digər, uyğun tətbiqləri istifadə edə bilərsiniz.</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="share">Paylaş</string>
@@ -256,7 +256,7 @@
     <string name="update_channel_desc">Yeni xüsusiyyətlər və dəyişikliklərə ilkin baxış üçün ilkin buraxılış quruluşları quraşdır.
 \n
 \nBu versiyalarda az-çox qeyri-stabillik olacaq, beləliklə gələcəkdə tətbiqi təkmilləşdirmək,bizə kömək etmək üçün hər hansı problemlərlə qarşılaşsanız, bizə rəy bildirməyə tərəddüd etməyin.</string>
-    <string name="auto_update">Avtomatik yeniləmək</string>
+    <string name="auto_update">Avtomatik yenilənmə</string>
     <string name="apply">Tətbiq et</string>
     <string name="clip_video">Videonu kəs</string>
     <string name="clip_end">Son</string>
@@ -278,7 +278,7 @@
     <string name="clear_all_cookies">Bütün məlumat bazaların sil</string>
     <string name="temporary_directory_desc">Müvəqqəti faylları daxili kataloqda saxla</string>
     <string name="sponsor">Himayədar</string>
-    <string name="feedback">Rəy</string>
+    <string name="feedback">Əks əlaqə</string>
     <string name="sponsors">Himayədarlar</string>
     <string name="sponsor_desc">GitHub-da himayədarlıq edərək bu tətbiqi dəstəklə</string>
     <string name="sponsor_msg">Seal həmişə, hamı üçün pulsuz və açıq mənbə olacaqdır. Əgər bəyənirsinizsə, mənə GitHub-da himayədarlıq etməyi düşünün!</string>
@@ -313,11 +313,11 @@
         <item quantity="other">%d element</item>
     </plurals>
     <string name="refresh_cookies_desc">Yeni bazalar yaratmaq üçün veb səhifə açmağa toxun:</string>
-    <string name="ytdlp_update_action">yt-dlp-ni yenilə</string>
+    <string name="ytdlp_update_action">Yt-dlp-ni yenilə</string>
     <string name="proxy">Proksi</string>
     <string name="legacy">Köhnə</string>
     <string name="proxy_desc">İnternet bağlantıları üçün proksi işlət</string>
-    <string name="enable_notifications">Bildirişlər aktivləşsin\?</string>
+    <string name="enable_notifications">Bildirişlər aktivləşdirilsin?</string>
     <string name="enable_notifications_desc">Tətbiqin yükləmə vəziyyəti və irəliləyiş barədə bildirişlər göndərməsi üçün icazənizə ehtiyacı var.</string>
     <string name="quality">Keyfiyyət</string>
     <string name="ua_header">İstifadəçi-Agent başlığı</string>
@@ -337,9 +337,9 @@
     <string name="learn_more">Daha çox öyrən</string>
     <string name="unknown">Naməlum</string>
     <string name="export_to_file">Fayla ixrac et</string>
-    <string name="custom_command_usage_msg">yt-dlp video yükləmək üçün güclü əmr xətti alətidir. Seal intuitiv GUI, ictimai əmrlər üçün qabaqcıl tənzimləmələr və digər əlavə funksiyalar təmin etməklə yt-dlp istifadə etməsini asanlaşdırır.
+    <string name="custom_command_usage_msg">yt-dlp videoları yükləmək üçün güclü əmr xətti alətidir. Seal intuitiv GUI, ictimai əmrlər üçün qabaqcıl tənzimləmələr və digər əlavə funksiyalar təmin etməklə yt-dlp istifadə etməsini asanlaşdırır.
 \n
-\nYt-dlp-nin qabaqcıl istifadəsi üçün Seal sizə terminalda olduğu kimi birbaşa fərdi əmr şablonların yaratmağa, saxlamağa və icra etməyə icazə verir.
+\nSeal sizə yt-dlp-nin qabaqcıl istifadəsi üçün terminalda olduğu kimi birbaşa fərdi əmr şablonların yaratmağa, saxlamağa və icra etməyə icazə verir.
 \n
 \nFərdi əmrlərdən istifadə edərkən, GUI seçimlərinin və xüsusiyyətlərinin əksəriyyəti qeyri-aktiv ediləcək.</string>
     <string name="clear_download_archive">Yükləmə arxivi təmizlənsin?</string>
@@ -354,7 +354,7 @@
     <string name="subdirectory_hint">Yükləmələriniz aşağıdakı kimi saxlanılacaq:</string>
     <string name="website">Veb sayt</string>
     <string name="force_ipv4">IPv4-ə məcbur et</string>
-    <string name="use_format_sorting">Format çeşidlənməsindən istifadə et</string>
+    <string name="use_format_sorting">Format çeşidlənməsin istifadə et</string>
     <string name="restrict_filenames_desc">Uyğunluğu təmin etmək üçün fayl adların xüsusi simvollarla məhdudlaşdır</string>
     <string name="keep_subtitle_files">Titr faylların saxla</string>
     <string name="required">Tələb olunan</string>
@@ -366,9 +366,46 @@
     <string name="embed_metadata_desc">Səs faylına əlavə məlumat və video miniatürü yerləşdir</string>
     <string name="playlist_title">Oynatma siyahısı başlığı (adı)</string>
     <string name="allow_once">Bir dəfə icazə ver</string>
-    <string name="download_with_cellular_request">Mobil ilə yükləməyə icazə verilsin?</string>
+    <string name="download_with_cellular_request">Mobil şəbəkə ilə yükləməyə icazə verilsin?</string>
     <string name="merge_audiostream">Çoxlu səs axının birləşdir</string>
     <string name="merge_audiostream_desc">Çoxlu səs axınların bir faylda birləşdirməyə icazə ver</string>
     <string name="allow_always">Həmişə icazə ver</string>
     <string name="dont_allow">İcazə vermə</string>
+    <string name="remux_container_mkv">Təkrar daxil edilən video konteyner</string>
+    <string name="remux_container_mkv_desc">Daha yaxşı uyğunluq üçün videoları MKV konteynerinə təkrar daxil edin</string>
+    <string name="download_archive_error">Video endirilib. Bu gözlənilən davranış deyilsə, xahiş olunur yükləmə arxivinizi yoxlayın.</string>
+    <string name="backup_type">Nüsxələmə növü</string>
+    <string name="export_to">Bura ixrac et</string>
+    <string name="file">Fayl</string>
+    <string name="clipboard">Lövhə</string>
+    <string name="import_download_history">Yükləmə tarixçəsi idxal edilsin?</string>
+    <string name="import_download_history_msg">Yüklənilmiş fayllar idxal edilməyəcək. Onları əl ilə geri yükləməlisiniz</string>
+    <string name="cookies_in_database">Ümumilikdə, %2$d vebsaytdan %1$d məlumat</string>
+    <string name="auto_translated_subtitles">Avtomatik tərcümə edilmiş titrlər</string>
+    <string name="auto_translated_subtitles_msg">Bütün dillər üçün avtomatik tərcümə edilmiş titrlər yükləmələrdə mövcud olacaq. Bu titrlər yanlış və anlaşılması çətin ola bilər.</string>
+    <string name="subtitle_language_desc">Avtomatik format seçimində yükləmək üçün titrlərin dili, vergüllə ayrılan.</string>
+    <string name="look_and_feel">Görünüş və hissiyyat</string>
+    <string name="remember_for_next_download">Növbəti yükləmə üçün xatırla</string>
+    <string name="use_previous_selection">Əvvəlki seçimi istifadə et</string>
+    <string name="interface_and_interaction">Görünmə və qarşılıqlı təsir</string>
+    <string name="none">Heç biri</string>
+    <string name="reset">Sıfırla</string>
+    <string name="search_in_subtitles">Titrlərdə axtar</string>
+    <string name="no_thanks">Xeyr, təşəkkürlər</string>
+    <string name="export_backup">İxrac et</string>
+    <string name="import_backup">İdxal et</string>
+    <string name="full_backup">Tam ehtiyat nüsxələmə</string>
+    <string name="import_from">Burdan idxal edin</string>
+    <string name="export_download_history">Yükləmə tarixçəsi ixrac edilsin?</string>
+    <string name="export_download_history_msg">Yükləmə tarixçəsindən %1$s ixrac edilir. Yüklənilən fayllar və seçimlər nüsxələnməyəcək.</string>
+    <string name="download_history">Yükləmə Tarixçəsi</string>
+    <string name="update_language_msg">Aşağıdakı dillər gələcək yükləmələr üçün seçiminizə əlavə olunacaq:</string>
+    <string name="update_subtitle_languages">Titr dilləri yenilənsin?</string>
+    <string name="every_day">Hər gün</string>
+    <string name="every_week">Hər həftə</string>
+    <string name="every_month">Hər ay</string>
+    <string name="download_history_imported">Yükləmə tarixçəsinə %1$s idxal edildi</string>
+    <string name="redownload">Yenidən yüklə</string>
+    <string name="search_in_downloads">Yükləmələrdə axtarış</string>
+    <string name="search">Axtar</string>
 </resources>

@@ -25,7 +25,7 @@
     <string name="audio">Geluidsbestand</string>
     <string name="link_copied">Link gekopieerd naar klembord</string>
     <string name="remove">Verwijderen</string>
-    <string name="delete_file">Wissen</string>
+    <string name="delete_file">Bestand wissen</string>
     <string name="about">Over</string>
     <string name="release_desc">Zoek naar wijzigingslogs en nieuwe versies</string>
     <string name="release">Nieuwste versie</string>
@@ -76,7 +76,7 @@
     <string name="audio_directory">Audio map</string>
     <string name="download_directory">Map downloaden</string>
     <string name="subdirectory">Opslaan in subdirectory</string>
-    <string name="subdirectory_desc">Sla bestanden op in mappen met de naam van de respectievelijke websites</string>
+    <string name="subdirectory_desc">Sla bestanden op in mappen met de naam van de velden</string>
     <string name="permission_issue">Probleem met opslagmachtiging</string>
     <string name="battery_configuration">Batterijconfiguratie</string>
     <string name="service_title">Seal is bezig met downloaden…</string>

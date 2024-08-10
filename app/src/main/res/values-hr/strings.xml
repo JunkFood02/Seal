@@ -92,7 +92,7 @@
     <string name="unknown_error">Nepoznata greška</string>
     <string name="translate_desc">Pomognite prevesti ovu aplikaciju pomoću Hosted Weblate</string>
     <string name="prefix">Predložak puta</string>
-    <string name="embed_subtitles_desc">Ugradite ponuđene titlove u videozapise, ako su dostupni</string>
+    <string name="embed_subtitles_desc">Ugradi titlove u videa, ako su dostupni</string>
     <string name="new_template">Novi predložak</string>
     <string name="template_label">Oznaka</string>
     <string name="remove_template_desc">Zauvijek ukloniti „%1$s“ iz naredbenih predložaka?</string>

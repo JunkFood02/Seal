@@ -77,4 +77,16 @@
     <string name="video_quality_desc">एकाधिक उपस्थित असताना व्हिडिओ गुणवत्ता मर्यादित करा</string>
     <string name="video_quality">व्हिडिओ गुणवत्ता</string>
     <string name="convert_audio_format_desc">ऑडिओ फाइल्स पुन्हा एन्कोडिंग केल्याने ऑडिओ गुणवत्तेत नुकसान होईल आणि फाइलचा आकार वाढेल.</string>
+    <string name="ytdlp_update_action">अपडेट yt-dlp</string>
+    <string name="video_format">व्हिडिओ चा स्वरूप</string>
+    <string name="close">बंद</string>
+    <string name="close_never_show_again">पून्हा दाखवू नका</string>
+    <string name="user_guide">यूजर गाईड</string>
+    <string name="open_settings">सेटिंग्ज उघडा</string>
+    <string name="paste_desc">क्लिप-बोर्डवरून व्हिडिओ लिंक मिळविण्यासाठी \"पेस्ट\" वर क्लिक करा</string>
+    <string name="preferred_format_desc">अधिक व्हिडिओ साठी तुमचा आवडीचा स्वरूप कोणता</string>
+    <string name="convert_audio">रूपांतर</string>
+    <string name="start_download">डाऊनलोड</string>
+    <string name="not_specified">निर्दिष्ट नाही</string>
+    <string name="video_format_preference">आवडीचा व्हिडिओ स्वरूप</string>
 </resources>

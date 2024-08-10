@@ -67,7 +67,7 @@
     <string name="download_settings_desc">Allgemein, Format, benutzerdefinierter Befehl</string>
     <string name="about">Über</string>
     <string name="download">Herunterladen</string>
-    <string name="delete_file">Löschen</string>
+    <string name="delete_file">Datei Löschen</string>
     <string name="display_settings">Dunkles Farbschema, dynamische Farben, Sprachen</string>
     <string name="cancel">Abbrechen</string>
     <string name="custom_command">Benutzerdefinierter Befehl</string>
@@ -132,7 +132,7 @@
     <string name="from">Start</string>
     <string name="prefix">Ordnervorlage</string>
     <string name="embed_subtitles">Untertitel einbetten</string>
-    <string name="embed_subtitles_desc">Einbetten von Untertiteln in Videos, sofern vorhanden</string>
+    <string name="embed_subtitles_desc">Einbetten von weichen Untertiteln in Videos, sofern verfügbar</string>
     <string name="new_template">Neue Vorlage</string>
     <string name="template_label">Label</string>
     <string name="remove_template">Entfernen\?</string>
@@ -191,7 +191,7 @@
     <string name="file_unavailable">Diese Datei ist nicht mehr verfügbar</string>
     <string name="network">Netzwerk</string>
     <string name="rate_limit">Geschwindigkeitsbegrenzung</string>
-    <string name="rate_limit_desc">Maximale Downloadgeschwindigkeit festsetzen</string>
+    <string name="rate_limit_desc">Maximale Downloadgeschwindigkeit limitieren</string>
     <string name="max_rate">Maximale Geschwindigkeit</string>
     <string name="high_contrast">Dunkles Farbschema mit hohem Kontrast</string>
     <string name="invalid_input">Ungültige Eingabe</string>
@@ -245,7 +245,7 @@
     <string name="subtitle_language">Untertitelsprachen</string>
     <string name="add">Hinzufügen</string>
     <string name="subtitle_sponsorblock">Untertitel können beim Entfernen von SponsorBlock-Segmenten falsch synchronisiert werden.</string>
-    <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt. Du kannst den VLC Media Player oder andere kompatible Apps verwenden, um Videos mit eingebetteten Untertiteln anzusehen.</string>
+    <string name="embed_subtitles_mkv_msg">Zum Einbetten von Untertiteln werden die Videos in einen mkv-Container zusammengefügt. Du kannst den VLC Media Player oder andere kompatible Apps verwenden, um Videos mit eingebetteten weichen Untertiteln anzusehen.</string>
     <string name="filesize_gb">%.2f GB</string>
     <string name="filesize_mb">%.2f MB</string>
     <string name="pre_release_channel">Vorschau</string>
@@ -375,7 +375,7 @@
     <string name="search">Suchen</string>
     <string name="subtitle_language_desc">Sprachen der herunterzuladenen Untertitel in automatischer Formatauswahl, kommagetrennt aufgelistet.</string>
     <string name="remember_for_next_download">Für den nächsten Download speichern</string>
-    <string name="look_and_feel">Look &amp; feel</string>
+    <string name="look_and_feel">Aussehen &amp; Gefühl</string>
     <string name="use_previous_selection">Vorherige Auswahl übernehmen</string>
     <string name="none">Nichts</string>
     <string name="auto_translated_subtitles">Automatisch übersetzte Untertitel</string>
@@ -402,4 +402,10 @@
     <string name="redownload">Erneut herunterladen</string>
     <string name="export_to">Exportieren als</string>
     <string name="interface_and_interaction">Interface &amp; Bedienung</string>
+    <string name="remux_container_mkv">Remux-Videocontainer</string>
+    <string name="remux_container_mkv_desc">Remuxen von Videos in MKV-Container für bessere Kompatibilität</string>
+    <string name="cookies_in_database">%1$d Cookies von insgesamt %2$d Websites</string>
+    <string name="every_day">Jeden Tag</string>
+    <string name="every_week">Jede Woche</string>
+    <string name="every_month">Jeder Monat</string>
 </resources>
