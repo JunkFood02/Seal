@@ -294,7 +294,7 @@ fun DownloadPage(
                 config = Config(),
                 preferences = preferences,
                 onPreferencesUpdate = { preferences = it },
-                onActionPosted = { dialogViewModel.postAction(it) },
+                onActionPost = { dialogViewModel.postAction(it) },
             )
         }
         when (selectionState) {

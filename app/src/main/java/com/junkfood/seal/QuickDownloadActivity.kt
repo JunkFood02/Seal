@@ -111,7 +111,7 @@ class QuickDownloadActivity : ComponentActivity() {
                             config = Config(),
                             preferences = preferences,
                             onPreferencesUpdate = { preferences = it },
-                            onActionPosted = {
+                            onActionPost = {
                                 viewModel.postAction(it)
                                 if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
                                     finish()

@@ -200,7 +200,7 @@
     <string name="restart">Restart</string>
     <string name="status_error">Error</string>
     <string name="copy_link">Copy link</string>
-    <string name="copy_error_report">Error report</string>
+    <string name="copy_error_report">Copy report</string>
     <string name="video_resolution">Video resolution</string>
     <string name="video_file_size">Video file size</string>
     <string name="export_to_clipboard">Export to clipboard</string>

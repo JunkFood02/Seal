@@ -33,6 +33,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
@@ -42,6 +43,7 @@ import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.MoreVert
@@ -51,6 +53,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -72,15 +75,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.motion.materialSharedAxisX
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
@@ -122,6 +131,7 @@ import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.USE_CUSTOM_AUDIO_PRESET
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
@@ -220,7 +230,7 @@ fun ConfigureDialog(
     preferences: DownloadUtil.DownloadPreferences,
     onPreferencesUpdate: (DownloadUtil.DownloadPreferences) -> Unit,
     state: DownloadDialogViewModel.SheetState = Configure,
-    onActionPosted: (Action) -> Unit = {}
+    onActionPost: (Action) -> Unit = {}
 ) {
 
     var showVideoPresetDialog by remember { mutableStateOf(false) }
@@ -276,56 +286,152 @@ fun ConfigureDialog(
     SealModalBottomSheet(
         sheetState = sheetState,
         contentPadding = PaddingValues(),
-        onDismissRequest = { onActionPosted(Action.HideSheet) }) {
-            AnimatedContent(
-                targetState = state,
-                label = "",
-                transitionSpec = {
-                    materialSharedAxisX(initialOffsetX = { it / 4 }, targetOffsetX = { -it / 4 })
-                }) { state ->
-                    when (state) {
-                        Configure -> {
-                            ConfigurePageImpl(
-                                url = url,
-                                config = config,
-                                preferences = preferences,
-                                onPresetEdit = { type ->
-                                    when (type) {
-                                        Audio -> showAudioPresetDialog = true
+        onDismissRequest = { onActionPost(Action.HideSheet) },
+    ) {
+        ConfigureDialogContent(
+            modifier = modifier,
+            state = state,
+            url = url,
+            config = config,
+            preferences = preferences,
+            onPreferencesUpdate = onPreferencesUpdate,
+            onPresetEdit = { type ->
+                when (type) {
+                    Audio -> showAudioPresetDialog = true
 
-                                        Video -> showVideoPresetDialog = true
+                    Video -> showVideoPresetDialog = true
 
-                                        else -> {}
-                                    }
-                                },
-                                onConfigSave = { Config.updatePreferences(it) },
-                                settingChips = {
-                                    AdditionalSettings(
-                                        modifier = Modifier.padding(horizontal = 16.dp),
-                                        isQuickDownload = false,
-                                        preference = preferences,
-                                        selectedType = Audio,
-                                        onPreferenceUpdate = {
-                                            onPreferencesUpdate(
-                                                DownloadUtil.DownloadPreferences
-                                                    .createFromPreferences())
-                                        })
-                                },
-                                onActionPost = { onActionPosted(it) })
-                        }
+                    else -> {}
+                }
+            },
+            onActionPost = onActionPost)
+    }
+}
 
-                        is Error -> {
-                            Text(state.throwable.stackTrace.contentToString())
-                        }
+@Composable
+private fun ErrorPage(modifier: Modifier = Modifier, state: Error, onActionPost: (Action) -> Unit) {
+    val view = LocalView.current
+    val clipboardManager = LocalClipboardManager.current
+    val url =
+        state.action.run {
+            when (this) {
+                is Action.FetchFormats -> url
+                is Action.FetchPlaylist -> url
+                else -> {
+                    throw IllegalArgumentException()
+                }
+            }
+        }
+    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Icon(
+            imageVector = Icons.Outlined.ErrorOutline,
+            contentDescription = null,
+            modifier = Modifier.size(40.dp))
+        Text(
+            text = stringResource(R.string.fetch_info_error_msg),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 12.dp))
+        Text(
+            text = state.throwable.message.toString(),
+            style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier =
+                Modifier.padding(vertical = 16.dp, horizontal = 20.dp)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+            maxLines = 20,
+            overflow = TextOverflow.Clip)
 
-                        else -> {
-                            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 120.dp)) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.align(Alignment.CenterHorizontally))
-                            }
-                        }
+        Row {
+            Button(
+                onClick = {
+                    view.longPressHapticFeedback()
+                    clipboardManager.setText(
+                        AnnotatedString(
+                            App.getVersionReport() + "\nURL: ${url}\n${state.throwable.message}"))
+                    ToastUtil.makeToast(R.string.error_copied)
+                }) {
+                    Text(stringResource(R.string.copy_error_report))
+                }
+            Spacer(Modifier.width(8.dp))
+            FilledTonalButton(onClick = { onActionPost(state.action) }) { Text("Retry") }
+        }
+    }
+}
+
+@Composable
+private fun ConfigureDialogContent(
+    modifier: Modifier = Modifier,
+    url: String,
+    state: DownloadDialogViewModel.SheetState,
+    config: Config,
+    preferences: DownloadUtil.DownloadPreferences,
+    onPreferencesUpdate: (DownloadUtil.DownloadPreferences) -> Unit,
+    onPresetEdit: (DownloadType?) -> Unit,
+    onActionPost: (Action) -> Unit,
+) {
+    AnimatedContent(
+        modifier = modifier,
+        targetState = state,
+        label = "",
+        transitionSpec = {
+            materialSharedAxisX(initialOffsetX = { it / 4 }, targetOffsetX = { -it / 4 })
+        }) { state ->
+            when (state) {
+                Configure -> {
+                    ConfigurePageImpl(
+                        url = url,
+                        config = config,
+                        preferences = preferences,
+                        onPresetEdit = onPresetEdit,
+                        onConfigSave = { Config.updatePreferences(it) },
+                        settingChips = {
+                            AdditionalSettings(
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                isQuickDownload = false,
+                                preference = preferences,
+                                selectedType = Audio,
+                                onPreferenceUpdate = {
+                                    onPreferencesUpdate(
+                                        DownloadUtil.DownloadPreferences.createFromPreferences())
+                                })
+                        },
+                        onActionPost = { onActionPost(it) })
+                }
+
+                is Error -> {
+                    ErrorPage(state = state, onActionPost = onActionPost)
+                }
+
+                else -> {
+                    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 120.dp)) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 }
+            }
+        }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun ErrorPreview() {
+    SealModalBottomSheet(
+        onDismissRequest = {},
+        sheetState =
+            SheetState(
+                skipPartiallyExpanded = true,
+                initialValue = SheetValue.Expanded,
+                density = LocalDensity.current)) {
+            ErrorPage(
+                state =
+                    Error(
+                        action =
+                            Action.FetchFormats(
+                                url = "", audioOnly = true, preferences = PreferencesMock),
+                        throwable = Exception("Not good")),
+                onActionPost = {})
         }
 }
 

@@ -26,8 +26,6 @@ import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
-import java.util.concurrent.CancellationException
-import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -36,6 +34,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.CancellationException
+import kotlin.math.roundToInt
 
 /** Singleton Downloader for state holder & perform downloads, used by `Activity` & `Service` */
 object Downloader {
@@ -437,10 +437,6 @@ object Downloader {
         Log.d(TAG, "downloadVideo: id=${videoInfo.id} " + videoInfo.title)
         Log.d(TAG, "notificationId: $notificationId")
 
-        //        TextUtil.makeToastSuspend(
-        //            context.getString(R.string.download_start_msg).format(videoInfo.title)
-        //        )
-
         NotificationUtil.notifyProgress(notificationId = notificationId, title = videoInfo.title)
         return DownloadUtil.downloadVideo(
                 videoInfo = videoInfo,
@@ -454,7 +450,8 @@ object Downloader {
                         notificationId = notificationId,
                         progress = progress.toInt(),
                         text = line,
-                        title = videoInfo.title)
+                        title = videoInfo.title,
+                        taskId = taskId)
                 }
             .onFailure {
                 manageDownloadError(

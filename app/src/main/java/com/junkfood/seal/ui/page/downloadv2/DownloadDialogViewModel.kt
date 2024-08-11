@@ -35,7 +35,7 @@ class DownloadDialogViewModel : ViewModel() {
 
         data class Loading(val taskKey: String, val job: Job) : SheetState
 
-        data class Error(val throwable: Throwable) : SheetState
+        data class Error(val action: Action, val throwable: Throwable) : SheetState
     }
 
     sealed interface SheetValue {
@@ -96,8 +96,8 @@ class DownloadDialogViewModel : ViewModel() {
     fun postAction(action: Action) {
         with(action) {
             when (this) {
-                is Action.FetchFormats -> fetchFormat(url, preferences)
-                is Action.FetchPlaylist -> fetchPlaylist(url)
+                is Action.FetchFormats -> fetchFormat(this)
+                is Action.FetchPlaylist -> fetchPlaylist(this)
                 is Action.DownloadWithPreset -> downloadWithPreset(url, preferences)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.HideSheet -> hideDialog()
@@ -109,7 +109,8 @@ class DownloadDialogViewModel : ViewModel() {
         }
     }
 
-    private fun fetchPlaylist(url: String) {
+    private fun fetchPlaylist(action: Action.FetchPlaylist) {
+        val (url) = action
         // TODO: handle downloader state
         Downloader.clearErrorState()
 
@@ -133,17 +134,22 @@ class DownloadDialogViewModel : ViewModel() {
                             }
                         }
                     }
-                    .onFailure { th -> mSheetStateFlow.update { SheetState.Error(th) } }
+                    .onFailure { th ->
+                        mSheetStateFlow.update { SheetState.Error(action = action, throwable = th) }
+                    }
             }
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchPlaylist_$url", job = job) }
     }
 
-    private fun fetchFormat(url: String, preferences: DownloadUtil.DownloadPreferences) {
+    private fun fetchFormat(action: Action.FetchFormats) {
+        val (url, audioOnly, preferences) = action
 
         val job =
             viewModelScope.launch(Dispatchers.IO) {
                 DownloadUtil.fetchVideoInfoFromUrl(
-                        url = url, preferences = preferences, taskKey = "FetchFormat_$url")
+                        url = url,
+                        preferences = preferences.copy(extractAudio = audioOnly),
+                        taskKey = "FetchFormat_$url")
                     .onSuccess { info ->
                         withContext(Dispatchers.Main) {
                             mSelectionStateFlow.update {
@@ -154,7 +160,7 @@ class DownloadDialogViewModel : ViewModel() {
                     }
                     .onFailure { th ->
                         withContext(Dispatchers.Main) {
-                            mSheetStateFlow.update { SheetState.Error(th) }
+                            mSheetStateFlow.update { SheetState.Error(action, throwable = th) }
                         }
                     }
             }
