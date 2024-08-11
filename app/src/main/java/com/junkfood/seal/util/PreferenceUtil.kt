@@ -17,6 +17,7 @@ import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.kyant.monet.PaletteStyle
 import com.tencent.mmkv.MMKV
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +28,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.Locale
-
 
 const val CUSTOM_COMMAND = "custom_command"
 const val CONCURRENT = "concurrent_fragments"
@@ -118,14 +117,13 @@ private const val INTERVAL_DAY = 86_400_000L
 private const val INTERVAL_WEEK = 86_400_000L * 7
 private const val INTERVAL_MONTH = 86_400_000L * 30
 
-const val DEFAULT_INTERVAL = INTERVAL_WEEK  // every week
+const val DEFAULT_INTERVAL = INTERVAL_WEEK // every week
 
 val UpdateIntervalList =
     mapOf(
         INTERVAL_DAY to R.string.every_day,
         INTERVAL_WEEK to R.string.every_week,
-        INTERVAL_MONTH to R.string.every_month
-    )
+        INTERVAL_MONTH to R.string.every_month)
 
 const val NOT_SPECIFIED = 0
 const val DEFAULT = NOT_SPECIFIED
@@ -176,18 +174,17 @@ const val RES_480P = 5
 const val RES_360P = 6
 const val RES_LOWEST = 7
 
-
 const val TEMPLATE_EXAMPLE = """--no-mtime -S "ext""""
 
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
-val paletteStyles = listOf(
-    PaletteStyle.TonalSpot,
-    PaletteStyle.Spritz,
-    PaletteStyle.FruitSalad,
-    PaletteStyle.Vibrant,
-    PaletteStyle.Monochrome
-)
+val paletteStyles =
+    listOf(
+        PaletteStyle.TonalSpot,
+        PaletteStyle.Spritz,
+        PaletteStyle.FruitSalad,
+        PaletteStyle.Vibrant,
+        PaletteStyle.Monochrome)
 
 const val STYLE_TONAL_SPOT = 0
 const val STYLE_SPRITZ = 1
@@ -195,46 +192,45 @@ const val STYLE_FRUIT_SALAD = 2
 const val STYLE_VIBRANT = 3
 const val STYLE_MONOCHROME = 4
 
+private val StringPreferenceDefaults =
+    mapOf(
+        SPONSORBLOCK_CATEGORIES to "default",
+        MAX_RATE to "1000",
+        SUBTITLE_LANGUAGE to "en.*,.*-orig",
+        OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
+        CUSTOM_OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
+    )
 
-private val StringPreferenceDefaults = mapOf(
-    SPONSORBLOCK_CATEGORIES to "default",
-    MAX_RATE to "1000",
-    SUBTITLE_LANGUAGE to "en.*,.*-orig",
-    OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
-    CUSTOM_OUTPUT_TEMPLATE to DownloadUtil.OUTPUT_TEMPLATE_ID,
-)
+private val BooleanPreferenceDefaults =
+    mapOf(
+        FORMAT_SELECTION to true,
+        CONFIGURE to true,
+        CELLULAR_DOWNLOAD to false,
+        YT_DLP_AUTO_UPDATE to true,
+        NOTIFICATION to true,
+        EMBED_METADATA to true,
+        USE_CUSTOM_AUDIO_PRESET to false,
+    )
 
-private val BooleanPreferenceDefaults = mapOf(
-    FORMAT_SELECTION to true,
-    CONFIGURE to true,
-    CELLULAR_DOWNLOAD to false,
-    YT_DLP_AUTO_UPDATE to true,
-    NOTIFICATION to true,
-    EMBED_METADATA to true,
-    USE_CUSTOM_AUDIO_PRESET to false,
-)
+private val IntPreferenceDefaults =
+    mapOf(
+        TEMPLATE_ID to 0,
+        CONCURRENT to 8,
+        LANGUAGE to SYSTEM_DEFAULT,
+        PALETTE_STYLE to 0,
+        DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
+        WELCOME_DIALOG to 1,
+        AUDIO_CONVERSION_FORMAT to NOT_SPECIFIED,
+        VIDEO_QUALITY to NOT_SPECIFIED,
+        VIDEO_FORMAT to FORMAT_QUALITY,
+        UPDATE_CHANNEL to STABLE,
+        SHOW_SPONSOR_MSG to 0,
+        CONVERT_SUBTITLE to NOT_SPECIFIED,
+        DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
+        YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY,
+        DOWNLOAD_TYPE to DownloadType.Video.ordinal)
 
-private val IntPreferenceDefaults = mapOf(
-    TEMPLATE_ID to 0,
-    CONCURRENT to 8,
-    LANGUAGE to SYSTEM_DEFAULT,
-    PALETTE_STYLE to 0,
-    DARK_THEME_VALUE to DarkThemePreference.FOLLOW_SYSTEM,
-    WELCOME_DIALOG to 1,
-    AUDIO_CONVERSION_FORMAT to NOT_SPECIFIED,
-    VIDEO_QUALITY to NOT_SPECIFIED,
-    VIDEO_FORMAT to FORMAT_QUALITY,
-    UPDATE_CHANNEL to STABLE,
-    SHOW_SPONSOR_MSG to 0,
-    CONVERT_SUBTITLE to NOT_SPECIFIED,
-    DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
-    YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY,
-    DOWNLOAD_TYPE to DownloadType.Video.ordinal
-)
-
-private val LongPreferenceDefaults = mapOf(
-    YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL
-)
+private val LongPreferenceDefaults = mapOf(YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL)
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
@@ -244,11 +240,13 @@ object PreferenceUtil {
     fun String.getInt(default: Int = IntPreferenceDefaults.getOrElse(this) { 0 }): Int =
         kv.decodeInt(this, default)
 
-    fun String.getString(default: String = StringPreferenceDefaults.getOrElse(this) { "" }): String =
-        kv.decodeString(this) ?: default
+    fun String.getString(
+        default: String = StringPreferenceDefaults.getOrElse(this) { "" }
+    ): String = kv.decodeString(this) ?: default
 
-    fun String.getBoolean(default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }): Boolean =
-        kv.decodeBool(this, default)
+    fun String.getBoolean(
+        default: Boolean = BooleanPreferenceDefaults.getOrElse(this) { false }
+    ): Boolean = kv.decodeBool(this, default)
 
     fun String.getLong(default: Long = LongPreferenceDefaults.getOrElse(this) { 0L }) =
         kv.decodeLong(this, default)
@@ -260,23 +258,35 @@ object PreferenceUtil {
     fun String.updateLong(newLong: Long) = kv.encode(this, newLong)
 
     fun String.updateBoolean(newValue: Boolean) = kv.encode(this, newValue)
+
     fun updateValue(key: String, b: Boolean) = key.updateBoolean(b)
+
     fun encodeInt(key: String, int: Int) = key.updateInt(int)
+
     fun encodeString(key: String, string: String) = key.updateString(string)
+
     fun containsKey(key: String) = kv.containsKey(key)
 
     fun getAudioConvertFormat(): Int = AUDIO_CONVERSION_FORMAT.getInt()
 
     fun getVideoResolution(): Int = VIDEO_QUALITY.getInt()
+
     fun getAudioQuality(): Int = AUDIO_QUALITY.getInt()
 
     fun getVideoFormat(): Int = VIDEO_FORMAT.getInt()
 
     fun getAudioFormat(): Int = AUDIO_FORMAT.getInt()
 
-    fun getDownloadType(): DownloadType =
-        DownloadType.entries.firstOrNull { it.ordinal == DOWNLOAD_TYPE.getInt() }
-            ?: DownloadType.Video
+    fun getDownloadType(
+        usePreviousType: Boolean = DOWNLOAD_TYPE_INITIALIZATION.getInt() == USE_PREVIOUS_SELECTION
+    ): DownloadType? {
+        return if (usePreviousType) {
+            DownloadType.entries.firstOrNull { it.ordinal == DOWNLOAD_TYPE.getInt() }
+                ?: DownloadType.Video
+        } else {
+            null
+        }
+    }
 
     fun updateDownloadType(type: DownloadType) = DOWNLOAD_TYPE.updateInt(type.ordinal)
 
@@ -320,13 +330,11 @@ object PreferenceUtil {
         "# Netscape HTTP Cookie File\n" + "# Auto-generated by Seal built-in WebView\n"
 
     val templateListStateFlow: StateFlow<List<CommandTemplate>> =
-        DatabaseUtil.getTemplateFlow().stateIn(
-            applicationScope, started = SharingStarted.Eagerly, emptyList()
-        )
+        DatabaseUtil.getTemplateFlow()
+            .stateIn(applicationScope, started = SharingStarted.Eagerly, emptyList())
 
     private val List<CommandTemplate>.selectedTemplate: CommandTemplate?
         get() = find { it.id == TEMPLATE_ID.getInt() }
-
 
     fun getTemplate(): CommandTemplate {
         var template: CommandTemplate? = null
@@ -343,13 +351,11 @@ object PreferenceUtil {
     suspend fun initializeTemplateSample() {
         TEMPLATE_ID.updateInt(
             DatabaseUtil.insertTemplate(
-                CommandTemplate(
-                    id = 0,
-                    name = context.getString(R.string.custom_command_template),
-                    template = TEMPLATE_EXAMPLE
-                )
-            ).toInt()
-        )
+                    CommandTemplate(
+                        id = 0,
+                        name = context.getString(R.string.custom_command_template),
+                        template = TEMPLATE_EXAMPLE))
+                .toInt())
     }
 
     data class AppSettings(
@@ -361,34 +367,31 @@ object PreferenceUtil {
 
     fun getMaxDownloadRate(): String = MAX_RATE.getString()
 
-    private val mutableAppSettingsStateFlow = MutableStateFlow(
-        AppSettings(
-            DarkThemePreference(
-                darkThemeValue = kv.decodeInt(
-                    DARK_THEME_VALUE, DarkThemePreference.FOLLOW_SYSTEM
-                ), isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)
-            ),
-            isDynamicColorEnabled = kv.decodeBool(
-                DYNAMIC_COLOR, DynamicColors.isDynamicColorAvailable()
-            ),
-            seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
-            paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0)
-        )
-    )
+    private val mutableAppSettingsStateFlow =
+        MutableStateFlow(
+            AppSettings(
+                DarkThemePreference(
+                    darkThemeValue =
+                        kv.decodeInt(DARK_THEME_VALUE, DarkThemePreference.FOLLOW_SYSTEM),
+                    isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)),
+                isDynamicColorEnabled =
+                    kv.decodeBool(DYNAMIC_COLOR, DynamicColors.isDynamicColorAvailable()),
+                seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
+                paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0)))
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
 
     fun modifyDarkThemePreference(
         darkThemeValue: Int = AppSettingsStateFlow.value.darkTheme.darkThemeValue,
-        isHighContrastModeEnabled: Boolean = AppSettingsStateFlow.value.darkTheme.isHighContrastModeEnabled
+        isHighContrastModeEnabled: Boolean =
+            AppSettingsStateFlow.value.darkTheme.isHighContrastModeEnabled
     ) {
         applicationScope.launch(Dispatchers.IO) {
             mutableAppSettingsStateFlow.update {
                 it.copy(
-                    darkTheme = AppSettingsStateFlow.value.darkTheme.copy(
-                        darkThemeValue = darkThemeValue,
-                        isHighContrastModeEnabled = isHighContrastModeEnabled
-                    )
-                )
+                    darkTheme =
+                        AppSettingsStateFlow.value.darkTheme.copy(
+                            darkThemeValue = darkThemeValue,
+                            isHighContrastModeEnabled = isHighContrastModeEnabled))
             }
             kv.encode(DARK_THEME_VALUE, darkThemeValue)
             kv.encode(HIGH_CONTRAST, isHighContrastModeEnabled)
@@ -405,21 +408,21 @@ object PreferenceUtil {
         }
     }
 
-    fun switchDynamicColor(enabled: Boolean = !mutableAppSettingsStateFlow.value.isDynamicColorEnabled) {
+    fun switchDynamicColor(
+        enabled: Boolean = !mutableAppSettingsStateFlow.value.isDynamicColorEnabled
+    ) {
         applicationScope.launch(Dispatchers.IO) {
-            mutableAppSettingsStateFlow.update {
-                it.copy(isDynamicColorEnabled = enabled)
-            }
+            mutableAppSettingsStateFlow.update { it.copy(isDynamicColorEnabled = enabled) }
             kv.encode(DYNAMIC_COLOR, enabled)
         }
     }
-
 
     private const val TAG = "PreferenceUtil"
 }
 
 data class DarkThemePreference(
-    val darkThemeValue: Int = FOLLOW_SYSTEM, val isHighContrastModeEnabled: Boolean = false
+    val darkThemeValue: Int = FOLLOW_SYSTEM,
+    val isHighContrastModeEnabled: Boolean = false
 ) {
     companion object {
         const val FOLLOW_SYSTEM = 1
@@ -429,8 +432,7 @@ data class DarkThemePreference(
 
     @Composable
     fun isDarkTheme(): Boolean {
-        return if (darkThemeValue == FOLLOW_SYSTEM) isSystemInDarkTheme()
-        else darkThemeValue == ON
+        return if (darkThemeValue == FOLLOW_SYSTEM) isSystemInDarkTheme() else darkThemeValue == ON
     }
 
     @Composable
@@ -441,7 +443,6 @@ data class DarkThemePreference(
             else -> stringResource(R.string.off)
         }
     }
-
 }
 
 object PreferenceStrings {
@@ -491,7 +492,9 @@ object PreferenceStrings {
     }
 
     @Composable
-    fun getVideoResolutionDesc(videoQualityCode: Int = PreferenceUtil.getVideoResolution()): String {
+    fun getVideoResolutionDesc(
+        videoQualityCode: Int = PreferenceUtil.getVideoResolution()
+    ): String {
         return when (videoQualityCode) {
             1 -> "2160p"
             2 -> "1440p"
@@ -515,13 +518,13 @@ object PreferenceStrings {
     @Composable
     fun getUpdateIntervalText(interval: Long): String {
         return stringResource(
-            id = when (interval) {
-                INTERVAL_DAY -> R.string.every_day
-                INTERVAL_WEEK -> R.string.every_week
-                INTERVAL_MONTH -> R.string.every_month
-                else -> R.string.disabled
-            }
-        )
+            id =
+                when (interval) {
+                    INTERVAL_DAY -> R.string.every_day
+                    INTERVAL_WEEK -> R.string.every_week
+                    INTERVAL_MONTH -> R.string.every_month
+                    else -> R.string.disabled
+                })
     }
 
     @Composable
@@ -544,11 +547,12 @@ object PreferenceStrings {
                 }
 
                 else -> {
-                    val preferredFormat = when (audioFormat) {
-                        M4A -> stringResource(R.string.prefer_placeholder, "M4A")
-                        OPUS -> stringResource(R.string.prefer_placeholder, "OPUS")
-                        else -> null
-                    }
+                    val preferredFormat =
+                        when (audioFormat) {
+                            M4A -> stringResource(R.string.prefer_placeholder, "M4A")
+                            OPUS -> stringResource(R.string.prefer_placeholder, "OPUS")
+                            else -> null
+                        }
                     val preferredQuality =
                         when (audioQuality) {
                             NOT_SPECIFIED -> stringResource(R.string.best_quality)
@@ -558,10 +562,7 @@ object PreferenceStrings {
                             ULTRA_LOW -> "32 Kbps"
                             else -> stringResource(R.string.lowest_bitrate)
                         }
-                    listOfNotNull(
-                        preferredFormat,
-                        preferredQuality
-                    ).joinToString(separator = ", ")
+                    listOfNotNull(preferredFormat, preferredQuality).joinToString(separator = ", ")
                 }
             }
         }
@@ -576,12 +577,14 @@ object PreferenceStrings {
                 }
 
                 else -> {
-                    val preferredFormat = stringResource(
-                        id = R.string.prefer_placeholder,
-                        stringResource(id = if (videoFormat == FORMAT_QUALITY) R.string.quality else R.string.legacy)
-                    )
-                    val preferredResolution =
-                        getVideoResolutionDesc(videoResolution)
+                    val preferredFormat =
+                        stringResource(
+                            id = R.string.prefer_placeholder,
+                            stringResource(
+                                id =
+                                    if (videoFormat == FORMAT_QUALITY) R.string.quality
+                                    else R.string.legacy))
+                    val preferredResolution = getVideoResolutionDesc(videoResolution)
                     listOf(preferredFormat, preferredResolution).joinToString(separator = ", ")
                 }
             }

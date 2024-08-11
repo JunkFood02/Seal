@@ -26,20 +26,18 @@ import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
+import java.util.concurrent.CancellationException
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.concurrent.CancellationException
-import kotlin.math.roundToInt
 
-
-/**
- * Singleton Downloader for state holder & perform downloads, used by `Activity` & `Service`
- */
+/** Singleton Downloader for state holder & perform downloads, used by `Activity` & `Service` */
 object Downloader {
 
     private const val TAG = "Downloader"
@@ -51,8 +49,11 @@ object Downloader {
         ) : State()
 
         data object DownloadingVideo : State()
+
         data object FetchingInfo : State()
+
         data object Idle : State()
+
         data object Updating : State()
     }
 
@@ -69,13 +70,14 @@ object Downloader {
         data object None : ErrorState()
 
         val title: String
-            @Composable get() = when (this) {
-                is DownloadError -> stringResource(id = R.string.download_error_msg)
-                is FetchInfoError -> stringResource(id = R.string.fetch_info_error_msg)
-                None -> ""
-            }
+            @Composable
+            get() =
+                when (this) {
+                    is DownloadError -> stringResource(id = R.string.download_error_msg)
+                    is FetchInfoError -> stringResource(id = R.string.fetch_info_error_msg)
+                    None -> ""
+                }
     }
-
 
     data class CustomCommandTask(
         val template: CommandTemplate,
@@ -85,10 +87,14 @@ object Downloader {
         val currentLine: String
     ) {
         fun toKey() = makeKey(url, template.name)
+
         sealed class State {
             data class Error(val errorReport: String) : State()
+
             object Completed : State()
+
             object Canceled : State()
+
             data class Running(val progress: Float) : State()
         }
 
@@ -111,18 +117,15 @@ object Downloader {
             return true
         }
 
-
         fun onCopyLog(clipboardManager: ClipboardManager) {
             clipboardManager.setText(AnnotatedString(output))
         }
-
 
         fun onRestart() {
             applicationScope.launch(Dispatchers.IO) {
                 DownloadUtil.executeCommandInBackground(url, template)
             }
         }
-
 
         fun onCopyError(clipboardManager: ClipboardManager) {
             clipboardManager.setText(AnnotatedString(currentLine))
@@ -136,7 +139,6 @@ object Downloader {
             }
         }
     }
-
 
     data class DownloadTaskItem(
         val webpageUrl: String = "",
@@ -171,64 +173,51 @@ object Downloader {
 
     init {
         applicationScope.launch {
-            downloaderState.combine(processCount) { state, cnt ->
-                if (cnt > 0) true
-                else when (state) {
-                    is State.Idle -> false
-                    else -> true
+            downloaderState
+                .combine(processCount) { state, cnt ->
+                    if (cnt > 0) true
+                    else
+                        when (state) {
+                            is State.Idle -> false
+                            else -> true
+                        }
                 }
-            }.combine(mutableQuickDownloadCount) { isRunning, cnt ->
-                if (!isRunning) cnt > 0 else true
-            }.collect {
-                if (it) startService()
-                else stopService()
-            }
-
+                .combine(mutableQuickDownloadCount) { isRunning, cnt ->
+                    if (!isRunning) cnt > 0 else true
+                }
+                .collect { if (it) startService() else stopService() }
         }
     }
 
     fun isDownloaderAvailable(): Boolean {
-        if (downloaderState.value !is State.Idle) {
-            ToastUtil.makeToastSuspend(context.getString(R.string.task_running))
-            return false
-        }
-        return true
+        return downloaderState.value is State.Idle
     }
-
 
     fun makeKey(url: String, templateName: String): String = "${templateName}_$url"
 
     fun onTaskStarted(template: CommandTemplate, url: String) =
         CustomCommandTask(
-            template = template,
-            url = url,
-            output = "",
-            state = CustomCommandTask.State.Running(0f),
-            currentLine = ""
-        ).run {
-            mutableTaskList.put(this.toKey(), this)
-        }
-
+                template = template,
+                url = url,
+                output = "",
+                state = CustomCommandTask.State.Running(0f),
+                currentLine = "")
+            .run { mutableTaskList.put(this.toKey(), this) }
 
     fun updateTaskOutput(template: CommandTemplate, url: String, line: String, progress: Float) {
         val key = makeKey(url, template.name)
         val oldValue = mutableTaskList[key] ?: return
-        val newValue = oldValue.run {
-            copy(
-                output = output + line + "\n",
-                currentLine = line,
-                state = CustomCommandTask.State.Running(progress)
-            )
-        }
+        val newValue =
+            oldValue.run {
+                copy(
+                    output = output + line + "\n",
+                    currentLine = line,
+                    state = CustomCommandTask.State.Running(progress))
+            }
         mutableTaskList[key] = newValue
     }
 
-
-    fun onTaskEnded(
-        template: CommandTemplate,
-        url: String,
-        response: String? = null
-    ) {
+    fun onTaskEnded(template: CommandTemplate, url: String, response: String? = null) {
         val key = makeKey(url, template.name)
         NotificationUtil.finishNotification(
             notificationId = key.toNotificationId(),
@@ -237,44 +226,34 @@ object Downloader {
         )
         mutableTaskList.run {
             val oldValue = get(key) ?: return
-            val newValue = oldValue.copy(state = CustomCommandTask.State.Completed).run {
-                response?.let { copy(output = response) } ?: this
-            }
+            val newValue =
+                oldValue.copy(state = CustomCommandTask.State.Completed).run {
+                    response?.let { copy(output = response) } ?: this
+                }
             this[key] = newValue
         }
         FileUtil.scanDownloadDirectoryToMediaLibrary(COMMAND_DIRECTORY.getString())
     }
 
-
-    fun onProcessEnded() =
-        mutableProcessCount.update { it - 1 }
-
+    fun onProcessEnded() = mutableProcessCount.update { it - 1 }
 
     fun onProcessCanceled(taskId: String) =
         mutableTaskList.run {
-            get(taskId)?.let {
-                this.put(
-                    taskId,
-                    it.copy(state = CustomCommandTask.State.Canceled)
-                )
-            }
+            get(taskId)?.let { this.put(taskId, it.copy(state = CustomCommandTask.State.Canceled)) }
         }
 
     fun onTaskError(errorReport: String, template: CommandTemplate, url: String) =
         mutableTaskList.run {
             val key = makeKey(url, template.name)
             NotificationUtil.makeErrorReportNotification(
-                notificationId = key.toNotificationId(),
-                error = errorReport
-            )
+                notificationId = key.toNotificationId(), error = errorReport)
             val oldValue = mutableTaskList[key] ?: return
-            mutableTaskList[key] = oldValue.copy(
-                state = CustomCommandTask.State.Error(
-                    errorReport
-                ), currentLine = errorReport, output = oldValue.output + "\n" + errorReport
-            )
+            mutableTaskList[key] =
+                oldValue.copy(
+                    state = CustomCommandTask.State.Error(errorReport),
+                    currentLine = errorReport,
+                    output = oldValue.output + "\n" + errorReport)
         }
-
 
     private fun VideoInfo.toTask(playlistIndex: Int = 0, preferencesHash: Int): DownloadTaskItem =
         DownloadTaskItem(
@@ -285,8 +264,7 @@ object Downloader {
             taskId = id + preferencesHash,
             thumbnailUrl = thumbnail.toHttpsUrl(),
             fileSizeApprox = fileSize ?: fileSizeApprox ?: .0,
-            playlistIndex = playlistIndex
-        )
+            playlistIndex = playlistIndex)
 
     fun updateState(state: State) = mutableDownloaderState.update { state }
 
@@ -302,7 +280,6 @@ object Downloader {
         mutableErrorState.update { ErrorState.DownloadError(url, errorReport) }
     }
 
-
     private fun clearProgressState(isFinished: Boolean) {
         mutableTaskState.update {
             it.copy(
@@ -310,8 +287,7 @@ object Downloader {
                 progressText = "",
             )
         }
-        if (!isFinished)
-            downloadResultTemp = Result.failure(Exception())
+        if (!isFinished) downloadResultTemp = Result.failure(Exception())
     }
 
     fun updatePlaylistResult(playlistResult: PlaylistResult = PlaylistResult()) =
@@ -319,67 +295,62 @@ object Downloader {
 
     fun quickDownload(
         url: String,
-        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+        downloadPreferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
         applicationScope.launch(Dispatchers.IO) {
             mutableQuickDownloadCount.update { it + 1 }
-            DownloadUtil.fetchVideoInfoFromUrl(
-                url = url,
-                preferences = downloadPreferences
-            )
+            DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = downloadPreferences)
                 .onFailure {
                     manageDownloadError(
                         th = it,
                         url = url,
                         title = url,
                         isFetchingInfo = true,
-                        isTaskAborted = true
-                    )
+                        isTaskAborted = true)
                 }
                 .onSuccess { videoInfo ->
                     val taskId = videoInfo.id + downloadPreferences.hashCode()
                     val notificationId = taskId.toNotificationId()
                     ToastUtil.makeToastSuspend(
-                        context.getString(R.string.download_start_msg)
-                            .format(videoInfo.title)
-                    )
+                        context.getString(R.string.download_start_msg).format(videoInfo.title))
                     DownloadUtil.downloadVideo(
-                        videoInfo = videoInfo,
-                        downloadPreferences = downloadPreferences,
-                        taskId = taskId
-                    ) { progress, _, line ->
-                        NotificationUtil.notifyProgress(
-                            notificationId = notificationId,
-                            progress = progress.toInt(),
-                            text = line,
-                            title = videoInfo.title,
-                            taskId = taskId
-                        )
-                    }.onFailure {
-                        NotificationUtil.cancelNotification(notificationId)
-                        if (it is YoutubeDL.CanceledException) return@onFailure
-                        NotificationUtil.makeErrorReportNotification(
-                            title = videoInfo.title, notificationId = notificationId,
-                            error = it.message.toString()
-                        )
-                    }.onSuccess {
-                        val text =
-                            context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
-
-                        FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
-                            NotificationUtil.finishNotification(
-                                notificationId,
+                            videoInfo = videoInfo,
+                            downloadPreferences = downloadPreferences,
+                            taskId = taskId) { progress, _, line ->
+                                NotificationUtil.notifyProgress(
+                                    notificationId = notificationId,
+                                    progress = progress.toInt(),
+                                    text = line,
+                                    title = videoInfo.title,
+                                    taskId = taskId)
+                            }
+                        .onFailure {
+                            NotificationUtil.cancelNotification(notificationId)
+                            if (it is YoutubeDL.CanceledException) return@onFailure
+                            NotificationUtil.makeErrorReportNotification(
                                 title = videoInfo.title,
-                                text = text,
-                                intent = if (this != null) PendingIntent.getActivity(
-                                    context,
-                                    0,
-                                    this,
-                                    PendingIntent.FLAG_IMMUTABLE
-                                ) else null
-                            )
+                                notificationId = notificationId,
+                                error = it.message.toString())
                         }
-                    }
+                        .onSuccess {
+                            val text =
+                                context.getString(
+                                    if (it.isEmpty()) R.string.status_completed
+                                    else R.string.download_finish_notification)
+
+                            FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
+                                NotificationUtil.finishNotification(
+                                    notificationId,
+                                    title = videoInfo.title,
+                                    text = text,
+                                    intent =
+                                        if (this != null)
+                                            PendingIntent.getActivity(
+                                                context, 0, this, PendingIntent.FLAG_IMMUTABLE)
+                                        else null)
+                            }
+                        }
                 }
             mutableQuickDownloadCount.update { it - 1 }
         }
@@ -387,33 +358,46 @@ object Downloader {
 
     fun getInfoAndDownload(
         url: String,
-        downloadPreferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
-        currentJob = applicationScope.launch(Dispatchers.IO) {
-            updateState(State.FetchingInfo)
-            DownloadUtil.fetchVideoInfoFromUrl(
-                url = url,
-                preferences = downloadPreferences
-            )
-                .onFailure {
-                    manageDownloadError(
-                        th = it,
-                        url = url,
-                        isFetchingInfo = true,
-                        isTaskAborted = true
-                    )
+        currentJob =
+            applicationScope.launch(Dispatchers.IO) {
+                updateState(State.FetchingInfo)
+                DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
+                    .onFailure {
+                        manageDownloadError(
+                            th = it, url = url, isFetchingInfo = true, isTaskAborted = true)
+                    }
+                    .onSuccess { info ->
+                        downloadResultTemp =
+                            downloadVideo(videoInfo = info, preferences = preferences)
+                    }
+            }
+    }
+
+    fun addToDownloadQueue(
+        url: String,
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
+    ) {
+        if (!isDownloaderAvailable()) {
+            ToastUtil.makeToast(R.string.task_added)
+            applicationScope
+                .launch(Dispatchers.Default) {
+                    while (!isDownloaderAvailable()) {
+                        delay(3000)
+                    }
                 }
-                .onSuccess { info ->
-                    downloadResultTemp = downloadVideo(
-                        videoInfo = info,
-                        preferences = downloadPreferences
-                    )
-                }
+                .invokeOnCompletion { getInfoAndDownload(url, preferences) }
+        } else {
+            getInfoAndDownload(url, preferences)
         }
     }
 
     /**
-     * Triggers a download with extra configurations made by user in the custom format selection page
+     * Triggers a download with extra configurations made by user in the custom format selection
+     * page
      */
     fun downloadVideoWithConfigurations(
         videoInfo: VideoInfo,
@@ -423,61 +407,71 @@ object Downloader {
         newTitle: String,
         selectedSubtitleCodes: List<String>,
     ) {
-        currentJob = applicationScope.launch(Dispatchers.IO) {
-            val fileSize = formatList.fold(.0) { acc, format ->
-                acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
-            }
-
-            val info = videoInfo
-                .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
-                .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
-
-            val audioOnly =
-                formatList.isNotEmpty() && formatList.fold(true) { acc: Boolean, format: Format ->
-                    acc && (format.vcodec == "none" && format.acodec != "none")
-                }
-
-            val mergeAudioStream = formatList.count { format ->
-                format.vcodec == "none" && format.acodec != "none"
-            } > 1
-
-            val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
-
-            val downloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences().copy(
-                formatIdString = formatId,
-                videoClips = videoClips,
-                splitByChapter = splitByChapter,
-                newTitle = newTitle,
-                mergeAudioStream = mergeAudioStream
-            ).run {
-                copy(extractAudio = extractAudio || audioOnly)
-            }.run {
-                selectedSubtitleCodes.takeIf { it.isNotEmpty() }
-                    ?.let {
-                        val autoSubtitle = !info.subtitles.keys.containsAll(selectedSubtitleCodes)
-                        copy(
-                            downloadSubtitle = true,
-                            autoSubtitle = autoSubtitle,
-                            subtitleLanguage = selectedSubtitleCodes.joinToString(separator = ",") { it }
-                        )
+        currentJob =
+            applicationScope.launch(Dispatchers.IO) {
+                val fileSize =
+                    formatList.fold(.0) { acc, format ->
+                        acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
                     }
-                    ?: this
+
+                val info =
+                    videoInfo
+                        .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
+                        .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
+
+                val audioOnly =
+                    formatList.isNotEmpty() &&
+                        formatList.fold(true) { acc: Boolean, format: Format ->
+                            acc && (format.vcodec == "none" && format.acodec != "none")
+                        }
+
+                val mergeAudioStream =
+                    formatList.count { format ->
+                        format.vcodec == "none" && format.acodec != "none"
+                    } > 1
+
+                val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
+
+                val downloadPreferences =
+                    DownloadUtil.DownloadPreferences.createFromPreferences()
+                        .copy(
+                            formatIdString = formatId,
+                            videoClips = videoClips,
+                            splitByChapter = splitByChapter,
+                            newTitle = newTitle,
+                            mergeAudioStream = mergeAudioStream)
+                        .run { copy(extractAudio = extractAudio || audioOnly) }
+                        .run {
+                            selectedSubtitleCodes
+                                .takeIf { it.isNotEmpty() }
+                                ?.let {
+                                    val autoSubtitle =
+                                        !info.subtitles.keys.containsAll(selectedSubtitleCodes)
+                                    copy(
+                                        downloadSubtitle = true,
+                                        autoSubtitle = autoSubtitle,
+                                        subtitleLanguage =
+                                            selectedSubtitleCodes.joinToString(separator = ",") {
+                                                it
+                                            })
+                                } ?: this
+                        }
+                downloadResultTemp =
+                    downloadVideo(videoInfo = info, preferences = downloadPreferences)
             }
-            downloadResultTemp = downloadVideo(
-                videoInfo = info,
-                preferences = downloadPreferences
-            )
-        }
     }
 
     fun downloadVideoWithInfo(info: VideoInfo) {
-        currentJob = applicationScope.launch(Dispatchers.IO) {
-            downloadResultTemp = downloadVideo(videoInfo = info)
-        }
+        currentJob =
+            applicationScope.launch(Dispatchers.IO) {
+                downloadResultTemp = downloadVideo(videoInfo = info)
+            }
     }
 
     /**
-     * This method is used for download a single video and multiple videos from playlist at the same time.
+     * This method is used for download a single video and multiple videos from playlist at the same
+     * time.
+     *
      * @see downloadVideoInPlaylistByIndexList
      * @see getInfoAndDownload
      * @see downloadVideoWithConfigurations
@@ -487,78 +481,74 @@ object Downloader {
         playlistIndex: Int = 0,
         playlistUrl: String = "",
         videoInfo: VideoInfo,
-        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
     ): Result<List<String>> {
 
         Log.d(TAG, preferences.subtitleLanguage)
         mutableTaskState.update { videoInfo.toTask(preferencesHash = preferences.hashCode()) }
 
         val isDownloadingPlaylist = downloaderState.value is State.DownloadingPlaylist
-        if (!isDownloadingPlaylist)
-            updateState(State.DownloadingVideo)
+        if (!isDownloadingPlaylist) updateState(State.DownloadingVideo)
         val taskId = videoInfo.id + preferences.hashCode()
         val notificationId = taskId.toNotificationId()
         Log.d(TAG, "downloadVideo: id=${videoInfo.id} " + videoInfo.title)
         Log.d(TAG, "notificationId: $notificationId")
 
-//        TextUtil.makeToastSuspend(
-//            context.getString(R.string.download_start_msg).format(videoInfo.title)
-//        )
+        //        TextUtil.makeToastSuspend(
+        //            context.getString(R.string.download_start_msg).format(videoInfo.title)
+        //        )
 
-        NotificationUtil.notifyProgress(
-            notificationId = notificationId, title = videoInfo.title
-        )
+        NotificationUtil.notifyProgress(notificationId = notificationId, title = videoInfo.title)
         return DownloadUtil.downloadVideo(
-            videoInfo = videoInfo,
-            playlistUrl = playlistUrl,
-            playlistItem = playlistIndex,
-            downloadPreferences = preferences,
-            taskId = videoInfo.id + preferences.hashCode()
-        ) { progress, _, line ->
-            Log.d(TAG, line)
-            mutableTaskState.update {
-                it.copy(progress = progress, progressText = line)
-            }
-            NotificationUtil.notifyProgress(
-                notificationId = notificationId,
-                progress = progress.toInt(),
-                text = line,
-                title = videoInfo.title
-            )
-        }.onFailure {
-            manageDownloadError(
-                th = it,
-                url = videoInfo.originalUrl,
-                title = videoInfo.title,
-                isFetchingInfo = false,
-                notificationId = notificationId,
-                isTaskAborted = !isDownloadingPlaylist
-            )
-        }.onSuccess {
-            if (!isDownloadingPlaylist) finishProcessing()
-            val text =
-                context.getString(if (it.isEmpty()) R.string.status_completed else R.string.download_finish_notification)
-            FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
-                NotificationUtil.finishNotification(
-                    notificationId,
+                videoInfo = videoInfo,
+                playlistUrl = playlistUrl,
+                playlistItem = playlistIndex,
+                downloadPreferences = preferences,
+                taskId = videoInfo.id + preferences.hashCode()) { progress, _, line ->
+                    Log.d(TAG, line)
+                    mutableTaskState.update { it.copy(progress = progress, progressText = line) }
+                    NotificationUtil.notifyProgress(
+                        notificationId = notificationId,
+                        progress = progress.toInt(),
+                        text = line,
+                        title = videoInfo.title)
+                }
+            .onFailure {
+                manageDownloadError(
+                    th = it,
+                    url = videoInfo.originalUrl,
                     title = videoInfo.title,
-                    text = text,
-                    intent = if (this != null) PendingIntent.getActivity(
-                        context,
-                        0,
-                        this,
-                        PendingIntent.FLAG_IMMUTABLE
-                    ) else null
-                )
+                    isFetchingInfo = false,
+                    notificationId = notificationId,
+                    isTaskAborted = !isDownloadingPlaylist)
             }
-        }
+            .onSuccess {
+                if (!isDownloadingPlaylist) finishProcessing()
+                val text =
+                    context.getString(
+                        if (it.isEmpty()) R.string.status_completed
+                        else R.string.download_finish_notification)
+                FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
+                    NotificationUtil.finishNotification(
+                        notificationId,
+                        title = videoInfo.title,
+                        text = text,
+                        intent =
+                            if (this != null)
+                                PendingIntent.getActivity(
+                                    context, 0, this, PendingIntent.FLAG_IMMUTABLE)
+                            else null)
+                }
+            }
     }
 
     fun downloadVideoInPlaylistByIndexList(
         url: String,
         indexList: List<Int>,
         playlistItemList: List<Entries> = emptyList(),
-        preferences: DownloadUtil.DownloadPreferences = DownloadUtil.DownloadPreferences.createFromPreferences()
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
         val itemCount = indexList.size
 
@@ -566,66 +556,61 @@ object Downloader {
 
         mutableDownloaderState.update { State.DownloadingPlaylist() }
 
-        currentJob = applicationScope.launch(Dispatchers.IO) {
-            for (i in indexList.indices) {
-                mutableDownloaderState.update {
-                    if (it is State.DownloadingPlaylist)
-                        it.copy(currentItem = i + 1, itemCount = indexList.size)
-                    else return@launch
-                }
+        currentJob =
+            applicationScope.launch(Dispatchers.IO) {
+                for (i in indexList.indices) {
+                    mutableDownloaderState.update {
+                        if (it is State.DownloadingPlaylist)
+                            it.copy(currentItem = i + 1, itemCount = indexList.size)
+                        else return@launch
+                    }
 
-                NotificationUtil.updateServiceNotificationForPlaylist(
-                    index = i + 1, itemCount = itemCount
-                )
+                    NotificationUtil.updateServiceNotificationForPlaylist(
+                        index = i + 1, itemCount = itemCount)
 
-                val playlistIndex = indexList[i]
-                val playlistEntry = playlistItemList.getOrNull(i)
+                    val playlistIndex = indexList[i]
+                    val playlistEntry = playlistItemList.getOrNull(i)
 
-                Log.d(TAG, playlistEntry?.title.toString())
+                    Log.d(TAG, playlistEntry?.title.toString())
 
-                val title = playlistEntry?.title
+                    val title = playlistEntry?.title
 
-                DownloadUtil.fetchVideoInfoFromUrl(
-                    url = url,
-                    playlistItem = playlistIndex,
-                    preferences = preferences
-                ).onSuccess {
-                    if (downloaderState.value !is State.DownloadingPlaylist)
-                        return@launch
-                    downloadResultTemp =
-                        downloadVideo(
-                            videoInfo = it,
-                            playlistIndex = playlistIndex,
-                            playlistUrl = url,
-                            preferences = preferences,
-                        ).onFailure { th ->
+                    DownloadUtil.fetchVideoInfoFromUrl(
+                            url = url, playlistItem = playlistIndex, preferences = preferences)
+                        .onSuccess {
+                            if (downloaderState.value !is State.DownloadingPlaylist) return@launch
+                            downloadResultTemp =
+                                downloadVideo(
+                                        videoInfo = it,
+                                        playlistIndex = playlistIndex,
+                                        playlistUrl = url,
+                                        preferences = preferences,
+                                    )
+                                    .onFailure { th ->
+                                        manageDownloadError(
+                                            th = th,
+                                            url = it.originalUrl,
+                                            title = it.title,
+                                            isFetchingInfo = false,
+                                            isTaskAborted = false)
+                                    }
+                        }
+                        .onFailure { th ->
                             manageDownloadError(
                                 th = th,
-                                url = it.originalUrl,
-                                title = it.title,
-                                isFetchingInfo = false,
-                                isTaskAborted = false
-                            )
+                                url = playlistEntry?.url,
+                                title = title,
+                                isFetchingInfo = true,
+                                isTaskAborted = false)
                         }
-                }.onFailure { th ->
-                    manageDownloadError(
-                        th = th,
-                        url = playlistEntry?.url,
-                        title = title,
-                        isFetchingInfo = true,
-                        isTaskAborted = false
-                    )
                 }
+                finishProcessing()
             }
-            finishProcessing()
-        }
     }
 
     private fun finishProcessing() {
         if (downloaderState.value is State.Idle) return
-        mutableTaskState.update {
-            it.copy(progress = 100f, progressText = "")
-        }
+        mutableTaskState.update { it.copy(progress = 100f, progressText = "") }
         clearProgressState(isFinished = true)
         updateState(State.Idle)
         clearErrorState()
@@ -667,7 +652,6 @@ object Downloader {
             updateState(State.Idle)
             clearProgressState(isFinished = false)
         }
-
     }
 
     fun cancelDownload() {
@@ -682,18 +666,13 @@ object Downloader {
     }
 
     fun executeCommandWithUrl(url: String) =
-        applicationScope.launch(Dispatchers.IO) {
-            DownloadUtil.executeCommandInBackground(
-                url
-            )
-        }
+        applicationScope.launch(Dispatchers.IO) { DownloadUtil.executeCommandInBackground(url) }
 
     fun openDownloadResult() {
         if (taskState.value.progress == 100f) FileUtil.openFileFromResult(downloadResultTemp)
     }
 
     fun onProcessStarted() = mutableProcessCount.update { it + 1 }
+
     fun String.toNotificationId(): Int = this.hashCode()
 }
-
-

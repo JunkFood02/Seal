@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private const val TAG = "DownloadDialogViewModel"
+
 class DownloadDialogViewModel : ViewModel() {
 
     sealed interface SelectionState {
@@ -68,12 +70,6 @@ class DownloadDialogViewModel : ViewModel() {
             val preferences: DownloadUtil.DownloadPreferences
         ) : Action
 
-        data class DownloadWithInfoAndConfiguration(
-            val url: String,
-            val info: VideoInfo,
-            val preferences: DownloadUtil.DownloadPreferences
-        ) : Action
-
         data class DownloadWithPreset(
             val url: String,
             val preferences: DownloadUtil.DownloadPreferences
@@ -102,12 +98,11 @@ class DownloadDialogViewModel : ViewModel() {
             when (this) {
                 is Action.FetchFormats -> fetchFormat(url, preferences)
                 is Action.FetchPlaylist -> fetchPlaylist(url)
-                is Action.DownloadWithPreset -> downloadWithPreset(url)
+                is Action.DownloadWithPreset -> downloadWithPreset(url, preferences)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.HideSheet -> hideDialog()
                 Action.ShowSheet -> showDialog()
                 is Action.DownloadItemsWithPreset -> TODO()
-                is Action.DownloadWithInfoAndConfiguration -> TODO()
                 Action.Cancel -> cancel()
                 Action.Reset -> resetStates()
             }
@@ -167,13 +162,12 @@ class DownloadDialogViewModel : ViewModel() {
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
 
-    private fun downloadWithPreset(url: String) {
-        Downloader.getInfoAndDownload(url)
+    private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
+        hideDialog()
+        Downloader.addToDownloadQueue(url, preferences)
     }
 
     private fun downloadPlaylistItemsWithPreset(url: String) {}
-
-    private fun downloadWithInfoAndConfiguration(info: VideoInfo) {}
 
     private fun runCommand(url: String, template: CommandTemplate) {
         applicationScope.launch(Dispatchers.IO) {
@@ -215,6 +209,5 @@ class DownloadDialogViewModel : ViewModel() {
     private fun resetStates() {
         mSheetStateFlow.update { SheetState.Configure }
         mSelectionStateFlow.update { SelectionState.Idle }
-        mSheetValueFlow.update { SheetValue.Hidden }
     }
 }

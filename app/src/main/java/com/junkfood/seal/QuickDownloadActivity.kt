@@ -126,7 +126,12 @@ class QuickDownloadActivity : ComponentActivity() {
                             config = Config(),
                             preferences = preferences,
                             onPreferencesUpdate = { preferences = it },
-                            onActionPosted = { viewModel.postAction(it) },
+                            onActionPosted = {
+                                viewModel.postAction(it)
+                                if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
+                                    finish()
+                                }
+                            },
                         )
                     }
                     when (selectionState) {
@@ -137,7 +142,9 @@ class QuickDownloadActivity : ComponentActivity() {
                                     viewModel.postAction(Action.Reset)
                                     this.finish()
                                 })
-                        else -> {}
+
+                        SelectionState.Idle -> {}
+                        is SelectionState.PlaylistSelection -> {}
                     }
                 }
             }

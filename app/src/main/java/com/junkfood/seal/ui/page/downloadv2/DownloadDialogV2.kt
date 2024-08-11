@@ -37,14 +37,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.DownloadDone
-import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
-import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.MoreVert
@@ -109,7 +106,6 @@ import com.junkfood.seal.util.AUDIO_FORMAT
 import com.junkfood.seal.util.AUDIO_QUALITY
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
-import com.junkfood.seal.util.DOWNLOAD_TYPE_INITIALIZATION
 import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadType
 import com.junkfood.seal.util.DownloadType.Audio
@@ -122,13 +118,11 @@ import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
-import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.USE_CUSTOM_AUDIO_PRESET
-import com.junkfood.seal.util.USE_PREVIOUS_SELECTION
 import com.junkfood.seal.util.VIDEO_FORMAT
 import com.junkfood.seal.util.VIDEO_QUALITY
 import kotlinx.coroutines.launch
@@ -198,8 +192,7 @@ val PreferencesMock =
         useCustomAudioPreset = false)
 
 data class Config(
-    val usePreviousType: Boolean = DOWNLOAD_TYPE_INITIALIZATION.getInt() == USE_PREVIOUS_SELECTION,
-    val downloadType: DownloadType = PreferenceUtil.getDownloadType(),
+    val downloadType: DownloadType? = PreferenceUtil.getDownloadType(),
     val typeEntries: List<DownloadType> =
         when (CUSTOM_COMMAND.getBoolean()) {
             true -> DownloadType.entries
@@ -208,9 +201,11 @@ data class Config(
     val useFormatSelection: Boolean = FORMAT_SELECTION.getBoolean(),
 ) {
     companion object {
-        fun updatePreferences(downloadType: DownloadType, useFormatSelection: Boolean) {
-            PreferenceUtil.updateDownloadType(downloadType)
-            FORMAT_SELECTION.updateBoolean(useFormatSelection)
+        fun updatePreferences(config: Config) {
+            with(config) {
+                downloadType?.let { PreferenceUtil.updateDownloadType(it) }
+                FORMAT_SELECTION.updateBoolean(useFormatSelection)
+            }
         }
     }
 }
@@ -296,18 +291,14 @@ fun ConfigureDialog(
                                 preferences = preferences,
                                 onPresetEdit = { type ->
                                     when (type) {
-                                        Audio -> {
-                                            showAudioPresetDialog = true
-                                        }
+                                        Audio -> showAudioPresetDialog = true
 
-                                        Video -> {
-                                            showVideoPresetDialog = true
-                                        }
+                                        Video -> showVideoPresetDialog = true
 
                                         else -> {}
                                     }
                                 },
-                                onPreferenceUpdate = {},
+                                onConfigSave = { Config.updatePreferences(it) },
                                 settingChips = {
                                     AdditionalSettings(
                                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -382,12 +373,11 @@ private fun ConfigurePagePreview() {
                 ConfigurePageImpl(
                     config =
                         Config(
-                            usePreviousType = false,
                             downloadType = Audio,
                             useFormatSelection = true,
                             typeEntries = entries - Command),
                     preferences = PreferencesMock,
-                    onPreferenceUpdate = {},
+                    onConfigSave = {},
                     settingChips = {}) {}
             }
     }
@@ -401,18 +391,11 @@ private fun ConfigurePageImpl(
     preferences: DownloadUtil.DownloadPreferences,
     settingChips: @Composable () -> Unit,
     onPresetEdit: (DownloadType?) -> Unit = {},
-    onPreferenceUpdate: () -> Unit,
+    onConfigSave: (Config) -> Unit,
     onActionPost: (Action) -> Unit
 ) {
-    var selectedType by remember {
-        mutableStateOf(
-            if (config.usePreviousType) {
-                config.downloadType
-            } else {
-                null
-            })
-    }
-    var useFormatSelection by remember { mutableStateOf(config.useFormatSelection) }
+    var selectedType by remember(config) { mutableStateOf(config.downloadType) }
+    var useFormatSelection by remember(config) { mutableStateOf(config.useFormatSelection) }
     val canProceed = selectedType in config.typeEntries
 
     LaunchedEffect(selectedType) {
@@ -446,18 +429,29 @@ private fun ConfigurePageImpl(
         }
         var expanded by remember { mutableStateOf(false) }
         ExpandableTitle(expanded = expanded, onClick = { expanded = true }) { settingChips() }
-
         val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
         ActionButtons(
             modifier = Modifier.padding(horizontal = 20.dp),
             canProceed = canProceed,
             selectedType = selectedType,
             useFormatSelection = useFormatSelection,
             onCancel = { dispatcher?.onBackPressed() },
-            onDownload = {},
+            onDownload = {
+                onConfigSave(
+                    config.copy(
+                        useFormatSelection = useFormatSelection, downloadType = selectedType))
+                onActionPost(
+                    Action.DownloadWithPreset(
+                        url = url,
+                        preferences = preferences.copy(extractAudio = selectedType == Audio)))
+            },
             onFetchInfo = {
+                onConfigSave(
+                    config.copy(
+                        useFormatSelection = useFormatSelection, downloadType = selectedType))
                 if (selectedType == Playlist) {
-                    //                    onActionPost(Action.FetchPlaylist())
+                    // todo
                 } else {
                     onActionPost(
                         Action.FetchFormats(
