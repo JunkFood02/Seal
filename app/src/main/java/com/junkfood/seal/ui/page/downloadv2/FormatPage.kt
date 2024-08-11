@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Subtitles
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.AlertDialog
@@ -381,7 +382,7 @@ private fun FormatPageImpl(
         },
         floatingActionButton = {
             val isFormatSelected = isSuggestedFormatSelected || formatList.isNotEmpty()
-            AnimatedVisibility(isFormatSelected) {
+            if (isFormatSelected) {
                 ExtendedFloatingActionButton(
                     onClick = {
                         onDownloadPressed(
@@ -396,7 +397,7 @@ private fun FormatPageImpl(
                     modifier = Modifier.padding(12.dp),
                     icon = {
                         Icon(
-                            imageVector = Icons.Rounded.Download,
+                            imageVector = Icons.Outlined.FileDownload,
                             contentDescription = null,
                             modifier = Modifier.size(24.dp))
                     },

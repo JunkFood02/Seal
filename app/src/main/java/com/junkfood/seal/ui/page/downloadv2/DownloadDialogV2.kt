@@ -39,11 +39,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.DownloadDone
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
+import androidx.compose.material.icons.outlined.DownloadDone
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
@@ -588,16 +591,17 @@ private fun SingleChoiceItem(
 ) {
     val corner by
         animateDpAsState(
-            if (selected) 28.dp else 8.dp,
+            if (selected) 28.dp else 16.dp,
             animationSpec =
                 spring(
-                    stiffness = Spring.StiffnessMediumLow,
+                    stiffness = Spring.StiffnessMedium,
                     visibilityThreshold = Dp.VisibilityThreshold),
             label = "")
     val color by
         animateColorAsState(
             if (selected) MaterialTheme.colorScheme.secondaryContainer
-            else MaterialTheme.colorScheme.surfaceContainerLow)
+            else MaterialTheme.colorScheme.surfaceContainerLow,
+            label = "")
 
     Surface(
         selected = selected,
@@ -768,7 +772,7 @@ private fun ActionButton.Icon() {
         imageVector =
             when (this) {
                 FetchInfo -> Icons.AutoMirrored.Filled.ArrowForward
-                Download -> Icons.Filled.Download
+                Download -> Icons.Outlined.FileDownload
                 StartTask -> Icons.Filled.DownloadDone
             },
         contentDescription = null,
@@ -805,13 +809,6 @@ private fun ActionButtons(
             FetchInfo
         } else {
             Download
-        }
-
-    val actionIcon =
-        when (action) {
-            FetchInfo -> Icons.AutoMirrored.Filled.ArrowForward
-            Download -> Icons.Filled.Download
-            StartTask -> Icons.Filled.DownloadDone
         }
 
     val state = rememberLazyListState()
