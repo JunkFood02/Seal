@@ -30,11 +30,8 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SelectionSta
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetValue
 import com.junkfood.seal.ui.page.downloadv2.FormatPage
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.util.CONFIGURE
-import com.junkfood.seal.util.CUSTOM_COMMAND
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.runBlocking
@@ -60,11 +57,6 @@ class QuickDownloadActivity : ComponentActivity() {
         }
     }
 
-    private fun onDownloadStarted(customCommand: Boolean) {
-        if (customCommand) Downloader.executeCommandWithUrl(url)
-        else Downloader.quickDownload(url = url)
-    }
-
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,15 +78,8 @@ class QuickDownloadActivity : ComponentActivity() {
             runBlocking { setLanguage(PreferenceUtil.getLocaleFromPreference()) }
         }
 
-        val isDialogEnabled = CONFIGURE.getBoolean()
-
         if (url.isEmpty()) {
             finish()
-        }
-
-        if (!isDialogEnabled) {
-            onDownloadStarted(CUSTOM_COMMAND.getBoolean())
-            this.finish()
         }
 
         setContent {

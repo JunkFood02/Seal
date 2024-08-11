@@ -293,73 +293,10 @@ object Downloader {
     fun updatePlaylistResult(playlistResult: PlaylistResult = PlaylistResult()) =
         mutablePlaylistResult.update { playlistResult }
 
-    fun quickDownload(
-        url: String,
-        downloadPreferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
-    ) {
-        applicationScope.launch(Dispatchers.IO) {
-            mutableQuickDownloadCount.update { it + 1 }
-            DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = downloadPreferences)
-                .onFailure {
-                    manageDownloadError(
-                        th = it,
-                        url = url,
-                        title = url,
-                        isFetchingInfo = true,
-                        isTaskAborted = true)
-                }
-                .onSuccess { videoInfo ->
-                    val taskId = videoInfo.id + downloadPreferences.hashCode()
-                    val notificationId = taskId.toNotificationId()
-                    ToastUtil.makeToastSuspend(
-                        context.getString(R.string.download_start_msg).format(videoInfo.title))
-                    DownloadUtil.downloadVideo(
-                            videoInfo = videoInfo,
-                            downloadPreferences = downloadPreferences,
-                            taskId = taskId) { progress, _, line ->
-                                NotificationUtil.notifyProgress(
-                                    notificationId = notificationId,
-                                    progress = progress.toInt(),
-                                    text = line,
-                                    title = videoInfo.title,
-                                    taskId = taskId)
-                            }
-                        .onFailure {
-                            NotificationUtil.cancelNotification(notificationId)
-                            if (it is YoutubeDL.CanceledException) return@onFailure
-                            NotificationUtil.makeErrorReportNotification(
-                                title = videoInfo.title,
-                                notificationId = notificationId,
-                                error = it.message.toString())
-                        }
-                        .onSuccess {
-                            val text =
-                                context.getString(
-                                    if (it.isEmpty()) R.string.status_completed
-                                    else R.string.download_finish_notification)
-
-                            FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
-                                NotificationUtil.finishNotification(
-                                    notificationId,
-                                    title = videoInfo.title,
-                                    text = text,
-                                    intent =
-                                        if (this != null)
-                                            PendingIntent.getActivity(
-                                                context, 0, this, PendingIntent.FLAG_IMMUTABLE)
-                                        else null)
-                            }
-                        }
-                }
-            mutableQuickDownloadCount.update { it - 1 }
-        }
-    }
-
     fun getInfoAndDownload(
         url: String,
         preferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
     ) {
         currentJob =
             applicationScope.launch(Dispatchers.IO) {
@@ -377,10 +314,13 @@ object Downloader {
     }
 
     fun addToDownloadQueue(
-        url: String,
+        videoInfo: VideoInfo? = null,
+        url: String = videoInfo?.originalUrl ?: "",
         preferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
     ) {
+        require(url.isNotEmpty() || videoInfo != null)
+
         if (!isDownloaderAvailable()) {
             ToastUtil.makeToast(R.string.task_added)
             applicationScope
@@ -389,9 +329,14 @@ object Downloader {
                         delay(3000)
                     }
                 }
-                .invokeOnCompletion { getInfoAndDownload(url, preferences) }
+                .invokeOnCompletion {
+                    videoInfo?.let {
+                        downloadVideoWithInfo(info = videoInfo, preferences = preferences)
+                    } ?: getInfoAndDownload(url, preferences)
+                }
         } else {
-            getInfoAndDownload(url, preferences)
+            videoInfo?.let { downloadVideoWithInfo(info = videoInfo, preferences = preferences) }
+                ?: getInfoAndDownload(url, preferences)
         }
     }
 
@@ -407,64 +352,61 @@ object Downloader {
         newTitle: String,
         selectedSubtitleCodes: List<String>,
     ) {
-        currentJob =
-            applicationScope.launch(Dispatchers.IO) {
-                val fileSize =
-                    formatList.fold(.0) { acc, format ->
-                        acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
-                    }
 
-                val info =
-                    videoInfo
-                        .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
-                        .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
-
-                val audioOnly =
-                    formatList.isNotEmpty() &&
-                        formatList.fold(true) { acc: Boolean, format: Format ->
-                            acc && (format.vcodec == "none" && format.acodec != "none")
-                        }
-
-                val mergeAudioStream =
-                    formatList.count { format ->
-                        format.vcodec == "none" && format.acodec != "none"
-                    } > 1
-
-                val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
-
-                val downloadPreferences =
-                    DownloadUtil.DownloadPreferences.createFromPreferences()
-                        .copy(
-                            formatIdString = formatId,
-                            videoClips = videoClips,
-                            splitByChapter = splitByChapter,
-                            newTitle = newTitle,
-                            mergeAudioStream = mergeAudioStream)
-                        .run { copy(extractAudio = extractAudio || audioOnly) }
-                        .run {
-                            selectedSubtitleCodes
-                                .takeIf { it.isNotEmpty() }
-                                ?.let {
-                                    val autoSubtitle =
-                                        !info.subtitles.keys.containsAll(selectedSubtitleCodes)
-                                    copy(
-                                        downloadSubtitle = true,
-                                        autoSubtitle = autoSubtitle,
-                                        subtitleLanguage =
-                                            selectedSubtitleCodes.joinToString(separator = ",") {
-                                                it
-                                            })
-                                } ?: this
-                        }
-                downloadResultTemp =
-                    downloadVideo(videoInfo = info, preferences = downloadPreferences)
+        val fileSize =
+            formatList.fold(.0) { acc, format ->
+                acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
             }
+
+        val info =
+            videoInfo
+                .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
+                .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
+
+        val audioOnly =
+            formatList.isNotEmpty() &&
+                formatList.fold(true) { acc: Boolean, format: Format ->
+                    acc && (format.vcodec == "none" && format.acodec != "none")
+                }
+
+        val mergeAudioStream =
+            formatList.count { format -> format.vcodec == "none" && format.acodec != "none" } > 1
+
+        val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
+
+        val preferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
+                .copy(
+                    formatIdString = formatId,
+                    videoClips = videoClips,
+                    splitByChapter = splitByChapter,
+                    newTitle = newTitle,
+                    mergeAudioStream = mergeAudioStream)
+                .run { copy(extractAudio = extractAudio || audioOnly) }
+                .run {
+                    selectedSubtitleCodes
+                        .takeIf { it.isNotEmpty() }
+                        ?.let {
+                            val autoSubtitle =
+                                !info.subtitles.keys.containsAll(selectedSubtitleCodes)
+                            copy(
+                                downloadSubtitle = true,
+                                autoSubtitle = autoSubtitle,
+                                subtitleLanguage =
+                                    selectedSubtitleCodes.joinToString(separator = ",") { it })
+                        } ?: this
+                }
+        addToDownloadQueue(videoInfo = videoInfo, preferences = preferences)
     }
 
-    fun downloadVideoWithInfo(info: VideoInfo) {
+    fun downloadVideoWithInfo(
+        info: VideoInfo,
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences()
+    ) {
         currentJob =
             applicationScope.launch(Dispatchers.IO) {
-                downloadResultTemp = downloadVideo(videoInfo = info)
+                downloadResultTemp = downloadVideo(videoInfo = info, preferences = preferences)
             }
     }
 

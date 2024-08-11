@@ -1,14 +1,14 @@
 [versions]
 accompanist = "0.34.0"
-androidGradlePlugin = "8.6.0-alpha07"
+androidGradlePlugin = "8.7.0-alpha05"
 androidxComposeBom = "2024.08.00-alpha01"
 androidxCore = "1.13.1"
 androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
-androidxActivity = "1.9.0"
+androidxActivity = "1.9.1"
 androidxSplashscreen = "1.0.1"
 
-androidxLifecycle = "2.8.1"
+androidxLifecycle = "2.8.4"
 androidxNavigation = "2.7.7"
 androidxFoundation = "1.6.0-beta03"
 androidxComposeMaterial3 = "1.2.0-beta01"
@@ -19,7 +19,6 @@ androidxTestExt = "1.1.4"
 
 
 coil = "2.5.0"
-hilt = "2.45"
 
 junit4 = "4.13.2"
 
