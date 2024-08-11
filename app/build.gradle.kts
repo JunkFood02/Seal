@@ -53,7 +53,7 @@ val currentVersion: Version = Version.Alpha(
     versionMajor = 2,
     versionMinor = 0,
     versionPatch = 0,
-    versionBuild = 1
+    versionBuild = 2
 )
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
