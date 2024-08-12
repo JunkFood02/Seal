@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.room)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -39,7 +40,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 24
         targetSdk = 34
-        versionCode = rootProject.extra["versionCode"] as Int
+        versionCode = 20000 // (rootProject.extra["versionCode"] as Int) -- Can't be used because of F-droid
 
         if (splitApks) {
             splits {
@@ -60,16 +61,17 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        ksp {
-            arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
-            arg("room.incremental", "true")
-        }
+
         if (!splitApks) {
             ndk {
                 abiFilters.addAll(abiFilterList)
             }
         }
     }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
     val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
     androidComponents {
@@ -199,16 +201,4 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
     implementation(libs.androidx.compose.ui.tooling)
-}
-
-class RoomSchemaArgProvider(
-    @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File
-) : CommandLineArgumentProvider {
-
-    override fun asArguments(): Iterable<String> {
-        if (!schemaDir.exists()) {
-            schemaDir.mkdirs()
-        }
-        return listOf("room.schemaLocation=${schemaDir.path}")
-    }
 }

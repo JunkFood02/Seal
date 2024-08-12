@@ -11,7 +11,7 @@ androidxSplashscreen = "1.0.1"
 androidxLifecycle = "2.8.4"
 androidxNavigation = "2.7.7"
 androidxFoundation = "1.6.0-beta03"
-androidxComposeMaterial3 = "1.2.0-beta01"
+androidxComposeMaterial3 = "1.3.0-alpha06"
 androidxComposeAnimation = "1.5.0-beta01"
 
 androidxEspresso = "3.5.0"
@@ -62,7 +62,7 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.3.0-alpha06" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
@@ -110,6 +110,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+room = { id = "androidx.room", version.ref = "room" }
 
 [bundles]
 accompanist = [
