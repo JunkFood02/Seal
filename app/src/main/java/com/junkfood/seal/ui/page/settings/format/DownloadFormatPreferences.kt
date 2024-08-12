@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.ArtTrack
 import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.ContentCut
@@ -273,7 +274,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                 }
                 item {
                     PreferenceSwitchWithDivider(title = stringResource(id = R.string.format_sorting),
-                        icon = Icons.Outlined.Sort,
+                        icon = Icons.AutoMirrored.Outlined.Sort,
                         description = stringResource(id = R.string.format_sorting_desc),
                         enabled = !isCustomCommandEnabled,
                         isChecked = isFormatSortingEnabled,

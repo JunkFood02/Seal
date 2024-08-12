@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Description
@@ -131,7 +132,7 @@ fun AboutPage(
                 PreferenceItem(
                     title = stringResource(R.string.github_issue),
                     description = stringResource(R.string.github_issue_desc),
-                    icon = Icons.Outlined.ContactSupport,
+                    icon = Icons.AutoMirrored.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
             }
             item {

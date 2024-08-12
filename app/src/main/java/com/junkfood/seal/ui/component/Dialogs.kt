@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet4Bar
 import androidx.compose.material3.AlertDialog
@@ -59,7 +60,7 @@ fun HelpDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(text = stringResource(id = R.string.how_does_it_work)) },
-        icon = { Icon(Icons.Outlined.HelpOutline, null) },
+        icon = { Icon(Icons.AutoMirrored.Outlined.HelpOutline, null) },
         text = { Text(text = text) },
         confirmButton = confirmButton,
         dismissButton = dismissButton,

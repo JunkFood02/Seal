@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.PlaylistAdd
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.PlaylistAdd
 import androidx.compose.material3.Checkbox
@@ -145,7 +146,7 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                     IconButton(modifier = Modifier.padding(end = 4.dp),
                         onClick = { showDialog = true }) {
                         Icon(
-                            imageVector = Icons.Outlined.PlaylistAdd,
+                            imageVector = Icons.AutoMirrored.Outlined.PlaylistAdd,
                             contentDescription = stringResource(
                                 R.string.download_range_selection
                             )

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -172,7 +173,7 @@ fun DismissButton(text: String = stringResource(R.string.dismiss), onClick: () -
 fun LinkButton(
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.yt_dlp_docs),
-    icon: ImageVector = Icons.Outlined.OpenInNew,
+    icon: ImageVector = Icons.AutoMirrored.Outlined.OpenInNew,
     link: String = ytdlpReference
 ) {
     val uriHandler = LocalUriHandler.current

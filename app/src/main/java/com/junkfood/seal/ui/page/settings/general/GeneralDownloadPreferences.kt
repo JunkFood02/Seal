@@ -17,6 +17,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.Edit
@@ -378,7 +379,7 @@ fun GeneralDownloadPreferences(
                                 PLAYLIST, downloadPlaylist
                             )
                         },
-                        icon = Icons.Outlined.PlaylistAddCheck,
+                        icon = Icons.AutoMirrored.Outlined.PlaylistAddCheck,
                         enabled = !isCustomCommandEnabled,
                         description = stringResource(R.string.download_playlist_desc),
                         isChecked = downloadPlaylist
