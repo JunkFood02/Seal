@@ -15,10 +15,9 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.PlaylistAdd
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.PlaylistAdd
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -117,7 +116,7 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                     .navigationBarsPadding(),
                 verticalArrangement = Arrangement.Center
             ) {
-                Divider(modifier = Modifier.fillMaxWidth())
+                HorizontalDivider(modifier = Modifier.fillMaxWidth())
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Row(
                         modifier = Modifier.selectable(selected = selectedItems.size == playlistCount && selectedItems.size != 0,

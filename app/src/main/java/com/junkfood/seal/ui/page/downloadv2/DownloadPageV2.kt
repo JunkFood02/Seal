@@ -322,7 +322,7 @@ fun InputUrl(
                     .clip(MaterialTheme.shapes.large),
             )
             else LinearProgressIndicator(
-                progress = progressAnimationValue,
+                progress = { progressAnimationValue },
                 modifier = Modifier
                     .weight(0.75f)
                     .clip(MaterialTheme.shapes.large),
@@ -599,8 +599,8 @@ fun VideoCardV2(
                 modifier = Modifier.fillMaxWidth(),
             )
             else LinearProgressIndicator(
+                progress = { progressAnimationValue / 100f },
                 modifier = Modifier.fillMaxWidth(),
-                progress = progressAnimationValue / 100f,
             )
         }
     }

@@ -273,12 +273,13 @@ fun CustomCommandTaskItem(
                                 )
                             else
                                 CircularProgressIndicator(
+                                    progress = { animatedProgress },
                                     modifier = Modifier
                                         .padding(8.dp)
                                         .size(24.dp),
+                                    color = accentColor,
                                     strokeWidth = 5.dp,
-                                    progress = animatedProgress,
-                                    color = accentColor
+                                    trackColor = ProgressIndicatorDefaults.circularDeterminateTrackColor,
                                 )
                         }
 

@@ -1,13 +1,12 @@
 package com.junkfood.seal.ui.page.settings.about
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
@@ -39,11 +38,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.packageInfo
@@ -200,7 +201,6 @@ fun AboutPage(
     })
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 @Preview
 fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
@@ -213,22 +213,27 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
     )
 
     val annotatedString = buildAnnotatedString {
-        append(text)
+        append(text.substring(0, text.indexOf(hyperLinkText)))
         val startIndex = text.indexOf(hyperLinkText)
         val endIndex = startIndex + hyperLinkText.length
-        addUrlAnnotation(
-            UrlAnnotation("https://github.com/JunkFood02/Seal/releases/latest"),
-            start = startIndex,
-            end = endIndex
-        )
-        addStyle(
-            SpanStyle(
-                color = MaterialTheme.colorScheme.tertiary,
-                textDecoration = TextDecoration.Underline,
-            ), start = startIndex,
-            end = endIndex
-        )
 
+        withLink(
+            LinkAnnotation.Clickable(
+                tag = "Link to the latest app release in GitHub",
+                styles = TextLinkStyles(
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.tertiary,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                ),
+                linkInteractionListener = { _ ->
+                    uriHandler.openUri("https://github.com/JunkFood02/Seal/releases/latest")
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                }
+            )
+        ) {
+            append(text.substring(startIndex, endIndex))
+        }
     }
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -245,16 +250,11 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
             )
         },
         text = {
-            ClickableText(
+            Text(
                 text = annotatedString,
-                onClick = { index ->
-                    annotatedString.getUrlAnnotations(index, index).firstOrNull()?.let {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        uriHandler.openUri(it.item.url)
-                    }
-                },
                 style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onSurfaceVariant)
             )
-        })
+        }
+    )
 }
 

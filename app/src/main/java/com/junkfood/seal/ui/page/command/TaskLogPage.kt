@@ -24,6 +24,7 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -84,7 +85,7 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                     .navigationBarsPadding(),
                 verticalArrangement = Arrangement.Center
             ) {
-                Divider(modifier = Modifier.fillMaxWidth())
+                HorizontalDivider(modifier = Modifier.fillMaxWidth())
                 Row(
                     Modifier
                         .fillMaxWidth()

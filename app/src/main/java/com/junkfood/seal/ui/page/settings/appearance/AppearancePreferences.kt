@@ -183,7 +183,8 @@ fun AppearancePreferences(
                     }
                 }
 
-                HorizontalPagerIndicator(pagerState = pagerState,
+                HorizontalPagerIndicator(
+                    pagerState = pagerState,
                     pageCount = pageCount,
                     modifier = Modifier
                         .clearAndSetSemantics { }

@@ -47,6 +47,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -456,7 +457,7 @@ fun GeneralDownloadPreferences(
             title = { Text(text = stringResource(id = R.string.update)) },
             icon = { Icon(Icons.Outlined.SyncAlt, null) },
             text = {
-                LazyColumn() {
+                LazyColumn {
                     item {
                         Text(
                             text = stringResource(id = R.string.update_channel),
@@ -500,6 +501,7 @@ fun GeneralDownloadPreferences(
                     }
                     item {
                         var expanded by remember { mutableStateOf(false) }
+                        val type = MenuAnchorType.PrimaryNotEditable
 
                         ExposedDropdownMenuBox(
                             modifier = Modifier.padding(horizontal = 20.dp),
@@ -513,7 +515,7 @@ fun GeneralDownloadPreferences(
                                 readOnly = true,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .menuAnchor(),
+                                    .menuAnchor(type = type, enabled = true),
                                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)

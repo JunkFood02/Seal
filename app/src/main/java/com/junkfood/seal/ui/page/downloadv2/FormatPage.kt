@@ -2,6 +2,8 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -35,7 +37,6 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Subtitles
-import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -73,6 +74,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.Downloader
@@ -108,9 +110,9 @@ import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
+import kotlinx.coroutines.delay
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlinx.coroutines.delay
 
 private const val TAG = "FormatPage"
 
@@ -882,7 +884,13 @@ private fun SubtitleSelectionDialog(
                     for ((code, formats) in suggestedSubtitlesFiltered) {
                         item(key = code) {
                             DialogCheckBoxItem(
-                                modifier = Modifier.animateItemPlacement(),
+                                modifier = Modifier.animateItem(
+                                    fadeInSpec = null, fadeOutSpec = null,
+                                    placementSpec = spring(
+                                        stiffness = Spring.StiffnessMediumLow,
+                                        visibilityThreshold = IntOffset.VisibilityThreshold
+                                    )
+                                ),
                                 checked = selectedSubtitles.contains(code),
                                 onClick = {
                                     if (selectedSubtitles.contains(code)) {
@@ -906,7 +914,14 @@ private fun SubtitleSelectionDialog(
                         for ((code, formats) in autoCaptionsFiltered) {
                             item(key = code) {
                                 DialogCheckBoxItem(
-                                    modifier = Modifier.animateItemPlacement(),
+                                    modifier = Modifier.animateItem(
+                                        fadeInSpec = null,
+                                        fadeOutSpec = null,
+                                        placementSpec = spring(
+                                            stiffness = Spring.StiffnessMediumLow,
+                                            visibilityThreshold = IntOffset.VisibilityThreshold
+                                        )
+                                    ),
                                     checked = selectedSubtitles.contains(code),
                                     onClick = {
                                         if (selectedSubtitles.contains(code)) {
