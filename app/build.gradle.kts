@@ -10,58 +10,14 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.room)
 }
-
-sealed class Version(
-    open val versionMajor: Int,
-    val versionMinor: Int,
-    val versionPatch: Int,
-    val versionBuild: Int = 0
-) {
-    abstract fun toVersionName(): String
-    class Alpha(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
-        Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-        override fun toVersionName(): String =
-            "${versionMajor}.${versionMinor}.${versionPatch}-alpha.$versionBuild"
-    }
-
-    class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
-        Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-        override fun toVersionName(): String =
-            "${versionMajor}.${versionMinor}.${versionPatch}-beta.$versionBuild"
-    }
-
-    class Stable(versionMajor: Int, versionMinor: Int, versionPatch: Int) :
-        Version(versionMajor, versionMinor, versionPatch) {
-        override fun toVersionName(): String =
-            "${versionMajor}.${versionMinor}.${versionPatch}"
-    }
-
-    class ReleaseCandidate(
-        versionMajor: Int,
-        versionMinor: Int,
-        versionPatch: Int,
-        versionBuild: Int
-    ) :
-        Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-        override fun toVersionName(): String =
-            "${versionMajor}.${versionMinor}.${versionPatch}-rc.$versionBuild"
-    }
-}
-
-val currentVersion: Version = Version.Alpha(
-    versionMajor = 2,
-    versionMinor = 0,
-    versionPatch = 0,
-    versionBuild = 2
-)
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
 val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
-
 
 android {
     if (keystorePropertiesFile.exists()) {
@@ -80,13 +36,11 @@ android {
 
     compileSdk = 34
 
-
-
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 24
         targetSdk = 34
-        versionCode = 20000
+        versionCode = 20000 // (rootProject.extra["versionCode"] as Int) -- Can't be used because of F-droid
 
         if (splitApks) {
             splits {
@@ -99,7 +53,7 @@ android {
             }
         }
 
-        versionName = currentVersion.toVersionName().run {
+        versionName = (rootProject.extra["versionName"] as String).run {
             if (!splitApks) "$this-(F-Droid)"
             else this
         }
@@ -107,15 +61,18 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        ksp {
-            arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
-            arg("room.incremental", "true")
-        }
+
         if (!splitApks) {
             ndk {
                 abiFilters.addAll(abiFilterList)
             }
         }
+    }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+    ksp {
+        arg("room.incremental", "true") //Still not supported by the Room plugin
     }
     val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
@@ -246,16 +203,4 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
     implementation(libs.androidx.compose.ui.tooling)
-
-}
-
-class RoomSchemaArgProvider(
-    @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File
-) : CommandLineArgumentProvider {
-
-    override fun asArguments(): Iterable<String> {
-        return listOf("room.schemaLocation=${schemaDir.path}")
-    }
 }

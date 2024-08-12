@@ -37,5 +37,4 @@ dependencies {
     api(libs.androidx.core.ktx)
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.material3)
-
 }
