@@ -71,7 +71,9 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
-
+    ksp {
+        arg("room.incremental", "true") //Still not supported by the Room plugin
+    }
     val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
     androidComponents {
