@@ -32,9 +32,9 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             // Define keywords and labels for issue filtering
-            const keywordsToCheck = ['instagram', 'facebook', 'twitter'];
+            const keywordsToCheck = ['instagram', 'facebook', 'twitter', 'HTTP Error 403'];
             const requiredLabel = 'new issue';
-            const referenceIssueNumber = 733;
+            const referenceIssueNumber = 1399;
             const actionClosedLabel = 'action-closed'; // Unique label to track action-closed issues
 
             // Function to process each issue
@@ -61,7 +61,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  labels: ['wontfix', actionClosedLabel]
+                  labels: ['duplicate', actionClosedLabel]
                 });
 
                   await github.rest.issues.removeLabel({
@@ -75,7 +75,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  body: `This issue has been closed and labeled as wontfix. Please see issue #${referenceIssueNumber} for more details. If you believe this is not the case, you can reopen this issue.`
+                  body: `This issue has been closed and labeled as duplicate. Please see issue #${referenceIssueNumber} for more details. If you believe this is not the case, you can reopen this issue.`
                 });
               }
             }
