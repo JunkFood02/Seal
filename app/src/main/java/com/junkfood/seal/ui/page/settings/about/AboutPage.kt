@@ -41,9 +41,11 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import com.junkfood.seal.App
@@ -201,6 +203,7 @@ fun AboutPage(
     })
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 @Preview
 fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
@@ -214,8 +217,6 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
 
     val annotatedString = buildAnnotatedString {
         append(text.substring(0, text.indexOf(hyperLinkText)))
-        val startIndex = text.indexOf(hyperLinkText)
-        val endIndex = startIndex + hyperLinkText.length
 
         withLink(
             LinkAnnotation.Clickable(
@@ -232,7 +233,7 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
                 }
             )
         ) {
-            append(text.substring(startIndex, endIndex))
+            append(hyperLinkText)
         }
     }
     AlertDialog(
