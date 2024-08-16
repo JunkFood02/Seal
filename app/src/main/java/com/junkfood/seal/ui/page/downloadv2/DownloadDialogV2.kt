@@ -5,6 +5,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -34,7 +35,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -677,7 +677,6 @@ fun ExpandableTitle(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SingleChoiceItem(
     modifier: Modifier = Modifier,
@@ -813,20 +812,30 @@ private fun Preset(
         title = stringResource(R.string.preset),
         desc = description,
         icon = {
-            Icon(
-                imageVector =
-                    if (selected) Icons.Filled.SettingsSuggest else Icons.Outlined.SettingsSuggest,
-                null,
-                modifier = Modifier.size(20.dp))
+            Crossfade(selected, animationSpec = spring(stiffness = Spring.StiffnessMedium)) {
+                if (it) {
+                    Icon(
+                        imageVector = Icons.Filled.SettingsSuggest,
+                        null,
+                        modifier = Modifier.size(20.dp))
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.SettingsSuggest,
+                        null,
+                        modifier = Modifier.size(20.dp))
+                }
+            }
         },
         selected = selected,
         action = {
-            if (showEditIcon) {
-                Icon(
-                    imageVector = Icons.Outlined.MoreVert,
-                    contentDescription = stringResource(R.string.edit),
-                    modifier = Modifier.size(20.dp),
-                )
+            Crossfade(showEditIcon, animationSpec = spring(stiffness = Spring.StiffnessMedium)) {
+                if (it) {
+                    Icon(
+                        imageVector = Icons.Outlined.MoreVert,
+                        contentDescription = stringResource(R.string.edit),
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
             }
         },
         onClick = {
@@ -850,10 +859,17 @@ private fun Custom(
         title = stringResource(R.string.custom),
         desc = stringResource(R.string.custom_format_selection_desc),
         icon = {
-            Icon(
-                if (selected) Icons.Filled.VideoFile else Icons.Outlined.VideoFile,
-                null,
-                modifier = Modifier.size(20.dp))
+            Crossfade(selected, animationSpec = spring(stiffness = Spring.StiffnessMedium)) {
+                if (it) {
+                    Icon(
+                        imageVector = Icons.Filled.VideoFile, null, modifier = Modifier.size(20.dp))
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.VideoFile,
+                        null,
+                        modifier = Modifier.size(20.dp))
+                }
+            }
         },
         selected = selected,
         enabled = enabled,
