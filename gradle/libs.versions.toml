@@ -36,7 +36,7 @@ okhttp = "5.0.0-alpha.10"
 room = "2.6.0"
 ksp = "1.9.23-1.0.19"
 
-youtubedlAndroid = "23b26d55f8"
+youtubedlAndroid = "0.16.1"
 
 mmkv = "1.3.2"
 androidSvg = "1.4"
@@ -108,13 +108,13 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
-youtubedl-android-library = { group = "com.github.yausername.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
-youtubedl-android-ffmpeg = { group = "com.github.yausername.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
-youtubedl-android-aria2c = { group = "com.github.yausername.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
+#youtubedl-android-library = { group = "com.github.yausername.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
+#youtubedl-android-ffmpeg = { group = "com.github.yausername.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
+#youtubedl-android-aria2c = { group = "com.github.yausername.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
 
-#youtubedl-android-library = { group = "com.github.JunkFood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
-#youtubedl-android-ffmpeg = { group = "com.github.JunkFood02.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
-#youtubedl-android-aria2c = { group = "com.github.JunkFood02.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
+youtubedl-android-library = { group = "io.github.junkfood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
+youtubedl-android-ffmpeg = { group = "io.github.junkfood02.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
+youtubedl-android-aria2c = { group = "io.github.junkfood02.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
