@@ -618,6 +618,7 @@ fun FormatPageImpl(
                         }
                         isSuggestedFormatSelected = false
                         selectedAudioOnlyFormats.add(index)
+                        selectedVideoOnlyFormat = NOT_SELECTED
                     }
                 }
             }
