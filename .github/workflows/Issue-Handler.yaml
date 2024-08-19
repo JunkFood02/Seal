@@ -32,7 +32,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             // Define keywords and labels for issue filtering
-            const keywordsToCheck = ['instagram', 'facebook', 'twitter', 'HTTP Error 403'];
+            const keywordsToCheck = ['instagram', 'facebook', 'twitter', 'HTTP Error 403', 'not a bot'];
             const requiredLabel = 'new issue';
             const referenceIssueNumber = 1399;
             const actionClosedLabel = 'action-closed'; // Unique label to track action-closed issues
