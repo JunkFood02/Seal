@@ -1,7 +1,7 @@
 package com.junkfood.seal.download
 
 import androidx.compose.runtime.mutableStateMapOf
-import com.junkfood.seal.download.DownloaderV2.state
+import com.junkfood.seal.download.Task.Companion.withInfo
 import com.junkfood.seal.download.Task.RestartableAction.Download
 import com.junkfood.seal.download.Task.RestartableAction.FetchInfo
 import com.junkfood.seal.download.Task.State
@@ -21,11 +21,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/** TODO Notification */
 object DownloaderV2 {
     private val scope = CoroutineScope(SupervisorJob())
+    private const val MAX_CONCURRENCY = 3
 
     init {
-        scope.launch(Dispatchers.Default) { runningTaskFlow.collect {} }
+        scope.launch(Dispatchers.Default) { runningTaskFlow.collect { doYourWork() } }
     }
 
     private val mRunningTaskFlow = MutableStateFlow(0)
@@ -33,22 +35,37 @@ object DownloaderV2 {
 
     val taskStateMap = mutableStateMapOf<Task, State>()
 
-    var Task.state: State
+    private var Task.state: State
         get() = taskStateMap[this]!!
         set(value) {
             taskStateMap[this] = value
         }
 
-    fun Task.fetchInfo() {
+    private fun doYourWork() {
+        if (runningTaskFlow.value >= MAX_CONCURRENCY) return
+
+        taskStateMap.entries
+            .sortedBy { it.value }
+            .firstOrNull { (_, state) -> state == Idle || state == ReadyWithInfo }
+            ?.let { (task, state) ->
+                when (state) {
+                    Idle -> task.fetchInfo()
+                    ReadyWithInfo -> task.download()
+                    else -> {}
+                }
+            }
+    }
+
+    private fun Task.fetchInfo() {
         val task = this
         check(state == Idle)
         scope
-            .launch {
+            .launch(Dispatchers.Default) {
                 DownloadUtil.fetchVideoInfoFromUrl(
                         url = url, preferences = preferences, taskKey = id)
                     .onSuccess { info ->
                         taskStateMap.remove(task)
-                        taskStateMap += task.copy(info = info) to ReadyWithInfo
+                        taskStateMap += task.withInfo(info) to ReadyWithInfo
                     }
                     .onFailure { throwable ->
                         task.state = Error(throwable = throwable, action = FetchInfo)
@@ -61,10 +78,10 @@ object DownloaderV2 {
         mRunningTaskFlow.update { i -> i + 1 }
     }
 
-    fun Task.download() {
+    private fun Task.download() {
         check(state == ReadyWithInfo && info != null)
         scope
-            .launch {
+            .launch(Dispatchers.Default) {
                 DownloadUtil.downloadVideo(
                         videoInfo = info,
                         taskId = id,
@@ -89,7 +106,6 @@ object DownloaderV2 {
     }
 
     fun Task.cancel() {
-        check(state is State.Cancelable)
         when (val preState = state) {
             is State.Cancelable -> {
                 val res = YoutubeDL.destroyProcessById(preState.taskId)
@@ -99,12 +115,13 @@ object DownloaderV2 {
                     mRunningTaskFlow.update { i -> i - 1 }
                 }
             }
-            else -> {}
+            else -> {
+                throw IllegalStateException()
+            }
         }
     }
 
     fun Task.restart() {
-        check(state is State.Restartable)
         when (val preState = state) {
             is State.Restartable -> {
                 state =
@@ -113,7 +130,9 @@ object DownloaderV2 {
                         FetchInfo -> Idle
                     }
             }
-            else -> {}
+            else -> {
+                throw IllegalStateException()
+            }
         }
     }
 }
