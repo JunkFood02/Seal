@@ -40,7 +40,7 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 24
         targetSdk = 34
-        versionCode = 20000 // (rootProject.extra["versionCode"] as Int) -- Can't be used because of F-droid
+        versionCode = 20000
 
         if (splitApks) {
             splits {
@@ -72,7 +72,7 @@ android {
         schemaDirectory("$projectDir/schemas")
     }
     ksp {
-        arg("room.incremental", "true") //Still not supported by the Room plugin
+        arg("room.incremental", "true")
     }
     val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
