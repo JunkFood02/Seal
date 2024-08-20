@@ -35,7 +35,6 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Subtitles
-import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -77,6 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -95,6 +95,7 @@ import com.junkfood.seal.ui.page.download.VideoSelectionSlider
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
@@ -119,7 +120,8 @@ private data class FormatConfig(
     val videoClips: List<VideoClip>,
     val splitByChapter: Boolean,
     val newTitle: String,
-    val selectedSubtitleCodes: List<String>,
+    val selectedSubtitles: List<String>,
+    val selectedAutoCaptions: List<String>
 )
 
 @Composable
@@ -157,7 +159,7 @@ fun FormatPage(
             ->
             with(config) {
                 diffSubtitleLanguages =
-                    selectedSubtitleCodes
+                    (selectedSubtitles + selectedAutoCaptions)
                         .run { this - this.filterWithRegex(subtitleLanguageRegex) }
                         .toSet()
 
@@ -167,8 +169,18 @@ fun FormatPage(
                     videoClips = videoClips,
                     splitByChapter = splitByChapter,
                     newTitle = newTitle,
-                    selectedSubtitleCodes = selectedSubtitleCodes,
+                    selectedSubtitleCodes = selectedSubtitles,
                 )
+
+                DownloaderV2.enqueueTask(
+                    DownloadUtil.createTaskWithConfigurations(
+                        videoInfo = videoInfo,
+                        formatList = formatList,
+                        videoClips = videoClips,
+                        splitByChapter = splitByChapter,
+                        newTitle = newTitle,
+                        selectedSubtitles = selectedSubtitles,
+                        selectedAutoCaptions = selectedAutoCaptions))
 
                 if (diffSubtitleLanguages.isNotEmpty()) {
                     showUpdateSubtitleDialog = true
@@ -359,9 +371,11 @@ private fun FormatPageImpl(
 
     val isFabExpanded by remember { derivedStateOf { lazyGridState.firstVisibleItemIndex > 0 } }
 
-    val selectedLanguageList = remember {
+    val selectedSubtitles = remember {
         mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) }
     }
+
+    val selectedAutoCaptions = remember { mutableStateListOf<String>() }
 
     Scaffold(
         modifier = modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -387,12 +401,14 @@ private fun FormatPageImpl(
                     onClick = {
                         onDownloadPressed(
                             FormatConfig(
-                                formatList,
-                                if (isClippingVideo) listOf(VideoClip(videoClipDuration))
-                                else emptyList(),
-                                isSplittingVideo,
-                                videoTitle,
-                                selectedLanguageList))
+                                formatList = formatList,
+                                videoClips =
+                                    if (isClippingVideo) listOf(VideoClip(videoClipDuration))
+                                    else emptyList(),
+                                splitByChapter = isSplittingVideo,
+                                newTitle = videoTitle,
+                                selectedSubtitles = selectedSubtitles,
+                                selectedAutoCaptions = selectedAutoCaptions))
                     },
                     modifier = Modifier.padding(12.dp),
                     icon = {
@@ -522,12 +538,12 @@ private fun FormatPageImpl(
                                     for ((code, formats) in suggestedSubtitleMap) {
                                         item {
                                             VideoFilterChip(
-                                                selected = selectedLanguageList.contains(code),
+                                                selected = selectedSubtitles.contains(code),
                                                 onClick = {
-                                                    if (selectedLanguageList.contains(code)) {
-                                                        selectedLanguageList.remove(code)
+                                                    if (selectedSubtitles.contains(code)) {
+                                                        selectedSubtitles.remove(code)
                                                     } else {
-                                                        selectedLanguageList.add(code)
+                                                        selectedSubtitles.add(code)
                                                     }
                                                 },
                                                 label =
@@ -738,13 +754,14 @@ private fun FormatPageImpl(
         SubtitleSelectionDialog(
             suggestedSubtitles = suggestedSubtitleMap,
             autoCaptions = otherSubtitleMap,
-            selectedSubtitleCodes = selectedLanguageList,
+            selectedSubtitles = selectedSubtitles,
             onDismissRequest = { showSubtitleSelectionDialog = false },
-            onConfirm = {
-                selectedLanguageList.run {
+            onConfirm = { subs, autoSubs ->
+                selectedSubtitles.run {
                     clear()
-                    addAll(it)
+                    addAll(subs)
                 }
+
                 showSubtitleSelectionDialog = false
             })
 }
@@ -838,14 +855,15 @@ private fun (List<SubtitleFormat>).getSubtitleName(): String? = firstOrNull()?.n
 private fun SubtitleSelectionDialog(
     suggestedSubtitles: Map<String, List<SubtitleFormat>>,
     autoCaptions: Map<String, List<SubtitleFormat>>,
-    selectedSubtitleCodes: List<String>,
+    selectedSubtitles: List<String>,
     onDismissRequest: () -> Unit = {},
-    onConfirm: (List<String>) -> Unit = {}
+    onConfirm: (subs: List<String>, autoSubs: List<String>) -> Unit = { _, _ -> }
 ) {
     var searchText by remember { mutableStateOf("") }
     val selectedSubtitles = remember {
-        mutableStateListOf<String>().apply { addAll(selectedSubtitleCodes) }
+        mutableStateListOf<String>().apply { addAll(selectedSubtitles) }
     }
+    val selectedAutoCaptions = remember { mutableStateListOf<String>() }
 
     val suggestedSubtitlesFiltered =
         suggestedSubtitles.filterWithSearchText(searchText).sortedWithSelection(selectedSubtitles)
@@ -853,8 +871,9 @@ private fun SubtitleSelectionDialog(
         autoCaptions.filterWithSearchText(searchText).sortedWithSelection(selectedSubtitles)
 
     SealDialog(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         onDismissRequest = onDismissRequest,
-        confirmButton = { ConfirmButton { onConfirm(selectedSubtitles) } },
+        confirmButton = { ConfirmButton { onConfirm(selectedSubtitles, selectedAutoCaptions) } },
         dismissButton = { DismissButton { onDismissRequest() } },
         title = { Text(text = stringResource(id = R.string.subtitle_language)) },
         icon = { Icon(imageVector = Icons.Outlined.Subtitles, contentDescription = null) },
@@ -907,12 +926,12 @@ private fun SubtitleSelectionDialog(
                             item(key = code) {
                                 DialogCheckBoxItem(
                                     modifier = Modifier.animateItemPlacement(),
-                                    checked = selectedSubtitles.contains(code),
+                                    checked = selectedAutoCaptions.contains(code),
                                     onClick = {
-                                        if (selectedSubtitles.contains(code)) {
-                                            selectedSubtitles.remove(code)
+                                        if (selectedAutoCaptions.contains(code)) {
+                                            selectedAutoCaptions.remove(code)
                                         } else {
-                                            selectedSubtitles.add(code)
+                                            selectedAutoCaptions.add(code)
                                         }
                                     },
                                     text = formats.first().run { name ?: protocol ?: code })
@@ -948,9 +967,7 @@ private fun SubtitleSelectionDialogPreview() {
 
     SealTheme {
         SubtitleSelectionDialog(
-            suggestedSubtitles = subMap,
-            autoCaptions = captionsMap,
-            selectedSubtitleCodes = listOf())
+            suggestedSubtitles = subMap, autoCaptions = captionsMap, selectedSubtitles = listOf())
     }
 }
 

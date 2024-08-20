@@ -7,10 +7,10 @@ import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
 
 data class Task(
-    val url: String,
     val info: VideoInfo? = null,
+    val url: String,
     val preferences: DownloadUtil.DownloadPreferences,
-    val viewState: ViewState? = ViewState.fromVideoInfo(info),
+    val viewState: ViewState = ViewState.create(info, url),
     val id: String = makeId(url, preferences)
 ) {
     sealed interface State : Comparable<State> {
@@ -76,7 +76,7 @@ data class Task(
     }
 
     data class ViewState(
-        val webpageUrl: String = "",
+        val url: String = "",
         val title: String = "",
         val uploader: String = "",
         val duration: Int = 0,
@@ -84,10 +84,13 @@ data class Task(
         val thumbnailUrl: String = "",
     ) {
         companion object {
-            fun fromVideoInfo(info: VideoInfo?): ViewState? =
-                info?.run {
+            fun create(info: VideoInfo?, url: String) =
+                info?.let { fromVideoInfo(it) } ?: fromUrl(url)
+
+            fun fromVideoInfo(info: VideoInfo): ViewState =
+                info.run {
                     ViewState(
-                        webpageUrl = webpageUrl.toString(),
+                        url = originalUrl.toString(),
                         title = title,
                         uploader = uploader ?: channel ?: uploaderId.toString(),
                         duration = duration?.roundToInt() ?: 0,
@@ -95,13 +98,21 @@ data class Task(
                         fileSizeApprox = fileSize ?: fileSizeApprox ?: .0,
                     )
                 }
+
+            fun fromUrl(url: String) = ViewState(url = url, title = url)
         }
     }
 
     companion object {
         const val PROGRESS_INDETERMINATE = -1f
 
-        fun Task.withInfo(info: VideoInfo): Task =
+        fun createWithUrl(url: String, preferences: DownloadUtil.DownloadPreferences) =
+            Task(info = null, url = url, preferences = preferences)
+
+        fun createWithInfo(info: VideoInfo, preferences: DownloadUtil.DownloadPreferences) =
+            Task(info = info, url = info.originalUrl.toString(), preferences = preferences)
+
+        fun Task.attachInfo(info: VideoInfo): Task =
             copy(info = info, viewState = ViewState.fromVideoInfo(info))
 
         private fun makeId(url: String, preferences: DownloadUtil.DownloadPreferences): String =

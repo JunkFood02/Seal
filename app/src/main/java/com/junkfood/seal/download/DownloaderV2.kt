@@ -1,7 +1,7 @@
 package com.junkfood.seal.download
 
 import androidx.compose.runtime.mutableStateMapOf
-import com.junkfood.seal.download.Task.Companion.withInfo
+import com.junkfood.seal.download.Task.Companion.attachInfo
 import com.junkfood.seal.download.Task.RestartableAction.Download
 import com.junkfood.seal.download.Task.RestartableAction.FetchInfo
 import com.junkfood.seal.download.Task.State
@@ -35,6 +35,11 @@ object DownloaderV2 {
 
     val taskStateMap = mutableStateMapOf<Task, State>()
 
+    fun enqueueTask(task: Task) {
+        val state: State = if (task.info != null) ReadyWithInfo else Idle
+        taskStateMap += task to state
+    }
+
     private var Task.state: State
         get() = taskStateMap[this]!!
         set(value) {
@@ -65,7 +70,7 @@ object DownloaderV2 {
                         url = url, preferences = preferences, taskKey = id)
                     .onSuccess { info ->
                         taskStateMap.remove(task)
-                        taskStateMap += task.withInfo(info) to ReadyWithInfo
+                        taskStateMap += task.attachInfo(info) to ReadyWithInfo
                     }
                     .onFailure { throwable ->
                         task.state = Error(throwable = throwable, action = FetchInfo)
