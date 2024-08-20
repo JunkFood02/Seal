@@ -74,9 +74,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
+import com.junkfood.seal.download.TaskFactory
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
@@ -95,7 +95,6 @@ import com.junkfood.seal.ui.page.download.VideoSelectionSlider
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.EXTRACT_AUDIO
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
@@ -163,17 +162,8 @@ fun FormatPage(
                         .run { this - this.filterWithRegex(subtitleLanguageRegex) }
                         .toSet()
 
-                Downloader.downloadVideoWithConfigurations(
-                    videoInfo = videoInfo,
-                    formatList = formatList,
-                    videoClips = videoClips,
-                    splitByChapter = splitByChapter,
-                    newTitle = newTitle,
-                    selectedSubtitleCodes = selectedSubtitles,
-                )
-
                 DownloaderV2.enqueueTask(
-                    DownloadUtil.createTaskWithConfigurations(
+                    TaskFactory.createWithConfigurations(
                         videoInfo = videoInfo,
                         formatList = formatList,
                         videoClips = videoClips,

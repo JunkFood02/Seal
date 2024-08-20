@@ -104,7 +104,7 @@ data class Task(
     }
 
     companion object {
-        const val PROGRESS_INDETERMINATE = -1f
+        private const val PROGRESS_INDETERMINATE = -1f
 
         fun createWithUrl(url: String, preferences: DownloadUtil.DownloadPreferences) =
             Task(info = null, url = url, preferences = preferences)
@@ -113,7 +113,7 @@ data class Task(
             Task(info = info, url = info.originalUrl.toString(), preferences = preferences)
 
         fun Task.attachInfo(info: VideoInfo): Task =
-            copy(info = info, viewState = ViewState.fromVideoInfo(info))
+            this.copy(info = info, viewState = ViewState.fromVideoInfo(info))
 
         private fun makeId(url: String, preferences: DownloadUtil.DownloadPreferences): String =
             "${url}_${preferences.hashCode()}"

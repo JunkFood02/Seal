@@ -17,15 +17,15 @@ import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Entries
 import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.ToastUtil
-import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import com.yausername.youtubedl_android.YoutubeDL
+import java.util.concurrent.CancellationException
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -34,8 +34,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.concurrent.CancellationException
-import kotlin.math.roundToInt
 
 /** Singleton Downloader for state holder & perform downloads, used by `Activity` & `Service` */
 object Downloader {
@@ -340,65 +338,6 @@ object Downloader {
         }
     }
 
-    /**
-     * Triggers a download with extra configurations made by user in the custom format selection
-     * page
-     */
-    fun downloadVideoWithConfigurations(
-        videoInfo: VideoInfo,
-        formatList: List<Format>,
-        videoClips: List<VideoClip>,
-        splitByChapter: Boolean,
-        newTitle: String,
-        selectedSubtitleCodes: List<String>,
-    ) {
-
-        val fileSize =
-            formatList.fold(.0) { acc, format ->
-                acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
-            }
-
-        val info =
-            videoInfo
-                .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
-                .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
-
-        val audioOnly =
-            formatList.isNotEmpty() &&
-                formatList.fold(true) { acc: Boolean, format: Format ->
-                    acc && (format.vcodec == "none" && format.acodec != "none")
-                }
-
-        val mergeAudioStream =
-            formatList.count { format -> format.vcodec == "none" && format.acodec != "none" } > 1
-
-        val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
-
-        val preferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
-                .copy(
-                    formatIdString = formatId,
-                    videoClips = videoClips,
-                    splitByChapter = splitByChapter,
-                    newTitle = newTitle,
-                    mergeAudioStream = mergeAudioStream)
-                .run { copy(extractAudio = extractAudio || audioOnly) }
-                .run {
-                    selectedSubtitleCodes
-                        .takeIf { it.isNotEmpty() }
-                        ?.let {
-                            val autoSubtitle =
-                                !info.subtitles.keys.containsAll(selectedSubtitleCodes)
-                            copy(
-                                downloadSubtitle = true,
-                                autoSubtitle = autoSubtitle,
-                                subtitleLanguage =
-                                    selectedSubtitleCodes.joinToString(separator = ",") { it })
-                        } ?: this
-                }
-        addToDownloadQueue(videoInfo = videoInfo, preferences = preferences)
-    }
-
     fun downloadVideoWithInfo(
         info: VideoInfo,
         preferences: DownloadUtil.DownloadPreferences =
@@ -416,7 +355,6 @@ object Downloader {
      *
      * @see downloadVideoInPlaylistByIndexList
      * @see getInfoAndDownload
-     * @see downloadVideoWithConfigurations
      */
     @CheckResult
     private suspend fun downloadVideo(
