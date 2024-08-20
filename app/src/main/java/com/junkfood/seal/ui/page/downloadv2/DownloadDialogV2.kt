@@ -41,6 +41,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.DownloadDone
 import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.ErrorOutline
@@ -57,6 +59,7 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -75,6 +78,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -91,8 +95,11 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.motion.materialSharedAxisX
+import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
+import com.junkfood.seal.ui.component.FilledButtonWithIcon
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2Variant
 import com.junkfood.seal.ui.component.SingleChoiceChip
@@ -342,7 +349,9 @@ private fun ErrorPage(modifier: Modifier = Modifier, state: Error, onActionPost:
             maxLines = 20,
             overflow = TextOverflow.Clip)
 
-        Row {
+        Row(modifier = Modifier) {
+            FilledTonalButton(onClick = { onActionPost(state.action) }) { Text("Retry") }
+            Spacer(Modifier.width(8.dp))
             Button(
                 onClick = {
                     view.longPressHapticFeedback()
@@ -353,8 +362,6 @@ private fun ErrorPage(modifier: Modifier = Modifier, state: Error, onActionPost:
                 }) {
                     Text(stringResource(R.string.copy_error_report))
                 }
-            Spacer(Modifier.width(8.dp))
-            FilledTonalButton(onClick = { onActionPost(state.action) }) { Text("Retry") }
         }
     }
 }
@@ -512,7 +519,10 @@ private fun ConfigurePageImpl(
 
     Column {
         Column(modifier = modifier.padding(horizontal = 20.dp)) {
-            Header(modifier = Modifier.align(Alignment.CenterHorizontally))
+            Header(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                title = stringResource(R.string.settings_before_download),
+                icon = Icons.Outlined.DoneAll)
             DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
             DownloadTypeSelectionGroup(
                 typeEntries = config.typeEntries,
@@ -736,16 +746,18 @@ private fun SingleChoiceItem(
 }
 
 @Composable
-private fun Header(modifier: Modifier = Modifier) {
+private fun Header(modifier: Modifier = Modifier, icon: ImageVector, title: String) {
     Column(modifier = modifier) {
         Icon(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            imageVector = Icons.Outlined.DoneAll,
+            imageVector = icon,
             contentDescription = null)
         Text(
-            text = stringResource(R.string.settings_before_download),
+            text = title,
+            //            stringResource(R.string.settings_before_download),
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
+            modifier =
+                Modifier.align(Alignment.CenterHorizontally).padding(top = 16.dp, bottom = 8.dp),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center)
@@ -965,6 +977,52 @@ private fun ActionButtons(
                                 }
                             }
                     }
+            }
+        }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun BottomBarPreview() {
+    var str by remember { mutableStateOf("") }
+    SealModalBottomSheet(
+        onDismissRequest = {},
+        sheetState =
+            SheetState(
+                skipPartiallyExpanded = true,
+                initialValue = SheetValue.Expanded,
+                density = LocalDensity.current)) {
+            Column {
+                Header(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(R.string.new_task),
+                    icon = Icons.Outlined.Add)
+                OutlinedTextField(
+                    value = str,
+                    onValueChange = { str = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.video_url)) },
+                    maxLines = 3
+                    ,
+                    trailingIcon = {
+                        if (str.isEmpty()) {
+                            PasteFromClipBoardButton { str = it }
+                        } else {
+                            ClearButton { str = "" }
+                        }
+                    })
+
+                Row(modifier = Modifier.align(Alignment.End).padding(top = 24.dp)) {
+                    OutlinedButtonWithIcon(
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        onClick = {},
+                        icon = Icons.Outlined.Cancel,
+                        text = stringResource(R.string.cancel))
+                    FilledButtonWithIcon(
+                        icon = Icons.Outlined.ArrowForward,
+                        text = stringResource(R.string.proceed)) {}
+                }
             }
         }
 }
