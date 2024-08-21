@@ -1003,8 +1003,7 @@ private fun BottomBarPreview() {
                     onValueChange = { str = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.video_url)) },
-                    maxLines = 3
-                    ,
+                    maxLines = 3,
                     trailingIcon = {
                         if (str.isEmpty()) {
                             PasteFromClipBoardButton { str = it }

@@ -19,18 +19,13 @@ import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** TODO:
- *
- *  - Notification
- *  - Custom commands
- *  - States for ViewModels
- *  -
- *
+/**
+ * TODO:
+ *     - Notification
+ *     - Custom commands
+ *     - States for ViewModels
  */
 object DownloaderV2 {
     private val scope = CoroutineScope(SupervisorJob())
@@ -40,11 +35,12 @@ object DownloaderV2 {
         scope.launch(Dispatchers.Default) { runningTaskFlow.collect { doYourWork() } }
     }
 
-    private val mRunningTaskFlow = MutableStateFlow(0)
-    val runningTaskFlow = mRunningTaskFlow.asStateFlow()
-
     val taskStateMap = mutableStateMapOf<Task, State>()
-    val taskStateMapFlow = snapshotFlow { taskStateMap }
+
+    private val runningTaskCount
+        get() = taskStateMap.count { (_, state) -> state is Running || state is FetchingInfo }
+
+    private val runningTaskFlow = snapshotFlow { runningTaskCount }
 
     fun enqueueTask(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle
@@ -61,10 +57,10 @@ object DownloaderV2 {
         get() = id.hashCode()
 
     private fun doYourWork() {
-        if (runningTaskFlow.value >= MAX_CONCURRENCY) return
+        if (runningTaskCount >= MAX_CONCURRENCY) return
 
         taskStateMap.entries
-            .sortedBy { it.value }
+            .sortedBy { (_, state) -> state }
             .firstOrNull { (_, state) -> state == Idle || state == ReadyWithInfo }
             ?.let { (task, state) ->
                 when (state) {
@@ -76,8 +72,8 @@ object DownloaderV2 {
     }
 
     private fun Task.fetchInfo() {
-        val task = this
         check(state == Idle)
+        val task = this
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.fetchVideoInfoFromUrl(
@@ -98,11 +94,7 @@ object DownloaderV2 {
                             report = throwable.stackTraceToString())
                     }
             }
-            .also { job ->
-                job.invokeOnCompletion { mRunningTaskFlow.update { i -> i - 1 } }
-                state = FetchingInfo(job = job, taskId = id)
-            }
-        mRunningTaskFlow.update { i -> i + 1 }
+            .also { job -> state = FetchingInfo(job = job, taskId = id) }
     }
 
     private fun Task.download() {
@@ -140,11 +132,7 @@ object DownloaderV2 {
                             report = throwable.stackTraceToString())
                     }
             }
-            .also { job ->
-                job.invokeOnCompletion { mRunningTaskFlow.update { i -> i - 1 } }
-                state = Running(job = job, taskId = id)
-            }
-        mRunningTaskFlow.update { i -> i + 1 }
+            .also { job -> state = Running(job = job, taskId = id) }
     }
 
     fun Task.cancel() {
@@ -154,7 +142,6 @@ object DownloaderV2 {
                 if (res) {
                     preState.job.cancel()
                     state = State.Canceled(action = preState.action)
-                    mRunningTaskFlow.update { i -> i - 1 }
                 }
             }
             else -> {
