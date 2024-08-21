@@ -1,6 +1,8 @@
 package com.junkfood.seal.download
 
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.snapshotFlow
+import com.junkfood.seal.R
 import com.junkfood.seal.download.Task.Companion.attachInfo
 import com.junkfood.seal.download.Task.RestartableAction.Download
 import com.junkfood.seal.download.Task.RestartableAction.FetchInfo
@@ -12,6 +14,7 @@ import com.junkfood.seal.download.Task.State.Idle
 import com.junkfood.seal.download.Task.State.ReadyWithInfo
 import com.junkfood.seal.download.Task.State.Running
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.NotificationUtil
 import com.yausername.youtubedl_android.YoutubeDL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +24,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** TODO Notification */
+/** TODO:
+ *
+ *  - Notification
+ *  - Custom commands
+ *  - States for ViewModels
+ *  -
+ *
+ */
 object DownloaderV2 {
     private val scope = CoroutineScope(SupervisorJob())
     private const val MAX_CONCURRENCY = 3
@@ -34,6 +44,7 @@ object DownloaderV2 {
     val runningTaskFlow = mRunningTaskFlow.asStateFlow()
 
     val taskStateMap = mutableStateMapOf<Task, State>()
+    val taskStateMapFlow = snapshotFlow { taskStateMap }
 
     fun enqueueTask(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle
@@ -45,6 +56,9 @@ object DownloaderV2 {
         set(value) {
             taskStateMap[this] = value
         }
+
+    private val Task.notificationId: Int
+        get() = id.hashCode()
 
     private fun doYourWork() {
         if (runningTaskFlow.value >= MAX_CONCURRENCY) return
@@ -73,7 +87,15 @@ object DownloaderV2 {
                         taskStateMap += task.attachInfo(info) to ReadyWithInfo
                     }
                     .onFailure { throwable ->
+                        if (throwable is YoutubeDL.CanceledException) {
+                            return@onFailure
+                        }
                         task.state = Error(throwable = throwable, action = FetchInfo)
+                        NotificationUtil.notifyError(
+                            title = viewState.title,
+                            textId = R.string.download_error_msg,
+                            notificationId = notificationId,
+                            report = throwable.stackTraceToString())
                     }
             }
             .also { job ->
@@ -93,14 +115,29 @@ object DownloaderV2 {
                         downloadPreferences = preferences,
                         progressCallback = { progress, _, text ->
                             when (val preState = state) {
-                                is Running ->
+                                is Running -> {
                                     state = preState.copy(progress = progress, progressText = text)
+                                    NotificationUtil.notifyProgress(
+                                        notificationId = notificationId,
+                                        progress = progress.toInt(),
+                                        text = text,
+                                        title = viewState.title,
+                                        taskId = id)
+                                }
                                 else -> {}
                             }
                         })
                     .onSuccess { pathList -> state = Completed(pathList.firstOrNull()) }
                     .onFailure { throwable ->
+                        if (throwable is YoutubeDL.CanceledException) {
+                            return@onFailure
+                        }
                         state = Error(throwable = throwable, action = Download)
+                        NotificationUtil.notifyError(
+                            title = viewState.title,
+                            textId = R.string.fetch_info_error_msg,
+                            notificationId = notificationId,
+                            report = throwable.stackTraceToString())
                     }
             }
             .also { job ->

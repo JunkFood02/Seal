@@ -243,8 +243,9 @@ object Downloader {
     fun onTaskError(errorReport: String, template: CommandTemplate, url: String) =
         mutableTaskList.run {
             val key = makeKey(url, template.name)
-            NotificationUtil.makeErrorReportNotification(
-                notificationId = key.toNotificationId(), error = errorReport)
+            NotificationUtil.notifyError(
+                title = "",
+                notificationId = key.toNotificationId(), report = errorReport)
             val oldValue = mutableTaskList[key] ?: return
             mutableTaskList[key] =
                 oldValue.copy(
