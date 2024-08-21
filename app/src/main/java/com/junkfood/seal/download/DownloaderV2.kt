@@ -1,5 +1,6 @@
 package com.junkfood.seal.download
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshotFlow
 import com.junkfood.seal.R
@@ -21,6 +22,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+private const val TAG = "DownloaderV2"
+
 /**
  * TODO:
  *     - Notification
@@ -32,7 +35,13 @@ object DownloaderV2 {
     private const val MAX_CONCURRENCY = 3
 
     init {
-        scope.launch(Dispatchers.Default) { runningTaskFlow.collect { doYourWork() } }
+        scope.launch(Dispatchers.Default) {
+            flow.collect {
+                doYourWork()
+                Log.d(TAG, "map changed!")
+                it.forEach { (task, state) -> Log.d(TAG, "${state}, ${task.id}") }
+            }
+        }
     }
 
     val taskStateMap = mutableStateMapOf<Task, State>()
@@ -40,7 +49,7 @@ object DownloaderV2 {
     private val runningTaskCount
         get() = taskStateMap.count { (_, state) -> state is Running || state is FetchingInfo }
 
-    private val runningTaskFlow = snapshotFlow { runningTaskCount }
+    private val flow = snapshotFlow { taskStateMap.toMap() }
 
     fun enqueueTask(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle

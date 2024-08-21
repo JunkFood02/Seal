@@ -120,6 +120,7 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -284,8 +285,18 @@ fun DownloadPage(
 
         val selectionState = dialogViewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
-        if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
-            val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        var showDialog by remember { mutableStateOf(false) }
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+        LaunchedEffect(sheetValue) {
+            if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
+                showDialog = true
+            } else {
+                launch { sheetState.hide() }.invokeOnCompletion { showDialog = false }
+            }
+        }
+
+        if (showDialog) {
 
             ConfigureDialog(
                 url = viewState.url,

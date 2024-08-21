@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -545,14 +544,13 @@ private fun ConfigurePageImpl(
         }
         var expanded by remember { mutableStateOf(false) }
         ExpandableTitle(expanded = expanded, onClick = { expanded = true }) { settingChips() }
-        val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
         ActionButtons(
             modifier = Modifier.padding(horizontal = 20.dp),
             canProceed = canProceed,
             selectedType = selectedType,
             useFormatSelection = useFormatSelection,
-            onCancel = { dispatcher?.onBackPressed() },
+            onCancel = { onActionPost(Action.HideSheet) },
             onDownload = {
                 onConfigSave(
                     config.copy(

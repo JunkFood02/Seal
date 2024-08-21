@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.download.DownloaderV2
+import com.junkfood.seal.download.Task
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Entries
 import com.junkfood.seal.util.PlaylistResult
@@ -169,8 +171,8 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
+        DownloaderV2.enqueueTask(Task.createWithUrl(url = url, preferences = preferences))
         hideDialog()
-        Downloader.addToDownloadQueue(url = url, preferences = preferences)
     }
 
     private fun downloadPlaylistItemsWithPreset(url: String) {}
