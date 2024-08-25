@@ -36,11 +36,14 @@ object DownloaderV2 {
 
     init {
         scope.launch(Dispatchers.Default) {
-            flow.collect {
-                doYourWork()
-                Log.d(TAG, "map changed!")
-                it.forEach { (task, state) -> Log.d(TAG, "${state}, ${task.id}") }
-            }
+            snapshotFlow { taskStateMap.toMap() }
+                .collect {
+                    doYourWork()
+                    Log.d(TAG, "map changed!")
+                    it.forEach { (task, state) ->
+                        Log.d(TAG, "${state::class.simpleName}, ${task.id}")
+                    }
+                }
         }
     }
 
@@ -48,8 +51,6 @@ object DownloaderV2 {
 
     private val runningTaskCount
         get() = taskStateMap.count { (_, state) -> state is Running || state is FetchingInfo }
-
-    private val flow = snapshotFlow { taskStateMap.toMap() }
 
     fun enqueueTask(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle

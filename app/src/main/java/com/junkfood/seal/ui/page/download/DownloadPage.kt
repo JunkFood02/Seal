@@ -94,6 +94,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.junkfood.seal.App
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
@@ -275,7 +276,15 @@ fun DownloadPage(
             cancelCallback = { Downloader.cancelDownload() },
             onVideoCardClicked = { Downloader.openDownloadResult() },
             onUrlChanged = { url -> downloadViewModel.updateUrl(url) },
-        ) {}
+        ) {
+            Column {
+                DownloaderV2.taskStateMap.forEach { (task, state) ->
+                    Text(task.viewState.toString(), maxLines = 2)
+                    Text(state.toString())
+                    Spacer(Modifier.height(12.dp))
+                }
+            }
+        }
 
         var preferences by remember {
             mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
