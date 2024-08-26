@@ -9,9 +9,10 @@ import kotlinx.coroutines.Job
 data class Task(
     val info: VideoInfo? = null,
     val url: String,
+    val playlistIndex: Int? = null,
     val preferences: DownloadUtil.DownloadPreferences,
     val viewState: ViewState = ViewState.create(info, url),
-    val id: String = makeId(url, preferences)
+    val id: String = makeId(url, playlistIndex, preferences)
 ) {
     sealed interface State : Comparable<State> {
 
@@ -115,7 +116,10 @@ data class Task(
         fun Task.attachInfo(info: VideoInfo): Task =
             this.copy(info = info, viewState = ViewState.fromVideoInfo(info))
 
-        private fun makeId(url: String, preferences: DownloadUtil.DownloadPreferences): String =
-            "${url}_${preferences.hashCode()}"
+        private fun makeId(
+            url: String,
+            playlistIndex: Int?,
+            preferences: DownloadUtil.DownloadPreferences
+        ): String = "${url}_${playlistIndex}_${preferences.hashCode()}"
     }
 }

@@ -3,8 +3,10 @@ package com.junkfood.seal.download
 import androidx.annotation.CheckResult
 import com.junkfood.seal.util.DownloadUtil.DownloadPreferences
 import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
+import kotlin.math.roundToInt
 
 object TaskFactory {
     /**
@@ -67,5 +69,38 @@ object TaskFactory {
                 }
 
         return Task.createWithInfo(info = info, preferences = preferences)
+    }
+
+    /**
+     * @return List of [Task]s created from playlist items
+     */
+    @CheckResult
+    fun createWithPlaylistResult(
+        playlistUrl: String,
+        indexList: List<Int>,
+        playlistResult: PlaylistResult,
+        preferences: DownloadPreferences
+    ): List<Task> {
+        checkNotNull(playlistResult.entries)
+        val indexEntryMap = indexList.associateWith { index -> playlistResult.entries[index] }
+
+        val taskList =
+            indexEntryMap.map { (index, entry) ->
+                val viewState =
+                    Task.ViewState(
+                        url = entry.url ?: "",
+                        title = entry.title ?: "${playlistResult.title} - $index",
+                        duration = entry.duration?.roundToInt() ?: 0,
+                        uploader = entry.uploader ?: entry.channel ?: playlistResult.channel ?: "",
+                        thumbnailUrl = (entry.thumbnails?.lastOrNull()?.url) ?: "")
+                Task(
+                    info = null,
+                    url = playlistUrl,
+                    preferences = preferences,
+                    playlistIndex = index,
+                    viewState = viewState)
+            }
+
+        return taskList
     }
 }

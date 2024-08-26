@@ -52,9 +52,13 @@ object DownloaderV2 {
     private val runningTaskCount
         get() = taskStateMap.count { (_, state) -> state is Running || state is FetchingInfo }
 
-    fun enqueueTask(task: Task) {
+    fun enqueue(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle
         taskStateMap += task to state
+    }
+
+    fun enqueue(taskList: List<Task>) {
+        taskList.forEach { enqueue(it) }
     }
 
     private var Task.state: State
@@ -87,7 +91,10 @@ object DownloaderV2 {
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.fetchVideoInfoFromUrl(
-                        url = url, preferences = preferences, taskKey = id)
+                        url = url,
+                        playlistIndex = playlistIndex,
+                        preferences = preferences,
+                        taskKey = id)
                     .onSuccess { info ->
                         taskStateMap.remove(task)
                         taskStateMap += task.attachInfo(info) to ReadyWithInfo

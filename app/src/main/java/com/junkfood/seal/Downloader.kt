@@ -15,7 +15,7 @@ import com.junkfood.seal.App.Companion.stopService
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.Entries
+import com.junkfood.seal.util.PlaylistEntry
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PlaylistResult
@@ -424,7 +424,7 @@ object Downloader {
     fun downloadVideoInPlaylistByIndexList(
         url: String,
         indexList: List<Int>,
-        playlistItemList: List<Entries> = emptyList(),
+        playlistItemList: List<PlaylistEntry> = emptyList(),
         preferences: DownloadUtil.DownloadPreferences =
             DownloadUtil.DownloadPreferences.createFromPreferences()
     ) {
@@ -454,7 +454,7 @@ object Downloader {
                     val title = playlistEntry?.title
 
                     DownloadUtil.fetchVideoInfoFromUrl(
-                            url = url, playlistItem = playlistIndex, preferences = preferences)
+                            url = url, playlistIndex = playlistIndex, preferences = preferences)
                         .onSuccess {
                             if (downloaderState.value !is State.DownloadingPlaylist) return@launch
                             downloadResultTemp =

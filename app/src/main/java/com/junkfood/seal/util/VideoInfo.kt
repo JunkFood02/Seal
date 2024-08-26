@@ -163,7 +163,7 @@ data class PlaylistResult(
     val title: String? = null,
     val description: String? = null,
     @SerialName("_type") val type: String? = null,
-    val entries: List<Entries>? = emptyList(),
+    val entries: List<PlaylistEntry>? = emptyList(),
     @SerialName("webpage_url") val webpageUrl: String? = null,
     @SerialName("original_url") val originalUrl: String? = null,
     @SerialName("extractor_key") val extractorKey: String? = null,
@@ -177,7 +177,7 @@ data class Thumbnail(
 )
 
 @Serializable
-data class Entries(
+data class PlaylistEntry(
     @SerialName("_type") val type: String? = null,
     val ieKey: String? = null,
     val id: String? = null,

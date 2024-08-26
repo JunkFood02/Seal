@@ -8,7 +8,7 @@ import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.Entries
+import com.junkfood.seal.util.PlaylistEntry
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
@@ -61,7 +61,7 @@ class DownloadDialogViewModel : ViewModel() {
         data class DownloadItemsWithPreset(
             val url: String,
             val indexList: List<Int>,
-            val playlistItemList: List<Entries> = emptyList(),
+            val playlistItemList: List<PlaylistEntry> = emptyList(),
             val preferences: DownloadUtil.DownloadPreferences =
                 DownloadUtil.DownloadPreferences.createFromPreferences()
         ) : Action
@@ -171,7 +171,7 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        DownloaderV2.enqueueTask(Task.createWithUrl(url = url, preferences = preferences))
+        DownloaderV2.enqueue(Task.createWithUrl(url = url, preferences = preferences))
         hideDialog()
     }
 

@@ -138,7 +138,7 @@ object DownloadUtil {
     @CheckResult
     fun fetchVideoInfoFromUrl(
         url: String,
-        playlistItem: Int = 0,
+        playlistIndex: Int? = null,
         taskKey: String? = null,
         preferences: DownloadPreferences = DownloadPreferences.createFromPreferences()
     ): Result<VideoInfo> {
@@ -171,8 +171,8 @@ object DownloadUtil {
                             addOption("--extractor-args", "youtube:skip=translated_subs")
                         }
                     }
-                    if (playlistItem != 0) {
-                        addOption("--playlist-items", playlistItem)
+                    if (playlistIndex != null) {
+                        addOption("--playlist-items", playlistIndex)
                         addOption("--dump-json")
                     } else {
                         addOption("--dump-single-json")

@@ -162,7 +162,7 @@ fun FormatPage(
                         .run { this - this.filterWithRegex(subtitleLanguageRegex) }
                         .toSet()
 
-                DownloaderV2.enqueueTask(
+                DownloaderV2.enqueue(
                     TaskFactory.createWithConfigurations(
                         videoInfo = videoInfo,
                         formatList = formatList,
