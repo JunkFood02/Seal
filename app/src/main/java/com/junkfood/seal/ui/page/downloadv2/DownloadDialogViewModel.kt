@@ -171,7 +171,7 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        DownloaderV2.enqueue(Task.createWithUrl(url = url, preferences = preferences))
+        DownloaderV2.enqueue(Task(url = url, preferences = preferences))
         hideDialog()
     }
 

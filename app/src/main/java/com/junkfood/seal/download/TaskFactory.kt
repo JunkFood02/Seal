@@ -68,12 +68,10 @@ object TaskFactory {
                     }
                 }
 
-        return Task.createWithInfo(info = info, preferences = preferences)
+        return Task(info = info, preferences = preferences)
     }
 
-    /**
-     * @return List of [Task]s created from playlist items
-     */
+    /** @return List of [Task]s created from playlist items */
     @CheckResult
     fun createWithPlaylistResult(
         playlistUrl: String,

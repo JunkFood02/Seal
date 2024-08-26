@@ -7,13 +7,23 @@ import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
 
 data class Task(
-    val info: VideoInfo? = null,
+    val info: VideoInfo?,
     val url: String,
     val playlistIndex: Int? = null,
     val preferences: DownloadUtil.DownloadPreferences,
     val viewState: ViewState = ViewState.create(info, url),
     val id: String = makeId(url, playlistIndex, preferences)
 ) {
+    constructor(
+        url: String,
+        preferences: DownloadUtil.DownloadPreferences
+    ) : this(info = null, url = url, preferences = preferences)
+
+    constructor(
+        info: VideoInfo,
+        preferences: DownloadUtil.DownloadPreferences
+    ) : this(info = info, url = info.originalUrl.toString(), preferences = preferences)
+
     sealed interface State : Comparable<State> {
 
         interface Cancelable {
@@ -84,37 +94,29 @@ data class Task(
         val fileSizeApprox: Double = .0,
         val thumbnailUrl: String = "",
     ) {
+
+        constructor(
+            info: VideoInfo
+        ) : this(
+            url = info.originalUrl.toString(),
+            title = info.title,
+            uploader = info.uploader ?: info.channel ?: info.uploaderId.toString(),
+            duration = info.duration?.roundToInt() ?: 0,
+            thumbnailUrl = info.thumbnail.toHttpsUrl(),
+            fileSizeApprox = info.fileSize ?: info.fileSizeApprox ?: .0,
+        )
+
         companion object {
             fun create(info: VideoInfo?, url: String) =
-                info?.let { fromVideoInfo(it) } ?: fromUrl(url)
-
-            fun fromVideoInfo(info: VideoInfo): ViewState =
-                info.run {
-                    ViewState(
-                        url = originalUrl.toString(),
-                        title = title,
-                        uploader = uploader ?: channel ?: uploaderId.toString(),
-                        duration = duration?.roundToInt() ?: 0,
-                        thumbnailUrl = thumbnail.toHttpsUrl(),
-                        fileSizeApprox = fileSize ?: fileSizeApprox ?: .0,
-                    )
-                }
-
-            fun fromUrl(url: String) = ViewState(url = url, title = url)
+                if (info != null) ViewState(info) else ViewState(url = url, title = url)
         }
     }
 
     companion object {
         private const val PROGRESS_INDETERMINATE = -1f
 
-        fun createWithUrl(url: String, preferences: DownloadUtil.DownloadPreferences) =
-            Task(info = null, url = url, preferences = preferences)
-
-        fun createWithInfo(info: VideoInfo, preferences: DownloadUtil.DownloadPreferences) =
-            Task(info = info, url = info.originalUrl.toString(), preferences = preferences)
-
         fun Task.attachInfo(info: VideoInfo): Task =
-            this.copy(info = info, viewState = ViewState.fromVideoInfo(info))
+            this.copy(info = info, viewState = ViewState(info))
 
         private fun makeId(
             url: String,
