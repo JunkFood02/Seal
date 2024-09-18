@@ -22,7 +22,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
     }
     buildTypes {
-        all {
+        release {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
