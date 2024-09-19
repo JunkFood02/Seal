@@ -103,11 +103,12 @@ import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookieProfilePage(
-    cookiesViewModel: CookiesViewModel = viewModel(),
+    cookiesViewModel: CookiesViewModel = koinViewModel(),
     navigateToCookieGeneratorPage: () -> Unit = {},
     onNavigateBack: () -> Unit = {}
 ) {

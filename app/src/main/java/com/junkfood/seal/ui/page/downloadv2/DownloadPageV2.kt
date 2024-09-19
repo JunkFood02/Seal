@@ -89,7 +89,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.NavigationBarSpacer
-import com.junkfood.seal.ui.page.download.DownloadViewModel
+import com.junkfood.seal.ui.page.download.HomePageViewModel
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.ToastUtil
@@ -104,7 +104,7 @@ import com.junkfood.seal.util.toFileSizeText
 fun DownloadPageImplV2(
     downloaderState: Downloader.State,
     taskState: Downloader.DownloadTaskItem,
-    viewState: DownloadViewModel.ViewState,
+    viewState: HomePageViewModel.ViewState,
     errorState: Downloader.ErrorState,
     showVideoCard: Boolean = false,
     showOutput: Boolean = false,
@@ -458,7 +458,7 @@ private fun DownloadPagePreview() {
                     progress = 0f,
 
                     ),
-                viewState = DownloadViewModel.ViewState(),
+                viewState = HomePageViewModel.ViewState(),
                 errorState = Downloader.ErrorState.None,
                 processCount = 2,
                 isPreview = true,

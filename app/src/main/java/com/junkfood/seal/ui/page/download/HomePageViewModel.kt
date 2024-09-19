@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // TODO: Refactoring for introducing multitasking and download queue management
-class DownloadViewModel : ViewModel() {
+class HomePageViewModel : ViewModel() {
 
 
     private val mutableViewStateFlow = MutableStateFlow(ViewState())

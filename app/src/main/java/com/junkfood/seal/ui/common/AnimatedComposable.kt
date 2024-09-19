@@ -42,10 +42,10 @@ private val fadeTween = tween<Float>(durationMillis = DURATION_EXIT)
 private val fadeSpec = fadeTween
 
 fun NavGraphBuilder.animatedComposable(
-    usePredictiveBack: Boolean = Build.VERSION.SDK_INT >= 34,
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
+    usePredictiveBack: Boolean = Build.VERSION.SDK_INT >= 34,
     content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
 ) {
     if (usePredictiveBack) {

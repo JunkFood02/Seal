@@ -135,16 +135,16 @@ fun DownloadPage(
     onNavigateToTaskList: () -> Unit = {},
     onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     downloader: DownloaderV2 = koinInject(),
-    downloadViewModel: DownloadViewModel = viewModel(),
+    homePageViewModel: HomePageViewModel = viewModel(),
     dialogViewModel: DownloadDialogViewModel = koinViewModel(),
 ) {
 
     val scope = rememberCoroutineScope()
     val downloaderState by Downloader.downloaderState.collectAsStateWithLifecycle()
     val taskState by Downloader.taskState.collectAsStateWithLifecycle()
-    val viewState by downloadViewModel.viewStateFlow.collectAsStateWithLifecycle()
+    val viewState by homePageViewModel.viewStateFlow.collectAsStateWithLifecycle()
     val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
-    val videoInfo by downloadViewModel.videoInfoFlow.collectAsStateWithLifecycle()
+    val videoInfo by homePageViewModel.videoInfoFlow.collectAsStateWithLifecycle()
     val errorState by Downloader.errorState.collectAsStateWithLifecycle()
     val processCount by Downloader.processCount.collectAsStateWithLifecycle()
 
@@ -221,11 +221,11 @@ fun DownloadPage(
         MeteredNetworkDialog(
             onDismissRequest = { showMeteredNetworkDialog = false },
             onAllowOnceConfirm = {
-                downloadViewModel.startDownloadVideo()
+                homePageViewModel.startDownloadVideo()
                 showMeteredNetworkDialog = false
             },
             onAllowAlwaysConfirm = {
-                downloadViewModel.startDownloadVideo()
+                homePageViewModel.startDownloadVideo()
                 CELLULAR_DOWNLOAD.updateBoolean(true)
                 showMeteredNetworkDialog = false
             },
@@ -235,21 +235,21 @@ fun DownloadPage(
     DisposableEffect(viewState.showPlaylistSelectionDialog) {
         if (!playlistInfo.entries.isNullOrEmpty() && viewState.showPlaylistSelectionDialog)
             navigateToPlaylistPage()
-        onDispose { downloadViewModel.hidePlaylistDialog() }
+        onDispose { homePageViewModel.hidePlaylistDialog() }
     }
 
     DisposableEffect(viewState.showFormatSelectionPage) {
         if (viewState.showFormatSelectionPage) {
             if (!videoInfo.formats.isNullOrEmpty()) navigateToFormatPage()
         }
-        onDispose { downloadViewModel.hideFormatPage() }
+        onDispose { homePageViewModel.hideFormatPage() }
     }
     var showOutput by remember { mutableStateOf(DEBUG.getBoolean()) }
     LaunchedEffect(downloaderState) {
         showOutput = DEBUG.getBoolean() && downloaderState !is Downloader.State.Idle
     }
     if (viewState.isUrlSharingTriggered) {
-        downloadViewModel.onShareIntentConsumed()
+        homePageViewModel.onShareIntentConsumed()
         downloadCallback()
     }
 
@@ -274,11 +274,11 @@ fun DownloadPage(
                         string = clipboardManager.getText().toString(),
                         isMatchingMultiLink = CUSTOM_COMMAND.getBoolean(),
                     )
-                    .let { downloadViewModel.updateUrl(it) }
+                    .let { homePageViewModel.updateUrl(it) }
             },
             cancelCallback = { Downloader.cancelDownload() },
             onVideoCardClicked = { Downloader.openDownloadResult() },
-            onUrlChanged = { url -> downloadViewModel.updateUrl(url) },
+            onUrlChanged = { url -> homePageViewModel.updateUrl(url) },
         ) {
             Column {
                 downloader.getTaskStateMap().forEach { (task, state) ->
@@ -343,7 +343,7 @@ fun DownloadPage(
 fun DownloadPageImpl(
     downloaderState: Downloader.State,
     taskState: Downloader.DownloadTaskItem,
-    viewState: DownloadViewModel.ViewState,
+    viewState: HomePageViewModel.ViewState,
     errorState: Downloader.ErrorState,
     showVideoCard: Boolean = false,
     showOutput: Boolean = false,
@@ -784,7 +784,7 @@ fun DownloadPagePreview() {
             DownloadPageImpl(
                 downloaderState = Downloader.State.DownloadingVideo,
                 taskState = Downloader.DownloadTaskItem(),
-                viewState = DownloadViewModel.ViewState(),
+                viewState = HomePageViewModel.ViewState(),
                 errorState =
                     Downloader.ErrorState.DownloadError(url = "", report = ERROR_REPORT_SAMPLE),
                 processCount = 99,

@@ -30,6 +30,7 @@ import com.google.android.material.R
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.USER_AGENT_STRING
 import com.junkfood.seal.util.connectWithDelimiter
+import org.koin.androidx.compose.koinViewModel
 
 
 private const val TAG = "WebViewPage"
@@ -79,7 +80,7 @@ private fun makeCookie(url: String, cookieString: String): Cookie {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WebViewPage(
-    cookiesViewModel: CookiesViewModel,
+    cookiesViewModel: CookiesViewModel = koinViewModel(),
     onDismissRequest: () -> Unit
 ) {
 
