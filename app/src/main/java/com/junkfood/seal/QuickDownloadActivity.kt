@@ -35,6 +35,8 @@ import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.runBlocking
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.KoinContext
 
 private const val TAG = "ShareActivity"
 
@@ -65,7 +67,9 @@ class QuickDownloadActivity : ComponentActivity() {
         window.run {
             setBackgroundDrawable(ColorDrawable(0))
             setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+            )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
             } else {
@@ -83,53 +87,58 @@ class QuickDownloadActivity : ComponentActivity() {
         }
 
         setContent {
-            val viewModel: DownloadDialogViewModel = viewModel()
+            KoinContext {
+                val viewModel: DownloadDialogViewModel = koinViewModel()
 
-            SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
-                SealTheme(
-                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
-                    isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                ) {
-                    var preferences by remember {
-                        mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
-                    }
-                    val sheetValue = viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
-                    val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
+                SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
+                    SealTheme(
+                        darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                        isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
+                    ) {
+                        var preferences by remember {
+                            mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
+                        }
+                        val sheetValue =
+                            viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
+                        val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
 
-                    LaunchedEffect(url) { viewModel.postAction(Action.ShowSheet) }
+                        LaunchedEffect(url) { viewModel.postAction(Action.ShowSheet) }
 
-                    val selectionState =
-                        viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
+                        val selectionState =
+                            viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
-                    if (sheetValue == SheetValue.Expanded) {
-                        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                        if (sheetValue == SheetValue.Expanded) {
+                            val sheetState =
+                                rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-                        ConfigureDialog(
-                            url = url,
-                            state = state,
-                            sheetState = sheetState,
-                            config = Config(),
-                            preferences = preferences,
-                            onPreferencesUpdate = { preferences = it },
-                            onActionPost = {
-                                viewModel.postAction(it)
-                                if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
-                                    finish()
-                                }
-                            },
-                        )
-                    }
-                    when (selectionState) {
-                        is SelectionState.FormatSelection ->
-                            FormatPage(
-                                state = selectionState,
-                                onDismissRequest = {
-                                    viewModel.postAction(Action.Reset)
-                                    this.finish()
-                                })
+                            ConfigureDialog(
+                                url = url,
+                                state = state,
+                                sheetState = sheetState,
+                                config = Config(),
+                                preferences = preferences,
+                                onPreferencesUpdate = { preferences = it },
+                                onActionPost = {
+                                    viewModel.postAction(it)
+                                    if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
+                                        finish()
+                                    }
+                                },
+                            )
+                        }
+                        when (selectionState) {
+                            is SelectionState.FormatSelection ->
+                                FormatPage(
+                                    state = selectionState,
+                                    onDismissRequest = {
+                                        viewModel.postAction(Action.Reset)
+                                        this.finish()
+                                    },
+                                )
 
-                        SelectionState.Idle -> {}
-                        is SelectionState.PlaylistSelection -> {}
+                            SelectionState.Idle -> {}
+                            is SelectionState.PlaylistSelection -> {}
+                        }
                     }
                 }
             }

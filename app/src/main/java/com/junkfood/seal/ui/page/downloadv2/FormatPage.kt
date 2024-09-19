@@ -111,6 +111,7 @@ import com.junkfood.seal.util.toHttpsUrl
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 
 private const val TAG = "FormatPage"
 
@@ -127,6 +128,7 @@ private data class FormatConfig(
 fun FormatPage(
     modifier: Modifier = Modifier,
     videoInfo: VideoInfo,
+    downloader: DownloaderV2 = koinInject(),
     onNavigateBack: () -> Unit = {}
 ) {
     if (videoInfo.formats.isNullOrEmpty()) return
@@ -162,7 +164,7 @@ fun FormatPage(
                         .run { this - this.filterWithRegex(subtitleLanguageRegex) }
                         .toSet()
 
-                DownloaderV2.enqueue(
+                downloader.enqueue(
                     TaskFactory.createWithConfigurations(
                         videoInfo = videoInfo,
                         formatList = formatList,
@@ -891,7 +893,7 @@ private fun SubtitleSelectionDialog(
                     for ((code, formats) in suggestedSubtitlesFiltered) {
                         item(key = code) {
                             DialogCheckBoxItem(
-                                modifier = Modifier.animateItemPlacement(),
+                                modifier = Modifier.animateItem(),
                                 checked = selectedSubtitles.contains(code),
                                 onClick = {
                                     if (selectedSubtitles.contains(code)) {
@@ -915,7 +917,7 @@ private fun SubtitleSelectionDialog(
                         for ((code, formats) in autoCaptionsFiltered) {
                             item(key = code) {
                                 DialogCheckBoxItem(
-                                    modifier = Modifier.animateItemPlacement(),
+                                    modifier = Modifier.animateItem(),
                                     checked = selectedAutoCaptions.contains(code),
                                     onClick = {
                                         if (selectedAutoCaptions.contains(code)) {

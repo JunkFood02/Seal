@@ -52,7 +52,7 @@ object BackupUtil {
     fun getDownloadHistoryExportFilename(context: Context): String {
         return listOf(
             context.getString(R.string.app_name),
-            App.packageInfo.versionName,
+            App.packageInfo.versionName.toString(),
             Date().toString()
         ).joinToString(separator = "-") { it }
     }

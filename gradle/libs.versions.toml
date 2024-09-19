@@ -33,6 +33,8 @@ youtubedlAndroid = "0.16.1"
 
 mmkv = "1.3.2"
 
+koin = "4.0.0"
+
 [libraries]
 
 
@@ -83,6 +85,9 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

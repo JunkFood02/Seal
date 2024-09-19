@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "DownloadDialogViewModel"
 
-class DownloadDialogViewModel : ViewModel() {
+class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel() {
 
     sealed interface SelectionState {
         data object Idle : SelectionState
@@ -55,7 +55,7 @@ class DownloadDialogViewModel : ViewModel() {
 
         data class FetchPlaylist(
             val url: String,
-            val preferences: DownloadUtil.DownloadPreferences
+            val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
         data class DownloadItemsWithPreset(
@@ -63,18 +63,18 @@ class DownloadDialogViewModel : ViewModel() {
             val indexList: List<Int>,
             val playlistItemList: List<PlaylistEntry> = emptyList(),
             val preferences: DownloadUtil.DownloadPreferences =
-                DownloadUtil.DownloadPreferences.createFromPreferences()
+                DownloadUtil.DownloadPreferences.createFromPreferences(),
         ) : Action
 
         data class FetchFormats(
             val url: String,
             val audioOnly: Boolean,
-            val preferences: DownloadUtil.DownloadPreferences
+            val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
         data class DownloadWithPreset(
             val url: String,
-            val preferences: DownloadUtil.DownloadPreferences
+            val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
         data class RunCommand(val url: String, val template: CommandTemplate) : Action
@@ -151,7 +151,8 @@ class DownloadDialogViewModel : ViewModel() {
                 DownloadUtil.fetchVideoInfoFromUrl(
                         url = url,
                         preferences = preferences.copy(extractAudio = audioOnly),
-                        taskKey = "FetchFormat_$url")
+                        taskKey = "FetchFormat_$url",
+                    )
                     .onSuccess { info ->
                         withContext(Dispatchers.Main) {
                             mSelectionStateFlow.update {
@@ -171,7 +172,7 @@ class DownloadDialogViewModel : ViewModel() {
     }
 
     private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        DownloaderV2.enqueue(Task(url = url, preferences = preferences))
+        downloader.enqueue(Task(url = url, preferences = preferences))
         hideDialog()
     }
 

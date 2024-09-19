@@ -85,7 +85,7 @@ import kotlinx.coroutines.withContext
 private const val TAG = "HomeEntry"
 
 @Composable
-fun HomeEntry(
+fun App(
     downloadViewModel: DownloadViewModel,
     cookiesViewModel: CookiesViewModel,
     isUrlShared: Boolean

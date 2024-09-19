@@ -20,6 +20,7 @@ val splitApks = !project.hasProperty("noSplits")
 val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
 android {
+    compileSdk = 35
     if (keystorePropertiesFile.exists()) {
         val keystoreProperties = Properties()
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
@@ -33,8 +34,6 @@ android {
             }
         }
     }
-
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.junkfood.seal"
@@ -188,6 +187,9 @@ dependencies {
     implementation(libs.coil.kt.compose)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

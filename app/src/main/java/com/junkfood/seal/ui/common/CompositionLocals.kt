@@ -31,15 +31,17 @@ fun SettingsProvider(windowWidthSizeClass: WindowWidthSizeClass, content: @Compo
             LocalDarkTheme provides darkTheme,
             LocalSeedColor provides seedColor,
             LocalPaletteStyleIndex provides paletteStyleIndex,
-            LocalTonalPalettes provides if (isDynamicColorEnabled && Build.VERSION.SDK_INT >= 31) dynamicDarkColorScheme(
-                LocalContext.current
-            ).toTonalPalettes()
-            else Color(seedColor).toTonalPalettes(
-                paletteStyles.getOrElse(paletteStyleIndex) { PaletteStyle.TonalSpot }
-            ),
+            LocalTonalPalettes provides
+                if (isDynamicColorEnabled && Build.VERSION.SDK_INT >= 31)
+                    dynamicDarkColorScheme(LocalContext.current).toTonalPalettes()
+                else
+                    Color(seedColor)
+                        .toTonalPalettes(
+                            paletteStyles.getOrElse(paletteStyleIndex) { PaletteStyle.TonalSpot }
+                        ),
             LocalWindowWidthState provides windowWidthSizeClass,
             LocalDynamicColorSwitch provides isDynamicColorEnabled,
-            content = content
+            content = content,
         )
     }
 }

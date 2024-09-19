@@ -1,8 +1,10 @@
 package com.junkfood.seal.download
 
-import android.util.Log
+import android.app.PendingIntent
+import android.content.Context
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task.Companion.attachInfo
 import com.junkfood.seal.download.Task.RestartableAction.Download
@@ -15,14 +17,35 @@ import com.junkfood.seal.download.Task.State.Idle
 import com.junkfood.seal.download.Task.State.ReadyWithInfo
 import com.junkfood.seal.download.Task.State.Running
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlin.collections.List
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.count
+import kotlin.collections.firstOrNull
+import kotlin.collections.forEach
+import kotlin.collections.plusAssign
+import kotlin.collections.set
+import kotlin.collections.sortedBy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
 private const val TAG = "DownloaderV2"
+
+private const val MAX_CONCURRENCY = 3
+
+interface DownloaderV2 {
+    fun getTaskStateMap(): SnapshotStateMap<Task, State>
+
+    fun enqueue(task: Task)
+
+    fun enqueue(taskList: List<Task>)
+}
 
 /**
  * TODO:
@@ -30,34 +53,29 @@ private const val TAG = "DownloaderV2"
  *     - Custom commands
  *     - States for ViewModels
  */
-object DownloaderV2 {
+class DownloaderV2Impl(val appContext: Context) : DownloaderV2, KoinComponent {
     private val scope = CoroutineScope(SupervisorJob())
-    private const val MAX_CONCURRENCY = 3
+    private val taskStateMap = mutableStateMapOf<Task, State>()
 
     init {
         scope.launch(Dispatchers.Default) {
-            snapshotFlow { taskStateMap.toMap() }
-                .collect {
-                    doYourWork()
-                    Log.d(TAG, "map changed!")
-                    it.forEach { (task, state) ->
-                        Log.d(TAG, "${state::class.simpleName}, ${task.id}")
-                    }
-                }
+            snapshotFlow { taskStateMap.toMap() }.collect { doYourWork() }
         }
     }
-
-    val taskStateMap = mutableStateMapOf<Task, State>()
 
     private val runningTaskCount
         get() = taskStateMap.count { (_, state) -> state is Running || state is FetchingInfo }
 
-    fun enqueue(task: Task) {
+    override fun getTaskStateMap(): SnapshotStateMap<Task, State> {
+        return taskStateMap
+    }
+
+    override fun enqueue(task: Task) {
         val state: State = if (task.info != null) ReadyWithInfo else Idle
         taskStateMap += task to state
     }
 
-    fun enqueue(taskList: List<Task>) {
+    override fun enqueue(taskList: List<Task>) {
         taskList.forEach { enqueue(it) }
     }
 
@@ -94,7 +112,8 @@ object DownloaderV2 {
                         url = url,
                         playlistIndex = playlistIndex,
                         preferences = preferences,
-                        taskKey = id)
+                        taskKey = id,
+                    )
                     .onSuccess { info ->
                         taskStateMap.remove(task)
                         taskStateMap += task.attachInfo(info) to ReadyWithInfo
@@ -108,7 +127,8 @@ object DownloaderV2 {
                             title = viewState.title,
                             textId = R.string.download_error_msg,
                             notificationId = notificationId,
-                            report = throwable.stackTraceToString())
+                            report = throwable.stackTraceToString(),
+                        )
                     }
             }
             .also { job -> state = FetchingInfo(job = job, taskId = id) }
@@ -131,12 +151,38 @@ object DownloaderV2 {
                                         progress = progress.toInt(),
                                         text = text,
                                         title = viewState.title,
-                                        taskId = id)
+                                        taskId = id,
+                                    )
                                 }
                                 else -> {}
                             }
-                        })
-                    .onSuccess { pathList -> state = Completed(pathList.firstOrNull()) }
+                        },
+                    )
+                    .onSuccess { pathList ->
+                        state = Completed(pathList.firstOrNull())
+
+                        val text =
+                            appContext.getString(
+                                if (pathList.isEmpty()) R.string.status_completed
+                                else R.string.download_finish_notification
+                            )
+                        FileUtil.createIntentForOpeningFile(pathList.firstOrNull()).run {
+                            NotificationUtil.finishNotification(
+                                notificationId,
+                                title = viewState.title,
+                                text = text,
+                                intent =
+                                    if (this != null)
+                                        PendingIntent.getActivity(
+                                            appContext,
+                                            0,
+                                            this,
+                                            PendingIntent.FLAG_IMMUTABLE,
+                                        )
+                                    else null,
+                            )
+                        }
+                    }
                     .onFailure { throwable ->
                         if (throwable is YoutubeDL.CanceledException) {
                             return@onFailure
@@ -146,7 +192,8 @@ object DownloaderV2 {
                             title = viewState.title,
                             textId = R.string.fetch_info_error_msg,
                             notificationId = notificationId,
-                            report = throwable.stackTraceToString())
+                            report = throwable.stackTraceToString(),
+                        )
                     }
             }
             .also { job -> state = Running(job = job, taskId = id) }

@@ -53,10 +53,14 @@ import com.junkfood.seal.download.TaskFactory
 import com.junkfood.seal.ui.component.PlaylistItem
 import com.junkfood.seal.ui.page.download.PlaylistSelectionDialog
 import com.junkfood.seal.util.DownloadUtil
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
+fun PlaylistSelectionPage(
+    downloader: DownloaderV2 = koinInject(),
+    onNavigateBack: () -> Unit = {},
+) {
     val onDismissRequest = { onNavigateBack() }
     val playlistInfo by Downloader.playlistResult.collectAsStateWithLifecycle()
     val selectedItems =
@@ -70,9 +74,11 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                             emptyList()
                         }
                     },
-                    restore = { it.toMutableStateList() })) {
-                mutableStateListOf()
-            }
+                    restore = { it.toMutableStateList() },
+                )
+        ) {
+            mutableStateListOf()
+        }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
     val playlistCount = playlistInfo.entries?.size ?: 0
@@ -91,7 +97,8 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                             else
                                 stringResource(id = R.string.selected_item_count)
                                     .format(selectedItems.size),
-                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp))
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { onDismissRequest() }) {
@@ -102,7 +109,7 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                     TextButton(
                         modifier = Modifier.padding(end = 8.dp),
                         onClick = {
-                            DownloaderV2.enqueue(
+                            downloader.enqueue(
                                 TaskFactory.createWithPlaylistResult(
                                     playlistUrl =
                                         playlistInfo.originalUrl
@@ -110,100 +117,107 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
                                     indexList = selectedItems,
                                     playlistResult = playlistInfo,
                                     preferences =
-                                        DownloadUtil.DownloadPreferences.createFromPreferences()))
+                                        DownloadUtil.DownloadPreferences.createFromPreferences(),
+                                )
+                            )
                             onDismissRequest()
                         },
-                        enabled = selectedItems.isNotEmpty()) {
-                            Text(text = stringResource(R.string.start_download))
-                        }
+                        enabled = selectedItems.isNotEmpty(),
+                    ) {
+                        Text(text = stringResource(R.string.start_download))
+                    }
                 },
-                scrollBehavior = scrollBehavior)
+                scrollBehavior = scrollBehavior,
+            )
         },
         bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp).navigationBarsPadding(),
-                verticalArrangement = Arrangement.Center) {
-                    Divider(modifier = Modifier.fillMaxWidth())
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Row(
-                            modifier =
-                                Modifier.selectable(
-                                    selected =
-                                        selectedItems.size == playlistCount &&
-                                            selectedItems.size != 0,
-                                    indication = null,
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    onClick = {
-                                        if (selectedItems.size == playlistCount)
-                                            selectedItems.clear()
-                                        else {
-                                            selectedItems.clear()
-                                            selectedItems.addAll(1..playlistCount)
-                                        }
-                                    }),
-                            verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(
-                                    modifier = Modifier.padding(16.dp),
-                                    checked =
-                                        selectedItems.size == playlistCount &&
-                                            selectedItems.size != 0,
-                                    onCheckedChange = null)
-                                Text(
-                                    text = stringResource(R.string.select_all),
-                                    style = MaterialTheme.typography.labelLarge)
-                            }
-                        Spacer(modifier = Modifier.weight(1f))
-                        IconButton(
-                            modifier = Modifier.padding(end = 4.dp),
-                            onClick = { showDialog = true }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.PlaylistAdd,
-                                    contentDescription =
-                                        stringResource(R.string.download_range_selection))
-                            }
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Divider(modifier = Modifier.fillMaxWidth())
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier =
+                            Modifier.selectable(
+                                selected =
+                                    selectedItems.size == playlistCount && selectedItems.size != 0,
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                onClick = {
+                                    if (selectedItems.size == playlistCount) selectedItems.clear()
+                                    else {
+                                        selectedItems.clear()
+                                        selectedItems.addAll(1..playlistCount)
+                                    }
+                                },
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Checkbox(
+                            modifier = Modifier.padding(16.dp),
+                            checked =
+                                selectedItems.size == playlistCount && selectedItems.size != 0,
+                            onCheckedChange = null,
+                        )
+                        Text(
+                            text = stringResource(R.string.select_all),
+                            style = MaterialTheme.typography.labelLarge,
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(
+                        modifier = Modifier.padding(end = 4.dp),
+                        onClick = { showDialog = true },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.PlaylistAdd,
+                            contentDescription = stringResource(R.string.download_range_selection),
+                        )
                     }
                 }
-        }) { paddings ->
-            Column(modifier = Modifier.padding(paddings)) {
-                LazyColumn {
-                    item {
-                        Text(
-                            modifier = Modifier.padding(16.dp),
-                            text =
-                                stringResource(R.string.download_selection_desc)
-                                    .format(playlistInfo.title),
-                            style = MaterialTheme.typography.bodySmall)
-                    }
+            }
+        },
+    ) { paddings ->
+        Column(modifier = Modifier.padding(paddings)) {
+            LazyColumn {
+                item {
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        text =
+                            stringResource(R.string.download_selection_desc)
+                                .format(playlistInfo.title),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
 
-                    itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entry ->
-                        val index = _index + 1
-                        TooltipBox(
-                            state = rememberTooltipState(),
-                            positionProvider =
-                                TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                            tooltip = {
-                                PlainTooltip { Text(text = entry.title ?: index.toString()) }
-                            }) {
-                                PlaylistItem(
-                                    modifier = Modifier.padding(horizontal = 12.dp),
-                                    imageModel = entry.thumbnails?.lastOrNull()?.url ?: "",
-                                    title = entry.title ?: index.toString(),
-                                    author =
-                                        entry.channel
-                                            ?: entry.uploader
-                                            ?: playlistInfo.channel
-                                            ?: playlistInfo.uploader,
-                                    selected = selectedItems.contains(index),
-                                    onClick = {
-                                        if (selectedItems.contains(index))
-                                            selectedItems.remove(index)
-                                        else selectedItems.add(index)
-                                    })
-                            }
+                itemsIndexed(items = playlistInfo.entries ?: emptyList()) { _index, entry ->
+                    val index = _index + 1
+                    TooltipBox(
+                        state = rememberTooltipState(),
+                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        tooltip = { PlainTooltip { Text(text = entry.title ?: index.toString()) } },
+                    ) {
+                        PlaylistItem(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            imageModel = entry.thumbnails?.lastOrNull()?.url ?: "",
+                            title = entry.title ?: index.toString(),
+                            author =
+                                entry.channel
+                                    ?: entry.uploader
+                                    ?: playlistInfo.channel
+                                    ?: playlistInfo.uploader,
+                            selected = selectedItems.contains(index),
+                            onClick = {
+                                if (selectedItems.contains(index)) selectedItems.remove(index)
+                                else selectedItems.add(index)
+                            },
+                        )
                     }
                 }
             }
         }
+    }
     if (showDialog) {
         PlaylistSelectionDialog(
             playlistInfo = playlistInfo,
@@ -211,6 +225,7 @@ fun PlaylistSelectionPage(onNavigateBack: () -> Unit = {}) {
             onConfirm = {
                 selectedItems.clear()
                 selectedItems.addAll(it)
-            })
+            },
+        )
     }
 }
