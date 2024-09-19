@@ -33,7 +33,9 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     }
 
     sealed interface SheetState {
-        data object Configure : SheetState
+        data object InputUrl : SheetState
+
+        data class Configure(val urlList: List<String>) : SheetState
 
         data class Loading(val taskKey: String, val job: Job) : SheetState
 
@@ -49,7 +51,9 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     sealed interface Action {
         data object HideSheet : Action
 
-        data object ShowSheet : Action
+        data class ShowSheet(val urlList: List<String>? = null) : Action
+
+        data class ProceedWithURLs(val urlList: List<String>) : Action
 
         data object Reset : Action
 
@@ -85,7 +89,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     private val mSelectionStateFlow: MutableStateFlow<SelectionState> =
         MutableStateFlow(SelectionState.Idle)
     private val mSheetStateFlow: MutableStateFlow<SheetState> =
-        MutableStateFlow(SheetState.Configure)
+        MutableStateFlow(SheetState.InputUrl)
     private val mSheetValueFlow: MutableStateFlow<SheetValue> = MutableStateFlow(SheetValue.Hidden)
 
     val selectionStateFlow = mSelectionStateFlow.asStateFlow()
@@ -98,17 +102,22 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     fun postAction(action: Action) {
         with(action) {
             when (this) {
+                is Action.ProceedWithURLs -> proceedWithUrls(this)
                 is Action.FetchFormats -> fetchFormat(this)
                 is Action.FetchPlaylist -> fetchPlaylist(this)
                 is Action.DownloadWithPreset -> downloadWithPreset(url, preferences)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.HideSheet -> hideDialog()
-                Action.ShowSheet -> showDialog()
+                is Action.ShowSheet -> showDialog(this)
                 is Action.DownloadItemsWithPreset -> TODO()
                 Action.Cancel -> cancel()
                 Action.Reset -> resetStates()
             }
         }
+    }
+
+    private fun proceedWithUrls(action: Action.ProceedWithURLs) {
+        mSheetStateFlow.update { SheetState.Configure(action.urlList) }
     }
 
     private fun fetchPlaylist(action: Action.FetchPlaylist) {
@@ -187,17 +196,20 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     private fun hideDialog() {
         mSheetValueFlow.update { SheetValue.Hidden }
         when (sheetState) {
-            is SheetState.Error -> {
-                resetStates()
-            }
             is SheetState.Loading -> {
                 cancel()
             }
-            else -> {}
+            else -> {
+                resetStates()
+            }
         }
     }
 
-    private fun showDialog() {
+    private fun showDialog(action: Action.ShowSheet) {
+        val urlList = action.urlList
+        if (!urlList.isNullOrEmpty()) {
+            mSheetStateFlow.update { SheetState.Configure(urlList) }
+        }
         mSheetValueFlow.update { SheetValue.Expanded }
     }
 
@@ -216,7 +228,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     }
 
     private fun resetStates() {
-        mSheetStateFlow.update { SheetState.Configure }
+        mSheetStateFlow.update { SheetState.InputUrl }
         mSelectionStateFlow.update { SelectionState.Idle }
     }
 }

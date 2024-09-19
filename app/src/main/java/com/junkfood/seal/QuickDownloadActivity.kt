@@ -19,11 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.downloadv2.Config
-import com.junkfood.seal.ui.page.downloadv2.ConfigureDialog
+import com.junkfood.seal.ui.page.downloadv2.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SelectionState
@@ -102,7 +101,9 @@ class QuickDownloadActivity : ComponentActivity() {
                             viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
                         val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
 
-                        LaunchedEffect(url) { viewModel.postAction(Action.ShowSheet) }
+                        LaunchedEffect(url) {
+                            viewModel.postAction(Action.ShowSheet(listOf(url)))
+                        }
 
                         val selectionState =
                             viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
@@ -111,8 +112,7 @@ class QuickDownloadActivity : ComponentActivity() {
                             val sheetState =
                                 rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-                            ConfigureDialog(
-                                url = url,
+                            DownloadDialog(
                                 state = state,
                                 sheetState = sheetState,
                                 config = Config(),

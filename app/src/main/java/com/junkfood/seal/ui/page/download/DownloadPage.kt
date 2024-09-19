@@ -103,7 +103,7 @@ import com.junkfood.seal.ui.component.NavigationBarSpacer
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.VideoCard
 import com.junkfood.seal.ui.page.downloadv2.Config
-import com.junkfood.seal.ui.page.downloadv2.ConfigureDialog
+import com.junkfood.seal.ui.page.downloadv2.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.FormatPage
@@ -171,7 +171,7 @@ fun DownloadPage(
         if (!PreferenceUtil.isNetworkAvailableForDownload()) {
             showMeteredNetworkDialog = true
         } else {
-            dialogViewModel.postAction(Action.ShowSheet)
+            dialogViewModel.postAction(Action.ShowSheet(listOf(viewState.url)))
             //            downloadViewModel.startDownloadVideo()
         }
     }
@@ -261,7 +261,9 @@ fun DownloadPage(
             taskState = taskState,
             viewState = viewState,
             errorState = errorState,
-            downloadCallback = { dialogViewModel.postAction(Action.ShowSheet) },
+            downloadCallback = {
+                dialogViewModel.postAction(Action.ShowSheet())
+            },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             onNavigateToTaskList = onNavigateToTaskList,
@@ -310,8 +312,7 @@ fun DownloadPage(
 
         if (showDialog) {
 
-            ConfigureDialog(
-                url = viewState.url,
+            DownloadDialog(
                 state = state,
                 sheetState = sheetState,
                 config = Config(),
