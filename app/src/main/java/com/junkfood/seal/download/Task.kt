@@ -92,7 +92,7 @@ data class Task(
         val uploader: String = "",
         val duration: Int = 0,
         val fileSizeApprox: Double = .0,
-        val thumbnailUrl: String = "",
+        val thumbnailUrl: String? = null,
     ) {
 
         constructor(

@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.a1
 import com.kyant.monet.a2
 import com.kyant.monet.a3
@@ -73,3 +74,4 @@ fun Int.generateLabelColor(): Color =
         ).toInt()
     ).harmonizeWithPrimary()
 
+val ErrorTonalPalettes = Color.Red.toTonalPalettes()

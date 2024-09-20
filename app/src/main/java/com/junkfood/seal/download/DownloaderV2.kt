@@ -45,6 +45,10 @@ interface DownloaderV2 {
     fun enqueue(task: Task)
 
     fun enqueue(taskList: List<Task>)
+
+    fun cancel(task: Task)
+
+    fun restart(task: Task)
 }
 
 /**
@@ -53,7 +57,7 @@ interface DownloaderV2 {
  *     - Custom commands
  *     - States for ViewModels
  */
-class DownloaderV2Impl(val appContext: Context) : DownloaderV2, KoinComponent {
+class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComponent {
     private val scope = CoroutineScope(SupervisorJob())
     private val taskStateMap = mutableStateMapOf<Task, State>()
 
@@ -77,6 +81,14 @@ class DownloaderV2Impl(val appContext: Context) : DownloaderV2, KoinComponent {
 
     override fun enqueue(taskList: List<Task>) {
         taskList.forEach { enqueue(it) }
+    }
+
+    override fun cancel(task: Task) {
+        task.cancelImpl()
+    }
+
+    override fun restart(task: Task) {
+        task.restartImpl()
     }
 
     private var Task.state: State
@@ -199,7 +211,7 @@ class DownloaderV2Impl(val appContext: Context) : DownloaderV2, KoinComponent {
             .also { job -> state = Running(job = job, taskId = id) }
     }
 
-    fun Task.cancel() {
+    private fun Task.cancelImpl() {
         when (val preState = state) {
             is State.Cancelable -> {
                 val res = YoutubeDL.destroyProcessById(preState.taskId)
@@ -214,7 +226,7 @@ class DownloaderV2Impl(val appContext: Context) : DownloaderV2, KoinComponent {
         }
     }
 
-    fun Task.restart() {
+    private fun Task.restartImpl() {
         when (val preState = state) {
             is State.Restartable -> {
                 state =
