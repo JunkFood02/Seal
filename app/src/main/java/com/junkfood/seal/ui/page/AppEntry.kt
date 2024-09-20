@@ -32,6 +32,7 @@ import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
 import com.junkfood.seal.ui.page.download.DownloadPage
 import com.junkfood.seal.ui.page.download.HomePageViewModel
+import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
 import com.junkfood.seal.ui.page.downloadv2.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
@@ -98,19 +99,26 @@ fun AppEntry(
             startDestination = Route.HOME,
         ) {
             animatedComposable(Route.HOME) {
-                DownloadPage(
+//                DownloadPage(
+//                    navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
+//                    navigateToSettings = {
+//                        navController.navigate(Route.SETTINGS) { launchSingleTop = true }
+//                    },
+//                    navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
+//                    navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
+//                    onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
+//                    onNavigateToCookieGeneratorPage = {
+//                        cookiesViewModel.updateUrl(it)
+//                        navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
+//                    },
+//                    homePageViewModel = homePageViewModel,
+//                )
+                DownloadPageV2(
                     navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
                     navigateToSettings = {
                         navController.navigate(Route.SETTINGS) { launchSingleTop = true }
                     },
-                    navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
-                    navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
                     onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
-                    onNavigateToCookieGeneratorPage = {
-                        cookiesViewModel.updateUrl(it)
-                        navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
-                    },
-                    homePageViewModel = homePageViewModel,
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }

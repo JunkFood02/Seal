@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -13,24 +14,27 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.Error
-import androidx.compose.material.icons.rounded.Stop
+import androidx.compose.material.icons.outlined.Pause
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.RestartAlt
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -40,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.AsyncImageImpl
-import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
@@ -48,13 +52,17 @@ import com.junkfood.seal.util.toFileSizeText
 @Composable
 fun VideoCardV2(
     modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.video_title_sample_text),
-    author: String = stringResource(R.string.video_creator_sample_text),
     viewState: Task.ViewState,
-    stateIndicator: @Composable (() -> Unit)? = null,
+    stateIndicator: @Composable (BoxScope.() -> Unit)? = null,
     onButtonClick: () -> Unit,
 ) {
-    ElevatedCard(modifier = modifier.fillMaxWidth(), shape = MaterialTheme.shapes.small) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+            ),
+    ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
                 if (viewState.thumbnailUrl != null) {
@@ -73,9 +81,11 @@ fun VideoCardV2(
                             Modifier.padding()
                                 .fillMaxWidth()
                                 .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                        color = MaterialTheme.colorScheme.surfaceDim,
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
                     ) {}
                 }
+
+                stateIndicator?.invoke(this)
 
                 Surface(
                     modifier = Modifier.padding(4.dp).align(Alignment.BottomEnd),
@@ -98,22 +108,21 @@ fun VideoCardV2(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium,
+                        text = viewState.title,
+                        style = MaterialTheme.typography.titleSmall,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         modifier = Modifier.padding(top = 3.dp),
-                        text = author,
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = viewState.uploader,
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
-                stateIndicator?.invoke()
-                IconButton(onButtonClick) {
+                IconButton(onButtonClick, modifier = Modifier.align(Alignment.Top)) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
                         contentDescription = stringResource(R.string.show_more_actions),
@@ -124,6 +133,13 @@ fun VideoCardV2(
     }
 }
 
+private val IconButtonSize = 64.dp
+private val IconSize = 36.dp
+private val ContainerColor: Color
+    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.6f)
+private val ContentColor: Color
+    @Composable get() = FixedAccentColors.secondaryFixed
+
 @Composable
 @Preview
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -131,7 +147,9 @@ fun VideoCardV2Preview() {
     SealTheme() {
         VideoCardV2(
             viewState = Task.ViewState(),
-            stateIndicator = { ProgressButton(progress = 0.2f) {} },
+            stateIndicator = {
+                PlayVideoButton(modifier = Modifier.align(Alignment.Center)) {}
+            },
         ) {}
     }
 }
@@ -139,14 +157,14 @@ fun VideoCardV2Preview() {
 @Composable
 fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: () -> Unit) {
     when (state) {
-        is Task.State.Canceled -> {
+        is Task.State.Error -> {
             RestartButton(modifier, onClick)
         }
-        is Task.State.Completed -> {
-            OpenFileButton(modifier, onClick)
+        is Task.State.Canceled -> {
+            ResumeButton(modifier, state.progress, onClick)
         }
-        is Task.State.Error -> {
-            ErrorButton(modifier, onClick)
+        is Task.State.Completed -> {
+            PlayVideoButton(modifier, onClick)
         }
         is Task.State.FetchingInfo,
         Task.State.ReadyWithInfo,
@@ -160,31 +178,75 @@ fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: ()
 }
 
 @Composable
-private fun RestartButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    IconButton(onClick = onClick, modifier = modifier) {
-        Icon(Icons.Outlined.RestartAlt, stringResource(R.string.restart))
-    }
-}
+private fun ResumeButton(
+    modifier: Modifier = Modifier,
+    progress: Float? = null,
+    onClick: () -> Unit,
+) {
+    val background = ContainerColor
 
-@Composable
-private fun OpenFileButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    IconButton(onClick = onClick, modifier = modifier) {
+    Box(
+        modifier =
+            modifier
+                .size(IconButtonSize)
+                .clip(CircleShape)
+                .drawBehind { drawCircle(background) }
+                .clickable(onClickLabel = stringResource(R.string.cancel), onClick = onClick)
+    ) {
+        if (progress != null) {
+            CircularProgressIndicator(
+                progress = { progress },
+                modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
+                color = ContentColor,
+                trackColor = Color.Transparent,
+                gapSize = 0.dp,
+            )
+        }
         Icon(
-            Icons.Rounded.CheckCircle,
-            stringResource(R.string.open_file),
-            tint =
-                greenTonalPalettes.accent1(if (LocalDarkTheme.current.isDarkTheme()) 80.0 else 40.0),
+            imageVector = Icons.Rounded.Download,
+            contentDescription = stringResource(R.string.restart),
+            modifier = Modifier.size(IconSize).align(Alignment.Center),
+            tint = ContentColor,
         )
     }
 }
 
 @Composable
-private fun ErrorButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    IconButton(onClick = onClick, modifier = modifier) {
+fun RestartButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val background = ContainerColor
+
+    Box(
+        modifier =
+            modifier
+                .size(IconButtonSize)
+                .clip(CircleShape)
+                .drawBehind { drawCircle(background) }
+                .clickable(onClickLabel = stringResource(R.string.cancel), onClick = onClick)
+    ) {
         Icon(
-            Icons.Rounded.Error,
-            stringResource(R.string.copy_error_report),
-            tint = MaterialTheme.colorScheme.error,
+            imageVector = Icons.Rounded.RestartAlt,
+            contentDescription = stringResource(R.string.restart),
+            modifier = Modifier.size(IconSize).align(Alignment.Center),
+            tint = ContentColor,
+        )
+    }
+}
+
+@Composable
+private fun PlayVideoButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    FilledIconButton(
+        onClick = onClick,
+        modifier = modifier.size(IconButtonSize),
+        colors =
+            IconButtonDefaults.filledIconButtonColors(
+                containerColor = ContainerColor,
+                contentColor = ContentColor,
+            ),
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.PlayArrow,
+            contentDescription = stringResource(R.string.open_file),
+            modifier = Modifier.size(IconSize),
         )
     }
 }
@@ -197,34 +259,34 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
             label = "progress",
         )
+    val background = ContainerColor
 
     Box(
         modifier =
             modifier
-                .size(48.dp)
+                .size(IconButtonSize)
                 .clip(CircleShape)
+                .drawBehind { drawCircle(background) }
                 .clickable(onClickLabel = stringResource(R.string.cancel), onClick = onClick)
     ) {
         if (progress < 0) {
             CircularProgressIndicator(
-                modifier = Modifier.size(28.dp).align(Alignment.Center),
-                trackColor = MaterialTheme.colorScheme.outlineVariant,
-                strokeWidth = 3.dp,
+                modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
+                color = ContentColor,
             )
         } else {
             CircularProgressIndicator(
                 { animatedProgress },
-                modifier = Modifier.size(28.dp).align(Alignment.Center),
-                trackColor = MaterialTheme.colorScheme.outlineVariant,
-                strokeWidth = 3.dp,
-                gapSize = 0.dp
+                modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
+                color = ContentColor,
+                gapSize = 0.dp,
             )
         }
         Icon(
-            imageVector = Icons.Rounded.Stop,
+            imageVector = Icons.Outlined.Pause,
             contentDescription = null,
-            modifier = Modifier.align(Alignment.Center).size(16.dp),
-            tint = MaterialTheme.colorScheme.primary
+            modifier = Modifier.align(Alignment.Center).size(IconSize),
+            tint = ContentColor,
         )
     }
 }

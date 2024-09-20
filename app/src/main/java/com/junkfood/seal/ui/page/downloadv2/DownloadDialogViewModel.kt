@@ -199,9 +199,8 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             is SheetState.Loading -> {
                 cancel()
             }
-            else -> {
-                resetStates()
-            }
+
+            else -> {}
         }
     }
 
@@ -209,6 +208,8 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         val urlList = action.urlList
         if (!urlList.isNullOrEmpty()) {
             mSheetStateFlow.update { SheetState.Configure(urlList) }
+        } else {
+            mSheetStateFlow.update { SheetState.InputUrl }
         }
         mSheetValueFlow.update { SheetValue.Expanded }
     }
@@ -219,7 +220,6 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 val res = YoutubeDL.destroyProcessById(id = state.taskKey)
                 if (res) {
                     state.job.cancel()
-                    resetStates()
                 }
                 return res
             }

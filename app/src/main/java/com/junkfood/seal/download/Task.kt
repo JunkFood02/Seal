@@ -12,16 +12,16 @@ data class Task(
     val playlistIndex: Int? = null,
     val preferences: DownloadUtil.DownloadPreferences,
     val viewState: ViewState = ViewState.create(info, url),
-    val id: String = makeId(url, playlistIndex, preferences)
+    val id: String = makeId(url, playlistIndex, preferences),
 ) {
     constructor(
         url: String,
-        preferences: DownloadUtil.DownloadPreferences
+        preferences: DownloadUtil.DownloadPreferences,
     ) : this(info = null, url = url, preferences = preferences)
 
     constructor(
         info: VideoInfo,
-        preferences: DownloadUtil.DownloadPreferences
+        preferences: DownloadUtil.DownloadPreferences,
     ) : this(info = info, url = info.originalUrl.toString(), preferences = preferences)
 
     sealed interface State : Comparable<State> {
@@ -38,10 +38,8 @@ data class Task(
 
         data object Idle : State
 
-        data class FetchingInfo(
-            override val job: Job,
-            override val taskId: String,
-        ) : State, Cancelable {
+        data class FetchingInfo(override val job: Job, override val taskId: String) :
+            State, Cancelable {
             override val action: RestartableAction = RestartableAction.FetchInfo
         }
 
@@ -51,15 +49,20 @@ data class Task(
             override val job: Job,
             override val taskId: String,
             val progress: Float = PROGRESS_INDETERMINATE,
-            val progressText: String = ""
+            val progressText: String = "",
         ) : State, Cancelable {
             override val action: RestartableAction = RestartableAction.Download
         }
 
-        data class Canceled(override val action: RestartableAction) : State, Restartable
+        data class Canceled(
+            override val action: RestartableAction,
+            val progress: Float? = null,
+        ) : State, Restartable
 
-        data class Error(val throwable: Throwable, override val action: RestartableAction) :
-            State, Restartable
+        data class Error(
+            val throwable: Throwable,
+            override val action: RestartableAction,
+        ) : State, Restartable
 
         data class Completed(val filePath: String?) : State
 
@@ -121,7 +124,7 @@ data class Task(
         private fun makeId(
             url: String,
             playlistIndex: Int?,
-            preferences: DownloadUtil.DownloadPreferences
+            preferences: DownloadUtil.DownloadPreferences,
         ): String = "${url}_${playlistIndex}_${preferences.hashCode()}"
     }
 }

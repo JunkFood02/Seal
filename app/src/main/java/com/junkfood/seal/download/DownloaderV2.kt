@@ -20,20 +20,14 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlin.collections.List
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.count
-import kotlin.collections.firstOrNull
-import kotlin.collections.forEach
-import kotlin.collections.plusAssign
-import kotlin.collections.set
-import kotlin.collections.sortedBy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -217,9 +211,17 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                 val res = YoutubeDL.destroyProcessById(preState.taskId)
                 if (res) {
                     preState.job.cancel()
-                    state = State.Canceled(action = preState.action)
+                    val progress = if (preState is Running) preState.progress else null
+                    state = State.Canceled(action = preState.action, progress = progress)
                 }
             }
+            Idle -> {
+                state = State.Canceled(action = FetchInfo)
+            }
+            ReadyWithInfo -> {
+                state = State.Canceled(action = Download)
+            }
+
             else -> {
                 throw IllegalStateException()
             }
