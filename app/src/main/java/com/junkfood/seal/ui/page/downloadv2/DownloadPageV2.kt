@@ -79,12 +79,15 @@ fun DownloadPageV2(
     navigateToDownloads: () -> Unit,
     onNavigateToTaskList: () -> Unit,
 ) {
-
+    val view = LocalView.current
     DownloadPageImplV2(
         modifier = modifier,
         taskDownloadStateMap = downloader.getTaskStateMap(),
         processCount = processCount,
-        downloadCallback = { dialogViewModel.postAction(Action.ShowSheet()) },
+        downloadCallback = {
+            view.slightHapticFeedback()
+            dialogViewModel.postAction(Action.ShowSheet())
+        },
         navigateToSettings = navigateToSettings,
         navigateToDownloads = navigateToDownloads,
         onNavigateToTaskList = onNavigateToTaskList,

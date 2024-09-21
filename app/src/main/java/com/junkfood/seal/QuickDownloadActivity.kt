@@ -17,7 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -27,7 +26,6 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SelectionState
-import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetValue
 import com.junkfood.seal.ui.page.downloadv2.FormatPage
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
@@ -36,8 +34,7 @@ import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.KoinContext
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 private const val TAG = "ShareActivity"
 
@@ -87,64 +84,56 @@ class QuickDownloadActivity : ComponentActivity() {
             finish()
         }
 
+        val viewModel: DownloadDialogViewModel = getViewModel()
+        viewModel.postAction(Action.ShowSheet(listOf(url)))
+
         setContent {
-            KoinContext {
-                val viewModel: DownloadDialogViewModel = koinViewModel()
+            SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
+                SealTheme(
+                    darkTheme = LocalDarkTheme.current.isDarkTheme(),
+                    isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
+                ) {
+                    var preferences by remember {
+                        mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
+                    }
 
-                SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
-                    SealTheme(
-                        darkTheme = LocalDarkTheme.current.isDarkTheme(),
-                        isHighContrastModeEnabled = LocalDarkTheme.current.isHighContrastModeEnabled,
-                    ) {
-                        var preferences by remember {
-                            mutableStateOf(DownloadUtil.DownloadPreferences.createFromPreferences())
+                    val sheetValue = viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
+
+                    val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
+
+                    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+                    val selectionState =
+                        viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
+
+                    LaunchedEffect(sheetValue) {
+                        if (sheetValue == DownloadDialogViewModel.SheetValue.Hidden) {
+                            launch { sheetState.hide() }
+                                .invokeOnCompletion { this@QuickDownloadActivity.finish() }
                         }
-                        val sheetValue =
-                            viewModel.sheetValueFlow.collectAsStateWithLifecycle().value
-                        val state = viewModel.sheetStateFlow.collectAsStateWithLifecycle().value
+                    }
 
-                        LaunchedEffect(url) {
-                            viewModel.postAction(Action.ShowSheet(listOf(url)))
-                        }
+                    DownloadDialog(
+                        state = state,
+                        sheetState = sheetState,
+                        config = Config(),
+                        preferences = preferences,
+                        onPreferencesUpdate = { preferences = it },
+                        onActionPost = { viewModel.postAction(it) },
+                    )
 
-                        val selectionState =
-                            viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
-
-                        val scope = rememberCoroutineScope()
-
-                        if (sheetValue == SheetValue.Expanded) {
-                            val sheetState =
-                                rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-                            DownloadDialog(
-                                state = state,
-                                sheetState = sheetState,
-                                config = Config(),
-                                preferences = preferences,
-                                onPreferencesUpdate = { preferences = it },
-                                onActionPost = {
-                                    viewModel.postAction(it)
-                                    if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
-                                        scope.launch {
-                                            sheetState.hide()
-                                        }.invokeOnCompletion { this@QuickDownloadActivity.finish() }
-                                    }
+                    when (selectionState) {
+                        is SelectionState.FormatSelection ->
+                            FormatPage(
+                                state = selectionState,
+                                onDismissRequest = {
+                                    viewModel.postAction(Action.Reset)
+                                    this.finish()
                                 },
                             )
-                        }
-                        when (selectionState) {
-                            is SelectionState.FormatSelection ->
-                                FormatPage(
-                                    state = selectionState,
-                                    onDismissRequest = {
-                                        viewModel.postAction(Action.Reset)
-                                        this.finish()
-                                    },
-                                )
 
-                            SelectionState.Idle -> {}
-                            is SelectionState.PlaylistSelection -> {}
-                        }
+                        SelectionState.Idle -> {}
+                        is SelectionState.PlaylistSelection -> {}
                     }
                 }
             }

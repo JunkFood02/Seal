@@ -1098,7 +1098,7 @@ fun InputUrlPage(modifier: Modifier = Modifier, onActionPost: (Action) -> Unit) 
         OutlinedTextField(
             value = url,
             onValueChange = { url = it },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             label = { Text(stringResource(R.string.video_url)) },
             maxLines = 3,
             trailingIcon = {

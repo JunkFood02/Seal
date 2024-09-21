@@ -20,14 +20,14 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -154,6 +154,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                     .onSuccess {
                         info = it
                         downloadState = ReadyWithInfo
+                        viewState = Task.ViewState(it)
                     }
                     .onFailure { throwable ->
                         if (throwable is YoutubeDL.CanceledException) {
