@@ -1,6 +1,8 @@
 package com.junkfood.seal.download
 
 import androidx.annotation.CheckResult
+import com.junkfood.seal.download.Task.DownloadState.Idle
+import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.util.DownloadUtil.DownloadPreferences
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.PlaylistResult
@@ -10,7 +12,8 @@ import kotlin.math.roundToInt
 
 object TaskFactory {
     /**
-     * @return A [Task] with extra configurations made by user in the custom format selection page
+     * @return A [TaskWithState] with extra configurations made by user in the custom format
+     *   selection page
      */
     @CheckResult
     fun createWithConfigurations(
@@ -21,7 +24,7 @@ object TaskFactory {
         newTitle: String,
         selectedSubtitles: List<String>,
         selectedAutoCaptions: List<String>,
-    ): Task {
+    ): TaskWithState {
         val fileSize =
             formatList.fold(.0) { acc, format ->
                 acc + (format.fileSize ?: format.fileSizeApprox ?: .0)
@@ -55,30 +58,40 @@ object TaskFactory {
                         splitByChapter = splitByChapter,
                         newTitle = newTitle,
                         mergeAudioStream = mergeAudioStream,
-                        extractAudio = extractAudio || audioOnly)
+                        extractAudio = extractAudio || audioOnly,
+                    )
                 }
                 .run {
                     if (subtitleLanguage.isNotEmpty()) {
                         copy(
                             downloadSubtitle = true,
                             autoSubtitle = selectedAutoCaptions.isNotEmpty(),
-                            subtitleLanguage = subtitleLanguage)
+                            subtitleLanguage = subtitleLanguage,
+                        )
                     } else {
                         this
                     }
                 }
 
-        return Task(info = info, preferences = preferences)
+        val task = Task(url = info.originalUrl.toString(), preferences = preferences)
+        val state =
+            Task.State(
+                downloadState = ReadyWithInfo,
+                videoInfo = info,
+                viewState = Task.ViewState(info = info),
+            )
+
+        return TaskWithState(task, state)
     }
 
-    /** @return List of [Task]s created from playlist items */
+    /** @return List of [TaskWithState]s created from playlist items */
     @CheckResult
     fun createWithPlaylistResult(
         playlistUrl: String,
         indexList: List<Int>,
         playlistResult: PlaylistResult,
-        preferences: DownloadPreferences
-    ): List<Task> {
+        preferences: DownloadPreferences,
+    ): List<TaskWithState> {
         checkNotNull(playlistResult.entries)
         val indexEntryMap = indexList.associateWith { index -> playlistResult.entries[index] }
 
@@ -90,15 +103,16 @@ object TaskFactory {
                         title = entry.title ?: "${playlistResult.title} - $index",
                         duration = entry.duration?.roundToInt() ?: 0,
                         uploader = entry.uploader ?: entry.channel ?: playlistResult.channel ?: "",
-                        thumbnailUrl = (entry.thumbnails?.lastOrNull()?.url) ?: "")
-                Task(
-                    info = null,
-                    url = playlistUrl,
-                    preferences = preferences,
-                    playlistIndex = index,
-                    viewState = viewState)
+                        thumbnailUrl = (entry.thumbnails?.lastOrNull()?.url) ?: "",
+                    )
+                val task = Task(url = playlistUrl, preferences = preferences, playlistIndex = index)
+                val state =
+                    Task.State(downloadState = Idle, videoInfo = null, viewState = viewState)
+                TaskWithState(task, state)
             }
 
         return taskList
     }
+
+    data class TaskWithState(val task: Task, val state: Task.State)
 }

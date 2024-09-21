@@ -1,6 +1,5 @@
 package com.junkfood.seal.download
 
-import androidx.annotation.FloatRange
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
@@ -8,24 +7,25 @@ import kotlinx.coroutines.Job
 import kotlin.math.roundToInt
 
 data class Task(
-    val info: VideoInfo?,
     val url: String,
     val playlistIndex: Int? = null,
     val preferences: DownloadUtil.DownloadPreferences,
-    val viewState: ViewState = ViewState.create(info, url),
     val id: String = makeId(url, playlistIndex, preferences),
-) {
-    constructor(
-        url: String,
-        preferences: DownloadUtil.DownloadPreferences,
-    ) : this(info = null, url = url, preferences = preferences)
+) : Comparable<Task> {
 
-    constructor(
-        info: VideoInfo,
-        preferences: DownloadUtil.DownloadPreferences,
-    ) : this(info = info, url = info.originalUrl.toString(), preferences = preferences)
+    private val timeCreated: Long = System.currentTimeMillis()
 
-    sealed interface State : Comparable<State> {
+    override fun compareTo(other: Task): Int {
+        return timeCreated.compareTo(other.timeCreated)
+    }
+
+    data class State(
+        val downloadState: DownloadState,
+        val videoInfo: VideoInfo?,
+        val viewState: ViewState,
+    )
+
+    sealed interface DownloadState : Comparable<DownloadState> {
 
         interface Cancelable {
             val job: Job
@@ -37,46 +37,42 @@ data class Task(
             val action: RestartableAction
         }
 
-        data object Idle : State
+        data object Idle : DownloadState
 
         data class FetchingInfo(override val job: Job, override val taskId: String) :
-            State, Cancelable {
+            DownloadState, Cancelable {
             override val action: RestartableAction = RestartableAction.FetchInfo
         }
 
-        data object ReadyWithInfo : State
+        data object ReadyWithInfo : DownloadState
 
         data class Running(
             override val job: Job,
             override val taskId: String,
             val progress: Float = PROGRESS_INDETERMINATE,
             val progressText: String = "",
-        ) : State, Cancelable {
+        ) : DownloadState, Cancelable {
             override val action: RestartableAction = RestartableAction.Download
         }
 
-        data class Canceled(
-            override val action: RestartableAction,
-            val progress: Float? = null,
-        ) : State, Restartable
+        data class Canceled(override val action: RestartableAction, val progress: Float? = null) :
+            DownloadState, Restartable
 
-        data class Error(
-            val throwable: Throwable,
-            override val action: RestartableAction,
-        ) : State, Restartable
+        data class Error(val throwable: Throwable, override val action: RestartableAction) :
+            DownloadState, Restartable
 
-        data class Completed(val filePath: String?) : State
+        data class Completed(val filePath: String?) : DownloadState
 
-        override fun compareTo(other: State): Int {
+        override fun compareTo(other: DownloadState): Int {
             return ordinal - other.ordinal
         }
 
         private val ordinal: Int
             get() =
                 when (this) {
-                    is Canceled -> 6
+                    is Canceled -> 4
                     is Error -> 5
-                    is Completed -> 4
+                    is Completed -> 6
                     Idle -> 3
                     is FetchingInfo -> 2
                     ReadyWithInfo -> 1
@@ -109,18 +105,10 @@ data class Task(
             thumbnailUrl = info.thumbnail.toHttpsUrl(),
             fileSizeApprox = info.fileSize ?: info.fileSizeApprox ?: .0,
         )
-
-        companion object {
-            fun create(info: VideoInfo?, url: String) =
-                if (info != null) ViewState(info) else ViewState(url = url, title = url)
-        }
     }
 
     companion object {
         private const val PROGRESS_INDETERMINATE = -1f
-
-        fun Task.attachInfo(info: VideoInfo): Task =
-            this.copy(info = info, viewState = ViewState(info))
 
         private fun makeId(
             url: String,

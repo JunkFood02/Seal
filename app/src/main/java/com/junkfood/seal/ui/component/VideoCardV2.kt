@@ -55,7 +55,7 @@ import com.junkfood.seal.util.toFileSizeText
 fun VideoCardV2(
     modifier: Modifier = Modifier,
     viewState: Task.ViewState,
-    taskState: Task.State,
+    downloadState: Task.DownloadState,
     stateIndicator: @Composable (BoxScope.() -> Unit)? = null,
     onButtonClick: () -> Unit,
 ) {
@@ -97,17 +97,18 @@ fun VideoCardV2(
                 ) {
                     val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
                     val text =
-                        when (taskState) {
-                            is Task.State.Canceled -> R.string.status_canceled
-                            is Task.State.Completed -> R.string.status_completed
-                            is Task.State.Error -> R.string.status_error
-                            is Task.State.FetchingInfo -> R.string.status_fetching_video_info
-                            Task.State.Idle -> R.string.status_enqueued
-                            Task.State.ReadyWithInfo -> R.string.status_enqueued
-                            is Task.State.Running -> R.string.status_downloading
+                        when (downloadState) {
+                            is Task.DownloadState.Canceled -> R.string.status_canceled
+                            is Task.DownloadState.Completed -> R.string.status_completed
+                            is Task.DownloadState.Error -> R.string.status_error
+                            is Task.DownloadState.FetchingInfo ->
+                                R.string.status_fetching_video_info
+                            Task.DownloadState.Idle -> R.string.status_enqueued
+                            Task.DownloadState.ReadyWithInfo -> R.string.status_enqueued
+                            is Task.DownloadState.Running -> R.string.status_downloading
                         }
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (taskState is Task.State.Error) {
+                        if (downloadState is Task.DownloadState.Error) {
                             Icon(
                                 imageVector = Icons.Rounded.Error,
                                 contentDescription = null,
@@ -153,22 +154,25 @@ fun VideoCardV2(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    Text(
-                        modifier = Modifier.padding(top = 3.dp),
-                        text = viewState.uploader,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+                    if (viewState.uploader.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier.padding(top = 3.dp),
+                            text = viewState.uploader,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
                 }
                 IconButton(
                     onButtonClick,
-                    modifier = Modifier.align(Alignment.Top).padding(top = 8.dp),
+                    modifier = Modifier.align(Alignment.Top),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
                         contentDescription = stringResource(R.string.show_more_actions),
+                        modifier = Modifier.size(20.dp),
                     )
                 }
             }
@@ -188,37 +192,51 @@ private val ContentColor: Color
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun VideoCardV2Preview() {
     SealTheme() {
-        val state =
-            Task.State.Error(throwable = Throwable(), action = Task.RestartableAction.Download)
+        val downloadState =
+            Task.DownloadState.Error(
+                throwable = Throwable(),
+                action = Task.RestartableAction.Download,
+            )
         VideoCardV2(
             viewState = Task.ViewState(),
-            taskState = state,
+            downloadState = downloadState,
             stateIndicator = {
-                StateIndicator(modifier = Modifier.align(Alignment.Center), state = state) {}
+                StateIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    downloadState = downloadState,
+                ) {}
             },
         ) {}
     }
 }
 
 @Composable
-fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: () -> Unit) {
-    when (state) {
-        is Task.State.Error -> {
+fun StateIndicator(
+    modifier: Modifier = Modifier,
+    downloadState: Task.DownloadState,
+    onClick: () -> Unit,
+) {
+    when (downloadState) {
+        is Task.DownloadState.Error -> {
             RestartButton(modifier, onClick)
         }
-        is Task.State.Canceled -> {
-            ResumeButton(modifier, state.progress, onClick)
+        is Task.DownloadState.Canceled -> {
+            ResumeButton(modifier, downloadState.progress, onClick)
         }
-        is Task.State.Completed -> {
+        is Task.DownloadState.Completed -> {
             PlayVideoButton(modifier, onClick)
         }
-        is Task.State.FetchingInfo,
-        Task.State.ReadyWithInfo,
-        Task.State.Idle -> {
+        is Task.DownloadState.FetchingInfo,
+        Task.DownloadState.ReadyWithInfo,
+        Task.DownloadState.Idle -> {
             ProgressButton(modifier = modifier, progress = -1f, onClick = onClick)
         }
-        is Task.State.Running -> {
-            ProgressButton(modifier = modifier, progress = state.progress, onClick = onClick)
+        is Task.DownloadState.Running -> {
+            ProgressButton(
+                modifier = modifier,
+                progress = downloadState.progress,
+                onClick = onClick,
+            )
         }
     }
 }

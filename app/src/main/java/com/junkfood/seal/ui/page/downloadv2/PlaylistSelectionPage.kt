@@ -109,8 +109,7 @@ fun PlaylistSelectionPage(
                     TextButton(
                         modifier = Modifier.padding(end = 8.dp),
                         onClick = {
-                            downloader.enqueue(
-                                TaskFactory.createWithPlaylistResult(
+                            TaskFactory.createWithPlaylistResult(
                                     playlistUrl =
                                         playlistInfo.originalUrl
                                             ?: playlistInfo.webpageUrl.toString(),
@@ -119,7 +118,8 @@ fun PlaylistSelectionPage(
                                     preferences =
                                         DownloadUtil.DownloadPreferences.createFromPreferences(),
                                 )
-                            )
+                                .forEach(downloader::enqueue)
+
                             onDismissRequest()
                         },
                         enabled = selectedItems.isNotEmpty(),

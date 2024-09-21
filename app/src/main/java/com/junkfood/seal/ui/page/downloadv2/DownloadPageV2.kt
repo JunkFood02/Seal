@@ -82,7 +82,7 @@ fun DownloadPageV2(
 
     DownloadPageImplV2(
         modifier = modifier,
-        taskStateMap = downloader.getTaskStateMap(),
+        taskDownloadStateMap = downloader.getTaskStateMap(),
         processCount = processCount,
         downloadCallback = { dialogViewModel.postAction(Action.ShowSheet()) },
         navigateToSettings = navigateToSettings,
@@ -90,14 +90,14 @@ fun DownloadPageV2(
         onNavigateToTaskList = onNavigateToTaskList,
     ) { task, state ->
         when (state) {
-            is Task.State.Canceled -> {
+            is Task.DownloadState.Canceled -> {
                 downloader.restart(task)
             }
-            is Task.State.Completed -> {}
-            is Task.State.Error -> {}
-            is Task.State.Cancelable,
-            Task.State.Idle,
-            Task.State.ReadyWithInfo -> {
+            is Task.DownloadState.Completed -> {}
+            is Task.DownloadState.Error -> {}
+            is Task.DownloadState.Cancelable,
+            Task.DownloadState.Idle,
+            Task.DownloadState.ReadyWithInfo -> {
                 downloader.cancel(task)
             }
             else -> {}
@@ -148,13 +148,13 @@ fun DownloadPageV2(
 @Composable
 fun DownloadPageImplV2(
     modifier: Modifier = Modifier,
-    taskStateMap: SnapshotStateMap<Task, Task.State>,
+    taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     processCount: Int = 0,
     downloadCallback: () -> Unit = {},
     navigateToSettings: () -> Unit = {},
     navigateToDownloads: () -> Unit = {},
     onNavigateToTaskList: () -> Unit = {},
-    onActionPost: (Task, Task.State) -> Unit,
+    onActionPost: (Task, Task.DownloadState) -> Unit,
 ) {
 
     Scaffold(
@@ -194,23 +194,25 @@ fun DownloadPageImplV2(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     item { Title() }
-                    items(taskStateMap.toList()) { (task, state) ->
+                    items(
+                        taskDownloadStateMap.toList().sortedBy { (_, state) -> state.downloadState }
+                    ) { (task, state) ->
                         VideoCardV2(
                             modifier = Modifier,
-                            viewState = task.viewState,
-                            taskState = state,
+                            viewState = state.viewState,
+                            downloadState = state.downloadState,
                             stateIndicator = {
                                 StateIndicator(
                                     modifier = Modifier.align(Alignment.Center),
-                                    state = state,
+                                    downloadState = state.downloadState,
                                 ) {
-                                    onActionPost(task, state)
+                                    onActionPost(task, state.downloadState)
                                 }
                             },
                         ) {}
                     }
                 }
-                if (taskStateMap.isEmpty()) {
+                if (taskDownloadStateMap.isEmpty()) {
                     Spacer(modifier = Modifier.weight(0.4f))
                     DownloadQueuePlaceholder(modifier = Modifier)
                     Spacer(modifier = Modifier.weight(1f))
@@ -369,21 +371,18 @@ private fun DownloadPagePreview() {
             object : DownloaderV2 {
                 override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
                     return mutableStateMapOf(
-                        Task("", PreferencesMock) to
-                            Task.State.Error(
-                                Throwable(""),
-                                action = Task.RestartableAction.Download,
-                            )
+                        Task(url = "", preferences = PreferencesMock) to
+                            Task.State(Task.DownloadState.Idle, null, Task.ViewState())
                     )
                 }
-
-                override fun enqueue(task: Task) {}
-
-                override fun enqueue(taskList: List<Task>) {}
 
                 override fun cancel(task: Task) {}
 
                 override fun restart(task: Task) {}
+
+                override fun enqueue(task: Task) {}
+
+                override fun enqueue(task: Task, state: Task.State) {}
             }
         }
     }
@@ -393,20 +392,20 @@ private fun DownloadPagePreview() {
         SealTheme {
             Column() {
                 DownloadPageImplV2(
-                    taskStateMap = downloader.getTaskStateMap(),
+                    taskDownloadStateMap = downloader.getTaskStateMap(),
                     processCount = 2,
                     onActionPost = { task, state ->
                         when (state) {
-                            is Task.State.Canceled -> {
+                            is Task.DownloadState.Canceled -> {
                                 downloader.restart(task)
                             }
-                            is Task.State.Completed -> {}
-                            is Task.State.Error -> {
+                            is Task.DownloadState.Completed -> {}
+                            is Task.DownloadState.Error -> {
                                 downloader.restart(task)
                             }
-                            is Task.State.Cancelable,
-                            Task.State.Idle,
-                            Task.State.ReadyWithInfo -> {
+                            is Task.DownloadState.Cancelable,
+                            Task.DownloadState.Idle,
+                            Task.DownloadState.ReadyWithInfo -> {
                                 downloader.cancel(task)
                             }
                             else -> {}

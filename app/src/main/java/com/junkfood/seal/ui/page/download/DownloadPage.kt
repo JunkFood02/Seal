@@ -284,7 +284,7 @@ fun DownloadPage(
         ) {
             Column {
                 downloader.getTaskStateMap().forEach { (task, state) ->
-                    Text(task.viewState.toString(), maxLines = 2)
+                    Text(state.viewState.toString(), maxLines = 2)
                     Text(state.toString())
                     Spacer(Modifier.height(12.dp))
                 }

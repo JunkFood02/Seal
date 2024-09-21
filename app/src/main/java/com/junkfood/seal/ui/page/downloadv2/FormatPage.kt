@@ -121,7 +121,7 @@ private data class FormatConfig(
     val splitByChapter: Boolean,
     val newTitle: String,
     val selectedSubtitles: List<String>,
-    val selectedAutoCaptions: List<String>
+    val selectedAutoCaptions: List<String>,
 )
 
 @Composable
@@ -129,7 +129,7 @@ fun FormatPage(
     modifier: Modifier = Modifier,
     videoInfo: VideoInfo,
     downloader: DownloaderV2 = koinInject(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     if (videoInfo.formats.isNullOrEmpty()) return
     val audioOnly = EXTRACT_AUDIO.getBoolean()
@@ -156,31 +156,33 @@ fun FormatPage(
         audioOnly = audioOnly,
         mergeAudioStream = !audioOnly && mergeAudioStream,
         selectedSubtitleCodes = initialSelectedSubtitles,
-        isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0) { config
-            ->
-            with(config) {
-                diffSubtitleLanguages =
-                    (selectedSubtitles + selectedAutoCaptions)
-                        .run { this - this.filterWithRegex(subtitleLanguageRegex) }
-                        .toSet()
+        isClippingAvailable = VIDEO_CLIP.getBoolean() && (videoInfo.duration ?: .0) >= 0,
+    ) { config ->
+        with(config) {
+            diffSubtitleLanguages =
+                (selectedSubtitles + selectedAutoCaptions)
+                    .run { this - this.filterWithRegex(subtitleLanguageRegex) }
+                    .toSet()
 
-                downloader.enqueue(
-                    TaskFactory.createWithConfigurations(
-                        videoInfo = videoInfo,
-                        formatList = formatList,
-                        videoClips = videoClips,
-                        splitByChapter = splitByChapter,
-                        newTitle = newTitle,
-                        selectedSubtitles = selectedSubtitles,
-                        selectedAutoCaptions = selectedAutoCaptions))
+            downloader.enqueue(
+                TaskFactory.createWithConfigurations(
+                    videoInfo = videoInfo,
+                    formatList = formatList,
+                    videoClips = videoClips,
+                    splitByChapter = splitByChapter,
+                    newTitle = newTitle,
+                    selectedSubtitles = selectedSubtitles,
+                    selectedAutoCaptions = selectedAutoCaptions,
+                )
+            )
 
-                if (diffSubtitleLanguages.isNotEmpty()) {
-                    showUpdateSubtitleDialog = true
-                } else {
-                    onNavigateBack()
-                }
+            if (diffSubtitleLanguages.isNotEmpty()) {
+                showUpdateSubtitleDialog = true
+            } else {
+                onNavigateBack()
             }
         }
+    }
     if (showUpdateSubtitleDialog) {
         UpdateSubtitleLanguageDialog(
             modifier = Modifier,
@@ -191,14 +193,14 @@ fun FormatPage(
             },
             onConfirm = {
                 SUBTITLE_LANGUAGE.updateString(
-                    (diffSubtitleLanguages + subtitleLanguageRegex).joinToString(
-                        separator = ",",
-                    ) {
+                    (diffSubtitleLanguages + subtitleLanguageRegex).joinToString(separator = ",") {
                         it
-                    })
+                    }
+                )
                 showUpdateSubtitleDialog = false
                 onNavigateBack()
-            })
+            },
+        )
     }
 }
 
@@ -213,11 +215,12 @@ fun FormatPagePreview() {
             "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
             "zh-Hans-en" to
                 listOf(
-                    SubtitleFormat(ext = "", url = "", name = "Chinese (Simplified) from English")),
+                    SubtitleFormat(ext = "", url = "", name = "Chinese (Simplified) from English")
+                ),
             "zh-Hant-en" to
                 listOf(
-                    SubtitleFormat(
-                        ext = "", url = "", name = "Chinese (Traditional) from English")),
+                    SubtitleFormat(ext = "", url = "", name = "Chinese (Traditional) from English")
+                ),
         )
 
     val subMap = buildMap {
@@ -238,7 +241,9 @@ fun FormatPagePreview() {
                                 vcodec = "none",
                                 format = "251 - audio only (medium)",
                                 fileSizeApprox = 2000000.0,
-                                tbr = 128.0))
+                                tbr = 128.0,
+                            )
+                        )
                     }
                 },
             subtitles = subMap,
@@ -251,22 +256,28 @@ fun FormatPagePreview() {
                             format = "616 - 1920x1080 (Premium)",
                             acodec = "none",
                             vcodec = "vp09.00.40.08",
-                            ext = "webm"))
+                            ext = "webm",
+                        )
+                    )
                     add(
                         Format(
                             formatId = "251",
                             format = "251 - audio only (medium)",
                             acodec = "opus",
                             vcodec = "none",
-                            ext = "webm"))
+                            ext = "webm",
+                        )
+                    )
                 },
-            duration = 180.0)
+            duration = 180.0,
+        )
     SealTheme {
         FormatPageImpl(
             videoInfo = videoInfo,
             isClippingAvailable = true,
             mergeAudioStream = true,
-            selectedSubtitleCodes = setOf("en", "ja-en"))
+            selectedSubtitleCodes = setOf("en", "ja-en"),
+        )
     }
 }
 
@@ -280,7 +291,7 @@ private fun FormatPageImpl(
     isClippingAvailable: Boolean = false,
     selectedSubtitleCodes: Set<String>,
     onNavigateBack: () -> Unit = {},
-    onDownloadPressed: (FormatConfig) -> Unit = { _ -> }
+    onDownloadPressed: (FormatConfig) -> Unit = { _ -> },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -321,8 +332,10 @@ private fun FormatPageImpl(
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TEXT, it)
                     },
-                    null),
-                null)
+                    null,
+                ),
+                null,
+            )
         }
 
     var isClippingVideo by remember { mutableStateOf(false) }
@@ -376,7 +389,8 @@ private fun FormatPageImpl(
                 title = {
                     Text(
                         text = stringResource(R.string.format_selection),
-                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp))
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                    )
                 },
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
@@ -400,348 +414,350 @@ private fun FormatPageImpl(
                                 splitByChapter = isSplittingVideo,
                                 newTitle = videoTitle,
                                 selectedSubtitles = selectedSubtitles,
-                                selectedAutoCaptions = selectedAutoCaptions))
+                                selectedAutoCaptions = selectedAutoCaptions,
+                            )
+                        )
                     },
                     modifier = Modifier.padding(12.dp),
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.FileDownload,
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp))
-                    },
-                    text = {
-                        Text(
-                            stringResource(R.string.start_download),
+                            modifier = Modifier.size(24.dp),
                         )
                     },
-                    expanded = isFabExpanded)
+                    text = { Text(stringResource(R.string.start_download)) },
+                    expanded = isFabExpanded,
+                )
             }
         },
-        floatingActionButtonPosition = FabPosition.End) { paddingValues ->
-            LazyVerticalGrid(
-                modifier = Modifier.padding(paddingValues),
-                state = lazyGridState,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                columns = GridCells.Adaptive(150.dp),
-                contentPadding = PaddingValues(8.dp)) {
-                    videoInfo.run {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            FormatVideoPreview(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                title = videoTitle.ifEmpty { title },
-                                author = uploader ?: channel ?: uploaderId.toString(),
-                                thumbnailUrl = thumbnail.toHttpsUrl(),
-                                duration = duration.roundToInt(),
-                                isClippingVideo = isClippingVideo,
-                                isSplittingVideo = isSplittingVideo,
-                                isClippingAvailable = isClippingAvailable,
-                                isSplitByChapterAvailable = isSplitByChapterAvailable,
-                                onClippingToggled = { isClippingVideo = !isClippingVideo },
-                                onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
-                                onRename = { showRenameDialog = true },
-                                onOpenThumbnail = { uriHandler.openUri(thumbnail.toHttpsUrl()) },
-                            )
-                        }
-                    }
-
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        var shouldUpdateClipDuration by remember { mutableStateOf(false) }
-
-                        Column {
-                            AnimatedVisibility(visible = isClippingVideo) {
-                                Column {
-                                    val state =
-                                        remember(isClippingVideo, showVideoClipDialog) {
-                                            RangeSliderState(
-                                                activeRangeStart = videoClipDuration.start,
-                                                activeRangeEnd = videoClipDuration.endInclusive,
-                                                valueRange = videoDurationRange,
-                                                onValueChangeFinished = {
-                                                    shouldUpdateClipDuration = true
-                                                })
-                                        }
-                                    DisposableEffect(shouldUpdateClipDuration) {
-                                        videoClipDuration =
-                                            state.activeRangeStart..state.activeRangeEnd
-                                        onDispose { shouldUpdateClipDuration = false }
-                                    }
-
-                                    VideoSelectionSlider(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        state = state,
-                                        onDiscard = { isClippingVideo = false },
-                                        onDurationClick = { showVideoClipDialog = true },
-                                    )
-                                    HorizontalDivider()
-                                }
-                            }
-
-                            AnimatedVisibility(visible = isSplittingVideo) {
-                                Column {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically) {
-                                            Text(
-                                                text =
-                                                    stringResource(
-                                                        id = R.string.split_video_msg,
-                                                        videoInfo.chapters?.size ?: 0),
-                                                style = MaterialTheme.typography.labelMedium,
-                                                modifier = Modifier.padding(horizontal = 12.dp))
-                                            Spacer(modifier = Modifier.weight(1f))
-                                            TextButtonWithIcon(
-                                                onClick = { isSplittingVideo = false },
-                                                icon = Icons.Outlined.Delete,
-                                                text = stringResource(id = R.string.discard),
-                                                contentColor = MaterialTheme.colorScheme.error)
-                                        }
-                                    HorizontalDivider()
-                                }
-                            }
-                        }
-                    }
-
-                    if (suggestedSubtitleMap.isNotEmpty()) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            Column(modifier = Modifier.fillMaxWidth()) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier =
-                                        Modifier.padding(top = 12.dp).padding(horizontal = 12.dp)) {
-                                        Text(
-                                            text = stringResource(id = R.string.subtitle_language),
-                                            color = MaterialTheme.colorScheme.primary,
-                                            style = MaterialTheme.typography.titleSmall,
-                                            modifier = Modifier.weight(1f))
-
-                                        ClickableTextAction(
-                                            visible = true,
-                                            text =
-                                                stringResource(
-                                                    id =
-                                                        androidx.appcompat.R.string
-                                                            .abc_activity_chooser_view_see_all)) {
-                                                showSubtitleSelectionDialog = true
-                                            }
-                                    }
-
-                                LazyRow(modifier = Modifier.padding()) {
-                                    for ((code, formats) in suggestedSubtitleMap) {
-                                        item {
-                                            VideoFilterChip(
-                                                selected = selectedSubtitles.contains(code),
-                                                onClick = {
-                                                    if (selectedSubtitles.contains(code)) {
-                                                        selectedSubtitles.remove(code)
-                                                    } else {
-                                                        selectedSubtitles.add(code)
-                                                    }
-                                                },
-                                                label =
-                                                    formats.first().run {
-                                                        name ?: protocol ?: code
-                                                    })
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (isSuggestedFormatAvailable) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier =
-                                    Modifier.padding(top = 12.dp, bottom = 4.dp)
-                                        .padding(horizontal = 12.dp)) {
-                                    FormatSubtitle(text = stringResource(R.string.suggested))
-                                }
-                        }
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            val onClick = {
-                                isSuggestedFormatSelected = true
-                                selectedAudioOnlyFormats.clear()
-                                selectedVideoAudioFormat = NOT_SELECTED
-                                selectedVideoOnlyFormat = NOT_SELECTED
-                            }
-
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    SuggestedFormatItem(
-                                        modifier = Modifier.weight(1f),
-                                        videoInfo = videoInfo,
-                                        selected = isSuggestedFormatSelected,
-                                        onClick = onClick)
-                                }
-                        }
-                    }
-
-                    if (audioOnlyFormats.isNotEmpty())
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier =
-                                    Modifier.padding(top = 16.dp).padding(horizontal = 12.dp)) {
-                                    FormatSubtitle(
-                                        text = stringResource(R.string.audio),
-                                        color = MaterialTheme.colorScheme.secondary,
-                                        modifier = Modifier.weight(1f).padding(vertical = 4.dp))
-
-                                    ClickableTextAction(
-                                        visible = audioOnlyItemLimit < audioOnlyFormats.size,
-                                        text =
-                                            stringResource(
-                                                R.string.show_all_items, audioOnlyFormats.size),
-                                    ) {
-                                        hapticFeedback.performHapticFeedback(
-                                            HapticFeedbackType.LongPress)
-                                        audioOnlyItemLimit = Int.MAX_VALUE
-                                    }
-                                }
-                        }
-
-                    itemsIndexed(
-                        audioOnlyFormats.subList(
-                            fromIndex = 0,
-                            toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size))) {
-                            index,
-                            formatInfo ->
-                            FormatItem(
-                                formatInfo = formatInfo,
-                                duration = duration,
-                                selected = selectedAudioOnlyFormats.contains(index),
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                outlineColor = MaterialTheme.colorScheme.secondary,
-                                onLongClick = { formatInfo.url.share() }) {
-                                    if (selectedAudioOnlyFormats.contains(index)) {
-                                        selectedAudioOnlyFormats.remove(index)
-                                    } else {
-                                        if (!mergeAudioStream) {
-                                            selectedAudioOnlyFormats.clear()
-                                        }
-                                        isSuggestedFormatSelected = false
-                                        selectedAudioOnlyFormats.add(index)
-                                    }
-                                }
-                        }
-
-                    if (!audioOnly) {
-                        if (videoOnlyFormats.isNotEmpty())
-                            item(span = { GridItemSpan(maxLineSpan) }) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier =
-                                        Modifier.padding(top = 16.dp).padding(horizontal = 12.dp)) {
-                                        FormatSubtitle(
-                                            text = stringResource(R.string.video_only),
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                            modifier = Modifier.weight(1f).padding(vertical = 4.dp))
-
-                                        ClickableTextAction(
-                                            visible = videoOnlyItemLimit < videoOnlyFormats.size,
-                                            text =
-                                                stringResource(
-                                                    R.string.show_all_items, videoOnlyFormats.size),
-                                        ) {
-                                            hapticFeedback.performHapticFeedback(
-                                                HapticFeedbackType.LongPress)
-                                            videoOnlyItemLimit = Int.MAX_VALUE
-                                        }
-                                    }
-                            }
-                        itemsIndexed(
-                            videoOnlyFormats.subList(
-                                0, min(videoOnlyItemLimit, videoOnlyFormats.size))) {
-                                index,
-                                formatInfo ->
-                                FormatItem(
-                                    formatInfo = formatInfo,
-                                    duration = duration,
-                                    selected = selectedVideoOnlyFormat == index,
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    outlineColor = MaterialTheme.colorScheme.tertiary,
-                                    onLongClick = { formatInfo.url.share() }) {
-                                        selectedVideoOnlyFormat =
-                                            if (selectedVideoOnlyFormat == index) NOT_SELECTED
-                                            else {
-                                                selectedVideoAudioFormat = NOT_SELECTED
-                                                isSuggestedFormatSelected = false
-                                                index
-                                            }
-                                    }
-                            }
-                    }
-                    if (videoAudioFormats.isNotEmpty()) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier =
-                                    Modifier.padding(top = 16.dp).padding(horizontal = 12.dp)) {
-                                    FormatSubtitle(
-                                        text = stringResource(R.string.video),
-                                        modifier = Modifier.weight(1f).padding(vertical = 4.dp))
-                                    ClickableTextAction(
-                                        visible = videoAudioItemLimit < videoAudioFormats.size,
-                                        text =
-                                            stringResource(
-                                                R.string.show_all_items, videoAudioFormats.size),
-                                    ) {
-                                        hapticFeedback.performHapticFeedback(
-                                            HapticFeedbackType.LongPress)
-                                        videoAudioItemLimit = Int.MAX_VALUE
-                                    }
-                                }
-                        }
-                        itemsIndexed(
-                            videoAudioFormats.subList(
-                                0, min(videoAudioItemLimit, videoAudioFormats.size))) {
-                                index,
-                                formatInfo ->
-                                FormatItem(
-                                    formatInfo = formatInfo,
-                                    duration = duration,
-                                    selected = selectedVideoAudioFormat == index,
-                                    onLongClick = { formatInfo.url.share() }) {
-                                        selectedVideoAudioFormat =
-                                            if (selectedVideoAudioFormat == index) NOT_SELECTED
-                                            else {
-                                                selectedAudioOnlyFormats.clear()
-                                                selectedVideoOnlyFormat = NOT_SELECTED
-                                                isSuggestedFormatSelected = false
-                                                index
-                                            }
-                                    }
-                            }
-                    }
-
-                    if (!audioOnly &&
-                        audioOnlyFormats.isNotEmpty() &&
-                        videoOnlyFormats.isNotEmpty())
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            PreferenceInfo(
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
-                                text = stringResource(R.string.abs_hint),
-                                applyPaddings = false)
-                        }
-                    item { Spacer(modifier = Modifier.height(64.dp)) }
+        floatingActionButtonPosition = FabPosition.End,
+    ) { paddingValues ->
+        LazyVerticalGrid(
+            modifier = Modifier.padding(paddingValues),
+            state = lazyGridState,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(8.dp),
+        ) {
+            videoInfo.run {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FormatVideoPreview(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        title = videoTitle.ifEmpty { title },
+                        author = uploader ?: channel ?: uploaderId.toString(),
+                        thumbnailUrl = thumbnail.toHttpsUrl(),
+                        duration = duration.roundToInt(),
+                        isClippingVideo = isClippingVideo,
+                        isSplittingVideo = isSplittingVideo,
+                        isClippingAvailable = isClippingAvailable,
+                        isSplitByChapterAvailable = isSplitByChapterAvailable,
+                        onClippingToggled = { isClippingVideo = !isClippingVideo },
+                        onSplittingToggled = { isSplittingVideo = !isSplittingVideo },
+                        onRename = { showRenameDialog = true },
+                        onOpenThumbnail = { uriHandler.openUri(thumbnail.toHttpsUrl()) },
+                    )
                 }
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                var shouldUpdateClipDuration by remember { mutableStateOf(false) }
+
+                Column {
+                    AnimatedVisibility(visible = isClippingVideo) {
+                        Column {
+                            val state =
+                                remember(isClippingVideo, showVideoClipDialog) {
+                                    RangeSliderState(
+                                        activeRangeStart = videoClipDuration.start,
+                                        activeRangeEnd = videoClipDuration.endInclusive,
+                                        valueRange = videoDurationRange,
+                                        onValueChangeFinished = { shouldUpdateClipDuration = true },
+                                    )
+                                }
+                            DisposableEffect(shouldUpdateClipDuration) {
+                                videoClipDuration = state.activeRangeStart..state.activeRangeEnd
+                                onDispose { shouldUpdateClipDuration = false }
+                            }
+
+                            VideoSelectionSlider(
+                                modifier = Modifier.fillMaxWidth(),
+                                state = state,
+                                onDiscard = { isClippingVideo = false },
+                                onDurationClick = { showVideoClipDialog = true },
+                            )
+                            HorizontalDivider()
+                        }
+                    }
+
+                    AnimatedVisibility(visible = isSplittingVideo) {
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text =
+                                        stringResource(
+                                            id = R.string.split_video_msg,
+                                            videoInfo.chapters?.size ?: 0,
+                                        ),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    modifier = Modifier.padding(horizontal = 12.dp),
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                                TextButtonWithIcon(
+                                    onClick = { isSplittingVideo = false },
+                                    icon = Icons.Outlined.Delete,
+                                    text = stringResource(id = R.string.discard),
+                                    contentColor = MaterialTheme.colorScheme.error,
+                                )
+                            }
+                            HorizontalDivider()
+                        }
+                    }
+                }
+            }
+
+            if (suggestedSubtitleMap.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 12.dp).padding(horizontal = 12.dp),
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.subtitle_language),
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.titleSmall,
+                                modifier = Modifier.weight(1f),
+                            )
+
+                            ClickableTextAction(
+                                visible = true,
+                                text =
+                                    stringResource(
+                                        id =
+                                            androidx.appcompat.R.string
+                                                .abc_activity_chooser_view_see_all
+                                    ),
+                            ) {
+                                showSubtitleSelectionDialog = true
+                            }
+                        }
+
+                        LazyRow(modifier = Modifier.padding()) {
+                            for ((code, formats) in suggestedSubtitleMap) {
+                                item {
+                                    VideoFilterChip(
+                                        selected = selectedSubtitles.contains(code),
+                                        onClick = {
+                                            if (selectedSubtitles.contains(code)) {
+                                                selectedSubtitles.remove(code)
+                                            } else {
+                                                selectedSubtitles.add(code)
+                                            }
+                                        },
+                                        label = formats.first().run { name ?: protocol ?: code },
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (isSuggestedFormatAvailable) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier =
+                            Modifier.padding(top = 12.dp, bottom = 4.dp).padding(horizontal = 12.dp),
+                    ) {
+                        FormatSubtitle(text = stringResource(R.string.suggested))
+                    }
+                }
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    val onClick = {
+                        isSuggestedFormatSelected = true
+                        selectedAudioOnlyFormats.clear()
+                        selectedVideoAudioFormat = NOT_SELECTED
+                        selectedVideoOnlyFormat = NOT_SELECTED
+                    }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        SuggestedFormatItem(
+                            modifier = Modifier.weight(1f),
+                            videoInfo = videoInfo,
+                            selected = isSuggestedFormatSelected,
+                            onClick = onClick,
+                        )
+                    }
+                }
+            }
+
+            if (audioOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 16.dp).padding(horizontal = 12.dp),
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.audio),
+                            color = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier.weight(1f).padding(vertical = 4.dp),
+                        )
+
+                        ClickableTextAction(
+                            visible = audioOnlyItemLimit < audioOnlyFormats.size,
+                            text = stringResource(R.string.show_all_items, audioOnlyFormats.size),
+                        ) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            audioOnlyItemLimit = Int.MAX_VALUE
+                        }
+                    }
+                }
+
+            itemsIndexed(
+                audioOnlyFormats.subList(
+                    fromIndex = 0,
+                    toIndex = min(audioOnlyItemLimit, audioOnlyFormats.size),
+                )
+            ) { index, formatInfo ->
+                FormatItem(
+                    formatInfo = formatInfo,
+                    duration = duration,
+                    selected = selectedAudioOnlyFormats.contains(index),
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    outlineColor = MaterialTheme.colorScheme.secondary,
+                    onLongClick = { formatInfo.url.share() },
+                ) {
+                    if (selectedAudioOnlyFormats.contains(index)) {
+                        selectedAudioOnlyFormats.remove(index)
+                    } else {
+                        if (!mergeAudioStream) {
+                            selectedAudioOnlyFormats.clear()
+                        }
+                        isSuggestedFormatSelected = false
+                        selectedAudioOnlyFormats.add(index)
+                    }
+                }
+            }
+
+            if (!audioOnly) {
+                if (videoOnlyFormats.isNotEmpty())
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 16.dp).padding(horizontal = 12.dp),
+                        ) {
+                            FormatSubtitle(
+                                text = stringResource(R.string.video_only),
+                                color = MaterialTheme.colorScheme.tertiary,
+                                modifier = Modifier.weight(1f).padding(vertical = 4.dp),
+                            )
+
+                            ClickableTextAction(
+                                visible = videoOnlyItemLimit < videoOnlyFormats.size,
+                                text =
+                                    stringResource(R.string.show_all_items, videoOnlyFormats.size),
+                            ) {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                videoOnlyItemLimit = Int.MAX_VALUE
+                            }
+                        }
+                    }
+                itemsIndexed(
+                    videoOnlyFormats.subList(0, min(videoOnlyItemLimit, videoOnlyFormats.size))
+                ) { index, formatInfo ->
+                    FormatItem(
+                        formatInfo = formatInfo,
+                        duration = duration,
+                        selected = selectedVideoOnlyFormat == index,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        outlineColor = MaterialTheme.colorScheme.tertiary,
+                        onLongClick = { formatInfo.url.share() },
+                    ) {
+                        selectedVideoOnlyFormat =
+                            if (selectedVideoOnlyFormat == index) NOT_SELECTED
+                            else {
+                                selectedVideoAudioFormat = NOT_SELECTED
+                                isSuggestedFormatSelected = false
+                                index
+                            }
+                    }
+                }
+            }
+            if (videoAudioFormats.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 16.dp).padding(horizontal = 12.dp),
+                    ) {
+                        FormatSubtitle(
+                            text = stringResource(R.string.video),
+                            modifier = Modifier.weight(1f).padding(vertical = 4.dp),
+                        )
+                        ClickableTextAction(
+                            visible = videoAudioItemLimit < videoAudioFormats.size,
+                            text = stringResource(R.string.show_all_items, videoAudioFormats.size),
+                        ) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            videoAudioItemLimit = Int.MAX_VALUE
+                        }
+                    }
+                }
+                itemsIndexed(
+                    videoAudioFormats.subList(0, min(videoAudioItemLimit, videoAudioFormats.size))
+                ) { index, formatInfo ->
+                    FormatItem(
+                        formatInfo = formatInfo,
+                        duration = duration,
+                        selected = selectedVideoAudioFormat == index,
+                        onLongClick = { formatInfo.url.share() },
+                    ) {
+                        selectedVideoAudioFormat =
+                            if (selectedVideoAudioFormat == index) NOT_SELECTED
+                            else {
+                                selectedAudioOnlyFormats.clear()
+                                selectedVideoOnlyFormat = NOT_SELECTED
+                                isSuggestedFormatSelected = false
+                                index
+                            }
+                    }
+                }
+            }
+
+            if (!audioOnly && audioOnlyFormats.isNotEmpty() && videoOnlyFormats.isNotEmpty())
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    PreferenceInfo(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
+                        text = stringResource(R.string.abs_hint),
+                        applyPaddings = false,
+                    )
+                }
+            item { Spacer(modifier = Modifier.height(64.dp)) }
         }
+    }
     if (showVideoClipDialog)
         VideoClipDialog(
             onDismissRequest = { showVideoClipDialog = false },
             initialValue = videoClipDuration,
             valueRange = videoDurationRange,
-            onConfirm = { videoClipDuration = it })
+            onConfirm = { videoClipDuration = it },
+        )
 
     if (showRenameDialog)
         RenameDialog(
             initialValue = videoTitle.ifEmpty { videoInfo.title },
-            onDismissRequest = { showRenameDialog = false }) {
-                videoTitle = it
-            }
+            onDismissRequest = { showRenameDialog = false },
+        ) {
+            videoTitle = it
+        }
     if (showSubtitleSelectionDialog)
         SubtitleSelectionDialog(
             suggestedSubtitles = suggestedSubtitleMap,
@@ -755,14 +771,15 @@ private fun FormatPageImpl(
                 }
 
                 showSubtitleSelectionDialog = false
-            })
+            },
+        )
 }
 
 @Composable
 private fun RenameDialog(
     initialValue: String,
     onDismissRequest: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String) -> Unit,
 ) {
     var filename by remember { mutableStateOf(initialValue) }
     SealDialog(
@@ -783,9 +800,11 @@ private fun RenameDialog(
                     value = filename,
                     onValueChange = { filename = it },
                     label = { Text(text = stringResource(id = R.string.title)) },
-                    trailingIcon = { if (filename == initialValue) ClearButton { filename = "" } })
+                    trailingIcon = { if (filename == initialValue) ClearButton { filename = "" } },
+                )
             }
-        })
+        },
+    )
 }
 
 private fun (Map<String, List<SubtitleFormat>>).filterWithSearchText(
@@ -825,7 +844,7 @@ private fun Map<String, List<SubtitleFormat>>.sortedWithSelection(
  * Examples: `zh` (Chinese) should be greater than `en` (English) according to their names
  */
 private fun (Pair<String, List<SubtitleFormat>>).compareTo(
-    other: (Pair<String, List<SubtitleFormat>>),
+    other: (Pair<String, List<SubtitleFormat>>)
 ): Int {
     val (key, list) = this
     val (otherKey, otherList) = other
@@ -849,7 +868,7 @@ private fun SubtitleSelectionDialog(
     autoCaptions: Map<String, List<SubtitleFormat>>,
     selectedSubtitles: List<String>,
     onDismissRequest: () -> Unit = {},
-    onConfirm: (subs: List<String>, autoSubs: List<String>) -> Unit = { _, _ -> }
+    onConfirm: (subs: List<String>, autoSubs: List<String>) -> Unit = { _, _ -> },
 ) {
     var searchText by remember { mutableStateOf("") }
     val selectedSubtitles = remember {
@@ -875,9 +894,10 @@ private fun SubtitleSelectionDialog(
                     SealSearchBar(
                         text = searchText,
                         placeholderText = stringResource(R.string.search_in_subtitles),
-                        modifier = Modifier.padding(horizontal = 16.dp)) {
-                            searchText = it
-                        }
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                    ) {
+                        searchText = it
+                    }
                 }
 
                 LazyColumn(contentPadding = PaddingValues(vertical = 12.dp)) {
@@ -887,7 +907,8 @@ private fun SubtitleSelectionDialog(
                                 text = stringResource(id = R.string.suggested),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp))
+                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
+                            )
                         }
                     }
                     for ((code, formats) in suggestedSubtitlesFiltered) {
@@ -902,7 +923,8 @@ private fun SubtitleSelectionDialog(
                                         selectedSubtitles.add(code)
                                     }
                                 },
-                                text = formats.first().run { name ?: protocol ?: code })
+                                text = formats.first().run { name ?: protocol ?: code },
+                            )
                         }
                     }
 
@@ -912,7 +934,8 @@ private fun SubtitleSelectionDialog(
                                 text = stringResource(id = R.string.auto_subtitle),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
+                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+                            )
                         }
                         for ((code, formats) in autoCaptionsFiltered) {
                             item(key = code) {
@@ -926,14 +949,16 @@ private fun SubtitleSelectionDialog(
                                             selectedAutoCaptions.add(code)
                                         }
                                     },
-                                    text = formats.first().run { name ?: protocol ?: code })
+                                    text = formats.first().run { name ?: protocol ?: code },
+                                )
                             }
                         }
                     }
                 }
                 HorizontalDivider()
             }
-        })
+        },
+    )
 }
 
 @Preview
@@ -945,11 +970,12 @@ private fun SubtitleSelectionDialogPreview() {
             "ja-en" to listOf(SubtitleFormat(ext = "", url = "", name = "Japanese from English")),
             "zh-Hans-en" to
                 listOf(
-                    SubtitleFormat(ext = "", url = "", name = "Chinese (Simplified) from English")),
+                    SubtitleFormat(ext = "", url = "", name = "Chinese (Simplified) from English")
+                ),
             "zh-Hant-en" to
                 listOf(
-                    SubtitleFormat(
-                        ext = "", url = "", name = "Chinese (Traditional) from English")),
+                    SubtitleFormat(ext = "", url = "", name = "Chinese (Traditional) from English")
+                ),
         )
 
     val subMap = buildMap {
@@ -959,7 +985,10 @@ private fun SubtitleSelectionDialogPreview() {
 
     SealTheme {
         SubtitleSelectionDialog(
-            suggestedSubtitles = subMap, autoCaptions = captionsMap, selectedSubtitles = listOf())
+            suggestedSubtitles = subMap,
+            autoCaptions = captionsMap,
+            selectedSubtitles = listOf(),
+        )
     }
 }
 
@@ -968,7 +997,7 @@ private fun ClickableTextAction(
     visible: Boolean,
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     AnimatedVisibility(visible = visible, exit = fadeOut(animationSpec = spring())) {
         Text(
@@ -979,7 +1008,8 @@ private fun ClickableTextAction(
                 modifier
                     .clip(CircleShape)
                     .clickable(onClick = onClick)
-                    .padding(vertical = 4.dp, horizontal = 12.dp))
+                    .padding(vertical = 4.dp, horizontal = 12.dp),
+        )
     }
 }
 
@@ -995,14 +1025,15 @@ fun UpdateSubtitleLanguageDialog(
     modifier: Modifier = Modifier,
     languages: Set<String> = setOf("en", "ja"),
     onDismissRequest: () -> Unit = {},
-    onConfirm: () -> Unit = {}
+    onConfirm: () -> Unit = {},
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
             Text(
                 text = stringResource(R.string.update_subtitle_languages),
-                textAlign = TextAlign.Center)
+                textAlign = TextAlign.Center,
+            )
         },
         icon = { Icon(imageVector = Icons.Filled.Subtitles, contentDescription = null) },
         text = {
@@ -1013,27 +1044,28 @@ fun UpdateSubtitleLanguageDialog(
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        languages.forEach {
-                            Row(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    languages.forEach {
+                        Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier =
+                                    Modifier.padding(end = 8.dp)
+                                        .size(16.dp)
+                                        .background(
+                                            color = it.hashCode().generateLabelColor(),
+                                            shape = CircleShape,
+                                        )
+                                        .clearAndSetSemantics {}
+                            ) {}
+                            Text(
+                                text = it,
                                 modifier = Modifier,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Box(
-                                    modifier =
-                                        Modifier.padding(end = 8.dp)
-                                            .size(16.dp)
-                                            .background(
-                                                color = it.hashCode().generateLabelColor(),
-                                                shape = CircleShape)
-                                            .clearAndSetSemantics {}) {}
-                                Text(
-                                    text = it,
-                                    modifier = Modifier,
-                                    style = MaterialTheme.typography.bodySmall)
-                            }
+                                style = MaterialTheme.typography.bodySmall,
+                            )
                         }
                     }
+                }
                 Spacer(modifier = Modifier.height(8.dp))
             }
         },
@@ -1044,5 +1076,6 @@ fun UpdateSubtitleLanguageDialog(
             OutlinedButton(onClick = onDismissRequest) {
                 Text(text = stringResource(id = R.string.no_thanks))
             }
-        })
+        },
+    )
 }
