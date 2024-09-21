@@ -379,8 +379,8 @@ fun VideoListPage(
         }, bottomBar = {
             AnimatedVisibility(
                 isSelectEnabled,
-                enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically() + fadeOut()
+                enter = expandVertically(),
+                exit = shrinkVertically()
             ) {
                 BottomAppBar(
                     modifier = Modifier
@@ -463,8 +463,9 @@ fun VideoListPage(
         }
         val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(cellCount) }
         LazyColumn(
-            modifier = Modifier.padding(innerPadding),
-            state = lazyListState
+            modifier = Modifier,
+            state = lazyListState,
+            contentPadding = innerPadding
         ) {
             if (fullVideoList.isNotEmpty()) {
                 item {
