@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -33,6 +34,7 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinContext
@@ -108,6 +110,8 @@ class QuickDownloadActivity : ComponentActivity() {
                         val selectionState =
                             viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
+                        val scope = rememberCoroutineScope()
+
                         if (sheetValue == SheetValue.Expanded) {
                             val sheetState =
                                 rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -121,7 +125,9 @@ class QuickDownloadActivity : ComponentActivity() {
                                 onActionPost = {
                                     viewModel.postAction(it)
                                     if (it !is Action.FetchFormats && it !is Action.FetchPlaylist) {
-                                        finish()
+                                        scope.launch {
+                                            sheetState.hide()
+                                        }.invokeOnCompletion { this@QuickDownloadActivity.finish() }
                                     }
                                 },
                             )

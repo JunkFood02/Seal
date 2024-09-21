@@ -20,14 +20,14 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -121,8 +121,10 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                         taskKey = id,
                     )
                     .onSuccess { info ->
-                        taskStateMap.remove(task)
-                        taskStateMap += task.attachInfo(info) to ReadyWithInfo
+                        taskStateMap.run {
+                            put(task.attachInfo(info), ReadyWithInfo)
+                            taskStateMap.remove(task)
+                        }
                     }
                     .onFailure { throwable ->
                         if (throwable is YoutubeDL.CanceledException) {
@@ -148,13 +150,14 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                         videoInfo = info,
                         taskId = id,
                         downloadPreferences = preferences,
-                        progressCallback = { progress, _, text ->
+                        progressCallback = { progressPercentage, _, text ->
+                            val progress = progressPercentage / 100f
                             when (val preState = state) {
                                 is Running -> {
                                     state = preState.copy(progress = progress, progressText = text)
                                     NotificationUtil.notifyProgress(
                                         notificationId = notificationId,
-                                        progress = progress.toInt(),
+                                        progress = progressPercentage.toInt(),
                                         text = text,
                                         title = viewState.title,
                                         taskId = id,

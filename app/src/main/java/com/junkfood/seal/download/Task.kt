@@ -1,10 +1,11 @@
 package com.junkfood.seal.download
 
+import androidx.annotation.FloatRange
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
+import kotlin.math.roundToInt
 
 data class Task(
     val info: VideoInfo?,

@@ -111,7 +111,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 is Action.ShowSheet -> showDialog(this)
                 is Action.DownloadItemsWithPreset -> TODO()
                 Action.Cancel -> cancel()
-                Action.Reset -> resetStates()
+                Action.Reset -> resetSelectionState()
             }
         }
     }
@@ -227,8 +227,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         }
     }
 
-    private fun resetStates() {
-        mSheetStateFlow.update { SheetState.InputUrl }
+    private fun resetSelectionState() {
         mSelectionStateFlow.update { SelectionState.Idle }
     }
 }

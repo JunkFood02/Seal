@@ -207,7 +207,7 @@ fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: ()
             RestartButton(modifier, onClick)
         }
         is Task.State.Canceled -> {
-            ResumeButton(modifier, state.progress?.div(100f), onClick)
+            ResumeButton(modifier, state.progress, onClick)
         }
         is Task.State.Completed -> {
             PlayVideoButton(modifier, onClick)
@@ -218,7 +218,7 @@ fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: ()
             ProgressButton(modifier = modifier, progress = -1f, onClick = onClick)
         }
         is Task.State.Running -> {
-            ProgressButton(modifier = modifier, progress = state.progress / 100f, onClick = onClick)
+            ProgressButton(modifier = modifier, progress = state.progress, onClick = onClick)
         }
     }
 }
