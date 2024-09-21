@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,6 +45,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +54,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
-import com.junkfood.seal.ui.component.NavigationBarSpacer
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
@@ -62,7 +66,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
-import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,19 +179,26 @@ fun DownloadPageImplV2(
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) {
         Column(modifier = Modifier.padding(it).fillMaxSize()) {
-            Title()
-
             Column(
                 modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp).padding(top = 24.dp)
             ) {
                 LazyColumn(
-                    contentPadding = PaddingValues(bottom = 80.dp),
+                    contentPadding =
+                        PaddingValues(
+                            bottom =
+                                80.dp +
+                                    WindowInsets.navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding()
+                        ),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
+                    item { Title() }
                     items(taskStateMap.toList()) { (task, state) ->
                         VideoCardV2(
                             modifier = Modifier,
                             viewState = task.viewState,
+                            taskState = state,
                             stateIndicator = {
                                 StateIndicator(
                                     modifier = Modifier.align(Alignment.Center),
@@ -201,25 +211,18 @@ fun DownloadPageImplV2(
                     }
                 }
                 if (taskStateMap.isEmpty()) {
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.weight(0.4f))
                     DownloadQueuePlaceholder(modifier = Modifier)
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
-            NavigationBarSpacer()
         }
     }
 }
 
 @Composable
 fun Title(modifier: Modifier = Modifier) {
-    Column(
-        modifier =
-            modifier
-                .padding(start = 12.dp, top = 24.dp)
-                .padding(horizontal = 12.dp)
-                .padding(top = 12.dp, bottom = 3.dp)
-    ) {
+    Column(modifier = modifier.padding(top = 12.dp, bottom = 12.dp)) {
         Text(
             modifier = Modifier,
             text = stringResource(R.string.app_name),
@@ -247,13 +250,20 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val view = LocalView.current
     TooltipBox(
         modifier = modifier,
         state = rememberTooltipState(),
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.settings)) } },
     ) {
-        IconButton(onClick = onClick, modifier = Modifier) {
+        IconButton(
+            onClick = {
+                view.slightHapticFeedback()
+                onClick()
+            },
+            modifier = Modifier,
+        ) {
             Icon(
                 imageVector = Icons.Outlined.Settings,
                 contentDescription = stringResource(id = R.string.settings),
@@ -269,13 +279,21 @@ private fun TaskListIconButton(
     processCount: Int,
     onClick: () -> Unit,
 ) {
+    val view = LocalView.current
+
     TooltipBox(
         modifier = modifier,
         state = rememberTooltipState(),
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { Text(text = stringResource(id = R.string.running_tasks)) },
+        tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.running_tasks)) } },
     ) {
-        IconButton(onClick = onClick, modifier = Modifier) {
+        IconButton(
+            onClick = {
+                view.slightHapticFeedback()
+                onClick()
+            },
+            modifier = Modifier,
+        ) {
             BadgedBox(
                 badge = {
                     if (processCount > 0) {
@@ -320,13 +338,20 @@ private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DownloadHistoryIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val view = LocalView.current
     TooltipBox(
         modifier = modifier,
         state = rememberTooltipState(),
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { Text(text = stringResource(id = R.string.downloads_history)) },
+        tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.downloads_history)) } },
     ) {
-        IconButton(onClick = onClick, modifier = Modifier) {
+        IconButton(
+            onClick = {
+                view.slightHapticFeedback()
+                onClick()
+            },
+            modifier = Modifier,
+        ) {
             Icon(
                 imageVector = Icons.Outlined.Subscriptions,
                 contentDescription = stringResource(id = R.string.downloads_history),
@@ -361,7 +386,6 @@ private fun DownloadPagePreview() {
                 override fun restart(task: Task) {}
             }
         }
-        viewModel { DownloadDialogViewModel(downloader = get()) }
     }
 
     KoinApplication(application = { modules(module) }) {

@@ -14,8 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Pause
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Error
+import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.Card
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.AsyncImageImpl
+import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.toDurationText
@@ -53,6 +55,7 @@ import com.junkfood.seal.util.toFileSizeText
 fun VideoCardV2(
     modifier: Modifier = Modifier,
     viewState: Task.ViewState,
+    taskState: Task.State,
     stateIndicator: @Composable (BoxScope.() -> Unit)? = null,
     onButtonClick: () -> Unit,
 ) {
@@ -88,6 +91,43 @@ fun VideoCardV2(
                 stateIndicator?.invoke(this)
 
                 Surface(
+                    modifier = Modifier.padding(8.dp).align(Alignment.TopStart),
+                    color = Color.Black.copy(alpha = 0.68f),
+                    shape = MaterialTheme.shapes.extraSmall,
+                ) {
+                    val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+                    val text =
+                        when (taskState) {
+                            is Task.State.Canceled -> R.string.status_canceled
+                            is Task.State.Completed -> R.string.status_completed
+                            is Task.State.Error -> R.string.status_error
+                            is Task.State.FetchingInfo -> R.string.status_fetching_video_info
+                            Task.State.Idle -> R.string.status_enqueued
+                            Task.State.ReadyWithInfo -> R.string.status_enqueued
+                            is Task.State.Running -> R.string.status_downloading
+                        }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (taskState is Task.State.Error) {
+                            Icon(
+                                imageVector = Icons.Rounded.Error,
+                                contentDescription = null,
+                                tint =
+                                    MaterialTheme.colorScheme.run {
+                                        if (isDarkTheme) error else errorContainer
+                                    },
+                                modifier = Modifier.padding(start = 4.dp).size(12.dp),
+                            )
+                        }
+                        Text(
+                            stringResource(id = text),
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White,
+                        )
+                    }
+                }
+
+                Surface(
                     modifier = Modifier.padding(4.dp).align(Alignment.BottomEnd),
                     color = Color.Black.copy(alpha = 0.68f),
                     shape = MaterialTheme.shapes.extraSmall,
@@ -102,9 +142,9 @@ fun VideoCardV2(
                     )
                 }
             }
-            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Column(
-                    modifier = Modifier.padding(start = 12.dp).weight(1f),
+                    modifier = Modifier.padding(start = 12.dp).padding(vertical = 12.dp).weight(1f),
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
@@ -122,7 +162,10 @@ fun VideoCardV2(
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
-                IconButton(onButtonClick, modifier = Modifier.align(Alignment.Top)) {
+                IconButton(
+                    onButtonClick,
+                    modifier = Modifier.align(Alignment.Top).padding(top = 8.dp),
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
                         contentDescription = stringResource(R.string.show_more_actions),
@@ -136,7 +179,7 @@ fun VideoCardV2(
 private val IconButtonSize = 64.dp
 private val IconSize = 36.dp
 private val ContainerColor: Color
-    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.6f)
+    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.68f)
 private val ContentColor: Color
     @Composable get() = FixedAccentColors.secondaryFixed
 
@@ -145,10 +188,13 @@ private val ContentColor: Color
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun VideoCardV2Preview() {
     SealTheme() {
+        val state =
+            Task.State.Error(throwable = Throwable(), action = Task.RestartableAction.Download)
         VideoCardV2(
             viewState = Task.ViewState(),
+            taskState = state,
             stateIndicator = {
-                PlayVideoButton(modifier = Modifier.align(Alignment.Center)) {}
+                StateIndicator(modifier = Modifier.align(Alignment.Center), state = state) {}
             },
         ) {}
     }
@@ -161,7 +207,7 @@ fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: ()
             RestartButton(modifier, onClick)
         }
         is Task.State.Canceled -> {
-            ResumeButton(modifier, state.progress, onClick)
+            ResumeButton(modifier, state.progress?.div(100f), onClick)
         }
         is Task.State.Completed -> {
             PlayVideoButton(modifier, onClick)
@@ -172,7 +218,7 @@ fun StateIndicator(modifier: Modifier = Modifier, state: Task.State, onClick: ()
             ProgressButton(modifier = modifier, progress = -1f, onClick = onClick)
         }
         is Task.State.Running -> {
-            ProgressButton(modifier = modifier, progress = state.progress, onClick = onClick)
+            ProgressButton(modifier = modifier, progress = state.progress / 100f, onClick = onClick)
         }
     }
 }
@@ -273,6 +319,7 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
             CircularProgressIndicator(
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
                 color = ContentColor,
+                trackColor = Color.Transparent,
             )
         } else {
             CircularProgressIndicator(
@@ -280,10 +327,11 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
                 color = ContentColor,
                 gapSize = 0.dp,
+                trackColor = Color.Transparent,
             )
         }
         Icon(
-            imageVector = Icons.Outlined.Pause,
+            imageVector = Icons.Rounded.Pause,
             contentDescription = null,
             modifier = Modifier.align(Alignment.Center).size(IconSize),
             tint = ContentColor,
