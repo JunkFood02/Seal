@@ -99,7 +99,7 @@ fun VideoCardV2(
                     val text =
                         when (downloadState) {
                             is Task.DownloadState.Canceled -> R.string.status_canceled
-                            is Task.DownloadState.Completed -> R.string.status_completed
+                            is Task.DownloadState.Completed -> R.string.status_downloaded
                             is Task.DownloadState.Error -> R.string.status_error
                             is Task.DownloadState.FetchingInfo ->
                                 R.string.status_fetching_video_info
@@ -167,7 +167,7 @@ fun VideoCardV2(
                 }
                 IconButton(
                     onButtonClick,
-                    modifier = Modifier.align(Alignment.Top),
+                    modifier = Modifier.align(Alignment.CenterVertically),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,

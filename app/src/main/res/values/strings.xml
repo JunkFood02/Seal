@@ -463,6 +463,7 @@
     <string name="task_added">Task added to queue</string>
     <string name="you_ll_find_your_downloads_here">You\'ll find your downloads here</string>
     <string name="download_hint">Tap on the download button or share a video link to this app to start a download</string>
+    <string name="status_downloaded">Downloaded</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
