@@ -246,6 +246,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                 if (res) {
                     preState.job.cancel()
                     val progress = if (preState is Running) preState.progress else null
+                    NotificationUtil.cancelNotification(notificationId)
                     downloadState =
                         DownloadState.Canceled(action = preState.action, progress = progress)
                 }
