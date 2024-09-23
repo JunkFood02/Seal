@@ -2,32 +2,46 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
@@ -36,6 +50,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,15 +63,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
+import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.component.ActionButton
+import com.junkfood.seal.ui.component.SelectionGroupItem
+import com.junkfood.seal.ui.component.SelectionGroupRow
 import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
@@ -68,6 +90,48 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.dsl.module
+
+enum class Filter {
+    All,
+    Downloading,
+    Canceled,
+    Finished;
+
+    @Composable
+    @ReadOnlyComposable
+    fun label(): String =
+        when (this) {
+            All -> stringResource(R.string.all)
+            Downloading -> stringResource(R.string.status_downloading)
+            Canceled -> stringResource(R.string.status_canceled)
+            Finished -> stringResource(R.string.status_completed)
+        }
+
+    fun predict(entry: Pair<Task, Task.State>): Boolean {
+        if (this == All) return true
+        val state = entry.second.downloadState
+        return when (this) {
+            Downloading -> {
+                when (state) {
+                    is Task.DownloadState.FetchingInfo,
+                    Task.DownloadState.Idle,
+                    Task.DownloadState.ReadyWithInfo,
+                    is Task.DownloadState.Running -> true
+                    else -> false
+                }
+            }
+            Canceled -> {
+                state is Task.DownloadState.Error || state is Task.DownloadState.Canceled
+            }
+            Finished -> {
+                state is Task.DownloadState.Completed
+            }
+            else -> {
+                true
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -160,50 +224,154 @@ fun DownloadPageImplV2(
     onNavigateToTaskList: () -> Unit = {},
     onActionPost: (Task, Task.DownloadState) -> Unit,
 ) {
+    var activeFilter by remember { mutableStateOf(Filter.All) }
+    val filteredMap = taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {},
-                modifier = Modifier.padding(horizontal = 8.dp),
-                navigationIcon = {
-                    SettingsIconButton(modifier = Modifier, onClick = navigateToSettings)
-                },
-                actions = {
-                    TaskListIconButton(
-                        modifier = Modifier,
-                        processCount = processCount,
-                        onClick = onNavigateToTaskList,
-                    )
-                    DownloadHistoryIconButton(modifier = Modifier, onClick = navigateToDownloads)
-                },
-            )
-        },
+        containerColor = MaterialTheme.colorScheme.surface,
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) {
-        Column(modifier = Modifier.padding(it).fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp).padding(top = 24.dp)
+        val containerColor =
+            MaterialTheme.colorScheme.run {
+                if (LocalDarkTheme.current.isDarkTheme()) surfaceContainer
+                else surfaceContainerLowest
+            }
+        val lazyListState = rememberLazyListState()
+        val firstVisibleItem by remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+
+        Column(modifier = Modifier.fillMaxSize().padding(it)) {
+            LazyColumn(
+                state = lazyListState,
+                contentPadding =
+                    PaddingValues(
+                        bottom =
+                            80.dp +
+                                WindowInsets.navigationBars
+                                    .asPaddingValues()
+                                    .calculateBottomPadding()
+                    ),
             ) {
-                LazyColumn(
-                    contentPadding =
-                        PaddingValues(
-                            bottom =
-                                80.dp +
-                                    WindowInsets.navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding()
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    item { Title() }
-                    items(
-                        taskDownloadStateMap.toList().sortedBy { (_, state) -> state.downloadState }
-                    ) { (task, state) ->
+                item { Surface { Spacer(modifier = Modifier.height(24.dp)) } }
+                stickyHeader {
+                    Surface {
+                        Column {
+                            TopAppBar(
+                                title = {
+                                    Text(
+                                        stringResource(R.string.download_queue),
+                                        style =
+                                            MaterialTheme.typography.titleLarge.copy(
+                                                fontSize = 20.sp,
+                                                fontWeight = FontWeight.Medium,
+                                            ),
+                                    )
+                                },
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                navigationIcon = {
+                                    IconButton(onClick = {}) {
+                                        Icon(
+                                            Icons.Outlined.Menu,
+                                            stringResource(R.string.show_more_actions),
+                                            modifier = Modifier,
+                                        )
+                                    }
+                                },
+                            )
+                            SelectionGroupRow(
+                                modifier =
+                                    Modifier.horizontalScroll(rememberScrollState())
+                                        .padding(horizontal = 16.dp)
+                            ) {
+                                Filter.entries.forEach {
+                                    SelectionGroupItem(
+                                        selected = activeFilter == it,
+                                        onClick = { activeFilter = it },
+                                    ) {
+                                        Text(it.label())
+                                    }
+                                }
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            if (firstVisibleItem != 0) {
+                                HorizontalDivider(thickness = Dp.Hairline)
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    Row(
+                        modifier =
+                            Modifier.padding(end = 24.dp, start = 16.dp)
+                                .padding(top = 12.dp, bottom = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Surface(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = MaterialTheme.shapes.medium,
+                        ) {
+                            Row(
+                                modifier =
+                                    Modifier.padding(vertical = 6.dp)
+                                        .padding(start = 8.dp, end = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "5 videos, 3 audios",
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                                Spacer(Modifier.width(4.dp))
+                            }
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        FilledIconButton(
+                            onClick = {},
+                            modifier = Modifier.padding(end = 4.dp).size(32.dp),
+                            colors =
+                                IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = containerColor
+                                ),
+                        ) {
+                            Icon(
+                                imageVector =
+                                    if (true) Icons.AutoMirrored.Outlined.List
+                                    else Icons.Outlined.GridView,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                            )
+                        }
+
+                        FilledIconButton(
+                            onClick = {},
+                            modifier = Modifier.size(32.dp),
+                            colors =
+                                IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = containerColor
+                                ),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.MoreVert,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                            )
+                        }
+                    }
+                }
+
+                items(
+                    filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
+                    key = { (task, state) -> task.id },
+                ) { (task, state) ->
+                    with(state.viewState) {
                         VideoCardV2(
-                            modifier = Modifier,
-                            viewState = state.viewState,
+                            modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 20.dp),
+                            thumbnailModel = R.drawable.sample2,
+                            title = stringResource(R.string.video_title_sample_text),
+                            uploader = stringResource(R.string.video_creator_sample_text),
+                            duration = duration,
+                            fileSizeApprox = fileSizeApprox,
                             actionButton = {
                                 ActionButton(
                                     modifier = Modifier,
@@ -221,11 +389,11 @@ fun DownloadPageImplV2(
                         ) {}
                     }
                 }
-                if (taskDownloadStateMap.isEmpty()) {
-                    Spacer(modifier = Modifier.weight(0.3f))
-                    DownloadQueuePlaceholder(modifier = Modifier)
-                    Spacer(modifier = Modifier.weight(1f))
-                }
+            }
+            if (filteredMap.isEmpty()) {
+                Spacer(modifier = Modifier.weight(0.3f))
+                DownloadQueuePlaceholder(modifier = Modifier)
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }
@@ -233,7 +401,7 @@ fun DownloadPageImplV2(
 
 @Composable
 fun Title(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(top = 12.dp, bottom = 12.dp)) {
+    Column(modifier = modifier.padding(top = 12.dp)) {
         Text(
             modifier = Modifier,
             text = stringResource(R.string.app_name),
@@ -379,10 +547,24 @@ private fun DownloadPagePreview() {
         single<DownloaderV2> {
             object : DownloaderV2 {
                 override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
-                    return mutableStateMapOf(
-                        Task(url = "", preferences = PreferencesMock) to
-                            Task.State(Task.DownloadState.Idle, null, Task.ViewState())
-                    )
+                    val map = mutableStateMapOf<Task, Task.State>()
+                    val list =
+                        listOf(
+                            Task.State(Task.DownloadState.Idle, null, Task.ViewState()),
+                            Task.State(
+                                Task.DownloadState.Canceled(Task.RestartableAction.Download),
+                                null,
+                                Task.ViewState(),
+                            ),
+                            Task.State(Task.DownloadState.Completed(null), null, Task.ViewState()),
+                        )
+                    map.run {
+                        repeat(3) {
+                            put(Task(url = "$it", preferences = PreferencesMock), list[it % 3])
+                        }
+                    }
+
+                    return map
                 }
 
                 override fun cancel(task: Task) {}

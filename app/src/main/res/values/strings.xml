@@ -192,7 +192,7 @@
     <string name="la_pt" translatable="false">Português</string>
 
     <string name="status_enqueued">Enqueued</string>
-    <string name="status_completed">Completed</string>
+    <string name="status_completed">Finished</string>
     <string name="status_downloading">Downloading</string>
     <string name="status_canceled">Canceled</string>
     <string name="status_fetching_video_info">Fetching info</string>
@@ -464,6 +464,7 @@
     <string name="you_ll_find_your_downloads_here">You\'ll find your downloads here</string>
     <string name="download_hint">Tap on the download button or share a video link to this app to start a download</string>
     <string name="status_downloaded">Downloaded</string>
+    <string name="all">All</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

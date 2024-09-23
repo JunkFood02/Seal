@@ -69,7 +69,7 @@ fun VideoCardV2(
 ) {
     with(viewState) {
         VideoCardV2(
-            modifier,
+            modifier = modifier,
             thumbnailModel = thumbnailUrl,
             title = title,
             uploader = uploader,
@@ -94,12 +94,14 @@ fun VideoCardV2(
     actionButton: @Composable (BoxScope.() -> Unit)? = null,
     onButtonClick: () -> Unit,
 ) {
+    val containerColor =
+        MaterialTheme.colorScheme.run {
+            if (LocalDarkTheme.current.isDarkTheme()) surfaceContainer else surfaceContainerLowest
+        }
+
     Card(
         modifier = modifier.fillMaxWidth(),
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-            ),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
     ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
@@ -140,18 +142,8 @@ fun VideoCardV2Preview() {
             thumbnailModel = R.drawable.sample3,
             title = stringResource(R.string.video_title_sample_text),
             uploader = stringResource(R.string.video_creator_sample_text),
-            actionButton = {
-                ActionButton(
-                    modifier = Modifier,
-                    downloadState = downloadState,
-                ) {}
-            },
-            stateIndicator = {
-                StateIndicator(
-                    modifier = Modifier,
-                    downloadState = downloadState,
-                )
-            },
+            actionButton = { ActionButton(modifier = Modifier, downloadState = downloadState) {} },
+            stateIndicator = { StateIndicator(modifier = Modifier, downloadState = downloadState) },
         ) {}
     }
 }

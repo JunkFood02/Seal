@@ -6,16 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
-
 @Composable
-fun HorizontalDivider(
-    modifier: Modifier = Modifier,
-    color: Color = DividerDefaults.color
-) {
+@Deprecated(
+    "",
+    replaceWith = ReplaceWith("androidx.compose.material3.HorizontalDivider(modifier,color)"),
+)
+fun HorizontalDivider(modifier: Modifier = Modifier, color: Color = DividerDefaults.color) {
     androidx.compose.material3.HorizontalDivider(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         color = color,
-        thickness = DividerDefaults.Thickness
+        thickness = DividerDefaults.Thickness,
     )
 }
