@@ -2,6 +2,7 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,15 +23,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -39,16 +42,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.derivedStateOf
@@ -56,6 +61,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
@@ -226,188 +232,205 @@ fun DownloadPageImplV2(
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
     val filteredMap = taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.surface,
-        floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
+    NavigationDrawer(
+        drawerState = drawerState,
+        onDismissRequest = { drawerState.close() },
+        navigateToSettings = navigateToSettings,
+        navigateToDownloads = navigateToDownloads,
+        onNavigateToTaskList = onNavigateToTaskList,
     ) {
-        val containerColor =
-            MaterialTheme.colorScheme.run {
-                if (LocalDarkTheme.current.isDarkTheme()) surfaceContainer
-                else surfaceContainerLowest
-            }
-        val lazyListState = rememberLazyListState()
-        val firstVisibleItem by remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.surface,
+            floatingActionButton = {
+                FABs(modifier = Modifier, downloadCallback = downloadCallback)
+            },
+        ) {
+            val containerColor =
+                MaterialTheme.colorScheme.run {
+                    if (LocalDarkTheme.current.isDarkTheme()) surfaceContainer
+                    else surfaceContainerLowest
+                }
 
-        Column(modifier = Modifier.fillMaxSize().padding(it)) {
-            LazyColumn(
-                state = lazyListState,
-                contentPadding =
-                    PaddingValues(
-                        bottom =
-                            80.dp +
-                                WindowInsets.navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding()
-                    ),
-            ) {
-                item { Surface { Spacer(modifier = Modifier.height(24.dp)) } }
-                stickyHeader {
-                    Surface {
-                        Column {
-                            TopAppBar(
-                                title = {
-                                    Text(
-                                        stringResource(R.string.download_queue),
-                                        style =
-                                            MaterialTheme.typography.titleLarge.copy(
-                                                fontSize = 20.sp,
-                                                fontWeight = FontWeight.Medium,
-                                            ),
-                                    )
-                                },
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                navigationIcon = {
-                                    IconButton(onClick = {}) {
-                                        Icon(
-                                            Icons.Outlined.Menu,
-                                            stringResource(R.string.show_more_actions),
-                                            modifier = Modifier,
-                                        )
+            val view = LocalView.current
+
+            val lazyListState = rememberLazyListState()
+            val firstVisibleItem by remember {
+                derivedStateOf { lazyListState.firstVisibleItemIndex }
+            }
+
+            Column(modifier = Modifier.fillMaxSize().padding(it)) {
+                LazyColumn(
+                    state = lazyListState,
+                    contentPadding =
+                        PaddingValues(
+                            bottom =
+                                80.dp +
+                                    WindowInsets.navigationBars
+                                        .asPaddingValues()
+                                        .calculateBottomPadding()
+                        ),
+                ) {
+                    item { Surface { Spacer(modifier = Modifier.height(24.dp)) } }
+                    stickyHeader {
+                        CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+                            Surface {
+                                Column {
+                                    Header {
+                                        view.slightHapticFeedback()
+                                        scope.launch { drawerState.open() }
                                     }
-                                },
-                            )
-                            SelectionGroupRow(
-                                modifier =
-                                    Modifier.horizontalScroll(rememberScrollState())
-                                        .padding(horizontal = 16.dp)
-                            ) {
-                                Filter.entries.forEach {
-                                    SelectionGroupItem(
-                                        selected = activeFilter == it,
-                                        onClick = { activeFilter = it },
+                                    SelectionGroupRow(
+                                        modifier =
+                                            Modifier.horizontalScroll(rememberScrollState())
+                                                .padding(horizontal = 16.dp)
                                     ) {
-                                        Text(it.label())
+                                        Filter.entries.forEach {
+                                            SelectionGroupItem(
+                                                selected = activeFilter == it,
+                                                onClick = { activeFilter = it },
+                                            ) {
+                                                Text(it.label())
+                                            }
+                                        }
+                                    }
+                                    Spacer(Modifier.height(8.dp))
+                                    if (firstVisibleItem != 0) {
+                                        HorizontalDivider(thickness = Dp.Hairline)
                                     }
                                 }
                             }
-                            Spacer(Modifier.height(8.dp))
-                            if (firstVisibleItem != 0) {
-                                HorizontalDivider(thickness = Dp.Hairline)
-                            }
                         }
                     }
-                }
 
-                item {
-                    Row(
-                        modifier =
-                            Modifier.padding(end = 24.dp, start = 16.dp)
-                                .padding(top = 12.dp, bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Surface(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = MaterialTheme.shapes.medium,
-                        ) {
+                    if (filteredMap.isNotEmpty()) {
+                        item {
                             Row(
                                 modifier =
-                                    Modifier.padding(vertical = 6.dp)
-                                        .padding(start = 8.dp, end = 8.dp),
+                                    Modifier.padding(end = 24.dp, start = 16.dp)
+                                        .padding(top = 12.dp, bottom = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Text(
-                                    text = "5 videos, 3 audios",
-                                    style = MaterialTheme.typography.labelLarge,
-                                )
-                                Spacer(Modifier.width(4.dp))
+                                Surface(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    shape = MaterialTheme.shapes.medium,
+                                ) {
+                                    Row(
+                                        modifier =
+                                            Modifier.padding(vertical = 6.dp)
+                                                .padding(start = 8.dp, end = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Text(
+                                            text = "5 videos, 3 audios",
+                                            style = MaterialTheme.typography.labelLarge,
+                                        )
+                                        Spacer(Modifier.width(4.dp))
+                                    }
+                                }
+                                Spacer(modifier = Modifier.weight(1f))
+
+                                FilledIconButton(
+                                    onClick = {},
+                                    modifier = Modifier.padding(end = 4.dp).size(32.dp),
+                                    colors =
+                                        IconButtonDefaults.filledIconButtonColors(
+                                            containerColor = containerColor
+                                        ),
+                                ) {
+                                    Icon(
+                                        imageVector =
+                                            if (true) Icons.AutoMirrored.Outlined.List
+                                            else Icons.Outlined.GridView,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(16.dp),
+                                    )
+                                }
+
+                                FilledIconButton(
+                                    onClick = {},
+                                    modifier = Modifier.size(32.dp),
+                                    colors =
+                                        IconButtonDefaults.filledIconButtonColors(
+                                            containerColor = containerColor
+                                        ),
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.MoreVert,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(16.dp),
+                                    )
+                                }
                             }
                         }
-                        Spacer(modifier = Modifier.weight(1f))
+                    }
 
-                        FilledIconButton(
-                            onClick = {},
-                            modifier = Modifier.padding(end = 4.dp).size(32.dp),
-                            colors =
-                                IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = containerColor
-                                ),
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (true) Icons.AutoMirrored.Outlined.List
-                                    else Icons.Outlined.GridView,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                            )
-                        }
-
-                        FilledIconButton(
-                            onClick = {},
-                            modifier = Modifier.size(32.dp),
-                            colors =
-                                IconButtonDefaults.filledIconButtonColors(
-                                    containerColor = containerColor
-                                ),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.MoreVert,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                            )
+                    items(
+                        filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
+                        key = { (task, state) -> task.id },
+                    ) { (task, state) ->
+                        with(state.viewState) {
+                            VideoCardV2(
+                                modifier =
+                                    Modifier.padding(horizontal = 24.dp).padding(bottom = 20.dp),
+                                viewState = this,
+                                actionButton = {
+                                    ActionButton(
+                                        modifier = Modifier,
+                                        downloadState = state.downloadState,
+                                    ) {
+                                        onActionPost(task, state.downloadState)
+                                    }
+                                },
+                                stateIndicator = {
+                                    StateIndicator(
+                                        modifier = Modifier,
+                                        downloadState = state.downloadState,
+                                    )
+                                },
+                            ) {}
                         }
                     }
                 }
-
-                items(
-                    filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
-                    key = { (task, state) -> task.id },
-                ) { (task, state) ->
-                    with(state.viewState) {
-                        VideoCardV2(
-                            modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 20.dp),
-                            thumbnailModel = R.drawable.sample2,
-                            title = stringResource(R.string.video_title_sample_text),
-                            uploader = stringResource(R.string.video_creator_sample_text),
-                            duration = duration,
-                            fileSizeApprox = fileSizeApprox,
-                            actionButton = {
-                                ActionButton(
-                                    modifier = Modifier,
-                                    downloadState = state.downloadState,
-                                ) {
-                                    onActionPost(task, state.downloadState)
-                                }
-                            },
-                            stateIndicator = {
-                                StateIndicator(
-                                    modifier = Modifier,
-                                    downloadState = state.downloadState,
-                                )
-                            },
-                        ) {}
-                    }
+                if (filteredMap.isEmpty()) {
+                    Spacer(modifier = Modifier.weight(0.3f))
+                    DownloadQueuePlaceholder(modifier = Modifier)
+                    Spacer(modifier = Modifier.weight(1f))
                 }
-            }
-            if (filteredMap.isEmpty()) {
-                Spacer(modifier = Modifier.weight(0.3f))
-                DownloadQueuePlaceholder(modifier = Modifier)
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Title(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(top = 12.dp)) {
-        Text(
-            modifier = Modifier,
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.displaySmall,
-        )
-    }
+fun Header(modifier: Modifier = Modifier, onMenuOpen: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(
+                stringResource(R.string.download_queue),
+                style =
+                    MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                    ),
+            )
+        },
+        modifier = modifier.padding(horizontal = 8.dp),
+        navigationIcon = {
+            IconButton(onClick = onMenuOpen) {
+                Icon(
+                    Icons.Outlined.Menu,
+                    stringResource(R.string.show_more_actions),
+                    modifier = Modifier,
+                )
+            }
+        },
+        windowInsets = WindowInsets(0.dp),
+    )
 }
 
 @Composable
@@ -423,69 +446,6 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
             },
             modifier = Modifier.padding(vertical = 12.dp),
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SettingsIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val view = LocalView.current
-    TooltipBox(
-        modifier = modifier,
-        state = rememberTooltipState(),
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.settings)) } },
-    ) {
-        IconButton(
-            onClick = {
-                view.slightHapticFeedback()
-                onClick()
-            },
-            modifier = Modifier,
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Settings,
-                contentDescription = stringResource(id = R.string.settings),
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TaskListIconButton(
-    modifier: Modifier = Modifier,
-    processCount: Int,
-    onClick: () -> Unit,
-) {
-    val view = LocalView.current
-
-    TooltipBox(
-        modifier = modifier,
-        state = rememberTooltipState(),
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.running_tasks)) } },
-    ) {
-        IconButton(
-            onClick = {
-                view.slightHapticFeedback()
-                onClick()
-            },
-            modifier = Modifier,
-        ) {
-            BadgedBox(
-                badge = {
-                    if (processCount > 0) {
-                        Badge(modifier = Modifier) { Text("$processCount") }
-                    }
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Terminal,
-                    contentDescription = stringResource(id = R.string.running_tasks),
-                )
-            }
-        }
     }
 }
 
@@ -514,33 +474,80 @@ private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DownloadHistoryIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val view = LocalView.current
-    TooltipBox(
-        modifier = modifier,
-        state = rememberTooltipState(),
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(text = stringResource(id = R.string.downloads_history)) } },
-    ) {
-        IconButton(
-            onClick = {
-                view.slightHapticFeedback()
-                onClick()
-            },
-            modifier = Modifier,
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Subscriptions,
-                contentDescription = stringResource(id = R.string.downloads_history),
-            )
-        }
-    }
+fun NavigationDrawer(
+    drawerState: DrawerState,
+    navigateToSettings: () -> Unit,
+    navigateToDownloads: () -> Unit,
+    onNavigateToTaskList: () -> Unit,
+    onDismissRequest: suspend () -> Unit,
+    gesturesEnabled: Boolean = true,
+    content: @Composable () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        gesturesEnabled = gesturesEnabled,
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(drawerState = drawerState) {
+                Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                    Spacer(Modifier.height(72.dp))
+                    ProvideTextStyle(MaterialTheme.typography.labelLarge) {
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.download_queue)) },
+                            icon = { Icon(Icons.Filled.Download, null) },
+                            onClick = { scope.launch { onDismissRequest() } },
+                            selected = true,
+                        )
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.downloads_history)) },
+                            icon = { Icon(Icons.Outlined.Subscriptions, null) },
+                            onClick = {
+                                scope
+                                    .launch { onDismissRequest() }
+                                    .invokeOnCompletion { navigateToDownloads() }
+                            },
+                            selected = false,
+                        )
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.running_tasks)) },
+                            icon = { Icon(Icons.Outlined.Terminal, null) },
+                            onClick = {
+                                scope
+                                    .launch { onDismissRequest() }
+                                    .invokeOnCompletion { onNavigateToTaskList() }
+                            },
+                            selected = false,
+                        )
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.settings)) },
+                            icon = { Icon(Icons.Outlined.Settings, null) },
+                            onClick = {
+                                scope
+                                    .launch { onDismissRequest() }
+                                    .invokeOnCompletion { navigateToSettings() }
+                            },
+                            selected = false,
+                        )
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.about)) },
+                            icon = { Icon(Icons.Outlined.Info, null) },
+                            onClick = {
+                                scope
+                                    .launch { onDismissRequest() }
+                                    .invokeOnCompletion { navigateToSettings() }
+                            },
+                            selected = false,
+                        )
+                    }
+                }
+            }
+        },
+        content = content,
+    )
 }
 
 @Composable
-@Preview(name = "Night", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun DownloadPagePreview() {
     val module = module {
