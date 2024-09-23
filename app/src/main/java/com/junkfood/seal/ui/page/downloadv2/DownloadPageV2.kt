@@ -55,6 +55,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
+import com.junkfood.seal.ui.component.ActionButton
 import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
@@ -203,20 +204,25 @@ fun DownloadPageImplV2(
                         VideoCardV2(
                             modifier = Modifier,
                             viewState = state.viewState,
-                            downloadState = state.downloadState,
-                            stateIndicator = {
-                                StateIndicator(
-                                    modifier = Modifier.align(Alignment.Center),
+                            actionButton = {
+                                ActionButton(
+                                    modifier = Modifier,
                                     downloadState = state.downloadState,
                                 ) {
                                     onActionPost(task, state.downloadState)
                                 }
                             },
+                            stateIndicator = {
+                                StateIndicator(
+                                    modifier = Modifier,
+                                    downloadState = state.downloadState,
+                                )
+                            },
                         ) {}
                     }
                 }
                 if (taskDownloadStateMap.isEmpty()) {
-                    Spacer(modifier = Modifier.weight(0.4f))
+                    Spacer(modifier = Modifier.weight(0.3f))
                     DownloadQueuePlaceholder(modifier = Modifier)
                     Spacer(modifier = Modifier.weight(1f))
                 }

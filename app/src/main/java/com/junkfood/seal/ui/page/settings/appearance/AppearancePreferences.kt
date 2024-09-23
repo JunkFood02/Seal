@@ -60,10 +60,12 @@ import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalPaletteStyleIndex
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
+import com.junkfood.seal.ui.component.ActionButton
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
+import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
@@ -115,14 +117,24 @@ fun AppearancePreferences(onNavigateBack: () -> Unit, onNavigateTo: (String) -> 
         },
         content = {
             Column(Modifier.padding(it).verticalScroll(rememberScrollState())) {
+                val downloadState = Task.DownloadState.Running(Job(), "", 0.8f)
                 VideoCardV2(
-                    modifier = Modifier.padding(18.dp),
-                    viewState =
-                        Task.ViewState(
-                            title = stringResource(R.string.video_title_sample_text),
-                            uploader = stringResource(R.string.video_creator_sample_text),
-                        ),
-                    downloadState = Task.DownloadState.Running(Job(), "", 0.8f),
+                    modifier = Modifier.padding(18.dp).clearAndSetSemantics {},
+                    title = stringResource(R.string.video_title_sample_text),
+                    uploader = stringResource(R.string.video_creator_sample_text),
+                    thumbnailModel = image,
+                    stateIndicator = {
+                        StateIndicator(
+                            modifier = Modifier,
+                            downloadState = downloadState,
+                        )
+                    },
+                    actionButton = {
+                        ActionButton(
+                            modifier = Modifier,
+                            downloadState = downloadState,
+                        ) {}
+                    },
                 ) {}
                 val pageCount = ColorList.size + 1
 
@@ -208,14 +220,12 @@ fun AppearancePreferences(onNavigateBack: () -> Unit, onNavigateTo: (String) -> 
                     },
                     onClick = { onNavigateTo(Route.DARK_THEME) },
                 )
-                if (Build.VERSION.SDK_INT >= 24) {
-                    PreferenceItem(
-                        title = stringResource(R.string.language),
-                        icon = Icons.Outlined.Language,
-                        description = Locale.getDefault().toDisplayName(),
-                    ) {
-                        onNavigateTo(Route.LANGUAGES)
-                    }
+                PreferenceItem(
+                    title = stringResource(R.string.language),
+                    icon = Icons.Outlined.Language,
+                    description = Locale.getDefault().toDisplayName(),
+                ) {
+                    onNavigateTo(Route.LANGUAGES)
                 }
             }
         },

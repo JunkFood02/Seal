@@ -51,12 +51,47 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
 
+private val IconButtonSize = 64.dp
+private val IconSize = 36.dp
+private val ActionButtonContainerColor: Color
+    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.68f)
+private val ActionButtonContentColor: Color
+    @Composable get() = FixedAccentColors.secondaryFixed
+private val LabelContainerColor: Color = Color.Black.copy(alpha = 0.68f)
+
 @Composable
 fun VideoCardV2(
     modifier: Modifier = Modifier,
     viewState: Task.ViewState,
-    downloadState: Task.DownloadState,
     stateIndicator: @Composable (BoxScope.() -> Unit)? = null,
+    actionButton: @Composable (BoxScope.() -> Unit)? = null,
+    onButtonClick: () -> Unit,
+) {
+    with(viewState) {
+        VideoCardV2(
+            modifier,
+            thumbnailModel = thumbnailUrl,
+            title = title,
+            uploader = uploader,
+            duration = duration,
+            fileSizeApprox = fileSizeApprox,
+            stateIndicator = stateIndicator,
+            actionButton = actionButton,
+            onButtonClick = onButtonClick,
+        )
+    }
+}
+
+@Composable
+fun VideoCardV2(
+    modifier: Modifier = Modifier,
+    thumbnailModel: Any? = null,
+    title: String = "",
+    uploader: String = "",
+    duration: Int = 0,
+    fileSizeApprox: Double = .0,
+    stateIndicator: @Composable (BoxScope.() -> Unit)? = null,
+    actionButton: @Composable (BoxScope.() -> Unit)? = null,
     onButtonClick: () -> Unit,
 ) {
     Card(
@@ -68,107 +103,18 @@ fun VideoCardV2(
     ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
-                if (viewState.thumbnailUrl != null) {
-                    AsyncImageImpl(
-                        modifier =
-                            Modifier.padding()
-                                .fillMaxWidth()
-                                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                        model = viewState.thumbnailUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                    )
-                } else {
-                    Surface(
-                        modifier =
-                            Modifier.padding()
-                                .fillMaxWidth()
-                                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
-                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                    ) {}
-                }
-
-                stateIndicator?.invoke(this)
-
-                Surface(
-                    modifier = Modifier.padding(8.dp).align(Alignment.TopStart),
-                    color = Color.Black.copy(alpha = 0.68f),
-                    shape = MaterialTheme.shapes.extraSmall,
-                ) {
-                    val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
-                    val text =
-                        when (downloadState) {
-                            is Task.DownloadState.Canceled -> R.string.status_canceled
-                            is Task.DownloadState.Completed -> R.string.status_downloaded
-                            is Task.DownloadState.Error -> R.string.status_error
-                            is Task.DownloadState.FetchingInfo ->
-                                R.string.status_fetching_video_info
-                            Task.DownloadState.Idle -> R.string.status_enqueued
-                            Task.DownloadState.ReadyWithInfo -> R.string.status_enqueued
-                            is Task.DownloadState.Running -> R.string.status_downloading
-                        }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (downloadState is Task.DownloadState.Error) {
-                            Icon(
-                                imageVector = Icons.Rounded.Error,
-                                contentDescription = null,
-                                tint =
-                                    MaterialTheme.colorScheme.run {
-                                        if (isDarkTheme) error else errorContainer
-                                    },
-                                modifier = Modifier.padding(start = 4.dp).size(12.dp),
-                            )
-                        }
-                        Text(
-                            stringResource(id = text),
-                            modifier = Modifier.padding(horizontal = 4.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                        )
-                    }
-                }
-
-                Surface(
-                    modifier = Modifier.padding(4.dp).align(Alignment.BottomEnd),
-                    color = Color.Black.copy(alpha = 0.68f),
-                    shape = MaterialTheme.shapes.extraSmall,
-                ) {
-                    val fileSizeText = viewState.fileSizeApprox.toFileSizeText()
-                    val durationText = viewState.duration.toDurationText()
-                    Text(
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        text = "$fileSizeText  $durationText",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color.White,
-                    )
-                }
+                CardImage(modifier = Modifier, thumbnailModel = thumbnailModel)
+                Box(Modifier.align(Alignment.TopStart)) { stateIndicator?.invoke(this) }
+                Box(Modifier.align(Alignment.Center)) { actionButton?.invoke(this) }
+                VideoInfoLabel(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    duration = duration,
+                    fileSizeApprox = fileSizeApprox,
+                )
             }
             Row(modifier = Modifier.fillMaxWidth()) {
-                Column(
-                    modifier = Modifier.padding(start = 12.dp).padding(vertical = 12.dp).weight(1f),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    Text(
-                        text = viewState.title,
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    if (viewState.uploader.isNotEmpty()) {
-                        Text(
-                            modifier = Modifier.padding(top = 3.dp),
-                            text = viewState.uploader,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-                IconButton(
-                    onButtonClick,
-                    modifier = Modifier.align(Alignment.CenterVertically),
-                ) {
+                TitleText(modifier = Modifier.weight(1f), title = title, uploader = uploader)
+                IconButton(onButtonClick, modifier = Modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
                         contentDescription = stringResource(R.string.show_more_actions),
@@ -179,13 +125,6 @@ fun VideoCardV2(
         }
     }
 }
-
-private val IconButtonSize = 64.dp
-private val IconSize = 36.dp
-private val ContainerColor: Color
-    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.68f)
-private val ContentColor: Color
-    @Composable get() = FixedAccentColors.secondaryFixed
 
 @Composable
 @Preview
@@ -198,20 +137,135 @@ fun VideoCardV2Preview() {
                 action = Task.RestartableAction.Download,
             )
         VideoCardV2(
-            viewState = Task.ViewState(),
-            downloadState = downloadState,
-            stateIndicator = {
-                StateIndicator(
-                    modifier = Modifier.align(Alignment.Center),
+            thumbnailModel = R.drawable.sample3,
+            title = stringResource(R.string.video_title_sample_text),
+            uploader = stringResource(R.string.video_creator_sample_text),
+            actionButton = {
+                ActionButton(
+                    modifier = Modifier,
                     downloadState = downloadState,
                 ) {}
+            },
+            stateIndicator = {
+                StateIndicator(
+                    modifier = Modifier,
+                    downloadState = downloadState,
+                )
             },
         ) {}
     }
 }
 
 @Composable
-fun StateIndicator(
+private fun CardImage(modifier: Modifier = Modifier, thumbnailModel: Any? = null) {
+    if (thumbnailModel != null) {
+        AsyncImageImpl(
+            modifier =
+                modifier
+                    .padding()
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+            model = thumbnailModel,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+        )
+    } else {
+        Surface(
+            modifier =
+                modifier
+                    .padding()
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+            color = MaterialTheme.colorScheme.surfaceContainerHighest,
+        ) {}
+    }
+}
+
+@Composable
+private fun TitleText(modifier: Modifier = Modifier, title: String, uploader: String) {
+    Column(
+        modifier = modifier.padding(start = 12.dp).padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.Start,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+        )
+        if (uploader.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(top = 3.dp),
+                text = uploader,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
+private fun VideoInfoLabel(modifier: Modifier = Modifier, duration: Int, fileSizeApprox: Double) {
+    Surface(
+        modifier = modifier.padding(4.dp),
+        color = LabelContainerColor,
+        shape = MaterialTheme.shapes.extraSmall,
+    ) {
+        val fileSizeText = fileSizeApprox.toFileSizeText()
+        val durationText = duration.toDurationText()
+        Text(
+            modifier = Modifier.padding(horizontal = 4.dp),
+            text = "$fileSizeText  $durationText",
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.White,
+        )
+    }
+}
+
+@Composable
+fun StateIndicator(modifier: Modifier = Modifier, downloadState: Task.DownloadState) {
+    Surface(
+        modifier = modifier.padding(8.dp),
+        color = LabelContainerColor,
+        shape = MaterialTheme.shapes.extraSmall,
+    ) {
+        val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
+        val text =
+            when (downloadState) {
+                is Task.DownloadState.Canceled -> R.string.status_canceled
+                is Task.DownloadState.Completed -> R.string.status_downloaded
+                is Task.DownloadState.Error -> R.string.status_error
+                is Task.DownloadState.FetchingInfo -> R.string.status_fetching_video_info
+                Task.DownloadState.Idle -> R.string.status_enqueued
+                Task.DownloadState.ReadyWithInfo -> R.string.status_enqueued
+                is Task.DownloadState.Running -> R.string.status_downloading
+            }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (downloadState is Task.DownloadState.Error) {
+                Icon(
+                    imageVector = Icons.Rounded.Error,
+                    contentDescription = null,
+                    tint =
+                        MaterialTheme.colorScheme.run {
+                            if (isDarkTheme) error else errorContainer
+                        },
+                    modifier = Modifier.padding(start = 4.dp).size(12.dp),
+                )
+            }
+            Text(
+                stringResource(id = text),
+                modifier = Modifier.padding(horizontal = 4.dp),
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White,
+            )
+        }
+    }
+}
+
+@Composable
+fun ActionButton(
     modifier: Modifier = Modifier,
     downloadState: Task.DownloadState,
     onClick: () -> Unit,
@@ -247,7 +301,7 @@ private fun ResumeButton(
     progress: Float? = null,
     onClick: () -> Unit,
 ) {
-    val background = ContainerColor
+    val background = ActionButtonContainerColor
 
     Box(
         modifier =
@@ -261,7 +315,7 @@ private fun ResumeButton(
             CircularProgressIndicator(
                 progress = { progress },
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
-                color = ContentColor,
+                color = ActionButtonContentColor,
                 trackColor = Color.Transparent,
                 gapSize = 0.dp,
             )
@@ -270,14 +324,14 @@ private fun ResumeButton(
             imageVector = Icons.Rounded.Download,
             contentDescription = stringResource(R.string.restart),
             modifier = Modifier.size(IconSize).align(Alignment.Center),
-            tint = ContentColor,
+            tint = ActionButtonContentColor,
         )
     }
 }
 
 @Composable
 fun RestartButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val background = ContainerColor
+    val background = ActionButtonContainerColor
 
     Box(
         modifier =
@@ -291,7 +345,7 @@ fun RestartButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             imageVector = Icons.Rounded.RestartAlt,
             contentDescription = stringResource(R.string.restart),
             modifier = Modifier.size(IconSize).align(Alignment.Center),
-            tint = ContentColor,
+            tint = ActionButtonContentColor,
         )
     }
 }
@@ -303,8 +357,8 @@ private fun PlayVideoButton(modifier: Modifier = Modifier, onClick: () -> Unit) 
         modifier = modifier.size(IconButtonSize),
         colors =
             IconButtonDefaults.filledIconButtonColors(
-                containerColor = ContainerColor,
-                contentColor = ContentColor,
+                containerColor = ActionButtonContainerColor,
+                contentColor = ActionButtonContentColor,
             ),
     ) {
         Icon(
@@ -323,7 +377,7 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
             label = "progress",
         )
-    val background = ContainerColor
+    val background = ActionButtonContainerColor
 
     Box(
         modifier =
@@ -336,14 +390,14 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
         if (progress < 0) {
             CircularProgressIndicator(
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
-                color = ContentColor,
+                color = ActionButtonContentColor,
                 trackColor = Color.Transparent,
             )
         } else {
             CircularProgressIndicator(
                 { animatedProgress },
                 modifier = Modifier.size(IconButtonSize).align(Alignment.Center),
-                color = ContentColor,
+                color = ActionButtonContentColor,
                 gapSize = 0.dp,
                 trackColor = Color.Transparent,
             )
@@ -352,7 +406,7 @@ private fun ProgressButton(modifier: Modifier = Modifier, progress: Float, onCli
             imageVector = Icons.Rounded.Pause,
             contentDescription = null,
             modifier = Modifier.align(Alignment.Center).size(IconSize),
-            tint = ContentColor,
+            tint = ActionButtonContentColor,
         )
     }
 }
