@@ -61,7 +61,7 @@
     <string name="defaults">Alapértelmezett</string>
     <string name="download_finish_notification">Letöltés befejeződött. Kattints a megnyitáshoz.</string>
     <string name="execute_command_notification">Egyéni parancsok futtatása…</string>
-    <string name="concurrent_download">Több-szálas letöltés</string>
+    <string name="concurrent_download">Többszálas letöltés</string>
     <string name="concurrent_download_desc">Töltsd le párhuzamosan több részét a M3U8/MPD videóknak</string>
     <string name="options">Beállítások</string>
     <string name="additional_settings">További beállítások</string>
@@ -101,7 +101,7 @@
     <string name="error_copied">A hibajelentés a vágólapra másolva</string>
     <string name="not_convert">Nem konvertált</string>
     <string name="convert_to">Konvertálja ebbe %1$s</string>
-    <string name="video_quality_desc">Korlátozza a videó minőségét, ha több van jelen</string>
+    <string name="video_quality_desc">Korlátozza a videók minőségét, ha több is jelen van</string>
     <string name="not_specified">Nincs megadva (alapértelmezett)</string>
     <string name="download_history_desc">Kezeld az alkalmazáson belüli letöltéseket, beleértve a videókat és hangfájlokat.</string>
     <string name="best_quality">Legjobb minőség</string>
@@ -118,7 +118,7 @@
     <string name="fetching_playlist_info">Lejátszási lista információinak lekérése…</string>
     <string name="download_range_selection">Lejátszási lista kiválasztása</string>
     <string name="download_range_desc">Adja meg a „%3$s” lejátszási listáról letöltendő videók tartományát (%1$d és %2$d között).</string>
-    <string name="subdirectory_desc">Mentse a fájlokat a megfelelő webhelyként elnevezett mappákba</string>
+    <string name="subdirectory_desc">Fájlok mentése az annak megfelelően elnevezett mappákba</string>
     <string name="download_notification">Letöltési értesítés</string>
     <string name="playlist_indicator_text">Lejátszási lista letöltése (%1$d/%2$d)…</string>
     <string name="download_directory_desc">Válassza ki a videók és hangfájlok tárolási helyét</string>
@@ -138,13 +138,13 @@
     <string name="status_canceled">Meghiúsult</string>
     <string name="status_error">Hiba</string>
     <string name="copy_link">Link másolása</string>
-    <string name="copy_error_report">Hibajelentés</string>
+    <string name="copy_error_report">Hibajelentés másolása</string>
     <string name="video_resolution">Videó felbontás</string>
     <string name="video_file_size">Videó fájl mérete</string>
     <string name="status_downloading">Letöltés</string>
     <string name="status_fetching_video_info">Információk lekérése</string>
     <string name="embed_subtitles">Feliratok beágyazása</string>
-    <string name="embed_subtitles_desc">Feliratok beágyazása, ha elérhető</string>
+    <string name="embed_subtitles_desc">Feliratok beágyazása a videókba, ha elérhetőek</string>
     <string name="new_template">Új sablon</string>
     <string name="template_label">Címke</string>
     <string name="remove_template">Eltávolítja\?</string>
@@ -179,7 +179,7 @@
     <string name="download_disabled_with_cellular">A mobil internetes letöltés le van tiltva a beállításai szerint</string>
     <string name="network">Hálózat</string>
     <string name="rate_limit">Mértékhatár</string>
-    <string name="rate_limit_desc">Letöltések maximum számát korlátozza</string>
+    <string name="rate_limit_desc">Maximum letöltési sebesség korlátozása</string>
     <string name="max_rate">Maximum mérték</string>
     <string name="high_contrast">Magas kontrasztú sötét téma</string>
     <string name="invalid_input">Nem megfelelő bemenet</string>
@@ -198,7 +198,7 @@
     <string name="suggested">Ajánlott</string>
     <string name="format_selection">Formátum kiválasztása</string>
     <string name="crop_artwork">Album borító vágása</string>
-    <string name="crop_artwork_desc">Vágja négyzetre a beágyazott képet</string>
+    <string name="crop_artwork_desc">Beágyazott képet négyzetre vagása</string>
     <string name="use_custom_command">Egyéni parancs használata</string>
     <string name="private_directory">Privát mappa</string>
     <string name="private_directory_desc">Tárolja a letöltéseket egy rejtett mappában</string>
@@ -211,7 +211,9 @@
     <string name="cookies_desc">Netscape formátumú sütik használata a letöltéshez</string>
     <string name="multiselect_mode">Többválasztós mód</string>
     <string name="file_unavailable">Ez a fájl már nem elérhető</string>
-    <string name="clear_temp_files_info">Átmeneti fájlok abban segítenek, hogy megszakított letöltéseket tudjon folytatni. Biztosan törölni akarja őket\?</string>
+    <string name="clear_temp_files_info">Az átmeneti fájlok felhasználhatóak megszakított letöltéseket folytatására. Biztosan törölni szeretné őket?
+\n
+\nEzek a fájlok elérhetőek itt: %1$s</string>
     <string name="disable_preview_desc">Előnézet letiltása a letöltéseknél</string>
     <string name="format_selection_desc">A letöltés megkezdése előtt válassza ki a letöltendő formátumot</string>
     <string name="audio_quality">Hangminőség</string>
@@ -275,4 +277,9 @@
     <string name="video_title_sample_text">Videó címének minta szövege</string>
     <string name="subtitle_desc">Nyelvek, feliratok beágyazása, automatikus feliratozás</string>
     <string name="remove_cookie_profile_desc">Eltávolítja ezt a bejegyzést a következőhöz: \"%1$s\"? Vegye figyelembe, hogy az ezen az oldalon tárolt cookie-k nem törlődnek.</string>
+    <string name="matrix_space">Mátrix helye</string>
+    <string name="abs_hint">A legtöbb oldal külön tárolja a hangot, és a videót. Ki tud választani csak hang, és csak videó formátumú tartalmakat, hogy aztán egybeolvassza őket.</string>
+    <string name="clear">Clear</string>
+    <string name="cookies_usage_msg">Bizonyos oldalakról való letöltéshez hitelesítés szükséges. Kattintson a(z) \"Új sütik generálása\" gombra, írja be az oldal címét, majd jelentkezzen be az oldalra. Ezután az alkalmazás legenerálja magától a szükséges adatokat.</string>
+    <string name="video_creator_sample_text">Videó készitő példa szöveg</string>
 </resources>

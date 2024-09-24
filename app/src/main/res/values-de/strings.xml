@@ -153,7 +153,7 @@
     <string name="restart">Neustarten</string>
     <string name="status_error">Fehler</string>
     <string name="copy_link">Link kopieren</string>
-    <string name="copy_error_report">Fehlerbericht</string>
+    <string name="copy_error_report">Bericht kopieren</string>
     <string name="video_resolution">Videoauflösung</string>
     <string name="video_file_size">Größe der Videodatei</string>
     <string name="export_to_clipboard">In Zwischenablage exportieren</string>
@@ -408,4 +408,13 @@
     <string name="every_day">Jeden Tag</string>
     <string name="every_week">Jede Woche</string>
     <string name="every_month">Jeder Monat</string>
+    <string name="all_languages">Alle Sprachen</string>
+    <string name="playlist">Playlist</string>
+    <string name="proceed">Weiter</string>
+    <string name="preset">Voreinstellung</string>
+    <string name="custom_format_selection_desc">Wähle aus Formaten und Untertiteln und passe sie weiter an</string>
+    <string name="preset_format_selection_desc">Automatischer Download unter Verwendung deiner Formateinstellungen</string>
+    <string name="edit_preset">Voreinstellung bearbeiten</string>
+    <string name="best_quality_desc">Bestes verfügbare Format herunterladen</string>
+    <string name="task_added">Aufgabe zur Warteschlange hinzugefügt</string>
 </resources>

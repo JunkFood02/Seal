@@ -146,14 +146,14 @@
     <string name="info_copied">Інформація скопійована в буфер обміну</string>
     <string name="open_file">Відкрити файл</string>
     <string name="status_enqueued">Поставлено в чергу</string>
-    <string name="status_completed">Виконано</string>
+    <string name="status_completed">Завершено</string>
     <string name="status_downloading">Завантаження</string>
     <string name="status_canceled">Cкасовано</string>
     <string name="status_fetching_video_info">Отримання інформації</string>
     <string name="restart">Перезавантажити</string>
     <string name="status_error">Помилка</string>
     <string name="copy_link">Скопіювати посилання</string>
-    <string name="copy_error_report">Повідомити про помилку</string>
+    <string name="copy_error_report">Скопіювати помилку</string>
     <string name="video_file_size">Розмір відео</string>
     <string name="video_resolution">Роздільна здатність</string>
     <string name="clear_temp_files_desc">Видалити усі тимчасові файли з тимчасової теки</string>
@@ -410,4 +410,30 @@
     <string name="remux_container_mkv_desc">Remux відео в контейнер MKV для кращої сумісності</string>
     <string name="cookies_in_database">Всього %1$d файлів cookie з %2$d вебсайтів</string>
     <string name="every_day">Щодня</string>
+    <string name="all_languages">Всі мови</string>
+    <string name="playlist">Список відтворення</string>
+    <string name="prefer_placeholder">Надаю перевагу %1$s</string>
+    <plurals name="video_count">
+        <item quantity="one">%d відео</item>
+        <item quantity="few">%d відео</item>
+        <item quantity="many">%d відео</item>
+        <item quantity="other">%d відео</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d аудіо</item>
+        <item quantity="few">%d аудіо</item>
+        <item quantity="many">%d аудіо</item>
+        <item quantity="other">%d аудіо</item>
+    </plurals>
+    <string name="proceed">Продовжити</string>
+    <string name="preset">Передустановка</string>
+    <string name="custom_format_selection_desc">Вибирайте формати, субтитри та налаштовуйте далі</string>
+    <string name="preset_format_selection_desc">Завантажуйте автоматично відповідно до ваших налаштувань формату</string>
+    <string name="edit_preset">Редагувати передустановку</string>
+    <string name="best_quality_desc">Завантажте найкращий доступний формат</string>
+    <string name="task_added">Задачу додано до черги</string>
+    <string name="you_ll_find_your_downloads_here">Ви знайдете свої завантаження тут</string>
+    <string name="download_hint">Натисніть на кнопку завантаження або поділіться відео посиланням на цей застосунок, щоби почати завантаження</string>
+    <string name="status_downloaded">Завантажено</string>
+    <string name="all">Все</string>
 </resources>

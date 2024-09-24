@@ -154,7 +154,7 @@
     <string name="restart">पुनर्प्रारंभ करें</string>
     <string name="status_error">त्रुटि संदेश</string>
     <string name="copy_link">लिंक को कॉपी करें</string>
-    <string name="copy_error_report">ख़ामी रिपोर्ट</string>
+    <string name="copy_error_report">रिपोर्ट कापी करें</string>
     <string name="video_resolution">वीडियो रेजोल्यूशन</string>
     <string name="video_file_size">वीडियो फ़ाइल आकार</string>
     <string name="export_to_clipboard">क्लिपबोर्ड पर निर्यात करें</string>
@@ -408,4 +408,22 @@
     <string name="every_day">हर दिन</string>
     <string name="every_week">हर हफ्ते</string>
     <string name="every_month">हर महीने</string>
+    <string name="all_languages">सभी भाषाएँ</string>
+    <string name="playlist">प्लेलिस्ट</string>
+    <string name="preset">प्रीसेट</string>
+    <string name="prefer_placeholder">%1$s को प्राथमिकता दें</string>
+    <string name="edit_preset">प्रीसेट संपादित करें</string>
+    <string name="best_quality_desc">सर्वोत्तम उपलब्ध फार्मेट डाउनलोड करें</string>
+    <plurals name="video_count">
+        <item quantity="one">%d वीडियो</item>
+        <item quantity="other">%d वीडियो</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d ऑडियो</item>
+        <item quantity="other">%d ऑडियो</item>
+    </plurals>
+    <string name="task_added">कार्य को कतार में जोड़ा गया</string>
+    <string name="proceed">जारी रखें</string>
+    <string name="custom_format_selection_desc">प्रारूपों, उपशीर्षकों में से चुनें और आगे अनुकूलित करें</string>
+    <string name="preset_format_selection_desc">अपनी फार्मेट प्राथमिकताओं का उपयोग करके स्वचालित रूप से डाउनलोड करें</string>
 </resources>

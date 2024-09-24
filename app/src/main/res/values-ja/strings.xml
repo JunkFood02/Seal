@@ -35,11 +35,11 @@
     <string name="edit_template_desc">出力パスと URL はアプリによって追加されます。</string>
     <string name="convert_audio_format">音声形式の変換</string>
     <string name="video_quality">画質</string>
-    <string name="best_quality">最高画質</string>
-    <string name="video_quality_desc">画質が複数あるときに画質を制限する</string>
+    <string name="best_quality">最高品質</string>
+    <string name="video_quality_desc">画質の選択肢が複数のとき画質を制限する</string>
     <string name="not_specified">指定なし (標準)</string>
-    <string name="video_format_preference">希望する動画形式</string>
-    <string name="preferred_format_desc">形式が複数あるときに優先する形式</string>
+    <string name="video_format_preference">優先する動画形式</string>
+    <string name="preferred_format_desc">形式の選択肢が複数のとき優先する形式</string>
     <string name="video_format">動画形式</string>
     <string name="start_download">ダウンロード</string>
     <string name="download_desc">設定後、「ダウンロード」をクリックしてください。</string>
@@ -92,14 +92,14 @@
     <string name="paste">貼り付け</string>
     <string name="convert_audio">変換</string>
     <string name="open_settings">設定を開く</string>
-    <string name="error_copied">エラーレポートがクリップボードにコピーされました</string>
+    <string name="error_copied">エラーレポートをクリップボードにコピーしました</string>
     <string name="format">形式</string>
     <string name="convert_audio_format_desc">音声ファイルを再エンコードすると、音質が低下しファイルサイズは増加します。</string>
     <string name="close">閉じる</string>
     <string name="close_never_show_again">再度表示しない</string>
     <string name="user_guide">ユーザーガイド</string>
     <string name="paste_desc">クリップボードから動画リンクを取得するには「貼り付け」をクリックします。</string>
-    <string name="video_url">動画リンク</string>
+    <string name="video_url">動画のアドレス</string>
     <string name="download_history_desc">動画や音声ファイルなど、本アプリでのダウンロード一覧を管理します。</string>
     <string name="battery_settings_desc">バックグラウンドでダウンロードを行うため、システムの設定で本アプリのバッテリー使用量を「制限なし」に設定してください。</string>
     <string name="download_finish_notification">ダウンロード完了。タップで再生します。</string>
@@ -127,7 +127,7 @@
     <string name="translate_desc">Hosted Weblateから本アプリの翻訳にご協力ください</string>
     <string name="prefix">パスのテンプレート</string>
     <string name="embed_subtitles">字幕を埋め込む</string>
-    <string name="embed_subtitles_desc">字幕があれば動画に埋め込む</string>
+    <string name="embed_subtitles_desc">字幕ファイルが利用できれば動画に埋め込む</string>
     <string name="new_template">新しいテンプレート</string>
     <string name="template_label">名前</string>
     <string name="template_selection">テンプレート選択</string>
@@ -145,7 +145,7 @@
     <string name="remove_template_desc">「%1$s」をコマンドテンプレートから削除しますか？</string>
     <string name="downloading_indicator_text">ダウンロード中…</string>
     <string name="status_error">エラー</string>
-    <string name="copy_error_report">エラー情報</string>
+    <string name="copy_error_report">情報をコピー</string>
     <string name="status_completed">完了</string>
     <string name="status_downloading">ダウンロード中</string>
     <string name="status_canceled">キャンセルしました</string>
@@ -249,7 +249,7 @@
     <string name="filesize_mb">%.2f MB</string>
     <string name="discard">破棄</string>
     <string name="apply">適用</string>
-    <string name="embed_subtitles_mkv_msg">字幕を埋め込むには、動画を mkv コンテナに多重化しなおします。VLC Media Player などの互換アプリから、字幕を埋め込んだ動画を視聴できます。</string>
+    <string name="embed_subtitles_mkv_msg">字幕ファイルを埋め込むため、動画を mkv コンテナに多重化しなおします。VLC Media Player などの互換アプリから、字幕を埋め込んだ動画を視聴できます。</string>
     <string name="share">共有</string>
     <string name="stable_channel">安定版</string>
     <string name="pre_release_channel">プレビュー版</string>
@@ -261,7 +261,7 @@
     <string name="enable_auto_update">自動更新を有効にする</string>
     <string name="rename">名前の変更</string>
     <string name="minute">分</string>
-    <string name="no_downloaded_media">ダウンロードしたメディアはありません</string>
+    <string name="no_downloaded_media">ダウンロード済みのメディアなし</string>
     <string name="beta_features">ベータ</string>
     <string name="enable_experimental_feature">実験的な機能を有効にしますか？</string>
     <string name="clip_video_desc">形式の選択ページでクリップ動画を作成する</string>
@@ -270,7 +270,7 @@
     <string name="okay">了解</string>
     <string name="got_it">わかった</string>
     <string name="feature_unavailable">機能を利用できません</string>
-    <string name="audio_format_preference">希望する音声形式</string>
+    <string name="audio_format_preference">優先する音声形式</string>
     <string name="unlimited">上限なし</string>
     <string name="lowest_bitrate">最低ビットレート</string>
     <string name="format_sorting">形式の並び替え</string>
@@ -300,7 +300,7 @@
     <string name="commands">コマンド</string>
     <string name="download_type">ダウンロードの種類</string>
     <string name="legacy">古い形式</string>
-    <string name="quality">品質優先</string>
+    <string name="quality">品質</string>
     <string name="set_directory_desc">タップして設定</string>
     <string name="auto">自動</string>
     <string name="custom">カスタム</string>
@@ -381,14 +381,14 @@
     <string name="no_thanks">いいえ</string>
     <string name="update_subtitle_languages">字幕の言語を更新しますか？</string>
     <string name="update_language_msg">以下の言語が、次回のダウンロード時の優先候補に追加されます:</string>
-    <string name="subtitle_language_desc">自動の形式選択でダウンロードする字幕の言語。カンマ区切り。</string>
+    <string name="subtitle_language_desc">自動で形式を選択してダウンロードする字幕の言語を指定します。カンマ区切り。</string>
     <string name="search_in_downloads">ダウンロード一覧から検索</string>
     <string name="search">検索</string>
     <string name="download_archive_error">動画がダウンロードされました。これが予期しない動作ならダウンロードアーカイブをご確認ください。</string>
     <string name="download_history_imported">ダウンロード履歴に %1$s 個をインポートしました</string>
     <string name="export_backup">エクスポート</string>
     <string name="export_download_history_msg">ダウンロード履歴から %1$s 個をエクスポート中。ダウンロードしたファイルと設定はバックアップされません。</string>
-    <string name="import_download_history_msg">ダウンロードしたファイルはインポートされません。手動で再ダウンロードしてください</string>
+    <string name="import_download_history_msg">ダウンロード済みファイルはインポートできません。手動で再ダウンロードしてください</string>
     <string name="import_backup">インポート</string>
     <string name="full_backup">完全バックアップ</string>
     <string name="interface_and_interaction">外観と動的変化</string>
@@ -407,4 +407,20 @@
     <string name="every_day">毎日</string>
     <string name="every_week">毎週</string>
     <string name="every_month">毎月</string>
+    <string name="all_languages">すべての言語</string>
+    <string name="preset">プリセット</string>
+    <string name="custom_format_selection_desc">形式、字幕を選択し、調整</string>
+    <string name="prefer_placeholder">%1$s を優先</string>
+    <string name="preset_format_selection_desc">形式の設定を使い自動ダウンロード</string>
+    <string name="best_quality_desc">最良の形式でダウンロード</string>
+    <string name="task_added">キューにタスクを追加</string>
+    <plurals name="video_count">
+        <item quantity="other">%d本の動画</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="other">%d個の音声</item>
+    </plurals>
+    <string name="playlist">再生リスト</string>
+    <string name="proceed">続行</string>
+    <string name="edit_preset">プリセットを編集</string>
 </resources>

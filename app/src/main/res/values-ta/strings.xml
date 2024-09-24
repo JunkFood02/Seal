@@ -34,7 +34,7 @@
     <string name="link_copied">லிங்க் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</string>
     <string name="open_url">லிங்க்கை திற</string>
     <string name="remove">நீக்கு</string>
-    <string name="delete_file">அழி</string>
+    <string name="delete_file">கோப்புகளை அழி</string>
     <string name="about">ஆப்பை பற்றி</string>
     <string name="version">பதிப்பு</string>
     <string name="video">காணொளி</string>
@@ -42,7 +42,7 @@
     <string name="follow_system">அமைப்பமுறை</string>
     <string name="cancel">ரத்து செய்</string>
     <string name="settings_before_download">பதிவிறக்குவதற்கு முன் உள்ளமைக்கவும்</string>
-    <string name="about_page">பதிப்பு, வெளியீடுகள், புகழ்</string>
+    <string name="about_page">பதிப்பு, வெளியீடுகள், தானாக மேம்படுத்தல்</string>
     <string name="release_desc">மாற்ற பதிவுகள் மற்றும் புதிய பதிப்புகளைப் பார்க்கவும்</string>
     <string name="on">இயக்கவும்</string>
     <string name="settings_before_download_desc">பதிவிறக்குவதற்கு முன் விருப்பங்களை உள்ளமைக்கவும்</string>
@@ -57,9 +57,9 @@
     <string name="format">வடிவம்</string>
     <string name="video_quality">காணொளி தரம்</string>
     <string name="video_format_preference">விருப்பமான காணொளி வடிவம்</string>
-    <string name="preferred_format_desc">பல வழங்கப்படும் போது தேர்ந்தெடுக்கப்பட்ட வடிவம்</string>
-    <string name="best_quality">சிறந்த தரம் (இயல்புநிலை)</string>
-    <string name="video_quality_desc">வடிவத்தின் தரம் மற்றும் கோப்பு அளவை வரம்பிடவும்</string>
+    <string name="preferred_format_desc">பல வழங்கப்படும் போது விருப்பமான வடிவம்</string>
+    <string name="best_quality">சிறந்த தரம்</string>
+    <string name="video_quality_desc">பல இருக்கும் போது வீடியோ தரத்தை வரம்பிடவும்</string>
     <string name="not_specified">குறிப்பிடப்படவில்லை (இயல்புநிலை)</string>
     <string name="close">மூடு</string>
     <string name="open_settings">அமைப்புகளைத் திறக்கவும்</string>
@@ -83,4 +83,21 @@
     <string name="custom_command">தனிப்பயன் கட்டளை</string>
     <string name="checked">சரிபார்க்கப்பட்டது</string>
     <string name="credits_desc">கடன்கள் மற்றும் இலவச மென்பொருள்</string>
+    <string name="convert_audio_format_desc">மின்-குறியாக்க ஆடியோ கோப்புகள் ஆடியோ தரத்தில் இழப்பு மற்றும் கோப்பு அளவு அதிகரிக்கும்.</string>
+    <string name="download_desc">அதன் அமைப்புகளை சரிசெய்த பிறகு \"பதிவிறக்கு\" என்பதைக் கிளிக் செய்யவும்.</string>
+    <string name="download_history_desc">வீடியோக்கள் மற்றும் ஆடியோ கோப்புகள் உட்பட ஆப்ஸ் பதிவிறக்கங்களைச் சரிபார்த்து நிர்வகிக்கவும்.</string>
+    <string name="channel_description">பதிவிறக்கம் செய்யப்பட்ட கோப்புகள் மற்றும் முன்னேற்றம் குறித்து தெரிவிக்கவும்</string>
+    <string name="video_url">வீடியோ இணைப்பு</string>
+    <string name="execute_command_notification">தனிப்பயன் கட்டளைகளை இயக்குகிறது…</string>
+    <string name="ytdlp_update_action">yt-dlp மேம்படுத்தல்</string>
+    <string name="custom_command_template">கட்டளை விளக்கம்</string>
+    <string name="download_playlist_desc">பிளேலிஸ்ட்டில் இருந்து பல வீடியோக்களைப் பதிவிறக்கவும்</string>
+    <string name="check_download_settings_desc">பதிவிறக்க அமைப்புகளைப் பார்த்து, அதைப் பயன்படுத்துவதற்கு முன், yt-dlp இன் சமீபத்திய பதிப்பு உங்களிடம் உள்ளதா என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
+    <string name="defaults">இயல்புநிலை</string>
+    <string name="channel_name">பதிவிறக்கம்</string>
+    <string name="download_playlist">பிளேலிஸ்ட்டைப் பதிவிறக்கவும்</string>
+    <string name="advanced_settings">மேம்பட்டது</string>
+    <string name="download_finish_notification">பதிவிறக்கம் முடிந்தது. திறக்க தட்டவும்.</string>
+    <string name="edit">திருத்த</string>
+    <string name="start_execute">கட்டளையை இயக்கத் தொடங்குங்கள்</string>
 </resources>

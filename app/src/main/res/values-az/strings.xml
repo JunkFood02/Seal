@@ -110,7 +110,7 @@
     <string name="paste_desc">Lövhənizdən video əlaqəsin əldə etmək üçün \"Yapışdır\"-a klikləyin.</string>
     <string name="check_download_settings_desc">Yükləmə tənzimləmələrinə baxın və istifadədən əvvəl yt-dlp\'nin ən son versiyasına sahib olduğunuzdan əmin olun.</string>
     <string name="concurrent_download_desc">M3U8/MPD videoların daha çox hissələrin yanaşı yüklə</string>
-    <string name="concurrent_download_num">%d parça(lar) DASH/HLS yerli videosun eyni vaxtda yükləmək üçün istifadə olunacaq.</string>
+    <string name="concurrent_download_num">%d bölüm DASH/HLS yerli videosun eyni vaxtda yükləmək üçün istifadə olunacaq.</string>
     <string name="download_notification_desc">Yüklənilmiş fayllar və irəliləyiş bildirilir</string>
     <string name="fetching_playlist_info">Oynatma siyahısı məlumatı alınır…</string>
     <string name="download_range_desc">Oynatma siyahısından (%1$d-dən %2$d-a) yükləmək üçün videoların həddin müəyyənləşdir \"%3$s\".</string>
@@ -146,7 +146,7 @@
     <string name="open_file">Faylı aç</string>
     <string name="restart">Yenidən başlat</string>
     <string name="copy_link">Bağlantını köçür</string>
-    <string name="copy_error_report">Xəta məlumatı</string>
+    <string name="copy_error_report">Məlumatı köçür</string>
     <string name="video_resolution">Video görüntü imkanı</string>
     <string name="video_file_size">Video fayl həcmi</string>
     <string name="export_to_clipboard">Lövhəyə ixrac et</string>
@@ -345,7 +345,7 @@
     <string name="clear_download_archive">Yükləmə arxivi təmizlənsin?</string>
     <string name="clear_download_archive_desc">%1$s arxiv faylından həmişəlik silinsin?</string>
     <string name="embed_metadata">Yerləşdirilən Əlavə Məlumat</string>
-    <string name="presets">Qabaqcıl tənzimləmələr</string>
+    <string name="presets">İlkin tənzimləmələr</string>
     <string name="output_template">Buraxılış şablonu</string>
     <string name="output_template_desc">Buraxılış fayl adları üçün şablonu təyin edin</string>
     <string name="download_archive_desc">Dublikat yükləmələrə əngəl olmaq üçün yüklənilmiş video ID-ləri arxivdə qeyd edin</string>
@@ -408,4 +408,22 @@
     <string name="redownload">Yenidən yüklə</string>
     <string name="search_in_downloads">Yükləmələrdə axtarış</string>
     <string name="search">Axtar</string>
+    <string name="all_languages">Bütün dillər</string>
+    <string name="playlist">Oynatma siyahısı</string>
+    <string name="preset">İlkin tənzimləmə</string>
+    <string name="prefer_placeholder">%1$s-a üstünlük ver</string>
+    <string name="preset_format_selection_desc">Format seçimlərinizi istifadə edərək avtomatik yükləyin</string>
+    <string name="edit_preset">İlkin seçimə düzəliş et</string>
+    <string name="best_quality_desc">Mövcud ən yaxşı formatı yüklə</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d səs</item>
+        <item quantity="other">%d səs</item>
+    </plurals>
+    <string name="task_added">Tapşırıq növbəyə əlavə edildi</string>
+    <string name="proceed">Davam et</string>
+    <string name="custom_format_selection_desc">Formatlardan, titrlərdən seç və daha çox fərdiləşdir</string>
+    <plurals name="video_count">
+        <item quantity="one">%d video</item>
+        <item quantity="other">%d video</item>
+    </plurals>
 </resources>

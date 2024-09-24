@@ -85,7 +85,7 @@
     <string name="extract_audio_summary">Descarregar e guardar áudio, em vez de vídeo</string>
     <string name="subdirectory_desc">Guardar ficheiros em pastas com o nome dos respectivos campos</string>
     <string name="cookies_desc">Utilizar cookies formatados pelo Netscape para transferências</string>
-    <string name="copy_error_report">Relatório de erro</string>
+    <string name="copy_error_report">Copiar relatório</string>
     <string name="clear">Limpar</string>
     <string name="unknown">Desconhecido</string>
     <string name="paste_fail_msg">Não foi possível fazer corresponder o URL na área de transferência</string>
@@ -278,7 +278,7 @@
         <item quantity="many">%d itens</item>
         <item quantity="other">%d item(s)</item>
     </plurals>
-    <string name="status_completed">Concluído</string>
+    <string name="status_completed">Terminado</string>
     <string name="custom_command">Comando personalizado</string>
     <string name="task_running">Já está a decorrer uma tarefa de descarregamento existente</string>
     <string name="settings_before_download_text">Ajustar esta transferência</string>
@@ -409,4 +409,28 @@
     <string name="every_month">Mensalmente</string>
     <string name="every_day">Diariamente</string>
     <string name="every_week">Semanalmente</string>
+    <string name="playlist">Lista de reprodução</string>
+    <string name="preset">Predefinição</string>
+    <string name="custom_format_selection_desc">Escolha entre formatos, legendas e personalize ainda mais</string>
+    <string name="edit_preset">Editar predefinição</string>
+    <string name="best_quality_desc">Descarregar o melhor formato disponível</string>
+    <string name="prefer_placeholder">Preferir %1$s</string>
+    <string name="all_languages">Todos os idiomas</string>
+    <string name="proceed">Continuar</string>
+    <string name="preset_format_selection_desc">Descarregar automaticamente utilizando as suas preferências de formato</string>
+    <plurals name="video_count">
+        <item quantity="one">%d vídeo</item>
+        <item quantity="many">%d vídeos</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d áudio</item>
+        <item quantity="many">%d áudios</item>
+        <item quantity="other">%d áudios</item>
+    </plurals>
+    <string name="task_added">Tarefa adicionada à fila</string>
+    <string name="you_ll_find_your_downloads_here">Encontrará as suas descargas aqui</string>
+    <string name="download_hint">Toque no botão de descarga ou partilhe uma ligação de vídeo para esta aplicação para iniciar uma descarga</string>
+    <string name="status_downloaded">Descarregado</string>
+    <string name="all">Tudo</string>
 </resources>

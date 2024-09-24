@@ -13,7 +13,7 @@
     <string name="fetching_info">משיג מידע על הסרטון…</string>
     <string name="back">אחורה</string>
     <string name="version">גרסה</string>
-    <string name="delete_file">מחיקה</string>
+    <string name="delete_file">מחיקת הקובץ</string>
     <string name="about">אודות</string>
     <string name="release_desc">חפש יומני שינויים וגרסאות חדשות</string>
     <string name="about_page">גרסה, משוב, עדכון אוטומטי</string>
@@ -166,7 +166,7 @@
     <string name="error_copied">דו\"ח שגיאה הועתק ללוח</string>
     <string name="open_settings">פתח הגדרות</string>
     <string name="convert_to">המרה ל-%1$s</string>
-    <string name="rate_limit_desc">הגבל את כמות ההורדות במקביל</string>
+    <string name="rate_limit_desc">הגבל את מהירות ההורדה</string>
     <string name="generate_new_cookies">צור עוגיות חדשות</string>
     <string name="crop_artwork">חתוך תמונת אלבום</string>
     <string name="check_for_updates">חפש עדכונים</string>
@@ -403,4 +403,30 @@
     <string name="download_archive_desc">שמור מזהי וידאו שהורדו בארכיון כדי למנוע הורדות כפולות</string>
     <string name="auto_translated_subtitles_msg">כתוביות מתורגמות אוטומטית לכל השפות יהיו זמינות בהורדות. כתוביות אלו עשויות להיות לא מדויקות וקשות להבנה.</string>
     <string name="download_archive_error">הסרטון הורד. אם התנהגות זו אינה צפויה, אנא בדוק את ארכיון ההורדות.</string>
+    <string name="all_languages">כל השפות</string>
+    <string name="proceed">המשך</string>
+    <string name="preset">הגדרה מראש</string>
+    <string name="prefer_placeholder">העדף %1$s</string>
+    <string name="custom_format_selection_desc">בחירה מפורמטים, כתוביות, והתאמות נוספות</string>
+    <string name="preset_format_selection_desc">הורדה אוטומטית עם שימוש בהעדפות הפורמט</string>
+    <string name="edit_preset">ערוך הגדרה מראש</string>
+    <string name="best_quality_desc">הורדת הפורמט הכי טוב שזמין</string>
+    <plurals name="video_count">
+        <item quantity="one">%d סרטון</item>
+        <item quantity="two">%d סרטונים</item>
+        <item quantity="other">%d סרטונים</item>
+    </plurals>
+    <string name="task_added">משימה הוספה לתור</string>
+    <string name="remux_container_mkv">שנה סוג קובץ הסרטון</string>
+    <string name="remux_container_mkv_desc">שנה סוג קובץ סרטונים לסוג-MKV בישביל תאימות טובה יותר</string>
+    <string name="playlist">פלייליסטים (רשימת שירים להשמעה)</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d אודיו</item>
+        <item quantity="two">%d אודיוים</item>
+        <item quantity="other">%d אודיוים</item>
+    </plurals>
+    <string name="cookies_in_database">%1$d קבצי cookies מתוך %2$d אתרים בסך הכול</string>
+    <string name="every_day">כל יום</string>
+    <string name="every_week">כל שבוע</string>
+    <string name="every_month">כל חודש</string>
 </resources>
