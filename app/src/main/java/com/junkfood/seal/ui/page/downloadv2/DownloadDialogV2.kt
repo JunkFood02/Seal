@@ -6,7 +6,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateDpAsState
@@ -570,7 +569,7 @@ private fun ConfigurePage(
                 modifier = Modifier,
             )
             Preset(
-                modifier = Modifier.animateContentSize(),
+                modifier = Modifier,
                 preference = preferences,
                 selected = !useFormatSelection,
                 downloadType = selectedType,
@@ -615,7 +614,7 @@ private fun ConfigurePage(
                     )
                 )
                 if (selectedType == Playlist) {
-                    // todo
+                    onActionPost(Action.FetchPlaylist(url = url, preferences = preferences))
                 } else {
                     onActionPost(
                         Action.FetchFormats(
@@ -627,6 +626,75 @@ private fun ConfigurePage(
                 }
             },
             onTaskStart = {},
+        )
+    }
+}
+
+@Composable
+fun ConfigurePagePlaylistVariant(
+    modifier: Modifier = Modifier,
+    downloadType: DownloadType,
+    preferences: DownloadUtil.DownloadPreferences,
+    onPreferencesUpdate: (DownloadUtil.DownloadPreferences) -> Unit,
+    onPresetEdit: (DownloadType?) -> Unit = {},
+    onDismissRequest: () -> Unit,
+    onDownload: () -> Unit,
+) {
+
+    var selectedType by remember(downloadType) { mutableStateOf(downloadType) }
+
+    Column {
+        Column(modifier = modifier.padding(horizontal = 20.dp)) {
+            Header(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                title = stringResource(R.string.settings_before_download),
+                icon = Icons.Outlined.DoneAll,
+            )
+            DrawerSheetSubtitle(text = stringResource(id = R.string.download_type))
+            DownloadTypeSelectionGroup(
+                typeEntries = listOf(Video, Audio),
+                selectedType = selectedType,
+                onSelect = { selectedType = it },
+            )
+            DrawerSheetSubtitle(
+                text = stringResource(id = R.string.format_selection),
+                modifier = Modifier,
+            )
+            Preset(
+                modifier = Modifier,
+                preference = preferences,
+                selected = true,
+                downloadType = selectedType,
+                onClick = { onPresetEdit(selectedType) },
+                showEditIcon = true,
+                onEdit = { onPresetEdit(selectedType) },
+            )
+        }
+        var expanded by remember { mutableStateOf(false) }
+        ExpandableTitle(expanded = expanded, onClick = { expanded = true }) {
+            AdditionalSettings(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                isQuickDownload = false,
+                preference = preferences,
+                selectedType = Audio,
+                onPreferenceUpdate = {
+                    onPreferencesUpdate(DownloadUtil.DownloadPreferences.createFromPreferences())
+                },
+            )
+        }
+
+        ActionButtons(
+            modifier = Modifier.padding(horizontal = 20.dp),
+            canProceed = true,
+            selectedType = selectedType,
+            useFormatSelection = false,
+            onCancel = onDismissRequest,
+            onDownload = {
+                onDownload()
+                onDismissRequest()
+            },
+            onFetchInfo = { throw IllegalStateException() },
+            onTaskStart = { throw IllegalStateException() },
         )
     }
 }

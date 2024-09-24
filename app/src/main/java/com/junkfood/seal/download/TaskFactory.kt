@@ -93,7 +93,7 @@ object TaskFactory {
         preferences: DownloadPreferences,
     ): List<TaskWithState> {
         checkNotNull(playlistResult.entries)
-        val indexEntryMap = indexList.associateWith { index -> playlistResult.entries[index] }
+        val indexEntryMap = indexList.associateWith { index -> playlistResult.entries[index - 1] }
 
         val taskList =
             indexEntryMap.map { (index, entry) ->

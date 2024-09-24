@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -246,7 +247,15 @@ fun DownloadPageV2(
                 state = selectionState,
                 onDismissRequest = { dialogViewModel.postAction(Action.Reset) },
             )
-        else -> {}
+
+        is DownloadDialogViewModel.SelectionState.PlaylistSelection -> {
+            PlaylistSelectionPage(
+                state = selectionState,
+                onDismissRequest = { dialogViewModel.postAction(Action.Reset) },
+            )
+        }
+
+        DownloadDialogViewModel.SelectionState.Idle -> {}
     }
 }
 
@@ -264,7 +273,7 @@ fun DownloadPageImplV2(
     val context = LocalContext.current
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().statusBarsPadding(),
         containerColor = MaterialTheme.colorScheme.surface,
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) { windowInsetsPadding ->

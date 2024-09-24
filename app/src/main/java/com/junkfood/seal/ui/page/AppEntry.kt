@@ -101,10 +101,6 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                 )
             }
 
-            slideInVerticallyComposable(Route.PLAYLIST) {
-                PlaylistSelectionPage { onNavigateBack() }
-            }
-
             settingsGraph(
                 onNavigateBack = onNavigateBack,
                 onNavigateTo = { route ->
