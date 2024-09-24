@@ -191,7 +191,7 @@
     <string name="sponsorblock_desc">Odstranit nebo označit sponzorované části videí pomocí API SponsorBlock</string>
     <string name="aria2_desc">Používat aria2c jako externího správce stahování</string>
     <string name="copy_link">Kopírovat odkaz</string>
-    <string name="copy_error_report">Hlášení o chybě</string>
+    <string name="copy_error_report">Kopírovat hlášení</string>
     <string name="video_file_size">Velikost souboru videa</string>
     <string name="high_contrast">Tmavý motiv s vysokým kontrastem</string>
     <string name="format_settings_desc">Formát souboru, kvalita videa, titulky</string>
@@ -409,4 +409,28 @@
     <string name="every_day">Každý den</string>
     <string name="every_week">Každý týden</string>
     <string name="every_month">Každý měsíc</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d audio</item>
+        <item quantity="few">%d audia</item>
+        <item quantity="other">%d audií</item>
+    </plurals>
+    <string name="task_added">Úloha přidána do fronty</string>
+    <plurals name="video_count">
+        <item quantity="one">%d video</item>
+        <item quantity="few">%d videa</item>
+        <item quantity="other">%d videí</item>
+    </plurals>
+    <string name="playlist">Playlist</string>
+    <string name="all_languages">Všechny jazyky</string>
+    <string name="preset">Předvolba</string>
+    <string name="proceed">Pokračovat</string>
+    <string name="prefer_placeholder">Upřednostnit %1$s</string>
+    <string name="custom_format_selection_desc">Vyberte si z formátů, titulků a dále si přizpůsobte aplikaci</string>
+    <string name="preset_format_selection_desc">Automaticky stáhnout s použitím vašich preferencí formátů</string>
+    <string name="edit_preset">Upravit předvolbu</string>
+    <string name="best_quality_desc">Stáhnout nejlepší dostupný formát</string>
+    <string name="you_ll_find_your_downloads_here">Zde najdete svá stahování</string>
+    <string name="download_hint">Pro spuštění stahování klepněte na tlačítko stahování nebo sdílejte video do této aplikace</string>
+    <string name="status_downloaded">Stažené</string>
+    <string name="all">Vše</string>
 </resources>

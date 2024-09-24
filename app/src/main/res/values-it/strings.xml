@@ -153,7 +153,7 @@
     <string name="github_issue">Segnala un problema su GitHub</string>
     <string name="copy_link">Copia il collegamento</string>
     <string name="status_error">Errore</string>
-    <string name="copy_error_report">Rapporto di errore</string>
+    <string name="copy_error_report">Copia il rapporto</string>
     <string name="video_resolution">Risoluzione video</string>
     <string name="video_file_size">Dimensione del file video</string>
     <string name="export_to_clipboard">Esporta negli appunti</string>
@@ -167,7 +167,9 @@
     <string name="aria2_desc">Usa aria2c come downloader esterno</string>
     <string name="check_for_updates">Controlla gli aggiornamenti</string>
     <string name="check_for_updates_desc">Verifica automatica la versione più recente su GitHub</string>
-    <string name="clear_temp_files_info">I file temporanei possono essere utilizzati per riprendere i download annullati. Sei sicuro/a di eliminare tutti questi file?</string>
+    <string name="clear_temp_files_info">I file temporanei possono essere utilizzati per riprendere i download annullati. Sei sicuro/a di eliminare tutti questi file?
+\n
+\nPuoi accedere a questi file in %1$s</string>
     <string name="app_up_to_date">La versione attuale è aggiornata</string>
     <string name="clear_temp_files">Cancella i file temporanei</string>
     <string name="clear_temp_files_desc">Elimina tutti i file temporanei dalla directory temporanea</string>
@@ -404,4 +406,27 @@
     <string name="every_day">Ogni giorno</string>
     <string name="every_week">Ogni settimana</string>
     <string name="every_month">Ogni mese</string>
+    <string name="all_languages">Tutte le lingue</string>
+    <string name="proceed">Continua</string>
+    <string name="cookies_in_database">%1$d cookie da %2$d siti web in totale</string>
+    <plurals name="video_count">
+        <item quantity="one">%d video</item>
+        <item quantity="many">%d video</item>
+        <item quantity="other">%d video</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d audio</item>
+        <item quantity="many">%d audio</item>
+        <item quantity="other">%d audio</item>
+    </plurals>
+    <string name="playlist">Playlist</string>
+    <string name="prefer_placeholder">Preferire %1$s</string>
+    <string name="preset">Preset</string>
+    <string name="custom_format_selection_desc">Scegli tra i formati, i sottotitoli e le ulteriori personalizzazioni</string>
+    <string name="edit_preset">Modifica preset</string>
+    <string name="preset_format_selection_desc">Scarica automaticamente usando le tue preferenze di formattazione</string>
+    <string name="best_quality_desc">Scarica nel formato migliore</string>
+    <string name="task_added">Attività aggiunta alla coda</string>
+    <string name="remux_container_mkv">Contenitore video Remux</string>
+    <string name="remux_container_mkv_desc">Remux dei video in un contenitore MKV per una migliore compatibilità</string>
 </resources>

@@ -154,7 +154,7 @@
     <string name="status_canceled">已取消</string>
     <string name="task_canceled">已取消下載任務</string>
     <string name="copy_link">複製連結</string>
-    <string name="copy_error_report">錯誤報告</string>
+    <string name="copy_error_report">複製報告</string>
     <string name="concurrent_download_desc">以更多執行緒下載 M3U8/MPD 影片</string>
     <string name="import_from_clipboard">從剪貼簿匯入</string>
     <string name="template_exported">已匯出 %1$d 個範本</string>
@@ -407,4 +407,23 @@
     <string name="every_day">每天</string>
     <string name="every_week">每週</string>
     <string name="every_month">每月</string>
+    <string name="all_languages">所有語言</string>
+    <string name="prefer_placeholder">偏好 %1$s</string>
+    <string name="preset">預設</string>
+    <string name="best_quality_desc">下載可用的最佳格式</string>
+    <plurals name="video_count">
+        <item quantity="other">%d 部影片</item>
+    </plurals>
+    <string name="task_added">已將任務加入佇列</string>
+    <plurals name="audio_count">
+        <item quantity="other">%d 段音訊</item>
+    </plurals>
+    <string name="playlist">播放清單</string>
+    <string name="proceed">繼續</string>
+    <string name="custom_format_selection_desc">選擇格式、字幕並進一步自訂</string>
+    <string name="preset_format_selection_desc">使用你的格式偏好自動下載</string>
+    <string name="edit_preset">編輯預設</string>
+    <string name="you_ll_find_your_downloads_here">您可以在這裡找到您的下載內容</string>
+    <string name="download_hint">點擊下載按鈕或分享影片連結到此應用程式以開始下載</string>
+    <string name="status_downloaded">已下載</string>
 </resources>

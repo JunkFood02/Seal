@@ -5,14 +5,14 @@
     <string name="create_thumbnail">Enregistrer la miniature</string>
     <string name="settings">Paramètres</string>
     <string name="download">Télécharger</string>
-    <string name="extract_audio_summary">Téléchargez et enregistrez des fichiers audio, au lieu de vidéos</string>
-    <string name="yt_dlp_up_to_date">Utilisation de la dernière version de yt-dlp</string>
+    <string name="extract_audio_summary">Télécharger et enregistrer des fichiers audio, au lieu de vidéos</string>
+    <string name="yt_dlp_up_to_date">yt-dlp est à jour</string>
     <string name="permission_denied">Permission refusée</string>
     <string name="download_success_msg">Téléchargement terminé</string>
     <string name="download_error_msg">Impossible de télécharger le fichier</string>
     <string name="general_settings">Général</string>
     <string name="language">Langue d\'affichage</string>
-    <string name="ytdlp_version">Version Yt-dlp</string>
+    <string name="ytdlp_version">Version de yt-dlp</string>
     <string name="ytdlp_update">Cliquez pour installer la dernière version de yt-dlp</string>
     <string name="delete_info">Retirer ?</string>
     <string name="confirm">Confirmer</string>
@@ -42,14 +42,14 @@
     <string name="settings_before_download_text">Ajuster ce téléchargement</string>
     <string name="download_settings_desc">Général, format, commande personnalisée</string>
     <string name="url_empty">Le lien ne peut pas être vide</string>
-    <string name="download_start_msg">Télécharger « %1$s »</string>
+    <string name="download_start_msg">Téléchargement de « %1$s »</string>
     <string name="fetching_info">Récupération des informations vidéo…</string>
     <string name="link_copied">Lien copié dans le presse-papiers</string>
     <string name="back">Retour</string>
     <string name="yt_dlp_update_fail">Impossible d\'installer la dernière version de yt-dlp. Veuillez vous assurer que vous êtes connecté à Internet.</string>
     <string name="fetch_info_error_msg">Impossible de récupérer les informations de la vidéo</string>
     <string name="language_settings">Définir la langue d\'affichage</string>
-    <string name="paste_fail_msg">Impossible de faire correspondre l\'URL dans le presse-papiers</string>
+    <string name="paste_fail_msg">Impossible d\'identifier l\'URL dans le presse-papiers</string>
     <string name="open_url">Ouvrir le lien</string>
     <string name="task_running">Une tâche de téléchargement est déjà en cours d\'exécution</string>
     <string name="paste_msg">Coller l\'URL depuis le presse-papiers</string>
@@ -149,7 +149,7 @@
     <string name="status_fetching_video_info">Récupération des infos</string>
     <string name="status_error">Erreur</string>
     <string name="copy_link">Copier le lien</string>
-    <string name="copy_error_report">Rapport d\'erreur</string>
+    <string name="copy_error_report">Rapport de copie</string>
     <string name="status_enqueued">En file d\'attente</string>
     <string name="status_downloading">Téléchargement en cours</string>
     <string name="status_canceled">Annulé</string>
@@ -402,11 +402,31 @@
     <string name="download_history">Historique des téléchargements</string>
     <string name="download_history_imported">Importation de %1$s dans l\'historique des téléchargements</string>
     <string name="redownload">Retélécharger</string>
-    <string name="look_and_feel">Regardez et ressentez</string>
+    <string name="look_and_feel">Couleur et style</string>
     <string name="cookies_in_database">%1$d cookies de %2$d sites web au total</string>
     <string name="remux_container_mkv_desc">Remuxez les vidéos dans un conteneur MKV pour une meilleure compatibilité</string>
     <string name="remux_container_mkv">Conteneur vidéo Remux</string>
     <string name="every_day">Tous les jours</string>
     <string name="every_week">Toutes les semaines</string>
     <string name="every_month">Chaque mois</string>
+    <string name="all_languages">Toutes les langues</string>
+    <string name="preset">Préréglage</string>
+    <string name="prefer_placeholder">Préférer %1$s</string>
+    <string name="preset_format_selection_desc">Télécharger automatiquement en fonction de vos préférences de format</string>
+    <string name="edit_preset">Modifier le préréglage</string>
+    <plurals name="video_count">
+        <item quantity="one">%d vidéo</item>
+        <item quantity="many">%d vidéos</item>
+        <item quantity="other">%d vidéos</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d fichier audio</item>
+        <item quantity="many">%d fichiers audio</item>
+        <item quantity="other">%d fichiers audio</item>
+    </plurals>
+    <string name="task_added">Tâche ajoutée à la file</string>
+    <string name="custom_format_selection_desc">Choix pour les formats, les sous-titres et d\'autres customisations</string>
+    <string name="playlist">Liste de lecture</string>
+    <string name="proceed">Continuer</string>
+    <string name="best_quality_desc">Télécharger le meilleur format disponible</string>
 </resources>
