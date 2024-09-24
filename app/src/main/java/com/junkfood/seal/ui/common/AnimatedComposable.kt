@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.common
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
@@ -23,7 +22,9 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.junkfood.seal.ui.common.motion.emphasizeEasing
+import com.junkfood.seal.ui.common.motion.EmphasizedDecelerate
+import com.junkfood.seal.ui.common.motion.EmphasizeEasing
+import com.junkfood.seal.ui.common.motion.EmphasizedAccelerate
 import com.junkfood.seal.ui.common.motion.materialSharedAxisXIn
 import com.junkfood.seal.ui.common.motion.materialSharedAxisXOut
 
@@ -31,9 +32,9 @@ const val DURATION_ENTER = 400
 const val DURATION_EXIT = 200
 const val initialOffset = 0.10f
 
-private fun <T> enterTween() = tween<T>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
+private fun <T> enterTween() = tween<T>(durationMillis = DURATION_ENTER, easing = EmphasizeEasing)
 
-private fun <T> exitTween() = tween<T>(durationMillis = DURATION_ENTER, easing = emphasizeEasing)
+private fun <T> exitTween() = tween<T>(durationMillis = DURATION_ENTER, easing = EmphasizeEasing)
 
 private val fadeSpring =
     spring<Float>(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMedium)
@@ -71,13 +72,16 @@ fun NavGraphBuilder.animatedComposablePredictiveBack(
         },
         popEnterTransition = {
             scaleIn(
-                animationSpec = tween(durationMillis = 350, easing = FastOutSlowInEasing),
+                animationSpec = tween(durationMillis = 350, easing = EmphasizedDecelerate),
                 initialScale = 0.9f,
             ) + materialSharedAxisXIn(initialOffsetX = { -(it * initialOffset).toInt() })
         },
         popExitTransition = {
             materialSharedAxisXOut(targetOffsetX = { (it * initialOffset).toInt() }) +
-                scaleOut(targetScale = 0.9f)
+                scaleOut(
+                    targetScale = 0.9f,
+                    animationSpec = tween(durationMillis = 350, easing = EmphasizedAccelerate),
+                )
         },
         content = content,
     )
