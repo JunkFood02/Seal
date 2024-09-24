@@ -51,7 +51,7 @@ fun InteractionPreferencePage(modifier: Modifier = Modifier, onBack: () -> Unit)
             }
         )
     }) {
-        LazyColumn(modifier = Modifier.padding(it)) {
+        LazyColumn(modifier = Modifier,contentPadding = it) {
             item {
                 PreferenceSubtitle(text = stringResource(id = R.string.settings_before_download))
             }

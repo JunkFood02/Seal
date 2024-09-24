@@ -236,7 +236,7 @@ fun CookieProfilePage(
         },
     )
     { paddingValues ->
-        LazyColumn(modifier = Modifier.padding(paddingValues)) {
+        LazyColumn(modifier = Modifier, contentPadding = paddingValues) {
             item {
                 PreferenceSwitchWithContainer(
                     title = stringResource(R.string.use_cookies),

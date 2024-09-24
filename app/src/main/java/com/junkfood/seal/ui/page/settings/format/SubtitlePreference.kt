@@ -112,7 +112,8 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
+            LazyColumn(modifier = Modifier,
+                contentPadding = it) {
 
                 item {
                     PreferenceSwitchWithContainer(

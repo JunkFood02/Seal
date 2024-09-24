@@ -199,7 +199,8 @@ fun GeneralDownloadPreferences(
                 )
             }
             LazyColumn(
-                modifier = Modifier.padding(it)
+                modifier = Modifier,
+                contentPadding = it
             ) {
 //                item {
 //                    SettingTitle(text = stringResource(id = R.string.general_settings))

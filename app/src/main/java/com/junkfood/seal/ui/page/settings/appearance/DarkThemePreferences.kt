@@ -56,7 +56,7 @@ fun DarkThemePreferences(onNavigateBack: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
+            LazyColumn(modifier = Modifier,contentPadding = it) {
                 if (Build.VERSION.SDK_INT >= 29)
                     item {
                         PreferenceSingleChoiceItem(

@@ -132,7 +132,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                     CUSTOM_COMMAND.getBoolean()
                 )
             }
-            LazyColumn(Modifier.padding(it)) {
+            LazyColumn(contentPadding = it) {
                 if (isCustomCommandEnabled) item {
                     PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
                 }

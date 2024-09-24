@@ -116,7 +116,7 @@ fun AppearancePreferences(onNavigateBack: () -> Unit, onNavigateTo: (String) -> 
             )
         },
         content = {
-            Column(Modifier.padding(it).verticalScroll(rememberScrollState())) {
+            Column(Modifier.verticalScroll(rememberScrollState()).padding(it)) {
                 val downloadState = Task.DownloadState.Running(Job(), "", 0.8f)
                 VideoCardV2(
                     modifier = Modifier.padding(18.dp).clearAndSetSemantics {},

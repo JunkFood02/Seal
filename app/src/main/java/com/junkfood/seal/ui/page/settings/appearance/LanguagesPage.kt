@@ -169,7 +169,7 @@ private fun LanguagePageImpl(
         }, content = {
 
             LazyColumn(
-                modifier = Modifier.padding(it)
+                modifier = Modifier, contentPadding = it
             ) {
                 item {
                     PreferencesHintCard(

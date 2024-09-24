@@ -84,7 +84,7 @@ fun NetworkPreferences(
         }, content = {
             val isCustomCommandEnabled by CUSTOM_COMMAND.booleanState
 
-            LazyColumn(Modifier.padding(it)) {
+            LazyColumn(contentPadding = it) {
                 if (isCustomCommandEnabled)
                     item {
                         PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
