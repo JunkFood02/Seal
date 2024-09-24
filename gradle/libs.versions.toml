@@ -7,6 +7,7 @@ androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
 androidxActivity = "1.9.2"
 androidxSplashscreen = "1.0.1"
+graphics = "1.0.1"
 
 androidxLifecycle = "2.8.5"
 androidxNavigation = "2.8.0"
@@ -63,6 +64,8 @@ androidx-compose-material = { group = "androidx.compose.material", name = "mater
 
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
+
+androidx-graphics-shapes = { group = "androidx.graphics", name = "graphics-shapes", version.ref = "graphics" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
