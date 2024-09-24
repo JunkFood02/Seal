@@ -7,55 +7,6 @@ import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
 import java.util.Locale
 
-
-@Composable
-@Deprecated(message = "See Locale.toDisplayName()", level = DeprecationLevel.HIDDEN)
-fun getLanguageDesc(language: Int): String {
-    return stringResource(
-        when (language) {
-            SIMPLIFIED_CHINESE -> R.string.la_zh_CN
-            ENGLISH -> R.string.la_en_US
-            CZECH -> R.string.la_cs
-            FRENCH -> R.string.la_fr
-            GERMAN -> R.string.la_de
-            NORWEGIAN_BOKMAL -> R.string.la_nb
-            DANISH -> R.string.la_da
-            SPANISH -> R.string.la_es
-            TURKISH -> R.string.la_tr
-            UKRAINIAN -> R.string.la_uk
-            RUSSIAN -> R.string.la_ru
-            ARABIC -> R.string.la_ar
-            PERSIAN -> R.string.la_fa
-            INDONESIAN -> R.string.la_in
-            FILIPINO -> R.string.la_fil
-            ITALIAN -> R.string.la_it
-            DUTCH -> R.string.la_nl
-            PORTUGUESE_BRAZIL -> R.string.la_pt_BR
-            JAPANESE -> R.string.la_ja
-            POLISH -> R.string.la_pl
-            HUNGARIAN -> R.string.la_hu
-            MALAY -> R.string.la_ms
-            TRADITIONAL_CHINESE -> R.string.la_zh_TW
-            VIETNAMESE -> R.string.la_vi
-            BELARUSIAN -> R.string.la_be
-            CROATIAN -> R.string.la_hr
-            BASQUE -> R.string.la_eu
-            HINDI -> R.string.la_hi
-            MALAYALAM -> R.string.la_ml
-            SINHALA -> R.string.la_si
-            SERBIAN -> R.string.la_sr
-            AZERBAIJANI -> R.string.la_az
-            NORWEGIAN_NYNORSK -> R.string.la_nn
-            PUNJABI -> R.string.la_pa
-            TAMIL -> R.string.la_ta
-            KOREAN -> R.string.la_ko
-            SWEDISH -> R.string.la_sv
-            PORTUGUESE_PORTUGAL -> R.string.la_pt
-            else -> R.string.follow_system
-        }
-    )
-}
-
 // Do not modify
 private const val SIMPLIFIED_CHINESE = 1
 private const val ENGLISH = 2
@@ -103,6 +54,7 @@ private const val BENGALI = 43
 private const val KHMER = 44
 private const val KANNADA = 45
 private const val GREEK = 46
+private const val MONGOLIAN = 47
 
 val LocaleLanguageCodeMap =
     mapOf(
@@ -134,6 +86,7 @@ val LocaleLanguageCodeMap =
         Locale("ko") to KOREAN,
         Locale("ms") to MALAY,
         Locale("ml") to MALAYALAM,
+        Locale("mn") to MONGOLIAN,
         Locale("nb") to NORWEGIAN_BOKMAL,
         Locale("nn") to NORWEGIAN_NYNORSK,
         Locale("fa") to PERSIAN,
@@ -154,15 +107,12 @@ val LocaleLanguageCodeMap =
         Locale("vi") to VIETNAMESE,
     )
 
-
 @Composable
-fun Locale?.toDisplayName(): String = this?.getDisplayName(this) ?: stringResource(
-    id = R.string.follow_system
-)
+fun Locale?.toDisplayName(): String =
+    this?.getDisplayName(this) ?: stringResource(id = R.string.follow_system)
 
 fun setLanguage(locale: Locale?) {
-    val localeList = locale?.let {
-        LocaleListCompat.create(it)
-    } ?: LocaleListCompat.getEmptyLocaleList()
+    val localeList =
+        locale?.let { LocaleListCompat.create(it) } ?: LocaleListCompat.getEmptyLocaleList()
     AppCompatDelegate.setApplicationLocales(localeList)
 }
