@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task.DownloadState
 import com.junkfood.seal.download.Task.DownloadState.Completed
@@ -20,14 +21,17 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
 private const val TAG = "DownloaderV2"
 
@@ -60,18 +64,21 @@ interface DownloaderV2 {
 class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComponent {
     private val scope = CoroutineScope(SupervisorJob())
     private val taskStateMap = mutableStateMapOf<Task, Task.State>()
+    private val snapshotFlow = snapshotFlow { taskStateMap.toMap() }
 
     init {
         scope.launch(Dispatchers.Default) {
-            snapshotFlow { taskStateMap.toMap() }.collect { doYourWork() }
+            snapshotFlow
+                .onEach { doYourWork() }
+                .map { it.countRunning() }
+                .distinctUntilChanged()
+                .collect { if (it > 0) App.startService() else App.stopService() }
         }
     }
 
-    private val runningTaskCount
-        get() =
-            taskStateMap.count { (_, state) ->
-                state.downloadState is Running || state.downloadState is FetchingInfo
-            }
+    private fun Map<Task, Task.State>.countRunning(): Int = count { (_, state) ->
+        state.downloadState is Running || state.downloadState is FetchingInfo
+    }
 
     override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
         return taskStateMap
@@ -123,19 +130,22 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     private val Task.notificationId: Int
         get() = id.hashCode()
 
+    /** Processes pending tasks, prioritizing downloads. */
     private fun doYourWork() {
-        if (runningTaskCount >= MAX_CONCURRENCY) return
+        if (taskStateMap.countRunning() >= MAX_CONCURRENCY) return
 
         taskStateMap.entries
             .sortedBy { (_, state) -> state.downloadState }
             .firstOrNull { (_, state) ->
-                state.downloadState == Idle || state.downloadState == ReadyWithInfo
+                state.downloadState == ReadyWithInfo || state.downloadState == Idle
             }
             ?.let { (task, state) ->
                 when (state.downloadState) {
                     Idle -> task.fetchInfo()
                     ReadyWithInfo -> task.download()
-                    else -> {}
+                    else -> {
+                        throw IllegalStateException()
+                    }
                 }
             }
     }
