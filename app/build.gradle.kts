@@ -38,7 +38,7 @@ android {
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 20000
 
         if (splitApks) {
