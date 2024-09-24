@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +26,7 @@ import com.junkfood.seal.ui.common.id
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
 import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
-import com.junkfood.seal.ui.page.download.HomePageViewModel
+import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
 import com.junkfood.seal.ui.page.downloadv2.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
@@ -47,15 +48,15 @@ import com.junkfood.seal.ui.page.settings.network.CookieProfilePage
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
-import org.koin.androidx.compose.koinViewModel
 
 private const val TAG = "HomeEntry"
 
 @Composable
-fun AppEntry(homePageViewModel: HomePageViewModel = koinViewModel()) {
+fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
 
     val navController = rememberNavController()
     val context = LocalContext.current
+    val sheetState by dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle()
 
     val onNavigateBack: () -> Unit = {
         with(navController) {
@@ -65,10 +66,7 @@ fun AppEntry(homePageViewModel: HomePageViewModel = koinViewModel()) {
         }
     }
 
-    val isUrlShared =
-        homePageViewModel.viewStateFlow.collectAsStateWithLifecycle().value.isUrlSharingTriggered
-
-    if (isUrlShared) {
+    if (sheetState is DownloadDialogViewModel.SheetState.Configure) {
         if (navController.currentDestination?.route != Route.HOME) {
             navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
         }
@@ -82,7 +80,8 @@ fun AppEntry(homePageViewModel: HomePageViewModel = koinViewModel()) {
         ) {
             animatedComposable(Route.HOME) {
                 DownloadPageV2(
-                    onNavigateToRoute = { navController.navigate(it) { launchSingleTop = true } }
+                    dialogViewModel = dialogViewModel,
+                    onNavigateToRoute = { navController.navigate(it) { launchSingleTop = true } },
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }

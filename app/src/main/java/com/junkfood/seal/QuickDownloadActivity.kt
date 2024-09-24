@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,20 +38,25 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 private const val TAG = "ShareActivity"
 
 class QuickDownloadActivity : ComponentActivity() {
-    private var url: String = ""
+    private var sharedUrlCached: String = ""
 
-    private fun handleShareIntent(intent: Intent) {
-        Log.d(TAG, "handleShareIntent: $intent")
-        when (intent.action) {
+    private fun Intent.getSharedURL(): String? {
+        val intent = this
+
+        return when (intent.action) {
             Intent.ACTION_VIEW -> {
-                intent.dataString?.let { url = it }
+                intent.dataString
             }
 
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedContent ->
                     intent.removeExtra(Intent.EXTRA_TEXT)
-                    matchUrlFromSharedText(sharedContent).let { matchedUrl -> url = matchedUrl }
+                    matchUrlFromSharedText(sharedContent)
                 }
+            }
+
+            else -> {
+                null
             }
         }
     }
@@ -60,6 +64,12 @@ class QuickDownloadActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intent.getSharedURL()?.let { sharedUrlCached = it }
+
+        if (sharedUrlCached.isEmpty()) {
+            finish()
+        }
+
         enableEdgeToEdge()
 
         window.run {
@@ -74,18 +84,13 @@ class QuickDownloadActivity : ComponentActivity() {
                 setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
             }
         }
-        handleShareIntent(intent)
 
         if (Build.VERSION.SDK_INT < 33) {
             runBlocking { setLanguage(PreferenceUtil.getLocaleFromPreference()) }
         }
 
-        if (url.isEmpty()) {
-            finish()
-        }
-
         val viewModel: DownloadDialogViewModel = getViewModel()
-        viewModel.postAction(Action.ShowSheet(listOf(url)))
+        viewModel.postAction(Action.ShowSheet(listOf(sharedUrlCached)))
 
         setContent {
             SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
@@ -138,10 +143,5 @@ class QuickDownloadActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        handleShareIntent(intent)
-        super.onNewIntent(intent)
     }
 }

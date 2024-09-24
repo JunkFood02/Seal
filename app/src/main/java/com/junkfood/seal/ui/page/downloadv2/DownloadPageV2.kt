@@ -104,7 +104,6 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.makeToast
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.dsl.module
@@ -155,7 +154,7 @@ enum class Filter {
 @Composable
 fun DownloadPageV2(
     modifier: Modifier = Modifier,
-    dialogViewModel: DownloadDialogViewModel = koinViewModel(),
+    dialogViewModel: DownloadDialogViewModel,
     downloader: DownloaderV2 = koinInject(),
     onNavigateToRoute: (String) -> Unit,
 ) {
