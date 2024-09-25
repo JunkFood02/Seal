@@ -129,7 +129,6 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.I
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.Loading
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
-import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
@@ -1386,19 +1385,21 @@ private fun DialogCheckBoxItemVariant(
             modifier
                 .fillMaxWidth()
                 .toggleable(value = checked, enabled = true, onValueChange = onValueChange)
-                .padding(horizontal = 12.dp),
-        verticalAlignment = Alignment.Top,
+                .padding(horizontal = 12.dp)
+                .padding(bottom = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(
-            modifier = Modifier.clearAndSetSemantics {},
+            modifier = Modifier.align(Alignment.Top).clearAndSetSemantics {},
             checked = checked,
             onCheckedChange = onValueChange,
         )
         Text(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

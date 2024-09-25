@@ -154,11 +154,11 @@ fun DonatePage(onNavigateBack: () -> Unit) {
         content = { values ->
             LazyVerticalGrid(
                 modifier = Modifier
-                    .padding(values)
                     .padding(horizontal = 12.dp),
                 columns = GridCells.Fixed(12),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = values
             ) {
 
                 if (supporterList.isNotEmpty()) {

@@ -59,6 +59,7 @@ import com.junkfood.seal.download.TaskFactory
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.component.PlaylistItem
 import com.junkfood.seal.ui.component.SealModalBottomSheet
+import com.junkfood.seal.ui.component.SealModalBottomSheetM2Variant
 import com.junkfood.seal.ui.page.download.PlaylistSelectionDialog
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SelectionState
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
@@ -112,9 +113,11 @@ fun PlaylistSelectionPage(
 
     val configureSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    PlaylistSelectionPageImpl(result = state.result, onDismissRequest = onBack) {
-        taskList = it
-        showConfigurationSheet = true
+    SealModalBottomSheetM2Variant(sheetState = sheetState, sheetGesturesEnabled = false) {
+        PlaylistSelectionPageImpl(result = state.result, onDismissRequest = onBack) {
+            taskList = it
+            showConfigurationSheet = true
+        }
     }
 
     val onDismissConfigurationSheet: () -> Unit = {
