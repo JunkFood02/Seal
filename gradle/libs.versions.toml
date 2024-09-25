@@ -6,7 +6,6 @@ androidxCore = "1.13.1"
 androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
 androidxActivity = "1.9.2"
-androidxSplashscreen = "1.0.1"
 graphics = "1.0.1"
 
 androidxLifecycle = "2.8.5"
@@ -43,10 +42,8 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
-androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashscreen" }
 
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
-androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist" }

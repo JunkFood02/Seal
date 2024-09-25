@@ -162,7 +162,6 @@ dependencies {
     implementation(libs.bundles.core)
 
     implementation(libs.androidx.lifecycle.runtimeCompose)
-    implementation(libs.androidx.lifecycle.viewModelCompose)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidxCompose)

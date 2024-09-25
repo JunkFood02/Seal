@@ -86,7 +86,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
@@ -135,7 +134,7 @@ fun DownloadPage(
     onNavigateToTaskList: () -> Unit = {},
     onNavigateToCookieGeneratorPage: (String) -> Unit = {},
     downloader: DownloaderV2 = koinInject(),
-    homePageViewModel: HomePageViewModel = viewModel(),
+    homePageViewModel: HomePageViewModel = koinViewModel(),
     dialogViewModel: DownloadDialogViewModel = koinViewModel(),
 ) {
 
@@ -261,9 +260,7 @@ fun DownloadPage(
             taskState = taskState,
             viewState = viewState,
             errorState = errorState,
-            downloadCallback = {
-                dialogViewModel.postAction(Action.ShowSheet())
-            },
+            downloadCallback = { dialogViewModel.postAction(Action.ShowSheet()) },
             navigateToSettings = navigateToSettings,
             navigateToDownloads = navigateToDownloads,
             onNavigateToTaskList = onNavigateToTaskList,

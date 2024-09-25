@@ -21,6 +21,7 @@ import com.junkfood.seal.ui.page.download.HomePageViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
+import com.junkfood.seal.ui.page.videolist.VideoListViewModel
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
@@ -67,6 +68,7 @@ class App : Application() {
                     viewModel { DownloadDialogViewModel(downloader = get()) }
                     viewModel { HomePageViewModel() }
                     viewModel { CookiesViewModel() }
+                    viewModel { VideoListViewModel() }
                 }
             )
         }
