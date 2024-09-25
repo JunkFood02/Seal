@@ -13,9 +13,4 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="Theme.Seal.Splashscreen" parent="Theme.SplashScreen">
-        <item name="postSplashScreenTheme">@style/Theme.Seal</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
-    </style>
 </resources>

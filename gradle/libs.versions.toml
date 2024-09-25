@@ -139,7 +139,6 @@ youtubedlAndroid = ["youtubedl-android-library",
     "youtubedl-android-aria2c"]
 
 core = ["androidx-activity-compose",
-    "androidx-splashscreen",
     "android-material",
     "androidx-appcompat",
     "androidx-core-ktx"]
