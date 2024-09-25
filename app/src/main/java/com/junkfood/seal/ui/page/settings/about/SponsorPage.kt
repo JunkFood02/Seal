@@ -64,7 +64,6 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SponsorItem
@@ -409,7 +408,7 @@ fun SponsorDialogContent(
 
         }
         Column(modifier = Modifier.fillMaxWidth()) {
-            HorizontalDivider()
+            androidx.compose.material3.HorizontalDivider()
             LinkItem(icon = Icons.Outlined.House, link = website ?: gitHubProfile(userLogin))
             socialLinks?.forEach {
                 LinkItem(icon = Icons.Outlined.Link, link = it)

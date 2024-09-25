@@ -83,7 +83,6 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.FormatItem
 import com.junkfood.seal.ui.component.FormatSubtitle
 import com.junkfood.seal.ui.component.FormatVideoPreview
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealSearchBar
@@ -487,7 +486,7 @@ private fun FormatPageImpl(
                                 onDiscard = { isClippingVideo = false },
                                 onDurationClick = { showVideoClipDialog = true },
                             )
-                            HorizontalDivider()
+                            androidx.compose.material3.HorizontalDivider()
                         }
                     }
 
@@ -499,10 +498,10 @@ private fun FormatPageImpl(
                             ) {
                                 Text(
                                     text =
-                                        stringResource(
-                                            id = R.string.split_video_msg,
-                                            videoInfo.chapters?.size ?: 0,
-                                        ),
+                                    stringResource(
+                                        id = R.string.split_video_msg,
+                                        videoInfo.chapters?.size ?: 0,
+                                    ),
                                     style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.padding(horizontal = 12.dp),
                                 )
@@ -514,7 +513,7 @@ private fun FormatPageImpl(
                                     contentColor = MaterialTheme.colorScheme.error,
                                 )
                             }
-                            HorizontalDivider()
+                            androidx.compose.material3.HorizontalDivider()
                         }
                     }
                 }
@@ -916,7 +915,7 @@ private fun SubtitleSelectionDialog(
                             DialogCheckBoxItem(
                                 modifier = Modifier.animateItem(),
                                 checked = selectedSubtitles.contains(code),
-                                onClick = {
+                                onValueChange = {
                                     if (selectedSubtitles.contains(code)) {
                                         selectedSubtitles.remove(code)
                                     } else {
@@ -942,7 +941,7 @@ private fun SubtitleSelectionDialog(
                                 DialogCheckBoxItem(
                                     modifier = Modifier.animateItem(),
                                     checked = selectedAutoCaptions.contains(code),
-                                    onClick = {
+                                    onValueChange = {
                                         if (selectedAutoCaptions.contains(code)) {
                                             selectedAutoCaptions.remove(code)
                                         } else {
@@ -955,7 +954,7 @@ private fun SubtitleSelectionDialog(
                         }
                     }
                 }
-                HorizontalDivider()
+                androidx.compose.material3.HorizontalDivider()
             }
         },
     )

@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.theme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.junkfood.seal.ui.common.LocalDarkTheme
@@ -162,8 +163,19 @@ const val DEFAULT_SEED_COLOR = 0xa3d48d
  * @receiver Seed number used for generating color
  */
 @Composable
+@ReadOnlyComposable
 fun Int.generateLabelColor(): Color =
     Color(Hct.from(hue = (this % 360).toDouble(), chroma = 36.0, tone = 80.0).toInt())
+        .harmonizeWithPrimary()
+
+/**
+ * @return a [Color] generated using [Hct] algorithm, harmonized with `primary` color
+ * @receiver Seed number used for generating color
+ */
+@Composable
+@ReadOnlyComposable
+fun Int.generateOnLabelColor(): Color =
+    Color(Hct.from(hue = (this % 360).toDouble(), chroma = 36.0, tone = 20.0).toInt())
         .harmonizeWithPrimary()
 
 val ErrorTonalPalettes = Color.Red.toTonalPalettes()

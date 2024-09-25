@@ -21,7 +21,7 @@
     <string name="language">Display language</string>
     <string name="language_settings">Set display language</string>
     <string name="task_running">An existing download task is already running</string>
-    <string name="paste_msg">Paste URL from clipboard</string>
+    <string name="paste_msg">Paste URL</string>
     <string name="paste_fail_msg">Could not match the URL in the clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to install the latest yt-dlp version</string>
@@ -426,6 +426,7 @@
     <string name="download_hint">Tap on the download button or share a video link to this app to start a download</string>
     <string name="status_downloaded">Downloaded</string>
     <string name="all">All</string>
+    <string name="select_multiple_link">Select from %1$d links</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

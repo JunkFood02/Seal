@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -23,10 +24,12 @@ fun Color.applyOpacity(enabled: Boolean): Color {
 }
 
 @Composable
+@ReadOnlyComposable
 fun Color.harmonizeWith(other: Color) =
     Color(MaterialColors.harmonize(this.toArgb(), other.toArgb()))
 
 @Composable
+@ReadOnlyComposable
 fun Color.harmonizeWithPrimary(): Color =
     this.harmonizeWith(other = MaterialTheme.colorScheme.primary)
 

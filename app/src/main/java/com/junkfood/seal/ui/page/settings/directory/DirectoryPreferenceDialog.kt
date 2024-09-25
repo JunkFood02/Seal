@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.page.settings.general.DialogCheckBoxItem
 
@@ -68,7 +67,12 @@ fun DirectoryPreferenceDialog(
 //                    style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp))
+                androidx.compose.material3.HorizontalDivider(
+                    modifier = Modifier.padding(
+                        horizontal = 24.dp,
+                        vertical = 4.dp
+                    )
+                )
                 DialogCheckBoxItem(
                     text = stringResource(id = R.string.website),
                     checked = website
@@ -81,7 +85,12 @@ fun DirectoryPreferenceDialog(
                 ) {
                     playlistTitle = !playlistTitle
                 }
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp))
+                androidx.compose.material3.HorizontalDivider(
+                    modifier = Modifier.padding(
+                        horizontal = 24.dp,
+                        vertical = 4.dp
+                    )
+                )
                 Spacer(modifier = Modifier.height(4.dp))
 
                 val dirStr = StringBuilder(".../").run {

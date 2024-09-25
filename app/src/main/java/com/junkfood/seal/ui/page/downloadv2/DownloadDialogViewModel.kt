@@ -67,7 +67,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         ) : Action
 
         data class DownloadWithPreset(
-            val url: String,
+            val urlList: List<String>,
             val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
@@ -95,7 +95,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 is Action.ProceedWithURLs -> proceedWithUrls(this)
                 is Action.FetchFormats -> fetchFormat(this)
                 is Action.FetchPlaylist -> fetchPlaylist(this)
-                is Action.DownloadWithPreset -> downloadWithPreset(url, preferences)
+                is Action.DownloadWithPreset -> downloadWithPreset(urlList, preferences)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.HideSheet -> hideDialog()
                 is Action.ShowSheet -> showDialog(this)
@@ -171,8 +171,11 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
 
-    private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        downloader.enqueue(Task(url = url, preferences = preferences))
+    private fun downloadWithPreset(
+        urlList: List<String>,
+        preferences: DownloadUtil.DownloadPreferences,
+    ) {
+        urlList.forEach { downloader.enqueue(Task(url = it, preferences = preferences)) }
         hideDialog()
     }
 

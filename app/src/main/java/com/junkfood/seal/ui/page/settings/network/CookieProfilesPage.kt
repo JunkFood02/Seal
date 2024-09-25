@@ -81,7 +81,6 @@ import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.HelpDialog
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
 import com.junkfood.seal.ui.component.PreferenceItemVariant
 import com.junkfood.seal.ui.component.PreferenceSwitchWithContainer
@@ -267,7 +266,7 @@ fun CookieProfilePage(
                 }
             }
             item {
-                HorizontalDivider()
+                androidx.compose.material3.HorizontalDivider()
                 val cookiesCount = cookieList.size
                 val siteCount = cookieList.distinctBy { it.domain }.size
                 Text(
@@ -438,7 +437,9 @@ fun CookiesQuickSettingsDialog(
                     //                    style = MaterialTheme.typography.labelLarge,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                HorizontalDivider(Modifier.padding(horizontal = 24.dp))
+                androidx.compose.material3.HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 LazyColumn() {
                     items(items = cookieProfiles) {
@@ -470,7 +471,9 @@ fun CookiesQuickSettingsDialog(
                     }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
-                HorizontalDivider(Modifier.padding(horizontal = 24.dp))
+                androidx.compose.material3.HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
                 DialogSwitchItem(
                     text = stringResource(id = R.string.use_cookies),
                     value = isCookiesEnabled,
