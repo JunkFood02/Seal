@@ -47,7 +47,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -217,10 +216,9 @@ class App : Application() {
                 .toString()
         }
 
-        fun isFDroidBuild(): Boolean = packageInfo.versionName?.contains("F-Droid") == true
+        fun isFDroidBuild(): Boolean = BuildConfig.FLAVOR == "fdroid"
 
-        fun isDebugBuild(): Boolean =
-            packageInfo.versionName?.contains("debug", ignoreCase = true) == true
+        fun isDebugBuild(): Boolean = BuildConfig.DEBUG
 
         @SuppressLint("StaticFieldLeak") lateinit var context: Context
     }
