@@ -33,6 +33,7 @@ import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
+import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.NetworkWifi
@@ -494,6 +495,17 @@ fun NavigationDrawer(
                                 scope
                                     .launch { onDismissRequest() }
                                     .invokeOnCompletion { onNavigateToRoute(Route.SETTINGS) }
+                            },
+                            selected = false,
+                        )
+
+                        NavigationDrawerItem(
+                            label = { Text(stringResource(R.string.sponsor)) },
+                            icon = { Icon(Icons.Outlined.VolunteerActivism, null) },
+                            onClick = {
+                                scope
+                                    .launch { onDismissRequest() }
+                                    .invokeOnCompletion { onNavigateToRoute(Route.DONATE) }
                             },
                             selected = false,
                         )
