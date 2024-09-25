@@ -100,12 +100,11 @@ import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookieProfilePage(
-    cookiesViewModel: CookiesViewModel = koinViewModel(),
+    cookiesViewModel: CookiesViewModel,
     navigateToCookieGeneratorPage: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
 ) {
@@ -129,6 +128,9 @@ fun CookieProfilePage(
     var cookieList by remember { mutableStateOf(listOf<Cookie>()) }
 
     var shouldUpdateCookies by remember { mutableStateOf(false) }
+
+    var showEditDialog by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     DisposableEffect(shouldUpdateCookies) {
         scope.launch(Dispatchers.IO) {
@@ -247,11 +249,15 @@ fun CookieProfilePage(
                 PreferenceItemVariant(
                     modifier = Modifier.padding(vertical = 4.dp),
                     title = item.url,
-                    onClick = { cookiesViewModel.showEditCookieDialog(item) },
+                    onClick = {
+                        cookiesViewModel.setEditingProfile(item)
+                        showEditDialog = true
+                    },
                     onClickLabel = stringResource(id = R.string.edit),
                     onLongClick = {
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        cookiesViewModel.showDeleteCookieDialog(item)
+                        cookiesViewModel.setEditingProfile(item)
+                        showDeleteDialog = true
                     },
                     onLongClickLabel = stringResource(R.string.remove),
                 )
@@ -262,7 +268,8 @@ fun CookieProfilePage(
                     title = stringResource(id = R.string.generate_new_cookies),
                     icon = Icons.Outlined.Add,
                 ) {
-                    cookiesViewModel.showEditCookieDialog()
+                    cookiesViewModel.setEditingProfile()
+                    showEditDialog = true
                 }
             }
             item {
@@ -278,18 +285,21 @@ fun CookieProfilePage(
             }
         }
     }
-    if (state.showEditDialog) {
+    if (showEditDialog) {
         CookieGeneratorDialog(
             cookiesViewModel = cookiesViewModel,
-            navigateToCookieGeneratorPage = navigateToCookieGeneratorPage,
+            navigateToCookieGeneratorPage = {
+                cookiesViewModel.updateCookieProfile()
+                navigateToCookieGeneratorPage()
+            },
         ) {
-            cookiesViewModel.hideDialog()
+            showEditDialog = false
             shouldUpdateCookies = true
         }
     }
 
-    if (state.showDeleteDialog) {
-        DeleteCookieDialog(cookiesViewModel) { cookiesViewModel.hideDialog() }
+    if (showDeleteDialog) {
+        DeleteCookieDialog(cookiesViewModel) { showDeleteDialog = false }
     }
 
     if (showHelpDialog) {
@@ -310,7 +320,7 @@ fun CookieProfilePage(
 
 @Composable
 fun CookieGeneratorDialog(
-    cookiesViewModel: CookiesViewModel = koinViewModel(),
+    cookiesViewModel: CookiesViewModel,
     navigateToCookieGeneratorPage: () -> Unit = {},
     onDismissRequest: () -> Unit,
 ) {
@@ -358,10 +368,7 @@ fun CookieGeneratorDialog(
 }
 
 @Composable
-fun DeleteCookieDialog(
-    cookiesViewModel: CookiesViewModel = koinViewModel(),
-    onDismissRequest: () -> Unit = {},
-) {
+fun DeleteCookieDialog(cookiesViewModel: CookiesViewModel, onDismissRequest: () -> Unit = {}) {
     val state by cookiesViewModel.stateFlow.collectAsState()
     AlertDialog(
         onDismissRequest = onDismissRequest,

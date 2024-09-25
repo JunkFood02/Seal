@@ -80,7 +80,7 @@ private fun makeCookie(url: String, cookieString: String): Cookie {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WebViewPage(
-    cookiesViewModel: CookiesViewModel = koinViewModel(),
+    cookiesViewModel: CookiesViewModel,
     onDismissRequest: () -> Unit
 ) {
 
