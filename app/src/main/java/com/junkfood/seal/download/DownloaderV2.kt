@@ -21,9 +21,6 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -32,6 +29,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -85,7 +85,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     }
 
     override fun enqueue(task: Task) {
-        taskStateMap += task to Task.State(Idle, null, Task.ViewState())
+        taskStateMap += task to Task.State(Idle, null, Task.ViewState(url = task.url, title = task.url))
     }
 
     override fun enqueue(task: Task, state: Task.State) {
