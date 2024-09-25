@@ -28,7 +28,6 @@ import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
-import com.junkfood.seal.ui.page.downloadv2.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -45,9 +44,11 @@ import com.junkfood.seal.ui.page.settings.format.SubtitlePreference
 import com.junkfood.seal.ui.page.settings.general.GeneralDownloadPreferences
 import com.junkfood.seal.ui.page.settings.interaction.InteractionPreferencePage
 import com.junkfood.seal.ui.page.settings.network.CookieProfilePage
+import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
+import org.koin.androidx.compose.koinViewModel
 
 private const val TAG = "HomeEntry"
 
@@ -57,6 +58,7 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
     val navController = rememberNavController()
     val context = LocalContext.current
     val sheetState by dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle()
+    val cookiesViewModel: CookiesViewModel = koinViewModel()
 
     val onNavigateBack: () -> Unit = {
         with(navController) {
@@ -106,6 +108,7 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                 onNavigateTo = { route ->
                     navController.navigate(route = route) { launchSingleTop = true }
                 },
+                cookiesViewModel = cookiesViewModel,
             )
         }
 
@@ -117,6 +120,7 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
 fun NavGraphBuilder.settingsGraph(
     onNavigateBack: () -> Unit,
     onNavigateTo: (route: String) -> Unit,
+    cookiesViewModel: CookiesViewModel,
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
@@ -176,13 +180,14 @@ fun NavGraphBuilder.settingsGraph(
         }
         animatedComposable(Route.COOKIE_PROFILE) {
             CookieProfilePage(
-                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) }
+                cookiesViewModel = cookiesViewModel,
+                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) },
             ) {
                 onNavigateBack()
             }
         }
         animatedComposable(Route.COOKIE_GENERATOR_WEBVIEW) {
-            WebViewPage {
+            WebViewPage(cookiesViewModel = cookiesViewModel) {
                 onNavigateBack()
                 CookieManager.getInstance().flush()
             }
