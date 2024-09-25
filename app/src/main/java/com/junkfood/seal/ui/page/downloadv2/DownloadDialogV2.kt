@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ModalBottomSheetValue
@@ -57,6 +58,7 @@ import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -92,6 +94,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -100,7 +103,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastDistinctBy
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.App
 import com.junkfood.seal.R
@@ -1321,9 +1323,9 @@ private fun URLSelectionDialog(
         text = {
             Box(modifier = Modifier.fillMaxSize()) {
                 HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
-                LazyColumn(modifier = Modifier.padding(bottom = 48.dp)) {
+                LazyColumn(modifier = Modifier.padding(bottom = 48.dp).heightIn(max = 600.dp)) {
                     itemsIndexed(urlListFromClipboard) { index, url ->
-                        DialogCheckBoxItem(text = url, checked = indexList.contains(index)) {
+                        DialogCheckBoxItemVariant(text = url, checked = indexList.contains(index)) {
                             if (!it) {
                                 indexList -= index
                             } else {
@@ -1370,4 +1372,33 @@ private fun URLSelectionDialog(
             }
         },
     )
+}
+
+@Composable
+private fun DialogCheckBoxItemVariant(
+    modifier: Modifier = Modifier,
+    text: String,
+    checked: Boolean,
+    onValueChange: (Boolean) -> Unit,
+) {
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .toggleable(value = checked, enabled = true, onValueChange = onValueChange)
+                .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.Top,
+    ) {
+        Checkbox(
+            modifier = Modifier.clearAndSetSemantics {},
+            checked = checked,
+            onCheckedChange = onValueChange,
+        )
+        Text(
+            modifier = Modifier.weight(1f),
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 2,
+        )
+    }
 }
