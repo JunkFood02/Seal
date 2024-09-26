@@ -136,7 +136,7 @@
     <string name="status_downloading">Fazendo o download</string>
     <string name="status_error">Erro</string>
     <string name="copy_link">Copiar link</string>
-    <string name="copy_error_report">Relatório de erros</string>
+    <string name="copy_error_report">Copiar informação</string>
     <string name="status_fetching_video_info">Buscando informações</string>
     <string name="status_enqueued">Enfileirado</string>
     <string name="status_canceled">Cancelado</string>
@@ -409,4 +409,28 @@
     <string name="every_week">Semanalmente</string>
     <string name="every_month">Mensalmente</string>
     <string name="every_day">Diariamente</string>
+    <string name="all_languages">Todos os idiomas</string>
+    <string name="proceed">Continuar</string>
+    <string name="playlist">Playlist</string>
+    <string name="edit_preset">Editar predefinição</string>
+    <string name="best_quality_desc">Faça o download do melhor formato disponível</string>
+    <string name="preset">Predefinição</string>
+    <string name="prefer_placeholder">Preferir %1$s</string>
+    <string name="custom_format_selection_desc">Escolha entre formatos, legendas e personalize ainda mais</string>
+    <string name="preset_format_selection_desc">Faça o download automaticamente usando suas preferências de formato</string>
+    <plurals name="video_count">
+        <item quantity="one">%d vídeo</item>
+        <item quantity="many">%d vídeos</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d áudio</item>
+        <item quantity="many">%d áudios</item>
+        <item quantity="other">%d áudios</item>
+    </plurals>
+    <string name="task_added">Tarefa adicionada à fila</string>
+    <string name="you_ll_find_your_downloads_here">Você encontrará seus downloads aqui</string>
+    <string name="download_hint">Toque no botão de download ou compartilhe um link de vídeo com este aplicativo para iniciar o download</string>
+    <string name="status_downloaded">Download concluído</string>
+    <string name="all">Todos</string>
 </resources>

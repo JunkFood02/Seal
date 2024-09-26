@@ -19,14 +19,16 @@ val splitApks = !project.hasProperty("noSplits")
 
 val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
+val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
+
 android {
     compileSdk = 35
+
     if (keystorePropertiesFile.exists()) {
         val keystoreProperties = Properties()
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
         signingConfigs {
-            getByName("debug")
-            {
+            create("githubPublish") {
                 keyAlias = keystoreProperties["keyAlias"].toString()
                 keyPassword = keystoreProperties["keyPassword"].toString()
                 storeFile = file(keystoreProperties["storeFile"]!!)
@@ -35,53 +37,30 @@ android {
         }
     }
 
+    buildFeatures { buildConfig = true }
+
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 20000
 
-        if (splitApks) {
-            splits {
-                abi {
-                    isEnable = true
-                    reset()
-                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-                    isUniversalApk = true
-                }
-            }
-        }
-
-        versionName = (rootProject.extra["versionName"] as String).run {
-            if (!splitApks) "$this-(F-Droid)"
-            else this
-        }
+        versionName = rootProject.extra["versionName"] as String
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables { useSupportLibrary = true }
+    }
 
-        if (!splitApks) {
-            ndk {
-                abiFilters.addAll(abiFilterList)
-            }
-        }
-    }
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
-    ksp {
-        arg("room.incremental", "true")
-    }
-    val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
+    room { schemaDirectory("$projectDir/schemas") }
+    ksp { arg("room.incremental", "true") }
 
     androidComponents {
         onVariants { variant ->
-
             variant.outputs.forEach { output ->
                 val name =
                     if (splitApks) {
-                        output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
+                        output.filters
+                            .find { it.filterType == FilterConfiguration.FilterType.ABI }
+                            ?.identifier
                     } else {
                         abiFilterList.firstOrNull()
                     }
@@ -91,7 +70,6 @@ android {
                 if (baseAbiCode != null) {
                     output.versionCode.set(baseAbiCode + (output.versionCode.get() ?: 0))
                 }
-
             }
         }
     }
@@ -99,16 +77,18 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
             )
             if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("debug")
+                signingConfig = signingConfigs.getByName("githubPublish")
             }
         }
         debug {
             if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("debug")
+                signingConfig = signingConfigs.getByName("githubPublish")
             }
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
@@ -121,6 +101,14 @@ android {
     productFlavors {
         create("generic") {
             dimension = "publishChannel"
+            splits {
+                abi {
+                    isEnable = true
+                    reset()
+                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+                    isUniversalApk = true
+                }
+            }
         }
 
         create("githubPreview") {
@@ -137,11 +125,16 @@ android {
                 }
             }
         }
+
+        create("fdroid") {
+            dimension = "publishChannel"
+            versionName = "$versionName-(F-Droid)"
+            splits { abi { isEnable = false } }
+            ndk { abiFilters.addAll(abiFilterList) }
+        }
     }
 
-    lint {
-        disable.addAll(listOf("MissingTranslation", "ExtraTranslation", "MissingQuantity"))
-    }
+    lint { disable.addAll(listOf("MissingTranslation", "ExtraTranslation", "MissingQuantity")) }
 
     applicationVariants.all {
         outputs.all {
@@ -150,35 +143,25 @@ android {
         }
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
+    kotlinOptions { freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn" }
 
     packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" }
         jniLibs.useLegacyPackaging = true
     }
-    androidResources {
-        generateLocaleConfig = true
-    }
+    androidResources { generateLocaleConfig = true }
 
     namespace = "com.junkfood.seal"
 }
 
-kotlin {
-    jvmToolchain(21)
-}
+kotlin { jvmToolchain(21) }
 
 dependencies {
-
     implementation(project(":color"))
 
     implementation(libs.bundles.core)
 
     implementation(libs.androidx.lifecycle.runtimeCompose)
-    implementation(libs.androidx.lifecycle.viewModelCompose)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidxCompose)

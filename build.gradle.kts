@@ -57,7 +57,7 @@ val currentVersion: Version = Version.Alpha(
     versionMajor = 2,
     versionMinor = 0,
     versionPatch = 0,
-    versionBuild = 2
+    versionBuild = 3
 )
 
 val versionName by extra(currentVersion.toVersionName())

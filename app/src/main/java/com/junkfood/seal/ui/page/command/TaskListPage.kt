@@ -68,7 +68,6 @@ import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.CustomCommandTaskItem
 import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
 import com.junkfood.seal.ui.component.PasteFromClipBoardButton
@@ -349,7 +348,7 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
         Text(text = stringResource(id = R.string.template_selection))
     }, icon = { Icon(imageVector = Icons.Outlined.Code, contentDescription = null) }, text = {
         Box(modifier = Modifier.heightIn(max = 450.dp)) {
-            HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
+            androidx.compose.material3.HorizontalDivider(modifier = Modifier.align(Alignment.TopCenter))
             LazyColumn(state = scrollState) {
                 item { Spacer(modifier = Modifier.height(4.dp)) }
                 items(templateList) {
@@ -363,7 +362,7 @@ fun TemplatePickerDialog(onDismissRequest: () -> Unit = {}) {
                 }
                 item { Spacer(modifier = Modifier.height(4.dp)) }
             }
-            HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
+            androidx.compose.material3.HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
         }
     })
 }

@@ -4,12 +4,9 @@ import android.webkit.CookieManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +18,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.common.animatedComposableVariant
@@ -30,9 +26,8 @@ import com.junkfood.seal.ui.common.id
 import com.junkfood.seal.ui.common.slideInVerticallyComposable
 import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
-import com.junkfood.seal.ui.page.download.DownloadPage
-import com.junkfood.seal.ui.page.download.HomePageViewModel
-import com.junkfood.seal.ui.page.downloadv2.PlaylistSelectionPage
+import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -58,13 +53,12 @@ import org.koin.androidx.compose.koinViewModel
 private const val TAG = "HomeEntry"
 
 @Composable
-fun AppEntry(
-    homePageViewModel: HomePageViewModel = koinViewModel(),
-    cookiesViewModel: CookiesViewModel = koinViewModel(),
-) {
+fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
 
     val navController = rememberNavController()
     val context = LocalContext.current
+    val sheetState by dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle()
+    val cookiesViewModel: CookiesViewModel = koinViewModel()
 
     val onNavigateBack: () -> Unit = {
         with(navController) {
@@ -74,10 +68,7 @@ fun AppEntry(
         }
     }
 
-    val isUrlShared =
-        homePageViewModel.viewStateFlow.collectAsStateWithLifecycle().value.isUrlSharingTriggered
-
-    if (isUrlShared) {
+    if (sheetState is DownloadDialogViewModel.SheetState.Configure) {
         if (navController.currentDestination?.route != Route.HOME) {
             navController.popBackStack(route = Route.HOME, inclusive = false, saveState = true)
         }
@@ -85,32 +76,14 @@ fun AppEntry(
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         NavHost(
-            modifier =
-                Modifier.fillMaxWidth(
-                        when (LocalWindowWidthState.current) {
-                            WindowWidthSizeClass.Compact -> 1f
-                            WindowWidthSizeClass.Expanded -> 0.5f
-                            else -> 0.8f
-                        }
-                    )
-                    .align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             navController = navController,
             startDestination = Route.HOME,
         ) {
             animatedComposable(Route.HOME) {
-                DownloadPage(
-                    navigateToDownloads = { navController.navigate(Route.DOWNLOADS) },
-                    navigateToSettings = {
-                        navController.navigate(Route.SETTINGS) { launchSingleTop = true }
-                    },
-                    navigateToPlaylistPage = { navController.navigate(Route.PLAYLIST) },
-                    navigateToFormatPage = { navController.navigate(Route.FORMAT_SELECTION) },
-                    onNavigateToTaskList = { navController.navigate(Route.TASK_LIST) },
-                    onNavigateToCookieGeneratorPage = {
-                        cookiesViewModel.updateUrl(it)
-                        navController.navigate(Route.COOKIE_GENERATOR_WEBVIEW)
-                    },
-                    homePageViewModel = homePageViewModel,
+                DownloadPageV2(
+                    dialogViewModel = dialogViewModel,
+                    onNavigateToRoute = { navController.navigate(it) { launchSingleTop = true } },
                 )
             }
             animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
@@ -130,15 +103,12 @@ fun AppEntry(
                 )
             }
 
-            slideInVerticallyComposable(Route.PLAYLIST) {
-                PlaylistSelectionPage { onNavigateBack() }
-            }
-
             settingsGraph(
                 onNavigateBack = onNavigateBack,
                 onNavigateTo = { route ->
                     navController.navigate(route = route) { launchSingleTop = true }
                 },
+                cookiesViewModel = cookiesViewModel,
             )
         }
 
@@ -150,6 +120,7 @@ fun AppEntry(
 fun NavGraphBuilder.settingsGraph(
     onNavigateBack: () -> Unit,
     onNavigateTo: (route: String) -> Unit,
+    cookiesViewModel: CookiesViewModel,
 ) {
     navigation(startDestination = Route.SETTINGS_PAGE, route = Route.SETTINGS) {
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
@@ -209,13 +180,14 @@ fun NavGraphBuilder.settingsGraph(
         }
         animatedComposable(Route.COOKIE_PROFILE) {
             CookieProfilePage(
-                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) }
+                cookiesViewModel = cookiesViewModel,
+                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) },
             ) {
                 onNavigateBack()
             }
         }
         animatedComposable(Route.COOKIE_GENERATOR_WEBVIEW) {
-            WebViewPage {
+            WebViewPage(cookiesViewModel = cookiesViewModel) {
                 onNavigateBack()
                 CookieManager.getInstance().flush()
             }

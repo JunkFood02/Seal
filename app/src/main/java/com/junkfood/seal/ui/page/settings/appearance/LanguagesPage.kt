@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferencesHintCard
@@ -169,7 +168,7 @@ private fun LanguagePageImpl(
         }, content = {
 
             LazyColumn(
-                modifier = Modifier.padding(it)
+                modifier = Modifier, contentPadding = it
             ) {
                 item {
                     PreferencesHintCard(
@@ -222,7 +221,7 @@ private fun LanguagePageImpl(
 
                 if (isSystemLocaleSettingsAvailable) {
                     item {
-                        HorizontalDivider()
+                        androidx.compose.material3.HorizontalDivider()
                         Surface(
                             modifier = Modifier.clickable(
                                 onClick = onNavigateToSystemLocaleSettings

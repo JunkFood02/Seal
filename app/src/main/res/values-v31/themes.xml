@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="Theme.Seal.Splashscreen" parent="Theme.SplashScreen">
-        <item name="postSplashScreenTheme">@style/Theme.Seal</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-    </style>
-</resources>

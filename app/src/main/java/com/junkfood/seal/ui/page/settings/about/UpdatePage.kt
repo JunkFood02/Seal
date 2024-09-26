@@ -37,7 +37,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
@@ -164,7 +163,7 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
                             }
                     }
                 }
-                HorizontalDivider()
+                androidx.compose.material3.HorizontalDivider()
             }
             item {
                 PreferenceInfo(

@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.theme.SealTheme
 
 class CrashReportActivity : ComponentActivity() {
@@ -64,7 +63,7 @@ class CrashReportActivity : ComponentActivity() {
 @Preview
 fun CrashReportPage(errorMessage: String = "ERROR_EXAMPLE", onClick: () -> Unit = {}) {
     Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
-        HorizontalDivider()
+        androidx.compose.material3.HorizontalDivider()
 
         FilledButtonWithIcon(
             modifier = Modifier

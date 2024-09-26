@@ -122,7 +122,7 @@
     <string name="restart">ਰੀਸਟਾਰਟ ਕਰੋ</string>
     <string name="status_error">ਤਰੁੱਟੀ</string>
     <string name="copy_link">ਲਿੰਕ ਕਾਪੀ ਕਰੋ</string>
-    <string name="copy_error_report">ਤਰੁੱਟੀ ਰਿਪੋਰਟ</string>
+    <string name="copy_error_report">ਰਿਪੋਰਟ ਕਾਪੀ ਕਰੋ</string>
     <string name="video_resolution">ਵੀਡੀਓ ਰੈਜ਼ੋਲਿਊਸ਼ਨ</string>
     <string name="export_to_clipboard">ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਨਿਰਯਾਤ ਕਰੋ</string>
     <string name="template_exported">ਨਿਰਯਾਤ ਕੀਤਾ %1$d ਟੈਮਪਲੇਟ</string>
@@ -408,4 +408,22 @@
     <string name="every_day">ਹਰ ਰੋਜ਼</string>
     <string name="every_week">ਹਰ ਹਫ਼ਤੇ</string>
     <string name="every_month">ਹਰ ਮਹੀਨੇ</string>
+    <string name="all_languages">ਸਭ ਭਾਸ਼ਾਵਾਂ</string>
+    <string name="proceed">ਜਾਰੀ ਰੱਖੋ</string>
+    <string name="preset">ਪ੍ਰੀਸੈੱਟ</string>
+    <string name="prefer_placeholder">%1$s ਨੂੰ ਤਰਜੀਹ ਦਿਓ</string>
+    <string name="edit_preset">ਪ੍ਰੀਸੈਟ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <plurals name="video_count">
+        <item quantity="one">%d ਵੀਡੀਓ</item>
+        <item quantity="other">%d ਵੀਡੀਓ</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d ਆਡੀਓ</item>
+        <item quantity="other">%d ਆਡੀਓ</item>
+    </plurals>
+    <string name="task_added">ਕਾਰਜ ਨੂੰ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਿਲ ਕੀਤਾ ਗਿਆ</string>
+    <string name="playlist">ਪਲੇਲਿਸਟ</string>
+    <string name="preset_format_selection_desc">ਆਪਣੀ ਫਾਰਮੈਟ ਤਰਜੀਹਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="custom_format_selection_desc">ਫਾਰਮੈਟਾਂ, ਉਪਸਿਰਲੇਖਾਂ ਵਿੱਚੋਂ ਚੁਣੋ, ਅਤੇ ਹੋਰ ਅਨੁਕੂਲਿਤ ਕਰੋ</string>
+    <string name="best_quality_desc">ਸਭ ਤੋਂ ਵਧੀਆ ਉਪਲਬਧ ਫਾਰਮੈਟ ਡਾਊਨਲੋਡ ਕਰੋ</string>
 </resources>

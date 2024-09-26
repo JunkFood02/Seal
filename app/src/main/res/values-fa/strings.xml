@@ -207,7 +207,7 @@
     <string name="select_all">انتخاب همه</string>
     <string name="restart">راه اندازی مجدد</string>
     <string name="status_error">خطا</string>
-    <string name="copy_error_report">گزارش خطا</string>
+    <string name="copy_error_report">کپی گزارش</string>
     <string name="video_resolution">کیفیت ویدیو</string>
     <string name="app_update_failed">به آخرین نسخه به روز رسانی نشد</string>
     <string name="update">بروزرسانی</string>
@@ -390,4 +390,40 @@
     <string name="refresh_cookies_desc">برای باز کردن صفحه وب برای تولید کوکی‌های جدید، ضربه بزنید:</string>
     <string name="custom_command_directory">پوشه دستورات سفارشی</string>
     <string name="custom_command_directory_desc">پوشه خروجی را هنگام استفاده از دستورات سفارشی را مشخص کن</string>
+    <string name="all_languages">همه زبان ها</string>
+    <string name="playlist">لیست پخش</string>
+    <string name="proceed">ادامه</string>
+    <string name="preset">تنظیمات پیش فرض</string>
+    <string name="prefer_placeholder">ترجیح دادن %1$s</string>
+    <string name="preset_format_selection_desc">دانلود اتوماتیک با استفاده از تنظیمات فرمت</string>
+    <string name="edit_preset">تغییر تنظیمات پیش فرض</string>
+    <string name="best_quality_desc">دانلود بهترین فرمت موجود</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d صدا</item>
+        <item quantity="other">%d صدا</item>
+    </plurals>
+    <string name="task_added">عملیات به صف اضافه شد</string>
+    <string name="force_ipv4_desc">اتصال همه از طریق IPv4</string>
+    <string name="remove_multiple_templates_msg">برای همیشه %1$s از قالب های دستورات پاک شود؟</string>
+    <string name="custom_format_selection_desc">از فرمت ها و زیرنویس ها انتخاب کنید و به دلخواه تنظیم کنید</string>
+    <string name="search">جستجو</string>
+    <plurals name="video_count">
+        <item quantity="one">%d ویدئو</item>
+        <item quantity="other">%d ویدئو</item>
+    </plurals>
+    <string name="merge_audiostream">ترکیب چند صدا</string>
+    <string name="merge_audiostream_desc">اجازه برای ترکیب کردن چند صدا به یک فایل</string>
+    <string name="ua_header">سرصفحه کاربر</string>
+    <string name="remux_container_mkv">مخزن ویدئو ریموکس</string>
+    <string name="remux_container_mkv_desc">ورود ویدئو های ریموکس به مخزن MKV برای پشتیبانی بهتر</string>
+    <string name="download_archive_error">این ویدئو دانلود شد. اگر این غیر منتظره است، لطفا بایگانی دانلودتان را چک کنید.</string>
+    <string name="export_download_history_msg">در حال استخراج %1$s از تاریخچه دانلود. فایل های دانلود شده و تنظیمات نسخه پشتیبانی نخواهند داشت.</string>
+    <string name="cookies_in_database">%1$d کوکی از %2$d وبسایت در کل</string>
+    <string name="auto_translated_subtitles">ترجمه زیرنویس اتوماتیک</string>
+    <string name="auto_translated_subtitles_msg">زیرنویس با ترجمه اتوماتیک برای همه ی زبان ها در دسترس خواهند بود. این زیرنویس ها ممکن است اشتباه یا درک کردنشان دشوار باشد.</string>
+    <string name="subtitle_language_desc">زبان زیرنویس های فرمت اتوماتیک برای دانلود، جدا شده با ویرگول.</string>
+    <string name="download_archive_desc">برای تکراری نشدن دانلود ها، شناسه ویدئو های دانلود شده را درون بایگانی ضبط کنید</string>
+    <string name="force_ipv4">مجبور استفاده از IPv4</string>
+    <string name="download_history_imported">%1$s به تاریخچه دانلود وارد شد</string>
+    <string name="search_in_downloads">جستجو در دانلود ها</string>
 </resources>

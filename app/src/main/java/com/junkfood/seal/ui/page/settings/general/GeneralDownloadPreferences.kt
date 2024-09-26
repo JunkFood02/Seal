@@ -199,7 +199,8 @@ fun GeneralDownloadPreferences(
                 )
             }
             LazyColumn(
-                modifier = Modifier.padding(it)
+                modifier = Modifier,
+                contentPadding = it
             ) {
 //                item {
 //                    SettingTitle(text = stringResource(id = R.string.general_settings))
@@ -617,7 +618,7 @@ fun DialogCheckBoxItem(
     modifier: Modifier = Modifier,
     text: String,
     checked: Boolean,
-    onClick: () -> Unit,
+    onValueChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -625,14 +626,14 @@ fun DialogCheckBoxItem(
             .toggleable(
                 value = checked,
                 enabled = true,
-                onValueChange = { onClick() },
+                onValueChange = onValueChange,
             )
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             modifier = Modifier.clearAndSetSemantics { },
-            checked = checked, onCheckedChange = { onClick() },
+            checked = checked, onCheckedChange = onValueChange,
         )
         Text(
             modifier = Modifier.weight(1f),

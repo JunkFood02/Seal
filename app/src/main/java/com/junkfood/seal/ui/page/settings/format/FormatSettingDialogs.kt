@@ -69,7 +69,6 @@ import com.junkfood.seal.ui.component.DialogSingleChoiceItemVariant
 import com.junkfood.seal.ui.component.DialogSubtitle
 import com.junkfood.seal.ui.component.DialogSwitchItem
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SealDialog
@@ -554,7 +553,7 @@ fun VideoFormatDialog(
         },
         text = {
             Column {
-                HorizontalDivider()
+                androidx.compose.material3.HorizontalDivider()
                 LazyColumn(modifier = Modifier, contentPadding = PaddingValues(vertical = 8.dp)) {
                     for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) item {
                         DialogSingleChoiceItemVariant(
@@ -567,7 +566,7 @@ fun VideoFormatDialog(
                         }
                     }
                 }
-                HorizontalDivider()
+                androidx.compose.material3.HorizontalDivider()
             }
         })
 }
@@ -691,11 +690,16 @@ fun FormatSortingDialog(
                     }
                 if (showSwitch) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp))
+                    androidx.compose.material3.HorizontalDivider(
+                        modifier = Modifier.padding(
+                            horizontal = 24.dp
+                        )
+                    )
                     DialogSwitchItem(
                         text = stringResource(id = R.string.use_format_sorting),
                         value = toggleableValue,
-                        onValueChange = onSwitchChecked)
+                        onValueChange = onSwitchChecked
+                    )
                 }
             }
         })

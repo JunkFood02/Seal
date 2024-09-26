@@ -21,7 +21,7 @@
     <string name="language">Display language</string>
     <string name="language_settings">Set display language</string>
     <string name="task_running">An existing download task is already running</string>
-    <string name="paste_msg">Paste URL from clipboard</string>
+    <string name="paste_msg">Paste URL</string>
     <string name="paste_fail_msg">Could not match the URL in the clipboard</string>
     <string name="ytdlp_version">Yt-dlp version</string>
     <string name="ytdlp_update">Click to install the latest yt-dlp version</string>
@@ -152,47 +152,8 @@
     <string name="github_issue_desc">Submit an issue for bug report or feature request</string>
     <string name="info_copied">Info copied to clipboard</string>
 
-    <string name="la_nb" translatable="false">Bokmål</string>
-    <string name="la_cs" translatable="false">Čeština</string>
-    <string name="la_de" translatable="false">Deutsch</string>
-    <string name="la_zh_CN" translatable="false">简体中文</string>
-    <string name="la_en_US" translatable="false">English</string>
-    <string name="la_fr" translatable="false">Français</string>
-    <string name="la_da" translatable="false">Dansk</string>
-    <string name="la_es" translatable="false">Español</string>
-    <string name="la_tr" translatable="false">Türkçe</string>
-    <string name="la_ru" translatable="false">Русский</string>
-    <string name="la_ar" translatable="false">العربية</string>
-    <string name="la_uk" translatable="false">Українська</string>
-    <string name="la_in" translatable="false">Indonesia</string>
-    <string name="la_fa" translatable="false">فارسی</string>
-    <string name="la_fil" translatable="false">Filipino</string>
-    <string name="la_it" translatable="false">Italiano</string>
-    <string name="la_nl" translatable="false">Nederlands</string>
-    <string name="la_pt_BR" translatable="false">Português Brasileiro</string>
-    <string name="la_ja" translatable="false">日本語</string>
-    <string name="la_pl" translatable="false">Polski</string>
-    <string name="la_hu" translatable="false">Magyar</string>
-    <string name="la_be" translatable="false">беларуская</string>
-    <string name="la_ms" translatable="false">Melayu</string>
-    <string name="la_zh_TW" translatable="false">繁體中文</string>
-    <string name="la_vi" translatable="false">Tiếng Việt</string>
-    <string name="la_hr" translatable="false">Hrvatski</string>
-    <string name="la_eu" translatable="false">Euskara</string>
-    <string name="la_hi" translatable="false">हिन्दी</string>
-    <string name="la_ml" translatable="false">മലയാളം</string>
-    <string name="la_si" translatable="false">සිංහල</string>
-    <string name="la_sr" translatable="false">Српски</string>
-    <string name="la_az" translatable="false">Azərbaycanca</string>
-    <string name="la_nn" translatable="false">Nynorsk</string>
-    <string name="la_pa" translatable="false">ਪੰਜਾਬੀ</string>
-    <string name="la_ta" translatable="false">தமிழ்</string>
-    <string name="la_ko" translatable="false">한국어</string>
-    <string name="la_sv" translatable="false">Svenska</string>
-    <string name="la_pt" translatable="false">Português</string>
-
     <string name="status_enqueued">Enqueued</string>
-    <string name="status_completed">Completed</string>
+    <string name="status_completed">Finished</string>
     <string name="status_downloading">Downloading</string>
     <string name="status_canceled">Canceled</string>
     <string name="status_fetching_video_info">Fetching info</string>
@@ -245,7 +206,7 @@
     <string name="high_contrast">High contrast dark theme</string>
     <string name="invalid_input">Invalid input</string>
     <string name="lowest_quality">Lowest quality</string>
-    <string name="download_queue" translatable="false">Download queue</string>
+    <string name="download_queue">Download queue</string>
     <string name="unavailable">Unavailable</string>
     <string name="format_settings_desc">File format, video quality, subtitles</string>
     <string name="general_settings_desc">Yt-dlp version, notification, playlist</string>
@@ -461,6 +422,11 @@
     <string name="edit_preset">Edit preset</string>
     <string name="best_quality_desc">Download the best available format</string>
     <string name="task_added">Task added to queue</string>
+    <string name="you_ll_find_your_downloads_here">You\'ll find your downloads here</string>
+    <string name="download_hint">Tap on the download button or share a video link to this app to start a download</string>
+    <string name="status_downloaded">Downloaded</string>
+    <string name="all">All</string>
+    <string name="select_multiple_link">Select from %1$d links</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

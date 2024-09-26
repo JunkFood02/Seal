@@ -33,7 +33,6 @@ import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import com.junkfood.seal.ui.component.HorizontalDivider
 import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
@@ -112,7 +111,8 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }, content = {
-            LazyColumn(modifier = Modifier.padding(it)) {
+            LazyColumn(modifier = Modifier,
+                contentPadding = it) {
 
                 item {
                     PreferenceSwitchWithContainer(
@@ -173,7 +173,7 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                 }
 
                 item {
-                    HorizontalDivider()
+                    androidx.compose.material3.HorizontalDivider()
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
                         description = stringResource(

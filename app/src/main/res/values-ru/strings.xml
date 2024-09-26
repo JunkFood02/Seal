@@ -151,7 +151,7 @@
     <string name="status_downloading">Загрузка</string>
     <string name="status_enqueued">В очереди</string>
     <string name="status_canceled">Отменено</string>
-    <string name="copy_error_report">Сообщить об ошибке</string>
+    <string name="copy_error_report">Копировать отчет</string>
     <string name="status_error">Ошибка</string>
     <string name="copy_link">Скопировать ссылку</string>
     <string name="video_resolution">Разрешение видео</string>
@@ -410,4 +410,26 @@
     <string name="every_day">Каждый день</string>
     <string name="every_week">Каждую неделю</string>
     <string name="every_month">Каждый месяц</string>
+    <string name="playlist">Плейлист</string>
+    <string name="preset">Пресет</string>
+    <string name="prefer_placeholder">Предпочитать %1$s</string>
+    <string name="custom_format_selection_desc">Выберите из форматов, субтитров и настройте дальше</string>
+    <string name="all_languages">Все языки</string>
+    <string name="proceed">Продолжить</string>
+    <string name="task_added">Задача добавлена в очередь</string>
+    <plurals name="video_count">
+        <item quantity="one">%d видео</item>
+        <item quantity="few">%d видео</item>
+        <item quantity="many">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d аудио</item>
+        <item quantity="few">%d аудио</item>
+        <item quantity="many">%d аудио</item>
+        <item quantity="other">%d аудио</item>
+    </plurals>
+    <string name="preset_format_selection_desc">Скачать автоматически с помощью предпочтений формата</string>
+    <string name="edit_preset">Изменить предустановку</string>
+    <string name="best_quality_desc">Скачать лучший доступный формат</string>
 </resources>

@@ -3,12 +3,10 @@ package com.junkfood.seal.ui.page.downloadv2
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.App.Companion.applicationScope
-import com.junkfood.seal.Downloader
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.PlaylistEntry
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
@@ -62,14 +60,6 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
-        data class DownloadItemsWithPreset(
-            val url: String,
-            val indexList: List<Int>,
-            val playlistItemList: List<PlaylistEntry> = emptyList(),
-            val preferences: DownloadUtil.DownloadPreferences =
-                DownloadUtil.DownloadPreferences.createFromPreferences(),
-        ) : Action
-
         data class FetchFormats(
             val url: String,
             val audioOnly: Boolean,
@@ -77,7 +67,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         ) : Action
 
         data class DownloadWithPreset(
-            val url: String,
+            val urlList: List<String>,
             val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
@@ -105,13 +95,12 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 is Action.ProceedWithURLs -> proceedWithUrls(this)
                 is Action.FetchFormats -> fetchFormat(this)
                 is Action.FetchPlaylist -> fetchPlaylist(this)
-                is Action.DownloadWithPreset -> downloadWithPreset(url, preferences)
+                is Action.DownloadWithPreset -> downloadWithPreset(urlList, preferences)
                 is Action.RunCommand -> runCommand(url, template)
                 Action.HideSheet -> hideDialog()
                 is Action.ShowSheet -> showDialog(this)
-                is Action.DownloadItemsWithPreset -> TODO()
                 Action.Cancel -> cancel()
-                Action.Reset -> resetStates()
+                Action.Reset -> resetSelectionState()
             }
         }
     }
@@ -121,13 +110,14 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     }
 
     private fun fetchPlaylist(action: Action.FetchPlaylist) {
-        val (url) = action
-        // TODO: handle downloader state
-        Downloader.clearErrorState()
+        val (url, preferences) = action
 
         val job =
             viewModelScope.launch(Dispatchers.IO) {
-                DownloadUtil.getPlaylistOrVideoInfo(playlistURL = url)
+                DownloadUtil.getPlaylistOrVideoInfo(
+                        playlistURL = url,
+                        downloadPreferences = preferences,
+                    )
                     .onSuccess { info ->
                         withContext(Dispatchers.Main) {
                             when (info) {
@@ -143,6 +133,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                                     }
                                 }
                             }
+                            hideDialog()
                         }
                     }
                     .onFailure { th ->
@@ -180,12 +171,13 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
     }
 
-    private fun downloadWithPreset(url: String, preferences: DownloadUtil.DownloadPreferences) {
-        downloader.enqueue(Task(url = url, preferences = preferences))
+    private fun downloadWithPreset(
+        urlList: List<String>,
+        preferences: DownloadUtil.DownloadPreferences,
+    ) {
+        urlList.forEach { downloader.enqueue(Task(url = it, preferences = preferences)) }
         hideDialog()
     }
-
-    private fun downloadPlaylistItemsWithPreset(url: String) {}
 
     private fun runCommand(url: String, template: CommandTemplate) {
         applicationScope.launch(Dispatchers.IO) {
@@ -199,9 +191,8 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             is SheetState.Loading -> {
                 cancel()
             }
-            else -> {
-                resetStates()
-            }
+
+            else -> {}
         }
     }
 
@@ -209,6 +200,8 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         val urlList = action.urlList
         if (!urlList.isNullOrEmpty()) {
             mSheetStateFlow.update { SheetState.Configure(urlList) }
+        } else {
+            mSheetStateFlow.update { SheetState.InputUrl }
         }
         mSheetValueFlow.update { SheetValue.Expanded }
     }
@@ -219,7 +212,6 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 val res = YoutubeDL.destroyProcessById(id = state.taskKey)
                 if (res) {
                     state.job.cancel()
-                    resetStates()
                 }
                 return res
             }
@@ -227,8 +219,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         }
     }
 
-    private fun resetStates() {
-        mSheetStateFlow.update { SheetState.InputUrl }
+    private fun resetSelectionState() {
         mSelectionStateFlow.update { SelectionState.Idle }
     }
 }

@@ -251,7 +251,7 @@ fun DownloadDirectoryPreferences(onNavigateBack: () -> Unit) {
                 }, scrollBehavior = scrollBehavior
             )
         }) {
-        LazyColumn(modifier = Modifier.padding(it)) {
+        LazyColumn(modifier = Modifier,contentPadding = it) {
 
             if (isCustomCommandEnabled)
                 item {

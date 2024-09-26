@@ -146,7 +146,7 @@
     <string name="status_fetching_video_info">Bilgi alınıyor</string>
     <string name="status_error">Hata</string>
     <string name="copy_link">Bağlantıyı kopyala</string>
-    <string name="copy_error_report">Hata raporu</string>
+    <string name="copy_error_report">Raporu kopyala</string>
     <string name="status_canceled">İptal edildi</string>
     <string name="status_downloading">İndiriliyor</string>
     <string name="task_canceled">İndirme işlemi iptal edildi</string>
@@ -408,4 +408,26 @@
     <string name="every_day">Her gün</string>
     <string name="every_week">Her hafta</string>
     <string name="every_month">Her ay</string>
+    <string name="best_quality_desc">Kullanılabilir en iyi biçimi indir</string>
+    <plurals name="video_count">
+        <item quantity="one">%d video</item>
+        <item quantity="other">%d video</item>
+    </plurals>
+    <string name="playlist">Oynatma listesi</string>
+    <string name="preset">Ön ayar</string>
+    <string name="prefer_placeholder">%1$s tercih et</string>
+    <string name="preset_format_selection_desc">Biçim tercihlerinizi kullanarak otomatik olarak indirin</string>
+    <string name="edit_preset">Ön ayarı düzenle</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d ses</item>
+        <item quantity="other">%d ses</item>
+    </plurals>
+    <string name="all_languages">Tüm diller</string>
+    <string name="proceed">Devam et</string>
+    <string name="custom_format_selection_desc">Biçimler, alt yazılar arasından seçim yapın ve daha fazlasını özelleştirin</string>
+    <string name="task_added">Görev kuyruğa eklendi</string>
+    <string name="download_hint">İndirmeyi başlatmak için indirme düğmesine dokunun veya bu uygulamaya bir video bağlantısı paylaşın</string>
+    <string name="you_ll_find_your_downloads_here">İndirmelerinizi burada bulabilirsiniz</string>
+    <string name="status_downloaded">İndirildi</string>
+    <string name="all">Tümü</string>
 </resources>

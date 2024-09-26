@@ -5,15 +5,18 @@ import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextDirection
 import com.google.android.material.color.MaterialColors
+import com.junkfood.seal.ui.common.LocalFixedColorRoles
+import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.dynamicColorScheme
 
 fun Color.applyOpacity(enabled: Boolean): Color {
@@ -21,10 +24,12 @@ fun Color.applyOpacity(enabled: Boolean): Color {
 }
 
 @Composable
+@ReadOnlyComposable
 fun Color.harmonizeWith(other: Color) =
     Color(MaterialColors.harmonize(this.toArgb(), other.toArgb()))
 
 @Composable
+@ReadOnlyComposable
 fun Color.harmonizeWithPrimary(): Color =
     this.harmonizeWith(other = MaterialTheme.colorScheme.primary)
 
@@ -32,7 +37,7 @@ fun Color.harmonizeWithPrimary(): Color =
 fun SealTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     isHighContrastModeEnabled: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
 
@@ -40,13 +45,18 @@ fun SealTheme(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (darkTheme) {
                 view.windowInsetsController?.setSystemBarsAppearance(
-                    0, APPEARANCE_LIGHT_STATUS_BARS)
+                    0,
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                )
             } else {
                 view.windowInsetsController?.setSystemBarsAppearance(
-                    APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                )
             }
         }
     }
+
     val colorScheme =
         dynamicColorScheme(!darkTheme).run {
             if (isHighContrastModeEnabled && darkTheme)
@@ -57,27 +67,34 @@ fun SealTheme(
                     surfaceContainerLow = surfaceContainerLowest,
                     surfaceContainer = surfaceContainerLow,
                     surfaceContainerHigh = surfaceContainerLow,
-                    surfaceContainerHighest = surfaceContainer)
+                    surfaceContainerHighest = surfaceContainer,
+                )
             else this
         }
 
-    ProvideTextStyle(
-        value =
-            LocalTextStyle.current.copy(
-                lineBreak = LineBreak.Paragraph, textDirection = TextDirection.Content)) {
-            MaterialTheme(
-                colorScheme = colorScheme,
-                typography = Typography,
-                shapes = Shapes,
-                content = content)
-        }
+    val textStyle =
+        LocalTextStyle.current.copy(
+            lineBreak = LineBreak.Paragraph,
+            textDirection = TextDirection.Content,
+        )
+
+    val tonalPalettes = LocalTonalPalettes.current
+
+    CompositionLocalProvider(
+        LocalFixedColorRoles provides FixedColorRoles.fromTonalPalettes(tonalPalettes),
+        LocalTextStyle provides textStyle,
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            shapes = Shapes,
+            content = content,
+        )
+    }
 }
 
 @Composable
+@Deprecated("Use SealTheme instead", replaceWith = ReplaceWith("SealTheme(content)"))
 fun PreviewThemeLight(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = dynamicColorScheme(),
-        typography = Typography,
-        shapes = Shapes,
-        content = content)
+    SealTheme(darkTheme = false, content = content)
 }

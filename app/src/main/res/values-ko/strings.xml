@@ -203,7 +203,7 @@
     <string name="open_file">파일 열기</string>
     <string name="status_error">오류</string>
     <string name="copy_link">링크 복사</string>
-    <string name="copy_error_report">오류 보고서</string>
+    <string name="copy_error_report">보고서 복사하기</string>
     <string name="video_resolution">비디오 해상도</string>
     <string name="video_file_size">비디오 파일 크기</string>
     <string name="export_to_clipboard">클립보드로 내보내기</string>
@@ -407,4 +407,20 @@
     <string name="every_month">매월</string>
     <string name="every_day">매일</string>
     <string name="cookies_in_database">%2$d개의 웹사이트의 총 %1$d개의 쿠키 저장 중</string>
+    <string name="all_languages">모든 언어</string>
+    <string name="playlist">재생목록</string>
+    <string name="proceed">계속하기</string>
+    <string name="preset_format_selection_desc">형식 설정을 사용하여 자동으로 다운로드합니다</string>
+    <string name="edit_preset">프리셋 편집</string>
+    <string name="best_quality_desc">가능한 최고 품질을 다운로드</string>
+    <string name="task_added">대기열에 추가됨</string>
+    <plurals name="video_count">
+        <item quantity="other">영상 %d개</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="other">오디오 %d개</item>
+    </plurals>
+    <string name="preset">프리셋</string>
+    <string name="custom_format_selection_desc">형식과 자막 등을 설정합니다</string>
+    <string name="prefer_placeholder">%1$s 선호</string>
 </resources>

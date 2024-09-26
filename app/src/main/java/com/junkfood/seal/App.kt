@@ -21,6 +21,7 @@ import com.junkfood.seal.ui.page.download.HomePageViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
+import com.junkfood.seal.ui.page.videolist.VideoListViewModel
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
@@ -47,7 +48,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -68,6 +68,7 @@ class App : Application() {
                     viewModel { DownloadDialogViewModel(downloader = get()) }
                     viewModel { HomePageViewModel() }
                     viewModel { CookiesViewModel() }
+                    viewModel { VideoListViewModel() }
                 }
             )
         }
@@ -217,10 +218,9 @@ class App : Application() {
                 .toString()
         }
 
-        fun isFDroidBuild(): Boolean = packageInfo.versionName?.contains("F-Droid") == true
+        fun isFDroidBuild(): Boolean = BuildConfig.FLAVOR == "fdroid"
 
-        fun isDebugBuild(): Boolean =
-            packageInfo.versionName?.contains("debug", ignoreCase = true) == true
+        fun isDebugBuild(): Boolean = BuildConfig.DEBUG
 
         @SuppressLint("StaticFieldLeak") lateinit var context: Context
     }

@@ -146,7 +146,7 @@
     <string name="github_issue_desc">提交错误报告或改进建议</string>
     <string name="info_copied">信息已复制到剪贴板</string>
     <string name="status_enqueued">等待开始</string>
-    <string name="status_completed">下载完成</string>
+    <string name="status_completed">已完成</string>
     <string name="status_downloading">下载中</string>
     <string name="status_canceled">已取消</string>
     <string name="status_fetching_video_info">正在获取信息</string>
@@ -154,7 +154,7 @@
     <string name="restart">重新开始</string>
     <string name="status_error">发生错误</string>
     <string name="copy_link">复制链接</string>
-    <string name="copy_error_report">复制错误报告</string>
+    <string name="copy_error_report">复制报告</string>
     <string name="video_resolution">分辨率</string>
     <string name="video_file_size">视频文件大小</string>
     <string name="export_to_clipboard">导出到剪贴板</string>
@@ -407,4 +407,24 @@
     <string name="every_day">每天</string>
     <string name="every_week">每周</string>
     <string name="every_month">每月</string>
+    <string name="proceed">继续</string>
+    <string name="best_quality_desc">下载可用的最佳格式</string>
+    <string name="prefer_placeholder">首选 %1$s</string>
+    <string name="preset_format_selection_desc">使用格式偏好自动下载</string>
+    <string name="edit_preset">编辑预设</string>
+    <string name="all_languages">所有语言</string>
+    <string name="preset">预设</string>
+    <string name="playlist">播放列表</string>
+    <plurals name="audio_count">
+        <item quantity="other">%d 个音频</item>
+    </plurals>
+    <plurals name="video_count">
+        <item quantity="other">%d 个视频</item>
+    </plurals>
+    <string name="custom_format_selection_desc">选择格式和字幕并进一步定制</string>
+    <string name="task_added">已添加任务到队列</string>
+    <string name="you_ll_find_your_downloads_here">你会在这里找到下载文件</string>
+    <string name="download_hint">轻按下载按钮或分享视频链接到本应用来启动下载</string>
+    <string name="status_downloaded">已下载</string>
+    <string name="all">全部</string>
 </resources>

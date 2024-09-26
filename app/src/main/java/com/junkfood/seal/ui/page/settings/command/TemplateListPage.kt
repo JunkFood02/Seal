@@ -308,7 +308,7 @@ fun TemplateListPage(onNavigateBack: () -> Unit, onNavigateToEditPage: (Int) -> 
 
             }
         }) {
-        LazyColumn(modifier = Modifier.padding(it)) {
+        LazyColumn(modifier = Modifier,contentPadding = it) {
             item {
                 PreferenceSwitchWithContainer(title = stringResource(R.string.use_custom_command),
                     icon = null,

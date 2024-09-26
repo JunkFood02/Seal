@@ -140,7 +140,7 @@
     <string name="template_selection">Selección de plantillas</string>
     <string name="custom_command_template_desc">Editar y gestionar plantillas de comandos</string>
     <string name="status_enqueued">En cola</string>
-    <string name="status_completed">Completada</string>
+    <string name="status_completed">Finalizado</string>
     <string name="status_downloading">Descargando</string>
     <string name="status_canceled">Cancelada</string>
     <string name="status_fetching_video_info">Obteniendo información</string>
@@ -152,9 +152,9 @@
     <string name="github_issue_desc">Envía un reporte de un problema que te ha ocurrido o haz una petición de alguna funcionalidad que te gustaría que tuviera Seal</string>
     <string name="info_copied">Información copiada al portapapeles</string>
     <string name="copy_link">Copiar enlace</string>
-    <string name="copy_error_report">Informe de errores</string>
+    <string name="copy_error_report">Copiar el informe</string>
     <string name="status_error">Error</string>
-    <string name="video_resolution">Resolución de vídeo</string>
+    <string name="video_resolution">Resolución del vídeo</string>
     <string name="video_file_size">Tamaño del archivo del vídeo</string>
     <string name="export_to_clipboard">Exportar al portapapeles</string>
     <string name="import_from_clipboard">Importar desde el portapapeles</string>
@@ -170,7 +170,7 @@
     <string name="check_for_updates">Buscar actualizaciones</string>
     <string name="aria2_desc">Usa aria2c como descargador externo</string>
     <string name="app_update_failed">Fallo al actualizar a la última versión</string>
-    <string name="sponsorblock_desc">Eliminar o marcar segmentos en los vídeos con la API de SponsorBlock</string>
+    <string name="sponsorblock_desc">Eliminar o marcar segmentos en los vídeos con la API SponsorBlock</string>
     <string name="sponsorblock_categories_desc">Especifique las categorías en SponsorBlock que deseas eliminar o marcar en el archivo de vídeo</string>
     <string name="sponsorblock_categories">Categorías de SponsorBlock</string>
     <string name="cookies_desc">Usar cookies formateadas de Netscape para las descargas</string>
@@ -369,7 +369,7 @@
     <string name="allow_once">Permitir una vez</string>
     <string name="dont_allow">No permitir</string>
     <string name="allow_always">Permitir siempre</string>
-    <string name="download_with_cellular_request">¿Permitir descargas a través de los datos móviles?</string>
+    <string name="download_with_cellular_request">¿Permitir descargas a través de datos móviles?</string>
     <string name="merge_audiostream">Fusionar varios flujos de audio</string>
     <string name="merge_audiostream_desc">Permite fusionar varios flujos de audio en un único archivo</string>
     <string name="search">Buscar</string>
@@ -409,4 +409,28 @@
     <string name="every_week">Semanalmente</string>
     <string name="every_month">Mensual</string>
     <string name="cookies_in_database">%1$d cookies de %2$d páginas web en total</string>
+    <string name="proceed">Continuar</string>
+    <string name="preset">Programar</string>
+    <string name="custom_format_selection_desc">Elige entre formatos, subtítulos y personaliza aún más</string>
+    <string name="edit_preset">Editar ajuste preestablecido</string>
+    <plurals name="video_count">
+        <item quantity="one">%d vídeo</item>
+        <item quantity="many">%d vídeos</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d audio</item>
+        <item quantity="many">%d audios</item>
+        <item quantity="other">%d audios</item>
+    </plurals>
+    <string name="all_languages">Todos los idiomas</string>
+    <string name="playlist">Lista de reproducción</string>
+    <string name="prefer_placeholder">Prefiero %1$s</string>
+    <string name="preset_format_selection_desc">Descargar automáticamente utilizando tus preferencias de formato</string>
+    <string name="best_quality_desc">Descargar en el mejor formato disponible</string>
+    <string name="task_added">Tarea añadida a la cola</string>
+    <string name="you_ll_find_your_downloads_here">Encontrarás tus descargas aquí</string>
+    <string name="download_hint">Pulsa el botón de descarga o comparte un enlace de vídeo en esta aplicación para iniciar la descarga</string>
+    <string name="status_downloaded">Descargado</string>
+    <string name="all">Todo</string>
 </resources>
