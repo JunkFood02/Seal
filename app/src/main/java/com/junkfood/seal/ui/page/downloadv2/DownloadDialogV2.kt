@@ -1385,17 +1385,16 @@ private fun DialogCheckBoxItemVariant(
             modifier
                 .fillMaxWidth()
                 .toggleable(value = checked, enabled = true, onValueChange = onValueChange)
-                .padding(horizontal = 12.dp)
-                .padding(bottom = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
+                .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.Top,
     ) {
         Checkbox(
-            modifier = Modifier.align(Alignment.Top).clearAndSetSemantics {},
+            modifier = Modifier.clearAndSetSemantics {},
             checked = checked,
             onCheckedChange = onValueChange,
         )
         Text(
-            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
