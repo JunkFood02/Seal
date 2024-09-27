@@ -9,7 +9,7 @@
     <string name="url_empty">লিংক ফাঁকা রাখা যাবে না</string>
     <string name="extract_audio_summary">ভিডিওর বদলে অডিও ডাউনলোড ও সেভ করুন</string>
     <string name="create_thumbnail_summary">ভিডিওর থাম্বনেইল ফাইল আকারে সেভ করুন</string>
-    <string name="yt_dlp_up_to_date">yt-dlp র লেটেস্ট ভার্সন ব্যবহার করা হচ্ছে</string>
+    <string name="yt_dlp_up_to_date">yt-dlp এর লেটেস্ট ভার্সন ব্যবহার করা হচ্ছে</string>
     <string name="fetching_info">ভিডিও ইনফো আনা হচ্ছে…</string>
     <string name="permission_denied">পারমিশন পাওয়া যায় নি</string>
     <string name="download_success_msg">ডাউনলোড শেষ হয়েছে</string>
@@ -32,7 +32,7 @@
     <string name="back">পেছনে যান</string>
     <string name="version">ভার্সন</string>
     <string name="edit">এডিট</string>
-    <string name="yt_dlp_update_fail">yt-dlp\'র লেটেস্ট ভার্সন ইন্সটল করা যাচ্ছে না। অনুগ্রহ করে ইন্টারনেট কানেকশন চেক করুন।</string>
+    <string name="yt_dlp_update_fail">yt-dlp\ এর লেটেস্ট ভার্সন ইন্সটল করা যাচ্ছে না। অনুগ্রহ করে ইন্টারনেট কানেকশন চেক করুন।</string>
     <string name="delete_info_msg">\"%1$s\" ডাউনলোড হিস্ট্রি থেকে মুছে ফেলবেন\?</string>
     <string name="print_details">বিস্তারিত আউটপুট</string>
     <string name="release_desc">নতুন ভার্সন এবং চেঞ্জলগ দেখুন</string>
