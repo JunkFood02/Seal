@@ -34,13 +34,13 @@
     <string name="edit">এডিট</string>
     <string name="yt_dlp_update_fail">yt-dlp\ এর লেটেস্ট ভার্সন ইন্সটল করা যাচ্ছে না। অনুগ্রহ করে ইন্টারনেট কানেকশন চেক করুন।</string>
     <string name="delete_info_msg">\"%1$s\" ডাউনলোড হিস্ট্রি থেকে মুছে ফেলবেন\?</string>
-    <string name="print_details">বিস্তারিত আউটপুট</string>
+    <string name="print_details">বিস্তারিত ইনফো</string>
     <string name="release_desc">নতুন ভার্সন এবং চেঞ্জলগ দেখুন</string>
     <string name="custom_command">কাস্টম কমান্ড</string>
     <string name="checked">চেক করা হয়েছে</string>
     <string name="settings_before_download_text">এই ডাউনলোডটির জন্য কনফিগার করুন</string>
     <string name="settings_before_download">ডাউনলোড করার আগে কনফিগার করুন</string>
-    <string name="settings_before_download_desc">ডাউনলোড করার আগে পছন্দগুলি সেট করুন</string>
+    <string name="settings_before_download_desc">ডাউনলোড করার আগে প্রেফারেন্স সেট করুন</string>
     <string name="readme_desc">GitHub রিপোজিটরি এবং README চেক করুন</string>
     <string name="credits">ক্রেডিটস</string>
     <string name="credits_desc">ক্রেডিট এবং libre সফ্টওয়্যার</string>
