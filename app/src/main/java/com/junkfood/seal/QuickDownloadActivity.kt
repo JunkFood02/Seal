@@ -70,6 +70,8 @@ class QuickDownloadActivity : ComponentActivity() {
             finish()
         }
 
+        App.startService()
+
         enableEdgeToEdge()
 
         window.run {
