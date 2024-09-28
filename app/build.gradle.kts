@@ -48,6 +48,19 @@ android {
         versionName = rootProject.extra["versionName"] as String
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
+
+        if (splitApks) {
+            splits {
+                abi {
+                    isEnable = true
+                    reset()
+                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+                    isUniversalApk = true
+                }
+            }
+        } else {
+            ndk { abiFilters.addAll(abiFilterList) }
+        }
     }
 
     room { schemaDirectory("$projectDir/schemas") }
@@ -99,38 +112,17 @@ android {
     flavorDimensions += "publishChannel"
 
     productFlavors {
-        create("generic") {
-            dimension = "publishChannel"
-            splits {
-                abi {
-                    isEnable = true
-                    reset()
-                    include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-                    isUniversalApk = true
-                }
-            }
-        }
+        create("generic") { dimension = "publishChannel" }
 
         create("githubPreview") {
             dimension = "publishChannel"
             applicationIdSuffix = ".preview"
             resValue("string", "app_name", "Seal Preview")
-            splits {
-                abi {
-                    isEnable = true
-                    reset()
-                    //noinspection ChromeOsAbiSupport
-                    include("arm64-v8a")
-                    isUniversalApk = false
-                }
-            }
         }
 
         create("fdroid") {
             dimension = "publishChannel"
             versionName = "$versionName-(F-Droid)"
-            splits { abi { isEnable = false } }
-            ndk { abiFilters.addAll(abiFilterList) }
         }
     }
 
