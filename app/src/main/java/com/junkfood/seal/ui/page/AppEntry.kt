@@ -4,20 +4,34 @@ import android.webkit.CookieManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.junkfood.seal.App
+import com.junkfood.seal.R
+import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.common.animatedComposable
 import com.junkfood.seal.ui.common.animatedComposableVariant
@@ -48,6 +62,7 @@ import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 private const val TAG = "HomeEntry"
@@ -57,8 +72,15 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
 
     val navController = rememberNavController()
     val context = LocalContext.current
+    val view = LocalView.current
+    val windowWidth = LocalWindowWidthState.current
     val sheetState by dialogViewModel.sheetStateFlow.collectAsStateWithLifecycle()
     val cookiesViewModel: CookiesViewModel = koinViewModel()
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val versionReport = App.packageInfo.versionName.toString()
+    val appName = stringResource(R.string.app_name)
+    val scope = rememberCoroutineScope()
 
     val onNavigateBack: () -> Unit = {
         with(navController) {
@@ -74,46 +96,78 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
         }
     }
 
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        NavHost(
-            modifier = Modifier.align(Alignment.Center),
-            navController = navController,
-            startDestination = Route.HOME,
+        NavigationDrawer(
+            windowWidth = windowWidth,
+            drawerState = drawerState,
+            currentRoute = currentRoute,
+            showQuickSettings = true,
+            onDismissRequest = { drawerState.close() },
+            onNavigateToRoute = {
+                navController.navigate(it) {
+                    launchSingleTop = true
+                    popUpTo(route = Route.HOME)
+                }
+            },
+            footer = {
+                Text(
+                    appName + "\n" + versionReport + "\n" + currentRoute,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 12.dp),
+                )
+            },
         ) {
-            animatedComposable(Route.HOME) {
-                DownloadPageV2(
-                    dialogViewModel = dialogViewModel,
-                    onNavigateToRoute = { navController.navigate(it) { launchSingleTop = true } },
-                )
-            }
-            animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
-            animatedComposableVariant(Route.TASK_LIST) {
-                TaskListPage(
-                    onNavigateBack = onNavigateBack,
-                    onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
-                )
-            }
-            slideInVerticallyComposable(
-                Route.TASK_LOG arg Route.TASK_HASHCODE,
-                arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
+            NavHost(
+                modifier = Modifier.align(Alignment.Center),
+                navController = navController,
+                startDestination = Route.HOME,
             ) {
-                TaskLogPage(
+                animatedComposable(Route.HOME) {
+                    DownloadPageV2(
+                        dialogViewModel = dialogViewModel,
+                        onMenuOpen =
+                            if (windowWidth == WindowWidthSizeClass.Expanded) {
+                                null
+                            } else {
+                                {
+                                    view.slightHapticFeedback()
+                                    scope.launch { drawerState.open() }
+                                }
+                            },
+                    )
+                }
+                animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
+                animatedComposableVariant(Route.TASK_LIST) {
+                    TaskListPage(
+                        onNavigateBack = onNavigateBack,
+                        onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
+                    )
+                }
+                slideInVerticallyComposable(
+                    Route.TASK_LOG arg Route.TASK_HASHCODE,
+                    arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
+                ) {
+                    TaskLogPage(
+                        onNavigateBack = onNavigateBack,
+                        taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
+                    )
+                }
+
+                settingsGraph(
                     onNavigateBack = onNavigateBack,
-                    taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
+                    onNavigateTo = { route ->
+                        navController.navigate(route = route) { launchSingleTop = true }
+                    },
+                    cookiesViewModel = cookiesViewModel,
                 )
             }
 
-            settingsGraph(
-                onNavigateBack = onNavigateBack,
-                onNavigateTo = { route ->
-                    navController.navigate(route = route) { launchSingleTop = true }
-                },
-                cookiesViewModel = cookiesViewModel,
-            )
+            AppUpdater()
+            YtdlpUpdater()
         }
-
-        AppUpdater()
-        YtdlpUpdater()
     }
 }
 

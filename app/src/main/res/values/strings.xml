@@ -427,6 +427,7 @@
     <string name="status_downloaded">Downloaded</string>
     <string name="all">All</string>
     <string name="select_multiple_link">Select from %1$d links</string>
+    <string name="show_navigation_drawer">Show navigation drawer</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

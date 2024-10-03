@@ -4,13 +4,11 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Download
@@ -30,15 +27,6 @@ import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Subscriptions
-import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.outlined.VolunteerActivism
-import androidx.compose.material.icons.rounded.Folder
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.NetworkWifi
-import androidx.compose.material.icons.rounded.SettingsApplications
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -48,10 +36,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -86,18 +70,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
-import com.junkfood.seal.ui.common.Route
 import com.junkfood.seal.ui.component.ActionButton
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
 import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
+import com.junkfood.seal.ui.page.NavigationDrawer
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
@@ -156,58 +139,38 @@ enum class Filter {
 @Composable
 fun DownloadPageV2(
     modifier: Modifier = Modifier,
+    onMenuOpen: (() -> Unit)? = null,
     dialogViewModel: DownloadDialogViewModel,
     downloader: DownloaderV2 = koinInject(),
-    onNavigateToRoute: (String) -> Unit,
 ) {
     val view = LocalView.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val versionReport = App.packageInfo.versionName.toString()
-    val appName = stringResource(R.string.app_name)
 
-    NavigationDrawer(
-        drawerState = drawerState,
-        onDismissRequest = { drawerState.close() },
-        onNavigateToRoute = onNavigateToRoute,
-        footer = {
-            Text(
-                appName + "\n" + versionReport,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(start = 12.dp),
-            )
+    DownloadPageImplV2(
+        modifier = modifier,
+        taskDownloadStateMap = downloader.getTaskStateMap(),
+        downloadCallback = {
+            view.slightHapticFeedback()
+            dialogViewModel.postAction(Action.ShowSheet())
         },
-    ) {
-        DownloadPageImplV2(
-            modifier = modifier,
-            taskDownloadStateMap = downloader.getTaskStateMap(),
-            downloadCallback = {
-                view.slightHapticFeedback()
-                dialogViewModel.postAction(Action.ShowSheet())
-            },
-            onMenuOpen = {
-                view.slightHapticFeedback()
-                scope.launch { drawerState.open() }
-            },
-        ) { task, state ->
-            when (state) {
-                is Task.DownloadState.Canceled,
-                is Task.DownloadState.Error -> {
-                    downloader.restart(task)
+        onMenuOpen = onMenuOpen,
+    ) { task, state ->
+        when (state) {
+            is Task.DownloadState.Canceled,
+            is Task.DownloadState.Error -> {
+                downloader.restart(task)
+            }
+            is Task.DownloadState.Completed -> {
+                state.filePath?.let {
+                    FileUtil.openFile(it) { context.makeToast(R.string.file_unavailable) }
                 }
-                is Task.DownloadState.Completed -> {
-                    state.filePath?.let {
-                        FileUtil.openFile(it) { context.makeToast(R.string.file_unavailable) }
-                    }
-                }
-                Task.DownloadState.Idle,
-                Task.DownloadState.ReadyWithInfo,
-                is Task.DownloadState.FetchingInfo,
-                is Task.DownloadState.Running -> {
-                    downloader.cancel(task)
-                }
+            }
+            Task.DownloadState.Idle,
+            Task.DownloadState.ReadyWithInfo,
+            is Task.DownloadState.FetchingInfo,
+            is Task.DownloadState.Running -> {
+                downloader.cancel(task)
             }
         }
     }
@@ -265,7 +228,7 @@ fun DownloadPageImplV2(
     modifier: Modifier = Modifier,
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
-    onMenuOpen: () -> Unit,
+    onMenuOpen: (() -> Unit)? = null,
     onActionPost: (Task, Task.DownloadState) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
@@ -371,7 +334,7 @@ fun DownloadPageImplV2(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header(modifier: Modifier = Modifier, onMenuOpen: () -> Unit) {
+fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
     TopAppBar(
         title = {
             Text(
@@ -385,12 +348,14 @@ fun Header(modifier: Modifier = Modifier, onMenuOpen: () -> Unit) {
         },
         modifier = modifier.padding(horizontal = 8.dp),
         navigationIcon = {
-            IconButton(onClick = onMenuOpen) {
-                Icon(
-                    Icons.Outlined.Menu,
-                    stringResource(R.string.show_more_actions),
-                    modifier = Modifier,
-                )
+            onMenuOpen?.let {
+                IconButton(onClick = it) {
+                    Icon(
+                        imageVector = Icons.Outlined.Menu,
+                        contentDescription = stringResource(R.string.show_navigation_drawer),
+                        modifier = Modifier,
+                    )
+                }
             }
         },
         windowInsets = WindowInsets(0.dp),
@@ -436,164 +401,6 @@ private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center,
         )
     }
-}
-
-@Composable
-fun NavigationDrawer(
-    modifier: Modifier = Modifier,
-    drawerState: DrawerState,
-    onNavigateToRoute: (String) -> Unit,
-    onDismissRequest: suspend () -> Unit,
-    gesturesEnabled: Boolean = true,
-    footer: @Composable (() -> Unit)? = null,
-    content: @Composable () -> Unit,
-) {
-    val scope = rememberCoroutineScope()
-    ModalNavigationDrawer(
-        gesturesEnabled = gesturesEnabled,
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet(drawerState = drawerState, modifier = modifier.width(360.dp)) {
-                Column(
-                    modifier =
-                        Modifier.padding(horizontal = 12.dp)
-                            .fillMaxHeight()
-                            .verticalScroll(rememberScrollState())
-                ) {
-                    Spacer(Modifier.height(72.dp))
-                    ProvideTextStyle(MaterialTheme.typography.labelLarge) {
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.download_queue)) },
-                            icon = { Icon(Icons.Filled.Download, null) },
-                            onClick = { scope.launch { onDismissRequest() } },
-                            selected = true,
-                        )
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.downloads_history)) },
-                            icon = { Icon(Icons.Outlined.Subscriptions, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.DOWNLOADS) }
-                            },
-                            selected = false,
-                        )
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.custom_command)) },
-                            icon = { Icon(Icons.Outlined.Terminal, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.TASK_LIST) }
-                            },
-                            selected = false,
-                        )
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.settings)) },
-                            icon = { Icon(Icons.Outlined.Settings, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.SETTINGS) }
-                            },
-                            selected = false,
-                        )
-
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.sponsor)) },
-                            icon = { Icon(Icons.Outlined.VolunteerActivism, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.DONATE) }
-                            },
-                            selected = false,
-                        )
-
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-
-                        Column(
-                            modifier =
-                                Modifier.padding(start = 16.dp)
-                                    .padding(top = 16.dp, bottom = 12.dp),
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            Text(
-                                stringResource(R.string.settings),
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.tertiary,
-                                modifier = Modifier,
-                            )
-                        }
-
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.general_settings)) },
-                            icon = { Icon(Icons.Rounded.SettingsApplications, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion {
-                                        onNavigateToRoute(Route.GENERAL_DOWNLOAD_PREFERENCES)
-                                    }
-                            },
-                            selected = false,
-                        )
-
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.download_directory)) },
-                            icon = { Icon(Icons.Rounded.Folder, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion {
-                                        onNavigateToRoute(Route.DOWNLOAD_DIRECTORY)
-                                    }
-                            },
-                            selected = false,
-                        )
-
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.network)) },
-                            icon = { Icon(Icons.Rounded.NetworkWifi, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion {
-                                        onNavigateToRoute(Route.NETWORK_PREFERENCES)
-                                    }
-                            },
-                            selected = false,
-                        )
-
-                        /*                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.update)) },
-                            icon = { Icon(Icons.Rounded.Update, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.AUTO_UPDATE) }
-                            },
-                            selected = false,
-                        )*/
-
-                        NavigationDrawerItem(
-                            label = { Text(stringResource(R.string.about)) },
-                            icon = { Icon(Icons.Rounded.Info, null) },
-                            onClick = {
-                                scope
-                                    .launch { onDismissRequest() }
-                                    .invokeOnCompletion { onNavigateToRoute(Route.ABOUT) }
-                            },
-                            selected = false,
-                        )
-                    }
-                    Spacer(Modifier.weight(1f))
-                    footer?.invoke()
-                }
-            }
-        },
-        content = content,
-    )
 }
 
 @Composable
