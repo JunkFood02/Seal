@@ -106,9 +106,11 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
             showQuickSettings = true,
             onDismissRequest = { drawerState.close() },
             onNavigateToRoute = {
-                navController.navigate(it) {
-                    launchSingleTop = true
-                    popUpTo(route = Route.HOME)
+                if (currentRoute != it) {
+                    navController.navigate(it) {
+                        launchSingleTop = true
+                        popUpTo(route = Route.HOME)
+                    }
                 }
             },
             footer = {

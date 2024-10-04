@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -420,13 +421,16 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
                 val painter =
                     rememberVectorPainter(image = DynamicColorImageVectors.videoSteaming())
                 Column(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier.align(Alignment.Center).widthIn(max = 360.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(
                         painter = painter,
                         contentDescription = null,
-                        modifier = Modifier.padding(horizontal = 72.dp, vertical = 20.dp),
+                        modifier =
+                            Modifier.padding(vertical = 20.dp)
+                                .fillMaxWidth(0.5f)
+                                .widthIn(max = 240.dp),
                     )
                     Text(
                         text = stringResource(R.string.no_downloaded_media),

@@ -5,24 +5,25 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Menu
@@ -59,6 +60,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -326,7 +328,10 @@ fun DownloadPageImplV2(
         }
         if (filteredMap.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
-                DownloadQueuePlaceholder(modifier = Modifier.align(Alignment.Center))
+                DownloadQueuePlaceholder(
+                    modifier =
+                        Modifier.fillMaxHeight(0.4f).widthIn(max = 360.dp).align(Alignment.Center)
+                )
             }
         }
     }
@@ -381,25 +386,33 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
 @Composable
 @Preview
 private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(
-            painter = rememberVectorPainter(image = DynamicColorImageVectors.download()),
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth(0.5f),
-        )
-        Text(
-            text = stringResource(R.string.you_ll_find_your_downloads_here),
-            modifier = Modifier.padding(top = 36.dp).padding(horizontal = 24.dp),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-        Text(
-            text = stringResource(R.string.download_hint),
-            modifier = Modifier.padding(top = 4.dp).padding(horizontal = 24.dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
+    BoxWithConstraints(modifier = modifier) {
+        val showImage = with(LocalDensity.current) { constraints.maxHeight >= 240.dp.toPx() }
+        Column(modifier = Modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+            if (showImage) {
+                Image(
+                    painter = rememberVectorPainter(image = DynamicColorImageVectors.download()),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxHeight(0.5f).widthIn(max = 240.dp),
+                )
+                Spacer(Modifier.height(36.dp))
+            } else {
+                Spacer(Modifier.height(72.dp))
+            }
+            Text(
+                text = stringResource(R.string.you_ll_find_your_downloads_here),
+                modifier = Modifier.padding(horizontal = 24.dp),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Text(
+                text = stringResource(R.string.download_hint),
+                modifier = Modifier.padding(top = 4.dp).padding(horizontal = 24.dp),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
