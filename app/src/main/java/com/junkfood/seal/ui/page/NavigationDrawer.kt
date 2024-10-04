@@ -3,9 +3,11 @@ package com.junkfood.seal.ui.page
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -81,8 +84,9 @@ fun NavigationDrawer(
             PermanentNavigationDrawer(
                 drawerContent = {
                     PermanentDrawerSheet(
-                        modifier = modifier.width(240.dp),
+                        modifier = modifier.zIndex(1f).width(240.dp),
                         drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        windowInsets = WindowInsets(0)
                     ) {
                         NavigationDrawerSheetContent(
                             modifier = Modifier,
@@ -116,6 +120,7 @@ fun NavigationDrawerSheetContent(
                 .padding(horizontal = 12.dp)
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState())
+                .systemBarsPadding()
     ) {
         Spacer(Modifier.height(72.dp))
         ProvideTextStyle(MaterialTheme.typography.labelLarge) {
