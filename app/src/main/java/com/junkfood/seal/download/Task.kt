@@ -1,6 +1,7 @@
 package com.junkfood.seal.download
 
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import kotlinx.coroutines.Job
@@ -87,12 +88,15 @@ data class Task(
     }
 
     data class ViewState(
-        val url: String = "",
+        val url: String = "https://www.example.com",
         val title: String = "",
         val uploader: String = "",
+        val extractorKey: String = "",
         val duration: Int = 0,
         val fileSizeApprox: Double = .0,
         val thumbnailUrl: String? = null,
+        val videoFormat: Format? = null,
+        val audioFormat: Format? = null
     ) {
 
         constructor(
@@ -101,6 +105,7 @@ data class Task(
             url = info.originalUrl.toString(),
             title = info.title,
             uploader = info.uploader ?: info.channel ?: info.uploaderId.toString(),
+            extractorKey = info.extractorKey,
             duration = info.duration?.roundToInt() ?: 0,
             thumbnailUrl = info.thumbnail.toHttpsUrl(),
             fileSizeApprox = info.fileSize ?: info.fileSizeApprox ?: .0,

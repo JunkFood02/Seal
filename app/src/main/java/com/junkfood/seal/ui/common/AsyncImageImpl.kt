@@ -20,7 +20,7 @@ import com.junkfood.seal.R
 
 @Composable
 fun AsyncImageImpl(
-    model: Any,
+    model: Any?,
     contentDescription: String?,
     modifier: Modifier = Modifier,
     transform: (AsyncImagePainter.State) -> AsyncImagePainter.State = AsyncImagePainter.DefaultTransform,
@@ -33,7 +33,7 @@ fun AsyncImageImpl(
     isPreview: Boolean = LocalInspectionMode.current
 ) {
     if (isPreview) Image(
-        painter = painterResource(R.drawable.sample),
+        painter = painterResource(R.drawable.sample3),
         contentDescription = contentDescription,
         modifier = modifier,
         alignment = alignment,
