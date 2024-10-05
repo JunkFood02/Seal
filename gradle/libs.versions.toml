@@ -7,6 +7,7 @@ androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
 androidxActivity = "1.9.2"
 graphics = "1.0.1"
+constraintLayout = "1.0.1"
 
 androidxLifecycle = "2.8.5"
 androidxNavigation = "2.8.0"
@@ -71,6 +72,8 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
+androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayout" }
+
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
@@ -128,7 +131,8 @@ androidxCompose = ["androidx-compose-ui",
     "androidx-compose-material3-windowSizeClass",
     "androidx-compose-foundation",
     "androidx-navigation-compose",
-    "androidx-compose-animation"
+    "androidx-compose-animation",
+    "androidx-constraintlayout-compose"
 ]
 
 youtubedlAndroid = ["youtubedl-android-library",

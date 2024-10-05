@@ -4,23 +4,30 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
@@ -38,17 +45,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,8 +65,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -70,8 +77,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
@@ -239,6 +248,20 @@ fun DownloadPageV2(
 }
 
 @Composable
+private operator fun PaddingValues.plus(other: PaddingValues): PaddingValues {
+    val layoutDirection = LocalLayoutDirection.current
+    return PaddingValues(
+        top = calculateTopPadding() + other.calculateTopPadding(),
+        bottom = calculateBottomPadding() + other.calculateBottomPadding(),
+        start =
+            calculateStartPadding(layoutDirection) + other.calculateStartPadding(layoutDirection),
+        end = calculateEndPadding(layoutDirection) + other.calculateEndPadding(layoutDirection),
+    )
+}
+
+private const val HeaderOffsetDpValue = 36
+
+@Composable
 fun DownloadPageImplV2(
     modifier: Modifier = Modifier,
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
@@ -256,49 +279,63 @@ fun DownloadPageImplV2(
         containerColor = MaterialTheme.colorScheme.surface,
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) { windowInsetsPadding ->
-        val lazyListState = rememberLazyListState()
-        val firstVisibleItem by remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+        val lazyListState = rememberLazyGridState()
+        val spacerHeight = with(LocalDensity.current) { 36.dp.roundToPx() }
+        var headerOffset by remember { mutableIntStateOf(0) }
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier =
+                Modifier.fillMaxSize()
+                    .nestedScroll(
+                        connection =
+                            TopBarNestedScrollConnection(
+                                spacerHeight = spacerHeight,
+                                offset = { headerOffset },
+                                onOffsetUpdate = { headerOffset = it },
+                            )
+                    )
+        ) {
             CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
-                LazyColumn(state = lazyListState, contentPadding = windowInsetsPadding) {
-                    item { Surface { Spacer(modifier = Modifier.height(24.dp)) } }
-                    stickyHeader {
-                        Surface {
-                            Column {
-                                Header(onMenuOpen = onMenuOpen)
-                                SelectionGroupRow(
-                                    modifier =
-                                        Modifier.horizontalScroll(rememberScrollState())
-                                            .padding(horizontal = 20.dp)
-                                ) {
-                                    Filter.entries.forEach { filter ->
-                                        SelectionGroupItem(
-                                            selected = activeFilter == filter,
-                                            onClick = {
-                                                if (activeFilter == filter) {
-                                                    scope.launch {
-                                                        lazyListState.animateScrollToItem(0)
-                                                    }
-                                                } else {
-                                                    activeFilter = filter
-                                                }
-                                            },
-                                        ) {
-                                            Text(filter.label())
-                                        }
+                Column(
+                    modifier = Modifier.fillMaxWidth().offset { IntOffset(x = 0, y = headerOffset) }
+                ) {
+                    Spacer(Modifier.height(36.dp))
+                    Header(onMenuOpen = onMenuOpen, modifier = Modifier.padding(horizontal = 16.dp))
+                    SelectionGroupRow(
+                        modifier =
+                            Modifier.horizontalScroll(rememberScrollState())
+                                .padding(horizontal = 20.dp)
+                    ) {
+                        Filter.entries.forEach { filter ->
+                            SelectionGroupItem(
+                                selected = activeFilter == filter,
+                                onClick = {
+                                    if (activeFilter == filter) {
+                                        scope.launch { lazyListState.animateScrollToItem(0) }
+                                    } else {
+                                        activeFilter = filter
                                     }
-                                }
-                                Spacer(Modifier.height(8.dp))
-                                if (firstVisibleItem != 0) {
-                                    HorizontalDivider(thickness = Dp.Hairline)
-                                }
+                                },
+                            ) {
+                                Text(filter.label())
                             }
                         }
                     }
+                    Spacer(Modifier.height(8.dp))
+                    if (headerOffset < 0) {
+                        HorizontalDivider(thickness = Dp.Hairline)
+                    }
+                }
 
+                LazyVerticalGrid(
+                    modifier = Modifier.offset { IntOffset(x = 0, y = headerOffset) },
+                    state = lazyListState,
+                    columns = GridCells.Adaptive(240.dp),
+                    contentPadding = windowInsetsPadding + PaddingValues(horizontal = 24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                ) {
                     if (filteredMap.isNotEmpty()) {
-                        item {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
                             SubHeader(
                                 videoCount = filteredMap.size,
                                 onToggleView = { context.makeToast("Not implemented yet!") },
@@ -307,14 +344,13 @@ fun DownloadPageImplV2(
                         }
                     }
 
-                    items(
-                        filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
-                        key = { (task, state) -> task.id },
-                    ) { (task, state) ->
+                    itemsIndexed(
+                        items = filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
+                        key = { _, (task, _) -> task.id },
+                    ) { index, (task, state) ->
                         with(state.viewState) {
                             VideoCardV2(
-                                modifier =
-                                    Modifier.padding(horizontal = 24.dp).padding(bottom = 20.dp),
+                                modifier = Modifier.padding(bottom = 20.dp).padding(),
                                 viewState = this,
                                 actionButton = {
                                     ActionButton(
@@ -335,7 +371,7 @@ fun DownloadPageImplV2(
                             }
                         }
                     }
-                    item { Spacer(Modifier.height(80.dp)) }
+                    item(span = { GridItemSpan(maxLineSpan) }) { Spacer(Modifier.height(80.dp)) }
                 }
             }
         }
@@ -350,34 +386,27 @@ fun DownloadPageImplV2(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
-    TopAppBar(
-        title = {
-            Text(
-                stringResource(R.string.download_queue),
-                style =
-                    MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium,
-                    ),
-            )
-        },
-        modifier = modifier.padding(horizontal = 8.dp),
-        navigationIcon = {
-            onMenuOpen?.let {
-                IconButton(onClick = it) {
-                    Icon(
-                        imageVector = Icons.Outlined.Menu,
-                        contentDescription = stringResource(R.string.show_navigation_drawer),
-                        modifier = Modifier,
-                    )
-                }
+    Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
+        onMenuOpen?.let {
+            IconButton(onClick = it, modifier = Modifier.padding(end = 4.dp)) {
+                Icon(
+                    imageVector = Icons.Outlined.Menu,
+                    contentDescription = stringResource(R.string.show_navigation_drawer),
+                    modifier = Modifier,
+                )
             }
-        },
-        windowInsets = WindowInsets(0.dp),
-    )
+        }
+        Text(
+            stringResource(R.string.download_queue),
+            style =
+                MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                ),
+        )
+    }
 }
 
 @Composable
@@ -400,31 +429,45 @@ fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
 @Preview
 private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
     BoxWithConstraints(modifier = modifier) {
-        val showImage = with(LocalDensity.current) { constraints.maxHeight >= 240.dp.toPx() }
-        Column(modifier = Modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        ConstraintLayout {
+            val (image, text) = createRefs()
+            val showImage =
+                with(LocalDensity.current) {
+                    this@BoxWithConstraints.constraints.maxHeight >= 240.dp.toPx()
+                }
             if (showImage) {
                 Image(
                     painter = rememberVectorPainter(image = DynamicColorImageVectors.download()),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxHeight(0.5f).widthIn(max = 240.dp),
+                    modifier =
+                        Modifier.fillMaxHeight(0.5f).widthIn(max = 240.dp).constrainAs(image) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
                 )
-                Spacer(Modifier.height(36.dp))
             } else {
-                Spacer(Modifier.height(72.dp))
+                Spacer(Modifier.height(72.dp).constrainAs(image) { top.linkTo(parent.top) })
             }
-            Text(
-                text = stringResource(R.string.you_ll_find_your_downloads_here),
-                modifier = Modifier.padding(horizontal = 24.dp),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = stringResource(R.string.download_hint),
-                modifier = Modifier.padding(top = 4.dp).padding(horizontal = 24.dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-            )
+            Column(
+                modifier = Modifier.constrainAs(text) { top.linkTo(image.bottom, margin = 36.dp) },
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = stringResource(R.string.you_ll_find_your_downloads_here),
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = stringResource(R.string.download_hint),
+                    modifier = Modifier.padding(top = 4.dp).padding(horizontal = 24.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }
@@ -443,8 +486,7 @@ fun SubHeader(
     onShowMenu: () -> Unit,
 ) {
     Row(
-        modifier =
-            modifier.padding(end = 24.dp, start = 24.dp).padding(top = 12.dp, bottom = 12.dp),
+        modifier = modifier.padding(top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(
@@ -546,7 +588,6 @@ internal class DownloadPageV2Test {
                                 map[task] = state
                             }
                         }
-
                     }
                 }
             }
@@ -566,6 +607,7 @@ internal class DownloadPageV2Test {
 
     @Composable
     @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+    @Preview(name = "Tablet", device = "spec:width=1280dp,height=800dp,dpi=240")
     private fun Preview() {
 
         val downloader: DownloaderV2 = mockDownloader
