@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -114,24 +115,32 @@ class QuickDownloadActivity : ComponentActivity() {
                     val selectionState =
                         viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
+                    var showDialog by remember { mutableStateOf(false) }
+
                     LaunchedEffect(sheetValue, selectionState) {
-                        if (
-                            sheetValue == DownloadDialogViewModel.SheetValue.Hidden &&
-                                selectionState == SelectionState.Idle
-                        ) {
+                        if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
+                            showDialog = true
+                        } else if (sheetValue == DownloadDialogViewModel.SheetValue.Hidden) {
                             launch { sheetState.hide() }
-                                .invokeOnCompletion { this@QuickDownloadActivity.finish() }
+                                .invokeOnCompletion {
+                                    showDialog = false
+                                    if (selectionState == SelectionState.Idle) {
+                                        this@QuickDownloadActivity.finish()
+                                    }
+                                }
                         }
                     }
 
-                    DownloadDialog(
-                        state = state,
-                        sheetState = sheetState,
-                        config = Config(),
-                        preferences = preferences,
-                        onPreferencesUpdate = { preferences = it },
-                        onActionPost = { viewModel.postAction(it) },
-                    )
+                    if (showDialog) {
+                        DownloadDialog(
+                            state = state,
+                            sheetState = sheetState,
+                            config = Config(),
+                            preferences = preferences,
+                            onPreferencesUpdate = { preferences = it },
+                            onActionPost = { viewModel.postAction(it) },
+                        )
+                    }
 
                     when (selectionState) {
                         is SelectionState.FormatSelection ->
@@ -147,7 +156,10 @@ class QuickDownloadActivity : ComponentActivity() {
                         is SelectionState.PlaylistSelection -> {
                             PlaylistSelectionPage(
                                 state = selectionState,
-                                onDismissRequest = { viewModel.postAction(Action.Reset) },
+                                onDismissRequest = {
+                                    viewModel.postAction(Action.Reset)
+                                    this.finish()
+                                },
                             )
                         }
                     }
