@@ -46,6 +46,7 @@ import com.junkfood.seal.R
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.toDurationText
@@ -54,9 +55,9 @@ import com.junkfood.seal.util.toFileSizeText
 private val IconButtonSize = 64.dp
 private val IconSize = 36.dp
 private val ActionButtonContainerColor: Color
-    @Composable get() = FixedAccentColors.onSecondaryFixed.copy(alpha = 0.68f)
+    @Composable get() = LocalFixedColorRoles.current.onSecondaryFixed.copy(alpha = 0.68f)
 private val ActionButtonContentColor: Color
-    @Composable get() = FixedAccentColors.secondaryFixed
+    @Composable get() = LocalFixedColorRoles.current.secondaryFixed
 private val LabelContainerColor: Color = Color.Black.copy(alpha = 0.68f)
 
 @Composable
@@ -182,19 +183,17 @@ private fun TitleText(modifier: Modifier = Modifier, title: String, uploader: St
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
-            maxLines = 2,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        if (uploader.isNotEmpty()) {
-            Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = uploader,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        Text(
+            modifier = Modifier.padding(top = 3.dp),
+            text = uploader,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 

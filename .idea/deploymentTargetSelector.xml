@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="ChatPage">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="BottomBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -34,6 +31,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="Preview - Light">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="SheetPreview - Dark">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
