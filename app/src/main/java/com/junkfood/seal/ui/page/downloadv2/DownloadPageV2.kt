@@ -48,6 +48,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -96,6 +97,7 @@ import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ActionButton
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
@@ -411,14 +413,26 @@ fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
 
 @Composable
 fun FABs(modifier: Modifier = Modifier, downloadCallback: () -> Unit = {}) {
+    val expanded = LocalWindowWidthState.current != WindowWidthSizeClass.Compact
     Column(modifier = modifier.padding(6.dp), horizontalAlignment = Alignment.End) {
         FloatingActionButton(
             onClick = downloadCallback,
             content = {
-                Icon(
-                    Icons.Outlined.FileDownload,
-                    contentDescription = stringResource(R.string.download),
-                )
+                if (expanded) {
+                    Row(
+                        modifier = Modifier.widthIn(min = 80.dp).padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(Icons.Outlined.FileDownload, contentDescription = null)
+                        Spacer(Modifier.width(12.dp))
+                        Text(stringResource(R.string.download))
+                    }
+                } else {
+                    Icon(
+                        Icons.Outlined.FileDownload,
+                        contentDescription = stringResource(R.string.download),
+                    )
+                }
             },
             modifier = Modifier.padding(vertical = 12.dp),
         )
