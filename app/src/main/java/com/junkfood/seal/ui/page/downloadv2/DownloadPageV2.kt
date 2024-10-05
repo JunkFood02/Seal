@@ -54,6 +54,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,6 +76,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
+import com.junkfood.seal.download.Task.DownloadState
+import com.junkfood.seal.download.Task.DownloadState.Cancelable
+import com.junkfood.seal.download.Task.DownloadState.Canceled
+import com.junkfood.seal.download.Task.DownloadState.Completed
+import com.junkfood.seal.download.Task.DownloadState.Error
+import com.junkfood.seal.download.Task.DownloadState.FetchingInfo
+import com.junkfood.seal.download.Task.DownloadState.Idle
+import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
+import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.component.ActionButton
@@ -90,10 +100,13 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.makeToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
-import org.koin.dsl.module
 
 enum class Filter {
     All,
@@ -117,18 +130,18 @@ enum class Filter {
         return when (this) {
             Downloading -> {
                 when (state) {
-                    is Task.DownloadState.FetchingInfo,
-                    Task.DownloadState.Idle,
-                    Task.DownloadState.ReadyWithInfo,
-                    is Task.DownloadState.Running -> true
+                    is FetchingInfo,
+                    Idle,
+                    ReadyWithInfo,
+                    is Running -> true
                     else -> false
                 }
             }
             Canceled -> {
-                state is Task.DownloadState.Error || state is Task.DownloadState.Canceled
+                state is Error || state is DownloadState.Canceled
             }
             Finished -> {
-                state is Task.DownloadState.Completed
+                state is Completed
             }
             else -> {
                 true
@@ -159,19 +172,19 @@ fun DownloadPageV2(
         onMenuOpen = onMenuOpen,
     ) { task, state ->
         when (state) {
-            is Task.DownloadState.Canceled,
-            is Task.DownloadState.Error -> {
+            is Canceled,
+            is Error -> {
                 downloader.restart(task)
             }
-            is Task.DownloadState.Completed -> {
+            is Completed -> {
                 state.filePath?.let {
                     FileUtil.openFile(it) { context.makeToast(R.string.file_unavailable) }
                 }
             }
-            Task.DownloadState.Idle,
-            Task.DownloadState.ReadyWithInfo,
-            is Task.DownloadState.FetchingInfo,
-            is Task.DownloadState.Running -> {
+            Idle,
+            ReadyWithInfo,
+            is FetchingInfo,
+            is Running -> {
                 downloader.cancel(task)
             }
         }
@@ -231,7 +244,7 @@ fun DownloadPageImplV2(
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
     onMenuOpen: (() -> Unit)? = null,
-    onActionPost: (Task, Task.DownloadState) -> Unit,
+    onActionPost: (Task, DownloadState) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
     val filteredMap = taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) }
@@ -483,62 +496,95 @@ private fun DrawerPreview() {
     NavigationDrawer(drawerState = drawerState, onNavigateToRoute = {}, onDismissRequest = {}) {}
 }
 
-@Composable
-@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
-private fun DownloadPagePreview() {
-    val module = module {
-        single<DownloaderV2> {
-            object : DownloaderV2 {
-                override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
-                    val map = mutableStateMapOf<Task, Task.State>()
-                    val list =
-                        listOf(
-                            Task.State(Task.DownloadState.Idle, null, Task.ViewState()),
-                            Task.State(
-                                Task.DownloadState.Canceled(Task.RestartableAction.Download),
-                                null,
-                                Task.ViewState(),
-                            ),
-                            Task.State(Task.DownloadState.Completed(null), null, Task.ViewState()),
-                        )
-                    map.run {
-                        repeat(9) {
-                            put(Task(url = "$it", preferences = PreferencesMock), list[it % 3])
-                        }
+internal class DownloadPageV2Test {
+    private val mockDownloader =
+        object : DownloaderV2 {
+            private val map = mutableStateMapOf<Task, Task.State>()
+
+            init {
+                val list =
+                    listOf(
+                        Task.State(Idle, null, Task.ViewState()),
+                        Task.State(
+                            Canceled(Task.RestartableAction.Download),
+                            null,
+                            Task.ViewState(),
+                        ),
+                        Task.State(Completed(null), null, Task.ViewState()),
+                    )
+                map.run {
+                    repeat(9) {
+                        put(Task(url = "$it", preferences = PreferencesMock), list[it % 3])
                     }
-
-                    return map
                 }
+                val scope = CoroutineScope(SupervisorJob())
 
-                override fun cancel(task: Task) {}
+                scope.launch(Dispatchers.Default) {
+                    while (true) {
+                        delay(1000)
+                        val newEntries =
+                            map.toMap().map { (task, state) ->
+                                val newDownloadState =
+                                    when (state.downloadState) {
+                                        is Canceled -> Idle
+                                        is Completed -> Idle
+                                        is Error -> Idle
+                                        is FetchingInfo -> ReadyWithInfo
+                                        Idle -> FetchingInfo(Job(), task.id)
+                                        ReadyWithInfo -> Running(Job(), task.id)
+                                        is Running -> {
+                                            val preState: Running = state.downloadState
+                                            if (preState.progress >= 1f) Completed(null)
+                                            else preState.copy(progress = preState.progress + 0.1f)
+                                        }
+                                    }
+                                task to state.copy(downloadState = newDownloadState)
+                            }
+                        Snapshot.withMutableSnapshot {
+                            newEntries.forEach { (task, state) ->
+                                delay(100)
+                                map[task] = state
+                            }
+                        }
 
-                override fun restart(task: Task) {}
-
-                override fun enqueue(task: Task) {}
-
-                override fun enqueue(task: Task, state: Task.State) {}
+                    }
+                }
             }
-        }
-    }
 
-    KoinApplication(application = { modules(module) }) {
-        val downloader: DownloaderV2 = koinInject()
+            override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
+                return map
+            }
+
+            override fun cancel(task: Task) {}
+
+            override fun restart(task: Task) {}
+
+            override fun enqueue(task: Task) {}
+
+            override fun enqueue(task: Task, state: Task.State) {}
+        }
+
+    @Composable
+    @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+    private fun Preview() {
+
+        val downloader: DownloaderV2 = mockDownloader
         SealTheme {
             Column() {
                 DownloadPageImplV2(
                     taskDownloadStateMap = downloader.getTaskStateMap(),
                     onActionPost = { task, state ->
                         when (state) {
-                            is Task.DownloadState.Canceled -> {
+                            is Canceled -> {
                                 downloader.restart(task)
                             }
-                            is Task.DownloadState.Completed -> {}
-                            is Task.DownloadState.Error -> {
+                            is Completed -> {}
+                            is Error -> {
                                 downloader.restart(task)
                             }
-                            is Task.DownloadState.Cancelable,
-                            Task.DownloadState.Idle,
-                            Task.DownloadState.ReadyWithInfo -> {
+                            is Cancelable,
+                            Idle,
+                            ReadyWithInfo -> {
                                 downloader.cancel(task)
                             }
                             else -> {}

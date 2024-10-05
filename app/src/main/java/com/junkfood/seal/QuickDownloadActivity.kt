@@ -26,6 +26,7 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SelectionState
 import com.junkfood.seal.ui.page.downloadv2.FormatPage
+import com.junkfood.seal.ui.page.downloadv2.PlaylistSelectionPage
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
@@ -113,8 +114,11 @@ class QuickDownloadActivity : ComponentActivity() {
                     val selectionState =
                         viewModel.selectionStateFlow.collectAsStateWithLifecycle().value
 
-                    LaunchedEffect(sheetValue) {
-                        if (sheetValue == DownloadDialogViewModel.SheetValue.Hidden) {
+                    LaunchedEffect(sheetValue, selectionState) {
+                        if (
+                            sheetValue == DownloadDialogViewModel.SheetValue.Hidden &&
+                                selectionState == SelectionState.Idle
+                        ) {
                             launch { sheetState.hide() }
                                 .invokeOnCompletion { this@QuickDownloadActivity.finish() }
                         }
@@ -140,7 +144,12 @@ class QuickDownloadActivity : ComponentActivity() {
                             )
 
                         SelectionState.Idle -> {}
-                        is SelectionState.PlaylistSelection -> {}
+                        is SelectionState.PlaylistSelection -> {
+                            PlaylistSelectionPage(
+                                state = selectionState,
+                                onDismissRequest = { viewModel.postAction(Action.Reset) },
+                            )
+                        }
                     }
                 }
             }
