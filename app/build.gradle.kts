@@ -21,6 +21,8 @@ val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
+val baseVersionName = rootProject.extra["versionName"] as String
+
 android {
     compileSdk = 35
 
@@ -45,7 +47,7 @@ android {
         targetSdk = 35
         versionCode = 20000
 
-        versionName = rootProject.extra["versionName"] as String
+        versionName = baseVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
 
@@ -122,7 +124,7 @@ android {
 
         create("fdroid") {
             dimension = "publishChannel"
-            versionName = "$versionName-(F-Droid)"
+            versionName = "$baseVersionName-(F-Droid)"
         }
     }
 
