@@ -430,6 +430,7 @@
     <string name="show_navigation_drawer">Show navigation drawer</string>
     <string name="resume">Resume</string>
     <string name="delete">Delete</string>
+    <string name="media_info">Media info</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

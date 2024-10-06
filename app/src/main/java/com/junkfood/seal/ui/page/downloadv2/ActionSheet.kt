@@ -3,6 +3,7 @@ package com.junkfood.seal.ui.page.downloadv2
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.automirrored.outlined.TextSnippet
@@ -216,7 +219,7 @@ private fun OpenThumbnailURLButton(modifier: Modifier = Modifier, onClick: () ->
 fun Title(imageModel: Any?, title: String, author: String, downloadState: DownloadState) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().height(64.dp).padding(horizontal = 12.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AsyncImageImpl(
@@ -228,11 +231,16 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Downlo
         )
         Spacer(Modifier.width(12.dp))
 
-        Column {
-            Column(Modifier.weight(1f)) {
-                Text(text = title, style = MaterialTheme.typography.titleSmall)
-                Text(text = author, style = MaterialTheme.typography.bodySmall)
+        Column(modifier = Modifier.height(IntrinsicSize.Min)) {
+            Column(Modifier) {
+                SelectionContainer {
+                    Text(text = title, style = MaterialTheme.typography.titleSmall)
+                }
+                SelectionContainer {
+                    Text(text = author, style = MaterialTheme.typography.bodySmall)
+                }
             }
+            Spacer(modifier = Modifier.weight(1f))
             val text =
                 when (downloadState) {
                     is Canceled -> stringResource(R.string.status_canceled)
@@ -275,27 +283,32 @@ fun SheetContent(
     onActionPost: (Task, DownloadState) -> Unit,
 ) {
 
-    Column {
-        Title(
-            imageModel = viewState.thumbnailUrl,
-            title = viewState.title,
-            author = viewState.uploader,
-            downloadState = downloadState,
-        )
-        LazyRow(
-            modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),
-            contentPadding = PaddingValues(horizontal = 4.dp),
-        ) {
-            ActionButtons(
-                task = task,
+    LazyColumn {
+        item {
+            Title(
+                imageModel = viewState.thumbnailUrl,
+                title = viewState.title,
+                author = viewState.uploader,
                 downloadState = downloadState,
-                viewState = viewState,
-                onDismissRequest = onDismissRequest,
-                onActionPost = onActionPost,
             )
         }
 
-        ActionSheetInfo(task = task, viewState = viewState)
+        item {
+            LazyRow(
+                modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(horizontal = 4.dp),
+            ) {
+                ActionButtons(
+                    task = task,
+                    downloadState = downloadState,
+                    viewState = viewState,
+                    onDismissRequest = onDismissRequest,
+                    onActionPost = onActionPost,
+                )
+            }
+        }
+
+        item { ActionSheetInfo(task = task, viewState = viewState) }
     }
 }
 
@@ -437,7 +450,8 @@ private fun SheetPreview() {
 
     val viewState =
         ViewState(
-            title = "https://www.example.com",
+            title = "loooooooooooooooooong title sample",
+            uploader = "author loooooooooooooooooooooonggggggggggggggggg\n",
             videoFormats =
                 listOf(
                     Format(
@@ -493,6 +507,11 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: ViewSt
     with(viewState) {
         Column(modifier = modifier) {
             HorizontalDivider()
+            Text(
+                stringResource(R.string.media_info),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp),
+            )
             ActionSheetItem(
                 text = {
                     Text(
