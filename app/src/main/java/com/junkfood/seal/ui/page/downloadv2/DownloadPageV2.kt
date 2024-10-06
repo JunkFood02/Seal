@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.downloadv2
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -65,13 +66,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,18 +100,16 @@ import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalWindowWidthState
-import com.junkfood.seal.ui.component.ActionButton
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
-import com.junkfood.seal.ui.component.StateIndicator
-import com.junkfood.seal.ui.component.VideoCardV2
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.getErrorReport
 import com.junkfood.seal.util.makeToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -159,6 +161,26 @@ enum class Filter {
     }
 }
 
+sealed interface UiAction {
+    data class OpenFile(val filePath: String?) : UiAction
+
+    data class ShareFile(val filePath: String?) : UiAction
+
+    data class OpenThumbnailURL(val url: String) : UiAction
+
+    data object CopyVideoURL : UiAction
+
+    data class OpenVideoURL(val url: String) : UiAction
+
+    data object Cancel : UiAction
+
+    data object Delete : UiAction
+
+    data object Resume : UiAction
+
+    data class CopyErrorReport(val throwable: Throwable) : UiAction
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadPageV2(
@@ -170,6 +192,8 @@ fun DownloadPageV2(
     val view = LocalView.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val clipboardManager = LocalClipboardManager.current
+    val uriHandler = LocalUriHandler.current
 
     DownloadPageImplV2(
         modifier = modifier,
@@ -179,22 +203,38 @@ fun DownloadPageV2(
             dialogViewModel.postAction(Action.ShowSheet())
         },
         onMenuOpen = onMenuOpen,
-    ) { task, state ->
-        when (state) {
-            is Canceled,
-            is Error -> {
-                downloader.restart(task)
+    ) { task, action ->
+        view.slightHapticFeedback()
+        when (action) {
+            UiAction.Cancel -> downloader.cancel(task)
+            UiAction.Delete -> downloader.remove(task)
+            UiAction.Resume -> downloader.restart(task)
+            is UiAction.CopyErrorReport -> {
+                clipboardManager.setText(
+                    AnnotatedString(getErrorReport(action.throwable, task.url))
+                )
+                context.makeToast(R.string.error_copied)
             }
-            is Completed -> {
-                state.filePath?.let {
-                    FileUtil.openFile(it) { context.makeToast(R.string.file_unavailable) }
+            UiAction.CopyVideoURL -> {
+                clipboardManager.setText(AnnotatedString(task.url))
+                context.makeToast(R.string.link_copied)
+            }
+            is UiAction.OpenFile -> {
+                action.filePath?.let {
+                    FileUtil.openFile(path = it) { context.makeToast(R.string.file_unavailable) }
                 }
             }
-            Idle,
-            ReadyWithInfo,
-            is FetchingInfo,
-            is Running -> {
-                downloader.cancel(task)
+            is UiAction.OpenThumbnailURL -> {
+                uriHandler.openUri(action.url)
+            }
+            is UiAction.OpenVideoURL -> {
+                uriHandler.openUri(action.url)
+            }
+            is UiAction.ShareFile -> {
+                val shareTitle = context.getString(R.string.share)
+                FileUtil.createIntentForSharingFile(action.filePath)?.let {
+                    context.startActivity(Intent.createChooser(it, shareTitle))
+                }
             }
         }
     }
@@ -259,8 +299,6 @@ private operator fun PaddingValues.plus(other: PaddingValues): PaddingValues {
     )
 }
 
-private const val HeaderOffsetDpValue = 36
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadPageImplV2(
@@ -268,7 +306,7 @@ fun DownloadPageImplV2(
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
     onMenuOpen: (() -> Unit)? = null,
-    onActionPost: (Task, DownloadState) -> Unit,
+    onActionPost: (Task, UiAction) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
     val filteredMap = taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) }
@@ -367,7 +405,7 @@ fun DownloadPageImplV2(
                                         modifier = Modifier,
                                         downloadState = state.downloadState,
                                     ) {
-                                        onActionPost(task, state.downloadState)
+                                        onActionPost(task, it)
                                     }
                                 },
                                 stateIndicator = {
@@ -640,6 +678,10 @@ internal class DownloadPageV2Test {
             override fun enqueue(task: Task) {}
 
             override fun enqueue(task: Task, state: Task.State) {}
+
+            override fun remove(task: Task): Boolean {
+                return true
+            }
         }
 
     @Composable

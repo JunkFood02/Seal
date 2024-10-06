@@ -6,13 +6,14 @@ import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.text.isDigitsOnly
+import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import java.util.regex.Pattern
-import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
+import kotlin.math.roundToInt
 
 @Deprecated("Use extension functions of Context to show a toast")
 object ToastUtil {
@@ -104,6 +105,9 @@ fun Number?.toBitrateText(): String {
         else -> "%.2f Mbps".format(br / 1024f)
     }
 }
+
+fun getErrorReport(th: Throwable, url: String): String =
+    App.getVersionReport() + "\nURL: ${url}\n${th.message}"
 
 @Deprecated(
     "Use findURLsFromString instead",

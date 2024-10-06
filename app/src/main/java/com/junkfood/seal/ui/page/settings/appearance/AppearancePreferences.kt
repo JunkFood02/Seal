@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.appearance
 
-import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -60,13 +59,13 @@ import com.junkfood.seal.ui.common.LocalDynamicColorSwitch
 import com.junkfood.seal.ui.common.LocalPaletteStyleIndex
 import com.junkfood.seal.ui.common.LocalSeedColor
 import com.junkfood.seal.ui.common.Route
-import com.junkfood.seal.ui.component.ActionButton
+import com.junkfood.seal.ui.page.downloadv2.ActionButton
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.component.PreferenceSwitchWithDivider
-import com.junkfood.seal.ui.component.StateIndicator
-import com.junkfood.seal.ui.component.VideoCardV2
+import com.junkfood.seal.ui.page.downloadv2.StateIndicator
+import com.junkfood.seal.ui.page.downloadv2.VideoCardV2
 import com.junkfood.seal.util.DarkThemePreference.Companion.OFF
 import com.junkfood.seal.util.DarkThemePreference.Companion.ON
 import com.junkfood.seal.util.PreferenceUtil

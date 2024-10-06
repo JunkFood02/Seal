@@ -53,6 +53,8 @@ interface DownloaderV2 {
         val (task, state) = taskWithState
         enqueue(task, state)
     }
+
+    fun remove(task: Task): Boolean
 }
 
 internal object FakeDownloaderV2 : DownloaderV2 {
@@ -67,6 +69,10 @@ internal object FakeDownloaderV2 : DownloaderV2 {
     override fun enqueue(task: Task) {}
 
     override fun enqueue(task: Task, state: Task.State) {}
+
+    override fun remove(task: Task): Boolean {
+        return true
+    }
 }
 
 /**
@@ -105,6 +111,19 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
 
     override fun enqueue(task: Task, state: Task.State) {
         taskStateMap += task to state
+    }
+
+    /**
+     * Noted the caller is responsible for stopping the [task] before removing it
+     *
+     * @return true if the task was removed
+     */
+    override fun remove(task: Task): Boolean {
+        if (taskStateMap.contains(task)) {
+            taskStateMap.remove(task)
+            return true
+        }
+        return false
     }
 
     override fun cancel(task: Task) {

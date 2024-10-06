@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.component
+package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
@@ -47,7 +47,6 @@ import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalFixedColorRoles
-import com.junkfood.seal.ui.theme.FixedAccentColors
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
@@ -259,32 +258,31 @@ fun StateIndicator(modifier: Modifier = Modifier, downloadState: Task.DownloadSt
 fun ActionButton(
     modifier: Modifier = Modifier,
     downloadState: Task.DownloadState,
-    onClick: () -> Unit,
-) {
+    onActionPost: (UiAction) -> Unit,
+) =
     when (downloadState) {
         is Task.DownloadState.Error -> {
-            RestartButton(modifier, onClick)
+            RestartButton(modifier = modifier) { onActionPost(UiAction.Resume) }
         }
         is Task.DownloadState.Canceled -> {
-            ResumeButton(modifier, downloadState.progress, onClick)
+            ResumeButton(modifier = modifier, downloadState.progress) {
+                onActionPost(UiAction.Resume)
+            }
         }
         is Task.DownloadState.Completed -> {
-            PlayVideoButton(modifier, onClick)
+            PlayVideoButton(modifier = modifier) { onActionPost(UiAction.OpenFile(downloadState.filePath)) }
         }
         is Task.DownloadState.FetchingInfo,
         Task.DownloadState.ReadyWithInfo,
         Task.DownloadState.Idle -> {
-            ProgressButton(modifier = modifier, progress = -1f, onClick = onClick)
+            ProgressButton(modifier = modifier, progress = -1f) { onActionPost(UiAction.Cancel) }
         }
         is Task.DownloadState.Running -> {
-            ProgressButton(
-                modifier = modifier,
-                progress = downloadState.progress,
-                onClick = onClick,
-            )
+            ProgressButton(modifier = modifier, progress = downloadState.progress) {
+                onActionPost(UiAction.Cancel)
+            }
         }
     }
-}
 
 @Composable
 private fun ResumeButton(

@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.downloadv2
 
-import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -52,16 +51,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.download.FakeDownloaderV2
 import com.junkfood.seal.download.Task
@@ -74,16 +68,13 @@ import com.junkfood.seal.download.Task.DownloadState.Idle
 import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.AsyncImageImpl
-import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.component.ActionSheetItem
 import com.junkfood.seal.ui.component.ActionSheetPrimaryButton
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.theme.ErrorTonalPalettes
 import com.junkfood.seal.ui.theme.SealTheme
-import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.Format
-import com.junkfood.seal.util.makeToast
 import com.junkfood.seal.util.toBitrateText
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
@@ -280,7 +271,7 @@ fun SheetContent(
     viewState: ViewState,
     downloadState: DownloadState,
     onDismissRequest: () -> Unit,
-    onActionPost: (Task, DownloadState) -> Unit,
+    onActionPost: (Task, UiAction) -> Unit,
 ) {
 
     LazyColumn {
@@ -317,13 +308,13 @@ fun LazyListScope.ActionButtons(
     downloadState: DownloadState,
     viewState: ViewState,
     onDismissRequest: () -> Unit,
-    onActionPost: (Task, DownloadState) -> Unit,
+    onActionPost: (Task, UiAction) -> Unit,
 ) {
     when (downloadState) {
         is Canceled -> {
             item(key = "ResumeButton") {
                 ResumeButton(modifier = Modifier.animateItem()) {
-                    onActionPost(task, downloadState)
+                    onActionPost(task, UiAction.Resume)
                     onDismissRequest()
                 }
             }
@@ -331,41 +322,26 @@ fun LazyListScope.ActionButtons(
         is Completed -> {
             item(key = "PlayButton") {
                 PlayButton(modifier = Modifier.animateItem()) {
-                    onActionPost(task, downloadState)
+                    onActionPost(task, UiAction.OpenFile(downloadState.filePath))
                     onDismissRequest()
                 }
             }
             item(key = "ShareButton") {
-                val context = LocalContext.current
-                val shareTitle = stringResource(R.string.share)
-
                 ShareButton(modifier = Modifier.animateItem()) {
-                    FileUtil.createIntentForSharingFile(downloadState.filePath)?.runCatching {
-                        context.startActivity(Intent.createChooser(this, shareTitle))
-                    }
+                    onActionPost(task, UiAction.ShareFile(downloadState.filePath))
                 }
             }
         }
         is Error -> {
             item(key = "ResumeButton") {
                 ResumeButton(modifier = Modifier.animateItem()) {
-                    onActionPost(task, downloadState)
+                    onActionPost(task, UiAction.Resume)
                     onDismissRequest()
                 }
             }
             item(key = "ErrorReportButton") {
-                val view = LocalView.current
-                val context = LocalContext.current
-                val clipboardManager = LocalClipboardManager.current
                 ErrorReportButton(modifier = Modifier.animateItem()) {
-                    view.longPressHapticFeedback()
-                    clipboardManager.setText(
-                        AnnotatedString(
-                            App.getVersionReport() +
-                                "\nURL: ${task.url}\n${downloadState.throwable.message}"
-                        )
-                    )
-                    context.makeToast(R.string.error_copied)
+                    onActionPost(task, UiAction.CopyErrorReport(downloadState.throwable))
                 }
             }
         }
@@ -373,39 +349,36 @@ fun LazyListScope.ActionButtons(
         ReadyWithInfo,
         Idle,
         is Running -> {
-            /*            if (state is Running) {
-                item(key = "DownloadLogButton") {
-                    DownloadLogButton(modifier = Modifier.animateItem()) {}
-                }
-            }*/
             item(key = "CancelButton") {
                 CancelButton(modifier = Modifier.animateItem()) {
-                    onActionPost(task, downloadState)
+                    onActionPost(task, UiAction.Cancel)
                     onDismissRequest()
                 }
             }
         }
     }
     if (downloadState is DownloadState.Restartable) {
-        item(key = "DeleteButton") { DeleteButton(modifier = Modifier.animateItem()) {} }
+        item(key = "DeleteButton") {
+            DeleteButton(modifier = Modifier.animateItem()) {
+                onActionPost(task, UiAction.Delete)
+                onDismissRequest()
+            }
+        }
     }
     item(key = "CopyURLButton") {
-        val clipboardManager = LocalClipboardManager.current
-        val context = LocalContext.current
         CopyURLButton(modifier = Modifier.animateItem()) {
-            clipboardManager.setText(AnnotatedString(task.url))
-            context.makeToast(R.string.link_copied)
+            onActionPost(task, UiAction.CopyVideoURL)
         }
     }
     item(key = "OpenVideoURLButton") {
-        val uriHandler = LocalUriHandler.current
-        OpenVideoURLButton(modifier = Modifier.animateItem()) { uriHandler.openUri(task.url) }
+        OpenVideoURLButton(modifier = Modifier.animateItem()) {
+            onActionPost(task, UiAction.OpenVideoURL(viewState.url))
+        }
     }
     if (!viewState.thumbnailUrl.isNullOrEmpty()) {
         item(key = "OpenThumbnailURLButton") {
-            val uriHandler = LocalUriHandler.current
             OpenThumbnailURLButton(modifier = Modifier.animateItem()) {
-                uriHandler.openUri(viewState.thumbnailUrl)
+                onActionPost(task, UiAction.OpenThumbnailURL(viewState.thumbnailUrl))
             }
         }
     }
@@ -476,26 +449,7 @@ private fun SheetPreview() {
                     viewState = viewState,
                     downloadState = downloadState,
                     onDismissRequest = { scope.launch { sheetState.hide() } },
-                ) { task, state ->
-                    when (state) {
-                        is Canceled,
-                        is Error -> {
-                            downloader.restart(task)
-                        }
-                        is Completed -> {
-                            state.filePath?.let {
-                                FileUtil.openFile(it) {
-                                    context.makeToast(R.string.file_unavailable)
-                                }
-                            }
-                        }
-                        Idle,
-                        ReadyWithInfo,
-                        is FetchingInfo,
-                        is Running -> {
-                            downloader.cancel(task)
-                        }
-                    }
+                ) { task, action ->
                 }
             }
         }
