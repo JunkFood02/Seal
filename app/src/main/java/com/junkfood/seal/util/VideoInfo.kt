@@ -1,8 +1,8 @@
 package com.junkfood.seal.util
 
+import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.roundToInt
 
 sealed interface YoutubeDLInfo
 
@@ -11,29 +11,30 @@ data class VideoInfo(
     val id: String = "",
     val title: String = "",
     val formats: List<Format>? = emptyList(),
-//    val thumbnails: List<Thumbnail> = emptyList(),
+    //    val thumbnails: List<Thumbnail> = emptyList(),
     val thumbnail: String? = null,
     val description: String? = null,
     val uploader: String? = null,
     @SerialName("uploader_id") val uploaderId: String? = null,
     val subtitles: Map<String, List<SubtitleFormat>> = emptyMap(),
-    @SerialName("automatic_captions") val automaticCaptions: Map<String, List<SubtitleFormat>> = emptyMap(),
-//    @SerialName("uploader_id") val uploaderId: String? = null,
-//    @SerialName("uploader_url") val uploaderUrl: String? = null,
-//    @SerialName("channel_id") val channelId: Int? = null,
-//    @SerialName("channel_url") val channelUrl: String? = null,
+    @SerialName("automatic_captions")
+    val automaticCaptions: Map<String, List<SubtitleFormat>> = emptyMap(),
+    //    @SerialName("uploader_id") val uploaderId: String? = null,
+    //    @SerialName("uploader_url") val uploaderUrl: String? = null,
+    //    @SerialName("channel_id") val channelId: Int? = null,
+    //    @SerialName("channel_url") val channelUrl: String? = null,
     val duration: Double? = null,
     @SerialName("view_count") val viewCount: Long? = null,
     @SerialName("webpage_url") val webpageUrl: String? = null,
-//    @SerialName("categories") val categories: List<String> = emptyList(),
+    //    @SerialName("categories") val categories: List<String> = emptyList(),
     val tags: List<String>? = emptyList(),
     @SerialName("live_status") val liveStatus: String? = null,
-//    @SerialName("release_timestamp") val releaseTimestamp: Int? = null,
+    //    @SerialName("release_timestamp") val releaseTimestamp: Int? = null,
     @SerialName("comment_count") val commentCount: Int? = null,
     val chapters: List<Chapter>? = null,
     @SerialName("like_count") val likeCount: Int? = null,
     val channel: String? = null,
-//    @SerialName("channel_follower_count") val channelFollowerCount: Int? = null,
+    //    @SerialName("channel_follower_count") val channelFollowerCount: Int? = null,
     @SerialName("upload_date") val uploadDate: String? = null,
     val availability: String? = null,
     @SerialName("original_url") val originalUrl: String? = null,
@@ -92,23 +93,28 @@ data class Format(
     val tbr: Double? = null,
     @SerialName("filesize") val fileSize: Double? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
-)
-
-data class VideoClip(
-    val start: Int = 0, val end: Int = 0
 ) {
-    constructor(range: ClosedFloatingPointRange<Float>) : this(
-        range.start.roundToInt(), range.endInclusive.roundToInt()
-    )
+    fun isAudioOnly(): Boolean = vcodec == null || vcodec == "none"
+
+    fun isVideoOnly(): Boolean = acodec == null || acodec == "none"
+
+    fun containsVideo(): Boolean = vcodec != null && vcodec != "none"
+
+    fun containsAudio(): Boolean = acodec != null && acodec != "none"
+}
+
+data class VideoClip(val start: Int = 0, val end: Int = 0) {
+    constructor(
+        range: ClosedFloatingPointRange<Float>
+    ) : this(range.start.roundToInt(), range.endInclusive.roundToInt())
 }
 
 @Serializable
 data class Chapter(
     val title: String? = null,
     @SerialName("start_time") val startTime: Double? = null,
-    @SerialName("end_time") val endTime: Double? = null
+    @SerialName("end_time") val endTime: Double? = null,
 )
-
 
 @Serializable
 data class RequestedDownload(
@@ -133,26 +139,27 @@ data class RequestedDownload(
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
     val filename: String? = null,
 ) {
-    fun toFormat(): Format = Format(
-        formatId = formatId,
-        formatNote = formatNote,
-        ext = ext,
-        acodec = acodec,
-        vcodec = vcodec,
-        url = url,
-        width = width,
-        height = height,
-        fps = fps,
-        audioExt = audioExt,
-        videoExt = videoExt,
-        format = format,
-        resolution = resolution,
-        vbr = vbr,
-        abr = abr,
-        tbr = tbr,
-        fileSize = fileSize,
-        fileSizeApprox = fileSizeApprox,
-    )
+    fun toFormat(): Format =
+        Format(
+            formatId = formatId,
+            formatNote = formatNote,
+            ext = ext,
+            acodec = acodec,
+            vcodec = vcodec,
+            url = url,
+            width = width,
+            height = height,
+            fps = fps,
+            audioExt = audioExt,
+            videoExt = videoExt,
+            format = format,
+            resolution = resolution,
+            vbr = vbr,
+            abr = abr,
+            tbr = tbr,
+            fileSize = fileSize,
+            fileSizeApprox = fileSizeApprox,
+        )
 }
 
 @Serializable
@@ -170,11 +177,7 @@ data class PlaylistResult(
 ) : YoutubeDLInfo
 
 @Serializable
-data class Thumbnail(
-    val url: String,
-    val height: Double = .0,
-    val width: Double = .0,
-)
+data class Thumbnail(val url: String, val height: Double = .0, val width: Double = .0)
 
 @Serializable
 data class PlaylistEntry(
@@ -189,8 +192,10 @@ data class PlaylistEntry(
     val thumbnails: List<Thumbnail>? = emptyList(),
 )
 
-
 @Serializable
 data class SubtitleFormat(
-    val ext: String, val url: String, val name: String? = null, val protocol: String? = null
+    val ext: String,
+    val url: String,
+    val name: String? = null,
+    val protocol: String? = null,
 )

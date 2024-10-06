@@ -55,6 +55,20 @@ interface DownloaderV2 {
     }
 }
 
+internal object FakeDownloaderV2 : DownloaderV2 {
+    override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
+        return mutableStateMapOf()
+    }
+
+    override fun cancel(task: Task) {}
+
+    override fun restart(task: Task) {}
+
+    override fun enqueue(task: Task) {}
+
+    override fun enqueue(task: Task, state: Task.State) {}
+}
+
 /**
  * TODO:
  *     - Notification
@@ -85,7 +99,8 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     }
 
     override fun enqueue(task: Task) {
-        taskStateMap += task to Task.State(Idle, null, Task.ViewState(url = task.url, title = task.url))
+        taskStateMap +=
+            task to Task.State(Idle, null, Task.ViewState(url = task.url, title = task.url))
     }
 
     override fun enqueue(task: Task, state: Task.State) {
@@ -164,7 +179,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                     .onSuccess {
                         info = it
                         downloadState = ReadyWithInfo
-                        viewState = Task.ViewState(it)
+                        viewState = Task.ViewState.fromVideoInfo(it)
                     }
                     .onFailure { throwable ->
                         if (throwable is YoutubeDL.CanceledException) {

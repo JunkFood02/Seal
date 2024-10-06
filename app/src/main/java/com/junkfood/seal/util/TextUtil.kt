@@ -95,6 +95,16 @@ fun matchUrlFromSharedText(s: String): String {
     }
 }
 
+fun Number?.toBitrateText(): String {
+    val br = this?.toFloat() ?: return ""
+    return when {
+        br <= 0f -> "" // i don't care
+        br < 1024f -> "%.1f Kbps".format(br)
+
+        else -> "%.2f Mbps".format(br / 1024f)
+    }
+}
+
 @Deprecated(
     "Use findURLsFromString instead",
     ReplaceWith("findURLsFromString(s, !isMatchingMultiLink).joinToString(separator = \"\\n\")"),

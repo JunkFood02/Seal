@@ -1,11 +1,12 @@
 package com.junkfood.seal.download
 
+import com.junkfood.seal.download.Task.ViewState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlinx.coroutines.Job
 import kotlin.math.roundToInt
+import kotlinx.coroutines.Job
 
 data class Task(
     val url: String,
@@ -14,7 +15,7 @@ data class Task(
     val id: String = makeId(url, playlistIndex, preferences),
 ) : Comparable<Task> {
 
-    private val timeCreated: Long = System.currentTimeMillis()
+    val timeCreated: Long = System.currentTimeMillis()
 
     override fun compareTo(other: Task): Int {
         return timeCreated.compareTo(other.timeCreated)
@@ -95,21 +96,32 @@ data class Task(
         val duration: Int = 0,
         val fileSizeApprox: Double = .0,
         val thumbnailUrl: String? = null,
-        val videoFormat: Format? = null,
-        val audioFormat: Format? = null
+        val videoFormats: List<Format>? = null,
+        val audioOnlyFormats: List<Format>? = null,
     ) {
+        companion object {
+            fun fromVideoInfo(info: VideoInfo): ViewState {
+                val formats =
+                    info.requestedFormats
+                        ?: info.requestedDownloads?.map { it.toFormat() }
+                        ?: emptyList()
 
-        constructor(
-            info: VideoInfo
-        ) : this(
-            url = info.originalUrl.toString(),
-            title = info.title,
-            uploader = info.uploader ?: info.channel ?: info.uploaderId.toString(),
-            extractorKey = info.extractorKey,
-            duration = info.duration?.roundToInt() ?: 0,
-            thumbnailUrl = info.thumbnail.toHttpsUrl(),
-            fileSizeApprox = info.fileSize ?: info.fileSizeApprox ?: .0,
-        )
+                val videoFormats = formats.filter { it.vcodec != "none" }
+                val audioOnlyFormats = formats.filter { it.acodec != "none" && it.vcodec == "none" }
+
+                return ViewState(
+                    url = info.originalUrl.toString(),
+                    title = info.title,
+                    uploader = info.uploader ?: info.channel ?: info.uploaderId.toString(),
+                    extractorKey = info.extractorKey,
+                    duration = info.duration?.roundToInt() ?: 0,
+                    thumbnailUrl = info.thumbnail.toHttpsUrl(),
+                    fileSizeApprox = info.fileSize ?: info.fileSizeApprox ?: .0,
+                    videoFormats = videoFormats,
+                    audioOnlyFormats = audioOnlyFormats,
+                )
+            }
+        }
     }
 
     companion object {

@@ -35,11 +35,10 @@ object TaskFactory {
                 .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
                 .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
 
-        val audioOnly =
-            formatList.isNotEmpty() &&
-                formatList.fold(true) { acc: Boolean, format: Format ->
-                    acc && (format.vcodec == "none" && format.acodec != "none")
-                }
+        val audioOnlyFormats = formatList.filter { it.vcodec == "none" && it.acodec != "none" }
+        val videoFormats = formatList.filter { it.vcodec != "none" }
+
+        val audioOnly = audioOnlyFormats.isNotEmpty() && videoFormats.isEmpty()
 
         val mergeAudioStream =
             formatList.count { format -> format.vcodec == "none" && format.acodec != "none" } > 1
@@ -78,7 +77,9 @@ object TaskFactory {
             Task.State(
                 downloadState = ReadyWithInfo,
                 videoInfo = info,
-                viewState = Task.ViewState(info = info),
+                viewState =
+                    Task.ViewState.fromVideoInfo(info = info)
+                        .copy(videoFormats = videoFormats, audioOnlyFormats = audioOnlyFormats),
             )
 
         return TaskWithState(task, state)

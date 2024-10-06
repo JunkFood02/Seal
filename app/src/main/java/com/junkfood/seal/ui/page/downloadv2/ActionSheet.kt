@@ -1,5 +1,6 @@
 package com.junkfood.seal.ui.page.downloadv2
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,9 +24,9 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.VideoFile
-import androidx.compose.material.icons.outlined.Web
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Share
@@ -42,17 +43,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.download.FakeDownloaderV2
 import com.junkfood.seal.download.Task
+import com.junkfood.seal.download.Task.DownloadState
 import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
 import com.junkfood.seal.download.Task.DownloadState.Error
@@ -61,6 +71,7 @@ import com.junkfood.seal.download.Task.DownloadState.Idle
 import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.AsyncImageImpl
+import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.component.ActionSheetItem
@@ -68,10 +79,15 @@ import com.junkfood.seal.ui.component.ActionSheetPrimaryButton
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.theme.ErrorTonalPalettes
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.FileUtil
+import com.junkfood.seal.util.Format
+import com.junkfood.seal.util.makeToast
+import com.junkfood.seal.util.toBitrateText
 import com.junkfood.seal.util.toDurationText
 import com.junkfood.seal.util.toFileSizeText
 import com.junkfood.seal.util.toLocalizedString
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @Composable
 private fun ShareButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
@@ -246,7 +262,14 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Task.D
 }
 
 @Composable
-fun SheetContent(viewState: Task.ViewState, downloadState: Task.DownloadState) {
+fun SheetContent(
+    task: Task,
+    viewState: Task.ViewState,
+    downloadState: Task.DownloadState,
+    onDismissRequest: () -> Unit,
+    onActionPost: (Task, DownloadState) -> Unit,
+) {
+
     Column {
         Title(
             imageModel = viewState.thumbnailUrl,
@@ -255,47 +278,115 @@ fun SheetContent(viewState: Task.ViewState, downloadState: Task.DownloadState) {
             downloadState = downloadState,
         )
         LazyRow(modifier = Modifier.padding(top = 16.dp, bottom = 24.dp)) {
-            ActionButtons(downloadState)
+            ActionButtons(
+                task = task,
+                downloadState = downloadState,
+                viewState = viewState,
+                onDismissRequest = onDismissRequest,
+                onActionPost = onActionPost,
+            )
         }
 
-        ActionSheetInfo(viewState = viewState)
+        ActionSheetInfo(task = task, viewState = viewState)
     }
 }
 
-fun LazyListScope.ActionButtons(state: Task.DownloadState) {
-    when (state) {
+fun LazyListScope.ActionButtons(
+    task: Task,
+    downloadState: Task.DownloadState,
+    viewState: Task.ViewState,
+    onDismissRequest: () -> Unit,
+    onActionPost: (Task, DownloadState) -> Unit,
+) {
+    when (downloadState) {
         is Canceled -> {
-            item(key = "ResumeButton") { ResumeButton(modifier = Modifier.animateItem()) {} }
+            item(key = "ResumeButton") {
+                ResumeButton(modifier = Modifier.animateItem()) {
+                    onActionPost(task, downloadState)
+                    onDismissRequest()
+                }
+            }
         }
         is Completed -> {
-            item(key = "PlayButton") { PlayButton(modifier = Modifier.animateItem()) {} }
-            item(key = "ShareButton") { ShareButton(modifier = Modifier.animateItem()) {} }
+            item(key = "PlayButton") {
+                PlayButton(modifier = Modifier.animateItem()) {
+                    onActionPost(task, downloadState)
+                    onDismissRequest()
+                }
+            }
+            item(key = "ShareButton") {
+                val context = LocalContext.current
+                val shareTitle = stringResource(R.string.share)
+
+                ShareButton(modifier = Modifier.animateItem()) {
+                    FileUtil.createIntentForSharingFile(downloadState.filePath)?.runCatching {
+                        context.startActivity(Intent.createChooser(this, shareTitle))
+                    }
+                }
+            }
         }
         is Error -> {
-            item(key = "ResumeButton") { ResumeButton(modifier = Modifier.animateItem()) {} }
+            item(key = "ResumeButton") {
+                ResumeButton(modifier = Modifier.animateItem()) {
+                    onActionPost(task, downloadState)
+                    onDismissRequest()
+                }
+            }
             item(key = "ErrorReportButton") {
-                ErrorReportButton(modifier = Modifier.animateItem()) {}
+                val view = LocalView.current
+                val context = LocalContext.current
+                val clipboardManager = LocalClipboardManager.current
+                ErrorReportButton(modifier = Modifier.animateItem()) {
+                    view.longPressHapticFeedback()
+                    clipboardManager.setText(
+                        AnnotatedString(
+                            App.getVersionReport() +
+                                "\nURL: ${task.url}\n${downloadState.throwable.message}"
+                        )
+                    )
+                    context.makeToast(R.string.error_copied)
+                }
             }
         }
         is FetchingInfo,
         ReadyWithInfo,
         Idle,
         is Running -> {
-            if (state is Running) {
+            /*            if (state is Running) {
                 item(key = "DownloadLogButton") {
                     DownloadLogButton(modifier = Modifier.animateItem()) {}
                 }
+            }*/
+            item(key = "CancelButton") {
+                CancelButton(modifier = Modifier.animateItem()) {
+                    onActionPost(task, downloadState)
+                    onDismissRequest()
+                }
             }
-            item(key = "CancelButton") { CancelButton(modifier = Modifier.animateItem()) {} }
         }
     }
-    if (state is Task.DownloadState.Restartable) {
+    if (downloadState is DownloadState.Restartable) {
         item(key = "DeleteButton") { DeleteButton(modifier = Modifier.animateItem()) {} }
     }
-    item(key = "CopyURLButton") { CopyURLButton(modifier = Modifier.animateItem()) {} }
-    item(key = "OpenVideoURLButton") { OpenVideoURLButton(modifier = Modifier.animateItem()) {} }
-    item(key = "OpenThumbnailURLButton") {
-        OpenThumbnailURLButton(modifier = Modifier.animateItem()) {}
+    item(key = "CopyURLButton") {
+        val clipboardManager = LocalClipboardManager.current
+        val context = LocalContext.current
+        CopyURLButton(modifier = Modifier.animateItem()) {
+            clipboardManager.setText(AnnotatedString(task.url))
+            context.makeToast(R.string.link_copied)
+        }
+    }
+    item(key = "OpenVideoURLButton") {
+        val uriHandler = LocalUriHandler.current
+        OpenVideoURLButton(modifier = Modifier.animateItem()) { uriHandler.openUri(task.url) }
+    }
+    if (!viewState.thumbnailUrl.isNullOrEmpty()) {
+        item(key = "OpenThumbnailURLButton") {
+            val uriHandler = LocalUriHandler.current
+            OpenThumbnailURLButton(modifier = Modifier.animateItem()) {
+                uriHandler.openUri(viewState.thumbnailUrl)
+            }
+        }
     }
 }
 
@@ -324,11 +415,35 @@ private fun SheetPreview() {
             Completed(null),
         )
     LaunchedEffect(Unit) {
-        fakeStateList.forEach {
-            downloadState = it
-            kotlinx.coroutines.delay(1000)
+        while (true) {
+            fakeStateList.forEach {
+                downloadState = it
+                kotlinx.coroutines.delay(1000)
+            }
         }
     }
+
+    val context = LocalContext.current
+    val downloader = FakeDownloaderV2
+    val scope = rememberCoroutineScope()
+
+    val viewState =
+        Task.ViewState(
+            title = "https://www.example.com",
+            videoFormats =
+                listOf(
+                    Format(
+                        vcodec = "vp9",
+                        resolution = "1280x720",
+                        tbr = 1294.0,
+                        fileSize = 114514.0,
+                    )
+                ),
+            audioOnlyFormats =
+                listOf(
+                    Format(acodec = "a", resolution = "1280x720", tbr = 1294.0, fileSize = 114514.0)
+                ),
+        )
 
     SealTheme {
         Surface() {
@@ -338,23 +453,45 @@ private fun SheetPreview() {
                 sheetState = sheetState,
             ) {
                 SheetContent(
-                    viewState = Task.ViewState(title = "https://www.example.com"),
+                    task = Task(url = "https://www.example.com", preferences = PreferencesMock),
+                    viewState = viewState,
                     downloadState = downloadState,
-                )
+                    onDismissRequest = { scope.launch { sheetState.hide() } },
+                ) { task, state ->
+                    when (state) {
+                        is Canceled,
+                        is Error -> {
+                            downloader.restart(task)
+                        }
+                        is Completed -> {
+                            state.filePath?.let {
+                                FileUtil.openFile(it) {
+                                    context.makeToast(R.string.file_unavailable)
+                                }
+                            }
+                        }
+                        Idle,
+                        ReadyWithInfo,
+                        is FetchingInfo,
+                        is Running -> {
+                            downloader.cancel(task)
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun ActionSheetInfo(modifier: Modifier = Modifier, viewState: Task.ViewState) {
+fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: Task.ViewState) {
     with(viewState) {
         Column(modifier = modifier) {
             HorizontalDivider()
             ActionSheetItem(
                 text = {
                     Text(
-                        1678886400000L.toLocalizedString(),
+                        task.timeCreated.toLocalizedString(),
                         style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
@@ -366,33 +503,62 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, viewState: Task.ViewState) {
                     Icon(imageVector = Icons.Outlined.FileDownload, contentDescription = null)
                 },
             )
-            ActionSheetItem(
-                text = {
-                    Text("Video: vp9", style = MaterialTheme.typography.titleSmall)
-                    Text(
-                        "745.7Kbps · 1280x720 · 69.00MB",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Outlined.VideoFile, contentDescription = null)
-                },
-            )
-            ActionSheetItem(
-                text = {
-                    Text("Audio: mp4a", style = MaterialTheme.typography.titleSmall)
-                    Text("72Kbps · 3.00MB", style = MaterialTheme.typography.bodySmall)
-                },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Outlined.AudioFile, contentDescription = null)
-                },
-            )
+
+            videoFormats?.forEachIndexed { _index, fmt ->
+                val index = _index + 1
+                val fileSizeText = (fmt.fileSize ?: fmt.fileSizeApprox).toFileSizeText()
+                val bitRateText = fmt.vbr.toBitrateText()
+                val codecText =
+                    fmt.vcodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+
+                val title = "${stringResource(R.string.video)} #$index: $codecText"
+                val details =
+                    listOf(fmt.resolution, bitRateText, fileSizeText)
+                        .joinToString(separator = " · ")
+
+                ActionSheetItem(
+                    text = {
+                        Text(title, style = MaterialTheme.typography.titleSmall)
+                        Text(details, style = MaterialTheme.typography.bodySmall)
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.VideoFile, contentDescription = null)
+                    },
+                )
+            }
+
+            val audioFormats: List<Format> = buildList {
+                videoFormats?.filter { it.acodec != "none" }?.let { addAll(it) }
+                audioOnlyFormats?.let { addAll(it) }
+            }
+
+            audioFormats.forEachIndexed { _index, fmt ->
+                val index = _index + 1
+                val fileSizeText = (fmt.fileSize ?: fmt.fileSizeApprox).toFileSizeText()
+                val bitRateText = fmt.abr.toBitrateText()
+                val codecText =
+                    fmt.acodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+
+                val title = "${stringResource(R.string.audio)} #$index: $codecText"
+                val details = listOf(bitRateText, fileSizeText).joinToString(separator = " · ")
+
+                ActionSheetItem(
+                    text = {
+                        Text(title, style = MaterialTheme.typography.titleSmall)
+                        Text(details, style = MaterialTheme.typography.bodySmall)
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.AudioFile, contentDescription = null)
+                    },
+                )
+            }
+
             ActionSheetItem(
                 text = {
                     Text(text = extractorKey, style = MaterialTheme.typography.titleSmall)
                     Text(text = url, style = MaterialTheme.typography.bodySmall)
                 },
-                leadingIcon = { Icon(imageVector = Icons.Outlined.Web, contentDescription = null) },
+                leadingIcon = { Icon(imageVector = Icons.Outlined.Link, contentDescription = null) },
             )
         }
     }
