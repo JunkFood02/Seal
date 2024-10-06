@@ -21,6 +21,9 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,9 +32,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -41,6 +41,10 @@ interface DownloaderV2 {
     fun getTaskStateMap(): SnapshotStateMap<Task, Task.State>
 
     fun cancel(task: Task)
+
+    fun cancel(taskId: String) {
+        getTaskStateMap().keys.find { it.id == taskId }?.let { cancel(it) }
+    }
 
     fun restart(task: Task)
 
