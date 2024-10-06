@@ -35,7 +35,6 @@ import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -46,7 +45,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -99,11 +97,11 @@ import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.ActionButton
+import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
 import com.junkfood.seal.ui.component.StateIndicator
 import com.junkfood.seal.ui.component.VideoCardV2
-import com.junkfood.seal.ui.page.NavigationDrawer
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
@@ -263,6 +261,7 @@ private operator fun PaddingValues.plus(other: PaddingValues): PaddingValues {
 
 private const val HeaderOffsetDpValue = 36
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadPageImplV2(
     modifier: Modifier = Modifier,
@@ -275,6 +274,15 @@ fun DownloadPageImplV2(
     val filteredMap = taskDownloadStateMap.filter { activeFilter.predict(it.toPair()) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    var selectedTask by remember { mutableStateOf<Task?>(null) }
+
+    LaunchedEffect(selectedTask, taskDownloadStateMap.size) {
+        if (!taskDownloadStateMap.contains(selectedTask)) {
+            selectedTask == null
+        }
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize().statusBarsPadding(),
@@ -369,7 +377,7 @@ fun DownloadPageImplV2(
                                     )
                                 },
                             ) {
-                                context.makeToast("Not implemented yet!")
+                                selectedTask = task
                             }
                         }
                     }
@@ -384,6 +392,27 @@ fun DownloadPageImplV2(
                         Modifier.fillMaxHeight(0.4f).widthIn(max = 360.dp).align(Alignment.Center)
                 )
             }
+        }
+    }
+    if (selectedTask != null) {
+        val task = selectedTask!!
+        val (downloadState, _, viewState) = taskDownloadStateMap[task] ?: return
+        SealModalBottomSheet(
+            sheetState = sheetState,
+            contentPadding = PaddingValues(),
+            onDismissRequest = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion { selectedTask = null }
+            },
+        ) {
+            SheetContent(
+                task = task,
+                downloadState = downloadState,
+                viewState = viewState,
+                onDismissRequest = {
+                    scope.launch { sheetState.hide() }.invokeOnCompletion { selectedTask = null }
+                },
+                onActionPost = onActionPost,
+            )
         }
     }
 }
@@ -543,13 +572,6 @@ fun SubHeader(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun DrawerPreview() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    NavigationDrawer(drawerState = drawerState, onNavigateToRoute = {}, onDismissRequest = {}) {}
 }
 
 internal class DownloadPageV2Test {

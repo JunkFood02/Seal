@@ -248,9 +248,9 @@ fun SuggestedFormatItem(
     val firstLineText = connectWithDelimiter(fileSizeText, tbrText, delimiter = " ")
 
     val vcodecText =
-        videoInfo.vcodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+        videoInfo.vcodec?.substringBefore(delimiter = ".") ?: ""
     val acodecText =
-        videoInfo.acodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+        videoInfo.acodec?.substringBefore(delimiter = ".") ?: ""
 
     val codecText =
         connectWithBlank(vcodecText, acodecText).run { if (isNotBlank()) "($this)" else this }
@@ -282,8 +282,8 @@ fun FormatItem(
 ) {
 
     with(formatInfo) {
-        val vcodecText = vcodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
-        val acodecText = acodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+        val vcodecText = vcodec?.substringBefore(delimiter = ".") ?: ""
+        val acodecText = acodec?.substringBefore(delimiter = ".") ?: ""
 
         val codec =
             connectWithBlank(vcodecText, acodecText).run { if (isNotBlank()) "($this)" else this }

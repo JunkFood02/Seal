@@ -5,8 +5,8 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
+import kotlin.math.roundToInt
 
 data class Task(
     val url: String,
@@ -106,8 +106,8 @@ data class Task(
                         ?: info.requestedDownloads?.map { it.toFormat() }
                         ?: emptyList()
 
-                val videoFormats = formats.filter { it.vcodec != "none" }
-                val audioOnlyFormats = formats.filter { it.acodec != "none" && it.vcodec == "none" }
+                val videoFormats = formats.filter { it.containsVideo() }
+                val audioOnlyFormats = formats.filter { it.isAudioOnly() }
 
                 return ViewState(
                     url = info.originalUrl.toString(),

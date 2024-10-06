@@ -62,7 +62,7 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.download.FakeDownloaderV2
 import com.junkfood.seal.download.Task
-import com.junkfood.seal.download.Task.DownloadState
+import com.junkfood.seal.download.Task.*
 import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
 import com.junkfood.seal.download.Task.DownloadState.Error
@@ -72,7 +72,6 @@ import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
-import com.junkfood.seal.ui.common.LocalDarkTheme
 import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.component.ActionSheetItem
 import com.junkfood.seal.ui.component.ActionSheetPrimaryButton
@@ -214,7 +213,7 @@ private fun OpenThumbnailURLButton(modifier: Modifier = Modifier, onClick: () ->
 }
 
 @Composable
-fun Title(imageModel: Any?, title: String, author: String, downloadState: Task.DownloadState) {
+fun Title(imageModel: Any?, title: String, author: String, downloadState: DownloadState) {
 
     Row(
         modifier = Modifier.fillMaxWidth().height(64.dp).padding(horizontal = 12.dp),
@@ -234,7 +233,6 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Task.D
                 Text(text = title, style = MaterialTheme.typography.titleSmall)
                 Text(text = author, style = MaterialTheme.typography.bodySmall)
             }
-            val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
             val text =
                 when (downloadState) {
                     is Canceled -> stringResource(R.string.status_canceled)
@@ -243,7 +241,14 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Task.D
                     is FetchingInfo -> stringResource(R.string.status_fetching_video_info)
                     Idle -> stringResource(R.string.status_enqueued)
                     ReadyWithInfo -> stringResource(R.string.status_enqueued)
-                    is Running -> "${downloadState.progress * 100} %"
+                    is Running -> {
+                        val progress = downloadState.progress
+                        if (progress >= 0) {
+                            "%.1f %%".format(downloadState.progress * 100)
+                        } else {
+                            stringResource(R.string.status_downloading)
+                        }
+                    }
                 }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -264,8 +269,8 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Task.D
 @Composable
 fun SheetContent(
     task: Task,
-    viewState: Task.ViewState,
-    downloadState: Task.DownloadState,
+    viewState: ViewState,
+    downloadState: DownloadState,
     onDismissRequest: () -> Unit,
     onActionPost: (Task, DownloadState) -> Unit,
 ) {
@@ -277,7 +282,10 @@ fun SheetContent(
             author = viewState.uploader,
             downloadState = downloadState,
         )
-        LazyRow(modifier = Modifier.padding(top = 16.dp, bottom = 24.dp)) {
+        LazyRow(
+            modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp),
+        ) {
             ActionButtons(
                 task = task,
                 downloadState = downloadState,
@@ -293,8 +301,8 @@ fun SheetContent(
 
 fun LazyListScope.ActionButtons(
     task: Task,
-    downloadState: Task.DownloadState,
-    viewState: Task.ViewState,
+    downloadState: DownloadState,
+    viewState: ViewState,
     onDismissRequest: () -> Unit,
     onActionPost: (Task, DownloadState) -> Unit,
 ) {
@@ -402,14 +410,14 @@ private fun SheetPreview() {
             initialValue = SheetValue.Expanded,
         )
 
-    var downloadState: Task.DownloadState by remember { mutableStateOf(Running(Job(), "", 0.58f)) }
+    var downloadState: DownloadState by remember { mutableStateOf(Running(Job(), "", 0.58f)) }
 
     val fakeStateList =
         listOf(
             Running(Job(), "", 0.58f),
-            Error(throwable = Throwable(), Task.RestartableAction.Download),
+            Error(throwable = Throwable(), RestartableAction.Download),
             FetchingInfo(Job(), ""),
-            Canceled(Task.RestartableAction.Download),
+            Canceled(RestartableAction.Download),
             ReadyWithInfo,
             Idle,
             Completed(null),
@@ -428,21 +436,18 @@ private fun SheetPreview() {
     val scope = rememberCoroutineScope()
 
     val viewState =
-        Task.ViewState(
+        ViewState(
             title = "https://www.example.com",
             videoFormats =
                 listOf(
                     Format(
                         vcodec = "vp9",
                         resolution = "1280x720",
-                        tbr = 1294.0,
-                        fileSize = 114514.0,
+                        vbr = 129400.0,
+                        fileSize = 11451400.0,
                     )
                 ),
-            audioOnlyFormats =
-                listOf(
-                    Format(acodec = "a", resolution = "1280x720", tbr = 1294.0, fileSize = 114514.0)
-                ),
+            audioOnlyFormats = listOf(Format(acodec = "mp4a", abr = 129.0, fileSize = 114514.0)),
         )
 
     SealTheme {
@@ -484,7 +489,7 @@ private fun SheetPreview() {
 }
 
 @Composable
-fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: Task.ViewState) {
+fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: ViewState) {
     with(viewState) {
         Column(modifier = modifier) {
             HorizontalDivider()
@@ -508,12 +513,11 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: Task.V
                 val index = _index + 1
                 val fileSizeText = (fmt.fileSize ?: fmt.fileSizeApprox).toFileSizeText()
                 val bitRateText = fmt.vbr.toBitrateText()
-                val codecText =
-                    fmt.vcodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+                val codecText = fmt.vcodec?.substringBefore(delimiter = ".") ?: ""
 
-                val title = "${stringResource(R.string.video)} #$index: $codecText"
+                val title = "${stringResource(R.string.video)} #$index: ${fmt.formatNote}"
                 val details =
-                    listOf(fmt.resolution, bitRateText, fileSizeText)
+                    listOf(codecText, fmt.resolution, bitRateText, fileSizeText)
                         .joinToString(separator = " · ")
 
                 ActionSheetItem(
@@ -528,7 +532,7 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: Task.V
             }
 
             val audioFormats: List<Format> = buildList {
-                videoFormats?.filter { it.acodec != "none" }?.let { addAll(it) }
+                videoFormats?.filter { it.containsAudio() }?.let { addAll(it) }
                 audioOnlyFormats?.let { addAll(it) }
             }
 
@@ -536,11 +540,11 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: Task.V
                 val index = _index + 1
                 val fileSizeText = (fmt.fileSize ?: fmt.fileSizeApprox).toFileSizeText()
                 val bitRateText = fmt.abr.toBitrateText()
-                val codecText =
-                    fmt.acodec?.substringBefore(delimiter = ".", missingDelimiterValue = "") ?: ""
+                val codecText = fmt.acodec?.substringBefore(delimiter = ".") ?: ""
 
-                val title = "${stringResource(R.string.audio)} #$index: $codecText"
-                val details = listOf(bitRateText, fileSizeText).joinToString(separator = " · ")
+                val title = "${stringResource(R.string.audio)} #$index: ${fmt.formatNote}"
+                val details =
+                    listOf(codecText, bitRateText, fileSizeText).joinToString(separator = " · ")
 
                 ActionSheetItem(
                     text = {

@@ -107,10 +107,10 @@ import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlin.math.min
-import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 private const val TAG = "FormatPage"
 
@@ -366,9 +366,18 @@ private fun FormatPageImpl(
     val formatList: List<Format> by remember {
         derivedStateOf {
             mutableListOf<Format>().apply {
-                selectedAudioOnlyFormats.forEach { index -> add(audioOnlyFormats.elementAt(index)) }
-                videoAudioFormats.getOrNull(selectedVideoAudioFormat)?.let { add(it) }
-                videoOnlyFormats.getOrNull(selectedVideoOnlyFormat)?.let { add(it) }
+                if (isSuggestedFormatSelected) {
+                    videoInfo.requestedFormats?.let { addAll(it) }
+                        ?: videoInfo.requestedDownloads?.forEach {
+                            it.requestedFormats?.let { addAll(it) }
+                        }
+                } else {
+                    selectedAudioOnlyFormats.forEach { index ->
+                        add(audioOnlyFormats.elementAt(index))
+                    }
+                    videoAudioFormats.getOrNull(selectedVideoAudioFormat)?.let { add(it) }
+                    videoOnlyFormats.getOrNull(selectedVideoOnlyFormat)?.let { add(it) }
+                }
             }
         }
     }
@@ -498,10 +507,10 @@ private fun FormatPageImpl(
                             ) {
                                 Text(
                                     text =
-                                    stringResource(
-                                        id = R.string.split_video_msg,
-                                        videoInfo.chapters?.size ?: 0,
-                                    ),
+                                        stringResource(
+                                            id = R.string.split_video_msg,
+                                            videoInfo.chapters?.size ?: 0,
+                                        ),
                                     style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.padding(horizontal = 12.dp),
                                 )

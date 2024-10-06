@@ -22,6 +22,7 @@ import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.NetworkWifi
 import androidx.compose.material.icons.rounded.SettingsApplications
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,11 +33,13 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.junkfood.seal.R
@@ -86,7 +89,7 @@ fun NavigationDrawer(
                     PermanentDrawerSheet(
                         modifier = modifier.zIndex(1f).width(240.dp),
                         drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        windowInsets = WindowInsets(0)
+                        windowInsets = WindowInsets(0),
                     ) {
                         NavigationDrawerSheetContent(
                             modifier = Modifier,
@@ -241,4 +244,11 @@ fun NavigationDrawerSheetContent(
         Spacer(Modifier.weight(1f))
         footer?.invoke()
     }
+}
+
+@Preview
+@Composable
+private fun DrawerPreview() {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+    NavigationDrawer(drawerState = drawerState, onNavigateToRoute = {}, onDismissRequest = {}) {}
 }

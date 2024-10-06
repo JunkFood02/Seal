@@ -35,14 +35,10 @@ object TaskFactory {
                 .run { if (fileSize != .0) copy(fileSize = fileSize) else this }
                 .run { if (newTitle.isNotEmpty()) copy(title = newTitle) else this }
 
-        val audioOnlyFormats = formatList.filter { it.vcodec == "none" && it.acodec != "none" }
-        val videoFormats = formatList.filter { it.vcodec != "none" }
-
+        val audioOnlyFormats = formatList.filter { it.isAudioOnly() }
+        val videoFormats = formatList.filter { it.containsVideo() }
         val audioOnly = audioOnlyFormats.isNotEmpty() && videoFormats.isEmpty()
-
-        val mergeAudioStream =
-            formatList.count { format -> format.vcodec == "none" && format.acodec != "none" } > 1
-
+        val mergeAudioStream = audioOnlyFormats.size > 1
         val formatId = formatList.joinToString(separator = "+") { it.formatId.toString() }
 
         val subtitleLanguage =
