@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
@@ -23,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
-import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.util.toFileSizeText
 
 private const val AUDIO_REGEX = "\\.(mp3|aac|opus|m4a|flac|wav)"
@@ -51,9 +50,8 @@ fun MediaListItemPreview() {
         Surface() {
             MediaListItem(
                 title = stringResource(id = R.string.video_title_sample_text),
-                author = stringResource(
-                    id = (R.string.video_creator_sample_text)
-                ), videoFileSize = 5678 * 1024 * 1024L
+                author = stringResource(id = (R.string.video_creator_sample_text)),
+                videoFileSize = 5678 * 1024 * 1024L,
             )
         }
     }
@@ -77,44 +75,30 @@ fun MediaListItem(
     onShowContextMenu: () -> Unit = {},
 ) {
     val isAudio = videoPath.contains(Regex(AUDIO_REGEX))
-    val imageWeight = when (LocalWindowWidthState.current) {
-        WindowWidthSizeClass.Expanded -> {
-            if (isAudio) 0.30f else 0.40f
-        }
-
-        WindowWidthSizeClass.Medium -> {
-            if (isAudio) 0.20f else 0.30f
-        }
-
-        else -> {
-            if (isAudio) 0.25f else 0.45f
-        }
-    }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
     val isFileAvailable = videoFileSize != 0L
     val fileSizeText = videoFileSize.toFileSizeText()
 
     Box(
-        modifier = with(modifier) {
-            if (!isSelectEnabled()) combinedClickable(
-                enabled = true,
-                onClick = { onClick() },
-                onClickLabel = stringResource(R.string.open_file),
-                onLongClick = {
-                    onLongClick()
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                },
-                onLongClickLabel = stringResource(R.string.multiselect_mode)
-            )
-            else selectable(selected = isSelected(), onClick = onSelect)
-        }.fillMaxWidth(),
-    ) {
-        Row(
-            modifier = Modifier
+        modifier =
+            with(modifier) {
+                    if (!isSelectEnabled())
+                        combinedClickable(
+                            enabled = true,
+                            onClick = { onClick() },
+                            onClickLabel = stringResource(R.string.open_file),
+                            onLongClick = {
+                                onLongClick()
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            },
+                            onLongClickLabel = stringResource(R.string.multiselect_mode),
+                        )
+                    else selectable(selected = isSelected(), onClick = onSelect)
+                }
                 .fillMaxWidth()
-                .padding(12.dp)
-        ) {
+    ) {
+        Row(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.CenterVertically),
                 visible = isSelectEnabled(),
@@ -122,61 +106,54 @@ fun MediaListItem(
                 Checkbox(
                     modifier = Modifier.padding(start = 4.dp, end = 16.dp),
                     checked = isSelected(),
-                    onCheckedChange = null
+                    onCheckedChange = null,
                 )
             }
-            MediaImage(
-                modifier = Modifier.weight(imageWeight),
-                imageModel = thumbnailUrl,
-                isAudio = isAudio
-            )
+            MediaImage(modifier = Modifier, imageModel = thumbnailUrl, isAudio = isAudio)
             Column(
-                modifier = Modifier
-                    .weight(1f - imageWeight)
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Top
+                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+                verticalArrangement = Arrangement.Top,
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
-                if (author != "null") Text(
-                    modifier = Modifier.padding(top = 3.dp),
-                    text = author,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (author != "null")
+                    Text(
+                        modifier = Modifier.padding(top = 3.dp),
+                        text = author,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 Text(
                     modifier = Modifier.padding(top = 3.dp),
-                    text = if (isFileAvailable) fileSizeText else stringResource(
-                        R.string.unavailable
-                    ),
+                    text =
+                        if (isFileAvailable) fileSizeText else stringResource(R.string.unavailable),
                     style = MaterialTheme.typography.labelSmall,
-                    color = with(MaterialTheme.colorScheme) { if (isFileAvailable) onSurfaceVariant else error },
+                    color =
+                        with(MaterialTheme.colorScheme) {
+                            if (isFileAvailable) onSurfaceVariant else error
+                        },
                     maxLines = 1,
                 )
-
-
             }
         }
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.BottomEnd),
             visible = !isSelectEnabled(),
             enter = fadeIn(tween(100)),
-            exit = fadeOut(tween(100))
+            exit = fadeOut(tween(100)),
         ) {
-            IconButton(
-                modifier = Modifier.clearAndSetSemantics { }, onClick = onShowContextMenu
-            ) {
+            IconButton(modifier = Modifier.clearAndSetSemantics {}, onClick = onShowContextMenu) {
                 Icon(
                     modifier = Modifier.size(18.dp),
                     imageVector = Icons.Outlined.MoreVert,
-                    contentDescription = stringResource(id = R.string.show_more_actions)
+                    contentDescription = stringResource(id = R.string.show_more_actions),
                 )
             }
         }
@@ -188,14 +165,14 @@ fun MediaImage(
     modifier: Modifier = Modifier,
     imageModel: String,
     isAudio: Boolean = false,
-    contentDescription: String? = null
+    contentDescription: String? = null,
 ) {
     AsyncImageImpl(
-        modifier = modifier
-            .aspectRatio(
-                if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true
-            )
-            .clip(MaterialTheme.shapes.extraSmall),
+        modifier =
+            modifier
+                .height(90.dp)
+                .aspectRatio(if (!isAudio) 16f / 9f else 1f, matchHeightConstraintsFirst = true)
+                .clip(MaterialTheme.shapes.extraSmall),
         model = imageModel,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
