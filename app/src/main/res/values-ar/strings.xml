@@ -11,7 +11,7 @@
     <string name="general_settings">عام</string>
     <string name="language">لغة العرض</string>
     <string name="download_start_msg">تحميل \"%1$s\"</string>
-    <string name="paste_msg">لصق الرابط الموجود في الحافظة</string>
+    <string name="paste_msg">الصق عنوان URL</string>
     <string name="paste_fail_msg">تعذر مطابقة الرابط الموجود في الحافظة</string>
     <string name="ytdlp_version">إصدار Yt-dlp</string>
     <string name="delete_info">إزالة؟</string>
@@ -145,7 +145,7 @@
     <string name="github_issue_desc">أرسل تذكرة للإبلاغ عن خطأ أو طلب ميزة</string>
     <string name="info_copied">نُسِخَتِ المعلومات إلى الحافظة</string>
     <string name="status_enqueued">في قائمة الانتظار</string>
-    <string name="status_completed">اكتمل</string>
+    <string name="status_completed">انتهى</string>
     <string name="status_downloading">جارٍ التحميل</string>
     <string name="status_canceled">تم الإلغاء</string>
     <string name="status_fetching_video_info">جارٍ إحضار المعلومات</string>
@@ -418,17 +418,17 @@
     <string name="prefer_placeholder">تفضيل %1$s</string>
     <string name="best_quality_desc">تنزيل أفضل تنسيق متاح</string>
     <plurals name="video_count">
-        <item quantity="zero"/>
+        <item quantity="zero"></item>
         <item quantity="one">%d فيديو</item>
-        <item quantity="two"/>
+        <item quantity="two">فيديوهان</item>
         <item quantity="few">%d فيديوهات</item>
         <item quantity="many">%d فيديو</item>
         <item quantity="other">%d فيديو</item>
     </plurals>
     <plurals name="audio_count">
-        <item quantity="zero"/>
+        <item quantity="zero"></item>
         <item quantity="one">%d صوت</item>
-        <item quantity="two"/>
+        <item quantity="two">صوتان</item>
         <item quantity="few">%d أصوات</item>
         <item quantity="many">%d صوت</item>
         <item quantity="other">%d صوت</item>
@@ -437,4 +437,13 @@
     <string name="custom_format_selection_desc">اختر من بين التنسيقات والترجمات وقم بتخصيصها بشكل أكبر</string>
     <string name="preset_format_selection_desc">تنزيل تلقائي باستخدام تفضيلات التنسيق الخاصة بك</string>
     <string name="edit_preset">تعديل الإعداد المسبق</string>
+    <string name="you_ll_find_your_downloads_here">ستجد التنزيلات الخاصة بك هنا</string>
+    <string name="download_hint">اضغط على زر التنزيل أو قم بمشاركة رابط الفيديو لهذا التطبيق لبدء التنزيل</string>
+    <string name="status_downloaded">تم التنزيل</string>
+    <string name="all">الجميع</string>
+    <string name="select_multiple_link">اختر من %1$d رابطًا</string>
+    <string name="download_queue">قائمة انتظار التنزيل</string>
+    <string name="show_navigation_drawer">إظهار درج التنقل</string>
+    <string name="resume">استمرار</string>
+    <string name="delete">حذف</string>
 </resources>

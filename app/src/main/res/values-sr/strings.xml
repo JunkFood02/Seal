@@ -157,7 +157,7 @@
     <string name="download_error_msg">Није могуће преузети фајл</string>
     <string name="general_settings">Опште</string>
     <string name="language_settings">Подеси језик</string>
-    <string name="paste_msg">Налепљена URL адреса из привремене меморије</string>
+    <string name="paste_msg">Налепљена URL адреса</string>
     <string name="task_running">Постојећи задатак преузимања је већ покренут</string>
     <string name="extract_audio_summary">Преузмите и сачувајте аудио снимак, уместо видео снимка</string>
     <string name="ytdlp_version">Yt-dlp верзија</string>
@@ -433,4 +433,9 @@
     <string name="download_hint">Додирните дугме за преузимање или поделите линк видео снимка до ове апликације да бисте започели преузимање</string>
     <string name="status_downloaded">Преузето</string>
     <string name="all">Све</string>
+    <string name="select_multiple_link">Изаберите неки од %1$d линкова</string>
+    <string name="download_queue">Редослед преузимања</string>
+    <string name="show_navigation_drawer">Прикажи фиоку за навигацију</string>
+    <string name="delete">Избриши</string>
+    <string name="resume">Настави</string>
 </resources>

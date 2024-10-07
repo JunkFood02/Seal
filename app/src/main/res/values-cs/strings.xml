@@ -10,7 +10,7 @@
     <string name="download_start_msg">Stahování „%1$s“</string>
     <string name="fetch_info_error_msg">Získávání informací o videu selhalo</string>
     <string name="task_running">Již probíhá jiná stahovací úloha</string>
-    <string name="paste_msg">Vložena adresa ze schránky</string>
+    <string name="paste_msg">Vložit adresu</string>
     <string name="paste_fail_msg">Nepodařilo se najít adresu ve schránce</string>
     <string name="ytdlp_version">Yt-dlp verze</string>
     <string name="delete_info">Odstranit\?</string>
@@ -433,4 +433,9 @@
     <string name="download_hint">Pro spuštění stahování klepněte na tlačítko stahování nebo sdílejte video do této aplikace</string>
     <string name="status_downloaded">Stažené</string>
     <string name="all">Vše</string>
+    <string name="select_multiple_link">Vyberte z %1$d odkazů</string>
+    <string name="download_queue">Fronta stahování</string>
+    <string name="show_navigation_drawer">Zobrazit navigační lištu</string>
+    <string name="resume">Pokračovat</string>
+    <string name="delete">Smazat</string>
 </resources>

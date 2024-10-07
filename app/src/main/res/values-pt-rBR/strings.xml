@@ -18,7 +18,7 @@
     <string name="settings">Configurações</string>
     <string name="yt_dlp_update_fail">A última versão do yt-dlp não pode ser instalada. Por favor verifique sua conexão com a internet.</string>
     <string name="download_success_msg">Download concluído</string>
-    <string name="paste_msg">Colar URL da área de transferência</string>
+    <string name="paste_msg">Colar URL</string>
     <string name="ytdlp_version">Versão do Yt-dlp</string>
     <string name="delete_info">Remover\?</string>
     <string name="delete_info_msg">Remover “%1$s” do seu histórico de downloads definitivamente\?</string>
@@ -433,4 +433,7 @@
     <string name="download_hint">Toque no botão de download ou compartilhe um link de vídeo com este aplicativo para iniciar o download</string>
     <string name="status_downloaded">Download concluído</string>
     <string name="all">Todos</string>
+    <string name="download_queue">Fila de downloads</string>
+    <string name="select_multiple_link">Selecionar entre %1$d links</string>
+    <string name="show_navigation_drawer">Mostrar menu de navegação</string>
 </resources>

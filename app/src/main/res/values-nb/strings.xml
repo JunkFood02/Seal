@@ -10,7 +10,7 @@
     <string name="audio_directory">Lydmappe</string>
     <string name="download_directory">Nedlastningsmappe</string>
     <string name="download_directory_desc">Velg hvor video- og lydfiler skal lagres</string>
-    <string name="paste_msg">Lim inn nettadresse fra utklippstavle</string>
+    <string name="paste_msg">Lim inn nettadresse</string>
     <string name="ytdlp_version">Yt-dlp -versjon</string>
     <string name="delete_info">Fjern\?</string>
     <string name="dismiss">Avbryt</string>

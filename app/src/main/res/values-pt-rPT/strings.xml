@@ -107,7 +107,7 @@
     <string name="yt_dlp_docs">Referências de utilização do Yt-dlp</string>
     <string name="edit">Editar</string>
     <string name="download_type">Tipo de transferência</string>
-    <string name="paste_msg">Colar URL da área de transferência</string>
+    <string name="paste_msg">Colar URL</string>
     <string name="apply">Aplicar</string>
     <string name="legacy">Legado</string>
     <string name="clip_video_desc">Criar cortes de vídeo na página de seleção de formato</string>
@@ -433,4 +433,7 @@
     <string name="download_hint">Toque no botão de descarga ou partilhe uma ligação de vídeo para esta aplicação para iniciar uma descarga</string>
     <string name="status_downloaded">Descarregado</string>
     <string name="all">Tudo</string>
+    <string name="select_multiple_link">Selecionar a partir de %1$d ligações</string>
+    <string name="download_queue">Fila de descargas</string>
+    <string name="show_navigation_drawer">Mostrar gaveta de navegação</string>
 </resources>

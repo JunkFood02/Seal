@@ -23,7 +23,7 @@
     <string name="general_settings">General</string>
     <string name="language">Idioma</string>
     <string name="language_settings">Seleccionar idioma</string>
-    <string name="paste_msg">Pegar el enlace desde el portapapeles</string>
+    <string name="paste_msg">Pegar url</string>
     <string name="ytdlp_version">Versión de yt-dlp</string>
     <string name="ytdlp_update">Haz clic para descargar la última versión de yt-dlp</string>
     <string name="delete_info">¿Eliminar?</string>
@@ -433,4 +433,10 @@
     <string name="download_hint">Pulsa el botón de descarga o comparte un enlace de vídeo en esta aplicación para iniciar la descarga</string>
     <string name="status_downloaded">Descargado</string>
     <string name="all">Todo</string>
+    <string name="download_queue">Cola de descarga</string>
+    <string name="select_multiple_link">Seleccione entre %1$d enlaces</string>
+    <string name="show_navigation_drawer">Mostrar cajón de navegación</string>
+    <string name="delete">Borrar</string>
+    <string name="resume">Resumen</string>
+    <string name="media_info">Información multimedia</string>
 </resources>

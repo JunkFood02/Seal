@@ -13,7 +13,7 @@
     <string name="general_settings">सामान्य</string>
     <string name="language">भाषा प्रदर्शित करें</string>
     <string name="language_settings">प्रदर्शन भाषा सेट करें</string>
-    <string name="paste_msg">क्लिपबोर्ड से URL पेस्ट करें</string>
+    <string name="paste_msg">URL पेस्ट करें</string>
     <string name="paste_fail_msg">क्लिपबोर्ड में URL से मेल नहीं खा सका</string>
     <string name="ytdlp_version">Yt-dlp संस्करण</string>
     <string name="delete_info">हटाएं\?</string>
@@ -426,4 +426,10 @@
     <string name="proceed">जारी रखें</string>
     <string name="custom_format_selection_desc">प्रारूपों, उपशीर्षकों में से चुनें और आगे अनुकूलित करें</string>
     <string name="preset_format_selection_desc">अपनी फार्मेट प्राथमिकताओं का उपयोग करके स्वचालित रूप से डाउनलोड करें</string>
+    <string name="download_queue">डाउनलोड कतार</string>
+    <string name="status_downloaded">डाउनलोड किया गया</string>
+    <string name="download_hint">डाउनलोड बटन पर टैप करें या डाउनलोड शुरू करने के लिए इस ऐप को वीडियो लिंक शेयर करें</string>
+    <string name="all">सभी</string>
+    <string name="select_multiple_link">%1$d लिंक्स में से चयन करें</string>
+    <string name="you_ll_find_your_downloads_here">आपको अपने डाउनलोड यहां मिलेंगे</string>
 </resources>

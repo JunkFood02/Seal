@@ -20,7 +20,7 @@
     <string name="language">界面语言</string>
     <string name="language_settings">设置界面语言</string>
     <string name="task_running">已有正在运行中的下载任务</string>
-    <string name="paste_msg">从剪贴板获取视频链接</string>
+    <string name="paste_msg">粘贴 URL</string>
     <string name="paste_fail_msg">未在剪贴板中匹配到视频链接</string>
     <string name="download">下载</string>
     <string name="url_empty">视频链接不能为空</string>
@@ -427,4 +427,9 @@
     <string name="download_hint">轻按下载按钮或分享视频链接到本应用来启动下载</string>
     <string name="status_downloaded">已下载</string>
     <string name="all">全部</string>
+    <string name="select_multiple_link">从 %1$d 个链接中选择</string>
+    <string name="download_queue">下载队列</string>
+    <string name="show_navigation_drawer">显示导航抽屉</string>
+    <string name="resume">继续</string>
+    <string name="delete">删除</string>
 </resources>

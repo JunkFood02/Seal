@@ -17,7 +17,7 @@
     <string name="language">表示言語</string>
     <string name="language_settings">表示言語を設定</string>
     <string name="task_running">既存のダウンロードタスクが既に実行されています</string>
-    <string name="paste_msg">クリップボードから URL を貼り付け</string>
+    <string name="paste_msg">URL を貼り付け</string>
     <string name="paste_fail_msg">クリップボード内に URL がありません</string>
     <string name="ytdlp_version">yt-dlp バージョン</string>
     <string name="ytdlp_update">クリックして最新の yt-dlp をインストール</string>
@@ -423,4 +423,11 @@
     <string name="playlist">再生リスト</string>
     <string name="proceed">続行</string>
     <string name="edit_preset">プリセットを編集</string>
+    <string name="download_hint">ダウンロードボタンをタップ、またはこのアプリへの動画リンクを共有しダウンロードを開始します</string>
+    <string name="you_ll_find_your_downloads_here">ここからダウンロード一覧を検索できます</string>
+    <string name="status_downloaded">ダウンロード済み</string>
+    <string name="all">すべて</string>
+    <string name="download_queue">ダウンロードキュー</string>
+    <string name="resume">再開</string>
+    <string name="delete">削除</string>
 </resources>
