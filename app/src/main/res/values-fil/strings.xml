@@ -16,7 +16,7 @@
     <string name="permission_denied">Tinanggihan ang permiso</string>
     <string name="language_settings">I-set ang wika ng pag-display</string>
     <string name="task_running">May umiiral nang gawain ng pag-download na kasalukuyang tumatakbo</string>
-    <string name="paste_msg">I-paste ang URL mula sa clipboard</string>
+    <string name="paste_msg">I-paste ang URL</string>
     <string name="paste_fail_msg">Hindi magkatugma ang URL na mula sa clipboard</string>
     <string name="dismiss">Kanselahin</string>
     <string name="downloads_history">Mga download</string>
@@ -430,4 +430,6 @@
     <string name="download_hint">I-tap ang button sa pag-download o magbahagi ng link ng video sa app na ito para magsimula ng pag-download</string>
     <string name="status_downloaded">Na-download na</string>
     <string name="all">Lahat</string>
+    <string name="download_queue">Queue ng pag-download</string>
+    <string name="select_multiple_link">Pumili mula sa %1$d na mga link</string>
 </resources>

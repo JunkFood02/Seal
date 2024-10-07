@@ -14,7 +14,7 @@
     <string name="download_start_msg">Scarica «%1$s»</string>
     <string name="fetch_info_error_msg">Impossibile recuperare le informazioni del video</string>
     <string name="task_running">Uno scaricamento è già in esecuzione</string>
-    <string name="paste_msg">Incolla l\'URL dagli appunti</string>
+    <string name="paste_msg">Incolla URL</string>
     <string name="paste_fail_msg">Impossibile confrontare l\'URL negli appunti</string>
     <string name="ytdlp_version">Versione yt-dlp</string>
     <string name="about_page">Versione, commenti, aggiornamento automatico</string>
@@ -93,7 +93,7 @@
     <string name="from">Inizio</string>
     <string name="to">Fine</string>
     <string name="invalid_index_range">Range dell\'indice invalido</string>
-    <string name="playlist_indicator_text">Scaricando playlist (%1$d/%2$d), clicca per mettere in pausa.</string>
+    <string name="playlist_indicator_text">Scaricando playlist (%1$d/%2$d)…</string>
     <string name="channel_description">Notifica il processo di scaricamento e i file scaricati</string>
     <string name="close_never_show_again">Non mostrare più</string>
     <string name="convert_audio">Converti</string>
@@ -139,10 +139,10 @@
     <string name="remove_template_desc">Rimuovere «%1$s» dai modelli dei comandi\?</string>
     <string name="template_selection">Selezione del modello</string>
     <string name="custom_command_template_desc">Modifica e gestisci i modelli di comando</string>
-    <string name="downloading_indicator_text">Download in corso</string>
+    <string name="downloading_indicator_text">Download in corso…</string>
     <string name="task_canceled">Scaricamento annullato</string>
     <string name="status_enqueued">In coda</string>
-    <string name="status_completed">Completato</string>
+    <string name="status_completed">Finito</string>
     <string name="status_downloading">Scaricamento</string>
     <string name="status_canceled">Annullato</string>
     <string name="status_fetching_video_info">Recupero delle informazioni</string>
@@ -369,7 +369,7 @@
     <plurals name="item_count">
         <item quantity="one">%d oggetto</item>
         <item quantity="many">%d oggetti</item>
-        <item quantity="other"/>
+        <item quantity="other">%d oggetti</item>
     </plurals>
     <string name="clear_download_archive">Cancellare l\'archivio dei download?</string>
     <string name="download_archive_error">Il video è stato scaricato con successo. Se questo è stato un comportamento inaspettato, controllare l\'archivio dei download.</string>
@@ -421,7 +421,7 @@
     </plurals>
     <string name="playlist">Playlist</string>
     <string name="prefer_placeholder">Preferire %1$s</string>
-    <string name="preset">Preset</string>
+    <string name="preset">Preimpostazione</string>
     <string name="custom_format_selection_desc">Scegli tra i formati, i sottotitoli e le ulteriori personalizzazioni</string>
     <string name="edit_preset">Modifica preset</string>
     <string name="preset_format_selection_desc">Scarica automaticamente usando le tue preferenze di formattazione</string>
@@ -429,4 +429,13 @@
     <string name="task_added">Attività aggiunta alla coda</string>
     <string name="remux_container_mkv">Contenitore video Remux</string>
     <string name="remux_container_mkv_desc">Remux dei video in un contenitore MKV per una migliore compatibilità</string>
+    <string name="status_downloaded">Scaricato</string>
+    <string name="you_ll_find_your_downloads_here">Troverai qui i tuoi download</string>
+    <string name="all">Tutto</string>
+    <string name="select_multiple_link">Seleziona da %1$d link</string>
+    <string name="download_hint">Tocca il pulsante di download o condividi un link video a questa applicazione per avviare il download</string>
+    <string name="download_queue">Scarica coda</string>
+    <string name="show_navigation_drawer">Mostra il cassetto di navigazione</string>
+    <string name="resume">Continuare</string>
+    <string name="delete">Cancellare</string>
 </resources>

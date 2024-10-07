@@ -346,7 +346,7 @@
     <string name="update_subtitle_languages">সাবটাইটেলের ভাষা আপডেট করবেন?</string>
     <string name="download_history">হিস্ট্রি ডাউনলোড করুন</string>
     <string name="download_archive">আর্কাইভে ডাউনলোড করুন</string>
-    <string name="clear_download_archive">ডাউনলোড আর্কাইভে ক্লিয়ার করবেন?</string> 
+    <string name="clear_download_archive">ডাউনলোড আর্কাইভে ক্লিয়ার করবেন?</string>
     <string name="clear_download_archive_desc">আর্কাইভে ফাইল থেকে %1$s রিমুভ করতে চান?</string>
     <string name="force_ipv4">IPv4 ফোর্স করুন</string>
     <string name="force_ipv4_desc">IPv4 এর মাধ্যমে সমস্ত কানেকশন রাউট করুন</string>

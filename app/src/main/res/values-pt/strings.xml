@@ -27,7 +27,7 @@
     <string name="general_settings">Geral</string>
     <string name="language">Língua de visualização</string>
     <string name="language_settings">Definir a língua do ecrã</string>
-    <string name="paste_msg">Colar URL da área de transferência</string>
+    <string name="paste_msg">Colar URL</string>
     <string name="paste_fail_msg">Não foi possível fazer corresponder o URL na área de transferência</string>
     <string name="ytdlp_version">Versão Yt-dlp</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
@@ -433,4 +433,7 @@
     <string name="download_hint">Toque no botão de descarga ou partilhe uma ligação de vídeo para esta aplicação para iniciar uma descarga</string>
     <string name="status_downloaded">Descarregado</string>
     <string name="all">Tudo</string>
+    <string name="select_multiple_link">Selecionar a partir de %1$d ligações</string>
+    <string name="download_queue">Fila de descargas</string>
+    <string name="show_navigation_drawer">Mostrar gaveta de navegação</string>
 </resources>

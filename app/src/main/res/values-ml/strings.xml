@@ -26,7 +26,7 @@
     <string name="general_settings">പൊതുവായ</string>
     <string name="language">പ്രദർശന ഭാഷ</string>
     <string name="task_running">നിലവിലുള്ള ഒരു ഡൗൺലോഡ് ടാസ്‌ക് ഇതിനകം പ്രവർത്തിക്കുന്നു</string>
-    <string name="paste_msg">ക്ലിപ്പ്ബോർഡിൽ നിന്ന് URL ഒട്ടിക്കുക</string>
+    <string name="paste_msg">URL ഒട്ടിക്കുക</string>
     <string name="language_settings">പ്രദർശന ഭാഷ സജ്ജമാക്കുക</string>
     <string name="paste_fail_msg">ക്ലിപ്പ്ബോർഡിലെ URL-മായി പൊരുത്തപ്പെടാൻ കഴിഞ്ഞില്ല</string>
     <string name="version">പതിപ്പ്</string>
@@ -135,7 +135,7 @@
     <string name="status_canceled">റദ്ദാക്കി</string>
     <string name="open_file">ഫയൽ തുറക്കുക</string>
     <string name="status_error">പിശക്</string>
-    <string name="copy_error_report">പിശക് റിപ്പോർട്ട്</string>
+    <string name="copy_error_report">റിപ്പോർട്ട് പകർത്തുക</string>
     <string name="import_from_clipboard">ക്ലിപ്ബോർഡിൽ നിന്ന് ഇംപോർട്ട് ചെയ്യുക</string>
     <string name="download_task_count">%1$d ജോലികൾ ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="recently_added">അടുത്തിടെ ചേർത്തത്</string>
@@ -146,13 +146,13 @@
     <string name="app_update_failed">ഏറ്റവും പുതിയ പതിപ്പിലേക്ക് അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു</string>
     <string name="update">അപ്ഡേറ്റ് ചെയ്യുക</string>
     <string name="clear_temp_files">താൽക്കാലിക ഫയലുകൾ മായ്ച്ചുകളയുക</string>
-    <string name="private_mode">സ്വകാര്യ മോഡ്</string>
+    <string name="private_mode">സ്വകാര്യ</string>
     <string name="dynamic_color">ഡൈനാമിക് നിറം</string>
     <string name="download_with_cellular">സെല്ലുലാർ ഉപയോഗിച്ച് ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="file_unavailable">ഈ ഫയൽ ഇനി ലഭ്യമല്ല</string>
     <string name="network">നെറ്റ് വർക്ക്</string>
     <string name="rate_limit">നിരക്ക് പരിധി</string>
-    <string name="rate_limit_desc">ഡൗൺലോഡുകളുടെ പരമാവധി നിരക്ക് പരിമിതപ്പെടുത്തുക</string>
+    <string name="rate_limit_desc">പരമാവധി ഡൗൺലോഡ് വേഗത പരിമിതപ്പെടുത്തുക</string>
     <string name="max_rate">പരമാവധി നിരക്ക്</string>
     <string name="lowest_quality">ഏറ്റവും കുറഞ്ഞ നിലവാരം</string>
     <string name="dynamic_color_desc">വാൾപേപ്പറുകളിൽ നിന്ന് ആപ്പ് തീമിലേക്ക് നിറങ്ങൾ പ്രയോഗിക്കുക</string>
@@ -172,7 +172,7 @@
     <string name="downloading_indicator_text">ഡൗൺലോഡ് പുരോഗമിക്കുന്നു…</string>
     <string name="embed_subtitles_desc">ലഭ്യമെങ്കിൽ വീഡിയോകളിൽ നൽകിയിരിക്കുന്ന സബ്‌ടൈറ്റിലുകൾ ഉൾച്ചേർക്കുക</string>
     <string name="status_enqueued">വരിവരിയായി</string>
-    <string name="status_completed">പൂർത്തിയാക്കി</string>
+    <string name="status_completed">തീർന്നു</string>
     <string name="restart">പുനരാരംഭിക്കുക</string>
     <string name="copy_link">ലിങ്ക് പകർത്തുക</string>
     <string name="export_to_clipboard">ക്ലിപ്പ്ബോർഡിലേക്ക് കയറ്റുമതി ചെയ്യുക</string>
@@ -408,4 +408,29 @@
     <string name="every_month">എല്ലാ മാസവും</string>
     <string name="download_history_imported">ചരിത്രം ഡൗൺലോഡ് ചെയ്യാൻ %1$s ഇറക്കുമതി ചെയ്തു</string>
     <string name="redownload">വീണ്ടും ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="edit_preset">പ്രീസെറ്റ് എഡിറ്റ് ചെയ്യുക</string>
+    <string name="task_added">ക്യൂവിൽ ടാസ്ക് ചേർത്തു</string>
+    <string name="you_ll_find_your_downloads_here">നിങ്ങളുടെ ഡൗൺലോഡുകൾ ഇവിടെ കാണാം</string>
+    <string name="download_hint">ഡൗൺലോഡ് ആരംഭിക്കാൻ ഡൗൺലോഡ് ബട്ടണിൽ ടാപ്പ് ചെയ്യുക അല്ലെങ്കിൽ ഈ ആപ്പിലേക്ക് ഒരു വീഡിയോ ലിങ്ക് പങ്കിടുക</string>
+    <string name="status_downloaded">ഡൗൺലോഡ് ചെയ്തു</string>
+    <string name="playlist">പ്ലേലിസ്റ്റ്</string>
+    <string name="proceed">തുടരുക</string>
+    <string name="preset">പ്രീസെറ്റ്</string>
+    <string name="prefer_placeholder">%1$s തിരഞ്ഞെടുക്കുക</string>
+    <string name="custom_format_selection_desc">ഫോർമാറ്റുകൾ, സബ്‌ടൈറ്റിലുകൾ എന്നിവയിൽ നിന്ന് തിരഞ്ഞെടുത്ത് കൂടുതൽ ഇഷ്ടാനുസൃതമാക്കുക</string>
+    <string name="best_quality_desc">ലഭ്യമായ ഏറ്റവും മികച്ച ഫോർമാറ്റ് ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="all">എല്ലാം</string>
+    <plurals name="video_count">
+        <item quantity="one">%d വീഡിയോ</item>
+        <item quantity="other">%d വീഡിയോകൾ</item>
+    </plurals>
+    <plurals name="audio_count">
+        <item quantity="one">%d ഓഡിയോ</item>
+        <item quantity="other">%d ഓഡിയോകൾ</item>
+    </plurals>
+    <string name="select_multiple_link">%1$d ലിങ്കുകളിൽ നിന്ന് തിരഞ്ഞെടുക്കുക</string>
+    <string name="download_queue">ഡൗൺലോഡ് ക്യൂ</string>
+    <string name="all_languages">എല്ലാ ഭാഷകളും</string>
+    <string name="preset_format_selection_desc">നിങ്ങളുടെ ഫോർമാറ്റ് മുൻഗണനകൾ ഉപയോഗിച്ച് സ്വയമേവ ഡൗൺലോഡ് ചെയ്യുക</string>
+    <string name="show_navigation_drawer">നാവിഗേഷൻ ഡ്രോയർ കാണിക്കുക</string>
 </resources>

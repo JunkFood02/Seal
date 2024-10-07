@@ -436,4 +436,9 @@
     <string name="download_hint">Натисніть на кнопку завантаження або поділіться відео посиланням на цей застосунок, щоби почати завантаження</string>
     <string name="status_downloaded">Завантажено</string>
     <string name="all">Все</string>
+    <string name="download_queue">Завантаження у черзі</string>
+    <string name="select_multiple_link">Виберіть з %1$d посилань</string>
+    <string name="show_navigation_drawer">Показати панель навігації</string>
+    <string name="resume">Відновити</string>
+    <string name="delete">Видалити</string>
 </resources>

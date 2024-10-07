@@ -29,7 +29,7 @@
     <string name="language">ਡਿਸਪਲੇ ਭਾਸ਼ਾ</string>
     <string name="language_settings">ਡਿਸਪਲੇ ਭਾਸ਼ਾ ਸੈੱਟ ਕਰੋ</string>
     <string name="task_running">ਇੱਕ ਮੌਜੂਦਾ ਡਾਊਨਲੋਡ ਕਾਰਜ ਪਹਿਲਾਂ ਹੀ ਚੱਲ ਰਿਹਾ ਹੈ</string>
-    <string name="paste_msg">ਕਲਿੱਪਬੋਰਡ ਤੋਂ URL ਪੇਸਟ ਕਰੋ</string>
+    <string name="paste_msg">URL ਪੇਸਟ ਕਰੋ</string>
     <string name="paste_fail_msg">ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ URL ਨਾਲ ਮੇਲ ਨਹੀਂ ਹੋ ਸਕਿਆ</string>
     <string name="ytdlp_version">Yt-dlp ਵਰਜਨ</string>
     <string name="ytdlp_update">ਨਵੀਨਤਮ yt-dlp ਵਰਜਨ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ</string>
@@ -426,4 +426,10 @@
     <string name="preset_format_selection_desc">ਆਪਣੀ ਫਾਰਮੈਟ ਤਰਜੀਹਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="custom_format_selection_desc">ਫਾਰਮੈਟਾਂ, ਉਪਸਿਰਲੇਖਾਂ ਵਿੱਚੋਂ ਚੁਣੋ, ਅਤੇ ਹੋਰ ਅਨੁਕੂਲਿਤ ਕਰੋ</string>
     <string name="best_quality_desc">ਸਭ ਤੋਂ ਵਧੀਆ ਉਪਲਬਧ ਫਾਰਮੈਟ ਡਾਊਨਲੋਡ ਕਰੋ</string>
+    <string name="download_hint">ਡਾਊਨਲੋਡ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਡਾਊਨਲੋਡ ਬਟਨ \'ਤੇ ਟੈਪ ਕਰੋ ਜਾਂ ਇਸ ਐਪ ਨੂੰ ਵੀਡੀਓ ਲਿੰਕ ਸ਼ੇਅਰ ਕਰੋ</string>
+    <string name="you_ll_find_your_downloads_here">ਤੁਹਾਨੂੰ ਆਪਣੇ ਡਾਊਨਲੋਡ ਇੱਥੇ ਮਿਲਣਗੇ</string>
+    <string name="status_downloaded">ਡਾਊਨਲੋਡ ਕੀਤਾ ਗਿਆ</string>
+    <string name="all">ਸਭ</string>
+    <string name="select_multiple_link">%1$d ਲਿੰਕਾਂ ਵਿੱਚੋਂ ਚੁਣੋ</string>
+    <string name="download_queue">ਡਾਊਨਲੋਡ ਕਤਾਰ</string>
 </resources>

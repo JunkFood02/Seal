@@ -52,7 +52,7 @@
     <string name="paste_fail_msg">Impossible d\'identifier l\'URL dans le presse-papiers</string>
     <string name="open_url">Ouvrir le lien</string>
     <string name="task_running">Une tâche de téléchargement est déjà en cours d\'exécution</string>
-    <string name="paste_msg">Coller l\'URL depuis le presse-papiers</string>
+    <string name="paste_msg">Coller l\'URL</string>
     <string name="delete_info_msg">Supprimer définitivement « %1$s » de l\'historique de vos téléchargements ?</string>
     <string name="remove">Retirer</string>
     <string name="print_details">Sortie détaillée</string>
@@ -429,4 +429,13 @@
     <string name="playlist">Liste de lecture</string>
     <string name="proceed">Continuer</string>
     <string name="best_quality_desc">Télécharger le meilleur format disponible</string>
+    <string name="you_ll_find_your_downloads_here">Vous trouverez vos téléchargements ici</string>
+    <string name="download_hint">Cliquez sur le bouton Télécharger ou partagez un lien vidéo vers cette application pour démarrer un téléchargement</string>
+    <string name="status_downloaded">Téléchargé</string>
+    <string name="download_queue">File d\'attente de téléchargements</string>
+    <string name="all">Tout</string>
+    <string name="select_multiple_link">Sélectionner à partir de %1$d liens</string>
+    <string name="show_navigation_drawer">Afficher la barre de navigation</string>
+    <string name="resume">Continuer</string>
+    <string name="delete">Supprimer</string>
 </resources>

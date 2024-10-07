@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paste_msg">從剪貼簿貼上 URL</string>
+    <string name="paste_msg">貼上 URL</string>
     <string name="extract_audio_summary">下載並儲存音訊，而非影片</string>
     <string name="yt_dlp_up_to_date">正在使用最新版本的 yt-dlp</string>
     <string name="url_empty">連結不可為空</string>
@@ -119,7 +119,7 @@
     <string name="template_selection">範本選取</string>
     <string name="github_issue_desc">提交錯誤報告或功能請求議題</string>
     <string name="info_copied">已複製資訊到剪貼簿</string>
-    <string name="status_enqueued">任務佇列</string>
+    <string name="status_enqueued">等候開始</string>
     <string name="status_completed">已完成</string>
     <string name="status_downloading">正在下載</string>
     <string name="status_fetching_video_info">正在擷取資訊</string>
@@ -241,7 +241,7 @@
     <string name="edit_shortcuts">編輯捷徑</string>
     <string name="shortcuts">捷徑</string>
     <string name="edit_shortcuts_desc">編輯可用於撰寫命令範本的自訂捷徑。</string>
-    <string name="running_tasks">任務清單</string>
+    <string name="running_tasks">正在執行的任務</string>
     <string name="show_logs">顯示記錄</string>
     <string name="logs">記錄</string>
     <string name="subtitle_sponsorblock">當移除 SponsorBlock 區段時，可能導致字幕時間軸錯位。</string>
@@ -426,4 +426,10 @@
     <string name="you_ll_find_your_downloads_here">您可以在這裡找到您的下載內容</string>
     <string name="download_hint">點擊下載按鈕或分享影片連結到此應用程式以開始下載</string>
     <string name="status_downloaded">已下載</string>
+    <string name="all">全部</string>
+    <string name="select_multiple_link">從 %1$d 個連結中選取</string>
+    <string name="download_queue">下載佇列</string>
+    <string name="show_navigation_drawer">顯示導覽匣</string>
+    <string name="resume">繼續</string>
+    <string name="delete">刪除</string>
 </resources>

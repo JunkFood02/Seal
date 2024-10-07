@@ -20,7 +20,7 @@
     <string name="language">Göstərilmə dili</string>
     <string name="language_settings">Göstərilmə dilin təyin et</string>
     <string name="task_running">Mövcud yükləmə tapşırığı artıq idarə edilir</string>
-    <string name="paste_msg">URL-ni kəsik lövhədən yapışdır</string>
+    <string name="paste_msg">URL-ni Yapışdır</string>
     <string name="paste_fail_msg">Kəsik lövhədəki URL uyuşmadı</string>
     <string name="ytdlp_update">Ən son yt-dlp versiyasın quraşdırmaq üçün kliklə</string>
     <string name="delete_info">Silinsin\?</string>
@@ -139,7 +139,7 @@
     <string name="task_canceled">Yükləmə tapşırığı ləğv edildi</string>
     <string name="github_issue">GitHub problemi</string>
     <string name="info_copied">Məlumat lövhəyə köçürüldü</string>
-    <string name="status_completed">Tamamlandı</string>
+    <string name="status_completed">Bitdi</string>
     <string name="status_downloading">Yüklənilir</string>
     <string name="status_canceled">Ləğv edildi</string>
     <string name="status_fetching_video_info">Məlumat alınır</string>
@@ -426,4 +426,13 @@
         <item quantity="one">%d video</item>
         <item quantity="other">%d video</item>
     </plurals>
+    <string name="you_ll_find_your_downloads_here">Endirmələri burada tapa bilərsiniz</string>
+    <string name="download_hint">Yükləməyə başlamaq üçün yüklə düyməsinə toxun və ya bu tətbiq üçün video linkin paylaş</string>
+    <string name="status_downloaded">Endirildi</string>
+    <string name="all">Hamısı</string>
+    <string name="select_multiple_link">­%1$d linkdən seçin</string>
+    <string name="download_queue">­Yükləmə növbəsi</string>
+    <string name="show_navigation_drawer">Hərəkət qutusun göstər</string>
+    <string name="resume">Davam et</string>
+    <string name="delete">Sil</string>
 </resources>
