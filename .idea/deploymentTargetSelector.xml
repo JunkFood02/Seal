@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-10-06T11:18:53.383763Z">
+        <DropdownSelection timestamp="2024-10-07T18:32:38.991249Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/junkfood/.android/avd/Pixel_6_Pro_API_VanillaIceCream.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/junkfood/.android/avd/Resizable_Experimental_API_VanillaIceCream.avd" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -32,6 +32,14 @@
       </SelectionState>
       <SelectionState runConfigName="Preview - Light">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-10-07T18:32:33.710498Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/junkfood/.android/avd/Resizable_Experimental_API_VanillaIceCream.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="SheetPreview - Dark">
         <option name="selectionMode" value="DROPDOWN" />

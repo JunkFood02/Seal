@@ -409,9 +409,14 @@ fun DownloadPageImplV2(
                 ) {
                     if (filteredMap.isNotEmpty()) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
+                            val videoCount =
+                                filteredMap.count {
+                                    !it.value.viewState.videoFormats.isNullOrEmpty()
+                                }
                             SubHeader(
                                 modifier = Modifier,
-                                videoCount = filteredMap.size,
+                                videoCount = videoCount,
+                                audioCount = filteredMap.size - videoCount,
                                 isGridView = isGridView,
                                 onToggleView = { isGridView = !isGridView },
                                 onShowMenu = { context.makeToast("Not implemented yet!") },
@@ -615,6 +620,18 @@ fun SubHeader(
     onToggleView: () -> Unit,
     onShowMenu: () -> Unit,
 ) {
+    val text = buildString {
+        if (videoCount >= 0) {
+            append(pluralStringResource(R.plurals.video_count, videoCount).format(videoCount))
+            if (audioCount >= 0) {
+                append(", ")
+            }
+        }
+        if (audioCount >= 0) {
+            append(pluralStringResource(R.plurals.audio_count, audioCount).format(audioCount))
+        }
+    }
+
     Row(
         modifier = modifier.padding(top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -623,10 +640,7 @@ fun SubHeader(
             modifier = Modifier.padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = pluralStringResource(R.plurals.video_count, videoCount).format(videoCount),
-                style = MaterialTheme.typography.labelLarge,
-            )
+            Text(text = text, style = MaterialTheme.typography.labelLarge)
             Spacer(Modifier.width(4.dp))
         }
 
