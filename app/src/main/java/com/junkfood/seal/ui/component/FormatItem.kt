@@ -306,8 +306,8 @@ fun FormatItem(
         FormatItem(
             modifier = modifier,
             title = format.toString(),
-            containsAudio = acodecText.isNotEmpty(),
-            containsVideo = vcodecText.isNotEmpty(),
+            containsAudio = formatInfo.containsAudio(),
+            containsVideo = formatInfo.containsVideo(),
             firstLineText = firstLineText,
             secondLineText = secondLineText,
             outlineColor = outlineColor,

@@ -415,8 +415,11 @@ fun DownloadPageImplV2(
                                     )
                                 },
                             ) {
-                                selectedTask = task
-                                scope.launch { sheetState.show() }
+                                scope.launch {
+                                    selectedTask = task
+                                    delay(50)
+                                    sheetState.show()
+                                }
                             }
                         }
                     }

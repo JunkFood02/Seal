@@ -217,7 +217,7 @@ private fun VideoInfoLabel(modifier: Modifier = Modifier, duration: Int, fileSiz
 @Composable
 fun StateIndicator(modifier: Modifier = Modifier, downloadState: Task.DownloadState) {
     Surface(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(vertical = 12.dp, horizontal = 8.dp),
         color = LabelContainerColor,
         shape = MaterialTheme.shapes.extraSmall,
     ) {
@@ -270,7 +270,9 @@ fun ActionButton(
             }
         }
         is Task.DownloadState.Completed -> {
-            PlayVideoButton(modifier = modifier) { onActionPost(UiAction.OpenFile(downloadState.filePath)) }
+            PlayVideoButton(modifier = modifier) {
+                onActionPost(UiAction.OpenFile(downloadState.filePath))
+            }
         }
         is Task.DownloadState.FetchingInfo,
         Task.DownloadState.ReadyWithInfo,

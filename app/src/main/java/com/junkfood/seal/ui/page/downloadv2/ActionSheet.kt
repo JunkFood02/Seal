@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.automirrored.outlined.TextSnippet
@@ -224,14 +223,12 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Downlo
 
         Column(modifier = Modifier.height(IntrinsicSize.Min)) {
             Column(Modifier) {
-                SelectionContainer {
-                    Text(text = title, style = MaterialTheme.typography.titleSmall)
-                }
-                SelectionContainer {
-                    Text(text = author, style = MaterialTheme.typography.bodySmall)
-                }
+                Text(text = title, style = MaterialTheme.typography.titleSmall)
+                Spacer(Modifier.height(2.dp))
+                Text(text = author, style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.weight(1f))
+            Spacer(Modifier.height(4.dp))
             val text =
                 when (downloadState) {
                     is Canceled -> stringResource(R.string.status_canceled)
@@ -423,8 +420,8 @@ private fun SheetPreview() {
 
     val viewState =
         ViewState(
-            title = "loooooooooooooooooong title sample",
-            uploader = "author loooooooooooooooooooooonggggggggggggggggg\n",
+            title = "video title looooooooooooooooooooooooooooong title sample",
+            uploader = "author loooooooooooooooooooooonggggggggggggggggg",
             videoFormats =
                 listOf(
                     Format(
