@@ -1,6 +1,7 @@
 package com.junkfood.seal.util
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.DeprecatedSinceApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import com.junkfood.seal.App.Companion.isDebugBuild
 import com.junkfood.seal.App.Companion.isFDroidBuild
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.theme.DEFAULT_SEED_COLOR
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.kyant.monet.PaletteStyle
@@ -28,6 +30,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 const val CUSTOM_COMMAND = "custom_command"
 const val CONCURRENT = "concurrent_fragments"
@@ -123,7 +127,8 @@ val UpdateIntervalList =
     mapOf(
         INTERVAL_DAY to R.string.every_day,
         INTERVAL_WEEK to R.string.every_week,
-        INTERVAL_MONTH to R.string.every_month)
+        INTERVAL_MONTH to R.string.every_month,
+    )
 
 const val NOT_SPECIFIED = 0
 const val DEFAULT = NOT_SPECIFIED
@@ -137,7 +142,7 @@ enum class DownloadType {
     Audio,
     Video,
     Playlist,
-    Command
+    Command,
 }
 
 const val CONVERT_ASS = 1
@@ -178,13 +183,16 @@ const val TEMPLATE_EXAMPLE = """--no-mtime -S "ext""""
 
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
+const val TASK_LIST = "task_list"
+
 val paletteStyles =
     listOf(
         PaletteStyle.TonalSpot,
         PaletteStyle.Spritz,
         PaletteStyle.FruitSalad,
         PaletteStyle.Vibrant,
-        PaletteStyle.Monochrome)
+        PaletteStyle.Monochrome,
+    )
 
 const val STYLE_TONAL_SPOT = 0
 const val STYLE_SPRITZ = 1
@@ -228,15 +236,20 @@ private val IntPreferenceDefaults =
         CONVERT_SUBTITLE to NOT_SPECIFIED,
         DOWNLOAD_TYPE_INITIALIZATION to USE_PREVIOUS_SELECTION,
         YT_DLP_UPDATE_CHANNEL to YT_DLP_NIGHTLY,
-        DOWNLOAD_TYPE to DownloadType.Video.ordinal)
+        DOWNLOAD_TYPE to DownloadType.Video.ordinal,
+    )
 
 private val LongPreferenceDefaults = mapOf(YT_DLP_UPDATE_INTERVAL to DEFAULT_INTERVAL)
 
 fun String.getStringDefault() = StringPreferenceDefaults.getOrElse(this) { "" }
 
-private val kv: MMKV = MMKV.defaultMMKV()
-
 object PreferenceUtil {
+    private val kv: MMKV = MMKV.defaultMMKV()
+    private val json = Json {
+        ignoreUnknownKeys = true
+        allowStructuredMapKeys = true
+    }
+
     fun String.getInt(default: Int = IntPreferenceDefaults.getOrElse(this) { 0 }): Int =
         kv.decodeInt(this, default)
 
@@ -354,15 +367,18 @@ object PreferenceUtil {
                     CommandTemplate(
                         id = 0,
                         name = context.getString(R.string.custom_command_template),
-                        template = TEMPLATE_EXAMPLE))
-                .toInt())
+                        template = TEMPLATE_EXAMPLE,
+                    )
+                )
+                .toInt()
+        )
     }
 
     data class AppSettings(
         val darkTheme: DarkThemePreference = DarkThemePreference(),
         val isDynamicColorEnabled: Boolean = false,
         val seedColor: Int = DEFAULT_SEED_COLOR,
-        val paletteStyleIndex: Int = 0
+        val paletteStyleIndex: Int = 0,
     )
 
     fun getMaxDownloadRate(): String = MAX_RATE.getString()
@@ -373,17 +389,20 @@ object PreferenceUtil {
                 DarkThemePreference(
                     darkThemeValue =
                         kv.decodeInt(DARK_THEME_VALUE, DarkThemePreference.FOLLOW_SYSTEM),
-                    isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false)),
+                    isHighContrastModeEnabled = kv.decodeBool(HIGH_CONTRAST, false),
+                ),
                 isDynamicColorEnabled =
                     kv.decodeBool(DYNAMIC_COLOR, DynamicColors.isDynamicColorAvailable()),
                 seedColor = kv.decodeInt(THEME_COLOR, DEFAULT_SEED_COLOR),
-                paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0)))
+                paletteStyleIndex = kv.decodeInt(PALETTE_STYLE, 0),
+            )
+        )
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
 
     fun modifyDarkThemePreference(
         darkThemeValue: Int = AppSettingsStateFlow.value.darkTheme.darkThemeValue,
         isHighContrastModeEnabled: Boolean =
-            AppSettingsStateFlow.value.darkTheme.isHighContrastModeEnabled
+            AppSettingsStateFlow.value.darkTheme.isHighContrastModeEnabled,
     ) {
         applicationScope.launch(Dispatchers.IO) {
             mutableAppSettingsStateFlow.update {
@@ -391,7 +410,9 @@ object PreferenceUtil {
                     darkTheme =
                         AppSettingsStateFlow.value.darkTheme.copy(
                             darkThemeValue = darkThemeValue,
-                            isHighContrastModeEnabled = isHighContrastModeEnabled))
+                            isHighContrastModeEnabled = isHighContrastModeEnabled,
+                        )
+                )
             }
             kv.encode(DARK_THEME_VALUE, darkThemeValue)
             kv.encode(HIGH_CONTRAST, isHighContrastModeEnabled)
@@ -417,12 +438,27 @@ object PreferenceUtil {
         }
     }
 
+    fun encodeTaskListBackup(map: Map<Task, Task.State>) =
+        runCatching { json.encodeToString<Map<Task, Task.State>>(map) }
+            .onSuccess {
+                Log.d(TAG, "encodeTaskListBackup: ${map.size}")
+                kv.encode(TASK_LIST, it)
+            }
+            .onFailure { it.printStackTrace() }
+
+    fun decodeTaskListBackup(): Map<Task, Task.State> =
+        runCatching {
+                kv.decodeString(TASK_LIST)?.let { json.decodeFromString<Map<Task, Task.State>>(it) }
+            }
+            .onFailure { it.printStackTrace() }
+            .getOrNull() ?: emptyMap()
+
     private const val TAG = "PreferenceUtil"
 }
 
 data class DarkThemePreference(
     val darkThemeValue: Int = FOLLOW_SYSTEM,
-    val isHighContrastModeEnabled: Boolean = false
+    val isHighContrastModeEnabled: Boolean = false,
 ) {
     companion object {
         const val FOLLOW_SYSTEM = 1
@@ -524,7 +560,8 @@ object PreferenceStrings {
                     INTERVAL_WEEK -> R.string.every_week
                     INTERVAL_MONTH -> R.string.every_month
                     else -> R.string.disabled
-                })
+                }
+        )
     }
 
     @Composable
@@ -583,7 +620,9 @@ object PreferenceStrings {
                             stringResource(
                                 id =
                                     if (videoFormat == FORMAT_QUALITY) R.string.quality
-                                    else R.string.legacy))
+                                    else R.string.legacy
+                            ),
+                        )
                     val preferredResolution = getVideoResolutionDesc(videoResolution)
                     listOf(preferredFormat, preferredResolution).joinToString(separator = ", ")
                 }

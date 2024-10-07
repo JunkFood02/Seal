@@ -47,8 +47,10 @@ data class Task(
         @Serializable data object Idle : DownloadState
 
         @Serializable
-        data class FetchingInfo(override val job: Job, override val taskId: String) :
-            DownloadState, Cancelable {
+        data class FetchingInfo(
+            @Transient override val job: Job = Job(),
+            override val taskId: String,
+        ) : DownloadState, Cancelable {
             override val action: RestartableAction = RestartableAction.FetchInfo
         }
 
@@ -56,7 +58,7 @@ data class Task(
 
         @Serializable
         data class Running(
-            override val job: Job,
+            @Transient override val job: Job = Job(),
             override val taskId: String,
             val progress: Float = PROGRESS_INDETERMINATE,
             val progressText: String = "",
@@ -93,10 +95,11 @@ data class Task(
                 }
     }
 
+    @Serializable
     sealed interface RestartableAction {
-        data object FetchInfo : RestartableAction
+        @Serializable data object FetchInfo : RestartableAction
 
-        data object Download : RestartableAction
+        @Serializable data object Download : RestartableAction
     }
 
     @Serializable

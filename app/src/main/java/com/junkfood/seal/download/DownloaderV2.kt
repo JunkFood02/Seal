@@ -2,12 +2,14 @@ package com.junkfood.seal.download
 
 import android.app.PendingIntent
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task.DownloadState
+import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
 import com.junkfood.seal.download.Task.DownloadState.Error
 import com.junkfood.seal.download.Task.DownloadState.FetchingInfo
@@ -19,19 +21,21 @@ import com.junkfood.seal.download.Task.RestartableAction.FetchInfo
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -87,6 +91,7 @@ internal object FakeDownloaderV2 : DownloaderV2 {
  *     - Custom commands
  *     - States for ViewModels
  */
+@OptIn(FlowPreview::class)
 class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComponent {
     private val scope = CoroutineScope(SupervisorJob())
     private val taskStateMap = mutableStateMapOf<Task, Task.State>()
@@ -100,6 +105,47 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                 .distinctUntilChanged()
                 .collect { if (it > 0) App.startService() else App.stopService() }
         }
+
+        scope.launch(Dispatchers.IO) {
+            // don't write before we read
+            enqueueFromBackup()
+
+            snapshotFlow
+                .map { it.filter { it.value.downloadState !is Completed } }
+                .distinctUntilChanged()
+                .collect {
+                    it.forEach { Log.d(TAG, it.value.viewState.title) }
+                    PreferenceUtil.encodeTaskListBackup(it)
+                }
+        }
+    }
+
+    private fun enqueueFromBackup() {
+        val taskList =
+            PreferenceUtil.decodeTaskListBackup()
+                .filter { it.value.downloadState !is Completed }
+                .mapValues { (_, state) ->
+                    val preState = state.downloadState
+                    val downloadState =
+                        when (preState) {
+                            is FetchingInfo,
+                            Idle -> {
+                                Canceled(action = FetchInfo)
+                            }
+                            is Running -> {
+                                Canceled(action = Download, progress = preState.progress)
+                            }
+
+                            ReadyWithInfo -> {
+                                Canceled(action = Download, progress = null)
+                            }
+                            else -> {
+                                preState
+                            }
+                        }
+                    state.copy(downloadState = downloadState)
+                }
+        taskList.also { it.forEach { Log.d(TAG, it.value.viewState.title) } }.forEach(::enqueue)
     }
 
     private fun Map<Task, Task.State>.countRunning(): Int = count { (_, state) ->
