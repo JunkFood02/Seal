@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="Seal.app" target="21" />
+      <module name="Seal.buildSrc" target="21" />
+      <module name="Seal.buildSrc.main" target="21" />
+      <module name="Seal.buildSrc.test" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

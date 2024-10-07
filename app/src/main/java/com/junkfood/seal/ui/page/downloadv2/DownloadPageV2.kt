@@ -29,7 +29,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -90,7 +90,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
-import com.junkfood.seal.download.Task.DownloadState.Cancelable
 import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
 import com.junkfood.seal.download.Task.DownloadState.Error
@@ -321,6 +320,16 @@ fun DownloadPageImplV2(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     var selectedTask by remember { mutableStateOf<Task?>(null) }
+    val view = LocalView.current
+
+    fun showActionSheet(task: Task) {
+        view.slightHapticFeedback()
+        scope.launch {
+            selectedTask = task
+            delay(50)
+            sheetState.show()
+        }
+    }
 
     LaunchedEffect(selectedTask, taskDownloadStateMap.size) {
         if (!taskDownloadStateMap.contains(selectedTask)) {
@@ -336,6 +345,7 @@ fun DownloadPageImplV2(
         val lazyListState = rememberLazyGridState()
         val spacerHeight = with(LocalDensity.current) { 36.dp.toPx() }
         var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
+        var isGridView by remember { mutableStateOf(false) }
 
         Column(
             modifier =
@@ -394,48 +404,69 @@ fun DownloadPageImplV2(
                     columns = GridCells.Adaptive(240.dp),
                     contentPadding =
                         windowInsetsPadding +
-                            PaddingValues(start = 24.dp, end = 24.dp, bottom = 80.dp),
+                            PaddingValues(start = 20.dp, end = 20.dp, bottom = 80.dp),
                     horizontalArrangement = Arrangement.spacedBy(24.dp),
                 ) {
                     if (filteredMap.isNotEmpty()) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
                             SubHeader(
+                                modifier = Modifier,
                                 videoCount = filteredMap.size,
-                                onToggleView = { context.makeToast("Not implemented yet!") },
+                                isGridView = isGridView,
+                                onToggleView = { isGridView = !isGridView },
                                 onShowMenu = { context.makeToast("Not implemented yet!") },
                             )
                         }
                     }
 
-                    itemsIndexed(
-                        items = filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
-                        key = { _, (task, _) -> task.id },
-                    ) { index, (task, state) ->
-                        with(state.viewState) {
-                            VideoCardV2(
-                                modifier = Modifier.padding(bottom = 20.dp).padding(),
-                                viewState = this,
-                                actionButton = {
-                                    ActionButton(
-                                        modifier = Modifier,
-                                        downloadState = state.downloadState,
-                                    ) {
-                                        onActionPost(task, it)
-                                    }
-                                },
+                    if (isGridView) {
+                        items(
+                            items =
+                                filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
+                            key = { (task, _) -> task.id },
+                        ) { (task, state) ->
+                            with(state.viewState) {
+                                VideoCardV2(
+                                    modifier = Modifier.padding(bottom = 20.dp).padding(),
+                                    viewState = this,
+                                    actionButton = {
+                                        ActionButton(
+                                            modifier = Modifier,
+                                            downloadState = state.downloadState,
+                                        ) {
+                                            onActionPost(task, it)
+                                        }
+                                    },
+                                    stateIndicator = {
+                                        CardStateIndicator(
+                                            modifier = Modifier,
+                                            downloadState = state.downloadState,
+                                        )
+                                    },
+                                    onButtonClick = { showActionSheet(task) },
+                                )
+                            }
+                        }
+                    } else {
+                        items(
+                            items =
+                                filteredMap.toList().sortedBy { (_, state) -> state.downloadState },
+                            key = { (task, _) -> task.id },
+                            span = { GridItemSpan(maxLineSpan) },
+                        ) { (task, state) ->
+                            VideoListItem(
+                                modifier = Modifier.padding(bottom = 16.dp),
+                                viewState = state.viewState,
                                 stateIndicator = {
-                                    StateIndicator(
-                                        modifier = Modifier,
+                                    ListItemStateText(
+                                        modifier = Modifier.padding(top = 4.dp),
                                         downloadState = state.downloadState,
+                                        errorColor = MaterialTheme.colorScheme.error,
+                                        contentColor = MaterialTheme.colorScheme.onSurface,
                                     )
                                 },
-                            ) {
-                                scope.launch {
-                                    selectedTask = task
-                                    delay(50)
-                                    sheetState.show()
-                                }
-                            }
+                                onButtonClick = { showActionSheet(task) },
+                            )
                         }
                     }
                 }
@@ -636,15 +667,13 @@ internal class DownloadPageV2Test {
             private val map = mutableStateMapOf<Task, Task.State>()
 
             init {
+                val viewState =
+                    Task.ViewState(title = "Sample title", uploader = "dummy video uploader")
                 val list =
                     listOf(
-                        Task.State(Idle, null, Task.ViewState()),
-                        Task.State(
-                            Canceled(Task.RestartableAction.Download),
-                            null,
-                            Task.ViewState(),
-                        ),
-                        Task.State(Completed(null), null, Task.ViewState()),
+                        Task.State(Idle, null, viewState),
+                        Task.State(Canceled(Task.RestartableAction.Download), null, viewState),
+                        Task.State(Completed(null), null, viewState),
                     )
                 map.run {
                     repeat(9) {
@@ -705,7 +734,7 @@ internal class DownloadPageV2Test {
 
     @Composable
     @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
-    @Preview(name = "Tablet", device = "spec:width=1280dp,height=800dp,dpi=240")
+    @Preview(name = "Tablet", device = "spec:width=600dp,height=800dp,dpi=240")
     private fun Preview() {
 
         val downloader: DownloaderV2 = mockDownloader
@@ -713,23 +742,7 @@ internal class DownloadPageV2Test {
             Column() {
                 DownloadPageImplV2(
                     taskDownloadStateMap = downloader.getTaskStateMap(),
-                    onActionPost = { task, state ->
-                        when (state) {
-                            is Canceled -> {
-                                downloader.restart(task)
-                            }
-                            is Completed -> {}
-                            is Error -> {
-                                downloader.restart(task)
-                            }
-                            is Cancelable,
-                            Idle,
-                            ReadyWithInfo -> {
-                                downloader.cancel(task)
-                            }
-                            else -> {}
-                        }
-                    },
+                    onActionPost = { task, state -> },
                     onMenuOpen = {},
                 )
             }

@@ -2,15 +2,23 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
@@ -83,6 +91,97 @@ fun VideoCardV2(
 }
 
 @Composable
+fun VideoListItem(
+    modifier: Modifier = Modifier,
+    viewState: Task.ViewState,
+    stateIndicator: @Composable (() -> Unit)? = null,
+    onButtonClick: () -> Unit,
+) {
+    with(viewState) {
+        VideoListItem(
+            modifier = modifier,
+            thumbnailModel = thumbnailUrl,
+            title = title,
+            uploader = uploader,
+            duration = duration,
+            fileSizeApprox = fileSizeApprox,
+            stateIndicator = stateIndicator,
+            onButtonClick = onButtonClick,
+        )
+    }
+}
+
+@Composable
+fun VideoListItem(
+    modifier: Modifier = Modifier,
+    thumbnailModel: Any? = null,
+    title: String = "",
+    uploader: String = "",
+    duration: Int = 0,
+    fileSizeApprox: Double = .0,
+    stateIndicator: @Composable (() -> Unit)? = null,
+    onButtonClick: () -> Unit,
+) {
+    Row(modifier = modifier.height(IntrinsicSize.Min), verticalAlignment = Alignment.Top) {
+        Box(modifier = Modifier) {
+            ListItemImage(modifier = Modifier, thumbnailModel = thumbnailModel)
+            VideoInfoLabel(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                duration = duration,
+                fileSizeApprox = fileSizeApprox,
+            )
+        }
+        Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
+            TitleText(
+                modifier = Modifier,
+                title = title,
+                uploader = uploader,
+                contentPadding = PaddingValues(),
+            )
+            stateIndicator?.invoke()
+        }
+        IconButton(
+            onButtonClick,
+            modifier = Modifier.align(Alignment.Bottom).offset(x = 4.dp, y = 4.dp),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.MoreVert,
+                contentDescription = stringResource(R.string.show_more_actions),
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun VideoListItemPreview() {
+    SealTheme() {
+        val downloadState =
+            Task.DownloadState.Error(
+                throwable = Throwable(),
+                action = Task.RestartableAction.Download,
+            )
+        Surface {
+            VideoListItem(
+                thumbnailModel = R.drawable.sample3,
+                title = stringResource(R.string.video_title_sample_text),
+                uploader = stringResource(R.string.video_creator_sample_text),
+                stateIndicator = {
+                    ListItemStateText(
+                        modifier = Modifier.padding(top = 3.dp),
+                        downloadState = downloadState,
+                        errorColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                    )
+                },
+            ) {}
+        }
+    }
+}
+
+@Composable
 fun VideoCardV2(
     modifier: Modifier = Modifier,
     thumbnailModel: Any? = null,
@@ -143,7 +242,9 @@ fun VideoCardV2Preview() {
             title = stringResource(R.string.video_title_sample_text),
             uploader = stringResource(R.string.video_creator_sample_text),
             actionButton = { ActionButton(modifier = Modifier, downloadState = downloadState) {} },
-            stateIndicator = { StateIndicator(modifier = Modifier, downloadState = downloadState) },
+            stateIndicator = {
+                CardStateIndicator(modifier = Modifier, downloadState = downloadState)
+            },
         ) {}
     }
 }
@@ -174,15 +275,45 @@ private fun CardImage(modifier: Modifier = Modifier, thumbnailModel: Any? = null
 }
 
 @Composable
-private fun TitleText(modifier: Modifier = Modifier, title: String, uploader: String) {
+private fun ListItemImage(modifier: Modifier = Modifier, thumbnailModel: Any? = null) {
+    if (thumbnailModel != null) {
+        AsyncImageImpl(
+            model = thumbnailModel,
+            modifier =
+                Modifier.width(160.dp)
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                    .clip(MaterialTheme.shapes.extraSmall),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+        )
+    } else {
+        Box(
+            modifier =
+                modifier
+                    .width(160.dp)
+                    .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                    .clip(MaterialTheme.shapes.extraSmall)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+        ) {}
+    }
+}
+
+@Composable
+private fun TitleText(
+    modifier: Modifier = Modifier,
+    title: String,
+    uploader: String,
+    contentPadding: PaddingValues = PaddingValues(12.dp),
+) {
     Column(
-        modifier = modifier.padding(start = 12.dp).padding(vertical = 12.dp),
+        modifier = modifier.padding(contentPadding),
         horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top,
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
@@ -215,42 +346,56 @@ private fun VideoInfoLabel(modifier: Modifier = Modifier, duration: Int, fileSiz
 }
 
 @Composable
-fun StateIndicator(modifier: Modifier = Modifier, downloadState: Task.DownloadState) {
+fun CardStateIndicator(modifier: Modifier = Modifier, downloadState: Task.DownloadState) {
     Surface(
         modifier = modifier.padding(vertical = 12.dp, horizontal = 8.dp),
         color = LabelContainerColor,
         shape = MaterialTheme.shapes.extraSmall,
     ) {
         val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
-        val text =
-            when (downloadState) {
-                is Task.DownloadState.Canceled -> R.string.status_canceled
-                is Task.DownloadState.Completed -> R.string.status_downloaded
-                is Task.DownloadState.Error -> R.string.status_error
-                is Task.DownloadState.FetchingInfo -> R.string.status_fetching_video_info
-                Task.DownloadState.Idle -> R.string.status_enqueued
-                Task.DownloadState.ReadyWithInfo -> R.string.status_enqueued
-                is Task.DownloadState.Running -> R.string.status_downloading
-            }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (downloadState is Task.DownloadState.Error) {
-                Icon(
-                    imageVector = Icons.Rounded.Error,
-                    contentDescription = null,
-                    tint =
-                        MaterialTheme.colorScheme.run {
-                            if (isDarkTheme) error else errorContainer
-                        },
-                    modifier = Modifier.padding(start = 4.dp).size(12.dp),
-                )
-            }
-            Text(
-                stringResource(id = text),
-                modifier = Modifier.padding(horizontal = 4.dp),
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.White,
-            )
+        ListItemStateText(
+            modifier = Modifier.padding(horizontal = 4.dp),
+            downloadState = downloadState,
+            errorColor =
+                MaterialTheme.colorScheme.run { if (isDarkTheme) error else errorContainer },
+            contentColor = Color.White,
+        )
+    }
+}
+
+@Composable
+fun ListItemStateText(
+    modifier: Modifier = Modifier,
+    downloadState: Task.DownloadState,
+    contentColor: Color = Color.White,
+    errorColor: Color = MaterialTheme.colorScheme.error,
+) {
+    val text =
+        when (downloadState) {
+            is Task.DownloadState.Canceled -> R.string.status_canceled
+            is Task.DownloadState.Completed -> R.string.status_downloaded
+            is Task.DownloadState.Error -> R.string.status_error
+            is Task.DownloadState.FetchingInfo -> R.string.status_fetching_video_info
+            Task.DownloadState.Idle -> R.string.status_enqueued
+            Task.DownloadState.ReadyWithInfo -> R.string.status_enqueued
+            is Task.DownloadState.Running -> R.string.status_downloading
         }
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        if (downloadState is Task.DownloadState.Error) {
+            Icon(
+                imageVector = Icons.Rounded.Error,
+                contentDescription = null,
+                tint = errorColor,
+                modifier = Modifier.size(12.dp),
+            )
+            Spacer(Modifier.width(4.dp))
+        }
+        Text(
+            text = stringResource(id = text),
+            modifier = Modifier,
+            style = MaterialTheme.typography.labelSmall,
+            color = contentColor,
+        )
     }
 }
 
