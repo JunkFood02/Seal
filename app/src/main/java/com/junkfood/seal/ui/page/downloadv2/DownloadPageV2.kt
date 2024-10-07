@@ -2,7 +2,8 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.util.Log
+import androidx.compose.animation.core.AnimationState
+import androidx.compose.animation.core.animateTo
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -103,7 +104,6 @@ import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
-import com.junkfood.seal.ui.page.download.FABs
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
@@ -139,7 +139,6 @@ enum class Filter {
         }
 
     fun predict(entry: Pair<Task, Task.State>): Boolean {
-        Log.d(TAG, "predict: $entry")
         if (this == All) return true
         val state = entry.second.downloadState
         return when (this) {
@@ -366,6 +365,14 @@ fun DownloadPageImplV2(
                                 onClick = {
                                     if (activeFilter == filter) {
                                         scope.launch { lazyListState.animateScrollToItem(0) }
+                                        scope.launch {
+                                            val initialValue = headerOffset
+                                            AnimationState(initialValue = initialValue).animateTo(
+                                                spacerHeight
+                                            ) {
+                                                headerOffset = value
+                                            }
+                                        }
                                     } else {
                                         activeFilter = filter
                                     }
@@ -385,7 +392,9 @@ fun DownloadPageImplV2(
                     modifier = Modifier,
                     state = lazyListState,
                     columns = GridCells.Adaptive(240.dp),
-                    contentPadding = windowInsetsPadding + PaddingValues(horizontal = 24.dp),
+                    contentPadding =
+                        windowInsetsPadding +
+                            PaddingValues(start = 24.dp, end = 24.dp, bottom = 80.dp),
                     horizontalArrangement = Arrangement.spacedBy(24.dp),
                 ) {
                     if (filteredMap.isNotEmpty()) {
@@ -429,7 +438,6 @@ fun DownloadPageImplV2(
                             }
                         }
                     }
-                    item(span = { GridItemSpan(maxLineSpan) }) { Spacer(Modifier.height(80.dp)) }
                 }
             }
         }
