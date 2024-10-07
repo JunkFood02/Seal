@@ -354,7 +354,7 @@ fun LazyListScope.ActionButtons(
             }
         }
     }
-    if (downloadState is DownloadState.Restartable) {
+    if (downloadState is DownloadState.Restartable || downloadState is Completed) {
         item(key = "DeleteButton") {
             DeleteButton(modifier = Modifier.animateItem()) {
                 onActionPost(task, UiAction.Delete)

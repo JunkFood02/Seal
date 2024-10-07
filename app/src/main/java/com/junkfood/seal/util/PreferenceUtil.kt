@@ -1,7 +1,6 @@
 package com.junkfood.seal.util
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.DeprecatedSinceApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -440,10 +439,7 @@ object PreferenceUtil {
 
     fun encodeTaskListBackup(map: Map<Task, Task.State>) =
         runCatching { json.encodeToString<Map<Task, Task.State>>(map) }
-            .onSuccess {
-                Log.d(TAG, "encodeTaskListBackup: ${map.size}")
-                kv.encode(TASK_LIST, it)
-            }
+            .onSuccess { kv.encode(TASK_LIST, it) }
             .onFailure { it.printStackTrace() }
 
     fun decodeTaskListBackup(): Map<Task, Task.State> =

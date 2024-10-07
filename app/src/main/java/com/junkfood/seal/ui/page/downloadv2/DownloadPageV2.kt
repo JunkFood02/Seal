@@ -621,13 +621,13 @@ fun SubHeader(
     onShowMenu: () -> Unit,
 ) {
     val text = buildString {
-        if (videoCount >= 0) {
+        if (videoCount > 0) {
             append(pluralStringResource(R.plurals.video_count, videoCount).format(videoCount))
-            if (audioCount >= 0) {
+            if (audioCount > 0) {
                 append(", ")
             }
         }
-        if (audioCount >= 0) {
+        if (audioCount > 0) {
             append(pluralStringResource(R.plurals.audio_count, audioCount).format(audioCount))
         }
     }
