@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
-import com.junkfood.seal.ui.theme.FixedAccentColors
 
 @Composable
 fun DynamicColorImageVectors.download(): ImageVector {
@@ -88,7 +88,7 @@ fun DynamicColorImageVectors.download(): ImageVector {
                 pathFillType = NonZero,
             ) {
                 moveTo(221.934f, 12.283f)
-                lineTo(199.375f, 12.283f)
+                lineTo(63.375f, 12.283f)
                 arcToRelative(16.75f, 16.75f, 0.0f, false, true, -15.508f, 23.076f)
                 lineTo(84.861f, 35.359f)
                 arcToRelative(16.75f, 16.75f, 0.0f, false, true, -15.508f, -23.076f)
@@ -104,7 +104,7 @@ fun DynamicColorImageVectors.download(): ImageVector {
                 close()
             }
             path(
-                fill = SolidColor(FixedAccentColors.primaryFixedDim),
+                fill = SolidColor(LocalFixedColorRoles.current.primaryFixedDim),
                 stroke = null,
                 strokeLineWidth = 0.0f,
                 strokeLineCap = Butt,
@@ -118,7 +118,7 @@ fun DynamicColorImageVectors.download(): ImageVector {
                 arcToRelative(84.446f, 84.446f, 0.0f, true, true, -168.892f, 0.0f)
             }
             path(
-                fill = SolidColor(FixedAccentColors.onPrimaryFixedVariant),
+                fill = SolidColor(LocalFixedColorRoles.current.onPrimaryFixedVariant),
                 stroke = null,
                 strokeLineWidth = 0.0f,
                 strokeLineCap = Butt,
