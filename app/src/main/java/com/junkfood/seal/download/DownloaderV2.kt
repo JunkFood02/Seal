@@ -21,9 +21,6 @@ import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -32,6 +29,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -40,10 +40,10 @@ private const val MAX_CONCURRENCY = 3
 interface DownloaderV2 {
     fun getTaskStateMap(): SnapshotStateMap<Task, Task.State>
 
-    fun cancel(task: Task)
+    fun cancel(task: Task): Boolean
 
-    fun cancel(taskId: String) {
-        getTaskStateMap().keys.find { it.id == taskId }?.let { cancel(it) }
+    fun cancel(taskId: String): Boolean {
+        return getTaskStateMap().keys.find { it.id == taskId }?.let { cancel(it) } ?: false
     }
 
     fun restart(task: Task)
@@ -66,7 +66,9 @@ internal object FakeDownloaderV2 : DownloaderV2 {
         return mutableStateMapOf()
     }
 
-    override fun cancel(task: Task) {}
+    override fun cancel(task: Task): Boolean {
+        return false
+    }
 
     override fun restart(task: Task) {}
 
@@ -130,9 +132,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
         return false
     }
 
-    override fun cancel(task: Task) {
-        task.cancelImpl()
-    }
+    override fun cancel(task: Task): Boolean = task.cancelImpl()
 
     override fun restart(task: Task) {
         task.restartImpl()
@@ -287,7 +287,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
             .also { job -> downloadState = Running(job = job, taskId = id) }
     }
 
-    private fun Task.cancelImpl() {
+    private fun Task.cancelImpl(): Boolean {
         when (val preState = downloadState) {
             is DownloadState.Cancelable -> {
                 val res = YoutubeDL.destroyProcessById(preState.taskId)
@@ -298,6 +298,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                     downloadState =
                         DownloadState.Canceled(action = preState.action, progress = progress)
                 }
+                return res
             }
             Idle -> {
                 downloadState = DownloadState.Canceled(action = FetchInfo)
@@ -307,9 +308,10 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
             }
 
             else -> {
-                throw IllegalStateException()
+                return false
             }
         }
+        return true
     }
 
     private fun Task.restartImpl() {

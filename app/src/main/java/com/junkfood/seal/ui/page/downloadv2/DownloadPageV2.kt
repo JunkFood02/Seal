@@ -671,7 +671,9 @@ internal class DownloadPageV2Test {
                 return map
             }
 
-            override fun cancel(task: Task) {}
+            override fun cancel(task: Task): Boolean {
+                return false
+            }
 
             override fun restart(task: Task) {}
 

@@ -51,13 +51,13 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
     private fun cancelTask(taskId: String?, notificationId: Int) {
         if (taskId.isNullOrEmpty()) return
         NotificationUtil.cancelNotification(notificationId)
-        val result = YoutubeDL.getInstance().destroyProcessById(taskId)
-        NotificationUtil.cancelNotification(notificationId)
-        if (result) {
+        val res = downloader.cancel(taskId)
+        if (res) {
             Log.d(TAG, "Task (id:$taskId) was killed.")
-            // reserved for custom commands
+        } else {
+            // todo: reserved for custom commands
+            YoutubeDL.destroyProcessById(taskId)
             Downloader.onProcessCanceled(taskId)
-            downloader.cancel(taskId)
         }
     }
 
