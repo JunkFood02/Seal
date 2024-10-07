@@ -1,8 +1,8 @@
 package com.junkfood.seal.util
 
-import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 
 sealed interface YoutubeDLInfo
 
@@ -103,6 +103,7 @@ data class Format(
     fun containsAudio(): Boolean = acodec != null && acodec != "none"
 }
 
+@Serializable
 data class VideoClip(val start: Int = 0, val end: Int = 0) {
     constructor(
         range: ClosedFloatingPointRange<Float>

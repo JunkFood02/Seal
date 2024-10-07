@@ -6,8 +6,11 @@ import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
 import kotlinx.coroutines.Job
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.math.roundToInt
 
+@Serializable
 data class Task(
     val url: String,
     val playlistIndex: Int? = null,
@@ -21,12 +24,14 @@ data class Task(
         return timeCreated.compareTo(other.timeCreated)
     }
 
+    @Serializable
     data class State(
         val downloadState: DownloadState,
         val videoInfo: VideoInfo?,
         val viewState: ViewState,
     )
 
+    @Serializable
     sealed interface DownloadState : Comparable<DownloadState> {
 
         interface Cancelable {
@@ -39,15 +44,17 @@ data class Task(
             val action: RestartableAction
         }
 
-        data object Idle : DownloadState
+        @Serializable data object Idle : DownloadState
 
+        @Serializable
         data class FetchingInfo(override val job: Job, override val taskId: String) :
             DownloadState, Cancelable {
             override val action: RestartableAction = RestartableAction.FetchInfo
         }
 
-        data object ReadyWithInfo : DownloadState
+        @Serializable data object ReadyWithInfo : DownloadState
 
+        @Serializable
         data class Running(
             override val job: Job,
             override val taskId: String,
@@ -57,13 +64,17 @@ data class Task(
             override val action: RestartableAction = RestartableAction.Download
         }
 
+        @Serializable
         data class Canceled(override val action: RestartableAction, val progress: Float? = null) :
             DownloadState, Restartable
 
-        data class Error(val throwable: Throwable, override val action: RestartableAction) :
-            DownloadState, Restartable
+        @Serializable
+        data class Error(
+            @Transient val throwable: Throwable = Throwable(),
+            override val action: RestartableAction,
+        ) : DownloadState, Restartable
 
-        data class Completed(val filePath: String?) : DownloadState
+        @Serializable data class Completed(val filePath: String?) : DownloadState
 
         override fun compareTo(other: DownloadState): Int {
             return ordinal - other.ordinal
@@ -88,6 +99,7 @@ data class Task(
         data object Download : RestartableAction
     }
 
+    @Serializable
     data class ViewState(
         val url: String = "https://www.example.com",
         val title: String = "",
