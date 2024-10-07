@@ -2,6 +2,8 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.util.Log
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.horizontalScroll
@@ -18,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -53,7 +54,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,7 +81,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -88,7 +88,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
-import com.junkfood.seal.download.Task.DownloadState
 import com.junkfood.seal.download.Task.DownloadState.Cancelable
 import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
@@ -119,6 +118,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
+private const val TAG = "DownloadPageV2"
+
 enum class Filter {
     All,
     Downloading,
@@ -136,6 +137,7 @@ enum class Filter {
         }
 
     fun predict(entry: Pair<Task, Task.State>): Boolean {
+        Log.d(TAG, "predict: $entry")
         if (this == All) return true
         val state = entry.second.downloadState
         return when (this) {
@@ -149,7 +151,7 @@ enum class Filter {
                 }
             }
             Canceled -> {
-                state is Error || state is DownloadState.Canceled
+                state is Error || state is Canceled
             }
             Finished -> {
                 state is Completed
@@ -328,8 +330,8 @@ fun DownloadPageImplV2(
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) { windowInsetsPadding ->
         val lazyListState = rememberLazyGridState()
-        val spacerHeight = with(LocalDensity.current) { 36.dp.roundToPx() }
-        var headerOffset by remember { mutableIntStateOf(0) }
+        val spacerHeight = with(LocalDensity.current) { 36.dp.toPx() }
+        var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
 
         Column(
             modifier =
@@ -337,17 +339,16 @@ fun DownloadPageImplV2(
                     .nestedScroll(
                         connection =
                             TopBarNestedScrollConnection(
-                                spacerHeight = spacerHeight,
+                                maxOffset = spacerHeight,
+                                flingAnimationSpec = rememberSplineBasedDecay(),
                                 offset = { headerOffset },
                                 onOffsetUpdate = { headerOffset = it },
                             )
                     )
         ) {
             CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
-                Column(
-                    modifier = Modifier.fillMaxWidth().offset { IntOffset(x = 0, y = headerOffset) }
-                ) {
-                    Spacer(Modifier.height(36.dp))
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(Modifier.height(with(LocalDensity.current) { headerOffset.toDp() }))
                     Header(onMenuOpen = onMenuOpen, modifier = Modifier.padding(horizontal = 16.dp))
                     SelectionGroupRow(
                         modifier =
@@ -370,13 +371,13 @@ fun DownloadPageImplV2(
                         }
                     }
                     Spacer(Modifier.height(8.dp))
-                    if (headerOffset < 0) {
+                    if (headerOffset <= 0.1f) {
                         HorizontalDivider(thickness = Dp.Hairline)
                     }
                 }
 
                 LazyVerticalGrid(
-                    modifier = Modifier.offset { IntOffset(x = 0, y = headerOffset) },
+                    modifier = Modifier,
                     state = lazyListState,
                     columns = GridCells.Adaptive(240.dp),
                     contentPadding = windowInsetsPadding + PaddingValues(horizontal = 24.dp),
