@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.VolunteerActivism
+import androidx.compose.material.icons.rounded.Cookie
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.NetworkWifi
@@ -219,14 +220,14 @@ fun NavigationDrawerSheetContent(
                 )
 
                 NavigationDrawerItem(
-                    label = { Text(stringResource(R.string.network)) },
-                    icon = { Icon(Icons.Rounded.NetworkWifi, null) },
+                    label = { Text(stringResource(R.string.cookies)) },
+                    icon = { Icon(Icons.Rounded.Cookie, null) },
                     onClick = {
                         scope
                             .launch { onDismissRequest() }
-                            .invokeOnCompletion { onNavigateToRoute(Route.NETWORK_PREFERENCES) }
+                            .invokeOnCompletion { onNavigateToRoute(Route.COOKIE_PROFILE) }
                     },
-                    selected = currentRoute == Route.NETWORK_PREFERENCES,
+                    selected = currentRoute == Route.COOKIE_PROFILE,
                 )
 
                 NavigationDrawerItem(
