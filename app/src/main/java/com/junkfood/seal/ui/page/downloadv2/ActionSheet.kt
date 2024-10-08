@@ -488,6 +488,7 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: ViewSt
                 val title = "${stringResource(R.string.video)} #$index: ${fmt.formatNote}"
                 val details =
                     listOf(codecText, fmt.resolution, bitRateText, fileSizeText)
+                        .filterNot { it.isNullOrBlank() }
                         .joinToString(separator = " · ")
 
                 ActionSheetItem(
@@ -514,7 +515,9 @@ fun ActionSheetInfo(modifier: Modifier = Modifier, task: Task, viewState: ViewSt
 
                 val title = "${stringResource(R.string.audio)} #$index: ${fmt.formatNote}"
                 val details =
-                    listOf(codecText, bitRateText, fileSizeText).joinToString(separator = " · ")
+                    listOf(codecText, bitRateText, fileSizeText)
+                        .filterNot { it.isBlank() }
+                        .joinToString(separator = " · ")
 
                 ActionSheetItem(
                     text = {
