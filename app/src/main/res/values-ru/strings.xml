@@ -13,7 +13,7 @@
     <string name="fetch_info_error_msg">Не получается получить информацию о видео</string>
     <string name="language_settings">Установить язык</string>
     <string name="task_running">Существующая загрузка уже запущена</string>
-    <string name="paste_msg">Вставлен URL-адрес из буфера обмена</string>
+    <string name="paste_msg">Вставлен URL-адрес</string>
     <string name="delete_info_msg">Удалить \"%1$s\" из Вашей истории загрузок навсегда?</string>
     <string name="confirm">Подтвердить</string>
     <string name="open_url">Открыть ссылку</string>
@@ -432,4 +432,14 @@
     <string name="preset_format_selection_desc">Скачать автоматически с помощью предпочтений формата</string>
     <string name="edit_preset">Изменить предустановку</string>
     <string name="best_quality_desc">Скачать лучший доступный формат</string>
+    <string name="you_ll_find_your_downloads_here">Вы найдете свои загрузки здесь</string>
+    <string name="download_hint">Нажмите на кнопку загрузки или поделитесь ссылкой на видео с этим приложением, чтобы начать загрузку</string>
+    <string name="status_downloaded">Загружено</string>
+    <string name="all">Все</string>
+    <string name="select_multiple_link">Выберите из %1$d ссылок</string>
+    <string name="show_navigation_drawer">Показать навигационную панель</string>
+    <string name="resume">Резюме</string>
+    <string name="delete">Удалить</string>
+    <string name="media_info">Информация о медиа</string>
+    <string name="download_queue">Очередь загрузки</string>
 </resources>

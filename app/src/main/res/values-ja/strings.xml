@@ -430,4 +430,5 @@
     <string name="download_queue">ダウンロードキュー</string>
     <string name="resume">再開</string>
     <string name="delete">削除</string>
+    <string name="media_info">メディアの情報</string>
 </resources>
