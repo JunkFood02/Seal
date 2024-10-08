@@ -344,20 +344,28 @@ fun DownloadPageImplV2(
         floatingActionButton = { FABs(modifier = Modifier, downloadCallback = downloadCallback) },
     ) { windowInsetsPadding ->
         val lazyListState = rememberLazyGridState()
-        val spacerHeight = with(LocalDensity.current) { 36.dp.toPx() }
+        val windowWidthSizeClass = LocalWindowWidthState.current
+        val spacerHeight =
+            with(LocalDensity.current) {
+                if (windowWidthSizeClass != WindowWidthSizeClass.Compact) 0f else 36.dp.toPx()
+            }
         var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
         var isGridView by rememberSaveable { mutableStateOf(true) }
 
         Column(
             modifier =
                 Modifier.fillMaxSize()
-                    .nestedScroll(
-                        connection =
-                            TopBarNestedScrollConnection(
-                                maxOffset = spacerHeight,
-                                flingAnimationSpec = rememberSplineBasedDecay(),
-                                offset = { headerOffset },
-                                onOffsetUpdate = { headerOffset = it },
+                    .then(
+                        if (windowWidthSizeClass != WindowWidthSizeClass.Compact) Modifier
+                        else
+                            Modifier.nestedScroll(
+                                connection =
+                                    TopBarNestedScrollConnection(
+                                        maxOffset = spacerHeight,
+                                        flingAnimationSpec = rememberSplineBasedDecay(),
+                                        offset = { headerOffset },
+                                        onOffsetUpdate = { headerOffset = it },
+                                    )
                             )
                     )
         ) {
@@ -394,7 +402,7 @@ fun DownloadPageImplV2(
                         }
                     }
                     Spacer(Modifier.height(8.dp))
-                    if (headerOffset <= 0.1f) {
+                    if (headerOffset <= 0.1f && spacerHeight > 0f) {
                         HorizontalDivider(thickness = Dp.Hairline)
                     }
                 }
