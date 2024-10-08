@@ -190,7 +190,7 @@ sealed interface UiAction {
 @Composable
 fun DownloadPageV2(
     modifier: Modifier = Modifier,
-    onMenuOpen: (() -> Unit)? = null,
+    onMenuOpen: (() -> Unit) = {},
     dialogViewModel: DownloadDialogViewModel,
     downloader: DownloaderV2 = koinInject(),
 ) {
@@ -310,7 +310,7 @@ fun DownloadPageImplV2(
     modifier: Modifier = Modifier,
     taskDownloadStateMap: SnapshotStateMap<Task, Task.State>,
     downloadCallback: () -> Unit = {},
-    onMenuOpen: (() -> Unit)? = null,
+    onMenuOpen: (() -> Unit) = {},
     onActionPost: (Task, UiAction) -> Unit,
 ) {
     var activeFilter by remember { mutableStateOf(Filter.All) }
@@ -528,16 +528,28 @@ fun DownloadPageImplV2(
 }
 
 @Composable
-fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
+fun Header(modifier: Modifier = Modifier, onMenuOpen: () -> Unit = {}) {
+    val windowWidthSizeClass = LocalWindowWidthState.current
+    when (windowWidthSizeClass) {
+        WindowWidthSizeClass.Expanded -> {
+            HeaderExpanded(modifier = modifier)
+        }
+        else -> {
+            HeaderCompact(modifier = modifier, onMenuOpen = onMenuOpen)
+        }
+    }
+}
+
+@Composable
+private fun HeaderCompact(modifier: Modifier = Modifier, onMenuOpen: () -> Unit) {
+
     Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (onMenuOpen != null) {
-            IconButton(onClick = onMenuOpen, modifier = Modifier) {
-                Icon(
-                    imageVector = Icons.Outlined.Menu,
-                    contentDescription = stringResource(R.string.show_navigation_drawer),
-                    modifier = Modifier,
-                )
-            }
+        IconButton(onClick = onMenuOpen, modifier = Modifier) {
+            Icon(
+                imageVector = Icons.Outlined.Menu,
+                contentDescription = stringResource(R.string.show_navigation_drawer),
+                modifier = Modifier,
+            )
         }
         Spacer(modifier = Modifier.width(4.dp))
         Text(
@@ -549,6 +561,18 @@ fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
                 ),
         )
     }
+}
+
+@Composable
+private fun HeaderExpanded(modifier: Modifier = Modifier) {
+    Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            stringResource(R.string.download_queue),
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+        )
+    }
+    Spacer(Modifier.height(4.dp))
 }
 
 @Composable

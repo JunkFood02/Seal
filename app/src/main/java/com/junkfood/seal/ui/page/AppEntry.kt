@@ -9,7 +9,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -146,15 +145,10 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                 animatedComposable(Route.HOME) {
                     DownloadPageV2(
                         dialogViewModel = dialogViewModel,
-                        onMenuOpen =
-                            if (windowWidth == WindowWidthSizeClass.Expanded) {
-                                null
-                            } else {
-                                {
-                                    view.slightHapticFeedback()
-                                    scope.launch { drawerState.open() }
-                                }
-                            },
+                        onMenuOpen = {
+                            view.slightHapticFeedback()
+                            scope.launch { drawerState.open() }
+                        },
                     )
                 }
                 animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }

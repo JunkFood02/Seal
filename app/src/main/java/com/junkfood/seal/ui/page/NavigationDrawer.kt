@@ -128,7 +128,7 @@ fun NavigationDrawer(
                     ) {
                         Column(
                             verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxHeight().systemBarsPadding().width(80.dp),
+                            modifier = Modifier.fillMaxHeight().systemBarsPadding().width(92.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             Spacer(Modifier.height(8.dp))
