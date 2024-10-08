@@ -2,18 +2,26 @@ package com.junkfood.seal.ui.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Subscriptions
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
@@ -28,26 +36,28 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -63,6 +73,7 @@ fun NavigationDrawer(
     drawerState: DrawerState,
     windowWidth: WindowWidthSizeClass = LocalWindowWidthState.current,
     currentRoute: String? = null,
+    currentTopDestination: String? = null,
     showQuickSettings: Boolean = true,
     onNavigateToRoute: (String) -> Unit,
     onDismissRequest: suspend () -> Unit,
@@ -111,30 +122,30 @@ fun NavigationDrawer(
                 },
             ) {
                 Row {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        modifier =
-                            Modifier.fillMaxHeight()
-                                .background(MaterialTheme.colorScheme.surfaceContainer)
-                                .systemBarsPadding()
-                                .width(80.dp)
-                                .zIndex(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        modifier = Modifier.zIndex(1f),
                     ) {
-                        Spacer(Modifier.height(8.dp))
-                        IconButton(
-                            onClick = { scope.launch { drawerState.open() } },
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxHeight().systemBarsPadding().width(80.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            Icon(Icons.Outlined.Menu, null)
+                            Spacer(Modifier.height(8.dp))
+                            IconButton(
+                                onClick = { scope.launch { drawerState.open() } },
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                            ) {
+                                Icon(Icons.Outlined.Menu, null)
+                            }
+                            Spacer(Modifier.weight(1f))
+                            NavigationRailContent(
+                                modifier = Modifier,
+                                currentTopDestination = currentTopDestination,
+                                onNavigateToRoute = onNavigateToRoute,
+                            )
+                            Spacer(Modifier.weight(1f))
                         }
-                        Spacer(Modifier.weight(1f))
-                        NavigationRailContent(
-                            modifier = Modifier,
-                            currentRoute = currentRoute,
-                            onNavigateToRoute = onNavigateToRoute,
-                        )
-                        Spacer(Modifier.weight(1f))
                     }
                     content()
                 }
@@ -283,84 +294,96 @@ fun NavigationDrawerSheetContent(
 }
 
 @Composable
+fun NavigationRailItemVariant(
+    modifier: Modifier = Modifier,
+    icon: @Composable (() -> Unit),
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier =
+            modifier
+                .size(56.dp)
+                .clip(MaterialTheme.shapes.large)
+                .background(
+                    if (selected) MaterialTheme.colorScheme.secondaryContainer
+                    else Color.Transparent
+                )
+                .selectable(selected = selected, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        CompositionLocalProvider(
+            LocalContentColor provides
+                if (selected) MaterialTheme.colorScheme.onSecondaryContainer
+                else MaterialTheme.colorScheme.onSurfaceVariant
+        ) {
+            icon()
+        }
+    }
+}
+
+@Composable
 fun NavigationRailContent(
     modifier: Modifier = Modifier,
-    currentRoute: String? = null,
+    currentTopDestination: String? = null,
     onNavigateToRoute: (String) -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.selectableGroup(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         val scope = rememberCoroutineScope()
-        NavigationRailItem(
-            label = {
-                Text(
+        NavigationRailItemVariant(
+            icon = {
+                Icon(
+                    if (currentTopDestination == Route.HOME) Icons.Filled.Download
+                    else Icons.Outlined.Download,
                     stringResource(R.string.download_queue),
-                    style =
-                        MaterialTheme.typography.labelMedium.copy(
-                            textAlign = TextAlign.Center,
-                            fontWeight =
-                                if (currentRoute == Route.HOME) FontWeight.Bold
-                                else FontWeight.Medium,
-                        ),
                 )
             },
-            icon = { Icon(Icons.Filled.Download, null) },
+            modifier = Modifier,
+            selected = currentTopDestination == Route.HOME,
             onClick = { onNavigateToRoute(Route.HOME) },
-            selected = currentRoute == Route.HOME,
         )
-        NavigationRailItem(
-            label = {
-                Text(
+
+        NavigationRailItemVariant(
+            icon = {
+                Icon(
+                    if (currentTopDestination == Route.DOWNLOADS) Icons.Filled.Subscriptions
+                    else Icons.Outlined.Subscriptions,
                     stringResource(R.string.downloads_history),
-                    style =
-                        MaterialTheme.typography.labelMedium.copy(
-                            textAlign = TextAlign.Center,
-                            fontWeight =
-                                if (currentRoute == Route.DOWNLOADS) FontWeight.Bold
-                                else FontWeight.Medium,
-                        ),
                 )
             },
-            icon = { Icon(Icons.Outlined.Subscriptions, null) },
+            modifier = Modifier,
+            selected = currentTopDestination == Route.DOWNLOADS,
             onClick = { onNavigateToRoute(Route.DOWNLOADS) },
-            selected = currentRoute == Route.DOWNLOADS,
         )
-        NavigationRailItem(
-            label = {
-                Text(
+
+        NavigationRailItemVariant(
+            icon = {
+                Icon(
+                    if (currentTopDestination == Route.TASK_LIST) Icons.Filled.Terminal
+                    else Icons.Outlined.Terminal,
                     stringResource(R.string.custom_command),
-                    style =
-                        MaterialTheme.typography.labelMedium.copy(
-                            textAlign = TextAlign.Center,
-                            fontWeight =
-                                if (currentRoute == Route.TASK_LIST) FontWeight.Bold
-                                else FontWeight.Medium,
-                        ),
                 )
             },
-            icon = { Icon(Icons.Outlined.Terminal, null) },
+            modifier = Modifier,
+            selected = currentTopDestination == Route.TASK_LIST,
             onClick = { onNavigateToRoute(Route.TASK_LIST) },
-            selected = currentRoute == Route.TASK_LIST,
         )
-        NavigationRailItem(
-            label = {
-                Text(
+
+        NavigationRailItemVariant(
+            icon = {
+                Icon(
+                    if (currentTopDestination == Route.SETTINGS_PAGE) Icons.Filled.Settings
+                    else Icons.Outlined.Settings,
                     stringResource(R.string.settings),
-                    style =
-                        MaterialTheme.typography.labelMedium.copy(
-                            textAlign = TextAlign.Center,
-                            fontWeight =
-                                if (currentRoute == Route.SETTINGS_PAGE) FontWeight.Bold
-                                else FontWeight.Medium,
-                        ),
                 )
             },
-            icon = { Icon(Icons.Outlined.Settings, null) },
-            onClick = { onNavigateToRoute(Route.SETTINGS) },
-            selected = currentRoute == Route.SETTINGS_PAGE,
+            modifier = Modifier,
+            selected = currentTopDestination == Route.SETTINGS_PAGE,
+            onClick = { onNavigateToRoute(Route.SETTINGS_PAGE) },
         )
     }
 }
@@ -370,6 +393,8 @@ fun NavigationRailContent(
 @Composable
 private fun ExpandedPreview() {
     val widthDp = LocalConfiguration.current.screenWidthDp
+    var currentRoute = remember { mutableStateOf(Route.HOME) }
+
     CompositionLocalProvider(
         LocalWindowWidthState provides
             if (widthDp > 480) WindowWidthSizeClass.Expanded
@@ -378,9 +403,10 @@ private fun ExpandedPreview() {
         Row {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             NavigationDrawer(
-                currentRoute = Route.HOME,
+                currentRoute = currentRoute.value,
+                currentTopDestination = currentRoute.value,
                 drawerState = drawerState,
-                onNavigateToRoute = {},
+                onNavigateToRoute = { currentRoute.value = it },
                 onDismissRequest = {},
             ) {
                 DownloadPageImplV2(taskDownloadStateMap = remember { mutableStateMapOf() }) { _, _

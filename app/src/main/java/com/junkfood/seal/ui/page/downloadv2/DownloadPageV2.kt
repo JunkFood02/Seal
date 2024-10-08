@@ -100,8 +100,10 @@ import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalDarkTheme
+import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.component.SealModalBottomSheet
+import com.junkfood.seal.ui.component.SelectionGroupDefaults
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
@@ -380,6 +382,13 @@ fun DownloadPageImplV2(
                     ) {
                         Filter.entries.forEach { filter ->
                             SelectionGroupItem(
+                                colors =
+                                    SelectionGroupDefaults.colors(
+                                        activeContainerColor =
+                                            LocalFixedColorRoles.current.tertiaryFixed,
+                                        activeContentColor =
+                                            LocalFixedColorRoles.current.onTertiaryFixed,
+                                    ),
                                 selected = activeFilter == filter,
                                 onClick = {
                                     if (activeFilter == filter) {
@@ -521,8 +530,8 @@ fun DownloadPageImplV2(
 @Composable
 fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
     Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
-        onMenuOpen?.let {
-            IconButton(onClick = it, modifier = Modifier.padding(end = 4.dp)) {
+        if (onMenuOpen != null) {
+            IconButton(onClick = onMenuOpen, modifier = Modifier) {
                 Icon(
                     imageVector = Icons.Outlined.Menu,
                     contentDescription = stringResource(R.string.show_navigation_drawer),
@@ -530,6 +539,7 @@ fun Header(modifier: Modifier = Modifier, onMenuOpen: (() -> Unit)? = null) {
                 )
             }
         }
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
             stringResource(R.string.download_queue),
             style =

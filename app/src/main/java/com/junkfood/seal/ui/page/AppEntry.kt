@@ -11,8 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -67,6 +71,9 @@ import org.koin.androidx.compose.koinViewModel
 
 private const val TAG = "HomeEntry"
 
+private val TopDestinations =
+    listOf(Route.HOME, Route.TASK_LIST, Route.SETTINGS_PAGE, Route.DOWNLOADS)
+
 @Composable
 fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
 
@@ -97,12 +104,20 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
     }
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    var currentTopDestination by rememberSaveable { mutableStateOf(currentRoute) }
+
+    LaunchedEffect(currentRoute) {
+        if (currentRoute in TopDestinations) {
+            currentTopDestination = currentRoute
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         NavigationDrawer(
             windowWidth = windowWidth,
             drawerState = drawerState,
             currentRoute = currentRoute,
+            currentTopDestination = currentTopDestination,
             showQuickSettings = true,
             gesturesEnabled = currentRoute == Route.HOME,
             onDismissRequest = { drawerState.close() },
