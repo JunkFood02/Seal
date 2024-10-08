@@ -304,6 +304,8 @@ private operator fun PaddingValues.plus(other: PaddingValues): PaddingValues {
     )
 }
 
+private const val HeaderSpacingDp = 28
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadPageImplV2(
@@ -349,7 +351,8 @@ fun DownloadPageImplV2(
         val windowWidthSizeClass = LocalWindowWidthState.current
         val spacerHeight =
             with(LocalDensity.current) {
-                if (windowWidthSizeClass != WindowWidthSizeClass.Compact) 0f else 36.dp.toPx()
+                if (windowWidthSizeClass != WindowWidthSizeClass.Compact) 0f
+                else HeaderSpacingDp.dp.toPx()
             }
         var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
         var isGridView by rememberSaveable { mutableStateOf(true) }
