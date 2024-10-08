@@ -61,6 +61,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -345,7 +346,7 @@ fun DownloadPageImplV2(
         val lazyListState = rememberLazyGridState()
         val spacerHeight = with(LocalDensity.current) { 36.dp.toPx() }
         var headerOffset by remember { mutableFloatStateOf(spacerHeight) }
-        var isGridView by remember { mutableStateOf(false) }
+        var isGridView by rememberSaveable { mutableStateOf(true) }
 
         Column(
             modifier =

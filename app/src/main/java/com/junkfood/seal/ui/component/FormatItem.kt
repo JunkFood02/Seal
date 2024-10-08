@@ -81,15 +81,9 @@ fun FormatVideoPreview(
     onClippingToggled: () -> Unit = {},
     onSplittingToggled: () -> Unit = {},
 ) {
-    val imageWeight =
-        when (LocalWindowWidthState.current) {
-            WindowWidthSizeClass.Expanded -> 0.25f
-            WindowWidthSizeClass.Medium -> 0.30f
-            else -> 0.45f
-        }
     Box(modifier = Modifier.fillMaxWidth().wrapContentHeight(Alignment.Top, unbounded = false)) {
         Row(modifier = modifier.fillMaxWidth()) {
-            Box(modifier = Modifier.weight(imageWeight)) {
+            Box(modifier = Modifier) {
                 MediaImage(
                     modifier = Modifier,
                     imageModel = thumbnailUrl,
@@ -112,7 +106,7 @@ fun FormatVideoPreview(
             }
 
             Column(
-                modifier = Modifier.weight(1f - imageWeight),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Top,
             ) {
                 Text(
