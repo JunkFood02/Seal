@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resume failed/canceled download
 - Backup & restore unfinished tasks in the download queue
 - Select from formats/playlists in Quick Download
+- Predictive back animation support for Android 14+
+- Bump up minimum API level to 24 (Android 7.0)
 
 ## [v1.13.0][1.13.0] - 2024-08-18
 

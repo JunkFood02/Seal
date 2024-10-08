@@ -35,4 +35,4 @@ sealed class Version(
 }
 
 val currentVersion: Version =
-    Version.Alpha(versionMajor = 2, versionMinor = 0, versionPatch = 0, versionBuild = 3)
+    Version.Alpha(versionMajor = 2, versionMinor = 0, versionPatch = 0, versionBuild = 4)
