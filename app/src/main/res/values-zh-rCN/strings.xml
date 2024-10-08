@@ -432,4 +432,5 @@
     <string name="show_navigation_drawer">显示导航抽屉</string>
     <string name="resume">继续</string>
     <string name="delete">删除</string>
+    <string name="media_info">媒体信息</string>
 </resources>

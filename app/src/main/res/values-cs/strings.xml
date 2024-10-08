@@ -438,4 +438,5 @@
     <string name="show_navigation_drawer">Zobrazit navigační lištu</string>
     <string name="resume">Pokračovat</string>
     <string name="delete">Smazat</string>
+    <string name="media_info">Informace o médiu</string>
 </resources>
