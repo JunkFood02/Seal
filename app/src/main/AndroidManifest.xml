@@ -18,6 +18,8 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
+    <tools:uses-sdk tools:overrideLibrary="com.yausername.youtubedl_android, com.yausername.aria2c, com.yausername.ffmpeg, com.yausername.youtubedl_common" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
