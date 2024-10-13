@@ -13,8 +13,6 @@ import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.updateLong
 import com.yausername.youtubedl_android.YoutubeDL
-import java.io.File
-import java.util.regex.Pattern
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -28,6 +26,8 @@ import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
+import java.io.File
+import java.util.regex.Pattern
 
 object UpdateUtil {
 
@@ -74,24 +74,18 @@ object UpdateUtil {
                 }
         }
 
-    private suspend fun getLatestRelease(): Release =
-        client.newCall(requestForReleases).execute().run {
-            val releaseList = jsonFormat.decodeFromString<List<Release>>(this.body.string())
+    private fun getLatestRelease(): Release =
+        client.newCall(requestForReleases).execute().body.use {
+            val releaseList = jsonFormat.decodeFromString<List<Release>>(it.string())
+            val stable = UPDATE_CHANNEL.getInt() == STABLE
             val latestRelease =
                 releaseList
-                    .filter {
-                        if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable
-                        else true
-                    }
+                    .filter { if (stable) it.name.toVersion() is Version.Stable else true }
                     .maxByOrNull { it.name.toVersion() } ?: throw Exception("null response")
-            releaseList
-                .sortedBy { it.name.toVersion() }
-                .forEach { Log.d(TAG, it.tagName.toString()) }
-            body.close()
             latestRelease
         }
 
-    suspend fun checkForUpdate(context: Context = App.context): Release? {
+    fun checkForUpdate(context: Context = App.context): Release? {
         val currentVersion = context.getCurrentVersion()
         val latestRelease = getLatestRelease()
         val latestVersion = latestRelease.name.toVersion()
