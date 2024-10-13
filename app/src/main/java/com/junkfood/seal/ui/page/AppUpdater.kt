@@ -36,7 +36,7 @@ fun AppUpdater() {
     }
     val scope = rememberCoroutineScope()
     var updateJob: Job? = null
-    var latestRelease by remember { mutableStateOf(UpdateUtil.LatestRelease()) }
+    var release by remember { mutableStateOf(UpdateUtil.Release()) }
     val settings =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             UpdateUtil.installLatestApk()
@@ -67,7 +67,7 @@ fun AppUpdater() {
         withContext(Dispatchers.IO) {
             runCatching {
                     UpdateUtil.checkForUpdate()?.let {
-                        latestRelease = it
+                        release = it
                         showUpdateDialog = true
                     }
                 }
@@ -81,12 +81,12 @@ fun AppUpdater() {
                 showUpdateDialog = false
                 updateJob?.cancel()
             },
-            title = latestRelease.name.toString(),
+            title = release.name.toString(),
             onConfirmUpdate = {
                 updateJob =
                     scope.launch(Dispatchers.IO) {
                         runCatching {
-                                UpdateUtil.downloadApk(latestRelease = latestRelease).collect {
+                                UpdateUtil.downloadApk(release = release).collect {
                                     downloadStatus ->
                                     currentDownloadStatus = downloadStatus
                                     if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
@@ -106,7 +106,7 @@ fun AppUpdater() {
                             }
                     }
             },
-            releaseNote = latestRelease.body.toString(),
+            releaseNote = release.body.toString(),
             downloadStatus = currentDownloadStatus,
         )
     }

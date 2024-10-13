@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UpdateDialog(
     onDismissRequest: () -> Unit,
-    latestRelease: UpdateUtil.LatestRelease,
+    release: UpdateUtil.Release,
 ) {
     var currentDownloadStatus by remember { mutableStateOf(UpdateUtil.DownloadStatus.NotYet as UpdateUtil.DownloadStatus) }
     val context = LocalContext.current
@@ -45,11 +45,11 @@ fun UpdateDialog(
     val scope = rememberCoroutineScope()
     UpdateDialogImpl(
         onDismissRequest = onDismissRequest,
-        title = latestRelease.name.toString(),
+        title = release.name.toString(),
         onConfirmUpdate = {
             scope.launch(Dispatchers.IO) {
                 runCatching {
-                    UpdateUtil.downloadApk(latestRelease = latestRelease)
+                    UpdateUtil.downloadApk(release = release)
                         .collect { downloadStatus ->
                             currentDownloadStatus = downloadStatus
                             if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
@@ -66,7 +66,7 @@ fun UpdateDialog(
                 }
             }
         },
-        releaseNote = latestRelease.body.toString(),
+        releaseNote = release.body.toString(),
         downloadStatus = currentDownloadStatus
     )
 }

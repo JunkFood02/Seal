@@ -68,7 +68,7 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    var latestRelease by remember { mutableStateOf(UpdateUtil.LatestRelease()) }
+    var release by remember { mutableStateOf(UpdateUtil.Release()) }
     var showUpdateDialog by remember { mutableStateOf(false) }
     var showUnavailableDialog by remember { mutableStateOf(App.isFDroidBuild()) }
 
@@ -148,7 +148,7 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
                                     isLoading = true
                                     withContext(Dispatchers.IO) {
                                         UpdateUtil.checkForUpdate()?.let {
-                                            latestRelease = it
+                                            release = it
                                             showUpdateDialog = true
                                         }
                                             ?: ToastUtil.makeToastSuspend(context.getString(R.string.app_up_to_date))
@@ -175,7 +175,7 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
         }
     })
     if (showUpdateDialog)
-        UpdateDialog(onDismissRequest = { showUpdateDialog = false }, latestRelease = latestRelease)
+        UpdateDialog(onDismissRequest = { showUpdateDialog = false }, release = release)
 
     if (showUnavailableDialog) {
         AutoUpdateUnavailableDialog {

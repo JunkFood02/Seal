@@ -21,7 +21,8 @@ val abiFilterList = (properties["ABI_FILTERS"] as String).split(';')
 
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86" to 3, "x86_64" to 4)
 
-val baseVersionName = currentVersion.toVersionName()
+val baseVersionName = currentVersion.name
+val currentVersionCode = currentVersion.code.toInt()
 
 android {
     compileSdk = 35
@@ -45,7 +46,8 @@ android {
         applicationId = "com.junkfood.seal"
         minSdk = 24
         targetSdk = 35
-        versionCode = 20000
+        versionCode = 200_000_140
+        check(versionCode == currentVersionCode)
 
         versionName = baseVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -13,6 +13,8 @@ import com.junkfood.seal.util.FileUtil.getFileProvider
 import com.junkfood.seal.util.PreferenceUtil.getInt
 import com.junkfood.seal.util.PreferenceUtil.updateLong
 import com.yausername.youtubedl_android.YoutubeDL
+import java.io.File
+import java.util.regex.Pattern
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -26,8 +28,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import java.io.File
-import java.util.regex.Pattern
 
 object UpdateUtil {
 
@@ -41,12 +41,12 @@ object UpdateUtil {
 
     private val client = OkHttpClient()
     private val requestForLatestRelease =
-        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest")
+        Request.Builder()
+            .url("https://api.github.com/repos/${OWNER}/${REPO}/releases/latest")
             .build()
 
     private val requestForReleases =
-        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases")
-            .build()
+        Request.Builder().url("https://api.github.com/repos/${OWNER}/${REPO}/releases").build()
 
     private const val ytdlpNightlyBuildRelease =
         "https://api.github.com/repos/yt-dlp/yt-dlp-nightly-builds/releases/latest"
@@ -55,171 +55,185 @@ object UpdateUtil {
 
     suspend fun updateYtDlp(): YoutubeDL.UpdateStatus? =
         withContext(Dispatchers.IO) {
-            val channel = when (YT_DLP_UPDATE_CHANNEL.getInt()) {
-                YT_DLP_NIGHTLY -> YoutubeDL.UpdateChannel.NIGHTLY
-                else -> YoutubeDL.UpdateChannel.STABLE
-            }
-
-            YoutubeDL.getInstance().updateYoutubeDL(
-                appContext = context,
-                updateChannel = channel
-            ).also {
-                if (it == YoutubeDL.UpdateStatus.DONE) {
-                    YoutubeDL.getInstance().version(context)?.let {
-                        PreferenceUtil.encodeString(YT_DLP_VERSION, it)
-                    }
+            val channel =
+                when (YT_DLP_UPDATE_CHANNEL.getInt()) {
+                    YT_DLP_NIGHTLY -> YoutubeDL.UpdateChannel.NIGHTLY
+                    else -> YoutubeDL.UpdateChannel.STABLE
                 }
-                val now = System.currentTimeMillis()
-                YT_DLP_UPDATE_TIME.updateLong(now)
-            }
+
+            YoutubeDL.getInstance()
+                .updateYoutubeDL(appContext = context, updateChannel = channel)
+                .also {
+                    if (it == YoutubeDL.UpdateStatus.DONE) {
+                        YoutubeDL.getInstance().version(context)?.let {
+                            PreferenceUtil.encodeString(YT_DLP_VERSION, it)
+                        }
+                    }
+                    val now = System.currentTimeMillis()
+                    YT_DLP_UPDATE_TIME.updateLong(now)
+                }
         }
 
-
-    private suspend fun getLatestRelease(): LatestRelease =
+    private suspend fun getLatestRelease(): Release =
         client.newCall(requestForReleases).execute().run {
-            val releaseList =
-                jsonFormat.decodeFromString<List<LatestRelease>>(this.body.string())
+            val releaseList = jsonFormat.decodeFromString<List<Release>>(this.body.string())
             val latestRelease =
-                releaseList.filter { if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable else true }
-                    .maxByOrNull { it.name.toVersion() }
-                    ?: throw Exception("null response")
-            releaseList.sortedBy { it.name.toVersion() }.forEach {
-                Log.d(TAG, it.tagName.toString())
-            }
+                releaseList
+                    .filter {
+                        if (UPDATE_CHANNEL.getInt() == STABLE) it.name.toVersion() is Version.Stable
+                        else true
+                    }
+                    .maxByOrNull { it.name.toVersion() } ?: throw Exception("null response")
+            releaseList
+                .sortedBy { it.name.toVersion() }
+                .forEach { Log.d(TAG, it.tagName.toString()) }
             body.close()
             latestRelease
         }
 
-
-    suspend fun checkForUpdate(context: Context = App.context): LatestRelease? {
+    suspend fun checkForUpdate(context: Context = App.context): Release? {
         val currentVersion = context.getCurrentVersion()
         val latestRelease = getLatestRelease()
         val latestVersion = latestRelease.name.toVersion()
-        return if (currentVersion < latestVersion) latestRelease
-        else null
+        return if (currentVersion < latestVersion) latestRelease else null
     }
 
     private fun Context.getCurrentVersion(): Version =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getPackageInfo(
-                packageName, PackageManager.PackageInfoFlags.of(0)
-            ).versionName.toVersion()
+            packageManager
+                .getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+                .versionName
+                .toVersion()
         } else {
-            packageManager.getPackageInfo(
-                packageName, 0
-            ).versionName.toVersion()
+            packageManager.getPackageInfo(packageName, 0).versionName.toVersion()
         }
 
+    private fun Context.getLatestApk() = File(getExternalFilesDir("apk"), "latest.apk")
 
-    private fun Context.getLatestApk() =
-        File(getExternalFilesDir("apk"), "latest.apk")
+    fun installLatestApk(context: Context = App.context) =
+        context.run {
+            kotlin
+                .runCatching {
+                    val contentUri =
+                        FileProvider.getUriForFile(this, getFileProvider(), getLatestApk())
+                    val intent =
+                        Intent(Intent.ACTION_VIEW).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            setDataAndType(contentUri, "application/vnd.android.package-archive")
+                        }
+                    startActivity(intent)
+                }
+                .onFailure { throwable: Throwable ->
+                    throwable.printStackTrace()
+                    ToastUtil.makeToast(R.string.app_update_failed)
+                }
+        }
 
-
-    fun installLatestApk(context: Context = App.context) = context.run {
-        kotlin.runCatching {
-            val contentUri = FileProvider.getUriForFile(this, getFileProvider(), getLatestApk())
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                setDataAndType(contentUri, "application/vnd.android.package-archive")
+    suspend fun deleteOutdatedApk(context: Context = App.context) =
+        context.runCatching {
+            val apkFile = getLatestApk()
+            if (apkFile.exists()) {
+                val apkVersion =
+                    context.packageManager
+                        .getPackageArchiveInfo(apkFile.absolutePath, 0)
+                        ?.versionName
+                        .toVersion()
+                if (apkVersion <= context.getCurrentVersion()) {
+                    apkFile.delete()
+                }
             }
-            startActivity(intent)
-        }.onFailure { throwable: Throwable ->
-            throwable.printStackTrace()
-            ToastUtil.makeToast(R.string.app_update_failed)
         }
-    }
-
-    suspend fun deleteOutdatedApk(
-        context: Context = App.context,
-    ) = context.runCatching {
-        val apkFile = getLatestApk()
-        if (apkFile.exists()) {
-            val apkVersion = context.packageManager.getPackageArchiveInfo(
-                apkFile.absolutePath, 0
-            )?.versionName.toVersion()
-            if (apkVersion <= context.getCurrentVersion()) {
-                apkFile.delete()
-            }
-        }
-    }
-
 
     suspend fun downloadApk(
         context: Context = App.context,
-        latestRelease: LatestRelease
-    ): Flow<DownloadStatus> = withContext(Dispatchers.IO) {
-        val apkVersion = context.packageManager.getPackageArchiveInfo(
-            context.getLatestApk().absolutePath, 0
-        )?.versionName.toVersion()
+        release: Release,
+    ): Flow<DownloadStatus> =
+        withContext(Dispatchers.IO) {
+            val apkVersion =
+                context.packageManager
+                    .getPackageArchiveInfo(context.getLatestApk().absolutePath, 0)
+                    ?.versionName
+                    .toVersion()
 
-        Log.d(TAG, apkVersion.toString())
+            Log.d(TAG, apkVersion.toString())
 
-        if (apkVersion >= latestRelease.name.toVersion()) {
-            return@withContext flow<DownloadStatus> { emit(DownloadStatus.Finished(context.getLatestApk())) }
-        }
-
-        val abiList = Build.SUPPORTED_ABIS
-        val preferredArch = abiList.firstOrNull() ?: return@withContext emptyFlow()
-
-        val targetUrl = latestRelease.assets?.find {
-            return@find it.name?.contains(preferredArch) ?: false
-        }?.browserDownloadUrl ?: return@withContext emptyFlow()
-        val request = Request.Builder().url(targetUrl).build()
-        try {
-            val response = client.newCall(request).execute()
-            val responseBody = response.body
-            return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        emptyFlow()
-    }
-
-
-    private fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<DownloadStatus> = flow {
-        emit(DownloadStatus.Progress(0))
-
-        var deleteFile = true
-
-        try {
-            byteStream().use { inputStream ->
-                saveFile.outputStream().use { outputStream ->
-                    val totalBytes = contentLength()
-                    val data = ByteArray(8_192)
-                    var progressBytes = 0L
-
-                    while (true) {
-                        val bytes = inputStream.read(data)
-
-                        if (bytes == -1) {
-                            break
-                        }
-
-                        outputStream.channel
-                        outputStream.write(data, 0, bytes)
-                        progressBytes += bytes
-                        emit(DownloadStatus.Progress(percent = ((progressBytes * 100) / totalBytes).toInt()))
-                    }
-
-                    when {
-                        progressBytes < totalBytes -> throw Exception("missing bytes")
-                        progressBytes > totalBytes -> throw Exception("too many bytes")
-                        else -> deleteFile = false
-                    }
+            if (apkVersion >= release.name.toVersion()) {
+                return@withContext flow<DownloadStatus> {
+                    emit(DownloadStatus.Finished(context.getLatestApk()))
                 }
             }
 
-            emit(DownloadStatus.Finished(saveFile))
-        } finally {
-            if (deleteFile) {
-                saveFile.delete()
+            val abiList = Build.SUPPORTED_ABIS
+            val preferredArch = abiList.firstOrNull() ?: return@withContext emptyFlow()
+
+            val targetUrl =
+                release.assets
+                    ?.find {
+                        return@find it.name?.contains(preferredArch) ?: false
+                    }
+                    ?.browserDownloadUrl ?: return@withContext emptyFlow()
+            val request = Request.Builder().url(targetUrl).build()
+            try {
+                val response = client.newCall(request).execute()
+                val responseBody = response.body
+                return@withContext responseBody.downloadFileWithProgress(context.getLatestApk())
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+            emptyFlow()
         }
-    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    private fun ResponseBody.downloadFileWithProgress(saveFile: File): Flow<DownloadStatus> =
+        flow {
+                emit(DownloadStatus.Progress(0))
+
+                var deleteFile = true
+
+                try {
+                    byteStream().use { inputStream ->
+                        saveFile.outputStream().use { outputStream ->
+                            val totalBytes = contentLength()
+                            val data = ByteArray(8_192)
+                            var progressBytes = 0L
+
+                            while (true) {
+                                val bytes = inputStream.read(data)
+
+                                if (bytes == -1) {
+                                    break
+                                }
+
+                                outputStream.channel
+                                outputStream.write(data, 0, bytes)
+                                progressBytes += bytes
+                                emit(
+                                    DownloadStatus.Progress(
+                                        percent = ((progressBytes * 100) / totalBytes).toInt()
+                                    )
+                                )
+                            }
+
+                            when {
+                                progressBytes < totalBytes -> throw Exception("missing bytes")
+                                progressBytes > totalBytes -> throw Exception("too many bytes")
+                                else -> deleteFile = false
+                            }
+                        }
+                    }
+
+                    emit(DownloadStatus.Finished(saveFile))
+                } finally {
+                    if (deleteFile) {
+                        saveFile.delete()
+                    }
+                }
+            }
+            .flowOn(Dispatchers.IO)
+            .distinctUntilChanged()
 
     @Serializable
-    data class LatestRelease(
+    data class Release(
         @SerialName("html_url") val htmlUrl: String? = null,
         @SerialName("tag_name") val tagName: String? = null,
         val name: String? = null,
@@ -244,98 +258,95 @@ object UpdateUtil {
 
     sealed class DownloadStatus {
         object NotYet : DownloadStatus()
+
         data class Progress(val percent: Int) : DownloadStatus()
+
         data class Finished(val file: File) : DownloadStatus()
     }
 
     private val pattern = Pattern.compile("""v?(\d+)\.(\d+)\.(\d+)(-(\w+)\.(\d+))?""")
     private val EMPTY_VERSION = Version.Stable()
 
-    fun String?.toVersion(): Version = this?.run {
-        val matcher = pattern.matcher(this)
-        if (matcher.find()) {
-            val major = matcher.group(1)?.toInt() ?: 0
-            val minor = matcher.group(2)?.toInt() ?: 0
-            val patch = matcher.group(3)?.toInt() ?: 0
-            val buildNumber = matcher.group(6)?.toInt() ?: 0
-            when (matcher.group(5)) {
-                "alpha" -> Version.Alpha(major, minor, patch, buildNumber)
-                "beta" -> Version.Beta(major, minor, patch, buildNumber)
-                "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
-                else -> Version.Stable(major, minor, patch)
-            }
-        } else EMPTY_VERSION
-    } ?: EMPTY_VERSION
+    fun String?.toVersion(): Version =
+        this?.run {
+            val matcher = pattern.matcher(this)
+            if (matcher.find()) {
+                val major = matcher.group(1)?.toInt() ?: 0
+                val minor = matcher.group(2)?.toInt() ?: 0
+                val patch = matcher.group(3)?.toInt() ?: 0
+                val buildNumber = matcher.group(6)?.toInt() ?: 0
+                when (matcher.group(5)) {
+                    "alpha" -> Version.Alpha(major, minor, patch, buildNumber)
+                    "beta" -> Version.Beta(major, minor, patch, buildNumber)
+                    "rc" -> Version.ReleaseCandidate(major, minor, patch, buildNumber)
+                    else -> Version.Stable(major, minor, patch)
+                }
+            } else EMPTY_VERSION
+        } ?: EMPTY_VERSION
 
-
-    sealed class Version(
-        val major: Int,
-        val minor: Int,
-        val patch: Int,
-        val build: Int = 0
-    ) : Comparable<Version> {
+    sealed class Version(val major: Int, val minor: Int, val patch: Int, val build: Int = 0) :
+        Comparable<Version> {
         companion object {
-            private const val BUILD = 1L
-            private const val PATCH = 100L
-            private const val MINOR = 10_000L
-            private const val MAJOR = 1_000_000L
+            // private const val ABI = 1L
+            private const val BUILD = 10L
+            private const val VARIANT = 100L
+            private const val PATCH = 10_000L
+            private const val MINOR = 1_000_000L
+            private const val MAJOR = 100_000_000L
+
+            private const val STABLE = VARIANT * 4
+            private const val ALPHA = VARIANT * 1
+            private const val BETA = VARIANT * 2
+            private const val RELEASE_CANDIDATE = VARIANT * 3
         }
 
         abstract fun toVersionName(): String
+
         abstract fun toNumber(): Long
 
         class Alpha(
             versionMajor: Int = 0,
             versionMinor: Int = 0,
             versionPatch: Int = 0,
-            versionBuild: Int = 0
-        ) :
-            Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-            override fun toVersionName(): String =
-                "${major}.${minor}.${patch}-alpha.$build"
+            versionBuild: Int = 0,
+        ) : Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+            override fun toVersionName(): String = "${major}.${minor}.${patch}-alpha.$build"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD
-
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + ALPHA
         }
 
         class Beta(versionMajor: Int, versionMinor: Int, versionPatch: Int, versionBuild: Int) :
             Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-            override fun toVersionName(): String =
-                "${major}.${minor}.${patch}-beta.$build"
+            override fun toVersionName(): String = "${major}.${minor}.${patch}-beta.$build"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 25
-
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + BETA
         }
 
         class ReleaseCandidate(
             versionMajor: Int,
             versionMinor: Int,
             versionPatch: Int,
-            versionBuild: Int
-        ) :
-            Version(versionMajor, versionMinor, versionPatch, versionBuild) {
-            override fun toVersionName(): String =
-                "${major}.${minor}.${patch}-rc.$build"
+            versionBuild: Int,
+        ) : Version(versionMajor, versionMinor, versionPatch, versionBuild) {
+            override fun toVersionName(): String = "${major}.${minor}.${patch}-rc.$build"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 50
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + RELEASE_CANDIDATE
         }
 
         class Stable(versionMajor: Int = 0, versionMinor: Int = 0, versionPatch: Int = 0) :
             Version(versionMajor, versionMinor, versionPatch) {
-            override fun toVersionName(): String =
-                "${major}.${minor}.${patch}"
+            override fun toVersionName(): String = "${major}.${minor}.${patch}"
 
             override fun toNumber(): Long =
-                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + 99
+                major * MAJOR + minor * MINOR + patch * PATCH + build * BUILD + STABLE
             // Prioritize stable versions
 
         }
 
         override operator fun compareTo(other: Version): Int =
             this.toNumber().compareTo(other.toNumber())
-
     }
 }
