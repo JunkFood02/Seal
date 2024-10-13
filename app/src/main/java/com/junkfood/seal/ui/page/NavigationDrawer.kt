@@ -27,6 +27,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.VolunteerActivism
+import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cookie
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Info
@@ -274,6 +275,17 @@ fun NavigationDrawerSheetContent(
                             .invokeOnCompletion { onNavigateToRoute(Route.COOKIE_PROFILE) }
                     },
                     selected = currentRoute == Route.COOKIE_PROFILE,
+                )
+
+                NavigationDrawerItem(
+                    label = { Text(stringResource(R.string.trouble_shooting)) },
+                    icon = { Icon(Icons.Rounded.BugReport, null) },
+                    onClick = {
+                        scope
+                            .launch { onDismissRequest() }
+                            .invokeOnCompletion { onNavigateToRoute(Route.TROUBLESHOOTING) }
+                    },
+                    selected = currentRoute == Route.TROUBLESHOOTING,
                 )
 
                 NavigationDrawerItem(

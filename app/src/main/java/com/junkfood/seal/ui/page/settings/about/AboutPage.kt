@@ -127,13 +127,13 @@ fun AboutPage(
                     icon = Icons.Outlined.NewReleases,
                 ) { openUrl(releaseURL) }
             }
-            item {
+/*            item {
                 PreferenceItem(
                     title = stringResource(R.string.github_issue),
                     description = stringResource(R.string.github_issue_desc),
                     icon = Icons.Outlined.ContactSupport,
                 ) { openUrl(githubIssueUrl) }
-            }
+            }*/
             item {
                 PreferenceItem(
                     title = stringResource(id = R.string.sponsor),

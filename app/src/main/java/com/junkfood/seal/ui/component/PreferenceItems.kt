@@ -884,13 +884,13 @@ fun TemplateItem(
 
 @Composable
 fun PreferenceSubtitle(
+    text: String,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(
         start = 16.dp,
         top = 20.dp,
         bottom = 8.dp,
     ),
-    text: String,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Text(
