@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.page.settings.about
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,72 +62,70 @@ private const val FFmpeg = "https://ffmpeg.org/"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreditsPage(onNavigateBack: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true },
+        )
 
-    val creditsList = listOf(
-        Credit("yt-dlp", UNLICENSE, ytdlpUrl),
-        Credit("Read You", GPL_V3, readYou),
-        Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),
-        Credit("Termux", GPL_V3, termux),
-        Credit("FFmpeg", GPL_V2, FFmpeg),
-        Credit("Android Jetpack", APACHE_V2, jetpack),
-        Credit("Kotlin", APACHE_V2, kotlin),
-        Credit("dvd", GPL_V3, dvd),
-        Credit("Accompanist", APACHE_V2, accompanist),
-        Credit("Material Design 3", APACHE_V2, material3),
-        Credit("Material Icons", APACHE_V2, materialIcon),
-        Credit("Monet", APACHE_V2, monet),
-        Credit("Material color utilities", APACHE_V2, materialColor),
-        Credit("MMKV", BSD, mmkv),
-        Credit("Coil", APACHE_V2, coil),
-        Credit("aria2", GPL_V2, aria2),
-        Credit("OkHttp", APACHE_V2, okhttp),
-        Credit("material-motion-compose", APACHE_V2, materialMotionCompose),
-        Credit("unDraw", null, unDraw),
-        Credit("App icon by Icons8", "Universal Multimedia Licensing Agreement for Icons8", icons8)
-    )
+    val creditsList =
+        listOf(
+            Credit("yt-dlp", UNLICENSE, ytdlpUrl),
+            Credit("Read You", GPL_V3, readYou),
+            Credit("youtubedl-android", GPL_V3, youtubedlAndroidUrl),
+            Credit("Termux", GPL_V3, termux),
+            Credit("FFmpeg", GPL_V2, FFmpeg),
+            Credit("Android Jetpack", APACHE_V2, jetpack),
+            Credit("Kotlin", APACHE_V2, kotlin),
+            Credit("dvd", GPL_V3, dvd),
+            Credit("Accompanist", APACHE_V2, accompanist),
+            Credit("Material Design 3", APACHE_V2, material3),
+            Credit("Material Icons", APACHE_V2, materialIcon),
+            Credit("Monet", APACHE_V2, monet),
+            Credit("Material color utilities", APACHE_V2, materialColor),
+            Credit("MMKV", BSD, mmkv),
+            Credit("Coil", APACHE_V2, coil),
+            Credit("aria2", GPL_V2, aria2),
+            Credit("OkHttp", APACHE_V2, okhttp),
+            Credit("material-motion-compose", APACHE_V2, materialMotionCompose),
+            Credit("unDraw", null, unDraw),
+            Credit(
+                "App icon by Icons8",
+                "Universal Multimedia Licensing Agreement for Icons8",
+                icons8,
+            ),
+        )
     val uriHandler = LocalUriHandler.current
     fun openUrl(url: String) {
         uriHandler.openUri(url)
     }
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier,
-                        text = stringResource(id = R.string.credits),
-                    )
-                }, navigationIcon = {
-                    BackButton {
-                        onNavigateBack()
-                    }
-                }, scrollBehavior = scrollBehavior
+                title = { Text(modifier = Modifier, text = stringResource(id = R.string.credits)) },
+                navigationIcon = { BackButton { onNavigateBack() } },
+                scrollBehavior = scrollBehavior,
             )
-        }, content = {
+        },
+        content = {
             LazyColumn(modifier = Modifier.padding(it)) {
                 item {
                     Surface(
-                        modifier = Modifier
-                            .fillParentMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 12.dp)
-                            .clip(MaterialTheme.shapes.large)
-                            .clickable { }
-                            .clearAndSetSemantics { },
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        modifier =
+                            Modifier.fillParentMaxWidth()
+                                .padding(horizontal = 12.dp, vertical = 12.dp)
+                                .clip(MaterialTheme.shapes.large)
+                                .clickable {}
+                                .clearAndSetSemantics {},
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
                     ) {
                         val painter =
                             rememberVectorPainter(image = DynamicColorImageVectors.coder())
                         Image(
                             painter = painter,
                             contentDescription = null,
-                            modifier = Modifier.padding(horizontal = 72.dp, vertical = 48.dp)
+                            modifier = Modifier.padding(horizontal = 72.dp, vertical = 48.dp),
                         )
                     }
                 }
@@ -136,6 +133,6 @@ fun CreditsPage(onNavigateBack: () -> Unit) {
                     CreditItem(title = item.title, license = item.license) { openUrl(item.url) }
                 }
             }
-        })
-
+        },
+    )
 }

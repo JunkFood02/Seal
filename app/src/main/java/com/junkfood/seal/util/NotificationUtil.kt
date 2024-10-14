@@ -71,7 +71,7 @@ object NotificationUtil {
         notificationId: Int = DEFAULT_NOTIFICATION_ID,
         progress: Int = PROGRESS_INITIAL,
         taskId: String? = null,
-        text: String? = null
+        text: String? = null,
     ) {
         if (!NOTIFICATION.getBoolean()) return
         val pendingIntent =
@@ -85,7 +85,8 @@ object NotificationUtil {
                             context.applicationContext,
                             notificationId,
                             this,
-                            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+                            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
+                        )
                     }
             }
 
@@ -191,7 +192,8 @@ object NotificationUtil {
                 intent,
                 PendingIntent.FLAG_ONE_SHOT or
                     PendingIntent.FLAG_IMMUTABLE or
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.FLAG_UPDATE_CURRENT,
+            )
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
@@ -200,7 +202,8 @@ object NotificationUtil {
             .addAction(
                 R.drawable.outline_content_copy_24,
                 context.getString(R.string.copy_error_report),
-                pendingIntent)
+                pendingIntent,
+            )
             .run {
                 notificationManager.cancel(notificationId)
                 notificationManager.notify(notificationId, build())
@@ -213,7 +216,7 @@ object NotificationUtil {
         progress: Int,
         text: String? = null,
         templateName: String,
-        taskUrl: String
+        taskUrl: String,
     ) {
         if (!NOTIFICATION.getBoolean()) return
 
@@ -228,18 +231,23 @@ object NotificationUtil {
                 context.applicationContext,
                 notificationId,
                 intent,
-                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
+            )
 
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(
                 "[${templateName}_${taskUrl}] " +
-                    context.getString(R.string.execute_command_notification))
+                    context.getString(R.string.execute_command_notification)
+            )
             .setContentText(text)
             .setOngoing(true)
             .setProgress(PROGRESS_MAX, progress, progress == -1)
             .addAction(
-                R.drawable.outline_cancel_24, context.getString(R.string.cancel), pendingIntent)
+                R.drawable.outline_cancel_24,
+                context.getString(R.string.cancel),
+                pendingIntent,
+            )
             .run { notificationManager.notify(notificationId, build()) }
     }
 

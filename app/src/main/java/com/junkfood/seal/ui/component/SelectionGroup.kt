@@ -43,10 +43,7 @@ fun SelectionGroupRow(
     modifier: Modifier = Modifier,
     content: @Composable SelectionGroupScope.() -> Unit,
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.selectableGroup(),
-    ) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.selectableGroup()) {
         val scope = remember { SelectionGroupScope(this) }
         content.invoke(scope)
     }
@@ -195,9 +192,7 @@ private fun Preview() {
         Surface {
             var selected by remember { mutableIntStateOf(0) }
             val itemSet = setOf("All", "Downloaded", "Canceled", "Finished")
-            SelectionGroupRow(
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
+            SelectionGroupRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 itemSet.forEachIndexed { index, s ->
                     SelectionGroupItem(
                         selected = selected == index,

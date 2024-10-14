@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class CommandTemplate(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
-    val template: String
+    val template: String,
 )

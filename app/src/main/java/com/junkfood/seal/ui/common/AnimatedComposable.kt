@@ -22,9 +22,9 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.junkfood.seal.ui.common.motion.EmphasizedDecelerate
 import com.junkfood.seal.ui.common.motion.EmphasizeEasing
 import com.junkfood.seal.ui.common.motion.EmphasizedAccelerate
+import com.junkfood.seal.ui.common.motion.EmphasizedDecelerate
 import com.junkfood.seal.ui.common.motion.materialSharedAxisXIn
 import com.junkfood.seal.ui.common.motion.materialSharedAxisXOut
 

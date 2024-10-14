@@ -106,7 +106,7 @@ import com.junkfood.seal.util.getStringDefault
 fun VideoResolutionSelectField(
     modifier: Modifier = Modifier,
     videoResolution: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val videoResolutionText = PreferenceStrings.getVideoResolutionDesc(videoResolution)
@@ -125,14 +125,16 @@ fun VideoResolutionSelectField(
             modifier = Modifier,
             scrollState = rememberScrollState(),
             expanded = expanded,
-            onDismissRequest = { expanded = false }) {
-                for (i in RES_HIGHEST..RES_LOWEST) DropdownMenuItem(
-                    text = { Text(PreferenceStrings.getVideoResolutionDesc(i)) },
-                    onClick = {
-                        onSelect(i)
-                        expanded = false
-                    })
-            }
+            onDismissRequest = { expanded = false },
+        ) {
+            for (i in RES_HIGHEST..RES_LOWEST) DropdownMenuItem(
+                text = { Text(PreferenceStrings.getVideoResolutionDesc(i)) },
+                onClick = {
+                    onSelect(i)
+                    expanded = false
+                },
+            )
+        }
     }
 }
 
@@ -141,7 +143,7 @@ fun VideoResolutionSelectField(
 fun VideoFormatPreferenceSelectField(
     modifier: Modifier = Modifier,
     videoFormatPreference: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val videoFormatText = PreferenceStrings.getVideoFormatLabel(videoFormatPreference)
@@ -155,18 +157,21 @@ fun VideoFormatPreferenceSelectField(
             leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-            label = { Text(stringResource(id = R.string.video_format_preference)) })
+            label = { Text(stringResource(id = R.string.video_format_preference)) },
+        )
         ExposedDropdownMenu(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             expanded = expanded,
-            onDismissRequest = { expanded = false }) {
-                for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) DropdownMenuItem(
-                    text = { Text(PreferenceStrings.getVideoFormatLabel(i)) },
-                    onClick = {
-                        onSelect(i)
-                        expanded = false
-                    })
-            }
+            onDismissRequest = { expanded = false },
+        ) {
+            for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) DropdownMenuItem(
+                text = { Text(PreferenceStrings.getVideoFormatLabel(i)) },
+                onClick = {
+                    onSelect(i)
+                    expanded = false
+                },
+            )
+        }
     }
 }
 
@@ -177,7 +182,7 @@ fun VideoQuickSettingsDialog(
     onResolutionSelect: (Int) -> Unit,
     onFormatSelect: (Int) -> Unit,
     onSave: () -> Unit = {},
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     SealDialog(
         onDismissRequest = onDismissRequest,
@@ -191,9 +196,10 @@ fun VideoQuickSettingsDialog(
                 onClick = {
                     onSave()
                     onDismissRequest()
-                }) {
-                    Text(text = stringResource(R.string.save))
                 }
+            ) {
+                Text(text = stringResource(R.string.save))
+            }
         },
         text = {
             Column {
@@ -216,11 +222,13 @@ fun VideoQuickSettingsDialog(
                         VideoResolutionSelectField(
                             modifier = Modifier.padding(horizontal = 12.dp),
                             videoResolution = videoResolution,
-                            onSelect = onResolutionSelect)
+                            onSelect = onResolutionSelect,
+                        )
                     }
                 }
             }
-        })
+        },
+    )
 }
 
 @Preview
@@ -230,7 +238,8 @@ private fun VideoPreview() {
         videoResolution = RES_HIGHEST,
         videoFormatPreference = FORMAT_QUALITY,
         onResolutionSelect = {},
-        onFormatSelect = {}) {}
+        onFormatSelect = {},
+    ) {}
 }
 
 @Preview
@@ -255,7 +264,8 @@ private fun AudioPreview() {
         onConversionSelect = { i2 = it },
         audioQuality = i3,
         onQualitySelect = { i3 = it },
-        onSave = {})
+        onSave = {},
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -267,7 +277,7 @@ private fun AudioFormatSelectField(
     conversionFormat: Int,
     onConvertToggled: (Boolean) -> Unit,
     onPreferredSelect: (Int) -> Unit,
-    onConversionSelect: (Int) -> Unit
+    onConversionSelect: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val preferredFormatText = PreferenceStrings.getAudioFormatDesc(preferredFormat)
@@ -288,26 +298,29 @@ private fun AudioFormatSelectField(
             modifier = Modifier,
             scrollState = rememberScrollState(),
             expanded = expanded,
-            onDismissRequest = { expanded = false }) {
-                for (i in OPUS..M4A) {
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
-                        onClick = {
-                            onPreferredSelect(i)
-                            onConvertToggled(false)
-                            expanded = false
-                        })
-                }
-                for (i in CONVERT_MP3..CONVERT_M4A) {
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioConvertDesc(i)) },
-                        onClick = {
-                            onConversionSelect(i)
-                            onConvertToggled(true)
-                            expanded = false
-                        })
-                }
+            onDismissRequest = { expanded = false },
+        ) {
+            for (i in OPUS..M4A) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioFormatDesc(i)) },
+                    onClick = {
+                        onPreferredSelect(i)
+                        onConvertToggled(false)
+                        expanded = false
+                    },
+                )
             }
+            for (i in CONVERT_MP3..CONVERT_M4A) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioConvertDesc(i)) },
+                    onClick = {
+                        onConversionSelect(i)
+                        onConvertToggled(true)
+                        expanded = false
+                    },
+                )
+            }
+        }
     }
 }
 
@@ -317,7 +330,7 @@ private fun AudioQualitySelectField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     audioQuality: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -341,16 +354,18 @@ private fun AudioQualitySelectField(
             modifier = Modifier,
             scrollState = rememberScrollState(),
             expanded = expanded,
-            onDismissRequest = { expanded = false }) {
-                for (i in NOT_SPECIFIED..ULTRA_LOW) {
-                    DropdownMenuItem(
-                        text = { Text(PreferenceStrings.getAudioQualityDesc(i)) },
-                        onClick = {
-                            onSelect(i)
-                            expanded = false
-                        })
-                }
+            onDismissRequest = { expanded = false },
+        ) {
+            for (i in NOT_SPECIFIED..ULTRA_LOW) {
+                DropdownMenuItem(
+                    text = { Text(PreferenceStrings.getAudioQualityDesc(i)) },
+                    onClick = {
+                        onSelect(i)
+                        expanded = false
+                    },
+                )
             }
+        }
     }
 }
 
@@ -369,7 +384,7 @@ fun AudioQuickSettingsDialog(
     onConversionSelect: (Int) -> Unit,
     audioQuality: Int,
     onQualitySelect: (Int) -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
 ) {
     var editingPreset by remember { mutableStateOf(false) }
     SealDialog(
@@ -384,54 +399,62 @@ fun AudioQuickSettingsDialog(
                     materialSharedAxisX(initialOffsetX = { it / 5 }, targetOffsetX = { -it / 5 })
                         .using(SizeTransform())
                 },
-                label = "") {
-                    if (!it) {
-                        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                            DialogSubtitle(text = stringResource(R.string.presets))
-                            DialogSingleChoiceItemVariant(
-                                title = stringResource(R.string.best_quality),
-                                selected = !useCustomAudioPreset,
-                                desc = stringResource(R.string.best_quality_desc),
-                                onClick = { onCustomPresetToggle(false) })
+                label = "",
+            ) {
+                if (!it) {
+                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                        DialogSubtitle(text = stringResource(R.string.presets))
+                        DialogSingleChoiceItemVariant(
+                            title = stringResource(R.string.best_quality),
+                            selected = !useCustomAudioPreset,
+                            desc = stringResource(R.string.best_quality_desc),
+                            onClick = { onCustomPresetToggle(false) },
+                        )
 
-                            DialogSingleChoiceItemVariant(
-                                title = stringResource(R.string.custom),
-                                selected = useCustomAudioPreset,
-                                onClick = { onCustomPresetToggle(true) },
-                                desc =
-                                    PreferenceStrings.getAudioPresetText(
-                                        preferences.copy(useCustomAudioPreset = true)),
-                                action = {
-                                    if (useCustomAudioPreset) {
-                                        Spacer(Modifier.width(8.dp))
-                                        VerticalDivider(Modifier.height(32.dp))
-                                        IconButton(onClick = { editingPreset = true }) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.Settings,
-                                                contentDescription = stringResource(R.string.edit))
-                                        }
+                        DialogSingleChoiceItemVariant(
+                            title = stringResource(R.string.custom),
+                            selected = useCustomAudioPreset,
+                            onClick = { onCustomPresetToggle(true) },
+                            desc =
+                                PreferenceStrings.getAudioPresetText(
+                                    preferences.copy(useCustomAudioPreset = true)
+                                ),
+                            action = {
+                                if (useCustomAudioPreset) {
+                                    Spacer(Modifier.width(8.dp))
+                                    VerticalDivider(Modifier.height(32.dp))
+                                    IconButton(onClick = { editingPreset = true }) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Settings,
+                                            contentDescription = stringResource(R.string.edit),
+                                        )
                                     }
-                                })
-                        }
-                    } else {
-                        Column(
-                            modifier =
-                                Modifier.verticalScroll(rememberScrollState())
-                                    .padding(horizontal = 16.dp)) {
-                                AudioFormatSelectField(
-                                    convertAudio = convertAudio,
-                                    preferredFormat = preferredFormat,
-                                    conversionFormat = conversionFormat,
-                                    onConvertToggled = onConvertToggled,
-                                    onPreferredSelect = onPreferredSelect,
-                                    onConversionSelect = onConversionSelect)
-                                AudioQualitySelectField(
-                                    audioQuality = audioQuality,
-                                    enabled = !convertAudio,
-                                    onSelect = onQualitySelect)
-                            }
+                                }
+                            },
+                        )
+                    }
+                } else {
+                    Column(
+                        modifier =
+                            Modifier.verticalScroll(rememberScrollState())
+                                .padding(horizontal = 16.dp)
+                    ) {
+                        AudioFormatSelectField(
+                            convertAudio = convertAudio,
+                            preferredFormat = preferredFormat,
+                            conversionFormat = conversionFormat,
+                            onConvertToggled = onConvertToggled,
+                            onPreferredSelect = onPreferredSelect,
+                            onConversionSelect = onConversionSelect,
+                        )
+                        AudioQualitySelectField(
+                            audioQuality = audioQuality,
+                            enabled = !convertAudio,
+                            onSelect = onQualitySelect,
+                        )
                     }
                 }
+            }
         },
         dismissButton = {
             OutlinedButton(onClick = onDismissRequest) { Text(stringResource(R.string.cancel)) }
@@ -441,17 +464,19 @@ fun AudioQuickSettingsDialog(
                 onClick = {
                     onSave()
                     onDismissRequest()
-                }) {
-                    Text(stringResource(R.string.save))
                 }
-        })
+            ) {
+                Text(stringResource(R.string.save))
+            }
+        },
+    )
 }
 
 @Composable
 fun AudioConversionDialog(
     onDismissRequest: () -> Unit,
     audioFormat: Int,
-    onConfirm: (Int) -> Unit = {}
+    onConfirm: (Int) -> Unit = {},
 ) {
     var audioFormat by remember { mutableIntStateOf(audioFormat) }
     SealDialog(
@@ -467,9 +492,10 @@ fun AudioConversionDialog(
                     AUDIO_CONVERSION_FORMAT.updateInt(audioFormat)
                     onConfirm(audioFormat)
                     onDismissRequest()
-                }) {
-                    Text(text = stringResource(R.string.confirm))
                 }
+            ) {
+                Text(text = stringResource(R.string.confirm))
+            }
         },
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -477,15 +503,18 @@ fun AudioConversionDialog(
                     modifier =
                         Modifier.fillMaxWidth().padding(bottom = 12.dp).padding(horizontal = 24.dp),
                     text = stringResource(R.string.convert_audio_format_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 for (i in CONVERT_MP3..CONVERT_M4A) DialogSingleChoiceItem(
                     modifier = Modifier,
                     text = PreferenceStrings.getAudioConvertDesc(i),
-                    selected = audioFormat == i) {
-                        audioFormat = i
-                    }
+                    selected = audioFormat == i,
+                ) {
+                    audioFormat = i
+                }
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -511,20 +540,25 @@ fun AudioConversionQuickSettingsDialog(onDismissRequest: () -> Unit, onConfirm: 
                     modifier =
                         Modifier.fillMaxWidth().padding(bottom = 12.dp).padding(horizontal = 24.dp),
                     text = stringResource(R.string.convert_audio_format_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 DialogSingleChoiceItem(
-                    text = stringResource(id = R.string.not_convert), selected = !convertAudio) {
-                        convertAudio = false
-                    }
+                    text = stringResource(id = R.string.not_convert),
+                    selected = !convertAudio,
+                ) {
+                    convertAudio = false
+                }
                 for (i in CONVERT_MP3..CONVERT_M4A) DialogSingleChoiceItem(
                     modifier = Modifier,
                     text = PreferenceStrings.getAudioConvertDesc(i),
-                    selected = audioFormat == i && convertAudio) {
-                        audioFormat = i
-                        convertAudio = true
-                    }
+                    selected = audioFormat == i && convertAudio,
+                ) {
+                    audioFormat = i
+                    convertAudio = true
+                }
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -532,7 +566,7 @@ fun AudioConversionQuickSettingsDialog(onDismissRequest: () -> Unit, onConfirm: 
 fun VideoFormatDialog(
     videoFormatPreference: Int = FORMAT_COMPATIBILITY,
     onDismissRequest: () -> Unit = {},
-    onConfirm: (Int) -> Unit = {}
+    onConfirm: (Int) -> Unit = {},
 ) {
     var preference by remember { mutableIntStateOf(videoFormatPreference) }
     SealDialog(
@@ -547,9 +581,10 @@ fun VideoFormatDialog(
                 onClick = {
                     onConfirm(preference)
                     onDismissRequest()
-                }) {
-                    Text(text = stringResource(R.string.confirm))
                 }
+            ) {
+                Text(text = stringResource(R.string.confirm))
+            }
         },
         text = {
             Column {
@@ -568,7 +603,8 @@ fun VideoFormatDialog(
                 }
                 androidx.compose.material3.HorizontalDivider()
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -593,15 +629,18 @@ fun AudioFormatDialog(onDismissRequest: () -> Unit) {
                     modifier =
                         Modifier.fillMaxWidth().padding(bottom = 12.dp).padding(horizontal = 24.dp),
                     text = stringResource(R.string.preferred_format_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 for (i in DEFAULT..M4A) DialogSingleChoiceItem(
                     modifier = Modifier,
                     text = PreferenceStrings.getAudioFormatDesc(i),
-                    selected = audioFormat == i) {
-                        audioFormat = i
-                    }
+                    selected = audioFormat == i,
+                ) {
+                    audioFormat = i
+                }
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -624,15 +663,18 @@ fun AudioQualityDialog(onDismissRequest: () -> Unit) {
                     modifier =
                         Modifier.fillMaxWidth().padding(bottom = 12.dp).padding(horizontal = 24.dp),
                     text = stringResource(R.string.audio_quality_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 for (i in NOT_SPECIFIED..ULTRA_LOW) DialogSingleChoiceItem(
                     modifier = Modifier,
                     text = PreferenceStrings.getAudioQualityDesc(i),
-                    selected = audioQuality == i) {
-                        audioQuality = i
-                    }
+                    selected = audioQuality == i,
+                ) {
+                    audioQuality = i
+                }
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -643,7 +685,7 @@ fun FormatSortingDialog(
     onSwitchChecked: (Boolean) -> Unit = {},
     onImport: () -> Unit = {},
     onDismissRequest: () -> Unit = {},
-    onConfirm: (String) -> Unit = {}
+    onConfirm: (String) -> Unit = {},
 ) {
     var sortingFields by remember(fields) { mutableStateOf(fields) }
     SealDialog(
@@ -663,46 +705,50 @@ fun FormatSortingDialog(
                     modifier =
                         Modifier.fillMaxWidth().padding(horizontal = 24.dp).padding(bottom = 12.dp),
                     text = stringResource(R.string.format_sorting_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 OutlinedTextField(
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     value = sortingFields,
                     onValueChange = { sortingFields = it },
                     leadingIcon = { Text(text = "-S", fontFamily = FontFamily.Monospace) },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done))
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                )
                 val uriHandler = LocalUriHandler.current
                 Row(
                     modifier =
                         Modifier.padding(horizontal = 16.dp)
                             .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 8.dp)) {
-                        OutlinedButtonChip(
-                            modifier = Modifier.padding(end = 8.dp),
-                            label = stringResource(id = R.string.import_from_preferences),
-                            icon = Icons.Outlined.SettingsSuggest) {
-                                onImport()
-                            }
-                        OutlinedButtonChip(
-                            label = stringResource(R.string.yt_dlp_docs),
-                            icon = Icons.AutoMirrored.Outlined.OpenInNew) {
-                                uriHandler.openUri(sortingFormats)
-                            }
+                            .padding(horizontal = 8.dp)
+                ) {
+                    OutlinedButtonChip(
+                        modifier = Modifier.padding(end = 8.dp),
+                        label = stringResource(id = R.string.import_from_preferences),
+                        icon = Icons.Outlined.SettingsSuggest,
+                    ) {
+                        onImport()
                     }
+                    OutlinedButtonChip(
+                        label = stringResource(R.string.yt_dlp_docs),
+                        icon = Icons.AutoMirrored.Outlined.OpenInNew,
+                    ) {
+                        uriHandler.openUri(sortingFormats)
+                    }
+                }
                 if (showSwitch) {
                     Spacer(modifier = Modifier.height(12.dp))
                     androidx.compose.material3.HorizontalDivider(
-                        modifier = Modifier.padding(
-                            horizontal = 24.dp
-                        )
+                        modifier = Modifier.padding(horizontal = 24.dp)
                     )
                     DialogSwitchItem(
                         text = stringResource(id = R.string.use_format_sorting),
                         value = toggleableValue,
-                        onValueChange = onSwitchChecked
+                        onValueChange = onSwitchChecked,
                     )
                 }
             }
-        })
+        },
+    )
 }
 
 @Preview
@@ -710,14 +756,18 @@ fun FormatSortingDialog(
 private fun FormatSortingDialogPreview() {
     var value by remember { mutableStateOf(false) }
     FormatSortingDialog(
-        fields = "", showSwitch = true, toggleableValue = value, onSwitchChecked = { value = it })
+        fields = "",
+        showSwitch = true,
+        toggleableValue = value,
+        onSwitchChecked = { value = it },
+    )
 }
 
 @Composable
 fun VideoQualityDialog(
     videoQuality: Int = 0,
     onDismissRequest: () -> Unit = {},
-    onConfirm: (Int) -> Unit = {}
+    onConfirm: (Int) -> Unit = {},
 ) {
     var videoResolution by remember { mutableIntStateOf(videoQuality) }
 
@@ -733,9 +783,10 @@ fun VideoQualityDialog(
                 onClick = {
                     onConfirm(videoResolution)
                     onDismissRequest()
-                }) {
-                    Text(text = stringResource(R.string.confirm))
                 }
+            ) {
+                Text(text = stringResource(R.string.confirm))
+            }
         },
         text = {
             Column() {
@@ -743,21 +794,24 @@ fun VideoQualityDialog(
                     modifier =
                         Modifier.fillMaxWidth().padding(bottom = 12.dp).padding(horizontal = 24.dp),
                     text = stringResource(R.string.video_quality_desc),
-                    style = MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge,
+                )
                 LazyColumn() {
                     //                    item { videoResolutionSelectField() }
                     for (i in 0..7) {
                         item {
                             DialogSingleChoiceItem(
                                 text = PreferenceStrings.getVideoResolutionDesc(i),
-                                selected = videoResolution == i) {
-                                    videoResolution = i
-                                }
+                                selected = videoResolution == i,
+                            ) {
+                                videoResolution = i
+                            }
                         }
                     }
                 }
             }
-        })
+        },
+    )
 }
 
 private const val subtitleOptions = "https://github.com/yt-dlp/yt-dlp#subtitle-options"
@@ -797,37 +851,42 @@ private fun SubtitleLanguageDialogImpl(
             Column() {
                 Text(
                     text = stringResource(id = R.string.subtitle_language_desc),
-                    modifier = Modifier.padding(horizontal = 24.dp))
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 ProvideTextStyle(
-                    value = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace)) {
-                        OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                            value = languages,
-                            onValueChange = { languages = it },
-                            label = { Text(stringResource(id = R.string.subtitle_language)) },
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        )
-                    }
+                    value = LocalTextStyle.current.merge(fontFamily = FontFamily.Monospace)
+                ) {
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                        value = languages,
+                        onValueChange = { languages = it },
+                        label = { Text(stringResource(id = R.string.subtitle_language)) },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     modifier =
                         Modifier.padding(horizontal = 16.dp)
                             .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 8.dp)) {
-                        OutlinedButtonChip(
-                            modifier = Modifier.padding(end = 8.dp),
-                            label = stringResource(id = R.string.reset),
-                            icon = Icons.Outlined.Sync) {
-                                onReset()
-                            }
-                        OutlinedButtonChip(
-                            label = stringResource(R.string.yt_dlp_docs),
-                            icon = Icons.AutoMirrored.Outlined.OpenInNew) {
-                                uriHandler.openUri(sortingFormats)
-                            }
+                            .padding(horizontal = 8.dp)
+                ) {
+                    OutlinedButtonChip(
+                        modifier = Modifier.padding(end = 8.dp),
+                        label = stringResource(id = R.string.reset),
+                        icon = Icons.Outlined.Sync,
+                    ) {
+                        onReset()
                     }
+                    OutlinedButtonChip(
+                        label = stringResource(R.string.yt_dlp_docs),
+                        icon = Icons.AutoMirrored.Outlined.OpenInNew,
+                    ) {
+                        uriHandler.openUri(sortingFormats)
+                    }
+                }
             }
         },
         confirmButton = {
@@ -836,7 +895,8 @@ private fun SubtitleLanguageDialogImpl(
                 onDismissRequest()
             }
         },
-        dismissButton = { DismissButton() { onDismissRequest() } })
+        dismissButton = { DismissButton() { onDismissRequest() } },
+    )
 }
 
 @Composable
@@ -859,19 +919,22 @@ fun SubtitleConversionDialog(onDismissRequest: () -> Unit) {
                     Text(
                         text = stringResource(id = R.string.convert_subtitle_desc),
                         modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 12.dp),
-                        style = MaterialTheme.typography.bodyLarge)
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
                 for (format in NOT_CONVERT..CONVERT_VTT) {
                     item {
                         DialogSingleChoiceItem(
                             text = PreferenceStrings.getSubtitleConversionFormat(format),
-                            selected = currentFormat == format) {
-                                currentFormat = format
-                            }
+                            selected = currentFormat == format,
+                        ) {
+                            currentFormat = format
+                        }
                     }
                 }
             }
-        })
+        },
+    )
 }
 
 @Composable
@@ -880,7 +943,7 @@ fun VideoQualityPreferenceChip(
     modifier: Modifier = Modifier,
     videoQualityPreference: Int = FORMAT_COMPATIBILITY,
     enabled: Boolean = true,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     ElevatedAssistChip(
         modifier = modifier,
@@ -890,8 +953,10 @@ fun VideoQualityPreferenceChip(
             Icon(
                 imageVector = Icons.Outlined.VideoSettings,
                 contentDescription = null,
-                modifier = Modifier.size(AssistChipDefaults.IconSize))
-        })
+                modifier = Modifier.size(AssistChipDefaults.IconSize),
+            )
+        },
+    )
 }
 
 @Composable
@@ -900,7 +965,7 @@ fun VideoResolutionChip(
     modifier: Modifier = Modifier,
     videoResolution: Int = 0,
     enabled: Boolean = true,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     ElevatedAssistChip(
         modifier = modifier,
@@ -910,6 +975,8 @@ fun VideoResolutionChip(
             Icon(
                 imageVector = Icons.Outlined.VideoSettings,
                 contentDescription = null,
-                modifier = Modifier.size(AssistChipDefaults.IconSize))
-        })
+                modifier = Modifier.size(AssistChipDefaults.IconSize),
+            )
+        },
+    )
 }

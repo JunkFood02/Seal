@@ -5,12 +5,8 @@ package com.junkfood.seal.ui.theme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextDirection
-import androidx.compose.ui.unit.sp
-
 
 val Typography =
     Typography().run {
@@ -34,5 +30,6 @@ val Typography =
     }
 
 private fun TextStyle.applyLinebreak(): TextStyle = this.copy(lineBreak = LineBreak.Paragraph)
+
 private fun TextStyle.applyTextDirection(): TextStyle =
     this.copy(textDirection = TextDirection.Content)

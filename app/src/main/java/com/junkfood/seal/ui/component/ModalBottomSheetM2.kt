@@ -39,14 +39,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun rememberSheetState(
-    showSheet: Boolean, onVisibilityChange: (isVisible: Boolean) -> Unit
+    showSheet: Boolean,
+    onVisibilityChange: (isVisible: Boolean) -> Unit,
 ): ModalBottomSheetState {
-    val state = rememberModalBottomSheetState(
-        skipHalfExpanded = true, initialValue = ModalBottomSheetValue.Hidden
-    )
+    val state =
+        rememberModalBottomSheetState(
+            skipHalfExpanded = true,
+            initialValue = ModalBottomSheetValue.Hidden,
+        )
     LaunchedEffect(showSheet) {
         if (showSheet && state.targetValue == ModalBottomSheetValue.Hidden) {
             state.show()
@@ -75,29 +77,16 @@ private fun SheetTest() {
         Column {
             Text("wtf")
             Text("showSheet = $showSheet")
-            Button(onClick = {
-                showSheet = true
-            }) { Text("show sheet!") }
-            Button(onClick = {
-                scope.launch { sheetState.show() }
-            }) { Text("sheetState.hide()") }
+            Button(onClick = { showSheet = true }) { Text("show sheet!") }
+            Button(onClick = { scope.launch { sheetState.show() } }) { Text("sheetState.hide()") }
         }
     }
 
     SealModalBottomSheetM2(sheetState = sheetState) {
         Column {
-            Button(onClick = {
-                scope.launch { sheetState.hide() }
-            }) {
-                Text("sheetState.hide()")
-            }
+            Button(onClick = { scope.launch { sheetState.hide() } }) { Text("sheetState.hide()") }
 
-            Button(onClick = {
-                showSheet = false
-            }) {
-                Text("showSheet = false")
-            }
-
+            Button(onClick = { showSheet = false }) { Text("showSheet = false") }
         }
     }
 }
@@ -105,48 +94,44 @@ private fun SheetTest() {
 @Composable
 fun SealModalBottomSheetM2(
     modifier: Modifier = Modifier,
-    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden
-    ),
+    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
     contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
     sheetGesturesEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit = {},
 ) {
     androidx.compose.material.ModalBottomSheetLayout(
         modifier = modifier,
-        sheetShape = RoundedCornerShape(
-            topStart = 28.0.dp,
-            topEnd = 28.0.dp,
-            bottomEnd = 0.0.dp,
-            bottomStart = 0.0.dp
-        ),
+        sheetShape =
+            RoundedCornerShape(
+                topStart = 28.0.dp,
+                topEnd = 28.0.dp,
+                bottomEnd = 0.0.dp,
+                bottomStart = 0.0.dp,
+            ),
         sheetState = sheetState,
         sheetBackgroundColor = MaterialTheme.colorScheme.surfaceContainer,
         sheetElevation = if (sheetState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
         sheetGesturesEnabled = sheetGesturesEnabled,
         sheetContent = {
             Column {
-                Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
-                ) {
+                Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
                     Box(modifier = Modifier.padding(contentPadding)) {
                         Row(
-                            modifier = modifier
-                                .padding(top = 8.dp)
-                                .fillMaxWidth(),
+                            modifier = modifier.padding(top = 8.dp).fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Row(
-                                modifier = modifier
-                                    .size(32.dp, 4.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                            alpha = 0.4f
+                                modifier =
+                                    modifier
+                                        .size(32.dp, 4.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                                alpha = 0.4f
+                                            )
                                         )
-                                    )
-                                    .zIndex(1f)
+                                        .zIndex(1f)
                             ) {}
                         }
                         Column {
@@ -157,9 +142,9 @@ fun SealModalBottomSheetM2(
                     }
                 }
                 NavigationBarSpacer(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                        .fillMaxWidth()
+                    modifier =
+                        Modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                            .fillMaxWidth()
                 )
             }
         },
@@ -170,36 +155,29 @@ fun SealModalBottomSheetM2(
 @Composable
 fun SealModalBottomSheetM2Variant(
     modifier: Modifier = Modifier,
-    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden
-    ),
+    sheetState: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
     sheetGesturesEnabled: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit = {},
 ) {
     androidx.compose.material.ModalBottomSheetLayout(
         modifier = modifier,
-        sheetShape = RoundedCornerShape(
-            topStart = 0.dp,
-            topEnd = 0.dp,
-            bottomEnd = 0.dp,
-            bottomStart = 0.dp
-        ),
+        sheetShape =
+            RoundedCornerShape(
+                topStart = 0.dp,
+                topEnd = 0.dp,
+                bottomEnd = 0.dp,
+                bottomStart = 0.dp,
+            ),
         sheetState = sheetState,
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = if (sheetState.isVisible) ModalBottomSheetDefaults.Elevation else 0.dp,
         sheetGesturesEnabled = sheetGesturesEnabled,
         sheetContent = {
-            Column {
-                Box(modifier = Modifier) {
-                    Column {
-                        sheetContent()
-                    }
-                }
-            }
+            Column { Box(modifier = Modifier) { Column { sheetContent() } } }
             NavigationBarSpacer(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                        .fillMaxWidth()
             )
         },
     ) {}

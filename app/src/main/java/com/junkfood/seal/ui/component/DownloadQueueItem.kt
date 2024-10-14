@@ -62,18 +62,12 @@ import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.dynamicColorScheme
 
-
 @Composable
-//@Preview
+// @Preview
 fun PlaylistPreview() {
     var selected by remember { mutableStateOf(false) }
-    Column() {
-        PreviewThemeLight {
-            PlaylistItem(selected = selected) { selected = !selected }
-        }
-    }
+    Column() { PreviewThemeLight { PlaylistItem(selected = selected) { selected = !selected } } }
 }
-
 
 @Composable
 fun PlaylistItem(
@@ -84,47 +78,39 @@ fun PlaylistItem(
     author: String? = "author sample ".repeat(5),
     onClick: () -> Unit = {},
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .selectable(selected) { onClick() },
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        ) {
+    Surface(modifier = Modifier.fillMaxWidth().selectable(selected) { onClick() }) {
+        Row(modifier = modifier.fillMaxWidth().padding(vertical = 4.dp)) {
             Checkbox(
-                modifier = Modifier
-                    .padding(start = 4.dp, end = 12.dp)
-                    .align(Alignment.CenterVertically), checked = selected, onCheckedChange = null
+                modifier =
+                    Modifier.padding(start = 4.dp, end = 12.dp).align(Alignment.CenterVertically),
+                checked = selected,
+                onCheckedChange = null,
             )
             Box(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .padding(end = 4.dp)
-                    .weight(if (LocalWindowWidthState.current == WindowWidthSizeClass.Compact) 2f else 1f)
+                modifier =
+                    Modifier.padding(4.dp)
+                        .padding(end = 4.dp)
+                        .weight(
+                            if (LocalWindowWidthState.current == WindowWidthSizeClass.Compact) 2f
+                            else 1f
+                        )
             ) {
                 AsyncImageImpl(
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.extraSmall)
-                        .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
+                    modifier =
+                        Modifier.clip(MaterialTheme.shapes.extraSmall)
+                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
                     model = imageModel,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )
             }
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 4.dp)
-                    .weight(3f)
-            ) {
+            Column(modifier = Modifier.padding(vertical = 4.dp).weight(3f)) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 author?.let {
                     Text(
@@ -133,10 +119,9 @@ fun PlaylistItem(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
-
             }
         }
     }
@@ -148,25 +133,20 @@ fun TaskItemPreview() {
     PreviewThemeLight {
         Surface {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                item {
-                    CustomCommandTaskItem(status = TaskStatus.RUNNING)
-                }
-                item {
-                    CustomCommandTaskItem(status = TaskStatus.FINISHED)
-                }
-                item {
-                    CustomCommandTaskItem(status = TaskStatus.ERROR)
-                }
-                item {
-                    CustomCommandTaskItem(status = TaskStatus.CANCELED)
-                }
+                item { CustomCommandTaskItem(status = TaskStatus.RUNNING) }
+                item { CustomCommandTaskItem(status = TaskStatus.FINISHED) }
+                item { CustomCommandTaskItem(status = TaskStatus.ERROR) }
+                item { CustomCommandTaskItem(status = TaskStatus.CANCELED) }
             }
         }
     }
 }
 
 enum class TaskStatus {
-    RUNNING, ERROR, CANCELED, FINISHED,
+    RUNNING,
+    ERROR,
+    CANCELED,
+    FINISHED,
 }
 
 val greenTonalPalettes = Color.Green.toTonalPalettes()
@@ -179,10 +159,12 @@ fun CustomCommandTaskItem(
     progress: Float = .85f,
     url: String = "https://www.example.com",
     templateName: String = "Template Example",
-    progressText: String = "[sample] Extracting URL: https://www.example.com\n" +
+    progressText: String =
+        "[sample] Extracting URL: https://www.example.com\n" +
             "[sample] sample: Downloading webpage\n" +
             "[sample] sample: Downloading android player API JSON\n" +
-            "[info] Available automatic captions for sample:" + "[info] Available automatic captions for sample:",
+            "[info] Available automatic captions for sample:" +
+            "[info] Available automatic captions for sample:",
     onCopyLog: () -> Unit = {},
     onCopyError: () -> Unit = {},
     onRestart: () -> Unit = {},
@@ -191,181 +173,180 @@ fun CustomCommandTaskItem(
 ) {
     CompositionLocalProvider(LocalTonalPalettes provides greenTonalPalettes) {
         val greenScheme = dynamicColorScheme(!LocalDarkTheme.current.isDarkTheme())
-        val accentColor = MaterialTheme.colorScheme.run {
-            when (status) {
-                TaskStatus.FINISHED -> greenScheme.primary
-                TaskStatus.CANCELED -> onSurfaceVariant
-                TaskStatus.RUNNING -> primary
-                TaskStatus.ERROR -> error.harmonizeWithPrimary()
+        val accentColor =
+            MaterialTheme.colorScheme.run {
+                when (status) {
+                    TaskStatus.FINISHED -> greenScheme.primary
+                    TaskStatus.CANCELED -> onSurfaceVariant
+                    TaskStatus.RUNNING -> primary
+                    TaskStatus.ERROR -> error.harmonizeWithPrimary()
+                }
             }
-        }
 
-        val containerColor = MaterialTheme.colorScheme.run {
-/*            when (status) {
-                TaskStatus.FINISHED -> greenScheme.primaryContainer
-                TaskStatus.CANCELED -> surfaceVariant.copy(alpha = alpha)
-                TaskStatus.RUNNING -> tertiaryContainer.copy(alpha = alpha)
-                TaskStatus.ERROR -> errorContainer.copy(alpha = alpha)
-            }*/
-            surfaceContainerLow.harmonizeWith(other = accentColor)
-        }.copy(alpha = 0.9f)
-        val contentColor = MaterialTheme.colorScheme.run {
-//            when (status) {
-//                TaskStatus.FINISHED -> greenScheme.onPrimaryContainer
-//                TaskStatus.CANCELED -> onSurfaceVariant
-//                TaskStatus.RUNNING -> onTertiaryContainer
-//                TaskStatus.ERROR -> onErrorContainer
-//            }
-            onSurfaceVariant.harmonizeWith(other = accentColor)
-        }
-
-        val labelText = stringResource(
-            id = when (status) {
-                TaskStatus.FINISHED -> R.string.status_completed
-                TaskStatus.CANCELED -> R.string.status_canceled
-                TaskStatus.RUNNING -> R.string.status_downloading
-                TaskStatus.ERROR -> R.string.status_error
+        val containerColor =
+            MaterialTheme.colorScheme
+                .run {
+                    /*            when (status) {
+                        TaskStatus.FINISHED -> greenScheme.primaryContainer
+                        TaskStatus.CANCELED -> surfaceVariant.copy(alpha = alpha)
+                        TaskStatus.RUNNING -> tertiaryContainer.copy(alpha = alpha)
+                        TaskStatus.ERROR -> errorContainer.copy(alpha = alpha)
+                    }*/
+                    surfaceContainerLow.harmonizeWith(other = accentColor)
+                }
+                .copy(alpha = 0.9f)
+        val contentColor =
+            MaterialTheme.colorScheme.run {
+                //            when (status) {
+                //                TaskStatus.FINISHED -> greenScheme.onPrimaryContainer
+                //                TaskStatus.CANCELED -> onSurfaceVariant
+                //                TaskStatus.RUNNING -> onTertiaryContainer
+                //                TaskStatus.ERROR -> onErrorContainer
+                //            }
+                onSurfaceVariant.harmonizeWith(other = accentColor)
             }
-        )
-        Surface(
-            color = containerColor,
-            shape = CardDefaults.shape,
-        ) {
+
+        val labelText =
+            stringResource(
+                id =
+                    when (status) {
+                        TaskStatus.FINISHED -> R.string.status_completed
+                        TaskStatus.CANCELED -> R.string.status_canceled
+                        TaskStatus.RUNNING -> R.string.status_downloading
+                        TaskStatus.ERROR -> R.string.status_error
+                    }
+            )
+        Surface(color = containerColor, shape = CardDefaults.shape) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(
-                    modifier = Modifier.semantics(mergeDescendants = true) { },
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.semantics(mergeDescendants = true) {},
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     when (status) {
                         TaskStatus.FINISHED -> {
                             Icon(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(24.dp),
+                                modifier = Modifier.padding(8.dp).size(24.dp),
                                 imageVector = Icons.Filled.CheckCircle,
                                 tint = accentColor,
-                                contentDescription = stringResource(id = R.string.status_completed)
+                                contentDescription = stringResource(id = R.string.status_completed),
                             )
                         }
 
                         TaskStatus.CANCELED -> {
                             Icon(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(24.dp),
+                                modifier = Modifier.padding(8.dp).size(24.dp),
                                 imageVector = Icons.Filled.Cancel,
                                 tint = accentColor,
-                                contentDescription = stringResource(id = R.string.status_canceled)
+                                contentDescription = stringResource(id = R.string.status_canceled),
                             )
                         }
 
                         TaskStatus.RUNNING -> {
-                            val animatedProgress by animateFloatAsState(
-                                targetValue = progress,
-                                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-                            )
+                            val animatedProgress by
+                                animateFloatAsState(
+                                    targetValue = progress,
+                                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                                )
                             if (progress < 0)
                                 CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .size(24.dp),
-                                    strokeWidth = 5.dp, color = accentColor
+                                    modifier = Modifier.padding(8.dp).size(24.dp),
+                                    strokeWidth = 5.dp,
+                                    color = accentColor,
                                 )
                             else
                                 CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .size(24.dp),
+                                    modifier = Modifier.padding(8.dp).size(24.dp),
                                     strokeWidth = 5.dp,
                                     progress = animatedProgress,
-                                    color = accentColor
+                                    color = accentColor,
                                 )
                         }
 
                         TaskStatus.ERROR -> {
                             Icon(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(24.dp),
+                                modifier = Modifier.padding(8.dp).size(24.dp),
                                 imageVector = Icons.Filled.Error,
                                 tint = accentColor,
-                                contentDescription = stringResource(id = R.string.status_error)
+                                contentDescription = stringResource(id = R.string.status_error),
                             )
                         }
                     }
 
-                    Column(
-                        Modifier
-                            .padding(horizontal = 8.dp)
-                            .weight(1f)
-                    ) {
+                    Column(Modifier.padding(horizontal = 8.dp).weight(1f)) {
                         Text(
                             text = templateName,
                             style = MaterialTheme.typography.titleSmall,
-                            color = contentColor, maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-
+                            color = contentColor,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
                             text = url,
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 1,
                             color = contentColor,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     IconButton(
-                        modifier = Modifier
-                            .align(Alignment.Top)
-                            .semantics(mergeDescendants = true) { },
+                        modifier =
+                            Modifier.align(Alignment.Top).semantics(mergeDescendants = true) {},
                         onClick = { onShowLog() },
-                        colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        colors =
+                            IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            ),
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.UnfoldMore,
-                            contentDescription = stringResource(
-                                id = R.string.show_logs
-                            )
+                            contentDescription = stringResource(id = R.string.show_logs),
                         )
                     }
                 }
                 Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .padding(top = 4.dp),
+                    modifier = Modifier.padding(8.dp).padding(top = 4.dp),
                     text = progressText,
-                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
-                    color = if (status == TaskStatus.ERROR) MaterialTheme.colorScheme.error else contentColor,
+                    style =
+                        MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    color =
+                        if (status == TaskStatus.ERROR) MaterialTheme.colorScheme.error
+                        else contentColor,
                     maxLines = 3,
                     minLines = 3,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
 
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                     FlatButtonChip(
                         icon = Icons.Outlined.ContentCopy,
-                        label = stringResource(id = R.string.copy_log)
-                    ) { onCopyLog() }
+                        label = stringResource(id = R.string.copy_log),
+                    ) {
+                        onCopyLog()
+                    }
                     if (status == TaskStatus.ERROR)
                         FlatButtonChip(
                             icon = Icons.Outlined.ErrorOutline,
                             label = stringResource(id = R.string.copy_error_report),
                             iconColor = MaterialTheme.colorScheme.error,
-                        ) { onCopyError() }
+                        ) {
+                            onCopyError()
+                        }
                     if (status == TaskStatus.RUNNING)
                         FlatButtonChip(
                             icon = Icons.Outlined.Cancel,
                             label = stringResource(id = R.string.cancel),
-                            iconColor = contentColor
-                        ) { onCancel() }
+                            iconColor = contentColor,
+                        ) {
+                            onCancel()
+                        }
                     if (status == TaskStatus.CANCELED || status == TaskStatus.ERROR)
                         FlatButtonChip(
                             icon = Icons.Outlined.RestartAlt,
                             label = stringResource(id = R.string.restart),
-                        ) { onRestart() }
+                        ) {
+                            onRestart()
+                        }
                 }
             }
         }

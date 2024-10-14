@@ -16,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -37,7 +38,6 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.intState
 import com.junkfood.seal.ui.component.BackButton
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceSingleChoiceItem
 import com.junkfood.seal.ui.component.PreferenceSubtitle
@@ -59,10 +59,11 @@ import kotlinx.coroutines.withContext
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdatePage(onNavigateBack: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true },
+        )
     var autoUpdate by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
     var updateChannel by UPDATE_CHANNEL.intState
     val scope = rememberCoroutineScope()
@@ -72,108 +73,107 @@ fun UpdatePage(onNavigateBack: () -> Unit) {
     var showUpdateDialog by remember { mutableStateOf(false) }
     var showUnavailableDialog by remember { mutableStateOf(App.isFDroidBuild()) }
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-        LargeTopAppBar(title = {
-            Text(
-                modifier = Modifier,
-                text = stringResource(id = R.string.auto_update),
+    Scaffold(
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(modifier = Modifier, text = stringResource(id = R.string.auto_update))
+                },
+                navigationIcon = { BackButton { onNavigateBack() } },
+                scrollBehavior = scrollBehavior,
             )
-        }, navigationIcon = {
-            BackButton {
-                onNavigateBack()
-            }
-        }, scrollBehavior = scrollBehavior
-        )
-    }, content = { paddings ->
-        LazyColumn(modifier = Modifier.padding(paddings)) {
-            item {
-                PreferenceSwitchWithContainer(
-                    title = stringResource(id = R.string.enable_auto_update),
-                    icon = null,
-                    isChecked = autoUpdate
-                ) {
-                    autoUpdate = !autoUpdate
-                    AUTO_UPDATE.updateBoolean(autoUpdate)
-                }
-            }
-            item {
-                PreferenceSubtitle(
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                    text = stringResource(id = R.string.update_channel)
-                )
-            }
-            item {
-                PreferenceSingleChoiceItem(
-                    text = stringResource(id = R.string.stable_channel),
-                    selected = updateChannel == STABLE,
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
-                ) {
-                    updateChannel = STABLE
-                    UPDATE_CHANNEL.updateInt(updateChannel)
-                }
-            }
-
-            item {
-                PreferenceSingleChoiceItem(
-                    text = stringResource(id = R.string.pre_release_channel),
-                    selected = updateChannel == PRE_RELEASE,
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
-                ) {
-                    updateChannel = PRE_RELEASE
-                    UPDATE_CHANNEL.updateInt(updateChannel)
-                }
-            }
-            item {
-                var isLoading by remember { mutableStateOf(false) }
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    ProgressIndicatorButton(
-                        modifier = Modifier
-                            .padding(horizontal = 24.dp)
-                            .padding(top = 6.dp)
-                            .padding(bottom = 12.dp),
-                        text = stringResource(
-                            id = R.string.check_for_updates
-                        ),
-                        icon = Icons.Outlined.Update,
-                        isLoading = isLoading
+        },
+        content = { paddings ->
+            LazyColumn(modifier = Modifier.padding(paddings)) {
+                item {
+                    PreferenceSwitchWithContainer(
+                        title = stringResource(id = R.string.enable_auto_update),
+                        icon = null,
+                        isChecked = autoUpdate,
                     ) {
-                        if (!isLoading)
-                            scope.launch {
-                                runCatching {
-                                    isLoading = true
-                                    withContext(Dispatchers.IO) {
-                                        UpdateUtil.checkForUpdate()?.let {
-                                            release = it
-                                            showUpdateDialog = true
-                                        }
-                                            ?: ToastUtil.makeToastSuspend(context.getString(R.string.app_up_to_date))
-                                    }
-                                    isLoading = false
-                                }
-                                    .onFailure {
-                                        it.printStackTrace()
-                                        ToastUtil.makeToastSuspend(context.getString(R.string.app_update_failed))
-                                        isLoading = false
-                                    }
-                            }
+                        autoUpdate = !autoUpdate
+                        AUTO_UPDATE.updateBoolean(autoUpdate)
                     }
                 }
-                androidx.compose.material3.HorizontalDivider()
+                item {
+                    PreferenceSubtitle(
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        text = stringResource(id = R.string.update_channel),
+                    )
+                }
+                item {
+                    PreferenceSingleChoiceItem(
+                        text = stringResource(id = R.string.stable_channel),
+                        selected = updateChannel == STABLE,
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp),
+                    ) {
+                        updateChannel = STABLE
+                        UPDATE_CHANNEL.updateInt(updateChannel)
+                    }
+                }
+
+                item {
+                    PreferenceSingleChoiceItem(
+                        text = stringResource(id = R.string.pre_release_channel),
+                        selected = updateChannel == PRE_RELEASE,
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp),
+                    ) {
+                        updateChannel = PRE_RELEASE
+                        UPDATE_CHANNEL.updateInt(updateChannel)
+                    }
+                }
+                item {
+                    var isLoading by remember { mutableStateOf(false) }
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        ProgressIndicatorButton(
+                            modifier =
+                                Modifier.padding(horizontal = 24.dp)
+                                    .padding(top = 6.dp)
+                                    .padding(bottom = 12.dp),
+                            text = stringResource(id = R.string.check_for_updates),
+                            icon = Icons.Outlined.Update,
+                            isLoading = isLoading,
+                        ) {
+                            if (!isLoading)
+                                scope.launch {
+                                    runCatching {
+                                            isLoading = true
+                                            withContext(Dispatchers.IO) {
+                                                UpdateUtil.checkForUpdate()?.let {
+                                                    release = it
+                                                    showUpdateDialog = true
+                                                }
+                                                    ?: ToastUtil.makeToastSuspend(
+                                                        context.getString(R.string.app_up_to_date)
+                                                    )
+                                            }
+                                            isLoading = false
+                                        }
+                                        .onFailure {
+                                            it.printStackTrace()
+                                            ToastUtil.makeToastSuspend(
+                                                context.getString(R.string.app_update_failed)
+                                            )
+                                            isLoading = false
+                                        }
+                                }
+                        }
+                    }
+                    androidx.compose.material3.HorizontalDivider()
+                }
+                item {
+                    PreferenceInfo(
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        text = stringResource(id = R.string.update_channel_desc),
+                    )
+                }
             }
-            item {
-                PreferenceInfo(
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp),
-                    text = stringResource(id = R.string.update_channel_desc)
-                )
-            }
-        }
-    })
+        },
+    )
     if (showUpdateDialog)
         UpdateDialog(onDismissRequest = { showUpdateDialog = false }, release = release)
 
@@ -196,25 +196,16 @@ fun ProgressIndicatorButton(
     FilledTonalButton(
         modifier = modifier,
         onClick = onClick,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
     ) {
         if (isLoading)
             Box(modifier = Modifier.size(18.dp)) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(16.dp)
-                        .align(Alignment.Center),
-                    strokeWidth = 3.dp
+                    modifier = Modifier.size(16.dp).align(Alignment.Center),
+                    strokeWidth = 3.dp,
                 )
             }
-        else Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(18.dp)
-        )
-        Text(
-            text = text,
-            modifier = Modifier.padding(start = 8.dp)
-        )
+        else Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(18.dp))
+        Text(text = text, modifier = Modifier.padding(start = 8.dp))
     }
 }

@@ -1,11 +1,9 @@
 package com.junkfood.seal.ui.page.settings.format
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArtTrack
-import androidx.compose.material.icons.outlined.AudioFile
 import androidx.compose.material.icons.outlined.ContentCut
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.HighQuality
@@ -75,15 +73,13 @@ import com.junkfood.seal.util.VIDEO_QUALITY
 @Composable
 fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage: () -> Unit) {
     val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState(),
-            canScroll = { true })
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true },
+        )
 
-    var audioSwitch by remember {
-        mutableStateOf(EXTRACT_AUDIO.getBoolean())
-    }
-    var isArtworkCroppingEnabled by remember {
-        mutableStateOf(CROP_ARTWORK.getBoolean())
-    }
+    var audioSwitch by remember { mutableStateOf(EXTRACT_AUDIO.getBoolean()) }
+    var isArtworkCroppingEnabled by remember { mutableStateOf(CROP_ARTWORK.getBoolean()) }
     val downloadSubtitle by SUBTITLE.booleanState
     val embedSubtitle by EMBED_SUBTITLE.booleanState
     var remuxToMkv by MERGE_OUTPUT_MKV.booleanState
@@ -100,76 +96,73 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
     var videoFormat by VIDEO_FORMAT.intState
     var videoQuality by VIDEO_QUALITY.intState
     var convertFormat by AUDIO_CONVERSION_FORMAT.intState
-    var sortingFields by remember(showFormatSorterDialog) { mutableStateOf(SORTING_FIELDS.getString()) }
-//    val audioFormat by remember(showAudioFormatDialog) { mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
+    var sortingFields by
+        remember(showFormatSorterDialog) { mutableStateOf(SORTING_FIELDS.getString()) }
+    //    val audioFormat by remember(showAudioFormatDialog) {
+    // mutableStateOf(PreferenceStrings.getAudioFormatDesc()) }
     var convertAudio by AUDIO_CONVERT.booleanState
     var isFormatSortingEnabled by FORMAT_SORTING.booleanState
-//    val audioQuality by remember(showAudioQualityDialog) { mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
+    //    val audioQuality by remember(showAudioQualityDialog) {
+    // mutableStateOf(PreferenceStrings.getAudioQualityDesc()) }
     var isVideoClipEnabled by VIDEO_CLIP.booleanState
     var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
     var mergeAudioStream by MERGE_MULTI_AUDIO_STREAM.booleanState
     var showMergeAudioDialog by remember { mutableStateOf(false) }
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(title = {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.format),
-                )
-            }, navigationIcon = {
-                BackButton {
-                    onNavigateBack()
-                }
-            }, scrollBehavior = scrollBehavior
+            LargeTopAppBar(
+                title = { Text(modifier = Modifier, text = stringResource(id = R.string.format)) },
+                navigationIcon = { BackButton { onNavigateBack() } },
+                scrollBehavior = scrollBehavior,
             )
         },
         content = {
-            val isCustomCommandEnabled by remember {
-                mutableStateOf(
-                    CUSTOM_COMMAND.getBoolean()
-                )
-            }
+            val isCustomCommandEnabled by remember { mutableStateOf(CUSTOM_COMMAND.getBoolean()) }
             LazyColumn(contentPadding = it) {
-                if (isCustomCommandEnabled) item {
-                    PreferenceInfo(text = stringResource(id = R.string.custom_command_enabled_hint))
-                }
+                if (isCustomCommandEnabled)
+                    item {
+                        PreferenceInfo(
+                            text = stringResource(id = R.string.custom_command_enabled_hint)
+                        )
+                    }
+                item { PreferenceSubtitle(text = stringResource(id = R.string.audio)) }
                 item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.audio))
-                }
-                item {
-                    PreferenceSwitch(title = stringResource(id = R.string.extract_audio),
-                        description = stringResource(
-                            id = R.string.extract_audio_summary
-                        ),
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.extract_audio),
+                        description = stringResource(id = R.string.extract_audio_summary),
                         icon = Icons.Outlined.MusicNote,
                         isChecked = audioSwitch,
                         enabled = !isCustomCommandEnabled,
                         onClick = {
                             audioSwitch = !audioSwitch
                             PreferenceUtil.updateValue(EXTRACT_AUDIO, audioSwitch)
-                        })
+                        },
+                    )
                 }
-//                item {
-//                    PreferenceItem(title = stringResource(id = R.string.audio_format_preference),
-//                        description = audioFormat,
-//                        icon = Icons.Outlined.AudioFile,
-//                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled,
-//                        onClick = { showAudioFormatDialog = true })
-//                }
-//                item {
-//                    PreferenceItem(
-//                        title = stringResource(id = R.string.audio_quality),
-//                        description = audioQuality,
-//                        icon = Icons.Outlined.HighQuality,
-//                        onClick = { showAudioQualityDialog = true },
-//                        enabled = !isCustomCommandEnabled && !isFormatSortingEnabled
-//                    )
-//                }
+                //                item {
+                //                    PreferenceItem(title = stringResource(id =
+                // R.string.audio_format_preference),
+                //                        description = audioFormat,
+                //                        icon = Icons.Outlined.AudioFile,
+                //                        enabled = !isCustomCommandEnabled &&
+                // !isFormatSortingEnabled,
+                //                        onClick = { showAudioFormatDialog = true })
+                //                }
+                //                item {
+                //                    PreferenceItem(
+                //                        title = stringResource(id = R.string.audio_quality),
+                //                        description = audioQuality,
+                //                        icon = Icons.Outlined.HighQuality,
+                //                        onClick = { showAudioQualityDialog = true },
+                //                        enabled = !isCustomCommandEnabled &&
+                // !isFormatSortingEnabled
+                //                    )
+                //                }
                 item {
-                    PreferenceSwitchWithDivider(title = stringResource(R.string.convert_audio_format),
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.convert_audio_format),
                         description = PreferenceStrings.getAudioConvertDesc(convertFormat),
                         icon = Icons.Outlined.Sync,
                         enabled = audioSwitch && !isCustomCommandEnabled,
@@ -178,20 +171,21 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                         onChecked = {
                             convertAudio = !convertAudio
                             AUDIO_CONVERT.updateBoolean(convertAudio)
-                        })
+                        },
+                    )
                 }
                 item {
-                    PreferenceSwitch(title = stringResource(id = R.string.embed_metadata),
-                        description = stringResource(
-                            id = R.string.embed_metadata_desc
-                        ),
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.embed_metadata),
+                        description = stringResource(id = R.string.embed_metadata_desc),
                         enabled = audioSwitch && !isCustomCommandEnabled,
                         isChecked = embedMetadata,
                         icon = Icons.Outlined.ArtTrack,
                         onClick = {
                             embedMetadata = !embedMetadata
                             EMBED_METADATA.updateBoolean(embedMetadata)
-                        })
+                        },
+                    )
                 }
                 item {
                     PreferenceSwitch(
@@ -199,54 +193,57 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                         description = stringResource(R.string.crop_artwork_desc),
                         icon = Icons.Outlined.Crop,
                         enabled = embedMetadata && audioSwitch && !isCustomCommandEnabled,
-                        isChecked = isArtworkCroppingEnabled
+                        isChecked = isArtworkCroppingEnabled,
                     ) {
                         isArtworkCroppingEnabled = !isArtworkCroppingEnabled
                         PreferenceUtil.updateValue(CROP_ARTWORK, isArtworkCroppingEnabled)
                     }
                 }
-                item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.video))
-                }
+                item { PreferenceSubtitle(text = stringResource(id = R.string.video)) }
                 item {
                     PreferenceItem(
                         title = stringResource(R.string.video_format_preference),
                         description = PreferenceStrings.getVideoFormatLabel(videoFormat),
                         icon = Icons.Outlined.VideoFile,
-                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
-                    ) { showVideoFormatDialog = true }
+                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled,
+                    ) {
+                        showVideoFormatDialog = true
+                    }
                 }
                 item {
                     PreferenceItem(
                         title = stringResource(id = R.string.video_quality),
                         description = PreferenceStrings.getVideoResolutionDesc(videoQuality),
                         icon = Icons.Outlined.HighQuality,
-                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled
-                    ) { showVideoQualityDialog = true }
-                }/*                item {
-                                    var embedThumbnail by EMBED_THUMBNAIL.booleanState
+                        enabled = !audioSwitch && !isCustomCommandEnabled && !isFormatSortingEnabled,
+                    ) {
+                        showVideoQualityDialog = true
+                    }
+                } /*                item {
+                      var embedThumbnail by EMBED_THUMBNAIL.booleanState
 
-                                    PreferenceSwitch(
-                                        title = stringResource(id = R.string.embed_thumbnail),
-                                        description = stringResource(id = R.string.embed_thumbnail_desc),
-                                        icon = Icons.Outlined.Photo,
-                                        isChecked = embedThumbnail,
-                                        enabled = !isCustomCommandEnabled && !audioSwitch
-                                    ) {
-                                        embedThumbnail = !embedThumbnail
-                                        EMBED_THUMBNAIL.updateBoolean(embedThumbnail)
-                                    }
-                                }*/
+                      PreferenceSwitch(
+                          title = stringResource(id = R.string.embed_thumbnail),
+                          description = stringResource(id = R.string.embed_thumbnail_desc),
+                          icon = Icons.Outlined.Photo,
+                          isChecked = embedThumbnail,
+                          enabled = !isCustomCommandEnabled && !audioSwitch
+                      ) {
+                          embedThumbnail = !embedThumbnail
+                          EMBED_THUMBNAIL.updateBoolean(embedThumbnail)
+                      }
+                  }*/
 
                 item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.remux_container_mkv),
-                        description = stringResource(
-                            id = R.string.remux_container_mkv_desc
-                        ),
+                        description = stringResource(id = R.string.remux_container_mkv_desc),
                         isChecked = (downloadSubtitle && embedSubtitle) || remuxToMkv,
                         icon = Icons.Outlined.Movie,
-                        enabled = !(downloadSubtitle && embedSubtitle) && !isCustomCommandEnabled && !audioSwitch,
+                        enabled =
+                            !(downloadSubtitle && embedSubtitle) &&
+                                !isCustomCommandEnabled &&
+                                !audioSwitch,
                         onClick = {
                             remuxToMkv = !remuxToMkv
                             MERGE_OUTPUT_MKV.updateBoolean(remuxToMkv)
@@ -259,20 +256,20 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                     }
                 }
 
+                item { PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings)) }
                 item {
-                    PreferenceSubtitle(text = stringResource(id = R.string.advanced_settings))
-                }
-                item {
-
                     PreferenceItem(
                         title = stringResource(id = R.string.subtitle),
                         icon = Icons.Outlined.Subtitles,
                         enabled = !isCustomCommandEnabled,
                         description = stringResource(id = R.string.subtitle_desc),
-                    ) { navigateToSubtitlePage() }
+                    ) {
+                        navigateToSubtitlePage()
+                    }
                 }
                 item {
-                    PreferenceSwitchWithDivider(title = stringResource(id = R.string.format_sorting),
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(id = R.string.format_sorting),
                         icon = Icons.Outlined.Sort,
                         description = stringResource(id = R.string.format_sorting_desc),
                         enabled = !isCustomCommandEnabled,
@@ -281,7 +278,8 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                             isFormatSortingEnabled = !isFormatSortingEnabled
                             FORMAT_SORTING.updateBoolean(isFormatSortingEnabled)
                         },
-                        onClick = { showFormatSorterDialog = true })
+                        onClick = { showFormatSorterDialog = true },
+                    )
                 }
                 item {
                     PreferenceSwitch(
@@ -289,7 +287,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                         icon = Icons.Outlined.VideoSettings,
                         enabled = !isCustomCommandEnabled,
                         description = stringResource(id = R.string.format_selection_desc),
-                        isChecked = isFormatSelectionEnabled
+                        isChecked = isFormatSelectionEnabled,
                     ) {
                         isFormatSelectionEnabled = !isFormatSelectionEnabled
                         PreferenceUtil.updateValue(FORMAT_SELECTION, isFormatSelectionEnabled)
@@ -298,12 +296,10 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                 item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.clip_video),
-                        description = stringResource(
-                            id = R.string.clip_video_desc
-                        ),
+                        description = stringResource(id = R.string.clip_video_desc),
                         icon = Icons.Outlined.ContentCut,
                         isChecked = isVideoClipEnabled,
-                        enabled = !isCustomCommandEnabled && isFormatSelectionEnabled
+                        enabled = !isCustomCommandEnabled && isFormatSelectionEnabled,
                     ) {
                         if (!isVideoClipEnabled) showVideoClipDialog = true
                         else {
@@ -315,9 +311,8 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                 item {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.merge_audiostream),
-                        description = stringResource(
-                            id = R.string.merge_audiostream_desc
-                        ), isChecked = mergeAudioStream,
+                        description = stringResource(id = R.string.merge_audiostream_desc),
+                        isChecked = mergeAudioStream,
                         icon = Icons.Outlined.SpatialAudioOff,
                         onClick = {
                             if (mergeAudioStream) {
@@ -327,11 +322,12 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                                 showMergeAudioDialog = true
                             }
                         },
-                        enabled = !isCustomCommandEnabled && isFormatSelectionEnabled
+                        enabled = !isCustomCommandEnabled && isFormatSelectionEnabled,
                     )
                 }
             }
-        })
+        },
+    )
     if (showAudioFormatDialog) {
         AudioFormatDialog { showAudioFormatDialog = false }
     }
@@ -345,20 +341,23 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
             onConfirm = {
                 convertFormat = it
                 AUDIO_CONVERSION_FORMAT.updateInt(it)
-            }
+            },
         )
     }
     if (showVideoQualityDialog) {
-        VideoQualityDialog(videoQuality = videoQuality,
-            onDismissRequest = { showVideoQualityDialog = false }) {
+        VideoQualityDialog(
+            videoQuality = videoQuality,
+            onDismissRequest = { showVideoQualityDialog = false },
+        ) {
             videoQuality = it
             VIDEO_QUALITY.updateInt(it)
         }
     }
     if (showVideoFormatDialog) {
-        VideoFormatDialog(videoFormatPreference = videoFormat, onDismissRequest = {
-            showVideoFormatDialog = false
-        }) {
+        VideoFormatDialog(
+            videoFormatPreference = videoFormat,
+            onDismissRequest = { showVideoFormatDialog = false },
+        ) {
             PreferenceUtil.encodeInt(VIDEO_FORMAT, it)
             videoFormat = it
         }
@@ -371,14 +370,16 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                     DownloadUtil.DownloadPreferences.createFromPreferences().toFormatSorter()
             },
             onDismissRequest = { showFormatSorterDialog = false },
-            showSwitch = false, onConfirm = {
+            showSwitch = false,
+            onConfirm = {
                 sortingFields = it
                 SORTING_FIELDS.updateString(sortingFields)
-            }
+            },
         )
     }
     if (showVideoClipDialog) {
-        AlertDialog(onDismissRequest = { showVideoClipDialog = false },
+        AlertDialog(
+            onDismissRequest = { showVideoClipDialog = false },
             icon = { Icon(Icons.Outlined.ContentCut, null) },
             confirmButton = {
                 ConfirmButton {
@@ -387,23 +388,19 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                     showVideoClipDialog = false
                 }
             },
-            dismissButton = {
-                DismissButton {
-                    showVideoClipDialog = false
-                }
-            },
-            text = {
-                Text(stringResource(id = R.string.clip_video_dialog_msg))
-            },
+            dismissButton = { DismissButton { showVideoClipDialog = false } },
+            text = { Text(stringResource(id = R.string.clip_video_dialog_msg)) },
             title = {
                 Text(
                     stringResource(id = R.string.enable_experimental_feature),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
-            })
+            },
+        )
     }
     if (showMergeAudioDialog) {
-        AlertDialog(onDismissRequest = { showMergeAudioDialog = false },
+        AlertDialog(
+            onDismissRequest = { showMergeAudioDialog = false },
             icon = { Icon(Icons.Outlined.SpatialAudioOff, null) },
             confirmButton = {
                 ConfirmButton {
@@ -412,19 +409,14 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                     showMergeAudioDialog = false
                 }
             },
-            dismissButton = {
-                DismissButton {
-                    showMergeAudioDialog = false
-                }
-            },
-            text = {
-                Text(stringResource(id = R.string.merge_audiostream_desc))
-            },
+            dismissButton = { DismissButton { showMergeAudioDialog = false } },
+            text = { Text(stringResource(id = R.string.merge_audiostream_desc)) },
             title = {
                 Text(
                     stringResource(id = R.string.enable_experimental_feature),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
-            })
+            },
+        )
     }
 }

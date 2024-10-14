@@ -29,14 +29,10 @@ fun DirectoryPreferenceDialog(
     onDismissRequest: () -> Unit = {},
     isWebsiteSelected: Boolean,
     isPlaylistTitleSelected: Boolean,
-    onConfirm: (isWebsiteSelected: Boolean, isPlaylistTitleSelected: Boolean) -> Unit = { _, _ -> }
+    onConfirm: (isWebsiteSelected: Boolean, isPlaylistTitleSelected: Boolean) -> Unit = { _, _ -> },
 ) {
-    var website by remember {
-        mutableStateOf(isWebsiteSelected)
-    }
-    var playlistTitle by remember {
-        mutableStateOf(isPlaylistTitleSelected)
-    }
+    var website by remember { mutableStateOf(isWebsiteSelected) }
+    var playlistTitle by remember { mutableStateOf(isPlaylistTitleSelected) }
 
     SealDialog(
         onDismissRequest = onDismissRequest,
@@ -46,68 +42,52 @@ fun DirectoryPreferenceDialog(
                 onDismissRequest()
             }
         },
-        dismissButton = {
-            DismissButton {
-                onDismissRequest()
-            }
-        },
-        title = {
-            Text(
-                text = stringResource(
-                    id = R.string.subdirectory
-                )
-            )
-        },
+        dismissButton = { DismissButton { onDismissRequest() } },
+        title = { Text(text = stringResource(id = R.string.subdirectory)) },
         icon = { Icon(imageVector = Icons.Outlined.SnippetFolder, contentDescription = null) },
         text = {
             Column {
                 Text(
                     text = stringResource(id = R.string.subdirectory_desc),
                     modifier = Modifier.padding(horizontal = 24.dp),
-//                    style = MaterialTheme.typography.bodyLarge
+                    //                    style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 androidx.compose.material3.HorizontalDivider(
-                    modifier = Modifier.padding(
-                        horizontal = 24.dp,
-                        vertical = 4.dp
-                    )
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
                 )
                 DialogCheckBoxItem(
                     text = stringResource(id = R.string.website),
-                    checked = website
+                    checked = website,
                 ) {
                     website = !website
                 }
                 DialogCheckBoxItem(
                     text = stringResource(id = R.string.playlist_title),
-                    checked = playlistTitle
+                    checked = playlistTitle,
                 ) {
                     playlistTitle = !playlistTitle
                 }
                 androidx.compose.material3.HorizontalDivider(
-                    modifier = Modifier.padding(
-                        horizontal = 24.dp,
-                        vertical = 4.dp
-                    )
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
 
-                val dirStr = StringBuilder(".../").run {
-                    if (website) append("website/")
-                    if (playlistTitle) append("playlist_title/")
-                    append("file_name")
-                }
+                val dirStr =
+                    StringBuilder(".../").run {
+                        if (website) append("website/")
+                        if (playlistTitle) append("playlist_title/")
+                        append("file_name")
+                    }
 
                 Text(
                     text = stringResource(R.string.subdirectory_hint) + "\n" + dirStr,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-//                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                    //                    style = MaterialTheme.typography.labelMedium,
                 )
             }
-        })
+        },
+    )
 }
 
 @Preview
@@ -116,6 +96,6 @@ private fun DirectoryPreferenceDialogPreview() {
     DirectoryPreferenceDialog(
         onDismissRequest = {},
         isWebsiteSelected = false,
-        isPlaylistTitleSelected = false
+        isPlaylistTitleSelected = false,
     )
 }

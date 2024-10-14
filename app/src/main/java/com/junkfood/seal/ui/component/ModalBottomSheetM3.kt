@@ -29,7 +29,8 @@ fun SealModalBottomSheet(
         SheetState(
             skipPartiallyExpanded = true,
             density = LocalDensity.current,
-            initialValue = SheetValue.Hidden),
+            initialValue = SheetValue.Hidden,
+        ),
     onDismissRequest: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp),
     properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
@@ -39,12 +40,13 @@ fun SealModalBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        properties = properties) {
-            Column(modifier = Modifier.padding(paddingValues = contentPadding)) {
-                content()
-                Spacer(modifier = Modifier.height(28.dp))
-            }
+        properties = properties,
+    ) {
+        Column(modifier = Modifier.padding(paddingValues = contentPadding)) {
+            content()
+            Spacer(modifier = Modifier.height(28.dp))
         }
+    }
 }
 
 @Composable
@@ -57,5 +59,6 @@ fun DrawerSheetSubtitle(
         text = text,
         modifier = modifier.fillMaxWidth().padding(start = 4.dp, top = 16.dp, bottom = 8.dp),
         color = color,
-        style = MaterialTheme.typography.labelLarge)
+        style = MaterialTheme.typography.labelLarge,
+    )
 }

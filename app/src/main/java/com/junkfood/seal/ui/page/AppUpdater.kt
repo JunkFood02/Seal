@@ -86,8 +86,8 @@ fun AppUpdater() {
                 updateJob =
                     scope.launch(Dispatchers.IO) {
                         runCatching {
-                                UpdateUtil.downloadApk(release = release).collect {
-                                    downloadStatus ->
+                                UpdateUtil.downloadApk(release = release).collect { downloadStatus
+                                    ->
                                     currentDownloadStatus = downloadStatus
                                     if (downloadStatus is UpdateUtil.DownloadStatus.Finished) {
                                         launcher.launch(

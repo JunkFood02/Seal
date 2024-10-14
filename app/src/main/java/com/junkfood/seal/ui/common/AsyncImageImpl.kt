@@ -17,41 +17,43 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.junkfood.seal.R
 
-
 @Composable
 fun AsyncImageImpl(
     model: Any?,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    transform: (AsyncImagePainter.State) -> AsyncImagePainter.State = AsyncImagePainter.DefaultTransform,
+    transform: (AsyncImagePainter.State) -> AsyncImagePainter.State =
+        AsyncImagePainter.DefaultTransform,
     onState: ((AsyncImagePainter.State) -> Unit)? = null,
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
-    isPreview: Boolean = LocalInspectionMode.current
+    isPreview: Boolean = LocalInspectionMode.current,
 ) {
-    if (isPreview) Image(
-        painter = painterResource(R.drawable.sample3),
-        contentDescription = contentDescription,
-        modifier = modifier,
-        alignment = alignment,
-        contentScale = contentScale,
-        alpha = alpha,
-        colorFilter = colorFilter,
-    )
-    else coil.compose.AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current).data(model).crossfade(true).build(),
-        contentDescription = contentDescription,
-        imageLoader = LocalContext.current.imageLoader,
-        modifier = modifier,
-        transform = transform,
-        onState = onState,
-        alignment = alignment,
-        contentScale = contentScale,
-        alpha = alpha,
-        colorFilter = colorFilter,
-        filterQuality = filterQuality
-    )
+    if (isPreview)
+        Image(
+            painter = painterResource(R.drawable.sample3),
+            contentDescription = contentDescription,
+            modifier = modifier,
+            alignment = alignment,
+            contentScale = contentScale,
+            alpha = alpha,
+            colorFilter = colorFilter,
+        )
+    else
+        coil.compose.AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current).data(model).crossfade(true).build(),
+            contentDescription = contentDescription,
+            imageLoader = LocalContext.current.imageLoader,
+            modifier = modifier,
+            transform = transform,
+            onState = onState,
+            alignment = alignment,
+            contentScale = contentScale,
+            alpha = alpha,
+            colorFilter = colorFilter,
+            filterQuality = filterQuality,
+        )
 }

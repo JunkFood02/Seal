@@ -38,11 +38,11 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import java.util.Locale
 
 object DownloadUtil {
 
@@ -86,7 +86,7 @@ object DownloadUtil {
     @CheckResult
     fun getPlaylistOrVideoInfo(
         playlistURL: String,
-        downloadPreferences: DownloadPreferences = DownloadPreferences.createFromPreferences()
+        downloadPreferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
     ): Result<YoutubeDLInfo> =
         YoutubeDL.runCatching {
             ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
@@ -128,7 +128,7 @@ object DownloadUtil {
     @CheckResult
     private fun getVideoInfo(
         request: YoutubeDLRequest,
-        taskKey: String? = null
+        taskKey: String? = null,
     ): Result<VideoInfo> =
         request.runCatching {
             val response: YoutubeDLResponse =
@@ -141,7 +141,7 @@ object DownloadUtil {
         url: String,
         playlistIndex: Int? = null,
         taskKey: String? = null,
-        preferences: DownloadPreferences = DownloadPreferences.createFromPreferences()
+        preferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
     ): Result<VideoInfo> {
         with(preferences) {
             val request =
@@ -325,7 +325,8 @@ object DownloadUtil {
         SQLiteDatabase.openDatabase(
                 context.dataDir.resolve("app_webview/Default/Cookies").absolutePath,
                 null,
-                OPEN_READONLY)
+                OPEN_READONLY,
+            )
             .run {
                 val projection =
                     arrayOf(
@@ -334,7 +335,8 @@ object DownloadUtil {
                         CookieScheme.PATH,
                         CookieScheme.NAME,
                         CookieScheme.VALUE,
-                        CookieScheme.SECURE)
+                        CookieScheme.SECURE,
+                    )
                 val cookieList = mutableListOf<Cookie>()
                 query("cookies", projection, null, null, null, null, null).run {
                     while (moveToNext()) {
@@ -353,7 +355,9 @@ object DownloadUtil {
                                 value = value,
                                 path = path,
                                 secure = secure,
-                                expiry = expiry))
+                                expiry = expiry,
+                            )
+                        )
                     }
                     close()
                 }
@@ -375,7 +379,7 @@ object DownloadUtil {
         this.addOption("--downloader", "libaria2c.so")
 
     private fun YoutubeDLRequest.addOptionsForVideoDownloads(
-        downloadPreferences: DownloadPreferences,
+        downloadPreferences: DownloadPreferences
     ): YoutubeDLRequest =
         this.apply {
             downloadPreferences.run {
@@ -477,7 +481,7 @@ object DownloadUtil {
 
     private fun YoutubeDLRequest.applyFormatSorter(
         preferences: DownloadPreferences,
-        sorter: String
+        sorter: String,
     ) =
         preferences.run {
             if (formatSorting && sortingFields.isNotEmpty()) addOption("-S", sortingFields)
@@ -487,12 +491,15 @@ object DownloadUtil {
     @CheckResult
     fun DownloadPreferences.toFormatSorter(): String =
         connectWithDelimiter(
-            this.toVideoFormatSorter(), this.toAudioFormatSorter(), delimiter = ",")
+            this.toVideoFormatSorter(),
+            this.toAudioFormatSorter(),
+            delimiter = ",",
+        )
 
     private fun YoutubeDLRequest.addOptionsForAudioDownloads(
         id: String,
         preferences: DownloadPreferences,
-        playlistUrl: String
+        playlistUrl: String,
     ): YoutubeDLRequest =
         this.apply {
             with(preferences) {
@@ -560,7 +567,7 @@ object DownloadUtil {
 
     private fun insertInfoIntoDownloadHistory(
         videoInfo: VideoInfo,
-        filePaths: List<String>
+        filePaths: List<String>,
     ): List<String> =
         filePaths.onEach {
             DatabaseUtil.insertInfo(videoInfo.toDownloadedVideoInfo(videoPath = it))
@@ -568,7 +575,7 @@ object DownloadUtil {
 
     private fun VideoInfo.toDownloadedVideoInfo(
         id: Int = 0,
-        videoPath: String
+        videoPath: String,
     ): DownloadedVideoInfo =
         this.run {
             DownloadedVideoInfo(
@@ -578,13 +585,15 @@ object DownloadUtil {
                 videoUrl = webpageUrl ?: originalUrl.toString(),
                 thumbnailUrl = thumbnail.toHttpsUrl(),
                 videoPath = videoPath,
-                extractor = extractorKey)
+                extractor = extractorKey,
+            )
         }
 
     private fun insertSplitChapterIntoHistory(videoInfo: VideoInfo, filePaths: List<String>) =
         filePaths.onEach {
             DatabaseUtil.insertInfo(
-                videoInfo.toDownloadedVideoInfo(videoPath = it).copy(videoTitle = it.getFileName()))
+                videoInfo.toDownloadedVideoInfo(videoPath = it).copy(videoTitle = it.getFileName())
+            )
         }
 
     @CheckResult
@@ -594,7 +603,7 @@ object DownloadUtil {
         playlistItem: Int = 0,
         taskId: String,
         downloadPreferences: DownloadPreferences,
-        progressCallback: ((Float, Long, String) -> Unit)?
+        progressCallback: ((Float, Long, String) -> Unit)?,
     ): Result<List<String>> {
         if (videoInfo == null)
             return Result.failure(Throwable(context.getString(R.string.fetch_info_error_msg)))
@@ -605,7 +614,8 @@ object DownloadUtil {
                     videoInfo.originalUrl
                         ?: videoInfo.webpageUrl
                         ?: return Result.failure(
-                            Throwable(context.getString(R.string.fetch_info_error_msg)))
+                            Throwable(context.getString(R.string.fetch_info_error_msg))
+                        )
                 }
             val request = YoutubeDLRequest(url)
             val pathBuilder = StringBuilder()
@@ -636,7 +646,9 @@ object DownloadUtil {
                         if (archiveFileContent.contains("${videoInfo.extractor} ${videoInfo.id}")) {
                             return Result.failure(
                                 YoutubeDLException(
-                                    context.getString(R.string.download_archive_error)))
+                                    context.getString(R.string.download_archive_error)
+                                )
+                            )
                         } else {
                             useDownloadArchive()
                         }
@@ -669,7 +681,8 @@ object DownloadUtil {
                         addOptionsForAudioDownloads(
                             id = videoInfo.id,
                             preferences = downloadPreferences,
-                            playlistUrl = playlistUrl)
+                            playlistUrl = playlistUrl,
+                        )
                     } else {
                         if (privateDirectory) pathBuilder.append(App.privateDownloadDir)
                         else pathBuilder.append(videoDownloadDir)
@@ -696,7 +709,8 @@ object DownloadUtil {
                     videoClips.forEach {
                         addOption(
                             "--download-sections",
-                            "*%d-%d".format(locale = Locale.US, it.start, it.end))
+                            "*%d-%d".format(locale = Locale.US, it.start, it.end),
+                        )
                     }
                     if (newTitle.isNotEmpty()) {
                         addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
@@ -727,22 +741,26 @@ object DownloadUtil {
                         .execute(request = this, processId = taskId, callback = progressCallback)
                 }
                 .onFailure { th ->
-                    return if (sponsorBlock &&
-                        th.message?.contains("Unable to communicate with SponsorBlock API") ==
-                            true) {
+                    return if (
+                        sponsorBlock &&
+                            th.message?.contains("Unable to communicate with SponsorBlock API") ==
+                                true
+                    ) {
                         th.printStackTrace()
                         onFinishDownloading(
                             preferences = this,
                             videoInfo = videoInfo,
                             downloadPath = pathBuilder.toString(),
-                            sdcardUri = sdcardUri)
+                            sdcardUri = sdcardUri,
+                        )
                     } else Result.failure(th)
                 }
             return onFinishDownloading(
                 preferences = this,
                 videoInfo = videoInfo,
                 downloadPath = pathBuilder.toString(),
-                sdcardUri = sdcardUri)
+                sdcardUri = sdcardUri,
+            )
         }
     }
 
@@ -750,7 +768,7 @@ object DownloadUtil {
         preferences: DownloadPreferences,
         videoInfo: VideoInfo,
         downloadPath: String,
-        sdcardUri: String
+        sdcardUri: String,
     ): Result<List<String>> =
         preferences.run {
             val fileName =
@@ -763,7 +781,9 @@ object DownloadUtil {
             Log.d(TAG, "onFinishDownloading: $fileName")
             if (sdcard) {
                 moveFilesToSdcard(
-                        sdcardUri = sdcardUri, tempPath = context.getSdcardTempDir(videoInfo.id))
+                        sdcardUri = sdcardUri,
+                        tempPath = context.getSdcardTempDir(videoInfo.id),
+                    )
                     .onSuccess {
                         if (privateMode) {
                             return Result.success(emptyList())
@@ -775,7 +795,9 @@ object DownloadUtil {
                     }
             } else {
                 FileUtil.scanFileToMediaLibraryPostDownload(
-                        title = fileName, downloadDir = downloadPath)
+                        title = fileName,
+                        downloadDir = downloadPath,
+                    )
                     .run {
                         if (privateMode) Result.success(emptyList())
                         else
@@ -784,7 +806,8 @@ object DownloadUtil {
                                     insertSplitChapterIntoHistory(videoInfo, this)
                                 } else {
                                     insertInfoIntoDownloadHistory(videoInfo, this)
-                                })
+                                }
+                            )
                     }
             }
         }
@@ -816,7 +839,8 @@ object DownloadUtil {
                     addOption(
                         "--config-locations",
                         FileUtil.writeContentToFile(template.template, context.getConfigFile())
-                            .absolutePath)
+                            .absolutePath,
+                    )
                     if (cookies) {
                         enableCookies(userAgentString)
                     }
@@ -836,9 +860,14 @@ object DownloadUtil {
                                 progress = progress.toInt(),
                                 templateName = template.name,
                                 taskUrl = url,
-                                text = text)
+                                text = text,
+                            )
                             Downloader.updateTaskOutput(
-                                template = template, url = url, line = text, progress = progress)
+                                template = template,
+                                url = url,
+                                line = text,
+                                progress = progress,
+                            )
                         }
                     onTaskEnded(template, url, response.out + "\n" + response.err)
                 }

@@ -54,35 +54,33 @@ fun VideoCard(
     progress: Float = 90f,
     fileSizeApprox: Double = 1024 * 1024 * 69.0,
     duration: Int = 359,
-    isPreview: Boolean = false
+    isPreview: Boolean = false,
 ) {
     ElevatedCard(
-        modifier = modifier
-            .fillMaxWidth(),
-        onClick = onClick, shape = MaterialTheme.shapes.small
+        modifier = modifier.fillMaxWidth(),
+        onClick = onClick,
+        shape = MaterialTheme.shapes.small,
     ) {
         Column {
             Box(Modifier.fillMaxWidth()) {
                 Crossfade(targetState = thumbnailUrl, label = "") {
                     AsyncImageImpl(
-                        modifier = Modifier
-                            .padding()
-                            .fillMaxWidth()
-                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                            .clip(MaterialTheme.shapes.small),
+                        modifier =
+                            Modifier.padding()
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                                .clip(MaterialTheme.shapes.small),
                         model = it,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        isPreview = isPreview
+                        isPreview = isPreview,
                     )
                 }
 
                 Surface(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .align(Alignment.BottomEnd),
+                    modifier = Modifier.padding(4.dp).align(Alignment.BottomEnd),
                     color = Color.Black.copy(alpha = 0.68f),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = MaterialTheme.shapes.extraSmall,
                 ) {
                     val fileSizeText = fileSizeApprox.toFileSizeText()
                     val durationText = duration.toDurationText()
@@ -90,50 +88,46 @@ fun VideoCard(
                         modifier = Modifier.padding(horizontal = 4.dp),
                         text = "$fileSizeText · $durationText",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White
+                        color = Color.White,
                     )
                 }
 
-                Column(
-                    modifier = Modifier.align(Alignment.Center)
-                ) {
+                Column(modifier = Modifier.align(Alignment.Center)) {
                     AnimatedVisibility(
                         visible = showCancelButton,
                         enter = fadeIn(),
-                        exit = fadeOut()
+                        exit = fadeOut(),
                     ) {
                         FilledTonalIconButton(
                             onClick = onCancel,
-                            modifier = Modifier
-                                .size(56.dp),
-                            colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest.copy(
-                                    alpha = 0.68f
-                                )
-                            )
+                            modifier = Modifier.size(56.dp),
+                            colors =
+                                IconButtonDefaults.filledTonalIconButtonColors(
+                                    containerColor =
+                                        MaterialTheme.colorScheme.surfaceContainerHighest.copy(
+                                            alpha = 0.68f
+                                        )
+                                ),
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Cancel,
                                 contentDescription = stringResource(id = R.string.cancel),
-                                modifier = Modifier.size(32.dp)
+                                modifier = Modifier.size(32.dp),
                             )
                         }
-
                     }
                 }
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalAlignment = Alignment.Start
+                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     modifier = Modifier.padding(top = 3.dp),
@@ -141,22 +135,21 @@ fun VideoCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
-            val progressAnimationValue by animateFloatAsState(
-                targetValue = progress,
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec, label = ""
-            )
-            if (progress < 0f)
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
+            val progressAnimationValue by
+                animateFloatAsState(
+                    targetValue = progress,
+                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                    label = "",
                 )
+            if (progress < 0f) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             else
                 LinearProgressIndicator(
                     progress = { progressAnimationValue / 100f },
                     modifier = Modifier.fillMaxWidth(),
-                    drawStopIndicator = {}
+                    drawStopIndicator = {},
                 )
         }
     }
@@ -166,7 +159,5 @@ fun VideoCard(
 @Preview
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun VideoCardPreview() {
-    SealTheme() {
-        VideoCard(isPreview = true)
-    }
+    SealTheme() { VideoCard(isPreview = true) }
 }

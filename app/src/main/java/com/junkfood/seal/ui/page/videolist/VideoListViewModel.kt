@@ -22,68 +22,61 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 private const val TAG = "VideoListViewModel"
 
 class VideoListViewModel : ViewModel() {
 
     private val mutableStateFlow = MutableStateFlow(VideoListViewState())
     val stateFlow = mutableStateFlow.asStateFlow()
-    private val viewState get() = stateFlow.value
+    private val viewState
+        get() = stateFlow.value
 
     private val _mediaInfoFlow = DatabaseUtil.getDownloadHistoryFlow()
 
     val videoListFlow: Flow<List<DownloadedVideoInfo>> =
         _mediaInfoFlow.map { it.reversed().sortedBy { info -> info.filterByType() } }
 
-    val searchedVideoListFlow = videoListFlow.combine(stateFlow) { list, state ->
-        if (!state.isSearching || state.searchText.isBlank()) list
-        else list.filter {
-            state.searchText.let { text ->
-                with(it) {
-                    videoTitle.contains(text, ignoreCase = true) || videoAuthor.contains(
-                        text,
-                        ignoreCase = true
-                    ) || extractor.contains(text, ignoreCase = true) || videoPath.contains(
-                        text,
-                        ignoreCase = true
-                    )
+    val searchedVideoListFlow =
+        videoListFlow.combine(stateFlow) { list, state ->
+            if (!state.isSearching || state.searchText.isBlank()) list
+            else
+                list.filter {
+                    state.searchText.let { text ->
+                        with(it) {
+                            videoTitle.contains(text, ignoreCase = true) ||
+                                videoAuthor.contains(text, ignoreCase = true) ||
+                                extractor.contains(text, ignoreCase = true) ||
+                                videoPath.contains(text, ignoreCase = true)
+                        }
+                    }
                 }
-            }
         }
-    }
 
-    val filterSetFlow = searchedVideoListFlow.map { infoList ->
-        mutableSetOf<String>().apply {
-            infoList.forEach {
-                this.add(it.extractor)
-            }
+    val filterSetFlow =
+        searchedVideoListFlow.map { infoList ->
+            mutableSetOf<String>().apply { infoList.forEach { this.add(it.extractor) } }
         }
-    }
 
-    val fileSizeMapFlow = videoListFlow.flowOn(Dispatchers.IO).map { list ->
-        list.associate {
-            it.id to it.videoPath.getFileSize()
+    val fileSizeMapFlow =
+        videoListFlow.flowOn(Dispatchers.IO).map { list ->
+            list.associate { it.id to it.videoPath.getFileSize() }
         }
-    }
-
 
     fun clickVideoFilter() {
-        if (mutableStateFlow.value.videoFilter) mutableStateFlow.update { it.copy(videoFilter = false) }
+        if (mutableStateFlow.value.videoFilter)
+            mutableStateFlow.update { it.copy(videoFilter = false) }
         else mutableStateFlow.update { it.copy(videoFilter = true, audioFilter = false) }
     }
 
     fun clickAudioFilter() {
-        if (mutableStateFlow.value.audioFilter) mutableStateFlow.update { it.copy(audioFilter = false) }
+        if (mutableStateFlow.value.audioFilter)
+            mutableStateFlow.update { it.copy(audioFilter = false) }
         else mutableStateFlow.update { it.copy(audioFilter = true, videoFilter = false) }
     }
 
     fun clickExtractorFilter(index: Int) {
-        if (mutableStateFlow.value.activeFilterIndex == index) mutableStateFlow.update {
-            it.copy(
-                activeFilterIndex = -1
-            )
-        }
+        if (mutableStateFlow.value.activeFilterIndex == index)
+            mutableStateFlow.update { it.copy(activeFilterIndex = -1) }
         else mutableStateFlow.update { it.copy(activeFilterIndex = index) }
     }
 
@@ -101,9 +94,7 @@ class VideoListViewModel : ViewModel() {
         }
     }
 
-    fun importBackupFromUri(
-        context: Context, uri: Uri, onComplete: suspend (Int) -> Unit
-    ) {
+    fun importBackupFromUri(context: Context, uri: Uri, onComplete: suspend (Int) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             var res = 0
             context.contentResolver.openInputStream(uri)?.use { input ->
@@ -111,27 +102,22 @@ class VideoListViewModel : ViewModel() {
                     res = importBackupFromText(it)
                 }
             }
-            withContext(Dispatchers.Main) {
-                onComplete(res)
-            }
+            withContext(Dispatchers.Main) { onComplete(res) }
         }
     }
 
-    fun importBackupFromText(
-        string: String, onComplete: suspend (Int) -> Unit
-    ) {
+    fun importBackupFromText(string: String, onComplete: suspend (Int) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = importBackupFromText(string)
-            withContext(Dispatchers.Main) {
-                onComplete(res)
-            }
+            withContext(Dispatchers.Main) { onComplete(res) }
         }
     }
 
     private suspend fun importBackupFromText(string: String): Int {
         string.decodeToBackup().onSuccess {
             return DatabaseUtil.importBackup(
-                backup = it, types = setOf(BackupUtil.BackupType.DownloadHistory)
+                backup = it,
+                types = setOf(BackupUtil.BackupType.DownloadHistory),
             )
         }
         return 0
@@ -140,11 +126,14 @@ class VideoListViewModel : ViewModel() {
     fun showImportedSnackbar(hostState: SnackbarHostState, context: Context, importedCount: Int) {
         viewModelScope.launch(Dispatchers.Main) {
             hostState.showSnackbar(
-                message = context.getString(R.string.download_history_imported).format(
-                    context.resources.getQuantityString(
-                        R.plurals.item_count, importedCount
-                    ).format(importedCount)
-                )
+                message =
+                    context
+                        .getString(R.string.download_history_imported)
+                        .format(
+                            context.resources
+                                .getQuantityString(R.plurals.item_count, importedCount)
+                                .format(importedCount)
+                        )
             )
         }
     }
@@ -156,5 +145,4 @@ class VideoListViewModel : ViewModel() {
         val isSearching: Boolean = false,
         val searchText: String = "",
     )
-
 }

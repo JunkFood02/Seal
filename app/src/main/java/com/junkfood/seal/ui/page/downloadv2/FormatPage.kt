@@ -107,10 +107,10 @@ import com.junkfood.seal.util.VIDEO_CLIP
 import com.junkfood.seal.util.VideoClip
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlinx.coroutines.delay
-import org.koin.compose.koinInject
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 
 private const val TAG = "FormatPage"
 

@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.NewReleases
@@ -71,132 +70,143 @@ fun AboutPage(
     onNavigateBack: () -> Unit,
     onNavigateToCreditsPage: () -> Unit,
     onNavigateToUpdatePage: () -> Unit,
-    onNavigateToDonatePage: () -> Unit
+    onNavigateToDonatePage: () -> Unit,
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true })
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true },
+        )
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
-//    val configuration = LocalConfiguration.current
-//    val screenDensity = configuration.densityDpi / 160f
-//    val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
-//    val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
+    //    val configuration = LocalConfiguration.current
+    //    val screenDensity = configuration.densityDpi / 160f
+    //    val screenHeight = (configuration.screenHeightDp.toFloat() * screenDensity).roundToInt()
+    //    val screenWidth = (configuration.screenWidthDp.toFloat() * screenDensity).roundToInt()
     var isAutoUpdateEnabled by remember { mutableStateOf(PreferenceUtil.isAutoUpdateEnabled()) }
 
     val info = App.getVersionReport()
     val versionName = packageInfo.versionName
 
-//        infoBuilder.append("App version: $versionName ($versionCode)\n")
-//            .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
-//            .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
-//            .append("\nScreen resolution: $screenHeight x $screenWidth")
-//            .append("Yt-dlp Version: ${YoutubeDL.version(context.applicationContext)}").toString()
+    //        infoBuilder.append("App version: $versionName ($versionCode)\n")
+    //            .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
+    //            .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
+    //            .append("\nScreen resolution: $screenHeight x $screenWidth")
+    //            .append("Yt-dlp Version:
+    // ${YoutubeDL.version(context.applicationContext)}").toString()
 
     val uriHandler = LocalUriHandler.current
     fun openUrl(url: String) {
         uriHandler.openUri(url)
     }
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-        LargeTopAppBar(title = {
-            Text(
-                modifier = Modifier,
-                text = stringResource(id = R.string.about),
+    Scaffold(
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = { Text(modifier = Modifier, text = stringResource(id = R.string.about)) },
+                navigationIcon = { BackButton { onNavigateBack() } },
+                scrollBehavior = scrollBehavior,
             )
-        }, navigationIcon = {
-            BackButton {
-                onNavigateBack()
-            }
-        }, scrollBehavior = scrollBehavior
-        )
-    }, content = {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.readme),
-                    description = stringResource(R.string.readme_desc),
-                    icon = Icons.Outlined.Description,
-                ) { openUrl(repoUrl) }
-            }
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.release),
-                    description = stringResource(R.string.release_desc),
-                    icon = Icons.Outlined.NewReleases,
-                ) { openUrl(releaseURL) }
-            }
-/*            item {
-                PreferenceItem(
-                    title = stringResource(R.string.github_issue),
-                    description = stringResource(R.string.github_issue_desc),
-                    icon = Icons.Outlined.ContactSupport,
-                ) { openUrl(githubIssueUrl) }
-            }*/
-            item {
-                PreferenceItem(
-                    title = stringResource(id = R.string.sponsor),
-                    description = stringResource(id = R.string.sponsor_desc),
-                    icon = Icons.Outlined.VolunteerActivism
-                ) {
-//                    openUrl(githubSponsor)
-                    onNavigateToDonatePage()
-                }
-            }
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.telegram_channel),
-                    description = telegramChannelUrl,
-                    icon = painterResource(id = R.drawable.icons8_telegram_app)
-                ) { openUrl(telegramChannelUrl) }
-            }
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.matrix_space),
-                    description = matrixSpaceUrl,
-                    icon = painterResource(id = R.drawable.icons8_matrix)
-                ) { openUrl(matrixSpaceUrl) }
-            }
-            item {
-                PreferenceItem(
-                    title = stringResource(id = R.string.credits),
-                    description = stringResource(id = R.string.credits_desc),
-                    icon = Icons.Outlined.AutoAwesome,
-                ) { onNavigateToCreditsPage() }
-            }
-            item {
-                PreferenceSwitchWithDivider(
-                    title = stringResource(R.string.auto_update),
-                    description = stringResource(R.string.check_for_updates_desc),
-                    icon = if (isAutoUpdateEnabled) Icons.Outlined.Update else Icons.Outlined.UpdateDisabled,
-                    isChecked = isAutoUpdateEnabled,
-                    isSwitchEnabled = !App.isFDroidBuild(),
-                    onClick = onNavigateToUpdatePage,
-                    onChecked = {
-                        isAutoUpdateEnabled = !isAutoUpdateEnabled
-                        PreferenceUtil.updateValue(AUTO_UPDATE, isAutoUpdateEnabled)
+        },
+        content = {
+            LazyColumn(modifier = Modifier.padding(it)) {
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.readme),
+                        description = stringResource(R.string.readme_desc),
+                        icon = Icons.Outlined.Description,
+                    ) {
+                        openUrl(repoUrl)
                     }
-                )
-            }
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.version),
-                    description = versionName,
-                    icon = Icons.Outlined.Info,
-                ) {
-                    clipboardManager.setText(AnnotatedString(info))
-                    ToastUtil.makeToast(R.string.info_copied)
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.release),
+                        description = stringResource(R.string.release_desc),
+                        icon = Icons.Outlined.NewReleases,
+                    ) {
+                        openUrl(releaseURL)
+                    }
+                }
+                /*            item {
+                    PreferenceItem(
+                        title = stringResource(R.string.github_issue),
+                        description = stringResource(R.string.github_issue_desc),
+                        icon = Icons.Outlined.ContactSupport,
+                    ) { openUrl(githubIssueUrl) }
+                }*/
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.sponsor),
+                        description = stringResource(id = R.string.sponsor_desc),
+                        icon = Icons.Outlined.VolunteerActivism,
+                    ) {
+                        //                    openUrl(githubSponsor)
+                        onNavigateToDonatePage()
+                    }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.telegram_channel),
+                        description = telegramChannelUrl,
+                        icon = painterResource(id = R.drawable.icons8_telegram_app),
+                    ) {
+                        openUrl(telegramChannelUrl)
+                    }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.matrix_space),
+                        description = matrixSpaceUrl,
+                        icon = painterResource(id = R.drawable.icons8_matrix),
+                    ) {
+                        openUrl(matrixSpaceUrl)
+                    }
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(id = R.string.credits),
+                        description = stringResource(id = R.string.credits_desc),
+                        icon = Icons.Outlined.AutoAwesome,
+                    ) {
+                        onNavigateToCreditsPage()
+                    }
+                }
+                item {
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.auto_update),
+                        description = stringResource(R.string.check_for_updates_desc),
+                        icon =
+                            if (isAutoUpdateEnabled) Icons.Outlined.Update
+                            else Icons.Outlined.UpdateDisabled,
+                        isChecked = isAutoUpdateEnabled,
+                        isSwitchEnabled = !App.isFDroidBuild(),
+                        onClick = onNavigateToUpdatePage,
+                        onChecked = {
+                            isAutoUpdateEnabled = !isAutoUpdateEnabled
+                            PreferenceUtil.updateValue(AUTO_UPDATE, isAutoUpdateEnabled)
+                        },
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.version),
+                        description = versionName,
+                        icon = Icons.Outlined.Info,
+                    ) {
+                        clipboardManager.setText(AnnotatedString(info))
+                        ToastUtil.makeToast(R.string.info_copied)
+                    }
+                }
+                item {
+                    PreferenceItem(title = "Package name", description = context.packageName) {
+                        clipboardManager.setText(AnnotatedString(context.packageName))
+                        ToastUtil.makeToast(R.string.info_copied)
+                    }
                 }
             }
-            item {
-                PreferenceItem(title = "Package name", description = context.packageName) {
-                    clipboardManager.setText(AnnotatedString(context.packageName))
-                    ToastUtil.makeToast(R.string.info_copied)
-                }
-            }
-        }
-    })
+        },
+    )
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -206,10 +216,7 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
     val uriHandler = LocalUriHandler.current
     val hapticFeedback = LocalHapticFeedback.current
     val hyperLinkText = stringResource(id = R.string.switch_to_github_builds)
-    val text = stringResource(
-        id = R.string.auto_update_disabled_msg,
-        "F-Droid", hyperLinkText
-    )
+    val text = stringResource(id = R.string.auto_update_disabled_msg, "F-Droid", hyperLinkText)
 
     val annotatedString = buildAnnotatedString {
         append(text)
@@ -218,29 +225,27 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
         addUrlAnnotation(
             UrlAnnotation("https://github.com/JunkFood02/Seal/releases/latest"),
             start = startIndex,
-            end = endIndex
+            end = endIndex,
         )
         addStyle(
             SpanStyle(
                 color = MaterialTheme.colorScheme.tertiary,
                 textDecoration = TextDecoration.Underline,
-            ), start = startIndex,
-            end = endIndex
+            ),
+            start = startIndex,
+            end = endIndex,
         )
-
     }
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            ConfirmButton(stringResource(id = R.string.got_it)) {
-                onDismissRequest()
-            }
+            ConfirmButton(stringResource(id = R.string.got_it)) { onDismissRequest() }
         },
         icon = { Icon(Icons.Outlined.UpdateDisabled, null) },
         title = {
             Text(
                 text = stringResource(id = R.string.feature_unavailable),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         },
         text = {
@@ -252,8 +257,11 @@ fun AutoUpdateUnavailableDialog(onDismissRequest: () -> Unit = {}) {
                         uriHandler.openUri(it.item.url)
                     }
                 },
-                style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onSurfaceVariant)
+                style =
+                    MaterialTheme.typography.bodyMedium.copy(
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
             )
-        })
+        },
+    )
 }
-

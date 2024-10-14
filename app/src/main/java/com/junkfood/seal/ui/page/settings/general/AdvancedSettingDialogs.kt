@@ -37,75 +37,66 @@ import com.junkfood.seal.util.SPONSORBLOCK_CATEGORIES
 const val ytdlpReference = "https://github.com/yt-dlp/yt-dlp#usage-and-options"
 const val sponsorBlockReference = "https://github.com/yt-dlp/yt-dlp#sponsorblock-options"
 
-val sponsorBlockCategories = listOf(
-    "sponsor",
-    "intro",
-    "outro",
-    "selfpromo",
-    "preview",
-    "filler",
-    "interaction",
-    "music_offtopic",
-)
+val sponsorBlockCategories =
+    listOf(
+        "sponsor",
+        "intro",
+        "outro",
+        "selfpromo",
+        "preview",
+        "filler",
+        "interaction",
+        "music_offtopic",
+    )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SponsorBlockDialog(onDismissRequest: () -> Unit) {
-    var categories by remember {
-        mutableStateOf(PreferenceUtil.getSponsorBlockCategories())
-    }
+    var categories by remember { mutableStateOf(PreferenceUtil.getSponsorBlockCategories()) }
     val focusManager = LocalFocusManager.current
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
 
-    AlertDialog(onDismissRequest = onDismissRequest, icon = {
-        Icon(Icons.Outlined.MoneyOff, null)
-    }, title = { Text(stringResource(R.string.sponsorblock)) }, text = {
-        Column {
-            Text(
-                stringResource(R.string.sponsorblock_categories_desc),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 12.dp),
-                value = categories,
-                label = { Text(stringResource(R.string.sponsorblock_categories)) },
-                onValueChange = { categories = it },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            )
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                item {
-                    OutlinedButtonChip(label = "default") {
-                        categories = "default"
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        icon = { Icon(Icons.Outlined.MoneyOff, null) },
+        title = { Text(stringResource(R.string.sponsorblock)) },
+        text = {
+            Column {
+                Text(
+                    stringResource(R.string.sponsorblock_categories_desc),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
+                    value = categories,
+                    label = { Text(stringResource(R.string.sponsorblock_categories)) },
+                    onValueChange = { categories = it },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                )
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    item { OutlinedButtonChip(label = "default") { categories = "default" } }
+                    item { OutlinedButtonChip(label = "all") { categories = "all" } }
+                    sponsorBlockCategories.forEach {
+                        if (!categories.contains(it))
+                            item {
+                                OutlinedButtonChip(label = it) {
+                                    categories =
+                                        categories.replace(regex = Regex("(all)|(default)"), "")
+                                    categories = "$categories,$it"
+                                    categories = categories.removePrefix(",")
+                                }
+                            }
                     }
                 }
-                item {
-                    OutlinedButtonChip(label = "all") {
-                        categories = "all"
-                    }
-                }
-                sponsorBlockCategories.forEach {
-                    if (!categories.contains(it)) item {
-                        OutlinedButtonChip(label = it) {
-                            categories = categories.replace(regex = Regex("(all)|(default)"), "")
-                            categories = "$categories,$it"
-                            categories = categories.removePrefix(",")
-                        }
-                    }
-                }
+                LinkButton(link = sponsorBlockReference)
             }
-            LinkButton(link = sponsorBlockReference)
-        }
-    }, dismissButton = {
-        DismissButton {
-            onDismissRequest()
-        }
-    }, confirmButton = {
-        ConfirmButton {
-            onDismissRequest()
-            PreferenceUtil.encodeString(SPONSORBLOCK_CATEGORIES, categories)
-        }
-    })
+        },
+        dismissButton = { DismissButton { onDismissRequest() } },
+        confirmButton = {
+            ConfirmButton {
+                onDismissRequest()
+                PreferenceUtil.encodeString(SPONSORBLOCK_CATEGORIES, categories)
+            }
+        },
+    )
 }
-

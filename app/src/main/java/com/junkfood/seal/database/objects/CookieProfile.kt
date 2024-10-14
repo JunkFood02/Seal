@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class CookieProfile(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val url: String,
-    val content: String
+    val content: String,
 )

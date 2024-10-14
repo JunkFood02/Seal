@@ -29,9 +29,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
-/**
- * @param contentDescription Text label of the `TextField` for the accessibility service
- */
+/** @param contentDescription Text label of the `TextField` for the accessibility service */
 @Composable
 fun SealTextField(
     value: String,
@@ -57,20 +55,24 @@ fun SealTextField(
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.shape,
-    colors: TextFieldColors = TextFieldDefaults.colors(
-        focusedContainerColor = Color.Transparent,
-        unfocusedContainerColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent,
-    )
+    colors: TextFieldColors =
+        TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+        ),
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.then(Modifier.semantics {
-            if (contentDescription != null) {
-                this.contentDescription = contentDescription
-            }
-        }),
+        modifier =
+            modifier.then(
+                Modifier.semantics {
+                    if (contentDescription != null) {
+                        this.contentDescription = contentDescription
+                    }
+                }
+            ),
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
@@ -90,10 +92,9 @@ fun SealTextField(
         minLines = minLines,
         interactionSource = interactionSource,
         shape = shape,
-        colors = colors
+        colors = colors,
     )
 }
-
 
 @Composable
 fun SealAutoFocusTextField(
@@ -118,14 +119,15 @@ fun SealAutoFocusTextField(
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.shape,
-    colors: TextFieldColors = TextFieldDefaults.colors(
-        unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        focusedContainerColor = Color.Transparent,
-        unfocusedContainerColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent,
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-    ),
+    colors: TextFieldColors =
+        TextFieldDefaults.colors(
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
     focusRequester: FocusRequester = remember { FocusRequester() },
 ) {
     val focusManager = LocalFocusManager.current
@@ -138,13 +140,16 @@ fun SealAutoFocusTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .then(Modifier.semantics {
-                if (contentDescription != null) {
-                    this.contentDescription = contentDescription
-                }
-            })
-            .focusRequester(focusRequester = focusRequester),
+        modifier =
+            modifier
+                .then(
+                    Modifier.semantics {
+                        if (contentDescription != null) {
+                            this.contentDescription = contentDescription
+                        }
+                    }
+                )
+                .focusRequester(focusRequester = focusRequester),
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
@@ -158,15 +163,13 @@ fun SealAutoFocusTextField(
         isError = isError,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-            focusManager.clearFocus()
-        }),
+        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         singleLine = singleLine,
         maxLines = maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
         shape = shape,
-        colors = colors
+        colors = colors,
     )
 }
 
@@ -195,11 +198,12 @@ fun SealTextField(
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.shape,
-    colors: TextFieldColors = TextFieldDefaults.colors(
-        focusedContainerColor = Color.Transparent,
-        unfocusedContainerColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent,
-    )
+    colors: TextFieldColors =
+        TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+        ),
 ) {
     TextField(
         value,
@@ -224,7 +228,7 @@ fun SealTextField(
         minLines,
         interactionSource,
         shape,
-        colors
+        colors,
     )
 }
 

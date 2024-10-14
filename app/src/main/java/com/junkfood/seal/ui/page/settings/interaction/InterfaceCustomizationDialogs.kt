@@ -18,21 +18,19 @@ fun DownloadTypeCustomizationDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     selectedItem: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
 ) {
     SealDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         confirmButton = null,
-        title = {
-            Text(text = stringResource(id = R.string.download_type))
-        },
+        title = { Text(text = stringResource(id = R.string.download_type)) },
         text = {
             LazyColumn(modifier = Modifier.padding()) {
                 item {
                     DialogSingleChoiceItem(
                         text = stringResource(id = R.string.use_previous_selection),
-                        selected = selectedItem == USE_PREVIOUS_SELECTION
+                        selected = selectedItem == USE_PREVIOUS_SELECTION,
                     ) {
                         onSelect(USE_PREVIOUS_SELECTION)
                     }
@@ -41,20 +39,18 @@ fun DownloadTypeCustomizationDialog(
                 item {
                     DialogSingleChoiceItem(
                         text = stringResource(id = R.string.none),
-                        selected = selectedItem == NONE
+                        selected = selectedItem == NONE,
                     ) {
                         onSelect(NONE)
                     }
                 }
             }
-        })
+        },
+    )
 }
 
 @Preview
 @Composable
 private fun Preview() {
-    DownloadTypeCustomizationDialog(onDismissRequest = {}, selectedItem = NONE) {
-
-    }
-
+    DownloadTypeCustomizationDialog(onDismissRequest = {}, selectedItem = NONE) {}
 }

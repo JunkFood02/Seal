@@ -67,9 +67,10 @@ fun CustomRangeSlider(
     colors: SliderColors = SliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumbSize: DpSize = DpSize(4.dp, 24.dp)
+    thumbSize: DpSize = DpSize(4.dp, 24.dp),
 ) {
-    RangeSlider(modifier = modifier,
+    RangeSlider(
+        modifier = modifier,
         state = state,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
@@ -80,7 +81,7 @@ fun CustomRangeSlider(
                     interactionSource = startInteractionSource,
                     colors = colors,
                     enabled = enabled,
-                    thumbSize = thumbSize
+                    thumbSize = thumbSize,
                 )
             }
         },
@@ -91,15 +92,14 @@ fun CustomRangeSlider(
                     interactionSource = startInteractionSource,
                     colors = colors,
                     enabled = enabled,
-                    thumbSize = thumbSize
+                    thumbSize = thumbSize,
                 )
             }
         },
         track = { sliderState ->
-            SliderDefaults.Track(
-                colors = colors, enabled = enabled, rangeSliderState = sliderState
-            )
-        })
+            SliderDefaults.Track(colors = colors, enabled = enabled, rangeSliderState = sliderState)
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,44 +111,39 @@ fun VideoSelectionSlider(
     onDiscard: () -> Unit,
 ) {
 
-    val startText by remember(state.activeRangeStart) {
-        mutableStateOf(state.activeRangeStart.roundToInt().toDurationText())
-    }
-    val endText by remember(state.activeRangeEnd) {
-        mutableStateOf(state.activeRangeEnd.roundToInt().toDurationText())
-    }
+    val startText by
+        remember(state.activeRangeStart) {
+            mutableStateOf(state.activeRangeStart.roundToInt().toDurationText())
+        }
+    val endText by
+        remember(state.activeRangeEnd) {
+            mutableStateOf(state.activeRangeEnd.roundToInt().toDurationText())
+        }
     Column(modifier = modifier) {
-
-
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-
             CustomRangeSlider(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp), state = state
+                modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
+                state = state,
             )
         }
 
         Row(
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(Alignment.End),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(bottom = 16.dp).align(Alignment.End),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .clip(CircleShape)
-                    .clickable(
-                        onClick = onDurationClick, onClickLabel = stringResource(id = R.string.edit)
-                    )
+                modifier =
+                    Modifier.height(40.dp)
+                        .clip(CircleShape)
+                        .clickable(
+                            onClick = onDurationClick,
+                            onClickLabel = stringResource(id = R.string.edit),
+                        )
             ) {
                 Text(
                     text = "$startText / $endText",
                     style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(horizontal = 12.dp)
+                    modifier = Modifier.align(Alignment.Center).padding(horizontal = 12.dp),
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -156,7 +151,7 @@ fun VideoSelectionSlider(
                 onClick = onDiscard,
                 icon = Icons.Outlined.Delete,
                 text = stringResource(id = R.string.discard),
-                contentColor = MaterialTheme.colorScheme.error
+                contentColor = MaterialTheme.colorScheme.error,
             )
         }
     }
@@ -173,7 +168,7 @@ fun VideoClipDialog(
         mutableStateOf(
             TextFieldValue(
                 "%02d".format(initialValue.start.roundToInt() / 60),
-                selection = TextRange(Int.MAX_VALUE)
+                selection = TextRange(Int.MAX_VALUE),
             )
         )
     }
@@ -181,7 +176,7 @@ fun VideoClipDialog(
         mutableStateOf(
             TextFieldValue(
                 "%02d".format(initialValue.endInclusive.roundToInt() / 60),
-                selection = TextRange(Int.MAX_VALUE)
+                selection = TextRange(Int.MAX_VALUE),
             )
         )
     }
@@ -189,7 +184,7 @@ fun VideoClipDialog(
         mutableStateOf(
             TextFieldValue(
                 "%02d".format(initialValue.start.roundToInt() % 60),
-                selection = TextRange(Int.MAX_VALUE)
+                selection = TextRange(Int.MAX_VALUE),
             )
         )
     }
@@ -197,11 +192,10 @@ fun VideoClipDialog(
         mutableStateOf(
             TextFieldValue(
                 "%02d".format(initialValue.endInclusive.roundToInt() % 60),
-                selection = TextRange(Int.MAX_VALUE)
+                selection = TextRange(Int.MAX_VALUE),
             )
         )
     }
-
 
     var error by remember(fromMin.text, toMin, fromSec, toSec) { mutableStateOf(false) }
     val valueIntRange = valueRange.toIntRange()
@@ -211,20 +205,23 @@ fun VideoClipDialog(
     val minute = "," + stringResource(id = R.string.minute)
     val second = "," + stringResource(id = R.string.second)
 
-
     fun onDone() {
         val startTime = convertToSecs(fromMin.text, fromSec.text)
         val endTime = convertToSecs(toMin.text, toSec.text)
-        if (startTime != -1 && endTime != -1 && startTime < endTime && valueIntRange.contains(
-                startTime
-            ) && valueIntRange.contains(endTime)
+        if (
+            startTime != -1 &&
+                endTime != -1 &&
+                startTime < endTime &&
+                valueIntRange.contains(startTime) &&
+                valueIntRange.contains(endTime)
         ) {
             onConfirm((startTime.toFloat())..endTime.toFloat())
             onDismissRequest()
         } else error = true
     }
 
-    SealDialog(onDismissRequest = onDismissRequest,
+    SealDialog(
+        onDismissRequest = onDismissRequest,
         title = { Text(stringResource(id = R.string.clip_video)) },
         icon = { Icon(Icons.Outlined.ContentCut, null) },
         confirmButton = { ConfirmButton { onDone() } },
@@ -233,52 +230,42 @@ fun VideoClipDialog(
             Column() {
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 6.dp)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+                    Column(modifier = Modifier.weight(1f).padding(end = 6.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             SealTextField(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .semantics {
+                                modifier =
+                                    Modifier.weight(1f).semantics {
                                         contentDescription = start + minute
                                     },
                                 value = fromMin,
-                                onValueChange = {
-                                    if (it.text.isDigitsOnly()) fromMin = it
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.NumberPassword,
-                                    imeAction = ImeAction.Next
-                                ),
+                                onValueChange = { if (it.text.isDigitsOnly()) fromMin = it },
+                                keyboardOptions =
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.NumberPassword,
+                                        imeAction = ImeAction.Next,
+                                    ),
                                 singleLine = true,
                                 isError = error,
                             )
                             Text(
                                 modifier = Modifier.padding(horizontal = 4.dp),
                                 text = ":",
-                                style = MaterialTheme.typography.labelLarge
+                                style = MaterialTheme.typography.labelLarge,
                             )
                             SealTextField(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .semantics {
+                                modifier =
+                                    Modifier.weight(1f).semantics {
                                         contentDescription = start + second
                                     },
                                 value = fromSec,
-                                onValueChange = {
-                                    if (it.text.isDigitsOnly()) fromSec = it
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.NumberPassword,
-                                    imeAction = ImeAction.Next
-                                ),
+                                onValueChange = { if (it.text.isDigitsOnly()) fromSec = it },
+                                keyboardOptions =
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.NumberPassword,
+                                        imeAction = ImeAction.Next,
+                                    ),
                                 singleLine = true,
                                 isError = error,
                             )
@@ -286,50 +273,40 @@ fun VideoClipDialog(
                     }
                     Icon(
                         imageVector = Icons.AutoMirrored.Outlined.ArrowRight,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                     Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier.weight(1f).padding(start = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         SealTextField(
-                            modifier = Modifier
-                                .weight(1f)
-                                .semantics {
-                                    contentDescription = end + minute
-                                },
+                            modifier =
+                                Modifier.weight(1f).semantics { contentDescription = end + minute },
                             value = toMin,
-                            onValueChange = {
-                                if (it.text.isDigitsOnly()) toMin = it
-                            },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.NumberPassword,
-                                imeAction = ImeAction.Next
-                            ),
+                            onValueChange = { if (it.text.isDigitsOnly()) toMin = it },
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Next,
+                                ),
                             singleLine = true,
                             isError = error,
                         )
                         Text(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             text = ":",
-                            style = MaterialTheme.typography.labelLarge
+                            style = MaterialTheme.typography.labelLarge,
                         )
                         SealTextField(
-                            modifier = Modifier
-                                .weight(1f)
-                                .semantics {
-                                    contentDescription = end + second
-                                },
+                            modifier =
+                                Modifier.weight(1f).semantics { contentDescription = end + second },
                             value = toSec,
-                            onValueChange = {
-                                if (it.text.isDigitsOnly()) toSec = it
-                            },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.NumberPassword,
-                                imeAction = ImeAction.Done
-                            ),
+                            onValueChange = { if (it.text.isDigitsOnly()) toSec = it },
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Done,
+                                ),
                             keyboardActions = KeyboardActions(onDone = { onDone() }),
                             singleLine = true,
                             isError = error,
@@ -337,16 +314,19 @@ fun VideoClipDialog(
                     }
                 }
             }
-        })
+        },
+    )
 }
 
 @Composable
 @Preview
 fun VideoClipDialogPreview() {
-    VideoClipDialog(onDismissRequest = {},
+    VideoClipDialog(
+        onDismissRequest = {},
         initialValue = 0f..560f,
         valueRange = 0f..660f,
-        onConfirm = {})
+        onConfirm = {},
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -354,20 +334,14 @@ fun VideoClipDialogPreview() {
 @Preview
 fun SliderPreview() {
     val time = 3700
-    var valueRange by remember {
-        mutableStateOf(0f..time.toFloat())
-    }
-    var shouldUpdate by remember {
-        mutableStateOf(false)
-    }
+    var valueRange by remember { mutableStateOf(0f..time.toFloat()) }
+    var shouldUpdate by remember { mutableStateOf(false) }
     val state = remember {
         RangeSliderState(
             activeRangeStart = valueRange.start,
             activeRangeEnd = valueRange.endInclusive,
             valueRange = 0f..time.toFloat(),
-            onValueChangeFinished = {
-                shouldUpdate = true
-            }
+            onValueChangeFinished = { shouldUpdate = true },
         )
     }
     DisposableEffect(shouldUpdate) {
@@ -378,7 +352,6 @@ fun SliderPreview() {
         Column {
             Text(text = "${valueRange.toIntRange()}")
             VideoSelectionSlider(state = state, onDiscard = {}, onDurationClick = {})
-
         }
     }
 }
@@ -390,4 +363,3 @@ private fun convertToSecs(min: String, sec: String): Int {
         } else -1
     } else -1
 }
-

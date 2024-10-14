@@ -40,7 +40,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +54,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.junkfood.seal.R
-import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
@@ -105,10 +103,7 @@ fun FormatVideoPreview(
                 }
             }
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Top,
-            ) {
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Top) {
                 Text(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
                     text = title,
@@ -241,10 +236,8 @@ fun SuggestedFormatItem(
 
     val firstLineText = connectWithDelimiter(fileSizeText, tbrText, delimiter = " ")
 
-    val vcodecText =
-        videoInfo.vcodec?.substringBefore(delimiter = ".") ?: ""
-    val acodecText =
-        videoInfo.acodec?.substringBefore(delimiter = ".") ?: ""
+    val vcodecText = videoInfo.vcodec?.substringBefore(delimiter = ".") ?: ""
+    val acodecText = videoInfo.acodec?.substringBefore(delimiter = ".") ?: ""
 
     val codecText =
         connectWithBlank(vcodecText, acodecText).run { if (isNotBlank()) "($this)" else this }

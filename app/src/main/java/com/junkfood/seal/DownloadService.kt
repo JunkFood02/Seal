@@ -12,25 +12,18 @@ import com.junkfood.seal.util.NotificationUtil.SERVICE_NOTIFICATION_ID
 
 private const val TAG = "DownloadService"
 
-/**
- * This `Service` does nothing
- */
+/** This `Service` does nothing */
 class DownloadService : Service() {
-
 
     override fun onBind(intent: Intent): IBinder {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(
-                    this, 0, notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE
-                )
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
         val notification = NotificationUtil.makeServiceNotification(pendingIntent)
         startForeground(SERVICE_NOTIFICATION_ID, notification)
         return DownloadServiceBinder()
     }
-
 
     override fun onUnbind(intent: Intent?): Boolean {
         Log.d(TAG, "onUnbind: ")

@@ -58,41 +58,36 @@ class CrashReportActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 @Preview
 fun CrashReportPage(errorMessage: String = "ERROR_EXAMPLE", onClick: () -> Unit = {}) {
-    Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
-        androidx.compose.material3.HorizontalDivider()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            androidx.compose.material3.HorizontalDivider()
 
-        FilledButtonWithIcon(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            onClick = onClick,
-            icon = Icons.Outlined.BugReport,
-            text = stringResource(R.string.copy_and_exit)
-        )
-    }) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .verticalScroll(rememberScrollState())
-        ) {
+            FilledButtonWithIcon(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                onClick = onClick,
+                icon = Icons.Outlined.BugReport,
+                text = stringResource(R.string.copy_and_exit),
+            )
+        },
+    ) {
+        Column(modifier = Modifier.padding(it).verticalScroll(rememberScrollState())) {
             Text(
                 text = stringResource(R.string.unknown_error_title),
                 style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 60.dp, bottom = 12.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 60.dp, bottom = 12.dp),
             )
             Text(
                 text = errorMessage,
                 style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
             )
         }
     }

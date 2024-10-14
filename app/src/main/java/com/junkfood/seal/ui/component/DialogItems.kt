@@ -46,30 +46,29 @@ fun DialogSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
-        modifier = modifier
-            .selectable(
-                selected = selected,
-                enabled = true,
-                onClick = onClick,
-                indication = LocalIndication.current,
-                interactionSource = interactionSource
-            )
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .selectable(
+                    selected = selected,
+                    enabled = true,
+                    onClick = onClick,
+                    indication = LocalIndication.current,
+                    interactionSource = interactionSource,
+                )
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Start,
     ) {
         RadioButton(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .clearAndSetSemantics { },
+            modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
             selected = selected,
             onClick = null,
-            interactionSource = interactionSource
+            interactionSource = interactionSource,
         )
         Text(text = text, style = LocalTextStyle.current.copy(fontSize = 16.sp))
     }
@@ -83,17 +82,13 @@ fun SingleChoiceItemPreview() {
             DialogSingleChoiceItemVariant(
                 title = "Better compatibility",
                 desc = stringResource(R.string.prefer_compatibility_desc),
-                selected = false
-            ) {
-
-            }
+                selected = false,
+            ) {}
             DialogSingleChoiceItemVariant(
                 title = "Better quality",
                 desc = stringResource(R.string.prefer_quality_desc),
-                selected = true
-            ) {
-
-            }
+                selected = true,
+            ) {}
             DialogSingleChoiceItemVariant(
                 title = "Better quality",
                 desc = stringResource(R.string.prefer_quality_desc),
@@ -102,17 +97,11 @@ fun SingleChoiceItemPreview() {
                     Spacer(modifier = Modifier.width(8.dp))
                     VerticalDivider(modifier = Modifier.height(32.dp))
                     IconButton(onClick = {}) { Icon(Icons.Outlined.Settings, null) }
-                }
-            ) {
-
-            }
-            DialogSingleChoiceItem(text = "Preview", selected = true) {
-
-            }
+                },
+            ) {}
+            DialogSingleChoiceItem(text = "Preview", selected = true) {}
         }
-
     }
-
 }
 
 @Composable
@@ -122,32 +111,23 @@ fun DialogSingleChoiceItemVariant(
     desc: String?,
     selected: Boolean,
     action: (@Composable () -> Unit)? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .selectable(
-                selected = selected,
-                enabled = true,
-                onClick = onClick,
-            )
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .selectable(selected = selected, enabled = true, onClick = onClick)
+                .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Start,
     ) {
         Spacer(modifier = Modifier.width(8.dp))
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 12.dp)
-        ) {
+        Column(modifier = Modifier.weight(1f).padding(vertical = 12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
-                    modifier = Modifier
-                        .padding(start = 12.dp, end = 12.dp)
-                        .clearAndSetSemantics { },
+                    modifier = Modifier.padding(start = 12.dp, end = 12.dp).clearAndSetSemantics {},
                     selected = selected,
-                    onClick = null
+                    onClick = null,
                 )
                 Text(text = title, style = MaterialTheme.typography.titleMedium)
             }
@@ -155,7 +135,7 @@ fun DialogSingleChoiceItemVariant(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp, start = 48.dp)
+                    modifier = Modifier.padding(top = 4.dp, start = 48.dp),
                 )
             }
         }
@@ -171,25 +151,19 @@ fun CheckBoxItem(
     onValueChange: (Boolean) -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .padding(top = 12.dp)
-            .fillMaxWidth()
-            .toggleable(
-                value = checked, enabled = true, onValueChange = onValueChange
-            ),
+        modifier =
+            Modifier.padding(top = 12.dp)
+                .fillMaxWidth()
+                .toggleable(value = checked, enabled = true, onValueChange = onValueChange)
     ) {
-        Row(
-            modifier = modifier, verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                modifier = Modifier.clearAndSetSemantics { },
-                checked = checked, onCheckedChange = onValueChange,
+                modifier = Modifier.clearAndSetSemantics {},
+                checked = checked,
+                onCheckedChange = onValueChange,
             )
-            Text(
-                modifier = Modifier, text = text, style = MaterialTheme.typography.bodyMedium
-            )
+            Text(modifier = Modifier, text = text, style = MaterialTheme.typography.bodyMedium)
         }
-
     }
 }
 
@@ -198,37 +172,34 @@ fun DialogSwitchItem(
     modifier: Modifier = Modifier,
     text: String,
     value: Boolean,
-    onValueChange: (Boolean) -> Unit
+    onValueChange: (Boolean) -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .toggleable(value = value, onValueChange = onValueChange)
-            .padding(horizontal = 24.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .toggleable(value = value, onValueChange = onValueChange)
+                .padding(horizontal = 24.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
         val thumbContent: (@Composable () -> Unit)? = rememberThumbContent(isChecked = value)
 
         val density = LocalDensity.current
         CompositionLocalProvider(
-            LocalDensity provides Density(
-                density.density * 0.8f,
-                density.fontScale
-            )
+            LocalDensity provides Density(density.density * 0.8f, density.fontScale)
         ) {
             Switch(
                 checked = value,
                 onCheckedChange = onValueChange,
-                modifier = Modifier.clearAndSetSemantics { },
-                thumbContent = thumbContent
+                modifier = Modifier.clearAndSetSemantics {},
+                thumbContent = thumbContent,
             )
         }
-
     }
 }
 
@@ -236,10 +207,5 @@ fun DialogSwitchItem(
 @Composable
 private fun SwitchItemPrev() {
     var value by remember { mutableStateOf(false) }
-    Surface {
-        DialogSwitchItem(text = "Use cookies", value = value) {
-            value = it
-        }
-    }
-
+    Surface { DialogSwitchItem(text = "Use cookies", value = value) { value = it } }
 }

@@ -49,7 +49,6 @@ import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.component.ButtonChip
 
-
 private const val TAG = "TaskLogPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,41 +59,40 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
     val task = Downloader.mutableTaskList.values.find { it.hashCode() == taskHashCode } ?: return
     val clipboardManager = LocalClipboardManager.current
     var expandLog by remember { mutableStateOf(false) }
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = stringResource(R.string.logs),
-                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
-                )
-            }, navigationIcon = {
-                IconButton(onClick = { onNavigateBack() }) {
-                    Icon(Icons.Outlined.Close, stringResource(R.string.close))
-                }
-            }, actions = {
-            }, scrollBehavior = scrollBehavior
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.logs),
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { onNavigateBack() }) {
+                        Icon(Icons.Outlined.Close, stringResource(R.string.close))
+                    }
+                },
+                actions = {},
+                scrollBehavior = scrollBehavior,
             )
-        }, bottomBar = {
+        },
+        bottomBar = {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 4.dp)
-                    .navigationBarsPadding(),
-                verticalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp).navigationBarsPadding(),
+                verticalArrangement = Arrangement.Center,
             ) {
                 Divider(modifier = Modifier.fillMaxWidth())
                 Row(
-                    Modifier
-                        .fillMaxWidth()
+                    Modifier.fillMaxWidth()
                         .horizontalScroll(rememberScrollState())
                         .padding(horizontal = 16.dp)
                 ) {
                     task.run {
                         ButtonChip(
                             icon = Icons.Outlined.ContentCopy,
-                            label = stringResource(id = R.string.copy_log)
+                            label = stringResource(id = R.string.copy_log),
                         ) {
                             onCopyLog(clipboardManager)
                         }
@@ -110,11 +108,14 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                             ButtonChip(
                                 icon = Icons.Outlined.Cancel,
                                 label = stringResource(id = R.string.cancel),
-                                iconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                iconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             ) {
                                 onCancel()
                             }
-                        if (state is Downloader.CustomCommandTask.State.Canceled || state is Downloader.CustomCommandTask.State.Error)
+                        if (
+                            state is Downloader.CustomCommandTask.State.Canceled ||
+                                state is Downloader.CustomCommandTask.State.Error
+                        )
                             ButtonChip(
                                 icon = Icons.Outlined.RestartAlt,
                                 label = stringResource(id = R.string.restart),
@@ -124,49 +125,39 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                         if (!expandLog)
                             ElevatedAssistChip(
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                onClick = {
-                                    expandLog = true
-                                },
+                                onClick = { expandLog = true },
                                 label = { Text(stringResource(id = R.string.expand)) },
                                 leadingIcon = {
                                     Icon(
                                         imageVector = Icons.Outlined.UnfoldMore,
                                         null,
-                                        modifier = Modifier
-                                            .size(
-                                                AssistChipDefaults.IconSize
-                                            )
-                                            .rotate(90f)
+                                        modifier =
+                                            Modifier.size(AssistChipDefaults.IconSize).rotate(90f),
                                     )
-                                }
+                                },
                             )
-
                     }
                 }
             }
-        }) { paddings ->
+        },
+    ) { paddings ->
         val scrollState = rememberScrollState()
         LaunchedEffect(key1 = scrollState.maxValue) {
             scrollState.animateScrollTo(scrollState.maxValue)
         }
 
-        Column(
-            modifier = Modifier
-                .padding(paddings)
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-        ) {
+        Column(modifier = Modifier.padding(paddings).fillMaxSize().verticalScroll(scrollState)) {
             SelectionContainer() {
                 Text(
-                    modifier = Modifier
-                        .run {
-                            if (expandLog) horizontalScroll(rememberScrollState())
-                            else this
-                        }
-                        .padding(top = 12.dp)
-                        .padding(horizontal = 20.dp),
+                    modifier =
+                        Modifier.run {
+                                if (expandLog) horizontalScroll(rememberScrollState()) else this
+                            }
+                            .padding(top = 12.dp)
+                            .padding(horizontal = 20.dp),
                     text = task.output,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
+                    style =
+                        MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
                 )
             }
         }

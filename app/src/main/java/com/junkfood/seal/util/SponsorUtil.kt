@@ -20,27 +20,33 @@ object SponsorUtil {
         Base64.decode(MAGIC_STRING_0 + MAGIC_STRING_1 + MAGIC_STRING_2, Base64.DEFAULT)
             .toString(Charsets.UTF_8)
 
-    private val body = """
+    private val body =
+        """
 { "query": "query { viewer { sponsorshipsAsMaintainer(first: 100) { nodes { sponsorEntity { ... on User { login name websiteUrl socialAccounts(first: 4) { nodes { displayName url } } } ... on Organization { login name websiteUrl } } tier { monthlyPriceInDollars } } } } }" }
-""".toRequestBody("application/json".toMediaType())
+"""
+            .toRequestBody("application/json".toMediaType())
 
-    private val request = Request.Builder()
-        .url("https://api.github.com/graphql")
-        .post(body)
-        .addHeader("Authorization", "bearer $magicString")
-        .build()
+    private val request =
+        Request.Builder()
+            .url("https://api.github.com/graphql")
+            .post(body)
+            .addHeader("Authorization", "bearer $magicString")
+            .build()
 
     private val client = OkHttpClient()
     private val jsonFormat = Json { ignoreUnknownKeys = true }
     private var sponsorData: SponsorData? = null
 
     @CheckResult
-    fun getSponsors(): Result<SponsorData> = client.runCatching {
-        sponsorData
-            ?: jsonFormat.decodeFromString<SponsorData>(
-                newCall(request).execute()
-                    .body.string().also { Log.d(TAG, it) }
-            )
-                .apply { sponsorData = this }
-    }.onFailure { it.printStackTrace() }
+    fun getSponsors(): Result<SponsorData> =
+        client
+            .runCatching {
+                sponsorData
+                    ?: jsonFormat
+                        .decodeFromString<SponsorData>(
+                            newCall(request).execute().body.string().also { Log.d(TAG, it) }
+                        )
+                        .apply { sponsorData = this }
+            }
+            .onFailure { it.printStackTrace() }
 }

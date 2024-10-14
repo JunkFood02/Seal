@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.room)
+    alias(libs.plugins.ktfmt.gradle)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -149,6 +150,8 @@ android {
 
     namespace = "com.junkfood.seal"
 }
+
+ktfmt { kotlinLangStyle() }
 
 kotlin { jvmToolchain(21) }
 

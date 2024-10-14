@@ -1,6 +1,5 @@
 package com.junkfood.seal.ui.component
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonColors
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -9,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun SingleChoiceSegmentedButtonRowScope.SingleChoiceSegmentedButton(
@@ -18,7 +16,8 @@ fun SingleChoiceSegmentedButtonRowScope.SingleChoiceSegmentedButton(
     shape: Shape,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: SegmentedButtonColors = SegmentedButtonDefaults.colors(inactiveContainerColor = Color.Transparent),
+    colors: SegmentedButtonColors =
+        SegmentedButtonDefaults.colors(inactiveContainerColor = Color.Transparent),
     icon: @Composable () -> Unit = { SegmentedButtonDefaults.Icon(selected) },
     label: @Composable () -> Unit,
 ) {
@@ -30,6 +29,6 @@ fun SingleChoiceSegmentedButtonRowScope.SingleChoiceSegmentedButton(
         enabled = enabled,
         colors = colors,
         icon = icon,
-        label = label
+        label = label,
     )
 }

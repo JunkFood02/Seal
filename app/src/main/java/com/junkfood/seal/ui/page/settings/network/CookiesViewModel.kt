@@ -17,7 +17,7 @@ class CookiesViewModel : ViewModel() {
 
     data class ViewState(
         val editingCookieProfile: CookieProfile =
-            CookieProfile(id = NEW_PROFILE_ID, url = "", content = ""),
+            CookieProfile(id = NEW_PROFILE_ID, url = "", content = "")
     )
 
     val cookiesFlow = DatabaseUtil.getCookiesFlow()

@@ -30,8 +30,6 @@ import com.google.android.material.R
 import com.junkfood.seal.util.PreferenceUtil.updateString
 import com.junkfood.seal.util.USER_AGENT_STRING
 import com.junkfood.seal.util.connectWithDelimiter
-import org.koin.androidx.compose.koinViewModel
-
 
 private const val TAG = "WebViewPage"
 
@@ -47,7 +45,7 @@ data class Cookie(
     constructor(
         url: String,
         name: String,
-        value: String
+        value: String,
     ) : this(domain = url.toDomain(), name = name, value = value)
 
     fun toNetscapeCookieString(): String {
@@ -59,13 +57,13 @@ data class Cookie(
             expiry.toString(),
             name,
             value,
-            delimiter = "\u0009"
+            delimiter = "\u0009",
         )
     }
 }
 
-
 private val domainRegex = Regex("""http(s)?://(\w*(www|m|account|sso))?|/.*""")
+
 private fun String.toDomain(): String {
     return this.replace(domainRegex, "")
 }
@@ -79,38 +77,37 @@ private fun makeCookie(url: String, cookieString: String): Cookie {
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WebViewPage(
-    cookiesViewModel: CookiesViewModel,
-    onDismissRequest: () -> Unit
-) {
+fun WebViewPage(cookiesViewModel: CookiesViewModel, onDismissRequest: () -> Unit) {
 
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     Log.d(TAG, state.editingCookieProfile.url)
-
 
     val cookieManager = CookieManager.getInstance()
     val cookieSet = remember { mutableSetOf<Cookie>() }
     val websiteUrl = state.editingCookieProfile.url
     val webViewState = rememberWebViewState(websiteUrl)
 
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        TopAppBar(
-            title = { Text(webViewState.pageTitle.toString(), maxLines = 1) },
-            navigationIcon = {
-                IconButton(
-                    onClick = { onDismissRequest() }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Close,
-                        stringResource(id = androidx.appcompat.R.string.abc_action_mode_done)
-                    )
-                }
-            }, actions = {
-                TextButton(onClick = onDismissRequest) {
-                    Text(text = stringResource(id = R.string.abc_action_mode_done))
-                }
-            }
-        )
-    }) { paddingValues ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = { Text(webViewState.pageTitle.toString(), maxLines = 1) },
+                navigationIcon = {
+                    IconButton(onClick = { onDismissRequest() }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            stringResource(id = androidx.appcompat.R.string.abc_action_mode_done),
+                        )
+                    }
+                },
+                actions = {
+                    TextButton(onClick = onDismissRequest) {
+                        Text(text = stringResource(id = R.string.abc_action_mode_done))
+                    }
+                },
+            )
+        },
+    ) { paddingValues ->
         val webViewClient = remember {
             object : AccompanistWebViewClient() {
                 override fun onPageFinished(view: WebView, url: String?) {
@@ -120,25 +117,22 @@ fun WebViewPage(
 
                 override fun shouldOverrideUrlLoading(
                     view: WebView?,
-                    request: WebResourceRequest?
+                    request: WebResourceRequest?,
                 ): Boolean {
                     return if (request?.url?.scheme?.contains("http") == true)
                         super.shouldOverrideUrlLoading(view, request)
                     else true
                 }
             }
-
         }
-        val webViewChromeClient = remember {
-            object : AccompanistWebChromeClient() {
-            }
-        }
+        val webViewChromeClient = remember { object : AccompanistWebChromeClient() {} }
         WebView(
-            state = webViewState, client = webViewClient, chromeClient = webViewChromeClient,
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
-            captureBackPresses = true, factory = { context ->
+            state = webViewState,
+            client = webViewClient,
+            chromeClient = webViewChromeClient,
+            modifier = Modifier.padding(paddingValues).fillMaxSize(),
+            captureBackPresses = true,
+            factory = { context ->
                 WebView(context).apply {
                     settings.run {
                         javaScriptCanOpenWindowsAutomatically = true
@@ -148,9 +142,7 @@ fun WebViewPage(
                     }
                     cookieManager.setAcceptThirdPartyCookies(this, true)
                 }
-            }
+            },
         )
-
-
     }
 }

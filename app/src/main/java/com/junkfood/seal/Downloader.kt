@@ -15,9 +15,9 @@ import com.junkfood.seal.App.Companion.stopService
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.util.COMMAND_DIRECTORY
 import com.junkfood.seal.util.DownloadUtil
-import com.junkfood.seal.util.PlaylistEntry
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.PlaylistEntry
 import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.ToastUtil
@@ -41,10 +41,7 @@ object Downloader {
     private const val TAG = "Downloader"
 
     sealed class State {
-        data class DownloadingPlaylist(
-            val currentItem: Int = 0,
-            val itemCount: Int = 0,
-        ) : State()
+        data class DownloadingPlaylist(val currentItem: Int = 0, val itemCount: Int = 0) : State()
 
         data object DownloadingVideo : State()
 
@@ -55,10 +52,7 @@ object Downloader {
         data object Updating : State()
     }
 
-    sealed class ErrorState(
-        open val url: String = "",
-        open val report: String = "",
-    ) {
+    sealed class ErrorState(open val url: String = "", open val report: String = "") {
         data class DownloadError(override val url: String, override val report: String) :
             ErrorState(url = url, report = report)
 
@@ -82,7 +76,7 @@ object Downloader {
         val url: String,
         val output: String,
         val state: State,
-        val currentLine: String
+        val currentLine: String,
     ) {
         fun toKey() = makeKey(url, template.name)
 
@@ -199,7 +193,8 @@ object Downloader {
                 url = url,
                 output = "",
                 state = CustomCommandTask.State.Running(0f),
-                currentLine = "")
+                currentLine = "",
+            )
             .run { mutableTaskList.put(this.toKey(), this) }
 
     fun updateTaskOutput(template: CommandTemplate, url: String, line: String, progress: Float) {
@@ -210,7 +205,8 @@ object Downloader {
                 copy(
                     output = output + line + "\n",
                     currentLine = line,
-                    state = CustomCommandTask.State.Running(progress))
+                    state = CustomCommandTask.State.Running(progress),
+                )
             }
         mutableTaskList[key] = newValue
     }
@@ -245,13 +241,16 @@ object Downloader {
             val key = makeKey(url, template.name)
             NotificationUtil.notifyError(
                 title = "",
-                notificationId = key.toNotificationId(), report = errorReport)
+                notificationId = key.toNotificationId(),
+                report = errorReport,
+            )
             val oldValue = mutableTaskList[key] ?: return
             mutableTaskList[key] =
                 oldValue.copy(
                     state = CustomCommandTask.State.Error(errorReport),
                     currentLine = errorReport,
-                    output = oldValue.output + "\n" + errorReport)
+                    output = oldValue.output + "\n" + errorReport,
+                )
         }
 
     private fun VideoInfo.toTask(playlistIndex: Int = 0, preferencesHash: Int): DownloadTaskItem =
@@ -263,7 +262,8 @@ object Downloader {
             taskId = id + preferencesHash,
             thumbnailUrl = thumbnail.toHttpsUrl(),
             fileSizeApprox = fileSize ?: fileSizeApprox ?: .0,
-            playlistIndex = playlistIndex)
+            playlistIndex = playlistIndex,
+        )
 
     fun updateState(state: State) = mutableDownloaderState.update { state }
 
@@ -281,10 +281,7 @@ object Downloader {
 
     private fun clearProgressState(isFinished: Boolean) {
         mutableTaskState.update {
-            it.copy(
-                progress = if (isFinished) 100f else 0f,
-                progressText = "",
-            )
+            it.copy(progress = if (isFinished) 100f else 0f, progressText = "")
         }
         if (!isFinished) downloadResultTemp = Result.failure(Exception())
     }
@@ -303,7 +300,11 @@ object Downloader {
                 DownloadUtil.fetchVideoInfoFromUrl(url = url, preferences = preferences)
                     .onFailure {
                         manageDownloadError(
-                            th = it, url = url, isFetchingInfo = true, isTaskAborted = true)
+                            th = it,
+                            url = url,
+                            isFetchingInfo = true,
+                            isTaskAborted = true,
+                        )
                     }
                     .onSuccess { info ->
                         downloadResultTemp =
@@ -342,7 +343,7 @@ object Downloader {
     fun downloadVideoWithInfo(
         info: VideoInfo,
         preferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
     ) {
         currentJob =
             applicationScope.launch(Dispatchers.IO) {
@@ -363,7 +364,7 @@ object Downloader {
         playlistUrl: String = "",
         videoInfo: VideoInfo,
         preferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
     ): Result<List<String>> {
 
         Log.d(TAG, preferences.subtitleLanguage)
@@ -382,16 +383,18 @@ object Downloader {
                 playlistUrl = playlistUrl,
                 playlistItem = playlistIndex,
                 downloadPreferences = preferences,
-                taskId = videoInfo.id + preferences.hashCode()) { progress, _, line ->
-                    Log.d(TAG, line)
-                    mutableTaskState.update { it.copy(progress = progress, progressText = line) }
-                    NotificationUtil.notifyProgress(
-                        notificationId = notificationId,
-                        progress = progress.toInt(),
-                        text = line,
-                        title = videoInfo.title,
-                        taskId = taskId)
-                }
+                taskId = videoInfo.id + preferences.hashCode(),
+            ) { progress, _, line ->
+                Log.d(TAG, line)
+                mutableTaskState.update { it.copy(progress = progress, progressText = line) }
+                NotificationUtil.notifyProgress(
+                    notificationId = notificationId,
+                    progress = progress.toInt(),
+                    text = line,
+                    title = videoInfo.title,
+                    taskId = taskId,
+                )
+            }
             .onFailure {
                 manageDownloadError(
                     th = it,
@@ -399,14 +402,16 @@ object Downloader {
                     title = videoInfo.title,
                     isFetchingInfo = false,
                     notificationId = notificationId,
-                    isTaskAborted = !isDownloadingPlaylist)
+                    isTaskAborted = !isDownloadingPlaylist,
+                )
             }
             .onSuccess {
                 if (!isDownloadingPlaylist) finishProcessing()
                 val text =
                     context.getString(
                         if (it.isEmpty()) R.string.status_completed
-                        else R.string.download_finish_notification)
+                        else R.string.download_finish_notification
+                    )
                 FileUtil.createIntentForOpeningFile(it.firstOrNull()).run {
                     NotificationUtil.finishNotification(
                         notificationId,
@@ -415,8 +420,13 @@ object Downloader {
                         intent =
                             if (this != null)
                                 PendingIntent.getActivity(
-                                    context, 0, this, PendingIntent.FLAG_IMMUTABLE)
-                            else null)
+                                    context,
+                                    0,
+                                    this,
+                                    PendingIntent.FLAG_IMMUTABLE,
+                                )
+                            else null,
+                    )
                 }
             }
     }
@@ -426,7 +436,7 @@ object Downloader {
         indexList: List<Int>,
         playlistItemList: List<PlaylistEntry> = emptyList(),
         preferences: DownloadUtil.DownloadPreferences =
-            DownloadUtil.DownloadPreferences.createFromPreferences()
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
     ) {
         val itemCount = indexList.size
 
@@ -444,7 +454,9 @@ object Downloader {
                     }
 
                     NotificationUtil.updateServiceNotificationForPlaylist(
-                        index = i + 1, itemCount = itemCount)
+                        index = i + 1,
+                        itemCount = itemCount,
+                    )
 
                     val playlistIndex = indexList[i]
                     val playlistEntry = playlistItemList.getOrNull(i)
@@ -454,7 +466,10 @@ object Downloader {
                     val title = playlistEntry?.title
 
                     DownloadUtil.fetchVideoInfoFromUrl(
-                            url = url, playlistIndex = playlistIndex, preferences = preferences)
+                            url = url,
+                            playlistIndex = playlistIndex,
+                            preferences = preferences,
+                        )
                         .onSuccess {
                             if (downloaderState.value !is State.DownloadingPlaylist) return@launch
                             downloadResultTemp =
@@ -470,7 +485,8 @@ object Downloader {
                                             url = it.originalUrl,
                                             title = it.title,
                                             isFetchingInfo = false,
-                                            isTaskAborted = false)
+                                            isTaskAborted = false,
+                                        )
                                     }
                         }
                         .onFailure { th ->
@@ -479,7 +495,8 @@ object Downloader {
                                 url = playlistEntry?.url,
                                 title = title,
                                 isFetchingInfo = true,
-                                isTaskAborted = false)
+                                isTaskAborted = false,
+                            )
                         }
                 }
                 finishProcessing()

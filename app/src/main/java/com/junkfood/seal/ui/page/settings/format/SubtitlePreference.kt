@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.settings.format
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ClosedCaption
@@ -14,6 +13,7 @@ import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,7 +33,6 @@ import com.junkfood.seal.ui.common.booleanState
 import com.junkfood.seal.ui.component.BackButton
 import com.junkfood.seal.ui.component.ConfirmButton
 import com.junkfood.seal.ui.component.DismissButton
-import androidx.compose.material3.LargeTopAppBar
 import com.junkfood.seal.ui.component.PreferenceInfo
 import com.junkfood.seal.ui.component.PreferenceItem
 import com.junkfood.seal.ui.component.PreferenceSwitch
@@ -53,13 +52,14 @@ import com.junkfood.seal.util.SUBTITLE_LANGUAGE
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubtitlePreference(onNavigateBack: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true }
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+            rememberTopAppBarState(),
+            canScroll = { true },
+        )
     var downloadSubtitle by SUBTITLE.booleanState
     val sponsorBlock by SPONSORBLOCK.booleanState
-//    var keepSubtitleFile by KEEP_SUBTITLE_FILES.booleanState
+    //    var keepSubtitleFile by KEEP_SUBTITLE_FILES.booleanState
     var embedSubtitle by EMBED_SUBTITLE.booleanState
     var autoSubtitle by AUTO_SUBTITLE.booleanState
     var autoTranslatedSubtitle by AUTO_TRANSLATED_SUBTITLES.booleanState
@@ -69,51 +69,44 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
     var showEmbedSubtitleDialog by remember { mutableStateOf(false) }
     var showAutoTranslateDialog by remember { mutableStateOf(false) }
 
-    val subtitleFormatText by remember(showConversionDialog) {
-        mutableStateOf(
-            PreferenceStrings.getSubtitleConversionFormat()
-        )
-    }
+    val subtitleFormatText by
+        remember(showConversionDialog) {
+            mutableStateOf(PreferenceStrings.getSubtitleConversionFormat())
+        }
 
-    val subtitleLang by remember(showLanguageDialog) { mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
+    val subtitleLang by
+        remember(showLanguageDialog) { mutableStateOf(SUBTITLE_LANGUAGE.getString()) }
     val sponsorBlockText = stringResource(id = R.string.subtitle_sponsorblock)
     val embedSubtitleText = stringResource(R.string.embed_subtitles_mkv_msg)
 
-
-    val hint by remember(sponsorBlock, embedSubtitle) {
-        derivedStateOf {
-            StringBuilder().apply {
-                if (sponsorBlock) append(sponsorBlockText)
-                if (isNotEmpty()) append("\n\n")
-                if (embedSubtitle) append(embedSubtitleText)
-            }.toString()
+    val hint by
+        remember(sponsorBlock, embedSubtitle) {
+            derivedStateOf {
+                StringBuilder()
+                    .apply {
+                        if (sponsorBlock) append(sponsorBlockText)
+                        if (isNotEmpty()) append("\n\n")
+                        if (embedSubtitle) append(embedSubtitleText)
+                    }
+                    .toString()
+            }
         }
-    }
 
     val downloadAudio by EXTRACT_AUDIO.booleanState
 
-
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = {
-                    Text(
-                        modifier = Modifier,
-                        text = stringResource(id = R.string.subtitle),
-                    )
-                }, navigationIcon = {
-                    BackButton {
-                        onNavigateBack()
-                    }
-                }, scrollBehavior = scrollBehavior
+                    Text(modifier = Modifier, text = stringResource(id = R.string.subtitle))
+                },
+                navigationIcon = { BackButton { onNavigateBack() } },
+                scrollBehavior = scrollBehavior,
             )
-        }, content = {
-            LazyColumn(modifier = Modifier,
-                contentPadding = it) {
-
+        },
+        content = {
+            LazyColumn(modifier = Modifier, contentPadding = it) {
                 item {
                     PreferenceSwitchWithContainer(
                         title = stringResource(id = R.string.download_subtitles),
@@ -121,7 +114,8 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                         onClick = {
                             downloadSubtitle = !downloadSubtitle
                             SUBTITLE.updateBoolean(downloadSubtitle)
-                        }, icon = null
+                        },
+                        icon = null,
                     )
                 }
                 item {
@@ -129,7 +123,7 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                         title = stringResource(id = R.string.subtitle_language),
                         icon = Icons.Outlined.Language,
                         description = subtitleLang,
-                        onClick = { showLanguageDialog = true }
+                        onClick = { showLanguageDialog = true },
                     )
                 }
 
@@ -147,12 +141,12 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                     PreferenceSwitch(
                         title = stringResource(id = R.string.auto_subtitle),
                         icon = Icons.Outlined.ClosedCaption,
-                        description = stringResource(
-                            id = R.string.auto_subtitle_desc
-                        ), isChecked = autoSubtitle, onClick = {
+                        description = stringResource(id = R.string.auto_subtitle_desc),
+                        isChecked = autoSubtitle,
+                        onClick = {
                             autoSubtitle = !autoSubtitle
                             AUTO_SUBTITLE.updateBoolean(autoSubtitle)
-                        }
+                        },
                     )
                 }
 
@@ -161,7 +155,7 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                         title = stringResource(id = R.string.auto_translated_subtitles),
                         icon = Icons.Outlined.Translate,
                         isChecked = autoTranslatedSubtitle,
-                        enabled = autoSubtitle
+                        enabled = autoSubtitle,
                     ) {
                         if (!autoTranslatedSubtitle) {
                             showAutoTranslateDialog = true
@@ -176,9 +170,7 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                     androidx.compose.material3.HorizontalDivider()
                     PreferenceSwitch(
                         title = stringResource(id = R.string.embed_subtitles),
-                        description = stringResource(
-                            id = R.string.embed_subtitles_desc
-                        ),
+                        description = stringResource(id = R.string.embed_subtitles_desc),
                         isChecked = embedSubtitle,
                         enabled = !downloadAudio,
                         onClick = {
@@ -188,10 +180,10 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                             } else {
                                 showEmbedSubtitleDialog = true
                             }
-                        }, icon = Icons.Outlined.Subtitles
+                        },
+                        icon = Icons.Outlined.Subtitles,
                     )
                 }
-
 
                 item {
                     Column {
@@ -204,26 +196,18 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                             onClick = {
                                 keepSubtitles = !keepSubtitles
                                 KEEP_SUBTITLE_FILES.updateBoolean(keepSubtitles)
-                            }, icon = Icons.Outlined.Save
+                            },
+                            icon = Icons.Outlined.Save,
                         )
                     }
                 }
 
-                item {
-                    if (hint.isNotEmpty())
-                        PreferenceInfo(text = hint)
-                }
-
+                item { if (hint.isNotEmpty()) PreferenceInfo(text = hint) }
             }
-        })
-    if (showLanguageDialog)
-        SubtitleLanguageDialog {
-            showLanguageDialog = false
-        }
-    if (showConversionDialog)
-        SubtitleConversionDialog {
-            showConversionDialog = false
-        }
+        },
+    )
+    if (showLanguageDialog) SubtitleLanguageDialog { showLanguageDialog = false }
+    if (showConversionDialog) SubtitleConversionDialog { showConversionDialog = false }
     if (showEmbedSubtitleDialog) {
         AlertDialog(
             onDismissRequest = { showEmbedSubtitleDialog = false },
@@ -234,18 +218,15 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                     EMBED_SUBTITLE.updateBoolean(true)
                     showEmbedSubtitleDialog = false
                 }
-            }, dismissButton = {
-                DismissButton {
-                    showEmbedSubtitleDialog = false
-                }
-            }, text = {
-                Text(stringResource(id = R.string.embed_subtitles_mkv_msg))
-            }, title = {
+            },
+            dismissButton = { DismissButton { showEmbedSubtitleDialog = false } },
+            text = { Text(stringResource(id = R.string.embed_subtitles_mkv_msg)) },
+            title = {
                 Text(
                     stringResource(id = R.string.enable_experimental_feature),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
-            }
+            },
         )
     }
     if (showAutoTranslateDialog) {
@@ -258,19 +239,15 @@ fun SubtitlePreference(onNavigateBack: () -> Unit) {
                     AUTO_TRANSLATED_SUBTITLES.updateBoolean(true)
                     showAutoTranslateDialog = false
                 }
-            }, dismissButton = {
-                DismissButton {
-                    showAutoTranslateDialog = false
-                }
-            }, text = {
-                Text(stringResource(id = R.string.auto_translated_subtitles_msg))
-            }, title = {
+            },
+            dismissButton = { DismissButton { showAutoTranslateDialog = false } },
+            text = { Text(stringResource(id = R.string.auto_translated_subtitles_msg)) },
+            title = {
                 Text(
                     stringResource(id = R.string.enable_experimental_feature),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
-            }
+            },
         )
     }
 }
-

@@ -52,63 +52,62 @@ import kotlin.math.roundToInt
 @Composable
 fun RateLimitDialog(onDismissRequest: () -> Unit) {
     var isError by remember { mutableStateOf(false) }
-    var maxRate by remember {
-        mutableStateOf(PreferenceUtil.getMaxDownloadRate())
-    }
+    var maxRate by remember { mutableStateOf(PreferenceUtil.getMaxDownloadRate()) }
     val focusManager = LocalFocusManager.current
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
-    AlertDialog(onDismissRequest = onDismissRequest, icon = {
-        Icon(Icons.Outlined.Speed, null)
-    }, title = { Text(stringResource(R.string.rate_limit)) }, text = {
-        Column {
-            Text(
-                stringResource(R.string.rate_limit_desc),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 12.dp),
-                isError = isError,
-                supportingText = {
-                    Text(
-                        text = if (isError) stringResource(R.string.invalid_input) else "",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                value = maxRate,
-                label = { Text(stringResource(R.string.max_rate)) },
-                onValueChange = {
-                    if (it.isDigitsOnly()) maxRate = it
-                    isError = false
-                }, trailingIcon = { Text("K") },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
-            )
-        }
-    }, dismissButton = {
-        DismissButton {
-            onDismissRequest()
-        }
-    }, confirmButton = {
-        ConfirmButton {
-            if (maxRate.isNumberInRange(1, 100_0000)) {
-                PreferenceUtil.encodeString(MAX_RATE, maxRate)
-                onDismissRequest()
-            } else {
-                isError = true
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        icon = { Icon(Icons.Outlined.Speed, null) },
+        title = { Text(stringResource(R.string.rate_limit)) },
+        text = {
+            Column {
+                Text(
+                    stringResource(R.string.rate_limit_desc),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 12.dp),
+                    isError = isError,
+                    supportingText = {
+                        Text(
+                            text = if (isError) stringResource(R.string.invalid_input) else "",
+                            style = MaterialTheme.typography.bodySmall,
+                            color =
+                                if (isError) MaterialTheme.colorScheme.error
+                                else MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                    value = maxRate,
+                    label = { Text(stringResource(R.string.max_rate)) },
+                    onValueChange = {
+                        if (it.isDigitsOnly()) maxRate = it
+                        isError = false
+                    },
+                    trailingIcon = { Text("K") },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                )
             }
-        }
-    })
+        },
+        dismissButton = { DismissButton { onDismissRequest() } },
+        confirmButton = {
+            ConfirmButton {
+                if (maxRate.isNumberInRange(1, 100_0000)) {
+                    PreferenceUtil.encodeString(MAX_RATE, maxRate)
+                    onDismissRequest()
+                } else {
+                    isError = true
+                }
+            }
+        },
+    )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConcurrentDownloadDialog(
-    onDismissRequest: () -> Unit,
-) {
-    var concurrentFragments by remember { mutableFloatStateOf(PreferenceUtil.getConcurrentFragments()) }
+fun ConcurrentDownloadDialog(onDismissRequest: () -> Unit) {
+    var concurrentFragments by remember {
+        mutableFloatStateOf(PreferenceUtil.getConcurrentFragments())
+    }
     val count by remember {
         derivedStateOf {
             if (concurrentFragments <= 0.125f) 1 else ((concurrentFragments * 3f).roundToInt()) * 8
@@ -117,15 +116,15 @@ fun ConcurrentDownloadDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text(stringResource(R.string.dismiss))
-            }
+            TextButton(onClick = onDismissRequest) { Text(stringResource(R.string.dismiss)) }
         },
         confirmButton = {
-            TextButton(onClick = {
-                onDismissRequest()
-                PreferenceUtil.encodeInt(CONCURRENT, count)
-            }) {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                    PreferenceUtil.encodeInt(CONCURRENT, count)
+                }
+            ) {
                 Text(stringResource(R.string.confirm))
             }
         },
@@ -147,49 +146,43 @@ fun ConcurrentDownloadDialog(
                         SliderDefaults.Thumb(
                             modifier = Modifier,
                             interactionSource = interactionSource,
-                            thumbSize = DpSize(4.dp, 32.dp)
+                            thumbSize = DpSize(4.dp, 32.dp),
                         )
-                    }
+                    },
                 )
             }
-        })
+        },
+    )
 }
 
 @Composable
-fun ProxyConfigurationDialog(
-    onDismissRequest: () -> Unit = {},
-) {
-    var proxyUrl by remember {
-        mutableStateOf(PROXY_URL.getString())
-    }
-    AlertDialog(onDismissRequest = onDismissRequest, icon = {
-        Icon(Icons.Outlined.VpnKey, null)
-    }, title = { Text(stringResource(R.string.proxy)) }, text = {
-        Column {
-            Text(
-                stringResource(R.string.proxy_desc),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 24.dp),
-                value = proxyUrl,
-                label = { Text(stringResource(R.string.proxy)) },
-                onValueChange = {
-                    proxyUrl = it
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
-            )
-        }
-    }, dismissButton = {
-        DismissButton {
-            onDismissRequest()
-        }
-    }, confirmButton = {
-        ConfirmButton {
-            PROXY_URL.updateString(proxyUrl)
-            onDismissRequest()
-        }
-    })
+fun ProxyConfigurationDialog(onDismissRequest: () -> Unit = {}) {
+    var proxyUrl by remember { mutableStateOf(PROXY_URL.getString()) }
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        icon = { Icon(Icons.Outlined.VpnKey, null) },
+        title = { Text(stringResource(R.string.proxy)) },
+        text = {
+            Column {
+                Text(
+                    stringResource(R.string.proxy_desc),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 24.dp),
+                    value = proxyUrl,
+                    label = { Text(stringResource(R.string.proxy)) },
+                    onValueChange = { proxyUrl = it },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                )
+            }
+        },
+        dismissButton = { DismissButton { onDismissRequest() } },
+        confirmButton = {
+            ConfirmButton {
+                PROXY_URL.updateString(proxyUrl)
+                onDismissRequest()
+            }
+        },
+    )
 }

@@ -24,28 +24,24 @@ private fun Download() {
                 Image(
                     imageVector = DynamicColorImageVectors.download(),
                     contentDescription = null,
-                    modifier = Modifier.aspectRatio(16 / 9f)
+                    modifier = Modifier.aspectRatio(16 / 9f),
                 )
                 Image(
                     imageVector = DynamicColorImageVectors.coder(),
                     contentDescription = null,
-                    modifier = Modifier.aspectRatio(16 / 9f)
+                    modifier = Modifier.aspectRatio(16 / 9f),
                 )
                 Image(
                     imageVector = DynamicColorImageVectors.videoFiles(),
                     contentDescription = null,
-                    modifier = Modifier.aspectRatio(16 / 9f)
+                    modifier = Modifier.aspectRatio(16 / 9f),
                 )
                 Image(
                     imageVector = DynamicColorImageVectors.videoSteaming(),
                     contentDescription = null,
-                    modifier = Modifier.aspectRatio(16 / 9f)
+                    modifier = Modifier.aspectRatio(16 / 9f),
                 )
             }
-
-
         }
-
     }
-
 }

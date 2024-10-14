@@ -19,9 +19,9 @@ class ExampleUnitTest {
     fun testTextJoin() {
         assertEquals(
             connectWithDelimiter("123", "456", "789", delimiter = ","),
-            listOf(123, 456, 789).joinToString(separator = ",") { it.toString() })
+            listOf(123, 456, 789).joinToString(separator = ",") { it.toString() },
+        )
         assertEquals(connectWithDelimiter(delimiter = ","), "")
         assertEquals(emptyList<String>().joinToString(separator = ",") { it }, "")
-
     }
 }

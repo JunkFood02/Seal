@@ -6,7 +6,4 @@ import kotlinx.serialization.Serializable
 
 @Entity
 @Serializable
-data class OptionShortcut(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val option: String
-)
+data class OptionShortcut(@PrimaryKey(autoGenerate = true) val id: Long = 0, val option: String)

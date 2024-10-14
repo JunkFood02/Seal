@@ -16,19 +16,14 @@ import com.junkfood.seal.R
 @Preview
 fun NotificationPermissionDialog(
     onDismissRequest: () -> Unit = {},
-    onPermissionGranted: () -> Unit = {}
+    onPermissionGranted: () -> Unit = {},
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
         icon = {
-            Icon(
-                imageVector = Icons.Outlined.NotificationsActive,
-                contentDescription = null
-            )
+            Icon(imageVector = Icons.Outlined.NotificationsActive, contentDescription = null)
         },
-        text = {
-            Text(text = stringResource(id = R.string.enable_notifications_desc))
-        },
+        text = { Text(text = stringResource(id = R.string.enable_notifications_desc)) },
         title = { Text(text = stringResource(id = R.string.enable_notifications)) },
         confirmButton = {
             Button(onClick = onPermissionGranted) {
@@ -39,6 +34,6 @@ fun NotificationPermissionDialog(
             OutlinedButton(onClick = onDismissRequest) {
                 Text(text = stringResource(id = R.string.disable))
             }
-        }
+        },
     )
 }

@@ -65,22 +65,21 @@ fun VideoDetailDrawer(
     val view = LocalView.current
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
-    BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) {
-        onDismissRequest()
-    }
+    BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) { onDismissRequest() }
 
-
-    val onReDownload = remember(info) {
-        {
-            context.startActivity(
-                Intent().apply {
-                    action = Intent.ACTION_SEND
-                    setPackage(context.packageName)
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, info.videoUrl)
-                })
+    val onReDownload =
+        remember(info) {
+            {
+                context.startActivity(
+                    Intent().apply {
+                        action = Intent.ACTION_SEND
+                        setPackage(context.packageName)
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, info.videoUrl)
+                    }
+                )
+            }
         }
-    }
 
     val shareTitle = stringResource(id = R.string.share)
     with(info) {
@@ -96,38 +95,42 @@ fun VideoDetailDrawer(
                 view.slightHapticFeedback()
                 onDismissRequest()
                 onDelete()
-            }, onOpenLink = {
+            },
+            onOpenLink = {
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 onDismissRequest()
                 uriHandler.openUri(videoUrl)
-            }, onShareFile = {
+            },
+            onShareFile = {
                 view.slightHapticFeedback()
                 FileUtil.createIntentForSharingFile(videoPath)?.runCatching {
-                    context.startActivity(
-                        Intent.createChooser(this, shareTitle)
-                    )
+                    context.startActivity(Intent.createChooser(this, shareTitle))
                 }
-            })
+            },
+        )
     }
 }
-
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun DrawerPreview() {
     SealTheme {
         VideoDetailDrawerImpl(
-            sheetState = ModalBottomSheetState(ModalBottomSheetValue.Expanded, density = LocalDensity.current),
-            onReDownload = {}
+            sheetState =
+                ModalBottomSheetState(
+                    ModalBottomSheetValue.Expanded,
+                    density = LocalDensity.current,
+                ),
+            onReDownload = {},
         )
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoDetailDrawerImpl(
-    sheetState: ModalBottomSheetState = ModalBottomSheetState(ModalBottomSheetValue.Hidden, density = LocalDensity.current),
+    sheetState: ModalBottomSheetState =
+        ModalBottomSheetState(ModalBottomSheetValue.Hidden, density = LocalDensity.current),
     title: String = stringResource(id = R.string.video_title_sample_text),
     author: String = stringResource(id = R.string.video_creator_sample_text),
     url: String = "https://www.example.com",
@@ -136,23 +139,18 @@ fun VideoDetailDrawerImpl(
     onReDownload: (() -> Unit) = {},
     onDelete: () -> Unit = {},
     onOpenLink: () -> Unit = {},
-    onShareFile: () -> Unit = {}
+    onShareFile: () -> Unit = {},
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-    SealModalBottomSheetM2(sheetState = sheetState,
+    SealModalBottomSheetM2(
+        sheetState = sheetState,
         contentPadding = PaddingValues(horizontal = 20.dp),
         sheetContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-            ) {
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
                 SelectionContainer {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 6.dp),
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
                         text = title,
                         style = MaterialTheme.typography.titleLarge,
                     )
@@ -160,20 +158,14 @@ fun VideoDetailDrawerImpl(
                 if (author != "playlist" && author != "null")
                     SelectionContainer {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 6.dp),
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
                             text = author,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
             }
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 6.dp)
-                    .fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.padding(vertical = 6.dp).fillMaxWidth()) {
                 LongTapTextButton(
                     onClick = {
                         clipboardManager.setText(AnnotatedString(url))
@@ -181,49 +173,51 @@ fun VideoDetailDrawerImpl(
                     },
                     onClickLabel = stringResource(id = R.string.copy_link),
                     onLongClick = onOpenLink,
-                    onLongClickLabel = stringResource(R.string.open_url)
+                    onLongClickLabel = stringResource(R.string.open_url),
                 ) {
                     Icon(Icons.Outlined.Link, stringResource(R.string.video_url))
                     Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
-                        text = url, maxLines = 1, overflow = TextOverflow.Ellipsis
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                        text = url,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
 
-
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(top = 24.dp)
-                    .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.End
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(top = 24.dp)
+                        .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.End,
             ) {
-
                 OutlinedButtonWithIcon(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     onClick = onDelete,
                     icon = Icons.Outlined.Delete,
-                    text = stringResource(R.string.remove)
+                    text = stringResource(R.string.remove),
                 )
                 if (isFileAvailable) {
                     FilledTonalButtonWithIcon(
                         onClick = onShareFile,
                         icon = Icons.Outlined.Share,
-                        text = stringResource(R.string.share)
+                        text = stringResource(R.string.share),
                     )
                 } else {
                     FilledTonalButtonWithIcon(
                         onClick = onReDownload,
                         icon = Icons.Outlined.FileDownload,
                         text = stringResource(R.string.redownload),
-                        colors = ButtonDefaults.filledTonalButtonColors(
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                        )
+                        colors =
+                            ButtonDefaults.filledTonalButtonColors(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            ),
                     )
                 }
             }
-        })
+        },
+    )
 }

@@ -37,7 +37,7 @@ fun ExportDialog(
     modifier: Modifier = Modifier,
     itemCount: Int = 0,
     onDismissRequest: () -> Unit = {},
-    onExport: (BackupType, BackupDestination) -> Unit
+    onExport: (BackupType, BackupDestination) -> Unit,
 ) {
     var type by remember { mutableStateOf(BackupType.DownloadHistory) }
     var destination by remember { mutableStateOf(BackupDestination.File) }
@@ -67,51 +67,62 @@ fun ExportDialog(
                         stringResource(R.string.export_download_history_msg)
                             .format(
                                 pluralStringResource(id = R.plurals.item_count, count = itemCount)
-                                    .format(itemCount)))
+                                    .format(itemCount)
+                            ),
+                )
                 DialogSubtitle(
-                    modifier = Modifier, text = stringResource(id = R.string.backup_type))
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.backup_type),
+                )
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        item {
-                            SingleSelectChip(
-                                selected = type == BackupType.DownloadHistory,
-                                onClick = { type = BackupType.DownloadHistory },
-                                label = { Text(stringResource(id = R.string.full_backup)) })
-                        }
-                        item {
-                            SingleSelectChip(
-                                selected = type == BackupType.URLList,
-                                onClick = { type = BackupType.URLList },
-                                label = { Text(text = stringResource(id = R.string.video_url)) })
-                        }
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    item {
+                        SingleSelectChip(
+                            selected = type == BackupType.DownloadHistory,
+                            onClick = { type = BackupType.DownloadHistory },
+                            label = { Text(stringResource(id = R.string.full_backup)) },
+                        )
                     }
+                    item {
+                        SingleSelectChip(
+                            selected = type == BackupType.URLList,
+                            onClick = { type = BackupType.URLList },
+                            label = { Text(text = stringResource(id = R.string.video_url)) },
+                        )
+                    }
+                }
                 DialogSubtitle(modifier = Modifier, text = stringResource(id = R.string.export_to))
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        item {
-                            SingleSelectChip(
-                                selected = destination == BackupDestination.File,
-                                onClick = { destination = BackupDestination.File },
-                                label = { Text(stringResource(id = R.string.file)) })
-                        }
-                        item {
-                            SingleSelectChip(
-                                selected = destination == BackupDestination.Clipboard,
-                                onClick = { destination = BackupDestination.Clipboard },
-                                label = { Text(text = stringResource(id = R.string.clipboard)) })
-                        }
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    item {
+                        SingleSelectChip(
+                            selected = destination == BackupDestination.File,
+                            onClick = { destination = BackupDestination.File },
+                            label = { Text(stringResource(id = R.string.file)) },
+                        )
                     }
+                    item {
+                        SingleSelectChip(
+                            selected = destination == BackupDestination.Clipboard,
+                            onClick = { destination = BackupDestination.Clipboard },
+                            label = { Text(text = stringResource(id = R.string.clipboard)) },
+                        )
+                    }
+                }
             }
-        })
+        },
+    )
 }
 
 @Composable
 fun ImportDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
-    onImport: (BackupDestination) -> Unit
+    onImport: (BackupDestination) -> Unit,
 ) {
     var destination by remember { mutableStateOf(BackupDestination.File) }
 
@@ -135,39 +146,50 @@ fun ImportDialog(
             Column {
                 Text(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    text = stringResource(R.string.import_download_history_msg))
+                    text = stringResource(R.string.import_download_history_msg),
+                )
                 DialogSubtitle(
-                    modifier = Modifier, text = stringResource(id = R.string.backup_type))
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.backup_type),
+                )
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        item {
-                            SingleSelectChip(
-                                selected = true,
-                                onClick = {},
-                                label = { Text(stringResource(id = R.string.full_backup)) })
-                        }
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    item {
+                        SingleSelectChip(
+                            selected = true,
+                            onClick = {},
+                            label = { Text(stringResource(id = R.string.full_backup)) },
+                        )
                     }
+                }
                 DialogSubtitle(
-                    modifier = Modifier, text = stringResource(id = R.string.import_from))
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.import_from),
+                )
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        item {
-                            SingleSelectChip(
-                                selected = destination == BackupDestination.File,
-                                onClick = { destination = BackupDestination.File },
-                                label = { Text(stringResource(id = R.string.file)) })
-                        }
-                        item {
-                            SingleSelectChip(
-                                selected = destination == BackupDestination.Clipboard,
-                                onClick = { destination = BackupDestination.Clipboard },
-                                label = { Text(text = stringResource(id = R.string.clipboard)) })
-                        }
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    item {
+                        SingleSelectChip(
+                            selected = destination == BackupDestination.File,
+                            onClick = { destination = BackupDestination.File },
+                            label = { Text(stringResource(id = R.string.file)) },
+                        )
                     }
+                    item {
+                        SingleSelectChip(
+                            selected = destination == BackupDestination.Clipboard,
+                            onClick = { destination = BackupDestination.Clipboard },
+                            label = { Text(text = stringResource(id = R.string.clipboard)) },
+                        )
+                    }
+                }
             }
-        })
+        },
+    )
 }
 
 @Preview(locale = "ja")

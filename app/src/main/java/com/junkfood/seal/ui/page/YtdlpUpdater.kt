@@ -3,7 +3,6 @@ package com.junkfood.seal.ui.page
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.Downloader
 import com.junkfood.seal.util.PreferenceUtil
@@ -41,11 +40,10 @@ fun YtdlpUpdater() {
         }
 
         runCatching {
-            Downloader.updateState(state = Downloader.State.Updating)
-            withContext(Dispatchers.IO) { UpdateUtil.updateYtDlp() }
-        }
+                Downloader.updateState(state = Downloader.State.Updating)
+                withContext(Dispatchers.IO) { UpdateUtil.updateYtDlp() }
+            }
             .onFailure { it.printStackTrace() }
         Downloader.updateState(state = Downloader.State.Idle)
     }
-    
 }

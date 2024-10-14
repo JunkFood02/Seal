@@ -29,13 +29,12 @@ import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.isNumberInRange
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlaylistSelectionDialog(
     playlistInfo: PlaylistResult,
     onDismissRequest: () -> Unit = {},
-    onConfirm: (IntRange) -> Unit = {}
+    onConfirm: (IntRange) -> Unit = {},
 ) {
     val playlistCount = playlistInfo.entries?.size ?: 0
     var from by remember { mutableStateOf(1.toString()) }
@@ -43,85 +42,74 @@ fun PlaylistSelectionDialog(
     var error by remember { mutableStateOf(false) }
     val (item1, item2) = remember { FocusRequester.createRefs() }
     val onDone: () -> Unit = {
-        error = !from.isNumberInRange(1, playlistCount) or !to.isNumberInRange(
-            1, playlistCount
-        ) || from.toInt() > to.toInt()
+        error =
+            !from.isNumberInRange(1, playlistCount) or !to.isNumberInRange(1, playlistCount) ||
+                from.toInt() > to.toInt()
         if (error) ToastUtil.makeToast(R.string.invalid_index_range)
         else {
             onConfirm(from.toInt()..to.toInt())
             onDismissRequest()
         }
     }
-    AlertDialog(onDismissRequest = { onDismissRequest() },
+    AlertDialog(
+        onDismissRequest = { onDismissRequest() },
         icon = { Icon(Icons.Outlined.PlaylistAdd, null) },
         title = { Text(stringResource(R.string.download_range_selection)) },
         text = {
             Column {
                 Text(
-                    text = stringResource(R.string.download_range_desc).format(
-                        1,
-                        playlistCount,
-                        playlistInfo.title,
-                    )
+                    text =
+                        stringResource(R.string.download_range_desc)
+                            .format(1, playlistCount, playlistInfo.title)
                 )
                 Row(modifier = Modifier.padding(top = 12.dp)) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 6.dp)
-                    ) {
-                        OutlinedTextField(modifier = Modifier
-                            .focusable()
-                            .focusProperties { next = item2 }
-                            .focusRequester(item1),
+                    Column(modifier = Modifier.weight(1f).padding(end = 6.dp)) {
+                        OutlinedTextField(
+                            modifier =
+                                Modifier.focusable()
+                                    .focusProperties { next = item2 }
+                                    .focusRequester(item1),
                             value = from,
                             onValueChange = {
                                 if (it.isDigitsOnly()) from = it
                                 error = false
                             },
                             label = { Text(stringResource(R.string.from)) },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.NumberPassword,
-                                imeAction = ImeAction.Next
-                            ),
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Next,
+                                ),
                             singleLine = true,
-                            isError = error
+                            isError = error,
                         )
                     }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 6.dp)
-                    ) {
-                        OutlinedTextField(modifier = Modifier
-                            .focusable()
-                            .focusProperties { previous = item1 }
-                            .focusRequester(item2),
+                    Column(modifier = Modifier.weight(1f).padding(start = 6.dp)) {
+                        OutlinedTextField(
+                            modifier =
+                                Modifier.focusable()
+                                    .focusProperties { previous = item1 }
+                                    .focusRequester(item2),
                             value = to,
                             onValueChange = {
                                 if (it.isDigitsOnly()) to = it
                                 error = false
                             },
                             label = { Text(stringResource(R.string.to)) },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.NumberPassword,
-                                imeAction = ImeAction.Done
-                            ),
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Done,
+                                ),
                             keyboardActions = KeyboardActions(onDone = { onDone() }),
                             singleLine = true,
-                            isError = error
+                            isError = error,
                         )
                     }
                 }
             }
         },
-        dismissButton = {
-            DismissButton {
-                onDismissRequest()
-            }
-        },
-        confirmButton = {
-            ConfirmButton(onClick = onDone)
-        })
-
+        dismissButton = { DismissButton { onDismissRequest() } },
+        confirmButton = { ConfirmButton(onClick = onDone) },
+    )
 }

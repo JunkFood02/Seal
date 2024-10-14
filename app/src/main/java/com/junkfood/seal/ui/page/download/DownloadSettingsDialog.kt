@@ -114,7 +114,7 @@ private enum class DownloadType {
     Audio,
     Video,
     Playlist,
-    Command
+    Command,
 }
 
 @Composable
@@ -125,7 +125,8 @@ private fun DownloadType.label(): String =
             DownloadType.Video -> R.string.video
             DownloadType.Command -> R.string.commands
             DownloadType.Playlist -> R.string.playlist
-        })
+        }
+    )
 
 private fun DownloadType.updatePreference() {
     when (this) {
@@ -150,9 +151,7 @@ private fun DownloadType.updatePreference() {
     }
 }
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadSettingDialog(
     useDialog: Boolean = false,
@@ -198,7 +197,8 @@ fun DownloadSettingDialog(
                     else -> {
                         null
                     }
-                })
+                }
+            )
         }
 
     var showAudioSettingsDialog by remember { mutableStateOf(false) }
@@ -262,7 +262,8 @@ fun DownloadSettingDialog(
                             FORMAT_SELECTION.updateBoolean(false)
                         },
                         enabled = selectedType != DownloadType.Command,
-                        label = stringResource(id = R.string.auto))
+                        label = stringResource(id = R.string.auto),
+                    )
                     SingleChoiceChip(
                         selected = formatSelection && selectedType != DownloadType.Playlist,
                         onClick = {
@@ -272,7 +273,8 @@ fun DownloadSettingDialog(
                         enabled =
                             selectedType != DownloadType.Command &&
                                 selectedType != DownloadType.Playlist,
-                        label = stringResource(id = R.string.custom))
+                        label = stringResource(id = R.string.custom),
+                    )
                 }
             }
 
@@ -281,106 +283,109 @@ fun DownloadSettingDialog(
                     stringResource(
                         id =
                             if (selectedType == DownloadType.Command) R.string.template_selection
-                            else R.string.format_preference))
+                            else R.string.format_preference
+                    )
+            )
             AnimatedContent(
                 targetState = selectedType,
                 label = "",
                 transitionSpec = {
                     (materialSharedAxisYIn(initialOffsetX = { it / 4 })).togetherWith(
-                        fadeOut(tween(durationMillis = 80)))
-                }) { type ->
-                    when (type) {
-                        DownloadType.Command -> {
-                            LazyRow(
-                                modifier = Modifier,
-                            ) {
-                                item {
-                                    ButtonChip(
-                                        icon = Icons.Outlined.Code,
-                                        label = template.name,
-                                        onClick = { showTemplateSelectionDialog = true })
+                        fadeOut(tween(durationMillis = 80))
+                    )
+                },
+            ) { type ->
+                when (type) {
+                    DownloadType.Command -> {
+                        LazyRow(modifier = Modifier) {
+                            item {
+                                ButtonChip(
+                                    icon = Icons.Outlined.Code,
+                                    label = template.name,
+                                    onClick = { showTemplateSelectionDialog = true },
+                                )
+                            }
+                            item {
+                                ButtonChip(
+                                    icon = Icons.Outlined.NewLabel,
+                                    label = stringResource(id = R.string.new_template),
+                                    onClick = { showTemplateCreatorDialog = true },
+                                )
+                            }
+                            item {
+                                ButtonChip(
+                                    icon = Icons.Outlined.Edit,
+                                    label =
+                                        stringResource(id = R.string.edit_template, template.name),
+                                    onClick = { showTemplateEditorDialog = true },
+                                )
+                            }
+                        }
+                    }
+
+                    else -> {
+                        Row(
+                            modifier =
+                                Modifier.fillMaxWidth().horizontalScroll(rememberScrollState())
+                        ) {
+                            if (type != DownloadType.Audio) {
+                                ButtonChip(
+                                    onClick = { showVideoFormatDialog = true },
+                                    enabled = !formatSorting && type != null,
+                                    label =
+                                        PreferenceStrings.getVideoFormatLabel(
+                                            videoFormatPreference
+                                        ),
+                                    icon = Icons.Outlined.VideoFile,
+                                    iconDescription =
+                                        stringResource(id = R.string.video_format_preference),
+                                )
+                                ButtonChip(
+                                    label = PreferenceStrings.getVideoResolutionDesc(),
+                                    icon = Icons.Outlined.HighQuality,
+                                    enabled = !formatSorting && type != null,
+                                    iconDescription = stringResource(id = R.string.video_quality),
+                                ) {
+                                    showVideoQualityDialog = true
                                 }
-                                item {
-                                    ButtonChip(
-                                        icon = Icons.Outlined.NewLabel,
-                                        label = stringResource(id = R.string.new_template),
-                                        onClick = { showTemplateCreatorDialog = true })
-                                }
-                                item {
-                                    ButtonChip(
-                                        icon = Icons.Outlined.Edit,
-                                        label =
-                                            stringResource(
-                                                id = R.string.edit_template, template.name),
-                                        onClick = { showTemplateEditorDialog = true })
+                            }
+                            ButtonChip(
+                                onClick = { showAudioSettingsDialog = true },
+                                enabled = !formatSorting && type != null,
+                                label = stringResource(R.string.audio_format),
+                                icon = Icons.Outlined.AudioFile,
+                            )
+                            val convertToMp3 = stringResource(id = R.string.convert_to, "mp3")
+                            val convertToM4a = stringResource(id = R.string.convert_to, "m4a")
+                            val notConvert = stringResource(id = R.string.not_convert)
+
+                            if (type == DownloadType.Audio) {
+                                val convertAudioLabelText by
+                                    remember(showAudioConversionDialog, type) {
+                                        derivedStateOf {
+                                            if (!AUDIO_CONVERT.getBoolean()) {
+                                                notConvert
+                                            } else {
+                                                val format = AUDIO_CONVERSION_FORMAT.getInt()
+                                                when (format) {
+                                                    CONVERT_MP3 -> convertToMp3
+                                                    CONVERT_M4A -> convertToM4a
+                                                    else -> notConvert
+                                                }
+                                            }
+                                        }
+                                    }
+                                ButtonChip(
+                                    label = convertAudioLabelText,
+                                    icon = Icons.Outlined.Sync,
+                                ) {
+                                    showAudioConversionDialog = true
                                 }
                             }
                         }
-
-                        else -> {
-                            Row(
-                                modifier =
-                                    Modifier.fillMaxWidth()
-                                        .horizontalScroll(rememberScrollState())) {
-                                    if (type != DownloadType.Audio) {
-                                        ButtonChip(
-                                            onClick = { showVideoFormatDialog = true },
-                                            enabled = !formatSorting && type != null,
-                                            label =
-                                                PreferenceStrings.getVideoFormatLabel(
-                                                    videoFormatPreference),
-                                            icon = Icons.Outlined.VideoFile,
-                                            iconDescription =
-                                                stringResource(
-                                                    id = R.string.video_format_preference))
-                                        ButtonChip(
-                                            label = PreferenceStrings.getVideoResolutionDesc(),
-                                            icon = Icons.Outlined.HighQuality,
-                                            enabled = !formatSorting && type != null,
-                                            iconDescription =
-                                                stringResource(id = R.string.video_quality)) {
-                                                showVideoQualityDialog = true
-                                            }
-                                    }
-                                    ButtonChip(
-                                        onClick = { showAudioSettingsDialog = true },
-                                        enabled = !formatSorting && type != null,
-                                        label = stringResource(R.string.audio_format),
-                                        icon = Icons.Outlined.AudioFile)
-                                    val convertToMp3 =
-                                        stringResource(id = R.string.convert_to, "mp3")
-                                    val convertToM4a =
-                                        stringResource(id = R.string.convert_to, "m4a")
-                                    val notConvert = stringResource(id = R.string.not_convert)
-
-                                    if (type == DownloadType.Audio) {
-                                        val convertAudioLabelText by
-                                            remember(showAudioConversionDialog, type) {
-                                                derivedStateOf {
-                                                    if (!AUDIO_CONVERT.getBoolean()) {
-                                                        notConvert
-                                                    } else {
-                                                        val format =
-                                                            AUDIO_CONVERSION_FORMAT.getInt()
-                                                        when (format) {
-                                                            CONVERT_MP3 -> convertToMp3
-                                                            CONVERT_M4A -> convertToM4a
-                                                            else -> notConvert
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        ButtonChip(
-                                            label = convertAudioLabelText,
-                                            icon = Icons.Outlined.Sync,
-                                        ) {
-                                            showAudioConversionDialog = true
-                                        }
-                                    }
-                                }
-                        }
                     }
                 }
+            }
 
             DrawerSheetSubtitle(text = stringResource(R.string.additional_settings))
 
@@ -396,7 +401,8 @@ fun DownloadSettingDialog(
                                 showCookiesDialog = true
                             }
                         },
-                        label = stringResource(id = R.string.cookies))
+                        label = stringResource(id = R.string.cookies),
+                    )
                 }
                 if (sortingFields.isNotEmpty()) {
                     FilterChip(
@@ -404,7 +410,8 @@ fun DownloadSettingDialog(
                         selected = formatSorting,
                         enabled = selectedType != DownloadType.Command,
                         onClick = { showFormatSortingDialog = true },
-                        label = { Text(text = stringResource(id = R.string.format_sorting)) })
+                        label = { Text(text = stringResource(id = R.string.format_sorting)) },
+                    )
                 }
 
                 VideoFilterChip(
@@ -414,7 +421,8 @@ fun DownloadSettingDialog(
                         subtitle = !subtitle
                         SUBTITLE.updateBoolean(subtitle)
                     },
-                    label = stringResource(id = R.string.download_subtitles))
+                    label = stringResource(id = R.string.download_subtitles),
+                )
                 VideoFilterChip(
                     selected = thumbnail,
                     enabled = selectedType != DownloadType.Command,
@@ -422,7 +430,8 @@ fun DownloadSettingDialog(
                         thumbnail = !thumbnail
                         THUMBNAIL.updateBoolean(thumbnail)
                     },
-                    label = stringResource(R.string.create_thumbnail))
+                    label = stringResource(R.string.create_thumbnail),
+                )
             }
         }
     }
@@ -434,7 +443,8 @@ fun DownloadSettingDialog(
                 Icon(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     imageVector = Icons.Outlined.DoneAll,
-                    contentDescription = null)
+                    contentDescription = null,
+                )
                 Text(
                     text = stringResource(R.string.settings_before_download),
                     style = MaterialTheme.typography.headlineSmall,
@@ -442,29 +452,33 @@ fun DownloadSettingDialog(
                         Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center)
+                    textAlign = TextAlign.Center,
+                )
                 sheetContent()
                 val state = rememberLazyListState()
                 LazyRow(
                     modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
                     horizontalArrangement = Arrangement.End,
                     state = state,
-                    verticalAlignment = Alignment.CenterVertically) {
-                        item {
-                            OutlinedButtonWithIcon(
-                                modifier = Modifier.padding(horizontal = 12.dp),
-                                onClick = onDismissRequest,
-                                icon = Icons.Outlined.Cancel,
-                                text = stringResource(R.string.cancel))
-                        }
-                        item {
-                            FilledButtonWithIcon(
-                                onClick = downloadButtonCallback,
-                                icon = Icons.Outlined.DownloadDone,
-                                text = stringResource(R.string.start_download),
-                                enabled = selectedType != null)
-                        }
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    item {
+                        OutlinedButtonWithIcon(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            onClick = onDismissRequest,
+                            icon = Icons.Outlined.Cancel,
+                            text = stringResource(R.string.cancel),
+                        )
                     }
+                    item {
+                        FilledButtonWithIcon(
+                            onClick = downloadButtonCallback,
+                            icon = Icons.Outlined.DownloadDone,
+                            text = stringResource(R.string.start_download),
+                            enabled = selectedType != null,
+                        )
+                    }
+                }
             }
         }
 
@@ -473,7 +487,9 @@ fun DownloadSettingDialog(
             if (useMD2BottomSheet) {
                 val sheetState =
                     androidx.compose.material.rememberModalBottomSheetState(
-                        initialValue = ModalBottomSheetValue.Hidden, skipHalfExpanded = true)
+                        initialValue = ModalBottomSheetValue.Hidden,
+                        skipHalfExpanded = true,
+                    )
 
                 BackHandler(sheetState.targetValue == ModalBottomSheetValue.Expanded) {
                     scope.launch { sheetState.hide() }
@@ -492,7 +508,8 @@ fun DownloadSettingDialog(
                     contentPadding = PaddingValues(horizontal = 20.dp),
                     sheetContent = {
                         SheetContent(onDismissRequest = { scope.launch { sheetState.hide() } })
-                    })
+                    },
+                )
             } else {
                 val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                 val onSheetDismiss: () -> Unit = {
@@ -503,7 +520,8 @@ fun DownloadSettingDialog(
                     sheetState = sheetState,
                     contentPadding = PaddingValues(horizontal = 20.dp),
                     onDismissRequest = onDismissRequest,
-                    content = { SheetContent(onDismissRequest = onSheetDismiss) })
+                    content = { SheetContent(onDismissRequest = onSheetDismiss) },
+                )
             }
         } else {
             AlertDialog(
@@ -518,11 +536,11 @@ fun DownloadSettingDialog(
                 title = {
                     Text(
                         stringResource(R.string.settings_before_download),
-                        textAlign = TextAlign.Center)
+                        textAlign = TextAlign.Center,
+                    )
                 },
-                text = {
-                    Column(Modifier.verticalScroll(rememberScrollState())) { sheetContent() }
-                })
+                text = { Column(Modifier.verticalScroll(rememberScrollState())) { sheetContent() } },
+            )
         }
     }
 
@@ -536,7 +554,8 @@ fun DownloadSettingDialog(
             onConfirm = {
                 videoFormatPreference = it
                 VIDEO_FORMAT.updateInt(it)
-            })
+            },
+        )
     }
     if (showVideoQualityDialog) {
         VideoQualityDialog(
@@ -545,7 +564,8 @@ fun DownloadSettingDialog(
             onConfirm = {
                 VIDEO_QUALITY.updateInt(it)
                 videoQuality = it
-            })
+            },
+        )
     }
 
     if (showTemplateSelectionDialog) {
@@ -554,11 +574,14 @@ fun DownloadSettingDialog(
     if (showTemplateCreatorDialog) {
         CommandTemplateDialog(
             onDismissRequest = { showTemplateCreatorDialog = false },
-            confirmationCallback = { scope.launch { TEMPLATE_ID.updateInt(it) } })
+            confirmationCallback = { scope.launch { TEMPLATE_ID.updateInt(it) } },
+        )
     }
     if (showTemplateEditorDialog) {
         CommandTemplateDialog(
-            commandTemplate = template, onDismissRequest = { showTemplateEditorDialog = false })
+            commandTemplate = template,
+            onDismissRequest = { showTemplateEditorDialog = false },
+        )
     }
     if (showCookiesDialog && cookiesProfiles.isNotEmpty()) {
         CookiesQuickSettingsDialog(
@@ -570,7 +593,8 @@ fun DownloadSettingDialog(
             onCookiesToggled = {
                 cookies = it
                 COOKIES.updateBoolean(cookies)
-            })
+            },
+        )
     }
     if (showAudioConversionDialog) {
         AudioConversionQuickSettingsDialog(onDismissRequest = { showAudioConversionDialog = false })
@@ -592,6 +616,7 @@ fun DownloadSettingDialog(
             onConfirm = {
                 sortingFields = it
                 SORTING_FIELDS.updateString(it)
-            })
+            },
+        )
     }
 }

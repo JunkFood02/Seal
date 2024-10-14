@@ -10,10 +10,10 @@ import com.junkfood.seal.App
 import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Deprecated("Use extension functions of Context to show a toast")
 object ToastUtil {
