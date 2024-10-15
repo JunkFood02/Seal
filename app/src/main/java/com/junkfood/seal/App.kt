@@ -198,6 +198,7 @@ class App : Application() {
 
         fun getVersionReport(): String {
             val versionName = packageInfo.versionName
+            val page = packageInfo
             val versionCode =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     packageInfo.longVersionCode

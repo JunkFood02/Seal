@@ -117,7 +117,10 @@ android {
     flavorDimensions += "publishChannel"
 
     productFlavors {
-        create("generic") { dimension = "publishChannel" }
+        create("generic") {
+            dimension = "publishChannel"
+            isDefault = true
+        }
 
         create("githubPreview") {
             dimension = "publishChannel"
