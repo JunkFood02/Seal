@@ -12,7 +12,7 @@ private val SimpleDateFormat by lazy {
 }
 
 fun Long.toLocalizedString(locale: Locale = Locale.getDefault()): String {
-    return if (Build.VERSION.SDK_INT >= 26) {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale)
             .format(Date.from(Instant.ofEpochMilli(this)))
     } else {
