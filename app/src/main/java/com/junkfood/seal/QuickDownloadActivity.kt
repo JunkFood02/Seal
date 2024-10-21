@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-private const val TAG = "ShareActivity"
+private const val TAG = "QuickDownloadActivity"
 
 class QuickDownloadActivity : ComponentActivity() {
     private var sharedUrlCached: String = ""
