@@ -83,9 +83,9 @@ object Downloader {
         sealed class State {
             data class Error(val errorReport: String) : State()
 
-            object Completed : State()
+            data object Completed : State()
 
-            object Canceled : State()
+            data object Canceled : State()
 
             data class Running(val progress: Float) : State()
         }
