@@ -867,6 +867,47 @@ object DownloadUtil {
             }
         }
 
+    @CheckResult
+    fun executeCustomCommandTask(
+        urlString: String,
+        taskId: String,
+        template: CommandTemplate,
+        preferences: DownloadPreferences,
+        progressCallback: ((Float, Long, String) -> Unit),
+    ): Result<YoutubeDLResponse> {
+        val urlList = urlString.split(Regex("[\n ]")).filter { it.isNotBlank() }
+
+        val request =
+            with(preferences) {
+                YoutubeDLRequest(urlList).apply {
+                    commandDirectory.takeIf { it.isNotEmpty() }?.let { addOption("-P", it) }
+                    addOption("--newline")
+                    if (aria2c) {
+                        enableAria2c()
+                    }
+                    if (useDownloadArchive) {
+                        useDownloadArchive()
+                    }
+                    if (restrictFilenames) {
+                        addOption("--restrict-filenames")
+                    }
+                    addOption(
+                        "--config-locations",
+                        FileUtil.writeContentToFile(template.template, context.getConfigFile())
+                            .absolutePath,
+                    )
+                    if (cookies) {
+                        enableCookies(userAgentString)
+                    }
+                }
+            }
+
+        return runCatching {
+            YoutubeDL.getInstance()
+                .execute(request = request, processId = taskId, callback = progressCallback)
+        }
+    }
+
     suspend fun executeCommandInBackground(
         url: String,
         template: CommandTemplate = PreferenceUtil.getTemplate(),

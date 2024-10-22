@@ -1,27 +1,50 @@
 package com.junkfood.seal.download
 
+import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.download.Task.TypeInfo
 import com.junkfood.seal.download.Task.ViewState
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
-import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.math.roundToInt
+
+private val TypeInfo.id: String
+    get() =
+        when (this) {
+            is TypeInfo.CustomCommand -> "${template.id}_${template.name}"
+            is TypeInfo.Playlist -> "$index"
+            TypeInfo.URL -> ""
+        }
+
+private fun makeId(url: String, type: TypeInfo, preferences: DownloadUtil.DownloadPreferences): String =
+    "${url}_${type.id}_${preferences.hashCode()}"
 
 @Serializable
 data class Task(
     val url: String,
-    val playlistIndex: Int? = null,
+    val type: TypeInfo = TypeInfo.URL,
     val preferences: DownloadUtil.DownloadPreferences,
-    val id: String = makeId(url, playlistIndex, preferences),
+    val id: String = makeId(url, type, preferences),
 ) : Comparable<Task> {
 
     val timeCreated: Long = System.currentTimeMillis()
 
     override fun compareTo(other: Task): Int {
         return timeCreated.compareTo(other.timeCreated)
+    }
+
+    @Serializable
+    sealed interface TypeInfo {
+
+        @Serializable data class Playlist(val index: Int = 0) : TypeInfo
+
+        @Serializable data class CustomCommand(val template: CommandTemplate) : TypeInfo
+
+        @Serializable data object URL : TypeInfo
     }
 
     @Serializable
@@ -141,11 +164,5 @@ data class Task(
 
     companion object {
         private const val PROGRESS_INDETERMINATE = -1f
-
-        private fun makeId(
-            url: String,
-            playlistIndex: Int?,
-            preferences: DownloadUtil.DownloadPreferences,
-        ): String = "${url}_${playlistIndex}_${preferences.hashCode()}"
     }
 }

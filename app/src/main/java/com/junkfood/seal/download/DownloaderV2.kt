@@ -18,15 +18,13 @@ import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
 import com.junkfood.seal.download.Task.RestartableAction.Download
 import com.junkfood.seal.download.Task.RestartableAction.FetchInfo
+import com.junkfood.seal.download.Task.TypeInfo
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -36,6 +34,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -93,7 +94,7 @@ internal object FakeDownloaderV2 : DownloaderV2 {
  */
 @OptIn(FlowPreview::class)
 class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComponent {
-    private val scope = CoroutineScope(SupervisorJob())
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val taskStateMap = mutableStateMapOf<Task, Task.State>()
     private val snapshotFlow = snapshotFlow { taskStateMap.toMap() }
 
@@ -225,7 +226,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
             }
             ?.let { (task, state) ->
                 when (state.downloadState) {
-                    Idle -> task.fetchInfo()
+                    Idle -> task.prepare()
                     ReadyWithInfo -> task.download()
                     else -> {
                         throw IllegalStateException()
@@ -234,9 +235,20 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
             }
     }
 
+    private fun Task.prepare() {
+        check(downloadState == Idle)
+        if (type is TypeInfo.CustomCommand) {
+            execute()
+        } else {
+            fetchInfo()
+        }
+    }
+
     private fun Task.fetchInfo() {
         check(downloadState == Idle)
         val task = this
+        val taskInfo = task.type
+        val playlistIndex = if (taskInfo is TypeInfo.Playlist) taskInfo.index else null
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.fetchVideoInfoFromUrl(
@@ -372,6 +384,38 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
             else -> {
                 throw IllegalStateException()
             }
+        }
+    }
+
+    /**
+     * Execute a custom command task
+     *
+     * @see Task.TypeInfo.CustomCommand
+     */
+    private fun Task.execute() {
+        check(downloadState == Idle)
+        check(type is TypeInfo.CustomCommand)
+        val template = type.template
+        scope.launch {
+            DownloadUtil.executeCustomCommandTask(url, id, template, preferences) {
+                    progress,
+                    _,
+                    text ->
+                    NotificationUtil.makeNotificationForCustomCommand(
+                        notificationId = notificationId,
+                        taskId = id,
+                        progress = progress.toInt(),
+                        templateName = template.name,
+                        taskUrl = url,
+                        text = text,
+                    )
+                }
+                .onFailure {
+                    // todo
+                }
+                .onSuccess {
+                    // todo
+                }
         }
     }
 }
