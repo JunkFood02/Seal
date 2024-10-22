@@ -171,60 +171,7 @@ private fun DownloadType.label(): String =
         }
     )
 
-val PreferencesMock =
-    DownloadUtil.DownloadPreferences(
-        extractAudio = false,
-        createThumbnail = false,
-        downloadPlaylist = false,
-        subdirectoryExtractor = false,
-        subdirectoryPlaylistTitle = false,
-        commandDirectory = "",
-        downloadSubtitle = false,
-        embedSubtitle = false,
-        keepSubtitle = false,
-        subtitleLanguage = "",
-        autoSubtitle = false,
-        autoTranslatedSubtitles = false,
-        convertSubtitle = 0,
-        concurrentFragments = 0,
-        sponsorBlock = false,
-        sponsorBlockCategory = "",
-        cookies = false,
-        aria2c = false,
-        audioFormat = 0,
-        audioQuality = 0,
-        convertAudio = false,
-        formatSorting = false,
-        sortingFields = "",
-        audioConvertFormat = 0,
-        videoFormat = 0,
-        formatIdString = "",
-        videoResolution = 0,
-        privateMode = false,
-        rateLimit = false,
-        maxDownloadRate = "",
-        privateDirectory = false,
-        cropArtwork = false,
-        sdcard = false,
-        sdcardUri = "",
-        embedThumbnail = false,
-        videoClips = emptyList(),
-        splitByChapter = false,
-        debug = false,
-        proxy = false,
-        proxyUrl = "",
-        newTitle = "",
-        userAgentString = "",
-        outputTemplate = "",
-        useDownloadArchive = false,
-        embedMetadata = false,
-        restrictFilenames = false,
-        supportAv1HardwareDecoding = false,
-        forceIpv4 = false,
-        mergeAudioStream = false,
-        mergeToMkv = false,
-        useCustomAudioPreset = false,
-    )
+val PreferencesMock = DownloadUtil.DownloadPreferences.EMPTY
 
 data class Config(
     val downloadType: DownloadType? = PreferenceUtil.getDownloadType(),
@@ -438,7 +385,7 @@ private fun DownloadDialogContent(
                     )
                 } else {
                     ConfigurePagePlaylistVariant(
-                        downloadType = Video,
+                        initialDownloadType = config.downloadType ?: Video,
                         preferences = preferences,
                         onPreferencesUpdate = onPreferencesUpdate,
                         onPresetEdit = onPresetEdit,
@@ -447,7 +394,7 @@ private fun DownloadDialogContent(
                         onActionPost(
                             Action.DownloadWithPreset(
                                 urlList = state.urlList,
-                                preferences = preferences,
+                                preferences = preferences.copy(extractAudio = it == Audio),
                             )
                         )
                     }
@@ -665,15 +612,15 @@ private fun ConfigurePage(
 @Composable
 fun ConfigurePagePlaylistVariant(
     modifier: Modifier = Modifier,
-    downloadType: DownloadType,
+    initialDownloadType: DownloadType,
     preferences: DownloadUtil.DownloadPreferences,
     onPreferencesUpdate: (DownloadUtil.DownloadPreferences) -> Unit,
     onPresetEdit: (DownloadType?) -> Unit = {},
     onDismissRequest: () -> Unit,
-    onDownload: () -> Unit,
+    onDownload: (DownloadType) -> Unit,
 ) {
 
-    var selectedType by remember(downloadType) { mutableStateOf(downloadType) }
+    var selectedType by remember(initialDownloadType) { mutableStateOf(initialDownloadType) }
 
     Column {
         Column(modifier = modifier.padding(horizontal = 20.dp)) {
@@ -722,7 +669,7 @@ fun ConfigurePagePlaylistVariant(
             useFormatSelection = false,
             onCancel = onDismissRequest,
             onDownload = {
-                onDownload()
+                onDownload(initialDownloadType)
                 onDismissRequest()
             },
             onFetchInfo = { throw IllegalStateException() },

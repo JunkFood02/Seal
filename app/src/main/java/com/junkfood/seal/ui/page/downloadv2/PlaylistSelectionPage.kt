@@ -135,7 +135,7 @@ fun PlaylistSelectionPage(
         ) {
             ConfigurePagePlaylistVariant(
                 modifier = Modifier,
-                downloadType = Video,
+                initialDownloadType = Video,
                 preferences = preferences,
                 onPreferencesUpdate = { preferences = it },
                 onPresetEdit = { type ->
@@ -149,7 +149,10 @@ fun PlaylistSelectionPage(
                 },
                 onDismissRequest = onDismissConfigurationSheet,
                 onDownload = {
-                    taskList.forEach(downloader::enqueue)
+                    val preferences = preferences.copy(extractAudio = it == Audio)
+                    taskList
+                        .map { it.copy(task = it.task.copy(preferences = preferences)) }
+                        .forEach(downloader::enqueue)
                     onDismissConfigurationSheet()
                     onBack()
                 },
@@ -270,8 +273,7 @@ fun PlaylistSelectionPageImpl(
                                         result.originalUrl ?: result.webpageUrl.toString(),
                                     indexList = selectedItems,
                                     playlistResult = result,
-                                    preferences =
-                                        DownloadUtil.DownloadPreferences.createFromPreferences(),
+                                    preferences = DownloadUtil.DownloadPreferences.EMPTY,
                                 )
                             )
                         },
