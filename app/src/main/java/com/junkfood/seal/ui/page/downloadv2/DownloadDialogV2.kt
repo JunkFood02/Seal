@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateDpAsState
@@ -48,12 +49,15 @@ import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AddLink
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.DoneAll
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.NewLabel
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material3.Button
@@ -108,6 +112,7 @@ import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.HapticFeedback.longPressHapticFeedback
 import com.junkfood.seal.ui.common.motion.materialSharedAxisX
+import com.junkfood.seal.ui.component.ButtonChip
 import com.junkfood.seal.ui.component.ClearButton
 import com.junkfood.seal.ui.component.DrawerSheetSubtitle
 import com.junkfood.seal.ui.component.FilledButtonWithIcon
@@ -118,6 +123,7 @@ import com.junkfood.seal.ui.component.SealModalBottomSheetM2Variant
 import com.junkfood.seal.ui.component.SingleChoiceChip
 import com.junkfood.seal.ui.component.SingleChoiceSegmentedButton
 import com.junkfood.seal.ui.component.VideoFilterChip
+import com.junkfood.seal.ui.page.command.TemplatePickerDialog
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.Download
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.FetchInfo
 import com.junkfood.seal.ui.page.downloadv2.ActionButton.StartTask
@@ -127,6 +133,7 @@ import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.C
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.Error
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.InputUrl
 import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.SheetState.Loading
+import com.junkfood.seal.ui.page.settings.command.CommandTemplateDialog
 import com.junkfood.seal.ui.page.settings.format.AudioQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.format.VideoQuickSettingsDialog
 import com.junkfood.seal.ui.page.settings.network.CookiesQuickSettingsDialog
@@ -152,6 +159,7 @@ import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateInt
 import com.junkfood.seal.util.SUBTITLE
+import com.junkfood.seal.util.TEMPLATE_ID
 import com.junkfood.seal.util.THUMBNAIL
 import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.USE_CUSTOM_AUDIO_PRESET
@@ -520,6 +528,7 @@ private fun ConfigurePage(
     onConfigSave: (Config) -> Unit,
     onActionPost: (Action) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
     var selectedType by remember(config) { mutableStateOf(config.downloadType) }
     var useFormatSelection by remember(config) { mutableStateOf(config.useFormatSelection) }
     val canProceed = selectedType in config.typeEntries
@@ -543,24 +552,82 @@ private fun ConfigurePage(
                 selectedType = selectedType,
                 onSelect = { selectedType = it },
             )
-            DrawerSheetSubtitle(
-                text = stringResource(id = R.string.format_selection),
-                modifier = Modifier,
-            )
-            Preset(
-                modifier = Modifier,
-                preference = preferences,
-                selected = !useFormatSelection,
-                downloadType = selectedType,
-                onClick = { useFormatSelection = false },
-                showEditIcon = !useFormatSelection && selectedType != Playlist,
-                onEdit = { onPresetEdit(selectedType) },
-            )
-            Custom(
-                selected = useFormatSelection,
-                enabled = selectedType != Playlist,
-                onClick = { useFormatSelection = true },
-            )
+            Column(modifier = Modifier.animateContentSize()) {
+                if (selectedType != Command) {
+                    DrawerSheetSubtitle(
+                        text = stringResource(id = R.string.format_selection),
+                        modifier = Modifier,
+                    )
+                    Preset(
+                        modifier = Modifier,
+                        preference = preferences,
+                        selected = !useFormatSelection,
+                        downloadType = selectedType,
+                        onClick = { useFormatSelection = false },
+                        showEditIcon = !useFormatSelection && selectedType != Playlist,
+                        onEdit = { onPresetEdit(selectedType) },
+                    )
+                    Custom(
+                        selected = useFormatSelection,
+                        enabled = selectedType != Playlist,
+                        onClick = { useFormatSelection = true },
+                    )
+                } else {
+                    var showTemplateSelectionDialog by remember { mutableStateOf(false) }
+                    var showTemplateCreatorDialog by remember { mutableStateOf(false) }
+                    var showTemplateEditorDialog by remember { mutableStateOf(false) }
+                    val template by
+                        remember(
+                            showTemplateCreatorDialog,
+                            showTemplateSelectionDialog,
+                            showTemplateEditorDialog,
+                        ) {
+                            mutableStateOf(PreferenceUtil.getTemplate())
+                        }
+                    if (showTemplateSelectionDialog) {
+                        TemplatePickerDialog { showTemplateSelectionDialog = false }
+                    }
+                    if (showTemplateCreatorDialog) {
+                        CommandTemplateDialog(
+                            onDismissRequest = { showTemplateCreatorDialog = false },
+                            confirmationCallback = { scope.launch { TEMPLATE_ID.updateInt(it) } },
+                        )
+                    }
+                    if (showTemplateEditorDialog) {
+                        CommandTemplateDialog(
+                            commandTemplate = template,
+                            onDismissRequest = { showTemplateEditorDialog = false },
+                        )
+                    }
+                    DrawerSheetSubtitle(
+                        text = stringResource(id = R.string.template_selection),
+                        modifier = Modifier,
+                    )
+                    LazyRow(modifier = Modifier) {
+                        item {
+                            ButtonChip(
+                                icon = Icons.Outlined.Code,
+                                label = template.name,
+                                onClick = { showTemplateSelectionDialog = true },
+                            )
+                        }
+                        item {
+                            ButtonChip(
+                                icon = Icons.Outlined.NewLabel,
+                                label = stringResource(id = R.string.new_template),
+                                onClick = { showTemplateCreatorDialog = true },
+                            )
+                        }
+                        item {
+                            ButtonChip(
+                                icon = Icons.Outlined.Edit,
+                                label = stringResource(id = R.string.edit_template, template.name),
+                                onClick = { showTemplateEditorDialog = true },
+                            )
+                        }
+                    }
+                }
+            }
         }
         var expanded by remember { mutableStateOf(false) }
         ExpandableTitle(expanded = expanded, onClick = { expanded = true }) { settingChips() }
