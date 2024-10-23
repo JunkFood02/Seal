@@ -25,6 +25,9 @@ import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -34,9 +37,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 private const val TAG = "DownloaderV2"
 
@@ -280,6 +280,10 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
 
     private fun Task.download() {
         check(downloadState == ReadyWithInfo && info != null)
+        if (type is TypeInfo.CustomCommand) {
+            execute()
+            return
+        }
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.downloadVideo(
@@ -396,26 +400,54 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
         check(downloadState == Idle)
         check(type is TypeInfo.CustomCommand)
         val template = type.template
-        scope.launch {
-            DownloadUtil.executeCustomCommandTask(url, id, template, preferences) {
-                    progress,
-                    _,
-                    text ->
-                    NotificationUtil.makeNotificationForCustomCommand(
-                        notificationId = notificationId,
-                        taskId = id,
-                        progress = progress.toInt(),
-                        templateName = template.name,
-                        taskUrl = url,
-                        text = text,
-                    )
-                }
-                .onFailure {
-                    // todo
-                }
-                .onSuccess {
-                    // todo
-                }
-        }
+        scope
+            .launch {
+                DownloadUtil.executeCustomCommandTask(url, id, template, preferences) {
+                        progressPercentage,
+                        _,
+                        text ->
+                        val progress = progressPercentage / 100f
+                        when (val preState = downloadState) {
+                            is Running -> {
+                                downloadState =
+                                    preState.copy(progress = progress, progressText = text)
+                                NotificationUtil.makeNotificationForCustomCommand(
+                                    notificationId = notificationId,
+                                    taskId = id,
+                                    progress = progressPercentage.toInt(),
+                                    templateName = template.name,
+                                    taskUrl = url,
+                                    text = text,
+                                )
+                            }
+                            else -> {}
+                        }
+                    }
+                    .onFailure { throwable ->
+                        if (throwable is YoutubeDL.CanceledException) {
+                            return@onFailure
+                        }
+                        downloadState = Error(throwable = throwable, action = Download)
+                        NotificationUtil.notifyError(
+                            title = viewState.title,
+                            textId = R.string.fetch_info_error_msg,
+                            notificationId = notificationId,
+                            report = throwable.stackTraceToString(),
+                        )
+                    }
+                    .onSuccess {
+                        downloadState = Completed(null)
+
+                        val text = appContext.getString(R.string.status_completed)
+
+                        NotificationUtil.finishNotification(
+                            notificationId = notificationId,
+                            title = viewState.title,
+                            text = text,
+                            intent = null,
+                        )
+                    }
+            }
+            .also { downloadState = Running(job = it, taskId = id) }
     }
 }

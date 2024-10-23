@@ -2,7 +2,6 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.junkfood.seal.App.Companion.applicationScope
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.Task
@@ -71,7 +70,11 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
-        data class RunCommand(val url: String, val template: CommandTemplate) : Action
+        data class RunCommand(
+            val url: String,
+            val template: CommandTemplate,
+            val preferences: DownloadUtil.DownloadPreferences,
+        ) : Action
 
         data object Cancel : Action
     }
@@ -96,7 +99,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 is Action.FetchFormats -> fetchFormat(this)
                 is Action.FetchPlaylist -> fetchPlaylist(this)
                 is Action.DownloadWithPreset -> downloadWithPreset(urlList, preferences)
-                is Action.RunCommand -> runCommand(url, template)
+                is Action.RunCommand -> runCommand(url, template, preferences)
                 Action.HideSheet -> hideDialog()
                 is Action.ShowSheet -> showDialog(this)
                 Action.Cancel -> cancel()
@@ -179,10 +182,18 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         hideDialog()
     }
 
-    private fun runCommand(url: String, template: CommandTemplate) {
-        applicationScope.launch(Dispatchers.IO) {
-            DownloadUtil.executeCommandInBackground(url = url, template = template)
-        }
+    private fun runCommand(
+        url: String,
+        template: CommandTemplate,
+        preferences: DownloadUtil.DownloadPreferences,
+    ) {
+        val task =
+            Task(
+                url = url,
+                type = Task.TypeInfo.CustomCommand(template = template),
+                preferences = preferences,
+            )
+        downloader.enqueue(task)
     }
 
     private fun hideDialog() {

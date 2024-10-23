@@ -533,6 +533,14 @@ private fun ConfigurePage(
     var useFormatSelection by remember(config) { mutableStateOf(config.useFormatSelection) }
     val canProceed = selectedType in config.typeEntries
 
+    var showTemplateSelectionDialog by remember { mutableStateOf(false) }
+    var showTemplateCreatorDialog by remember { mutableStateOf(false) }
+    var showTemplateEditorDialog by remember { mutableStateOf(false) }
+    val template by
+        remember(showTemplateCreatorDialog, showTemplateSelectionDialog, showTemplateEditorDialog) {
+            mutableStateOf(PreferenceUtil.getTemplate())
+        }
+
     LaunchedEffect(selectedType) {
         if (selectedType == Playlist) {
             useFormatSelection = false
@@ -573,17 +581,6 @@ private fun ConfigurePage(
                         onClick = { useFormatSelection = true },
                     )
                 } else {
-                    var showTemplateSelectionDialog by remember { mutableStateOf(false) }
-                    var showTemplateCreatorDialog by remember { mutableStateOf(false) }
-                    var showTemplateEditorDialog by remember { mutableStateOf(false) }
-                    val template by
-                        remember(
-                            showTemplateCreatorDialog,
-                            showTemplateSelectionDialog,
-                            showTemplateEditorDialog,
-                        ) {
-                            mutableStateOf(PreferenceUtil.getTemplate())
-                        }
                     if (showTemplateSelectionDialog) {
                         TemplatePickerDialog { showTemplateSelectionDialog = false }
                     }
@@ -671,7 +668,17 @@ private fun ConfigurePage(
                     )
                 }
             },
-            onTaskStart = {},
+            onTaskStart = {
+                onConfigSave(
+                    config.copy(
+                        useFormatSelection = useFormatSelection,
+                        downloadType = selectedType,
+                    )
+                )
+                onActionPost(
+                    Action.RunCommand(url = url, template = template, preferences = preferences)
+                )
+            },
         )
     }
 }
