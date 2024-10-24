@@ -27,11 +27,7 @@ class DownloadService : Service() {
 
     override fun onUnbind(intent: Intent?): Boolean {
         Log.d(TAG, "onUnbind: ")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(STOP_FOREGROUND_REMOVE)
-        } else {
-            stopForeground(true)
-        }
+        stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
         return super.onUnbind(intent)
     }
