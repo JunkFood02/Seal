@@ -39,8 +39,6 @@ English
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-bn.md">বাংলা</a>
 
-
-
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
@@ -56,7 +54,7 @@ English
 </div>
 
 
-## 📱 Screenshots
+## 📱  স্ক্রিনশট
 
 <div align="center">
 <div>
@@ -74,76 +72,75 @@ English
 
 <br>
 
-## 📖 Features
+## 📖 ফিচারস
 
-- Download videos and audio files from video platforms supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp) (formerly youtube-dl).
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) (পূর্বের youtube-dl) সাপোর্টেড ভিডিও প্ল্যাটফর্ম থেকে ভিডিও এবং অডিও ফাইল ডাউনলোড করুন।
 
-- Embed metadata and video thumbnail into extracted audio files supported by [mutagen](https://github.com/quodlibet/mutagen).
+- [mutagen](https://github.com/quodlibet/mutagen) সাপোর্টেড এক্সট্র্যাক্টটেড অডিও ফাইলগুলিতে মেটাডেটা এবং ভিডিও থাম্বনেল এমবেডেড।
 
-- Download all videos in the playlist with one click.
+- এক ক্লিকে প্লে লিস্টের সব ভিডিও ডাউনলোড করুন।
 
-- Use embedded [aria2c](https://github.com/aria2/aria2) as external downloader for all your downloads.
+- সব ডাউনলোডের জন্য ডাউনলোডার হিসাবে এমবেডেড [aria2c](https://github.com/aria2/aria2) .
 
-- Embed subtitles into the downloaded videos.
+- ডাউনলোড করা ভিডিওগুলিতে সাবটাইটেল এম্বেড।
 
-- Execute custom yt-dlp commands with templates.
+- টেমপ্লেট সহ কাস্টম yt-dlp কমান্ড রান করা।
 
-- Manage in-app downloads and custom command templates.
+- ইন-অ্যাপ ডাউনলোড এবং কাস্টম কমান্ড টেমপ্লেট এর ব্যাবহার।
 
-- Easy to use and user-friendly.
+- ব্যবহার করা সহজ এবং ইউজার ফ্রেন্ডলি।
 
-- [Material Design 3](https://m3.material.io/) style UI, with dynamic color theme.
+- [Material Design 3](https://m3.material.io/) স্টাইলের UI, ডাইনামিক থিম সহ।
 
-- MAD: UI and logic written with pure Kotlin. Single activity, no fragments, only composable destinations.
+- MAD: UI এবং logic pure Kotlin এ কোড করা. একক কার্যকলাপ, কোন টুকরা নেই, শুধুমাত্র কমপোজ যোগ্য গন্তব্য।
 
 
 
-## ⬇️ Download
+## ⬇️ ডাউনলোড
 
-For most devices, it is recommended to install the **arm64-v8a** version of the apks
+বেশিরভাগ ডিভাইসের জন্য, apks-এর **arm64-v8a** ইনস্টল করুন।
 
-- Download the latest stable version from [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
-  - Install the [pre-release](https://github.com/JunkFood02/Seal/releases/) versions to help us test out new features & changes
+- [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest) থেকে লেটেস্ট রিলিজ ডাউনলোড করুন।
+  - আমাদের সাহায্য করতে নতুন ফিচার ও পরিবর্তন টেস্ট করতে জন্য [pre-release](https://github.com/JunkFood02/Seal/releases/) ভার্সন ইনস্টল করুন।
 
-- Stable releases are also available on [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+- [F-Droid](https://f-droid.org/packages/com.junkfood.seal/) এও লেটেস্ট রিলিজ পাওয়া যাবে।
 
 <!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
-## 💬 Contact
+## 💬 যোগাযোগ
 
-Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) for discussion, announcements, and releases!
+আলোচনা, ঘোষণা এবং রিলিজের জন্য আমাদের  [টেলিগ্রাম চ্যানেল](https://t.me/seal_app) বা [ম্যাট্রিক্স স্পেস](https://matrix.to/#/#seal-space:matrix.org) এ যোগ দিন!
 
-## 💖 Sponsors
+## 💖 স্পনসর
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;43074832?v&#x3D;4" width="60px" alt="" /></a><a href="https://github.com/zuble"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;67658465?u&#x3D;0b5c5346b4c1d1b60f52befc350110bb629c3e11&amp;v&#x3D;4" width="60px" alt="zuble" /></a><a href="https://github.com/Dannyordaniel"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;166598202?u&#x3D;3f78f2228ca545486c5c1f41b180064a1178265e&amp;v&#x3D;4" width="60px" alt="Daniel " /></a><a href="https://github.com/Cook-I-T"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;55697931?u&#x3D;00d255874d3ae5c61fb52a4227bb47998cdd949a&amp;v&#x3D;4" width="60px" alt="Cook I.T!" /></a><a href="https://github.com/francoisMitterrand"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;184554791?v&#x3D;4" width="60px" alt="" /></a><a href="https://github.com/LeChat109"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;112785954?v&#x3D;4" width="60px" alt="" /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/zuble"><img src="https://github.com/zuble.png" width="60px" alt="zuble" /></a><a href="https://github.com/Dannyordaniel"><img src="https://github.com/Dannyordaniel.png" width="60px" alt="Daniel " /></a><a href="https://github.com/NRN83"><img src="https://github.com/NRN83.png" width="60px" alt="" /></a><!-- sponsors --></p>
 
 
-Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+সীল সর্বদা বিনামূল্যে এবং সবার জন্য উন্মুক্ত থাকবে । আপনারা যদি এটা পছন্দ করে থাকেন, আমাকে [স্পনসর করুন!](https://github.com/sponsors/JunkFood02)!
 
-## 🤝 Contributing
+## 🤝 অবদান
 
-Contributions are welcome!
-
-You can help translate Seal on [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
+ সবার অবদানকে স্বাগত জানাই!
+ আপনি [Hosted Weblate](https://hosted.weblate.org/projects/seal/) সিল অনুবাদ করতে সাহায্য করতে পারেন।
 	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 	
->[!Note]
+>[!দ্রষ্টব্য]
 >
->For submitting bug reports, feature requests, questions, or any other ideas to improve, please read [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) for instructions and guidelines first.
+>বাগ রিপোর্ট জমা দেওয়ার জন্য, ফিচার এর অনুরোধ, প্রশ্ন, বা ডেভেলপমেন্টের জন্য অন্য কোন পরামর্শ থাকলে অনুগ্রহ করে প্রথমে নির্দেশাবলী এবং নির্দেশিকাগুলির জন্য  [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) পড়ুন।
 
-## ⭐️ Star History
+## ⭐️ স্টার চার্ট
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
 
-## 🧱 Credits
+## 🧱 ক্রেডিট
 
-Seal is a simple GUI of [yt-dlp](https://github.com/yt-dlp/yt-dlp), based on [youtubedl-android](https://github.com/yausername/youtubedl-android)
+[youtubedl-android](https://github.com/yausername/youtubedl-android) -এর উপর ভিত্তি করে সিল  [yt-dlp](https://github.com/yt-dlp/yt-dlp) -এর একটি সাধারণ GUI, 
 
-Some of the UI designs and codes are borrowed from [Read You](https://github.com/Ashinch/ReadYou) and [Music You](https://github.com/Kyant0/MusicYou)
+কিছু UI ডিজাইন এবং কোড [Read You](https://github.com/Ashinch/ReadYou) এবং [Music You](https://github.com/Kyant0/MusicYou) থেকে ধার করা হয়েছে।
 
 [dvd](https://github.com/yausername/dvd)
 
@@ -151,19 +148,18 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Monet](https://github.com/Kyant0/Monet)
 
-## 📃 License
+## 📃  লাইসেন্স
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
->[!Warning]
+>[!সতর্কতা]
 >
->Except for the source code licensed under the GPLv3 license,
->all other parties are prohibited from using Seal's name as a downloader app,
->and the same is true for Seal's derivatives.
->Derivatives include but are not limited to forks and unofficial builds.
+>GPLv3 লাইসেন্সের অধীনে লাইসেন্সকৃত সোর্স কোড ব্যতীত, অন্যান্য সমস্ত পক্ষকে ডাউনলোডার অ্যাপ 
+>হিসাবে সিলের নাম ব্যবহার করা নিষিদ্ধ এবং সিলের ডেরিভেটিভের ক্ষেত্রেও এটি সত্য। ডেরিভেটিভস 
+>অন্তর্ভুক্ত কিন্তু ফোর্ক এবং অফিসিয়াল বিল্ডের মধ্যে সীমাবদ্ধ নয়।
 
 <div align="right">
 <table><td>
-<a href="#start-of-content">👆 Scroll to top</a>
+<a href="#start-of-content">👆 উপরে স্ক্রোল করুন</a>
 </td></table>
 </div>
