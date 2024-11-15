@@ -38,11 +38,11 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
-import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.util.Locale
 
 object DownloadUtil {
 
@@ -531,7 +531,12 @@ object DownloadUtil {
                     7 -> "+res"
                     else -> ""
                 }
-            return@run connectWithDelimiter(format, res, delimiter = ",")
+            val sorter = if (videoFormat == FORMAT_COMPATIBILITY) {
+                connectWithDelimiter(format, res, delimiter = ",")
+            } else {
+                connectWithDelimiter(res, format, delimiter = ",")
+            }
+            return@run sorter
         }
 
     private fun YoutubeDLRequest.applyFormatSorter(
