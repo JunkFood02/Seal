@@ -387,11 +387,14 @@ fun LazyListScope.ActionButtons(
 @Composable
 private fun SheetPreview() {
     val sheetState =
-        SheetState(
-            density = LocalDensity.current,
-            skipPartiallyExpanded = false,
-            initialValue = SheetValue.Expanded,
-        )
+        with(LocalDensity.current) {
+            SheetState(
+                initialValue = SheetValue.Expanded,
+                skipPartiallyExpanded = true,
+                velocityThreshold = { 56.dp.toPx() },
+                positionalThreshold = { 125.dp.toPx() },
+            )
+        }
 
     var downloadState: DownloadState by remember { mutableStateOf(Running(Job(), "", 0.58f)) }
 

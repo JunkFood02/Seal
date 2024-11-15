@@ -373,7 +373,7 @@ fun DownloadPageImpl(
                 navigationIcon = {
                     TooltipBox(
                         state = rememberTooltipState(),
-                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                         tooltip = {
                             PlainTooltip { Text(text = stringResource(id = R.string.settings)) }
                         },
@@ -404,7 +404,7 @@ fun DownloadPageImpl(
                         TooltipBox(
                             state = rememberTooltipState(),
                             positionProvider =
-                                TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                TooltipDefaults.rememberTooltipPositionProvider(),
                             tooltip = {
                                 PlainTooltip {
                                     Text(text = stringResource(id = R.string.running_tasks))
@@ -427,7 +427,7 @@ fun DownloadPageImpl(
                     }
                     TooltipBox(
                         state = rememberTooltipState(),
-                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                         tooltip = {
                             PlainTooltip {
                                 Text(text = stringResource(id = R.string.downloads_history))

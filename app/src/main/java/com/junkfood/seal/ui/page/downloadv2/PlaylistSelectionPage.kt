@@ -354,7 +354,7 @@ fun PlaylistSelectionPageImpl(
                     val index = indexFromZero + 1
                     TooltipBox(
                         state = rememberTooltipState(),
-                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                         tooltip = { PlainTooltip { Text(text = entry.title ?: index.toString()) } },
                     ) {
                         PlaylistItem(

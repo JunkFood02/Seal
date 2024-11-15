@@ -492,13 +492,14 @@ private fun ConfigurePagePreview() {
     SealTheme() {
         SealModalBottomSheet(
             sheetState =
-                SheetState(
-                    skipPartiallyExpanded = true,
-                    LocalDensity.current,
-                    SheetValue.Expanded,
-                    { true },
-                    false,
-                ),
+                with(LocalDensity.current) {
+                    SheetState(
+                        initialValue = SheetValue.Expanded,
+                        skipPartiallyExpanded = true,
+                        velocityThreshold = { 56.dp.toPx() },
+                        positionalThreshold = { 125.dp.toPx() },
+                    )
+                },
             onDismissRequest = {},
             contentPadding = PaddingValues(),
         ) {

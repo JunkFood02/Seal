@@ -62,7 +62,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.junkfood.seal.R
 import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.component.BackButton
@@ -470,14 +469,16 @@ private fun SponsorDialogContentPreview() {
 @Preview
 @Composable
 private fun SponsorDialogPreview() {
-    val density = LocalDensity.current
-    val sheetState = remember {
-        SheetState(
-            skipPartiallyExpanded = true,
-            density = density,
-            initialValue = SheetValue.Expanded,
-        )
-    }
+    val sheetState =
+        with(LocalDensity.current) {
+            SheetState(
+                initialValue = SheetValue.Expanded,
+                skipPartiallyExpanded = true,
+                velocityThreshold = { 56.dp.toPx() },
+                positionalThreshold = { 125.dp.toPx() },
+            )
+        }
+
     val sponsorShip =
         SponsorShip(
             sponsorEntity =

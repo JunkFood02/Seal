@@ -142,7 +142,7 @@ fun VideoListItem(
         }
         IconButton(
             onButtonClick,
-            modifier = Modifier.align(Alignment.Bottom).offset(x = 4.dp, y = 4.dp),
+            modifier = Modifier.align(Alignment.Bottom).offset(x = 4.dp, y = 8.dp),
         ) {
             Icon(
                 imageVector = Icons.Outlined.MoreVert,
