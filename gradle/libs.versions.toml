@@ -1,16 +1,16 @@
 [versions]
 accompanist = "0.34.0"
-androidGradlePlugin = "8.7.1"
-androidxComposeBom = "2024.10.00"
-androidxCore = "1.13.1"
+androidGradlePlugin = "8.7.2"
+androidxComposeBom = "2024.11.00"
+androidxCore = "1.15.0"
 androidMaterial = "1.12.0"
 androidxAppCompat = "1.7.0"
 androidxActivity = "1.9.3"
 graphics = "1.0.1"
-constraintLayout = "1.0.1"
+constraintLayout = "1.1.0"
 
-androidxLifecycle = "2.8.6"
-androidxNavigation = "2.8.3"
+androidxLifecycle = "2.8.7"
+androidxNavigation = "2.8.4"
 
 androidxEspresso = "3.5.0"
 androidxTestExt = "1.1.4"
