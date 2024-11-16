@@ -149,7 +149,7 @@ enum class TaskStatus {
     FINISHED,
 }
 
-val greenTonalPalettes = Color.Green.toTonalPalettes()
+val GreenTonalPalettes = Color.Green.toTonalPalettes()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -171,7 +171,7 @@ fun CustomCommandTaskItem(
     onShowLog: () -> Unit = {},
     onCancel: () -> Unit = {},
 ) {
-    CompositionLocalProvider(LocalTonalPalettes provides greenTonalPalettes) {
+    CompositionLocalProvider(LocalTonalPalettes provides GreenTonalPalettes) {
         val greenScheme = dynamicColorScheme(!LocalDarkTheme.current.isDarkTheme())
         val accentColor =
             MaterialTheme.colorScheme.run {

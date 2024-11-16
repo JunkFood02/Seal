@@ -290,7 +290,7 @@ fun DownloadSettingDialog(
                 targetState = selectedType,
                 label = "",
                 transitionSpec = {
-                    (materialSharedAxisYIn(initialOffsetX = { it / 4 })).togetherWith(
+                    (materialSharedAxisYIn(initialOffsetY = { it / 4 })).togetherWith(
                         fadeOut(tween(durationMillis = 80))
                     )
                 },

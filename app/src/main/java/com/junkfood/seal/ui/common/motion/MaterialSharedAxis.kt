@@ -106,24 +106,24 @@ public fun materialSharedAxisXOut(
 
 /** [materialSharedAxisY] allows to switch a layout with shared Y-axis transition. */
 public fun materialSharedAxisY(
-    initialOffsetX: (fullWidth: Int) -> Int,
+    initialOffsetY: (fullWidth: Int) -> Int,
     targetOffsetY: (fullWidth: Int) -> Int,
     durationMillis: Int = MotionConstants.DefaultMotionDuration,
 ): ContentTransform =
     materialSharedAxisYIn(
-        initialOffsetX = initialOffsetX,
+        initialOffsetY = initialOffsetY,
         durationMillis = durationMillis,
     ) togetherWith
         materialSharedAxisYOut(targetOffsetY = targetOffsetY, durationMillis = durationMillis)
 
 /** [materialSharedAxisYIn] allows to switch a layout with shared Y-axis enter transition. */
 public fun materialSharedAxisYIn(
-    initialOffsetX: (fullWidth: Int) -> Int,
+    initialOffsetY: (fullWidth: Int) -> Int,
     durationMillis: Int = MotionConstants.DefaultMotionDuration,
 ): EnterTransition =
     slideInVertically(
         animationSpec = tween(durationMillis = durationMillis, easing = FastOutSlowInEasing),
-        initialOffsetY = initialOffsetX,
+        initialOffsetY = initialOffsetY,
     ) +
         fadeIn(
             animationSpec =
