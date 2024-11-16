@@ -486,10 +486,10 @@ fun DownloadPageImplV2(
                                 viewState = state.viewState,
                                 stateIndicator = {
                                     ListItemStateText(
-                                        modifier = Modifier.padding(top = 4.dp),
+                                        modifier = Modifier.padding(top = 2.dp),
                                         downloadState = state.downloadState,
                                         errorColor = MaterialTheme.colorScheme.error,
-                                        contentColor = MaterialTheme.colorScheme.onSurface,
+                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
                                 },
                                 onButtonClick = { showActionSheet(task) },

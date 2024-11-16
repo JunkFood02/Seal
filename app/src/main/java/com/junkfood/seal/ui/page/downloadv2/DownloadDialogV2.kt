@@ -435,11 +435,14 @@ private fun ErrorPreview() {
     SealModalBottomSheet(
         onDismissRequest = {},
         sheetState =
-            SheetState(
-                skipPartiallyExpanded = true,
-                initialValue = SheetValue.Expanded,
-                density = LocalDensity.current,
-            ),
+            with(LocalDensity.current) {
+                SheetState(
+                    initialValue = SheetValue.Expanded,
+                    skipPartiallyExpanded = true,
+                    velocityThreshold = { 56.dp.toPx() },
+                    positionalThreshold = { 125.dp.toPx() },
+                )
+            },
     ) {
         ErrorPage(
             state =

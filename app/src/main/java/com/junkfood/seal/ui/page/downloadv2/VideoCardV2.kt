@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -47,6 +48,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -131,24 +133,26 @@ fun VideoListItem(
                 fileSizeApprox = fileSizeApprox,
             )
         }
-        Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
-            TitleText(
-                modifier = Modifier,
-                title = title,
-                uploader = uploader,
-                contentPadding = PaddingValues(),
-            )
-            stateIndicator?.invoke()
-        }
-        IconButton(
-            onButtonClick,
-            modifier = Modifier.align(Alignment.Bottom).offset(x = 4.dp, y = 8.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.MoreVert,
-                contentDescription = stringResource(R.string.show_more_actions),
-                modifier = Modifier.size(20.dp),
-            )
+        Box {
+            Column(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
+                TitleText(
+                    modifier = Modifier,
+                    title = title,
+                    uploader = uploader,
+                    contentPadding = PaddingValues(),
+                )
+                stateIndicator?.invoke()
+            }
+            IconButton(
+                onButtonClick,
+                modifier = Modifier.align(Alignment.BottomEnd).offset(x = 8.dp, y = 8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.MoreVert,
+                    contentDescription = stringResource(R.string.show_more_actions),
+                    modifier = Modifier.size(20.dp),
+                )
+            }
         }
     }
 }
@@ -165,6 +169,7 @@ private fun VideoListItemPreview() {
             )
         Surface {
             VideoListItem(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 20.dp),
                 thumbnailModel = R.drawable.sample3,
                 title = stringResource(R.string.video_title_sample_text),
                 uploader = stringResource(R.string.video_creator_sample_text),
@@ -358,6 +363,7 @@ fun CardStateIndicator(modifier: Modifier = Modifier, downloadState: Task.Downlo
             downloadState = downloadState,
             errorColor =
                 MaterialTheme.colorScheme.run { if (isDarkTheme) error else errorContainer },
+            textStyle = MaterialTheme.typography.labelSmall,
             contentColor = Color.White,
         )
     }
@@ -367,7 +373,8 @@ fun CardStateIndicator(modifier: Modifier = Modifier, downloadState: Task.Downlo
 fun ListItemStateText(
     modifier: Modifier = Modifier,
     downloadState: Task.DownloadState,
-    contentColor: Color = Color.White,
+    textStyle: TextStyle = MaterialTheme.typography.labelSmall,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     errorColor: Color = MaterialTheme.colorScheme.error,
 ) {
     val text =
@@ -393,7 +400,7 @@ fun ListItemStateText(
         Text(
             text = stringResource(id = text),
             modifier = Modifier,
-            style = MaterialTheme.typography.labelSmall,
+            style = textStyle,
             color = contentColor,
         )
     }

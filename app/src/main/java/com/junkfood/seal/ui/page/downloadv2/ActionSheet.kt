@@ -228,7 +228,7 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Downlo
                 Text(text = author, style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.weight(1f))
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(2.dp))
             val text =
                 when (downloadState) {
                     is Canceled -> stringResource(R.string.status_canceled)
