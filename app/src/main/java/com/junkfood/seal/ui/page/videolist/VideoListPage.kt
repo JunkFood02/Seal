@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
@@ -74,9 +76,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.backup.BackupUtil
@@ -94,8 +96,7 @@ import com.junkfood.seal.ui.component.DismissButton
 import com.junkfood.seal.ui.component.MediaListItem
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealSearchBar
-import com.junkfood.seal.ui.component.SelectionGroupItem
-import com.junkfood.seal.ui.component.SelectionGroupRow
+import com.junkfood.seal.ui.component.VideoFilterChip
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.videoSteaming
 import com.junkfood.seal.util.AUDIO_REGEX
@@ -173,36 +174,34 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
 
     @Composable
     fun FilterChips(modifier: Modifier = Modifier) {
-        SelectionGroupRow(
-            modifier = modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp)
-        ) {
-            SelectionGroupItem(
-                selected = viewState.audioFilter,
-                onClick = { viewModel.clickAudioFilter() },
-            ) {
-                Text(stringResource(id = R.string.audio))
-            }
-            SelectionGroupItem(
-                selected = viewState.videoFilter,
-                onClick = { viewModel.clickVideoFilter() },
-            ) {
-                Text(stringResource(id = R.string.video))
-            }
-            if (filterSet.size > 1) {
-                VerticalDivider(
-                    modifier =
-                        Modifier.padding(horizontal = 4.dp)
-                            .height(24.dp)
-                            .align(Alignment.CenterVertically),
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                    thickness = Dp.Hairline,
+        Row(modifier.horizontalScroll(rememberScrollState()).selectableGroup()) {
+            Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                VideoFilterChip(
+                    selected = viewState.audioFilter,
+                    onClick = { viewModel.clickAudioFilter() },
+                    label = stringResource(id = R.string.audio),
                 )
-                for (i in 0 until filterSet.size) {
-                    SelectionGroupItem(
-                        selected = viewState.activeFilterIndex == i,
-                        onClick = { viewModel.clickExtractorFilter(i) },
-                    ) {
-                        Text(text = filterSet.elementAt(i))
+
+                VideoFilterChip(
+                    selected = viewState.videoFilter,
+                    onClick = { viewModel.clickVideoFilter() },
+                    label = stringResource(id = R.string.video),
+                )
+                if (filterSet.size > 1) {
+                    VerticalDivider(
+                        modifier =
+                            Modifier.padding(horizontal = 6.dp)
+                                .height(24.dp)
+                                .width(1f.dp)
+                                .align(Alignment.CenterVertically),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                    )
+                    for (i in 0 until filterSet.size) {
+                        VideoFilterChip(
+                            selected = viewState.activeFilterIndex == i,
+                            onClick = { viewModel.clickExtractorFilter(i) },
+                            label = filterSet.elementAt(i),
+                        )
                     }
                 }
             }
