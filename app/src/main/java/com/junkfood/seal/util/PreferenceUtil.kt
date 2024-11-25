@@ -183,6 +183,7 @@ const val TEMPLATE_EXAMPLE = """--no-mtime -S "ext""""
 const val TEMPLATE_SHORTCUTS = "template_shortcuts"
 
 const val TASK_LIST = "task_list"
+const val SAVED_LINKS = "saved_links"
 
 val paletteStyles =
     listOf(
@@ -448,6 +449,10 @@ object PreferenceUtil {
             }
             .onFailure { it.printStackTrace() }
             .getOrNull() ?: emptyMap()
+
+    fun getSavedLinks(): Set<String> = kv.decodeStringSet(SAVED_LINKS) ?: emptySet()
+
+    fun updateSavedLinks(links: Set<String>) = kv.encode(SAVED_LINKS, links)
 
     private const val TAG = "PreferenceUtil"
 }

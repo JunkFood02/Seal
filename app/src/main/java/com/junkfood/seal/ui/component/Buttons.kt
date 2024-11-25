@@ -135,6 +135,20 @@ fun DismissButton(text: String = stringResource(R.string.dismiss), onClick: () -
 }
 
 @Composable
+fun OutlinedDismissButton(text: String = stringResource(R.string.dismiss), onClick: () -> Unit) {
+    OutlinedButton(onClick = onClick) { Text(text) }
+}
+
+@Composable
+fun FilledConfirmButton(
+    text: String = stringResource(R.string.confirm),
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    Button(onClick = onClick, enabled = enabled) { Text(text) }
+}
+
+@Composable
 fun LinkButton(
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.yt_dlp_docs),

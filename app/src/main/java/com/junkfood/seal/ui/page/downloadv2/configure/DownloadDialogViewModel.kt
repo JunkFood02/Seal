@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.downloadv2
+package com.junkfood.seal.ui.page.downloadv2.configure
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -6,7 +6,6 @@ import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.animateTo
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -107,7 +106,13 @@ import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupDefaults
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
-import com.junkfood.seal.ui.page.downloadv2.DownloadDialogViewModel.Action
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Action
+import com.junkfood.seal.ui.page.downloadv2.configure.Config
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialog
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
+import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
+import com.junkfood.seal.ui.page.downloadv2.configure.PreferencesMock
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
 import com.junkfood.seal.ui.theme.SealTheme
@@ -155,7 +160,7 @@ enum class Filter {
                 }
             }
             Canceled -> {
-                state is Error || state is Canceled
+                state is Error || state is Task.DownloadState.Canceled
             }
             Finished -> {
                 state is Completed

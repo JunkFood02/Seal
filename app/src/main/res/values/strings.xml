@@ -435,6 +435,9 @@
     <string name="issue_tracker">Issue tracker</string>
     <string name="trouble_shooting_desc">Fix common errors and check for known issues</string>
     <string name="issue_tracker_hint">Encountered an error? Before reporting a new issue, please search our issue tracker. Many common problems have already been addressed and documented there.</string>
+    <string name="saved_urls">Saved links</string>
+    <string name="add_new_url">Add new link</string>
+    <string name="add_to">Add to %1$s</string>
     <plurals name="item_count">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>

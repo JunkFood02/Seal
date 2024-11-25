@@ -1,4 +1,4 @@
-package com.junkfood.seal.ui.page.downloadv2
+package com.junkfood.seal.ui.page.downloadv2.configure
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility

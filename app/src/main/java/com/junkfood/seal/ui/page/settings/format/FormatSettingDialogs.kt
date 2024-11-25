@@ -73,7 +73,7 @@ import com.junkfood.seal.ui.component.OutlinedButtonChip
 import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.SealDialog
 import com.junkfood.seal.ui.component.SealTextField
-import com.junkfood.seal.ui.page.downloadv2.PreferencesMock
+import com.junkfood.seal.ui.page.downloadv2.configure.PreferencesMock
 import com.junkfood.seal.util.AUDIO_CONVERSION_FORMAT
 import com.junkfood.seal.util.AUDIO_CONVERT
 import com.junkfood.seal.util.AUDIO_FORMAT
