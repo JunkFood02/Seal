@@ -138,8 +138,8 @@
     <string name="close">關閉</string>
     <string name="close_never_show_again">不再顯示</string>
     <string name="convert_audio">轉換</string>
-    <string name="paste_desc">點擊「貼上」從您的剪貼簿獲取影片連結。</string>
-    <string name="download_desc">然後調整設定後點擊「下載」。</string>
+    <string name="paste_desc">點擊 [貼上] 從您的剪貼簿取得影片連結。</string>
+    <string name="download_desc">然後調整設定後點擊 [下載]。</string>
     <string name="channel_description">通知下載檔案和進度資訊</string>
     <string name="download_finish_notification">下載完成。輕觸以開啟。</string>
     <string name="additional_settings">其他設定</string>
@@ -385,8 +385,8 @@
     <string name="no_thanks">不，謝謝</string>
     <string name="update_language_msg">今後預設下載下列語言的字幕:</string>
     <string name="full_backup">完整備份</string>
-    <string name="look_and_feel">介面與外觀</string>
-    <string name="interface_and_interaction">介面與互動</string>
+    <string name="look_and_feel"><![CDATA[介面與外觀]]></string>
+    <string name="interface_and_interaction"><![CDATA[介面與互動]]></string>
     <string name="use_previous_selection">使用先前所選</string>
     <string name="none">無</string>
     <string name="search_in_subtitles">在字幕中搜尋</string>
@@ -424,7 +424,7 @@
     <string name="preset_format_selection_desc">使用你的格式偏好自動下載</string>
     <string name="edit_preset">編輯預設</string>
     <string name="you_ll_find_your_downloads_here">您可以在這裡找到您的下載內容</string>
-    <string name="download_hint">點擊下載按鈕或分享影片連結到此應用程式以開始下載</string>
+    <string name="download_hint">輕觸 [下載] 按鈕或分享影片連結到此應用程式以開始下載</string>
     <string name="status_downloaded">已下載</string>
     <string name="all">全部</string>
     <string name="select_multiple_link">從 %1$d 個連結中選取</string>
@@ -433,4 +433,11 @@
     <string name="resume">繼續</string>
     <string name="delete">刪除</string>
     <string name="media_info">媒體資訊</string>
+    <string name="trouble_shooting">疑難排解</string>
+    <string name="issue_tracker">議題追蹤工具</string>
+    <string name="trouble_shooting_desc">修復常見錯誤並檢查已知問題</string>
+    <string name="issue_tracker_hint">發生錯誤？在回報新問題之前，請先檢查議題追蹤工具。許多常見問題已經解決，並且記錄在案。</string>
+    <string name="saved_urls">已儲存的連結</string>
+    <string name="add_new_url">新增新連結</string>
+    <string name="add_to">新增至 %1$s</string>
 </resources>

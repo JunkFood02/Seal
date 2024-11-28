@@ -376,7 +376,7 @@
     <string name="search_in_downloads">Pesquisar em descargas</string>
     <string name="auto_translated_subtitles">Legendas traduzidas automaticamente</string>
     <string name="remember_for_next_download">Lembrar para a próxima descarga</string>
-    <string name="look_and_feel">Aspeto &amp; Sentimento</string>
+    <string name="look_and_feel"><![CDATA[Look & feel]]></string>
     <string name="use_previous_selection">Utilizar a seleção anterior</string>
     <string name="none">Nenhum</string>
     <string name="subtitle_language_desc">Idioma das legendas a descarregar na seleção de formato automático, separado por vírgulas.</string>
@@ -396,7 +396,7 @@
     <string name="import_from">Importar de</string>
     <string name="import_download_history_msg">Os ficheiros descarregados não serão importados. Terá de os voltar a descarregar manualmente</string>
     <string name="download_history">Histórico de descargas</string>
-    <string name="interface_and_interaction">Interface &amp; Interação</string>
+    <string name="interface_and_interaction"><![CDATA[Interface & interaction]]></string>
     <string name="export_to">Exportar para</string>
     <string name="export_download_history">Exportar o histórico de descargas?</string>
     <string name="export_download_history_msg">A exportar %1$s do histórico de descargas. Os ficheiros descarregados e as preferências não serão guardados.</string>
@@ -436,4 +436,14 @@
     <string name="select_multiple_link">Selecionar a partir de %1$d ligações</string>
     <string name="download_queue">Fila de descargas</string>
     <string name="show_navigation_drawer">Mostrar gaveta de navegação</string>
+    <string name="resume">Retomar</string>
+    <string name="delete">Eliminar</string>
+    <string name="media_info">Informações da mídia</string>
+    <string name="issue_tracker_hint">Encontrou um erro? Antes de comunicar um novo problema, procure no nosso registo de problemas. Muitos problemas comuns já foram resolvidos e documentados lá.</string>
+    <string name="trouble_shooting">Solução de problemas</string>
+    <string name="issue_tracker">Rastreador de problemas</string>
+    <string name="trouble_shooting_desc">Correção de erros comuns e verificação de problemas conhecidos</string>
+    <string name="saved_urls">Links salvos</string>
+    <string name="add_new_url">Adicionar novo link</string>
+    <string name="add_to">Adicionar a %1$s</string>
 </resources>

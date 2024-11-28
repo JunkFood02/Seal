@@ -6,7 +6,7 @@
     <string name="download_start_msg">\"%1$s\" 다운로드</string>
     <string name="fetch_info_error_msg">동영상 정보를 가져올 수 없습니다</string>
     <string name="language">언어</string>
-    <string name="paste_msg">클립보드에서 URL 붙여넣기</string>
+    <string name="paste_msg">URL 붙여넣기</string>
     <string name="audio">오디오</string>
     <string name="delete_info_msg">다운로드 기록에서 \"%1$s\"을(를) 삭제할까요\?</string>
     <string name="yt_dlp_up_to_date">최신 버전의 yt-dlp 사용 중</string>
@@ -150,7 +150,7 @@
     <string name="cookies_desc">다운로드에 Netscape 형식의 쿠키 사용</string>
     <string name="dynamic_color_desc">배경화면의 색상을 앱 테마에 적용</string>
     <string name="rate_limit">속도 제한</string>
-    <string name="status_completed">완료됨</string>
+    <string name="status_completed">완료</string>
     <string name="multiselect_mode">다중 선택 모드</string>
     <string name="clear_temp_files_count">%1$d개의 임시 파일 삭제</string>
     <string name="lowest_quality">최저 품질</string>
@@ -423,4 +423,14 @@
     <string name="preset">프리셋</string>
     <string name="custom_format_selection_desc">형식과 자막 등을 설정합니다</string>
     <string name="prefer_placeholder">%1$s 선호</string>
+    <string name="you_ll_find_your_downloads_here">여기서 다운로드를 확인할 수 있습니다</string>
+    <string name="download_hint">다운로드 버튼을 누르거나 영상 링크를 이 앱으로 공유하여 다운로드를 시작해 보세요</string>
+    <string name="status_downloaded">다운로드 완료</string>
+    <string name="all">전체</string>
+    <string name="select_multiple_link">링크 %1$d개에서 선택</string>
+    <string name="download_queue">다운로드 대기열</string>
+    <string name="show_navigation_drawer">내비게이션 드로어 표시</string>
+    <string name="resume">재개</string>
+    <string name="delete">삭제</string>
+    <string name="media_info">미디어 정보</string>
 </resources>

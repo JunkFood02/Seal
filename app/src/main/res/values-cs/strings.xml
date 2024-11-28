@@ -378,7 +378,7 @@
     <string name="auto_translated_subtitles">Automaticky přeložené titulky</string>
     <string name="auto_translated_subtitles_msg">Automaticky přeložené titulky pro všechny jazyky budou k dispozici ve Stažených. Tyto titulky mohou být nepřesné a obtížné na porozumění.</string>
     <string name="remember_for_next_download">Zapamatovat pro další stahování</string>
-    <string name="look_and_feel">Zobrazení a styl</string>
+    <string name="look_and_feel"><![CDATA[Zobrazení a styl]]></string>
     <string name="use_previous_selection">Použít předchozí výběr</string>
     <string name="none">Žádný</string>
     <string name="subtitle_language_desc">Jazyk titulků ke stažení ve výběru Auto formátu, oddělené čárkami.</string>
@@ -392,7 +392,7 @@
     <string name="import_backup">Importovat</string>
     <string name="full_backup">Úplná záloha</string>
     <string name="export_download_history_msg">Exportování %1$s z historie stahování. Stažené soubory a preference nebudou zálohovány.</string>
-    <string name="interface_and_interaction">Rozhraní a interakce</string>
+    <string name="interface_and_interaction"><![CDATA[Rozhraní a interakce]]></string>
     <string name="backup_type">Typ zálohy</string>
     <string name="export_to">Exportovat do</string>
     <string name="clipboard">Schránka</string>
@@ -439,4 +439,11 @@
     <string name="resume">Pokračovat</string>
     <string name="delete">Smazat</string>
     <string name="media_info">Informace o médiu</string>
+    <string name="trouble_shooting">Řešení problémů</string>
+    <string name="issue_tracker">Sledování problémů</string>
+    <string name="trouble_shooting_desc">Opravte běžné chyby a zjistěte známé problémy</string>
+    <string name="issue_tracker_hint">Našli jste chybu? Před jejím nahlášením prosím prohledejte náš systém sledování chyb. Mnoho problémů zde již bylo řešeno a zdokumentováno.</string>
+    <string name="saved_urls">Uložené odkazy</string>
+    <string name="add_new_url">Přidat nový odkaz</string>
+    <string name="add_to">Přidat do %1$s</string>
 </resources>

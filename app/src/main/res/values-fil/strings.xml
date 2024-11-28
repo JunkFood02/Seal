@@ -387,8 +387,8 @@
     <string name="reset">I-reset</string>
     <string name="search_in_subtitles">Maghanap sa mga subtitle</string>
     <string name="no_thanks">Salamat nalang</string>
-    <string name="look_and_feel">Tingnan at pakiramdam</string>
-    <string name="interface_and_interaction">Interface at pakikipag-ugnayan</string>
+    <string name="look_and_feel"><![CDATA[Tingnan at pakiramdam]]></string>
+    <string name="interface_and_interaction"><![CDATA[Interface at interaksyon]]></string>
     <string name="use_previous_selection">Gamitin ang nakaraang pagpili</string>
     <string name="none">Wala</string>
     <string name="update_language_msg">Ang mga sumusunod na wika ay idadagdag sa iyong kagustuhan para sa pag-download sa hinaharap:</string>
@@ -428,8 +428,19 @@
     </plurals>
     <string name="you_ll_find_your_downloads_here">Makikita mo ang iyong mga download dito</string>
     <string name="download_hint">I-tap ang button sa pag-download o magbahagi ng link ng video sa app na ito para magsimula ng pag-download</string>
-    <string name="status_downloaded">Na-download na</string>
+    <string name="status_downloaded">Nai-download na</string>
     <string name="all">Lahat</string>
     <string name="download_queue">Queue ng pag-download</string>
     <string name="select_multiple_link">Pumili mula sa %1$d na mga link</string>
+    <string name="show_navigation_drawer">Ipakita ang navigation drawer</string>
+    <string name="resume">Ipagpatuloy</string>
+    <string name="delete">Tanggalin</string>
+    <string name="media_info">Impo ng media</string>
+    <string name="trouble_shooting">Mag-troubleshoot</string>
+    <string name="issue_tracker">Ang issue tracker</string>
+    <string name="trouble_shooting_desc">Ayusin ang mga karaniwang error at suriin para sa mga kilalang isyu</string>
+    <string name="issue_tracker_hint">Nagkaroon ba ng error? Bago mag-ulat ng bagong isyu, maaring hanapin ang aming issue tracker. Maraming karaniwang problema ang natugunan at naidokumento na doon.</string>
+    <string name="saved_urls">Na-save na mga link</string>
+    <string name="add_new_url">Magdagdag ng bagong link</string>
+    <string name="add_to">Idagdag sa %1$s</string>
 </resources>

@@ -16,7 +16,7 @@
     <string name="general_settings">Geral</string>
     <string name="extract_audio">Salvar como áudio</string>
     <string name="settings">Configurações</string>
-    <string name="yt_dlp_update_fail">A última versão do yt-dlp não pode ser instalada. Por favor verifique sua conexão com a internet.</string>
+    <string name="yt_dlp_update_fail">A última versão do yt-dlp não pôde ser instalada. Por favor verifique sua conexão com a internet.</string>
     <string name="download_success_msg">Download concluído</string>
     <string name="paste_msg">Colar URL</string>
     <string name="ytdlp_version">Versão do Yt-dlp</string>
@@ -50,14 +50,14 @@
     <string name="convert_to">Converter para %1$s</string>
     <string name="format">Formato</string>
     <string name="best_quality">Melhor qualidade</string>
-    <string name="video_quality_desc">Limitar a qualidade do vídeo quando várias qualidades estiverem presentes</string>
+    <string name="video_quality_desc">Limitar a qualidade do vídeo quando outras qualidades estiverem presentes</string>
     <string name="not_specified">Não especificado (padrão)</string>
     <string name="video_format_preference">Formato de vídeo preferido</string>
     <string name="start_download">Download</string>
-    <string name="settings_before_download">Configurar antes de baixar</string>
+    <string name="settings_before_download">Configurar antes de fazer o download</string>
     <string name="ytdlp_update">Clique para instalar a versão mais recente do yt-dlp</string>
     <string name="about_page">Versão, feedback, atualização</string>
-    <string name="settings_before_download_desc">Configurar preferências antes de baixar</string>
+    <string name="settings_before_download_desc">Configurar preferências antes de fazer o download</string>
     <string name="convert_audio">Converter</string>
     <string name="paste_fail_msg">Não foi possível corresponder ao URL na área de transferência</string>
     <string name="task_running">Uma tarefa de download existente já está em execução</string>
@@ -67,7 +67,7 @@
     <string name="edit_template_desc">O caminho de saída e a URL serão adicionados pelo aplicativo.</string>
     <string name="convert_audio_format_desc">A recodificação de arquivos de áudio causará perda na qualidade do áudio e aumento no tamanho do arquivo.</string>
     <string name="video_quality">Qualidade do vídeo</string>
-    <string name="preferred_format_desc">Formato preferido quando vários formatos estiverem presentes</string>
+    <string name="preferred_format_desc">Formato preferido quando outros formatos estiverem presentes</string>
     <string name="language">Idioma de exibição</string>
     <string name="language_settings">Definir idioma de exibição</string>
     <string name="close_never_show_again">Não mostrar novamente</string>
@@ -78,7 +78,7 @@
     <string name="download_playlist_desc">Baixe vários vídeos de uma playlist</string>
     <string name="defaults">Padrão</string>
     <string name="channel_name">Download</string>
-    <string name="channel_description">Notificar sobre arquivos baixados e progresso</string>
+    <string name="channel_description">Notificar sobre o download e arquivos baixados</string>
     <string name="video_url">Link do vídeo</string>
     <string name="download_finish_notification">Download concluído. Toque para abrir.</string>
     <string name="execute_command_notification">Executando comandos personalizados…</string>
@@ -86,7 +86,7 @@
     <string name="options">Opções</string>
     <string name="share_success_msg">Lendo o link do vídeo do conteúdo compartilhado…</string>
     <string name="show_more_actions">Mostrar mais ações</string>
-    <string name="download_notification_desc">Notificar sobre arquivos baixados e progresso</string>
+    <string name="download_notification_desc">Notificar sobre o download e arquivos baixados</string>
     <string name="fetching_playlist_info">Buscando informações da playlist…</string>
     <string name="download_range_desc">Especifique o intervalo de vídeos para download da playlist “%3$s” (de %1$d a %2$d).</string>
     <string name="from">Início</string>
@@ -151,10 +151,10 @@
     <string name="custom_command_template_desc">Editar e gerenciar modelos de comandos</string>
     <string name="downloading_indicator_text">Download em andamento…</string>
     <string name="task_canceled">Tarefa de download cancelada</string>
-    <string name="github_issue">Relatar problema no GitHub</string>
+    <string name="github_issue">Relatórios do GitHub</string>
     <string name="github_issue_desc">Envie um problema para relatório de bug ou solicitação de recursos</string>
     <string name="info_copied">Informação copiada para a área de transferência</string>
-    <string name="video_resolution">Resolução de Vídeo</string>
+    <string name="video_resolution">Resolução do vídeo</string>
     <string name="video_file_size">Tamanho do arquivo de vídeo</string>
     <string name="import_from_clipboard">Importar da área de transferência</string>
     <string name="template_imported">%1$d modelo(s) importado(s)</string>
@@ -261,7 +261,7 @@
     <string name="subtitle">Legenda</string>
     <string name="download_subtitles">Baixar legenda</string>
     <string name="subtitle_language">Idiomas das legendas</string>
-    <string name="copy_log">Copiar registro</string>
+    <string name="copy_log">Copiar log</string>
     <string name="clear">Limpar</string>
     <string name="add">Adicionar</string>
     <string name="shortcuts">Atalhos</string>
@@ -278,7 +278,7 @@
     <string name="format_sorting">Classificação de formatos</string>
     <string name="sponsors">Patrocinadores</string>
     <string name="sponsor_desc">Apoie este aplicativo patrocinando no GitHub</string>
-    <string name="sponsor">Patrocinador</string>
+    <string name="sponsor">Patrocinar</string>
     <string name="temporary_directory_desc">Armazenar arquivos temporários no diretório interno</string>
     <string name="feedback">Feedback</string>
     <string name="sponsor_msg">Seal sempre será livre e de código aberto para todos. Se você gostou, por favor, considere me patrocinar no GitHub!</string>
@@ -362,7 +362,7 @@
     <string name="website">Site</string>
     <string name="playlist_title">Título da playlist</string>
     <string name="subdirectory_hint">Seus downloads serão salvos como:</string>
-    <string name="system_settings">Configurações de sistema</string>
+    <string name="system_settings">Configurações do sistema</string>
     <string name="force_ipv4">Forçar IPv4</string>
     <string name="force_ipv4_desc">Efetuar todas as conexões com IPv4</string>
     <string name="keep_subtitle_files">Manter arquivos de legenda</string>
@@ -370,7 +370,7 @@
     <string name="merge_audiostream">Mesclar vários fluxos de áudio</string>
     <string name="allow_always">Sempre permitir</string>
     <string name="dont_allow">Não permitir</string>
-    <string name="download_with_cellular_request">Permitir download através de dados móveis?</string>
+    <string name="download_with_cellular_request">Permitir download através da rede móvel?</string>
     <string name="merge_audiostream_desc">Permitir que vários fluxos de áudio sejam mesclados em um único arquivo</string>
     <string name="search_in_downloads">Pesquisar em downloads</string>
     <string name="search">Pesquisar</string>
@@ -436,4 +436,11 @@
     <string name="download_queue">Fila de downloads</string>
     <string name="select_multiple_link">Selecionar entre %1$d links</string>
     <string name="show_navigation_drawer">Mostrar menu de navegação</string>
+    <string name="delete">Excluir</string>
+    <string name="resume">Continuar</string>
+    <string name="media_info">Informações da mídia</string>
+    <string name="trouble_shooting">Solução de problemas</string>
+    <string name="trouble_shooting_desc">Corrigir erros comuns e verificar se há problemas conhecidos</string>
+    <string name="issue_tracker_hint">Encontrou um erro? Antes de informar um novo problema, pesquise em nosso rastreador de problemas. Muitos problemas comuns já foram resolvidos e documentados lá.</string>
+    <string name="issue_tracker">Rastreador de problemas</string>
 </resources>

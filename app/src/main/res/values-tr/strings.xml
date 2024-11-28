@@ -201,7 +201,7 @@
     <string name="private_directory_desc">İndirilenleri gizli dizinde sakla</string>
     <string name="crop_artwork">Resmi kırp</string>
     <string name="download_with_cellular">Hücresel kullanarak indir</string>
-    <string name="download_with_cellular_desc">Ölçülen ağlara bağlanıldığında medyanın indirilmesine izin ver</string>
+    <string name="download_with_cellular_desc">Tarifeli ağlara bağlanıldığında medya indirmelerine izin ver</string>
     <string name="file_unavailable">Bu dosya artık mevcut değil</string>
     <string name="max_rate">Maksimum hız</string>
     <string name="network">Ağ</string>
@@ -436,4 +436,8 @@
     <string name="resume">Devam et</string>
     <string name="delete">Sil</string>
     <string name="media_info">Medya bilgileri</string>
+    <string name="trouble_shooting_desc">Yaygın hataları düzeltin ve bilinen sorunları arayın</string>
+    <string name="trouble_shooting">Sorun giderme</string>
+    <string name="issue_tracker_hint">Bir hatayla mı karşılaştınız? Yeni bir sorun bildirmeden önce lütfen sorun izleyicimizde arama yapın. Birçok yaygın sorun zaten ele alınmış ve orada belgelenmiştir.</string>
+    <string name="issue_tracker">Sorun izleyici</string>
 </resources>

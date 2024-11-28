@@ -100,4 +100,6 @@
     <string name="download_finish_notification">பதிவிறக்கம் முடிந்தது. திறக்க தட்டவும்.</string>
     <string name="edit">திருத்த</string>
     <string name="start_execute">கட்டளையை இயக்கத் தொடங்குங்கள்</string>
+    <string name="from">ஆரம்பி/ஆரம்பம்</string>
+    <string name="to">முடிவு</string>
 </resources>

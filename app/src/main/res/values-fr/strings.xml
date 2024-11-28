@@ -58,7 +58,7 @@
     <string name="print_details">Sortie détaillée</string>
     <string name="about">À propos</string>
     <string name="about_page">Version, remarques, mise à jour automatique</string>
-    <string name="readme_desc">Consultez le dépôt GitHub et le fichier README</string>
+    <string name="readme_desc">Consulter le dépôt GitHub et le fichier README</string>
     <string name="advanced_settings">Avancé</string>
     <string name="print_details_desc">Afficher des messages détaillés lors du téléchargement</string>
     <string name="version">Version</string>
@@ -353,7 +353,7 @@
     <string name="show_all_items">Montrer tous les %1$d éléments</string>
     <plurals name="item_count">
         <item quantity="one">%d élément</item>
-        <item quantity="many">%d éléments</item>
+        <item quantity="many">%d d\'éléments</item>
         <item quantity="other">%d éléments</item>
     </plurals>
     <string name="edit_file">Modifier le fichier</string>
@@ -416,12 +416,12 @@
     <string name="edit_preset">Modifier le préréglage</string>
     <plurals name="video_count">
         <item quantity="one">%d vidéo</item>
-        <item quantity="many">%d vidéos</item>
+        <item quantity="many">%d de vidéos</item>
         <item quantity="other">%d vidéos</item>
     </plurals>
     <plurals name="audio_count">
         <item quantity="one">%d fichier audio</item>
-        <item quantity="many">%d fichiers audio</item>
+        <item quantity="many">%d de fichiers audio</item>
         <item quantity="other">%d fichiers audio</item>
     </plurals>
     <string name="task_added">Tâche ajoutée à la file</string>
@@ -435,7 +435,12 @@
     <string name="download_queue">File d\'attente de téléchargements</string>
     <string name="all">Tout</string>
     <string name="select_multiple_link">Sélectionner à partir de %1$d liens</string>
-    <string name="show_navigation_drawer">Afficher la barre de navigation</string>
+    <string name="show_navigation_drawer">Afficher le tiroir de navigation</string>
     <string name="resume">Continuer</string>
     <string name="delete">Supprimer</string>
+    <string name="media_info">Infos média</string>
+    <string name="issue_tracker_hint">Vous avez rencontré une erreur ? Avant de signaler un nouveau problème, veuillez consulter notre outil de suivi des problèmes. De nombreux problèmes courants y ont déjà été traités et documentés.</string>
+    <string name="trouble_shooting">Dépannage</string>
+    <string name="issue_tracker">Suivi des problèmes</string>
+    <string name="trouble_shooting_desc">Corriger les erreurs courantes et vérifier les problèmes connus</string>
 </resources>

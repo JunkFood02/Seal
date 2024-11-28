@@ -376,7 +376,7 @@
     <string name="auto_translated_subtitles">आटो अनुवादित सबटाइटल</string>
     <string name="auto_translated_subtitles_msg">सभी भाषाओं के लिए स्वतः-अनुवादित सबटाइटल डाउनलोड में उपलब्ध होंगे। ये सबटाइटल ग़लत और समझने में कठिन हो सकते हैं।</string>
     <string name="remember_for_next_download">अगले डाउनलोड के लिए याद रखें</string>
-    <string name="look_and_feel">दिखावट और अनुभव</string>
+    <string name="look_and_feel"><![CDATA[दिखावट और अनुभव]]></string>
     <string name="use_previous_selection">पिछले चयन का उपयोग करें</string>
     <string name="none">कोई नहीं</string>
     <string name="subtitle_language_desc">स्वचालित प्रारूप चयन में डाउनलोड करने के लिए सबटाइटल की भाषा, अल्पविराम (काॅमा) से अलग की गई है।</string>
@@ -387,7 +387,7 @@
     <string name="update_subtitle_languages">सबटाइटलों की भाषाएँ अपडेट करें?</string>
     <string name="export_backup">निर्यात करें</string>
     <string name="import_download_history_msg">डाउनलोड की गई फ़ाइलें आयात नहीं की जाएंगी। आपको उन्हें मैन्युअल रूप से वापस डाउनलोड करना होगा</string>
-    <string name="interface_and_interaction">इंटरफ़ेस और इंटरैक्शन</string>
+    <string name="interface_and_interaction"><![CDATA[इंटरफ़ेस और इंटरैक्शन]]></string>
     <string name="import_backup">आयात करें</string>
     <string name="full_backup">पूर्ण बैकअप</string>
     <string name="backup_type">बैकअप की किसम</string>
@@ -432,4 +432,15 @@
     <string name="all">सभी</string>
     <string name="select_multiple_link">%1$d लिंक्स में से चयन करें</string>
     <string name="you_ll_find_your_downloads_here">आपको अपने डाउनलोड यहां मिलेंगे</string>
+    <string name="show_navigation_drawer">नेविगेशन ड्रॉअर दिखाएँ</string>
+    <string name="delete">हटाएं</string>
+    <string name="resume">फिर से शुरू करें</string>
+    <string name="media_info">मीडिया जानकारी</string>
+    <string name="trouble_shooting_desc">सामान्य त्रुटियों को ठीक करें और ज्ञात समस्याओं की जाँच करें</string>
+    <string name="issue_tracker_hint">क्या आपको कोई त्रुटि मिली है? नई समस्या की रिपोर्ट करने से पहले, कृपया हमारे समस्या ट्रैकर को खोजें। कई सामान्य समस्याओं को पहले ही संबोधित किया जा चुका है और उनका दस्तावेज़ीकरण किया जा चुका है।</string>
+    <string name="trouble_shooting">समस्या निवारण</string>
+    <string name="issue_tracker">समस्या ट्रैकर</string>
+    <string name="saved_urls">सहेजे गए लिंक</string>
+    <string name="add_new_url">नया लिंक शामिल करें</string>
+    <string name="add_to">%1$s में शामिल करें</string>
 </resources>

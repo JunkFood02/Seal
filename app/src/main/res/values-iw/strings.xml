@@ -13,7 +13,7 @@
     <string name="fetching_info">משיג מידע על הסרטון…</string>
     <string name="back">אחורה</string>
     <string name="version">גרסה</string>
-    <string name="delete_file">מחיקת הקובץ</string>
+    <string name="delete_file">מחיקת קובץ</string>
     <string name="about">אודות</string>
     <string name="release_desc">חפש יומני שינויים וגרסאות חדשות</string>
     <string name="about_page">גרסה, משוב, עדכון אוטומטי</string>
@@ -37,7 +37,7 @@
     <string name="language">שפת תצוגה</string>
     <string name="language_settings">הגדר שפת תצוגה</string>
     <string name="task_running">משימת הורדה כבר פועלת</string>
-    <string name="paste_msg">הודבקה כתובת URL מהלוח</string>
+    <string name="paste_msg">הדבק כתובת URL</string>
     <string name="paste_fail_msg">לא נמצאה כתובת URL בלוח</string>
     <string name="ytdlp_version">גרסת yt-dlp</string>
     <string name="ytdlp_update">לחץ כדי להתקין את גרסת yt-dlp העדכנית ביותר</string>
@@ -76,7 +76,7 @@
     <string name="file_unavailable">הקובץ הזה אינו זמין יותר</string>
     <string name="download_task_count">%1$d משימות הורדה</string>
     <string name="quality">איכות</string>
-    <string name="enable_notifications">להפעיל התראות?</string>
+    <string name="enable_notifications">הפעל התראות?</string>
     <string name="disable">השבתה</string>
     <string name="lowest_quality">האיכות הנמוכה ביותר</string>
     <string name="running_tasks">משימות פועלות</string>
@@ -127,7 +127,7 @@
     <string name="status_downloading">מוריד</string>
     <string name="status_canceled">בוטל</string>
     <string name="copy_link">העתק קישור</string>
-    <string name="copy_error_report">דיווח שגיאה</string>
+    <string name="copy_error_report">העתק דו\"ח</string>
     <string name="video_resolution">רזולוציית וידאו</string>
     <string name="template_imported">יובאו %1$d תבניות</string>
     <string name="clear_temp_files_count">נמחקו %1$d קבצים זמניים</string>
@@ -151,7 +151,7 @@
     <string name="proxy">פרוקסי</string>
     <string name="proxy_desc">השתמש בפרוקסי כדי להתחבר לאינטרנט</string>
     <string name="legacy">מיושן</string>
-    <string name="enable_notifications_desc">האפליקציה זקוקה לאישור שלך כדי להציג התראות על התקדמות והשלמת הורדות.</string>
+    <string name="enable_notifications_desc">היישום צריך את ההרשאה שלך כדי להציג התראות לגבי סטטוס הורדה והתקדמות.</string>
     <string name="clip_video_dialog_msg">הורדות המשתמשות בתכונה זו יואצלו ל-FFmpeg להורדת קטעים נבחרים של הסרטון, תכונה זו עדיין ניסיונית והחיתוך לא יהיה מדויק לחלוטין. לא כל הפורמטים תומכים בתכונה זו וייתכן שתחווה מהירויות הורדה איטיות יותר.</string>
     <string name="edit">עריכה</string>
     <string name="custom_command_template">תבנית פקודה</string>
@@ -189,7 +189,7 @@
     <string name="off">כבוי</string>
     <string name="cancel">ביטול</string>
     <string name="settings_before_download">הגדרה לפני הורדה</string>
-    <string name="settings_before_download_text">התאם הורדה זאת</string>
+    <string name="settings_before_download_text">התאם הורדה זו</string>
     <string name="settings_before_download_desc">הגדר העדפות לפני הורדה</string>
     <string name="thumbnail">תמונה ממוזערת</string>
     <string name="not_convert">ללא המרה</string>
@@ -284,8 +284,8 @@
     <string name="invalid_input">קלט לא חוקי</string>
     <string name="private_directory_desc">אחסן את ההורדות בתיקייה נסתרת</string>
     <string name="format_selection">בחירת פורמט</string>
-    <string name="convert_audio_format">המרת פורמט שמע</string>
-    <string name="best_quality">איכות מקסימלית</string>
+    <string name="convert_audio_format">המר פורמט שמע</string>
+    <string name="best_quality">האיכות הכי טובה</string>
     <string name="concurrent_download">הורדה באמצעות ת\'רדים מרובים</string>
     <string name="concurrent_download_num">%d ת\'רדים ישמשו להורדה מקבילה של וידאו DASH/HLS.</string>
     <string name="allow_once">אפשר פעם אחת</string>
@@ -353,7 +353,7 @@
     <string name="custom_command_directory">ספריית פקודות מותאמות אישית</string>
     <string name="prefer_quality_desc">העדף פורמט AV1, VP9 או H.265 לצפייה באפליקציות תואמות</string>
     <string name="multiselect_item_count">%1$d סרטונים, %2$d קובצי שמע</string>
-    <string name="embed_subtitles_mkv_msg">כדי להטמיע כתוביות, סרטונים יבוצעו מחדש לתוך מיכל mkv. אתה יכול להשתמש ב-VLC Media Player או באפליקציות תואמות אחרות כדי לצפות בסרטונים עם כתוביות משובצות.</string>
+    <string name="embed_subtitles_mkv_msg">כדי להטמיע כתוביות רכות, סרטונים יבוצעו מחדש לתוך מיכל mkv. אתה יכול להשתמש ב-VLC Media Player או באפליקציות תואמות אחרות כדי לצפות בסרטונים עם כתוביות רכות.</string>
     <string name="auto_update_disabled_msg">עדכון אוטומטי אינו זמין עבור בניית %1$s. אם אין לך %1$s מותקן במכשיר שלך, או אם תרצה לקבל תצוגה מקדימה של תכונות חדשות של Seal, שקול להשתמש ב-%2$s.</string>
     <string name="ua_header">כותרת User-Agent</string>
     <string name="dynamic_color_desc">החל צבעים מהטפט על ערכת הנושא של האפליקציה</string>
@@ -429,4 +429,18 @@
     <string name="every_day">כל יום</string>
     <string name="every_week">כל שבוע</string>
     <string name="every_month">כל חודש</string>
+    <string name="you_ll_find_your_downloads_here">תוכל למצוא את ההורדות שלך כאן</string>
+    <string name="download_hint">לחץ על כפתור ההורדה או שתף קישור לסרטון על האפליקציה כדי להתחיל הורדה</string>
+    <string name="status_downloaded">הורד</string>
+    <string name="all">הכל</string>
+    <string name="select_multiple_link">בחר מתוך %1$d קישורים</string>
+    <string name="download_queue">תור ההורדות</string>
+    <string name="trouble_shooting">פתרון בעיות</string>
+    <string name="issue_tracker">מעקב אחר בעיות</string>
+    <string name="trouble_shooting_desc">תקן שגיאות נפוצות וחפש בעיות ידועות</string>
+    <string name="issue_tracker_hint">נתקלת בשגיאה? לפני דיווח על בעיה חדשה, אנא חפש במעקב הבעיות שלנו. בעיות נפוצות רבות כבר טופלו ותועדו שם.</string>
+    <string name="show_navigation_drawer">הצג מגירת ניווט</string>
+    <string name="delete">מחק</string>
+    <string name="resume">להמשיך</string>
+    <string name="media_info">מידע על המדיה</string>
 </resources>

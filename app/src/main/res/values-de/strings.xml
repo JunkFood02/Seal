@@ -14,7 +14,7 @@
     <string name="general_settings">Allgemein</string>
     <string name="language_settings">Anzeigesprache festlegen</string>
     <string name="task_running">Eine bestehende Download-Aufgabe wird bereits ausgeführt</string>
-    <string name="paste_msg">Link aus der Zwischenablage einfügen</string>
+    <string name="paste_msg">Link einfügen</string>
     <string name="delete_info">Entfernen\?</string>
     <string name="delete_info_msg">„%1$s“ für immer aus deinem Downloadverlauf entfernen\?</string>
     <string name="confirm">Bestätigen</string>
@@ -145,7 +145,7 @@
     <string name="info_copied">Informationen in die Zwischenablage kopiert</string>
     <string name="github_issue_desc">Einreichen eines Fehlerberichts oder einer Funktionsanfrage</string>
     <string name="status_enqueued">Eingereiht</string>
-    <string name="status_completed">Abgeschlossen</string>
+    <string name="status_completed">Fertig</string>
     <string name="status_downloading">Wird heruntergeladen</string>
     <string name="status_canceled">Abgebrochen</string>
     <string name="status_fetching_video_info">Informationen abrufen</string>
@@ -417,4 +417,27 @@
     <string name="edit_preset">Voreinstellung bearbeiten</string>
     <string name="best_quality_desc">Bestes verfügbare Format herunterladen</string>
     <string name="task_added">Aufgabe zur Warteschlange hinzugefügt</string>
+    <string name="prefer_placeholder">%1$s bevorzugen</string>
+    <string name="you_ll_find_your_downloads_here">Hier findest du deine Downloads</string>
+    <string name="status_downloaded">Heruntergeladen</string>
+    <plurals name="video_count">
+        <item quantity="one">%d Video</item>
+        <item quantity="other">%d Videos</item>
+    </plurals>
+    <string name="download_hint">Tippe auf den Download Button oder teile einen Video-Link zu dieser App, um einen Download zu starten</string>
+    <string name="all">Alle</string>
+    <string name="select_multiple_link">Wähle aus %1$d Links</string>
+    <plurals name="audio_count">
+        <item quantity="one">%d Audio</item>
+        <item quantity="other">%d Audios</item>
+    </plurals>
+    <string name="trouble_shooting">Problembehandlung</string>
+    <string name="issue_tracker">Problemverfolgung</string>
+    <string name="trouble_shooting_desc">Behebung häufiger Fehler und Überprüfung auf bekannte Probleme</string>
+    <string name="issue_tracker_hint">Auf einen Fehler gestoßen? Bevor du ein neues Problem meldest, durchsuchen bitte unseren Issue Tracker. Viele häufige Probleme wurden dort bereits behandelt und dokumentiert.</string>
+    <string name="download_queue">Warteschlange herunterladen</string>
+    <string name="show_navigation_drawer">Navigationsschublade anzeigen</string>
+    <string name="resume">Fortsetzen</string>
+    <string name="delete">Löschen</string>
+    <string name="media_info">Medien Info</string>
 </resources>

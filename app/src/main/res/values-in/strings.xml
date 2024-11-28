@@ -375,7 +375,7 @@
     <string name="auto_translated_subtitles">Terjemahan otomatis</string>
     <string name="auto_translated_subtitles_msg">Terjemahan otomatis untuk semua bahasa akan tersedia dalam unduhan. Terjemahan ini mungkin tidak akurat dan sulit dipahami.</string>
     <string name="remember_for_next_download">Ingat untuk unduhan berikutnya</string>
-    <string name="look_and_feel">Tampilan &amp; nuansa</string>
+    <string name="look_and_feel"><![CDATA[Tampilan & nuansa]]></string>
     <string name="use_previous_selection">Gunakan pilihan sebelumnya</string>
     <string name="none">Tidak ada</string>
     <string name="subtitle_language_desc">Bahasa terjemahan yang akan diunduh dalam pilihan format otomatis, dipisahkan dengan koma.</string>
@@ -396,7 +396,7 @@
     <string name="import_download_history">Impor riwayat unduhan?</string>
     <string name="export_download_history_msg">Mengekspor %1$s dari riwayat pengunduhan. Berkas yang terunduh dan preferensi tidak akan dicadangkan.</string>
     <string name="import_download_history_msg">Berkas yang terunduh tidak akan diimpor. Anda harus mengunduhnya lagi secara manual</string>
-    <string name="interface_and_interaction">Antarmuka &amp; interaksi</string>
+    <string name="interface_and_interaction"><![CDATA[Antarmuka & interaksi]]></string>
     <string name="download_history">Riwayat pengunduhan</string>
     <string name="download_history_imported">%1$s telah diimpor ke riwayat unduhan</string>
     <string name="redownload">Unduh ulang</string>
@@ -429,4 +429,15 @@
     <string name="preset_format_selection_desc">Unduh secara otomatis menggunakan preferensi format Anda</string>
     <string name="proceed">Lanjutkan</string>
     <string name="download_queue">Antrean unduhan</string>
+    <string name="show_navigation_drawer">Tampilkan laci navigasi</string>
+    <string name="resume">Lanjutkan</string>
+    <string name="delete">Hapus</string>
+    <string name="media_info">Info media</string>
+    <string name="trouble_shooting">Pemecahan masalah</string>
+    <string name="issue_tracker_hint">Mengalami masalah? Sebelum melaporkan isu baru, silakan cari pelacak isu kami dahulu. Banyak masalah umum telah diselesaikan dan didokumentasikan di sana.</string>
+    <string name="issue_tracker">Pelacak isu</string>
+    <string name="trouble_shooting_desc">Perbaiki kesalahan umum dan periksa isu yang diketahui</string>
+    <string name="saved_urls">Tautan tersimpan</string>
+    <string name="add_new_url">Tambahkan tautan baru</string>
+    <string name="add_to">Tambahkan ke %1$s</string>
 </resources>

@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="video_directory">ویڈیو فولڈر</string>
+    <string name="download_success_msg">ڈاؤن لوڈ مکمل</string>
+    <string name="yt_dlp_update_fail">تازہ ترین yt-dlp ورژن انسٹال نہیں ہو سکا۔ براہ کرم یقینی بنائیں کہ آپ انٹرنیٹ سے جڑے ہوئے ہیں۔</string>
+    <string name="permission_denied">اجازت نامنظور</string>
+    <string name="download_error_msg">فائل ڈاؤن لوڈ نہیں ہو سکی</string>
+    <string name="extract_audio">آڈیو میں محفوظ کریں</string>
+    <string name="create_thumbnail">تھمبنیل محفوظ کریں</string>
+    <string name="settings">سیٹنگ</string>
+    <string name="download_settings_desc">جرنل، فارمیٹ، کسٹم کمانڈ</string>
+    <string name="download">ڈاؤنلوڈ</string>
+    <string name="url_empty">لنک خالی نہیں ہو سکتا</string>
+    <string name="extract_audio_summary">ویڈیو کے بجائے آڈیو ڈاؤن لوڈ اور محفوظ کریں</string>
+    <string name="create_thumbnail_summary">ویڈیو تھمب نیل کو بطور فائل محفوظ کریں</string>
+    <string name="yt_dlp_up_to_date">yt-dlp کا تازہ ترین ورژن استعمال کرنا</string>
+    <string name="fetching_info">ویڈیو کی معلومات حاصل کی جا رہی ہے…</string>
 </resources>

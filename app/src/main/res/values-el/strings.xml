@@ -13,7 +13,7 @@
     <string name="general_settings">Γενικές ρυθμίσεις</string>
     <string name="language">Γλώσσα</string>
     <string name="task_running">Μια υπάρχουσα λήψης εκτελείται ήδη</string>
-    <string name="paste_msg">Επικολλήστε τον σύνδεσμο</string>
+    <string name="paste_msg">Επικόλληση συνδέσμου</string>
     <string name="ytdlp_version">Έκδοση yt-dlp</string>
     <string name="ytdlp_update_action">Αναβάθμιση yt-dlp</string>
     <string name="video_directory">Φάκελος Βίντεο</string>
@@ -38,7 +38,7 @@
     <string name="audio">Ήχος</string>
     <string name="link_copied">Ο υπερσύνδεσμος αντιγράφτηκε στο πρόχειρο</string>
     <string name="open_url">Άνοιγμα συνδέσμου</string>
-    <string name="delete_file">Κατάργηση</string>
+    <string name="delete_file">Διαγραφή αρχείου</string>
     <string name="about">Σχετικά με</string>
     <string name="about_page">Έκδοση, σχόλια, αυτόματη ενημέρωση</string>
     <string name="back">Πίσω</string>
@@ -109,7 +109,7 @@
     <string name="github_issue_desc">Υποβάλετε ένα θέμα για αναφορά σφάλματος ή αίτημα λειτουργίας</string>
     <string name="info_copied">Αντιγραφή πληροφοριών στο πρόχειρο</string>
     <string name="status_enqueued">Σε αναμονή</string>
-    <string name="status_completed">Ολοκληρωμένο</string>
+    <string name="status_completed">Ολοκληρώθηκε</string>
     <string name="status_canceled">Ακυρώθηκε</string>
     <string name="status_downloading">Λήψη</string>
     <string name="status_fetching_video_info">Λήψη πληροφοριών</string>
@@ -117,7 +117,7 @@
     <string name="restart">Επανεκκίνηση</string>
     <string name="status_error">Σφάλμα</string>
     <string name="copy_link">Αντιγραφή συνδέσμου</string>
-    <string name="copy_error_report">Αναφορά σφάλματος</string>
+    <string name="copy_error_report">Αντιγραφή αναφοράς</string>
     <string name="video_resolution">Ανάλυση βίντεο</string>
     <string name="video_file_size">Μέγεθος αρχείου βίντεο</string>
     <string name="export_to_clipboard">Εξαγωγή στο πρόχειρο</string>
