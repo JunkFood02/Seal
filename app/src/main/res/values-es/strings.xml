@@ -377,7 +377,7 @@
     <string name="auto_translated_subtitles">Subtítulos traducidos automáticamente</string>
     <string name="subtitle_language_desc">Idioma de los subtítulos a descargar en la selección de formato automático, separados por comas.</string>
     <string name="remember_for_next_download">Recordar para la próxima descarga</string>
-    <string name="look_and_feel">Tema</string>
+    <string name="look_and_feel"><![CDATA[Apariencia]]></string>
     <string name="use_previous_selection">Utilizar la selección anterior</string>
     <string name="none">Ninguno</string>
     <string name="reset">Restablecer</string>
@@ -391,7 +391,7 @@
     <string name="clipboard">Portapapeles</string>
     <string name="import_download_history">¿Importar el historial de descargas?</string>
     <string name="export_download_history_msg">Exportando %1$s del historial de descargas. No se realizará una copia de seguridad de los archivos descargados ni de las preferencias.</string>
-    <string name="interface_and_interaction">Interfaz e interacción</string>
+    <string name="interface_and_interaction"><![CDATA[Interfaz e interacción]]></string>
     <string name="export_backup">Exportar</string>
     <string name="import_backup">Importar</string>
     <string name="full_backup">Copia de seguridad completa</string>
@@ -439,4 +439,11 @@
     <string name="delete">Borrar</string>
     <string name="resume">Resumen</string>
     <string name="media_info">Información multimedia</string>
+    <string name="issue_tracker">Rastreador de problemas</string>
+    <string name="trouble_shooting_desc">Soluciona errores comunes y comprueba si hay errores conocidos</string>
+    <string name="trouble_shooting">Diagnosticar y resolver un problema</string>
+    <string name="issue_tracker_hint">¿Ha encontrado un error? Antes de reportar un nuevo problema, por favor busque en nuestro rastreador de problemas. Muchos problemas comunes ya se han solucionado y documentado allí.</string>
+    <string name="add_to">Añadir a %1$s</string>
+    <string name="add_new_url">Añadir nuevo enlace</string>
+    <string name="saved_urls">Enlaces guardados</string>
 </resources>

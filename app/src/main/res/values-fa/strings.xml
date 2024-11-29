@@ -10,7 +10,7 @@
     <string name="language">نمایش زبان</string>
     <string name="language_settings">تنظیم زبان</string>
     <string name="task_running">یک عملیات بارگیری در حال انجام می باشد</string>
-    <string name="paste_msg">جای‌گذاری پیوند از کلیپ بورد</string>
+    <string name="paste_msg">جای‌گذاری پیوند</string>
     <string name="ytdlp_version">نسخه Yt-dlp</string>
     <string name="ytdlp_update">برای نصب آخرین نسخه yt-dlp کلیک کنید</string>
     <string name="delete_info">حذف ؟</string>
@@ -160,7 +160,7 @@
     <string name="show_logs">نمایش گزارش</string>
     <string name="logs">گزارش</string>
     <string name="status_enqueued">در صف قرار گرفته است</string>
-    <string name="status_completed">تکمیل شد</string>
+    <string name="status_completed">به پایان رسید</string>
     <string name="multiselect_mode">حالت چند انتخابی</string>
     <string name="sponsorblock_desc">حذف یا علامت گذاری بخش‌های ویدئو با کمک سرویس SponsorBlock</string>
     <string name="cookies_desc">برای دانلود از کوکی های فرمت شده Netscape استفاده کنید</string>
@@ -426,4 +426,18 @@
     <string name="force_ipv4">مجبور استفاده از IPv4</string>
     <string name="download_history_imported">%1$s به تاریخچه دانلود وارد شد</string>
     <string name="search_in_downloads">جستجو در دانلود ها</string>
+    <string name="you_ll_find_your_downloads_here">بارگذاری‌هایتان را اینجا پیدا خواهید کرد</string>
+    <string name="status_downloaded">بارگذاری شد</string>
+    <string name="download_hint">بر روی گزینه بارگذاری کلیک کنید یا لینک یک ویدئو را با این نرم‌افزار اشتراک گذاری فرمایید تا یک بارگذاری شروع شود</string>
+    <string name="all">همه</string>
+    <string name="select_multiple_link">از پیوندهای %1$d انتخاب فرمایید</string>
+    <string name="download_queue">صف بارگذاری</string>
+    <string name="trouble_shooting">رفع اشکال</string>
+    <string name="issue_tracker">ردیاب مشکل</string>
+    <string name="trouble_shooting_desc">خطاهای رایج را حل و مشکلات شناخته شده را بررسی کنید</string>
+    <string name="show_navigation_drawer">نمایش نوار ناوبری</string>
+    <string name="delete">پاک کن</string>
+    <string name="resume">ادامه بده</string>
+    <string name="media_info">اطلاعات رسانه</string>
+    <string name="issue_tracker_hint">به خطایی برخوردید؟ قبل از گزارش یک مشکل جدید، لطفاً ردیاب مشکل ما را جستجو کنید. تاکنون بسیاری از مشکلات رایج در آنجا خطاب و مستند شده‌اند.</string>
 </resources>

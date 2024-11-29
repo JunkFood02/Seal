@@ -442,4 +442,8 @@
     <string name="delete">Удалить</string>
     <string name="media_info">Информация о медиа</string>
     <string name="download_queue">Очередь загрузки</string>
+    <string name="trouble_shooting">Устранение неисправностей</string>
+    <string name="issue_tracker">Отслеживание проблем</string>
+    <string name="trouble_shooting_desc">Устранение распространённых ошибок и проверка на наличие известных ошибок</string>
+    <string name="issue_tracker_hint">Возникла ошибка? Прежде чем сообщать о новой проблеме, воспользуйтесь нашим отслеживанием проблем. Многие распространённые проблемы уже решены и задокументированы там.</string>
 </resources>

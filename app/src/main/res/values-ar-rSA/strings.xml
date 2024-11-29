@@ -16,7 +16,7 @@
     <string name="general_settings">عام</string>
     <string name="language">لغة العرض</string>
     <string name="language_settings">ثبتنا لغة عرضك</string>
-    <string name="paste_msg">أخذنا الرابط من حافظتك</string>
+    <string name="paste_msg">الصق الرابط</string>
     <string name="paste_fail_msg">معليش ما لقيا الرابط في الحافظة انسخ مرة ثانية لاهنت</string>
     <string name="ytdlp_version">نسخة Yt-dlp</string>
     <string name="ytdlp_update_action">حدث yt-dlp</string>
@@ -32,4 +32,22 @@
     <string name="audio">الصوت</string>
     <string name="video_directory">ملفات الفيديو</string>
     <string name="yt_dlp_update_fail">مقدرت انزّل اخر نسخة من yt-dlp. لاهنت تقدر تشيك على اتصال الانترنت لا يكون مفصول بس.</string>
+    <string name="link_copied">تم نسخ الرابط إلى الحافظة</string>
+    <string name="open_url">افتح الرابط</string>
+    <string name="delete_file">حذف الملف</string>
+    <string name="about">حول</string>
+    <string name="about_page">الإصدار، التعليقات، التحديث التلقائي</string>
+    <string name="back">تراجع</string>
+    <string name="version">الإصدار</string>
+    <string name="release_desc">ابحث عن سجلات التغييرات والإصدارات الجديدة</string>
+    <string name="release">أحدث إصدار</string>
+    <string name="readme_desc">تحقق من مستودع GitHub وملف README</string>
+    <string name="video">فيديو</string>
+    <string name="checked">محدد</string>
+    <string name="credits">الاعتمادات</string>
+    <string name="custom_command">أمر مخصص</string>
+    <string name="custom_command_desc">تشغيل أمر yt-dlp باستخدام قالب مخصص</string>
+    <string name="custom_command_template">قالب الأوامر</string>
+    <string name="edit">تعديل</string>
+    <string name="credits_desc">الاعتمادات والبرمجيات الحرة</string>
 </resources>

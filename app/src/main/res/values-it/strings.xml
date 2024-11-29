@@ -438,4 +438,9 @@
     <string name="show_navigation_drawer">Mostra il cassetto di navigazione</string>
     <string name="resume">Continuare</string>
     <string name="delete">Cancellare</string>
+    <string name="media_info">Info media</string>
+    <string name="trouble_shooting">Risoluzione dei problemi</string>
+    <string name="issue_tracker">Tracker dei problemi</string>
+    <string name="trouble_shooting_desc">Correggi gli errori comuni e verifica i problemi noti</string>
+    <string name="issue_tracker_hint">Hai riscontrato un errore? Prima di segnalare un nuovo problema, cerca nel nostro issue tracker. Molti problemi comuni sono già stati affrontati e documentati lì.</string>
 </resources>

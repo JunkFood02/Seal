@@ -18,7 +18,7 @@
     <string name="language">Мова праграмы</string>
     <string name="language_settings">Усталюйце мову адлюстравання</string>
     <string name="task_running">Існуючая задача спампоўкі ўжо запушчана</string>
-    <string name="paste_msg">Уставіць URL з буфера абмену</string>
+    <string name="paste_msg">Устаўлены URL-адрас</string>
     <string name="paste_fail_msg">Не атрымалася супаставіць URL у буферы абмену</string>
     <string name="ytdlp_version">Yt-dlp версія</string>
     <string name="ytdlp_update">Націсніце, каб усталяваць апошнюю версію yt-dlp</string>
@@ -30,7 +30,7 @@
     <string name="audio">Аўдыё</string>
     <string name="open_url">Адкрыць спасылку</string>
     <string name="remove">Выдаліць</string>
-    <string name="delete_file">Выдаліць</string>
+    <string name="delete_file">Выдаліць файл</string>
     <string name="about">Аб праграме</string>
     <string name="about_page">Версія, водгукі і абнаўленні</string>
     <string name="back">Назад</string>
@@ -150,13 +150,13 @@
     <string name="info_copied">Спасылка скапіявана ў буфер абмену</string>
     <string name="permission_issue_desc">Дырэкторыі па-за Download/ і Documents/ не падтрымліваюцца</string>
     <string name="battery_configuration">Канфігурацыя батарэі</string>
-    <string name="embed_subtitles_desc">Устаўляйце прадстаўленыя субтытры ў відэа, калі такія маюцца</string>
+    <string name="embed_subtitles_desc">Убудоўваць у відэафайл прэрэндэрныя субтытры, калі яны даступныя</string>
     <string name="new_template">Новы шаблон</string>
     <string name="template_selection">Выбар шаблону</string>
     <string name="high_contrast">Высокакантрасная цёмная тэма</string>
     <string name="invalid_input">Няправільны ўвод</string>
     <string name="lowest_quality">Самая нізкая якасць</string>
-    <string name="copy_error_report">Справаздача аб памылцы</string>
+    <string name="copy_error_report">Капіяваць справаздачу</string>
     <string name="video_resolution">Якасць відэа</string>
     <string name="video_file_size">Памер відэафайла</string>
     <string name="export_to_clipboard">Экспарт у буфер абмену</string>
@@ -190,7 +190,7 @@
     <string name="file_unavailable">Гэты файл больш не даступны</string>
     <string name="network">Сетка</string>
     <string name="rate_limit">Ліміт хуткасці</string>
-    <string name="rate_limit_desc">Абмяжуйце максімальную хуткасць загрузак</string>
+    <string name="rate_limit_desc">Абмежаваць максімальную хуткасць загрузкі</string>
     <string name="max_rate">Максімальная хуткасць</string>
     <string name="aria2_desc">Выкарыстоўвайце aria2c у якасці вонкавага загрузчыка</string>
     <string name="cookies_desc">Для загрузкі выкарыстоўвайце файлы cookie ў фармаце Netscape</string>
@@ -385,4 +385,23 @@
     <string name="use_previous_selection">Выкарыстаць папярэдні выбар</string>
     <string name="no_thanks">Не, дзякуй</string>
     <string name="reset">Скід</string>
+    <string name="download_queue">Чарга загрузкі</string>
+    <plurals name="video_count">
+        <item quantity="one">адзін</item>
+        <item quantity="few">некалькі</item>
+        <item quantity="many">шмат</item>
+        <item quantity="other">шмат</item>
+    </plurals>
+    <string name="download_hint">Каб пачаць спампоўку, дакраніцеся да кнопкі спампоўкі або падзяліцеся спасылкай на відэа з гэтай праграмай</string>
+    <string name="all">Усе</string>
+    <string name="select_multiple_link">Выберыце з %1$d спасылак</string>
+    <string name="issue_tracker">Адсочванне праблем</string>
+    <string name="issue_tracker_hint">"Сутыкнуліся з памылкай?  Перш чым паведаміць аб новай праблеме, пашукайце ў нашым трэкеры праблем.  Там ужо разгледжаны і задакументаваны многія агульныя праблемы."</string>
+    <string name="show_navigation_drawer">Паказаць панэль навігацыі</string>
+    <string name="resume">Рэзюмэ</string>
+    <string name="delete">Выдаліць</string>
+    <string name="media_info">Інфармацыя пра СМІ</string>
+    <string name="trouble_shooting">Ліквідацыю непаладак</string>
+    <string name="trouble_shooting_desc">Выпраўце распаўсюджаныя памылкі і праверце вядомыя праблемы</string>
+    <string name="status_downloaded">Спампавана</string>
 </resources>

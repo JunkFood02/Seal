@@ -377,7 +377,7 @@
     <string name="auto_translated_subtitles_msg">ਸਾਰੀਆਂ ਭਾਸ਼ਾਵਾਂ ਲਈ ਸਵੈ-ਅਨੁਵਾਦਿਤ ਉਪਸਿਰਲੇਖ ਡਾਊਨਲੋਡਾਂ ਵਿੱਚ ਉਪਲਬਧ ਹੋਣਗੇ। ਇਹ ਉਪਸਿਰਲੇਖ ਗਲਤ ਅਤੇ ਸਮਝਣ ਵਿੱਚ ਮੁਸ਼ਕਲ ਹੋ ਸਕਦੇ ਹਨ।</string>
     <string name="subtitle_language_desc">ਆਟੋ ਫਾਰਮੈਟ ਚੋਣ ਵਿੱਚ ਡਾਉਨਲੋਡ ਕਰਨ ਲਈ ਉਪਸਿਰਲੇਖਾਂ ਦੀ ਭਾਸ਼ਾ, ਕਾਮਿਆਂ ਦੁਆਰਾ ਵੱਖ ਕੀਤੀ ਗਈ।</string>
     <string name="remember_for_next_download">ਅਗਲੇ ਡਾਊਨਲੋਡ ਲਈ ਯਾਦ ਰੱਖੋ</string>
-    <string name="look_and_feel">ਦਿੱਖ ਅਤੇ ਅਹਿਸਾਸ</string>
+    <string name="look_and_feel"><![CDATA[ਦਿੱਖ ਅਤੇ ਅਹਿਸਾਸ]]></string>
     <string name="use_previous_selection">ਪਿਛਲੀ ਚੋਣ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="none">ਕੋਈ ਵੀ ਨਹੀਂ</string>
     <string name="reset">ਰੀਸੈੱਟ ਕਰੋ</string>
@@ -387,7 +387,7 @@
     <string name="update_language_msg">ਭਵਿੱਖ ਦੇ ਡਾਊਨਲੋਡਾਂ ਲਈ ਤੁਹਾਡੀ ਤਰਜੀਹ ਵਿੱਚ ਅੱਗੇ ਦਿੱਤੀਆਂ ਭਾਸ਼ਾਵਾਂ ਸ਼ਾਮਲ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ:</string>
     <string name="export_backup">ਐਕਸਪੋਰਟ ਕਰੋ</string>
     <string name="file">ਫ਼ਾਈਲ</string>
-    <string name="interface_and_interaction">ਇੰਟਰਫੇਸ ਅਤੇ ਪਰਸਪਰ ਪ੍ਰਭਾਵ</string>
+    <string name="interface_and_interaction"><![CDATA[ਇੰਟਰਫੇਸ ਅਤੇ ਪਰਸਪਰ ਪ੍ਰਭਾਵ]]></string>
     <string name="import_backup">ਇੰਪੋਰਟ ਕਰੋ</string>
     <string name="full_backup">ਪੂਰਾ ਬੈਕਅੱਪ</string>
     <string name="backup_type">ਬੈਕਅੱਪ ਕਿਸਮ</string>
@@ -432,4 +432,15 @@
     <string name="all">ਸਭ</string>
     <string name="select_multiple_link">%1$d ਲਿੰਕਾਂ ਵਿੱਚੋਂ ਚੁਣੋ</string>
     <string name="download_queue">ਡਾਊਨਲੋਡ ਕਤਾਰ</string>
+    <string name="show_navigation_drawer">ਨੈਵੀਗੇਸ਼ਨ ਡਰਾਅਰ ਵਿਖਾਓ</string>
+    <string name="delete">ਮਿਟਾਓ</string>
+    <string name="media_info">ਮੀਡੀਆ ਜਾਣਕਾਰੀ</string>
+    <string name="resume">ਮੁੜ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="trouble_shooting">ਸਮੱਸਿਆ ਦਾ ਨਿਪਟਾਰਾ</string>
+    <string name="issue_tracker">ਮੁੱਦਾ ਟਰੈਕਰ</string>
+    <string name="trouble_shooting_desc">ਆਮ ਤਰੁੱਟੀਆਂ ਨੂੰ ਠੀਕ ਕਰੋ ਅਤੇ ਜਾਣੀਆਂ-ਪਛਾਣੀਆਂ ਸਮੱਸਿਆਵਾਂ ਦੀ ਜਾਂਚ ਕਰੋ</string>
+    <string name="issue_tracker_hint">ਇੱਕ ਤਰੁੱਟੀ ਦਾ ਸਾਹਮਣਾ ਕੀਤਾ? ਕਿਸੇ ਨਵੇਂ ਮੁੱਦੇ ਦੀ ਰਿਪੋਰਟ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ, ਕਿਰਪਾ ਕਰਕੇ ਸਾਡੇ ਮੁੱਦੇ ਟਰੈਕਰ ਨੂੰ ਖੋਜੋ। ਬਹੁਤ ਸਾਰੀਆਂ ਆਮ ਸਮੱਸਿਆਵਾਂ ਨੂੰ ਪਹਿਲਾਂ ਹੀ ਸੰਬੋਧਿਤ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ ਉੱਥੇ ਦਸਤਾਵੇਜ਼ੀ ਤੌਰ \'ਤੇ ਪੇਸ਼ ਕੀਤਾ ਗਿਆ ਹੈ।</string>
+    <string name="saved_urls">ਸੇਵ ਕੀਤੇ ਲਿੰਕ</string>
+    <string name="add_new_url">ਨਵਾਂ ਲਿੰਕ ਸ਼ਾਮਿਲ ਕਰੋ</string>
+    <string name="add_to">%1$s ਵਿੱਚ ਸ਼ਾਮਿਲ ਕਰੋ</string>
 </resources>

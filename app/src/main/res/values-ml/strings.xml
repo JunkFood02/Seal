@@ -165,7 +165,7 @@
     <string name="status_fetching_video_info">വിവരങ്ങൾ ശേഖരിക്കുന്നു</string>
     <string name="translate_desc">ഹോസ്റ്റുചെയ്ത വെബ്ലേറ്റിൽ ഈ ആപ്പ് പരിഭാഷപ്പെടുത്താൻ സഹായിക്കുക</string>
     <string name="github_issue_desc">ബഗ് റിപ്പോർട്ടിനോ ഫീച്ചർ അഭ്യർത്ഥനയ്‌ക്കോ ഒരു പ്രശ്നം സമർപ്പിക്കുക</string>
-    <string name="playlist_indicator_text">പ്ലേലിസ്റ്റ് ഡൗൺലോഡ് ചെയ്യുന്നു (%1$d/%2$d)</string>
+    <string name="playlist_indicator_text">പ്ലേലിസ്റ്റ് ഡൗൺലോഡ് ചെയ്യുന്നു (%1$d/%2$d)…</string>
     <string name="download_directory">ഡയറക്ടറി ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="subdirectory_desc">ഫയലുകൾ ബന്ധപ്പെട്ട ഫീൽഡുകളായി പേരുള്ള ഫോൾഡറുകളിൽ സംരക്ഷിക്കുക</string>
     <string name="prefix">പാത്ത് ടെംപ്ലേറ്റ്</string>
@@ -433,4 +433,11 @@
     <string name="all_languages">എല്ലാ ഭാഷകളും</string>
     <string name="preset_format_selection_desc">നിങ്ങളുടെ ഫോർമാറ്റ് മുൻഗണനകൾ ഉപയോഗിച്ച് സ്വയമേവ ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="show_navigation_drawer">നാവിഗേഷൻ ഡ്രോയർ കാണിക്കുക</string>
+    <string name="resume">പുനരാരംഭിക്കുക</string>
+    <string name="delete">ഇല്ലാതാക്കുക</string>
+    <string name="media_info">മീഡിയയുടെ വിവരം</string>
+    <string name="issue_tracker_hint">നിങ്ങൾ ഒരു പിശക് നേരിട്ടോ? അത് അറിയിപ്പിക്കുന്നതിനു മുമ്പ് ഞങ്ങളുടെ പ്രശ്‌ന ട്രാക്കർ തിരയുക. പൊതുവായ പല പ്രശ്നങ്ങളും ഇതിനകം തന്നെ അവിടെ അഭിസംബോധന ചെയ്യുകയും രേഖപ്പെടുത്തുകയും ചെയ്തിട്ടുണ്ട്.</string>
+    <string name="trouble_shooting_desc">പൊതുവായ പിശകുകൾ പരിഹരിക്കുക, അറിയപ്പെടുന്ന പ്രശ്നങ്ങൾ കാണുക</string>
+    <string name="trouble_shooting">പ്രശ്നനിർണയവും പരിഹാരവും</string>
+    <string name="issue_tracker">പ്രശ്ന ട്രാക്കർ</string>
 </resources>

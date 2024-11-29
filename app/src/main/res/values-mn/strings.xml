@@ -2,7 +2,7 @@
 <resources>
     <string name="video_directory">Видео хавтас</string>
     <string name="status_enqueued">Дараалсан</string>
-    <string name="status_completed">Дууссан</string>
+    <string name="status_completed">Дууслаа</string>
     <string name="start">Эхлэх</string>
     <string name="download_type">Татаж авах төрөл</string>
     <string name="allow_always">Үргэлж зөвшөөрөх</string>
@@ -30,7 +30,7 @@
     <string name="language">Дэлгэцийн хэл</string>
     <string name="language_settings">Дэлгэцийн хэлийг тохируулах</string>
     <string name="task_running">Одоо байгаа татаж авах ажил аль хэдийн ажиллаж байна</string>
-    <string name="paste_msg">Түр санах ойноос URL-г буулгана уу</string>
+    <string name="paste_msg">URL буулгах</string>
     <string name="paste_fail_msg">Түр санах ойн URL-тай таарч чадсангүй</string>
     <string name="ytdlp_version">Yt-dlp хувилбар</string>
     <string name="ytdlp_update">Хамгийн сүүлийн үеийн yt-dlp хувилбарыг суулгахын тулд товшино уу</string>
@@ -426,4 +426,18 @@
         <item quantity="one">%d аудио</item>
         <item quantity="other">%d аудио</item>
     </plurals>
+    <string name="download_queue">Татах дараалал</string>
+    <string name="you_ll_find_your_downloads_here">Та эндээс татан авалтуудаа олох болно</string>
+    <string name="download_hint">Татаж авах товчийг дарах эсвэл энэ програмын видео холбоосыг хуваалцаж, татаж авч эхэлнэ үү</string>
+    <string name="status_downloaded">Татаж авсан</string>
+    <string name="select_multiple_link">%1$d холбоосоос сонгоно уу</string>
+    <string name="trouble_shooting">Алдааг олж засварлах</string>
+    <string name="issue_tracker">Асуудал хянагч</string>
+    <string name="trouble_shooting_desc">Нийтлэг алдааг засч, мэдэгдэж буй асуудлуудыг шалгана уу</string>
+    <string name="issue_tracker_hint">Алдаа гарсан уу? Шинэ асуудлыг мэдээлэхийн өмнө манай асуудал хянагчаас хайна уу. Тэнд олон нийтлэг асуудлыг аль хэдийн шийдэж, баримтжуулсан.</string>
+    <string name="show_navigation_drawer">Навигацийн цэсийг харуулах</string>
+    <string name="resume">Үргэлжлүүлэх</string>
+    <string name="delete">Устгах</string>
+    <string name="all">Бүгд</string>
+    <string name="media_info">Медиа мэдээлэл</string>
 </resources>

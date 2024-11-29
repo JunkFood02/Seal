@@ -377,7 +377,7 @@
     <string name="auto_translated_subtitles">Аутоматски преведени титлови</string>
     <string name="auto_translated_subtitles_msg">Аутоматски преведени титлови за све језике биће доступни у преузимањима. Ови титлови могу бити нетачни и тешки за разумевање.</string>
     <string name="remember_for_next_download">Запамти за следеће преузимање</string>
-    <string name="look_and_feel">Изглед и осећај</string>
+    <string name="look_and_feel"><![CDATA[Изглед и осећај]]></string>
     <string name="use_previous_selection">Користи прецизан избор</string>
     <string name="none">Ниједно</string>
     <string name="subtitle_language_desc">Језик титлова за преузимање у аутоматском избору формата, одвојен запетама.</string>
@@ -390,7 +390,7 @@
     <string name="import_backup">Увоз</string>
     <string name="import_download_history">Увести историју преузимања?</string>
     <string name="export_download_history">Извести историју преузимања?</string>
-    <string name="interface_and_interaction">Интерфејс и интеракција</string>
+    <string name="interface_and_interaction"><![CDATA[Интерфејс и интеракција]]></string>
     <string name="full_backup">Потпуна резервна копија</string>
     <string name="backup_type">Тип резервне копије</string>
     <string name="export_to">Извоз у</string>
@@ -438,4 +438,12 @@
     <string name="show_navigation_drawer">Прикажи фиоку за навигацију</string>
     <string name="delete">Избриши</string>
     <string name="resume">Настави</string>
+    <string name="media_info">Информације о медијима</string>
+    <string name="issue_tracker">Пратилац проблема</string>
+    <string name="trouble_shooting">Решавање проблема</string>
+    <string name="issue_tracker_hint">Наишли сте на грешку? Пре него што пријавите нови проблем, претражите наш алат за праћење проблема. Многи уобичајени проблеми су тамо већ обрађени и документовани.</string>
+    <string name="trouble_shooting_desc">Поправите уобичајене грешке и проверите познате проблеме</string>
+    <string name="add_to">Додај у %1$s</string>
+    <string name="add_new_url">Додај нови линк</string>
+    <string name="saved_urls">Сачувани линкови</string>
 </resources>

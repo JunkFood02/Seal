@@ -435,4 +435,12 @@
     <string name="show_navigation_drawer">Hərəkət qutusun göstər</string>
     <string name="resume">Davam et</string>
     <string name="delete">Sil</string>
+    <string name="media_info">Media məlumatı</string>
+    <string name="issue_tracker_hint">Xəta göründü? Yeni problemi bildirməzdən əvvəl, lütfən problem izləyicimizi araşdırın. Bir çox ümumi problemlər artıq var və orada sənədləşdirilib.</string>
+    <string name="trouble_shooting">Problemlərin həlli</string>
+    <string name="issue_tracker">Problem izləyicisi</string>
+    <string name="trouble_shooting_desc">Düzəlmiş ümumi səhvlər və məlum problemləri yoxla</string>
+    <string name="saved_urls">Saxlanan bağlantılar</string>
+    <string name="add_new_url">Yeni link əlavə et</string>
+    <string name="add_to">%1$s-a əlavə et</string>
 </resources>

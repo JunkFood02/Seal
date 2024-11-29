@@ -12,7 +12,7 @@
     <string name="download_start_msg">אראפקאפיע \"%1$s\"</string>
     <string name="fetch_info_error_msg">קען נישט באַקומען ווידעא אינפֿאָרמאַציע</string>
     <string name="task_running">אַן עקסיסטירטע אראפקאפיע אַרבעט איז שוין פליסנדיק</string>
-    <string name="paste_msg">פּאַפּ די URL פון די קליפּבאָרד</string>
+    <string name="paste_msg">פּאַפּ די URL</string>
     <string name="ytdlp_version">Yt-dlp ווערסיע</string>
     <string name="ytdlp_update_action">אַפּדייט yt-dlp</string>
     <string name="delete_info">אַראָפּנעמען?</string>
@@ -33,4 +33,10 @@
     <string name="fetching_info">באקומט ווידעא אינפארמאציע…</string>
     <string name="dismiss">ביטול</string>
     <string name="downloads_history">דאַונלאָודז</string>
+    <string name="version">ווערסיע</string>
+    <string name="video">ווידיאו</string>
+    <string name="on">אנגעצינדן</string>
+    <string name="remove">נעם אראפ</string>
+    <string name="back">צירוק</string>
+    <string name="off">אויסגעלאשן</string>
 </resources>
