@@ -117,7 +117,7 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 
 ## 💖 Sponsors
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https:&#x2F;&#x2F;github.com&#x2F;4kaimar.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/Cook-I-T"><img src="https:&#x2F;&#x2F;github.com&#x2F;Cook-I-T.png" width="60px" alt="User avatar: Cook I.T!" /></a><a href="https://github.com/akr225a24"><img src="https:&#x2F;&#x2F;github.com&#x2F;akr225a24.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/reallyrealcolby"><img src="https:&#x2F;&#x2F;github.com&#x2F;reallyrealcolby.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/Senliast"><img src="https:&#x2F;&#x2F;github.com&#x2F;Senliast.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https:&#x2F;&#x2F;github.com&#x2F;4kaimar.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/Cook-I-T"><img src="https:&#x2F;&#x2F;github.com&#x2F;Cook-I-T.png" width="60px" alt="User avatar: Cook I.T!" /></a><a href="https://github.com/reallyrealcolby"><img src="https:&#x2F;&#x2F;github.com&#x2F;reallyrealcolby.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
 
 
 Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
