@@ -115,11 +115,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private const val ytdlpOutputTemplateReference = "https://github.com/yt-dlp/yt-dlp#output-template"
-private const val validDirectoryRegex = "/storage/emulated/0/(Download|Documents)"
+private val PublicDownloadsDirectory =
+    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+private val PublicDocumentDirectory =
+    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path
 private const val ytdlpFilesystemReference = "https://github.com/yt-dlp/yt-dlp#filesystem-options"
 
 private fun String.isValidDirectory(): Boolean {
-    return this.isEmpty() || this.contains(Regex(validDirectoryRegex))
+    return isEmpty() || contains(PublicDownloadsDirectory) || contains(PublicDocumentDirectory)
 }
 
 enum class Directory {
