@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
@@ -47,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -64,7 +61,6 @@ import com.junkfood.seal.download.Task.DownloadState.FetchingInfo
 import com.junkfood.seal.download.Task.DownloadState.Idle
 import com.junkfood.seal.download.Task.DownloadState.ReadyWithInfo
 import com.junkfood.seal.download.Task.DownloadState.Running
-import com.junkfood.seal.ui.common.AsyncImageImpl
 import com.junkfood.seal.ui.common.LocalFixedColorRoles
 import com.junkfood.seal.ui.component.ActionSheetItem
 import com.junkfood.seal.ui.component.ActionSheetPrimaryButton
@@ -208,17 +204,17 @@ private fun OpenThumbnailURLButton(modifier: Modifier = Modifier, onClick: () ->
 fun Title(imageModel: Any?, title: String, author: String, downloadState: DownloadState) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AsyncImageImpl(
+        /*        AsyncImageImpl(
             model = imageModel,
             modifier =
                 Modifier.height(64.dp).aspectRatio(16f / 9f, matchHeightConstraintsFirst = true),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-        )
-        Spacer(Modifier.width(12.dp))
+        )*/
+        //        Spacer(Modifier.width(12.dp))
 
         Column(modifier = Modifier.height(IntrinsicSize.Min)) {
             Column(Modifier) {
@@ -231,7 +227,7 @@ fun Title(imageModel: Any?, title: String, author: String, downloadState: Downlo
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Spacer(Modifier.height(3.dp))
+            Spacer(Modifier.height(8.dp))
 
             ListItemStateText(downloadState = downloadState)
         }
@@ -259,7 +255,7 @@ fun SheetContent(
 
         item {
             LazyRow(
-                modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),
+                modifier = Modifier.padding(top = 12.dp, bottom = 24.dp),
                 contentPadding = PaddingValues(horizontal = 4.dp),
             ) {
                 ActionButtons(

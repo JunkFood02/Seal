@@ -58,6 +58,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.junkfood.seal.R
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.download.Task.DownloadState.Canceled
@@ -159,6 +160,7 @@ fun VideoListItem(
                     uploader = uploader,
                     contentPadding = PaddingValues(),
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 stateIndicator?.invoke()
             }
             IconButton(
@@ -397,7 +399,7 @@ fun ListItemStateText(
     isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme(),
     downloadState: Task.DownloadState,
 ) {
-    val sizeModifier = Modifier.size(12.dp)
+    val sizeModifier = Modifier.size(14.dp)
 
     AnimatedContent(
         downloadState,
@@ -453,24 +455,24 @@ fun ListItemStateText(
                 is FetchingInfo,
                 Idle,
                 ReadyWithInfo -> {
-                    CircularProgressIndicator(modifier = sizeModifier, strokeWidth = 2.dp)
+                    CircularProgressIndicator(modifier = sizeModifier, strokeWidth = 2.5.dp)
                 }
                 is Running -> {
                     val progress = downloadState.progress
                     CircularProgressIndicator(
                         progress = { progress },
                         modifier = sizeModifier,
-                        strokeWidth = 2.dp,
+                        strokeWidth = 2.5.dp,
                     )
                 }
             }
 
-            Spacer(Modifier.width(4.dp))
+            Spacer(Modifier.width(8.dp))
 
             Text(
                 text = text,
                 modifier = Modifier,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium.merge(letterSpacing = 0.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
