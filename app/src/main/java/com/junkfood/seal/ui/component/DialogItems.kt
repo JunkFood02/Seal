@@ -24,6 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -60,17 +61,21 @@ fun DialogSingleChoiceItem(
                     interactionSource = interactionSource,
                 )
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
+                .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
         RadioButton(
-            modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
+            modifier = Modifier.minimumInteractiveComponentSize().clearAndSetSemantics {},
             selected = selected,
             onClick = null,
             interactionSource = interactionSource,
         )
-        Text(text = text, style = LocalTextStyle.current.copy(fontSize = 16.sp))
+        Text(
+            text = text,
+            style = LocalTextStyle.current.copy(fontSize = 16.sp),
+            modifier = Modifier.padding(vertical = 8.dp),
+        )
     }
 }
 
