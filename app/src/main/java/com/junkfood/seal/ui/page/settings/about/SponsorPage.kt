@@ -170,7 +170,11 @@ fun SponsorsPage(onNavigateBack: () -> Unit) {
                         )
                     }
 
-                    items(items = supporterList, key = { it.sponsorEntity.login }) { sponsorShip ->
+                    items(
+                        span = { GridItemSpan(maxLineSpan / 3) },
+                        items = supporterList,
+                        key = { it.sponsorEntity.login },
+                    ) { sponsorShip ->
                         SponsorItem(sponsorShip = sponsorShip) { onSponsorClick(sponsorShip) }
                     }
                 }
