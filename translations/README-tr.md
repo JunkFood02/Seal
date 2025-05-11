@@ -5,9 +5,9 @@ div align="center"
 # Seal
 
 ### Android için Video/Audio İndirici
-
-  |    <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
-  Türkçe
+  <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+Türkçe
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12\&label=F-Droid\&logo=fdroid\&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black\&label=Stable\&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
