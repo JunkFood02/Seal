@@ -95,9 +95,9 @@ Katkılarınız için teşekkürler!
 
 [![Çeviri durumu](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-> [!Not]
+>[!Not]
 >
-> Hata raporu, özellik isteği, soru veya geliştirme önerileriniz için önce [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) dosyasını okuyun.
+>Hata raporu, özellik isteği, soru veya geliştirme önerileriniz için önce [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) dosyasını okuyun.
 
 ## ⭐️ Yıldız Geçmişi
 
@@ -119,12 +119,12 @@ Bazı UI tasarımları ve kodlar [Read You](https://github.com/Ashinch/ReadYou) 
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
-> [!Uyarı]
+>[!Uyarı]
 >
-> Kaynak kodu GPLv3 lisansı altındaki bölümler hariç,
-> Seal ismini indirici uygulama olarak veya Seal'in türevleri olarak
-> kullanmak tüm taraflara yasaktır.
-> Türevler, fork ve resmi olmayan sürümleri içerir.
+>Kaynak kodu GPLv3 lisansı altındaki bölümler hariç,
+>Seal ismini indirici uygulama olarak veya Seal'in türevleri olarak
+>kullanmak tüm taraflara yasaktır.
+>Türevler, fork ve resmi olmayan sürümleri içerir.
 
 <div align="right">
 <table><td>
