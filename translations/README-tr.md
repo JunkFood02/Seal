@@ -1,4 +1,4 @@
-div align="center"
+<div align="center">
 
 <img width="" src="fastlane/metadata/android/en-US/images/icon.png" width=160 height=160 align="center">
 
@@ -119,9 +119,15 @@ Bazı UI tasarımları ve kodlar [Read You](https://github.com/Ashinch/ReadYou) 
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
 
-> \[!Uyarı]
+> Uyarı
 >
 > Kaynak kodu GPLv3 lisansı altındaki bölümler hariç,
 > Seal ismini indirici uygulama olarak veya Seal'in türevleri olarak
 > kullanmak tüm taraflara yasaktır.
 > Türevler, fork ve resmi olmayan sürümleri içerir.
+
+<div align="right">
+<table><td>
+<a href="#start-of-content">👆 Yukarıya git</a>
+</td></table>
+</div>
