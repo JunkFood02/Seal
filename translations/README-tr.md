@@ -95,7 +95,7 @@ Katkılarınız için teşekkürler!
 
 [![Çeviri durumu](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-> \[!Not]
+> Not
 >
 > Hata raporu, özellik isteği, soru veya geliştirme önerileriniz için önce [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) dosyasını okuyun.
 
