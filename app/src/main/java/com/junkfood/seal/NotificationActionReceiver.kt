@@ -51,13 +51,18 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
     private fun cancelTask(taskId: String?, notificationId: Int) {
         if (taskId.isNullOrEmpty()) return
         NotificationUtil.cancelNotification(notificationId)
+        
         val res = downloader.cancel(taskId)
         if (res) {
-            Log.d(TAG, "Task (id:$taskId) was killed.")
+            Log.d(TAG, "Task (id:$taskId) was killed via DownloaderV2.")
         } else {
-            // todo: reserved for custom commands
-            YoutubeDL.destroyProcessById(taskId)
-            Downloader.onProcessCanceled(taskId)
+            val legacyRes = YoutubeDL.destroyProcessById(taskId)
+            if (legacyRes) {
+                Downloader.onProcessCanceled(taskId)
+                Log.d(TAG, "Task (id:$taskId) was killed via legacy Downloader system.")
+            } else {
+                Log.d(TAG, "Failed to cancel task (id:$taskId) - task may have already completed or not found.")
+            }
         }
     }
 
