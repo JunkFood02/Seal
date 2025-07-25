@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.RestartAlt
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.UnfoldMore
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Divider
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -95,6 +97,15 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                             label = stringResource(id = R.string.copy_log),
                         ) {
                             onCopyLog(clipboardManager)
+                        }
+                        if (!(state is Downloader.CustomCommandTask.State.Running)) {
+                            val activityContext = LocalContext.current
+                            ButtonChip(
+                                icon = Icons.Outlined.Share,
+                                label = stringResource(id = R.string.share_log_as_file),
+                            ) {
+                                onShareLogAsFile(activityContext)
+                            }
                         }
                         if (state is Downloader.CustomCommandTask.State.Error)
                             ButtonChip(
