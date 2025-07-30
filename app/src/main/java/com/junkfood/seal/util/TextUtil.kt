@@ -88,11 +88,12 @@ fun matchUrlFromClipboard(string: String, isMatchingMultiLink: Boolean = false):
     }
 }
 
-fun matchUrlFromSharedText(s: String): String {
-    findURLsFromString(s, true).joinToString(separator = "\n").run {
-        if (isEmpty()) ToastUtil.makeToast(R.string.share_fail_msg)
-        //            else makeToast(R.string.share_success_msg)
-        return this
+fun matchUrlsFromSharedText(s: String): List<String> {
+    return findURLsFromString(s, false).let {
+        if (it.isEmpty()) {
+            context.makeToast(R.string.share_fail_msg)
+        }
+        it
     }
 }
 
