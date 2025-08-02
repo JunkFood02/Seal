@@ -38,6 +38,8 @@ English
 <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-hi.md">हिंदी</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-bn.md">বাংলা</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="https://github.com/JunkFood02/Seal/blob/main/translation/README-tr.md">Türkçe</a>
 
 
 
