@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.OPEN_READONLY
 import android.media.MediaCodecList
 import android.os.Build
+import android.os.Environment
 import android.util.Log
 import android.webkit.CookieManager
 import androidx.annotation.CheckResult
@@ -42,7 +43,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.io.File
 import java.util.Locale
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okio.buffer
+import okio.sink
+import okio.source
 
 object DownloadUtil {
 
@@ -1000,5 +1007,149 @@ object DownloadUtil {
             AV1_HARDWARE_ACCELERATED.updateBoolean(res)
             return res
         }
+    }
+
+    /**
+     * Pick the best available image URL from a base thumbnail URL.
+     * Returns Pair(finalUrl, extension) or null if no valid image found.
+     */
+    @CheckResult
+    suspend fun pickBestImageUrl(
+        baseThumbnailUrl: String?,
+        desiredQuality: com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality
+    ): Pair<String, String>? = withContext(Dispatchers.IO) {
+        if (baseThumbnailUrl.isNullOrBlank()) return@withContext null
+
+        val qualityMap = mapOf(
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW to "default.jpg",
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM to "mqdefault.jpg",
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HIGH to "hqdefault.jpg",
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HD to "sddefault.jpg",
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.ORIGINAL to "maxresdefault.jpg"
+        )
+
+        // Fallback order: try desired quality first, then step down
+        val fallbackOrder = when (desiredQuality) {
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.ORIGINAL -> 
+                listOf(com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.ORIGINAL, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HD, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HIGH, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW)
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HD -> 
+                listOf(com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HD, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HIGH, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW)
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HIGH -> 
+                listOf(com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.HIGH, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW)
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM -> 
+                listOf(com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.MEDIUM, 
+                       com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW)
+            com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW -> 
+                listOf(com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.LOW)
+        }
+
+        val baseUrl = baseThumbnailUrl.substringBeforeLast("/")
+        val client = OkHttpClient.Builder()
+            .connectTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+            .build()
+
+        for (quality in fallbackOrder) {
+            val suffix = qualityMap[quality] ?: continue
+            val candidateUrl = "$baseUrl/$suffix"
+
+            try {
+                // Try HEAD request first
+                val headRequest = Request.Builder()
+                    .url(candidateUrl)
+                    .head()
+                    .build()
+
+                val response = client.newCall(headRequest).execute()
+                response.use {
+                    if (it.isSuccessful && it.code == 200) {
+                        val contentType = it.header("Content-Type") ?: ""
+                        if (contentType.startsWith("image/", ignoreCase = true)) {
+                            val extension = when {
+                                contentType.contains("jpeg", ignoreCase = true) -> "jpg"
+                                contentType.contains("jpg", ignoreCase = true) -> "jpg"
+                                contentType.contains("webp", ignoreCase = true) -> "webp"
+                                contentType.contains("png", ignoreCase = true) -> "png"
+                                else -> suffix.substringAfterLast(".", "jpg")
+                            }
+                            Log.d(TAG, "Selected image: $candidateUrl (${quality.name}, $contentType)")
+                            return@withContext Pair(candidateUrl, extension)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to probe $candidateUrl: ${e.message}")
+            }
+        }
+
+        Log.w(TAG, "No valid image URL found for $baseThumbnailUrl")
+        return@withContext null
+    }
+
+    @CheckResult
+    suspend fun downloadImageFromUrl(
+        url: String,
+        outputFile: File,
+        onProgress: (Float) -> Unit
+    ) {
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .build()
+
+        var lastException: Exception? = null
+        
+        // Retry up to 2 times
+        repeat(2) { attempt ->
+            try {
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+
+                if (!response.isSuccessful) {
+                    response.close()
+                    throw Exception("HTTP ${response.code}: Image not available")
+                }
+
+                val body = response.body ?: throw Exception("Empty body")
+
+                val sink = outputFile.sink().buffer()
+                val source = body.source()
+
+                val total = body.contentLength().toFloat()
+                var read: Long
+                var sum = 0L
+
+                while (source.read(sink.buffer, 8_192).also { read = it } != -1L) {
+                    sum += read
+                    sink.emit()
+                    if (total > 0) {
+                        onProgress(sum / total)
+                    }
+                }
+
+                sink.close()
+                source.close()
+                response.close()
+                
+                return // Success
+            } catch (e: Exception) {
+                lastException = e
+                if (attempt == 0) {
+                    Log.w(TAG, "Download attempt ${attempt + 1} failed, retrying: ${e.message}")
+                    kotlinx.coroutines.delay(1000) // Wait 1s before retry
+                }
+            }
+        }
+        
+        throw lastException ?: Exception("Download failed")
     }
 }
