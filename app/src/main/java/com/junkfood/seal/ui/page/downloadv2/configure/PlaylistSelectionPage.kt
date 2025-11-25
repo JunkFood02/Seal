@@ -18,6 +18,8 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.PlaylistAdd
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -25,6 +27,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -49,6 +53,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -94,6 +99,8 @@ fun PlaylistSelectionPage(
     var showAudioPresetDialog by remember { mutableStateOf(false) }
 
     var taskList by remember { mutableStateOf(emptyList<TaskFactory.TaskWithState>()) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     val sheetState =
         androidx.compose.material.rememberModalBottomSheetState(
@@ -114,10 +121,38 @@ fun PlaylistSelectionPage(
     val configureSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     SealModalBottomSheetM2Variant(sheetState = sheetState, sheetGesturesEnabled = false) {
-        PlaylistSelectionPageImpl(result = state.result, onDismissRequest = onBack) {
-            taskList = it
-            showConfigurationSheet = true
-        }
+        PlaylistSelectionPageImpl(
+            result = state.result,
+            snackbarHostState = snackbarHostState,
+            onDismissRequest = onBack,
+            onConfirmSelection = {
+                taskList = it
+                showConfigurationSheet = true
+            },
+            onDownloadPlaylist = {
+                val enqueueResult =
+                    downloader.downloadPlaylistItems(
+                        playlistResult = state.result,
+                        preferences = preferences,
+                    )
+                if (enqueueResult.enqueued > 0) {
+                    onBack()
+                }
+                scope.launch {
+                    val message =
+                        if (enqueueResult.enqueued == 0) {
+                            context.getString(R.string.playlist_enqueue_empty_snackbar)
+                        } else {
+                            context.getString(
+                                R.string.playlist_enqueue_snackbar,
+                                enqueueResult.enqueued,
+                                enqueueResult.total,
+                            )
+                        }
+                    snackbarHostState.showSnackbar(message)
+                }
+            },
+        )
     }
 
     val onDismissConfigurationSheet: () -> Unit = {
@@ -217,8 +252,10 @@ fun PlaylistSelectionPage(
 @Composable
 fun PlaylistSelectionPageImpl(
     result: PlaylistResult,
+    snackbarHostState: SnackbarHostState,
     onDismissRequest: () -> Unit = {},
     onConfirmSelection: (List<TaskFactory.TaskWithState>) -> Unit,
+    onDownloadPlaylist: () -> Unit = {},
 ) {
     val view = LocalView.current
 
@@ -240,10 +277,12 @@ fun PlaylistSelectionPageImpl(
         }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDialog by remember { mutableStateOf(false) }
+    var showDownloadAllDialog by remember { mutableStateOf(false) }
     val playlistCount = result.entries?.size ?: 0
 
     Scaffold(
         modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
@@ -322,6 +361,16 @@ fun PlaylistSelectionPageImpl(
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {
+                            view.slightHapticFeedback()
+                            showDownloadAllDialog = true
+                        },
+                        enabled = playlistCount > 0,
+                    ) {
+                        Text(text = stringResource(R.string.download_playlist))
+                    }
                     IconButton(
                         modifier = Modifier.padding(end = 4.dp),
                         onClick = {
@@ -384,6 +433,37 @@ fun PlaylistSelectionPageImpl(
             onConfirm = {
                 selectedItems.clear()
                 selectedItems.addAll(it)
+            },
+        )
+    }
+
+    if (showDownloadAllDialog) {
+        AlertDialog(
+            onDismissRequest = { showDownloadAllDialog = false },
+            title = { Text(text = stringResource(R.string.download_full_playlist_title)) },
+            text = {
+                Text(
+                    text =
+                        stringResource(
+                            R.string.download_full_playlist_message,
+                            playlistCount,
+                        )
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDownloadAllDialog = false
+                        onDownloadPlaylist()
+                    }
+                ) {
+                    Text(text = stringResource(R.string.download))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDownloadAllDialog = false }) {
+                    Text(text = stringResource(R.string.cancel))
+                }
             },
         )
     }
