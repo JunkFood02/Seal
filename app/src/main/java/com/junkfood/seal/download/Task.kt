@@ -17,6 +17,7 @@ private val TypeInfo.id: String
         when (this) {
             is TypeInfo.CustomCommand -> "${template.id}_${template.name}"
             is TypeInfo.Playlist -> "$index"
+            is TypeInfo.ImageDownload -> "img_$filename"
             TypeInfo.URL -> ""
         }
 
@@ -43,6 +44,8 @@ data class Task(
         @Serializable data class Playlist(val index: Int = 0) : TypeInfo
 
         @Serializable data class CustomCommand(val template: CommandTemplate) : TypeInfo
+
+        @Serializable data class ImageDownload(val filename: String) : TypeInfo
 
         @Serializable data object URL : TypeInfo
     }

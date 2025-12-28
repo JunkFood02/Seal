@@ -22,6 +22,7 @@ import com.junkfood.seal.download.Task.TypeInfo
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.NotificationUtil
+import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.VideoInfo
 import com.yausername.youtubedl_android.YoutubeDL
@@ -36,11 +37,16 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 
 private const val TAG = "DownloaderV2"
 
 private const val MAX_CONCURRENCY = 3
+
+data class PlaylistEnqueueResult(val enqueued: Int, val total: Int) {
+    val skipped: Int get() = (total - enqueued).coerceAtLeast(0)
+}
 
 interface DownloaderV2 {
     fun getTaskStateMap(): SnapshotStateMap<Task, Task.State>
@@ -63,6 +69,14 @@ interface DownloaderV2 {
         enqueue(task, state)
     }
 
+    fun downloadPlaylistItems(
+        playlistResult: PlaylistResult,
+        preferences: DownloadUtil.DownloadPreferences =
+            DownloadUtil.DownloadPreferences.createFromPreferences(),
+    ): PlaylistEnqueueResult
+
+    fun downloadImages(imageUrls: List<String>, quality: com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality = com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality.ORIGINAL): Int
+
     fun remove(task: Task): Boolean
 }
 
@@ -80,6 +94,13 @@ internal object FakeDownloaderV2 : DownloaderV2 {
     override fun enqueue(task: Task) {}
 
     override fun enqueue(task: Task, state: Task.State) {}
+
+    override fun downloadPlaylistItems(
+        playlistResult: PlaylistResult,
+        preferences: DownloadUtil.DownloadPreferences,
+    ): PlaylistEnqueueResult = PlaylistEnqueueResult(0, playlistResult.entries?.size ?: 0)
+
+    override fun downloadImages(imageUrls: List<String>, quality: com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality): Int = 0
 
     override fun remove(task: Task): Boolean {
         return true
@@ -166,6 +187,103 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
         taskStateMap += task to state
     }
 
+    override fun downloadPlaylistItems(
+        playlistResult: PlaylistResult,
+        preferences: DownloadUtil.DownloadPreferences,
+    ): PlaylistEnqueueResult {
+        val entries = playlistResult.entries.orEmpty()
+        val total = entries.size
+        if (total == 0) {
+            Log.w(TAG, "Playlist has no entries: ${playlistResult.title}")
+            return PlaylistEnqueueResult(enqueued = 0, total = 0)
+        }
+
+        val playlistUrl = playlistResult.originalUrl ?: playlistResult.webpageUrl
+        if (playlistUrl.isNullOrBlank()) {
+            Log.w(TAG, "Unable to resolve playlist URL for ${playlistResult.title}")
+            return PlaylistEnqueueResult(enqueued = 0, total = total)
+        }
+
+        val playableIndexes =
+            entries.mapIndexedNotNull { index, entry ->
+                if (entry.url.isNullOrBlank()) {
+                    null
+                } else {
+                    index + 1
+                }
+            }
+
+        if (playableIndexes.isEmpty()) {
+            Log.w(TAG, "No playable entries detected for playlist ${playlistResult.title}")
+            return PlaylistEnqueueResult(enqueued = 0, total = total)
+        }
+
+        val resolvedPreferences =
+            if (preferences.downloadPlaylist) preferences else preferences.copy(downloadPlaylist = true)
+
+        TaskFactory.createWithPlaylistResult(
+                playlistUrl = playlistUrl,
+                indexList = playableIndexes,
+                playlistResult = playlistResult,
+                preferences = resolvedPreferences,
+            )
+            .forEach(::enqueue)
+
+        return PlaylistEnqueueResult(enqueued = playableIndexes.size, total = total)
+    }
+
+    override fun downloadImages(imageUrls: List<String>, quality: com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality): Int {
+        if (imageUrls.isEmpty()) {
+            return 0
+        }
+
+        var enqueuedCount = 0
+        scope.launch(Dispatchers.IO) {
+            imageUrls.forEach { baseUrl ->
+                // Pick best available URL before enqueuing
+                val urlAndExt = DownloadUtil.pickBestImageUrl(baseUrl, quality)
+                if (urlAndExt == null) {
+                    Log.w(TAG, "No valid image URL found for $baseUrl")
+                    return@forEach
+                }
+
+                val (finalUrl, extension) = urlAndExt
+                
+                // Generate safe filename: extract video ID or use timestamp
+                val videoId = baseUrl.substringAfter("/vi/", "").substringBefore("/", "")
+                val baseName = if (videoId.isNotEmpty()) {
+                    "${videoId}_${quality.name.lowercase()}"
+                } else {
+                    "image_${System.currentTimeMillis()}"
+                }
+                val filename = "$baseName.$extension"
+                
+                val task = Task(
+                    url = finalUrl,
+                    type = TypeInfo.ImageDownload(filename),
+                    preferences = DownloadUtil.DownloadPreferences.EMPTY
+                )
+                val viewState = Task.ViewState(
+                    url = finalUrl,
+                    title = filename,
+                    uploader = "",
+                    thumbnailUrl = finalUrl
+                )
+                val state = Task.State(
+                    downloadState = Idle,
+                    videoInfo = null,
+                    viewState = viewState
+                )
+                withContext(Dispatchers.Main) {
+                    enqueue(task, state)
+                }
+                enqueuedCount++
+            }
+        }
+
+        return imageUrls.size
+    }
+
     /**
      * Noted the caller is responsible for stopping the [task] before removing it
      *
@@ -239,6 +357,9 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
         check(downloadState == Idle)
         if (type is TypeInfo.CustomCommand) {
             execute()
+        } else if (type is TypeInfo.ImageDownload) {
+            // Images don't need info fetching, go straight to download
+            downloadState = ReadyWithInfo
         } else {
             fetchInfo()
         }
@@ -279,11 +400,16 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     }
 
     private fun Task.download() {
-        check(downloadState == ReadyWithInfo && info != null)
+        check(downloadState == ReadyWithInfo)
         if (type is TypeInfo.CustomCommand) {
             execute()
             return
         }
+        if (type is TypeInfo.ImageDownload) {
+            downloadImage()
+            return
+        }
+        check(info != null)
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.downloadVideo(
@@ -345,6 +471,83 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                             report = throwable.stackTraceToString(),
                         )
                     }
+            }
+            .also { downloadState = Running(job = it, taskId = id) }
+    }
+
+    private fun Task.downloadImage() {
+        check(type is TypeInfo.ImageDownload)
+        val task = this
+        
+        scope
+            .launch(Dispatchers.Default) {
+                val imageUrl = task.url
+                val fileName = (task.type as TypeInfo.ImageDownload).filename
+
+                if (imageUrl.isEmpty()) {
+                    task.downloadState = Error(Throwable("Invalid image URL"), Download)
+                    return@launch
+                }
+
+                try {
+                    val outputFile = FileUtil.getPicturesSealFile(fileName)
+
+                    DownloadUtil.downloadImageFromUrl(
+                        url = imageUrl,
+                        outputFile = outputFile,
+                        onProgress = { progress ->
+                            when (val preState = downloadState) {
+                                is Running -> {
+                                    downloadState = preState.copy(progress = progress)
+                                    NotificationUtil.notifyProgress(
+                                        notificationId = notificationId,
+                                        progress = (progress * 100).toInt(),
+                                        text = "Downloading...",
+                                        title = viewState.title,
+                                        taskId = id,
+                                    )
+                                }
+                                else -> {}
+                            }
+                        }
+                    )
+
+                    downloadState = Completed(outputFile.absolutePath)
+                    
+                    // Trigger media scan so gallery sees the new image
+                    android.media.MediaScannerConnection.scanFile(
+                        appContext,
+                        arrayOf(outputFile.absolutePath),
+                        null,
+                        null
+                    )
+                    
+                    val text = appContext.getString(R.string.download_finish_notification)
+                    FileUtil.createIntentForOpeningFile(outputFile.absolutePath).run {
+                        NotificationUtil.finishNotification(
+                            notificationId,
+                            title = viewState.title,
+                            text = text,
+                            intent =
+                                if (this != null)
+                                    PendingIntent.getActivity(
+                                        appContext,
+                                        0,
+                                        this,
+                                        PendingIntent.FLAG_IMMUTABLE,
+                                    )
+                                else null,
+                        )
+                    }
+                } catch (e: Exception) {
+                    downloadState = Error(e, Download)
+                    NotificationUtil.notifyError(
+                        title = viewState.title,
+                        textId = R.string.fetch_info_error_msg,
+                        notificationId = notificationId,
+                        report = e.stackTraceToString(),
+                    )
+                }
             }
             .also { job -> downloadState = Running(job = job, taskId = id) }
     }
