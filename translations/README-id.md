@@ -1,43 +1,45 @@
 <div align="center">
 
-<img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
+<img width="" src="../fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
 
 # Seal
 
 ### Pengunduh Video/Audio untuk Android
 
 
-<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
-&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="../README.md">English</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
 Indonesia
 
+
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Preview&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
-[![Keep a Changelog](https://img.shields.io/badge/Changelog-lightgray?style=flat&color=gray&logo=keep-a-changelog)](https://github.com/JunkFood02/Seal/blob/main/CHANGELOG.md)
-[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Downloads&logo=github)](https://github.com/JunkFood02/Seal/releases/)
-[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?color=informational&label=Stars)](https://github.com/JunkFood02/Seal/stargazers)
-[![Supported Sites](https://img.shields.io/badge/Supported-Sites-9cf.svg?style=flat)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stabil&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/JunkFood02/Seal?include_prereleases&label=Pratinjau&logo=Github)](https://github.com/JunkFood02/Seal/releases/)
+[![Keep a Changelog](https://img.shields.io/badge/Changelog-lightgray?style=flat&color=gray&logo=keep-a-changelog)](../CHANGELOG.md)
+[![GitHub all releases](https://img.shields.io/github/downloads/JunkFood02/Seal/total?label=Unduhan&logo=github)](https://github.com/JunkFood02/Seal/releases/)
+[![GitHub Repo stars](https://img.shields.io/github/stars/JunkFood02/Seal?style=flat&logo=github&color=%23f8e444)](https://github.com/JunkFood02/Seal/stargazers)
+[![Supported-Sites](https://img.shields.io/badge/Situs-9cf?style=flat)](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 [![Telegram Channel](https://img.shields.io/badge/Telegram-Seal-blue?style=flat&logo=telegram)](https://t.me/seal_app)
-[![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
+[![Matrix](https://img.shields.io/matrix/seal-space%3Amatrix.org?server_fqdn=matrix.org&style=flat&logo=element&label=Matrix&color=%230DBD8B)
+](https://matrix.to/#/#seal-space:matrix.org)
 
 
 </div>
 
 
-## 📱 Tangkapan layar
+## 📱 Tangkapan Layar
 
 <div align="center">
 <div>
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
-<img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%" />
+<img src="../fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
 </div>
 </div>
 
@@ -45,94 +47,94 @@ Indonesia
 
 ## 📖 Fitur
 
-- Unduh file video dan audio dari platform video yang didukung oleh [yt-dlp](https://github.com/yt-dlp/yt-dlp) (sebelumnya youtube-dl).
+- Unduh video dan audio dari berbagai platform yang didukung [yt-dlp](https://github.com/yt-dlp/yt-dlp) (sebelumnya youtube-dl).
 
-- Menyematkan metadata dan gambar mini video ke dalam file audio yang diekstrak yang didukung oleh [mutagen](https://github.com/quodlibet/mutagen).
+- Tambahkan metadata dan thumbnail video ke dalam file audio hasil ekstraksi, dengan dukungan [mutagen](https://github.com/quodlibet/mutagen).
 
-- Unduh semua video dalam daftar putar dengan satu klik.
+- Unduh semua video dalam playlist dengan sekali klik.
 
-- Gunakan [aria2c](https://github.com/aria2/aria2) yang disematkan sebagai pengunduh eksternal untuk semua unduhan Anda.
+- Gunakan [aria2c](https://github.com/aria2/aria2) sebagai pengunduh eksternal untuk semua unduhan.
 
-- Menyematkan subtitle ke dalam video yang diunduh.
+- Sematkan subtitle langsung ke video yang diunduh.
 
-- Menjalankan perintah yt-dlp khusus dengan templat.
+- Jalankan perintah yt-dlp kustom dengan templat.
 
-- Mengelola unduhan dalam aplikasi dan templat perintah khusus.
+- Kelola unduhan dan templat perintah langsung di aplikasi.
 
-- Mudah digunakan dan ramah pengguna.
+- Antarmuka yang sederhana dan nyaman digunakan.
 
-- UI bergaya [Material Design 3](https://m3.material.io/), dengan tema warna yang dinamis.
+- Menggunakan gaya [Material Design 3](https://m3.material.io/) dengan tema warna dinamis.
 
-- MAD: UI dan logika yang ditulis dengan Kotlin murni. Aktivitas tunggal, tidak ada fragmen, hanya komposisi
-tujuan yang dapat dikomposisikan.
+- MAD: Antarmuka dan logika ditulis sepenuhnya dengan Kotlin. Satu aktivitas, tanpa fragmen, hanya destinasi komposabel.
 
 
 ## ⬇️ Unduh
 
-Untuk sebagian besar perangkat, disarankan untuk menginstal versi **arm64-v8a** dari aplikasi
+Untuk sebagian besar perangkat, sebaiknya gunakan versi **arm64-v8a** dari apk
 
-- Unduh versi stabil terbaru dari [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
-  - Instal versi [Pra-rilis](https://github.com/JunkFood02/Seal/releases/) untuk membantu kami menguji fitur & perubahan baru
+- Unduh versi stabil terbaru di [GitHub releases](https://github.com/JunkFood02/Seal/releases/latest)
+  - Atau pasang versi [Pra-rilis](https://github.com/JunkFood02/Seal/releases/) untuk mencoba fitur baru lebih awal
 
-- Rilis stabil juga tersedia di [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
+- Versi stabil juga tersedia di [F-Droid](https://f-droid.org/packages/com.junkfood.seal/)
 
-<!-- [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Dapatkan di F-Droid"
-     height="70">](https://f-droid.org/packages/com.junkfood.seal/) -->
 
 ## 💬 Kontak
 
-Bergabunglah dengan [Telegram Channel](https://t.me/seal_app) atau [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) untuk diskusi, pengumuman, dan rilis!
+Bergabunglah di [Telegram Channel](https://t.me/seal_app) atau [Matrix Space](https://matrix.to/#/#seal-space:matrix.org) untuk berdiskusi, mengikuti pengumuman, dan mendapatkan rilis terbaru.
+
 
 ## 💖 Sponsor
 
-<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="" /></a><a href="https://github.com/gordongw"><img src="https://github.com/gordongw.png" width="60px" alt="Gordon" /></a><a href="https://github.com/t1hta"><img src="https://github.com/t1hta.png" width="60px" alt="t1hta" /></a><a href="https://github.com/nameoneeman"><img src="https://github.com/nameoneeman.png" width="60px" alt="James" /></a><a href="https://github.com/iguanaguy44"><img src="https://github.com/iguanaguy44.png" width="60px" alt="" /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/4kaimar"><img src="https://github.com/4kaimar.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/Cook-I-T"><img src="https://github.com/Cook-I-T.png" width="60px" alt="User avatar: Cook I.T!" /></a><a href="https://github.com/reallyrealcolby"><img src="https://github.com/reallyrealcolby.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
 
 
-Seal akan selalu gratis dan open source untuk semua orang. Jika Anda menyukainya, mohon pertimbangkan untuk [mensponsori saya](https://github.com/sponsors/JunkFood02)!
+Seal akan selalu gratis dan open source untuk semua orang. Jika Anda suka aplikasinya, silakan pertimbangkan untuk [mensponsori saya](https://github.com/sponsors/JunkFood02).
 
-## 🤝 Berkontribusi
 
-Kontribusi dipersilakan!
+## 🤝 Kontribusi
 
-Anda dapat membantu menerjemahkan Seal di [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
+Kontribusi terbuka untuk siapa saja!
+
+Anda juga bisa membantu menerjemahkan Seal lewat [Hosted Weblate](https://hosted.weblate.org/projects/seal/).
 	
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/strings/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 	
->**Catatan**
+>[!Catatan]
 >
->Untuk mengirimkan laporan bug, permintaan fitur, pertanyaan, atau ide lain untuk perbaikan, silakan baca [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) untuk petunjuk dan panduan terlebih dahulu.
+>Sebelum melaporkan bug, meminta fitur baru, atau mengajukan ide, silakan baca [CONTRIBUTING.md](../CONTRIBUTING.md) terlebih dahulu.
 
-## ⭐️ Sejarah bintang
+
+## ⭐️ Riwayat Bintang
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
 
 
 ## 🧱 Kredit
 
-Seal adalah sebuah GUI sederhana dari [yt-dlp](https://github.com/yt-dlp/yt-dlp), berdasarkan [youtubedl-android](https://github.com/yausername/youtubedl-android)
+Seal adalah antarmuka sederhana untuk [yt-dlp](https://github.com/yt-dlp/yt-dlp), dibangun berdasarkan [youtubedl-android](https://github.com/yausername/youtubedl-android).
 
-Beberapa desain dan kode UI dipinjam dari [Read You](https://github.com/Ashinch/ReadYou) dan [Music You](https://github.com/Kyant0/MusicYou)
+Beberapa desain dan kode UI diadaptasi dari [Read You](https://github.com/Ashinch/ReadYou) dan [Music You](https://github.com/Kyant0/MusicYou).
 
 [dvd](https://github.com/yausername/dvd)
 
-[Utilitas warna material](https://github.com/material-foundation/material-color-utilities)
+[Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
 [Monet](https://github.com/Kyant0/Monet)
 
+
 ## 📃 Lisensi
 
-[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](../LICENSE)
 
->**Peringatan**
+>[!Peringatan]
 >
->Kecuali untuk kode sumber yang dilisensikan di bawah lisensi GPLv3,
->semua pihak lain dilarang menggunakan nama Seal sebagai aplikasi pengunduh,
->dan hal yang sama juga berlaku untuk turunan Seal.
->Turunannya termasuk tetapi tidak terbatas pada fork dan build tidak resmi.
+>Kecuali kode sumber yang dilisensikan di bawah GPLv3,
+>nama Seal tidak boleh digunakan sebagai aplikasi pengunduh
+>dan aturan yang sama berlaku untuk turunannya.
+>Turunan termasuk namun tidak terbatas pada fork dan build tidak resmi.
 
 <div align="right">
 <table><td>
-<a href="#start-of-content">👆 Gulir ke atas</a>
+<a href="#start-of-content">👆 Kembali ke atas</a>
 </td></table>
 </div>
