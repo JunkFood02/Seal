@@ -390,6 +390,21 @@
     <string name="update_language_msg">The following languages will be added to your preference for future downloads:</string>
     <string name="update_subtitle_languages">Update subtitle languages?</string>
 
+    <string name="download_full_playlist_title">Download full playlist?</string>
+    <string name="download_full_playlist_message">This playlist contains %1$d videos. Do you want to download all?</string>
+    <string name="playlist_enqueue_snackbar">Queued %1$d/%2$d downloads</string>
+    <string name="playlist_enqueue_empty_snackbar">No downloadable videos were found in this playlist</string>
+
+    <string name="image">Image</string>
+    <string name="download_images">Download Images</string>
+    <string name="download_images_title">Download Images</string>
+    <string name="download_images_message">Selected images will be downloaded.</string>
+    <string name="video_thumbnail">Video thumbnail</string>
+    <string name="playlist_cover">Playlist cover</string>
+    <string name="select_images_to_download">Select images to download</string>
+    <string name="no_images_available">No images available</string>
+    <string name="queued_images">Queued %1$d image(s)</string>
+
     <string name="export_backup">Export</string>
     <string name="import_backup">Import</string>
     <string name="full_backup">Full backup</string>
