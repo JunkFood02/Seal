@@ -4,7 +4,8 @@
 # Seal
 
 ### 一个简单的 Android 视频/音频下载器，使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 开发
-
+简体中文
+&nbsp;&nbsp;| &nbsp;&nbsp;
 <p align="center">
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</
