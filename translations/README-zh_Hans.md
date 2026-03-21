@@ -4,40 +4,24 @@
 # Seal
 
 ### 一个简单的 Android 视频/音频下载器，使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 开发
-简体中文
-&nbsp;&nbsp;| &nbsp;&nbsp;
+
 <p align="center">
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</
-a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hant.md">繁體中文</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ar.md">العربية</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-pt.md">Portuguese</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ua.md">Українська</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-th.md">ภาษาไทย</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-fa.md">فارسی</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-it.md">Italiano</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-az.md">Azərbaycanca</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ru.md">Русский</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-sr.md">Српски</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ja.md">日本語</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-id.md">Indonesia</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-hi.md">हिंदी</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-bn.md">বাংলা</a>
+  <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hans.md">简体中文</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hant.md">繁體中文</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ar.md">العربية</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-pt.md">Portuguese</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ua.md">Українська</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-th.md">ภาษาไทย</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-fa.md">فارسی</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-it.md">Italiano</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-az.md">Azərbaycanca</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ru.md">Русский</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-sr.md">Српски</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ja.md">日本語</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-id.md">Indonesia</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-hi.md">हिंदी</a>&nbsp;|&nbsp;
+  <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-bn.md">বাংলা</a>
 </p>
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
