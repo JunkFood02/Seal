@@ -1,4 +1,4 @@
-<div align="center>
+<div align="center">
 [![SEAL](https://github.com/JunkFood02/Seal/blob/main/fastlane%2Fmetadata%2Fandroid%2Fen-US%2Fimages%2Ficon.png](#readme)
 # Seal
 
