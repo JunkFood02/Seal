@@ -1,6 +1,5 @@
-<div align="center">
-<img width="" src="fastlane/metadata/android/en-US/images/icon.png"  width=160 height=160  align="center">
-
+<div align="center>
+[![SEAL](https://github.com/JunkFood02/Seal/blob/main/fastlane%2Fmetadata%2Fandroid%2Fen-US%2Fimages%2Ficon.png](#readme)
 # Seal
 
 ### 一个简单的 Android 视频/音频下载器，使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 开发
