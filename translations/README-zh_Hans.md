@@ -91,7 +91,7 @@
 
 ## 💖 贡献者
 
-<p><!-- sponsors --><a href="https://github.com/Cook-I-T"><img src="https:&#x2F;&#x2F;github.com&#x2F;Cook-I-T.png" width="60px" alt="User avatar: Cook I.T!" /></a><a href="https://github.com/reallyrealcolby"><img src="https:&#x2F;&#x2F;github.com&#x2F;reallyrealcolby.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/abelladianne458-gif"><img src="https:&#x2F;&#x2F;github.com&#x2F;abelladianne458-gif.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/agusterodin"><img src="https:&#x2F;&#x2F;github.com&#x2F;agusterodin.png" width="60px" alt="User avatar: Jeff Rosen" /></a><!-- sponsors --></p>
+<p><!-- sponsors --><a href="https://github.com/reallyrealcolby"><img src="https:&#x2F;&#x2F;github.com&#x2F;reallyrealcolby.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
 
 Seal 将始终保持免费开源。如果你喜欢这个项目，欢迎 [赞助我](https://github.com/sponsors/JunkFood02)！
 
