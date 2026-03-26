@@ -7,8 +7,6 @@
 
 <p align="center">
   <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>&nbsp;|&nbsp;
-  <a
-简体中文&nbsp;|&nbsp;
   <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-zh_Hant.md">繁體中文</a>&nbsp;|&nbsp;
   <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-ar.md">العربية</a>&nbsp;|&nbsp;
   <a href="https://github.com/JunkFood02/Seal/blob/main/translations/README-pt.md">Portuguese</a>&nbsp;|&nbsp;
