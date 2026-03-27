@@ -120,7 +120,7 @@ Join our [Telegram Channel](https://t.me/seal_app) or [Matrix Space](https://mat
 <p><!-- sponsors --><a href="https://github.com/reallyrealcolby"><img src="https:&#x2F;&#x2F;github.com&#x2F;reallyrealcolby.png" width="60px" alt="User avatar: " /></a><!-- sponsors --></p>
 
 
-Seal will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
+[Seal APK](https://sealapk.com.co/) will be always free and open source for everyone. If you like it, please consider [sponsoring me](https://github.com/sponsors/JunkFood02)!
 
 ## 🤝 Contributing
 
