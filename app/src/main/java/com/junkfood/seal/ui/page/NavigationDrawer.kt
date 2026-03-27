@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -173,7 +174,8 @@ fun NavigationDrawerSheetContent(
                 .verticalScroll(rememberScrollState())
                 .systemBarsPadding()
     ) {
-        Spacer(Modifier.height(72.dp))
+        Spacer(Modifier.statusBarsPadding())
+
         ProvideTextStyle(MaterialTheme.typography.labelLarge) {
             NavigationDrawerItem(
                 label = { Text(stringResource(R.string.download_queue)) },
