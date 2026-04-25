@@ -4,15 +4,11 @@
 
 # Seal
 
-
-
 ### 一个简单的 Android 视频/音频下载器，使用 Jetpack Compose 进行开发
 
-<p align="center">
 <a href="https://github.com/JunkFood02/Seal/blob/main/README.md">English</a>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 简体中文
-</p>
 
 [![F-Droid](https://img.shields.io/f-droid/v/com.junkfood.seal?color=b4eb12&label=F-Droid&logo=fdroid&logoColor=1f78d2)](https://f-droid.org/en/packages/com.junkfood.seal)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/JunkFood02/Seal?color=black&label=Stable&logo=github)](https://github.com/JunkFood02/Seal/releases/latest/)
@@ -25,9 +21,10 @@
 [![Matrix Space](https://img.shields.io/badge/Matrix-Seal-Black?style=flat&color=black&logo=matrix)](https://matrix.to/#/#seal-space:matrix.org)
 
 </div>
-## 屏幕截图
 
-<div>
+## 📱 屏幕截图
+
+<div align="center">
 <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%" />
 <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%" />
 <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%" />
@@ -39,8 +36,7 @@
 <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/9.jpg" width="30%" />
 </div>
 
-
-## 功能特色
+## 📖 功能特色
 
 - 从 [yt-dlp](https://github.com/yt-dlp/yt-dlp) 所支持的数千个视频平台下载视频与音频
 
@@ -59,30 +55,46 @@
 - 使用简单、用户友好
 
 - 遵循 [Material Design 3](https://m3.material.io/) 设计规范，实现了 [动态色彩](https://m3.material.io/foundations/customization) 主题的应用界面
-  
+
 - MAD：完全使用 Kotlin 构造界面与编写逻辑，单 Activity + Compose Navigation 应用结构
 
-## 下载
+## ⬇️ 下载
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/com.junkfood.seal/)
+> 我们建议大多数设备使用 **arm64-v8a** 版本的 apk 文件
 
-你也可以从 [releases](https://github.com/JunkFood02/Seal/releases) 获取最新的 apk
+- 你可以从 [GitHub Releases](https://github.com/JunkFood02/Seal/releases) 获取最新的 apk
 
-## 贡献
+  - 安装 [预发行版本](https://github.com/JunkFood02/Seal/releases/)，以帮助我们进行最新功能的测试
+
+- 稳定版本也可以通过 [F-Droid](https://f-droid.org/packages/com.junkfood.seal/) 获取
+
+  [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+  alt="Get it on F-Droid"
+  height="80">](https://f-droid.org/packages/com.junkfood.seal/)
+
+## 💬 联系我们
+
+诚邀您加入 [Telegram 频道](https://t.me/seal_app) 或 [Matrix Space](https://matrix.to/#/#seal-space:matrix.org)，参与社群讨论、获取最新资讯！
+
+## 🤝 贡献
 
 欢迎贡献！
 
-你可以在 [Hosted Weblate](https://hosted.weblate.org/projects/seal/)  参与 Seal 的翻译
+你可以在 [Hosted Weblate](https://hosted.weblate.org/projects/seal/) 参与 Seal 的翻译
 
 [![Translate status](https://hosted.weblate.org/widgets/seal/-/multi-auto.svg)](https://hosted.weblate.org/engage/seal/)
 
-对于错误报告、功能请求或其他改进的想法，请先在 Issue 和 Discussion 中进行搜索（包括已关闭的 Issue）。如果没有出现重复，欢迎 [发起讨论](https://github.com/JunkFood02/Seal/discussions) 或 [提交问题](https://github.com/JunkFood02/Seal/issues/new)。
+> **备注**
+>
+> 对于错误报告、功能请求或其他改进的想法，请先在 Issue 和 Discussion 中进行搜索（包括已关闭的 Issue）。如果没有出现重复，欢迎 [发起讨论](https://github.com/JunkFood02/Seal/discussions) 或 [提交问题](https://github.com/JunkFood02/Seal/issues/new)。
+>
+> Seal 被设计为 yt-dlp 的一个简单的 GUI 封装，所以我们不会接受 yt-dlp 不支持的功能请求。
 
-Seal 被设计为 yt-dlp 的一个简单的 GUI 封装，所以我们不会接受 yt-dlp 不支持的功能请求。
+## ⭐️ Star 历程
 
-## 致谢
+[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+
+## 🧱 致谢
 
 [youtubedl-android](https://github.com/yausername/youtubedl-android)
 
@@ -96,6 +108,12 @@ Seal 被设计为 yt-dlp 的一个简单的 GUI 封装，所以我们不会接�
 
 [Material color utilities](https://github.com/material-foundation/material-color-utilities)
 
-## 许可证
+## 📃 许可证
 
-[GNU GPL v3.0](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
+
+<div align="right">
+<table><td>
+<a href="#start-of-content">👆 回到顶部</a>
+</td></table>
+</div>
