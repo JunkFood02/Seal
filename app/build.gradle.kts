@@ -87,19 +87,10 @@ android {
         }
     }
 
-    // External native build block
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
-            // Pass build arguments to CMake
-            arguments = listOf(
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER",
-                "-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY",
-                "-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY",
-                "-DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY"
-            ))
         }
     }
 
