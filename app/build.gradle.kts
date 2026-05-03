@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.room)
     alias(libs.plugins.ktfmt.gradle)
+    alias(libs.plugins.ktlint) // <-- ktlint plugin applied
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -226,4 +227,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
     implementation(libs.androidx.compose.ui.tooling)
+}
+
+// Alias task if CI expects ktlintFormatCheck
+tasks.register("ktlintFormatCheck") {
+    dependsOn("ktlintCheck")
 }

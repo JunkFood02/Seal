@@ -44,7 +44,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run Ktlint
-        run: ./gradlew ktlintFormatCheck
+        run: ./gradlew ktlintCheck
 
       - name: Run Detekt
         run: ./gradlew detekt
