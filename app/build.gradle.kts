@@ -57,8 +57,7 @@ android {
         // NDK Configuration for QuickJS
         ndk {
             abiFilters.addAll(abiFilterList)
-            // Enable STL for C++ standard library
-            stl = "c++_static"
+            // STL is configured via CMake (ANDROID_STL=c++_static)
         }
 
         // External native build configuration
@@ -93,8 +92,8 @@ android {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
-            // Optional: Pass build arguments
-            arguments.addAll(listOf(
+            // Pass build arguments to CMake
+            arguments = listOf(
                 "-DCMAKE_BUILD_TYPE=Release",
                 "-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER",
                 "-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY",

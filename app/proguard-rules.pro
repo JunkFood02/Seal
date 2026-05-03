@@ -24,8 +24,21 @@
 
 -dontobfuscate
 
+# Keep yt-dlp related classes
 -keep class com.yausername.** { *; }
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
+
+# Keep QuickJS JNI bridge native methods
+-keep class com.junkfood.seal.js.QuickJSRuntime {
+    native <methods>;
+}
+-keepclassmembers class com.junkfood.seal.js.QuickJSRuntime {
+    native <methods>;
+}
+# Keep the native pointer field
+-keepclassmembers class com.junkfood.seal.js.QuickJSRuntime {
+    private long nativePtr;
+}
 
 # Keep `Companion` object fields of serializable classes.
 # This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
