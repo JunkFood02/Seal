@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.room)
     alias(libs.plugins.ktfmt.gradle)
-    alias(libs.plugins.ktlint) // <-- ktlint plugin applied
+    alias(libs.plugins.ktlint)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
