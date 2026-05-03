@@ -1,0 +1,46 @@
+diff -ruN a/figma-implement-design/SKILL.md b/figma-implement-design/SKILL.md
+--- a/figma-implement-design/SKILL.md	2026-04-07 14:51:45
++++ b/figma-implement-design/SKILL.md	2026-04-07 14:51:20
+@@ -26,7 +26,7 @@
+ - If the user asks to create/edit/delete nodes inside Figma itself, switch to [figma-use](../figma-use/SKILL.md).
+ - If the user asks to build or update a full-page screen in Figma from code or a description, switch to [figma-generate-design](../figma-generate-design/SKILL.md).
+ - If the user asks only for Code Connect mappings, switch to [figma-code-connect-components](../figma-code-connect-components/SKILL.md).
+-- If the user asks to author reusable agent rules (`CLAUDE.md`/`AGENTS.md`), switch to [figma-create-design-system-rules](../figma-create-design-system-rules/SKILL.md).
++- If the user asks to author reusable agent rules, switch to [figma-create-design-system-rules](../figma-create-design-system-rules/SKILL.md).
+ 
+ ## Prerequisites
+ 
+@@ -40,6 +40,33 @@
+ ## Required Workflow
+ 
+ **Follow these steps in order. Do not skip steps.**
++
++### Step 0: Set up Figma MCP (if not already configured)
++
++If any MCP call fails because Figma MCP is not connected, pause and help the user set it up.
++
++The Figma MCP server runs locally via the Figma Desktop app. Ensure the Figma Desktop app is running, then add the Figma Desktop MCP server to your config:
++
++```json
++{
++  "mcp": {
++    "Figma Desktop": {
++      "type": "remote",
++      "url": "http://127.0.0.1:3845/mcp"
++    }
++  }
++}
++```
++
++**VS Code Extension:** Open Kilo Settings > Agent Behaviour > MCP Servers, then click "Edit Global MCP" (or "Edit Project MCP" for project-specific config) and add the config above.
++
++**CLI:** Add the `mcp` block to your `kilo.json` config file. Config locations:
++- **Global:** `~/.config/kilo/kilo.json`
++- **Project:** `./kilo.json` or `./.kilo/kilo.json` in your project root
++
++Project-level configuration takes precedence over global settings.
++
++After adding the server, restart Kilo so it can connect to the Figma MCP server, then continue with Step 1.
+ 
+ ### Step 1: Get Node ID
+ 

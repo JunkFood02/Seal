@@ -4,18 +4,25 @@ import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -51,6 +58,7 @@ fun VideoCard(
     showCancelButton: Boolean = false,
     onCancel: () -> Unit = {},
     onClick: () -> Unit = {},
+    onPlay: (() -> Unit)? = null,
     progress: Float = 90f,
     fileSizeApprox: Double = 1024 * 1024 * 69.0,
     duration: Int = 359,
@@ -66,15 +74,42 @@ fun VideoCard(
                 Crossfade(targetState = thumbnailUrl, label = "") {
                     AsyncImageImpl(
                         modifier =
-                            Modifier.padding()
-                                .fillMaxWidth()
-                                .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
-                                .clip(MaterialTheme.shapes.small),
+                        Modifier.padding()
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f, matchHeightConstraintsFirst = true)
+                            .clip(MaterialTheme.shapes.small),
                         model = it,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         isPreview = isPreview,
                     )
+                }
+
+                // Play button overlay
+                onPlay?.let { playCallback ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.2f))
+                    ) {
+                        FilledIconButton(
+                            onClick = playCallback,
+                            modifier = Modifier
+                                .size(64.dp)
+                                .align(Alignment.Center)
+                                .scaleIn(animationSpec = tween(300)),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f)
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.PlayArrow,
+                                contentDescription = stringResource(R.string.play),
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.White
+                            )
+                        }
+                    }
                 }
 
                 Surface(
@@ -102,12 +137,12 @@ fun VideoCard(
                             onClick = onCancel,
                             modifier = Modifier.size(56.dp),
                             colors =
-                                IconButtonDefaults.filledTonalIconButtonColors(
-                                    containerColor =
-                                        MaterialTheme.colorScheme.surfaceContainerHighest.copy(
-                                            alpha = 0.68f
-                                        )
-                                ),
+                            IconButtonDefaults.filledTonalIconButtonColors(
+                                containerColor =
+                                MaterialTheme.colorScheme.surfaceContainerHighest.copy(
+                                    alpha = 0.68f
+                                )
+                            ),
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Cancel,
@@ -161,3 +196,4 @@ fun VideoCard(
 fun VideoCardPreview() {
     SealTheme() { VideoCard(isPreview = true) }
 }
+

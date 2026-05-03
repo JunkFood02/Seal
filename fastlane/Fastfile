@@ -1,0 +1,175 @@
+# Default platform for Fastlane
+default_platform(:android)
+
+platform :android do
+  desc "Build release APKs for all ABIs"
+  lane :build_release do
+    # Clean build directory
+    sh "./gradlew clean"
+
+    # Build all ABIs in parallel
+    gradle(
+      task: "assembleGenericRelease",
+      properties: obtain_signing_properties
+    )
+
+    # Build universal APK
+    gradle(
+      task: "assembleGenericRelease",
+      properties: obtain_signing_properties,
+      flags: "-PnoSplits"
+    )
+
+    # Output paths
+    apk_dir = "app/build/outputs/apk/generic/release"
+    universal_apk = Dir["#{apk_dir}/*-universal.apk"].first
+    abi_apks = Dir["#{apk_dir}/*.apk"].reject { |f| f.include?("universal") }
+
+    puts "\n========== Build Summary =========="
+    puts "Universal APK: #{universal_apk}"
+    puts "ABI-specific APKs (#{abi_apks.length}):"
+    abi_apks.each { |apk| puts "  - #{File.basename(apk)}" }
+    puts "====================================\n\n"
+
+    # Upload artifacts
+    upload_artifacts(
+      paths: abi_apks + [universal_apk].compact,
+      name: "seal_apks_#{Time.now.utc.strftime('%Y%m%d_%H%M%S')}"
+    )
+  end
+
+  desc "Build and deploy to GitHub Releases"
+  lane :deploy_github do
+    # Ensure we're on a tagged commit
+    current_tag = sh("git describe --tags --exact-match 2>/dev/null || echo 'untagged'").strip
+    if current_tag == "untagged"
+      UI.user_error!("This lane can only be run on a tagged commit")
+    end
+
+    version = current_tag.sub(/^v/, '')
+    UI.message("🚀 Deploying Seal #{version} to GitHub Releases")
+
+    # Build release APKs
+    build_release
+
+    # Set up GitHub release
+    changelog = changelog_from_git_commits(
+      between: ["origin/main", "HEAD"],
+      match_format: /Seal \d+\.\d+\.\d+/  # Match release notes format
+    )
+
+    # Create or update GitHub release
+    set_github_release(
+      repository_name: "JunkFood02/Seal",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: "Seal #{version}",
+      tag_name: "v#{version}",
+      description: changelog,
+      upload_assets: Dir["app/build/outputs/apk/generic/release/*.apk"]
+    )
+
+    UI.success("✅ Successfully deployed Seal #{version}")
+  end
+
+  desc "Build and deploy to Google Play Store"
+  lane :deploy_playstore do
+    # Build AAB
+    gradle(
+      task: "bundleGenericRelease",
+      properties: obtain_signing_properties
+    )
+
+    aab_path = Dir["app/build/outputs/bundle/genericRelease/*.aab"].first
+
+    # Upload to Play Store
+    upload_to_play_store(
+      track: "internal",  # Start with internal testing
+      aab: aab_path,
+      release_status: "completed",
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      in_advance_of: "track_promotion"  # Promote after upload
+    )
+
+    UI.success("✅ Successfully uploaded to Google Play Store internal testing")
+  end
+
+  desc "Promote Play Store release to beta"
+  lane :promote_beta do
+    upload_to_play_store(
+      track: "beta",
+      release_status: "completed",
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Promote Play Store release to production"
+  lane :promote_production do
+    upload_to_play_store(
+      track: "production",
+      release_status: "completed",
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Run all tests"
+  lane :test do
+    gradle(task: "testDebugUnitTest")
+    gradle(task: "connectedDebugAndroidTest")
+  end
+
+  desc "Run lint and ktlint"
+  lane :lint do
+    gradle(task: "ktlintFormatCheck")
+    gradle(task: "detekt")
+    gradle(task: "lint")
+  end
+
+  desc "Prepare release notes"
+  lane :release_notes do
+    changelog = changelog_from_git_commits(
+      between: ["origin/main", "HEAD"],
+      match_format: /Seal \d+\.\d+\.\d+/
+    )
+    UI.message(changelog)
+  end
+
+  # Private helper to obtain signing properties
+  private_lane :obtain_signing_properties do
+    {
+      "android.injected.signing.store.file" => keystore_path,
+      "android.injected.signing.store.password" => store_password,
+      "android.injected.signing.key.alias" => key_alias,
+      "android.injected.signing.key.password" => key_password,
+    }
+  end
+
+  private_lane :keystore_path do
+    # Look for keystore in multiple locations
+    locations = [
+      File.expand_path("~/.seal/keystore.jks"),
+      File.expand_path("../keystore.properties", __dir__),
+      "keystore.jks"
+    ]
+
+    locations.each do |loc|
+      return loc if File.exist?(loc)
+    end
+
+    UI.user_error!("Keystore not found. Set KEYSTORE_PATH environment variable or place keystore.jks at expected location.")
+  end
+
+  private_lane :store_password do
+    ENV["KEYSTORE_PASSWORD"] || raise("KEYSTORE_PASSWORD env var is required")
+  end
+
+  private_lane :key_alias do
+    ENV["KEY_ALIAS"] || "github"
+  end
+
+  private_lane :key_password do
+    ENV["KEY_PASSWORD"] || store_password
+  end
+end

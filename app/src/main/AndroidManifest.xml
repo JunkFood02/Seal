@@ -77,6 +77,16 @@
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
+        <service
+            android:name=".player.PlayerService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
@@ -108,6 +118,12 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".player.PlayerActivity"
+            android:exported="false"
+            android:screenOrientation="sensor"
+            android:theme="@style/Theme.Seal.Fullscreen" />
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

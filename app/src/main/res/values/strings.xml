@@ -70,6 +70,7 @@
     <string name="error_copied">Error report copied to clipboard</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="paste">Paste</string>
+    <string name="play">Play</string>
     <string name="yt_dlp_docs">Yt-dlp usage references</string>
     <string name="edit_template_desc">Output path and URL will be added by the app.</string>
     <string name="convert_audio_format">Convert audio format</string>

@@ -1,0 +1,248 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'  # All branches
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+
+jobs:
+  # Static analysis and linting
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Ktlint
+        run: ./gradlew ktlintFormatCheck
+
+      - name: Run Detekt
+        run: ./gradlew detekt
+
+      - name: Run Lint
+        run: ./gradlew lint
+
+  # Unit tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: static-analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --stacktrace
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: app/build/test-results/**/*.xml
+
+  # Build APKs for all ABIs
+  build-apk:
+    name: Build APK (${{ matrix.abi }})
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Install NDK
+        run: echo "y" | sdkmanager "ndk;25.2.9519653" "cmake;3.22.1"
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build ABI-specific APK
+        run: ./gradlew assembleGenericRelease -PABI_FILTERS=${{ matrix.abi }}
+        env:
+          ANDROID_NDK_HOME: ${{ secrets.ANDROID_NDK_HOME }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: seal-${{ matrix.abi }}-apk
+          path: app/build/outputs/apk/generic/release/Seal-*.apk
+
+  # Build universal APK
+  build-universal-apk:
+    name: Build Universal APK
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temerin'
+          java-version: '21'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build universal APK
+        run: ./gradlew assembleGenericRelease -PnoSplits
+
+      - name: Upload universal APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: seal-universal-apk
+          path: app/build/outputs/apk/generic/release/Seal-*.apk
+          retention-days: 7
+
+  # Bundle APK for Play Store (AAB)
+  build-bundle:
+    name: Build App Bundle
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Android App Bundle
+        run: ./gradlew bundleGenericRelease
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v3
+        with:
+          name: seal-bundle
+          path: app/build/outputs/bundle/genericRelease/*.aab
+
+  # Smoke tests (instrumentation)
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [build-apk, build-bundle]
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Download test APKs
+        run: |
+          mkdir -p test-apks
+          # Download one ABI APK for testing
+
+      - name: Run instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis_playstore
+          arch: x86_64
+          script: ./gradlew connectedDebugAndroidTest
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: instrumentation-results
+          path: app/build/outputs/**/*.xml

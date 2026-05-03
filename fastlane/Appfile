@@ -1,0 +1,18 @@
+# Fastlane configuration for Seal
+app_identifier "com.junkfood.seal"  # Application ID
+default_platform(:android)
+
+# Keystore configuration
+keystore_path = ENV["KEYSTORE_PATH"] || File.expand_path("~/.seal/keystore.jks")
+store_password = ENV["KEYSTORE_PASSWORD"]
+key_alias = ENV["KEY_ALIAS"] || "github"
+key_password = ENV["KEY_PASSWORD"] || store_password
+
+# Build configuration
+build_configuration = "Release"
+
+# GitHub configuration
+github_url = "https://github.com/JunkFood02/Seal"
+
+# Google Play configuration (if using)
+json_key_data = ENV["PLAY_STORE_JSON_KEY"]  # Service account JSON

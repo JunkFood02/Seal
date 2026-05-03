@@ -15,7 +15,6 @@ androidxNavigation = "2.8.9"
 androidxEspresso = "3.5.0"
 androidxTestExt = "1.1.4"
 
-
 coil = "2.5.0"
 
 junit4 = "4.13.2"
@@ -39,8 +38,13 @@ koin = "4.0.0"
 
 ktfmt = "0.20.1"
 
-[libraries]
+# Media3 / ExoPlayer
+media3Exoplayer = "1.10.0"
+media3Ui = "1.10.0"
+media3UiCompose = "1.10.0"
+media3Session = "1.10.0"
 
+[libraries]
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
@@ -110,6 +114,12 @@ youtubedl-android-aria2c = { group = "io.github.junkfood02.youtubedl-android", n
 
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
+# Media3 / ExoPlayer dependencies
+androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
+androidx-media3-ui-compose = { group = "androidx.media3", name = "media3-ui-compose", version.ref = "media3UiCompose" }
+androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
@@ -143,6 +153,13 @@ androidxCompose = ["androidx-compose-ui",
 youtubedlAndroid = ["youtubedl-android-library",
     "youtubedl-android-ffmpeg",
     "youtubedl-android-aria2c"]
+
+media3 = [
+    "androidx-media3-exoplayer",
+    "androidx-media3-ui",
+    "androidx-media3-ui-compose",
+    "androidx-media3-session"
+]
 
 core = ["androidx-activity-compose",
     "android-material",

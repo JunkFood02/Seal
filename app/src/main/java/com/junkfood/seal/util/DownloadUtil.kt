@@ -646,6 +646,7 @@ object DownloadUtil {
                 thumbnailUrl = thumbnail.toHttpsUrl(),
                 videoPath = videoPath,
                 extractor = extractorKey,
+                durationSeconds = duration?.roundToInt() ?: 0,
             )
         }
 

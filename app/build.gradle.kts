@@ -54,6 +54,26 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
 
+        // NDK Configuration for QuickJS
+        ndk {
+            abiFilters.addAll(abiFilterList)
+            // Enable STL for C++ standard library
+            stl = "c++_static"
+        }
+
+        // External native build configuration
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++17"
+                cppFlags += "-frtti"
+                cppFlags += "-fexceptions"
+                // Android platform
+                arguments.add("-DANDROID_STL=c++_static")
+                // Build for all specified ABIs
+                targets.add("quickjs_jni")
+            }
+        }
+
         if (splitApks) {
             splits {
                 abi {
@@ -65,6 +85,22 @@ android {
             }
         } else {
             ndk { abiFilters.addAll(abiFilterList) }
+        }
+    }
+
+    // External native build block
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+            // Optional: Pass build arguments
+            arguments.addAll(listOf(
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER",
+                "-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY",
+                "-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY",
+                "-DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY"
+            ))
         }
     }
 
@@ -100,6 +136,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            // Enable native library stripping for release
+            ndk {
+                debugSymbolLevel = "SYMBOL_TABLE"
+            }
             if (keystorePropertiesFile.exists()) {
                 signingConfig = signingConfigs.getByName("githubPublish")
             }
@@ -148,6 +188,10 @@ android {
     packaging {
         resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" }
         jniLibs.useLegacyPackaging = true
+        // Include QuickJS native libraries
+        jniLibs {
+            keepDebugSymbols += "**/libquickjs*.so"
+        }
     }
     androidResources { generateLocaleConfig = true }
 
@@ -183,6 +227,8 @@ dependencies {
     implementation(libs.okhttp)
 
     implementation(libs.bundles.youtubedlAndroid)
+
+    implementation(libs.bundles.media3)
 
     implementation(libs.mmkv)
 

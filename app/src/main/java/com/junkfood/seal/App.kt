@@ -65,6 +65,7 @@ class App : Application() {
             modules(
                 module {
                     single<DownloaderV2> { DownloaderV2Impl(androidContext()) }
+                    viewModel { PlayerViewModel(get()) }
                     viewModel { DownloadDialogViewModel(downloader = get()) }
                     viewModel { HomePageViewModel() }
                     viewModel { CookiesViewModel() }

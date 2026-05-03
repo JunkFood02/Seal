@@ -16,6 +16,7 @@ data class DownloadedVideoInfo(
     val thumbnailUrl: String,
     val videoPath: String,
     @ColumnInfo(defaultValue = "Unknown") val extractor: String = "Unknown",
+    @ColumnInfo(name = "duration_seconds") val durationSeconds: Int = 0,
 ) {
     @Ignore
     constructor() :
@@ -27,5 +28,7 @@ data class DownloadedVideoInfo(
             thumbnailUrl = "Thumbnail",
             videoPath = "Path",
             extractor = "Unknown",
+            durationSeconds = 0
         )
 }
+

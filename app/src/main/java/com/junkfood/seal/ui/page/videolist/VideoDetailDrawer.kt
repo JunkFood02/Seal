@@ -21,7 +21,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -107,6 +109,17 @@ fun VideoDetailDrawer(
                     context.startActivity(Intent.createChooser(this, shareTitle))
                 }
             },
+            onPlayFile = {
+                view.slightHapticFeedback()
+                onDismissRequest()
+                // Launch player activity
+                val intent = android.content.Intent(context, com.junkfood.seal.player.PlayerActivity::class.java).apply {
+                    putExtra("media_uri", videoPath)
+                    putExtra("media_title", videoTitle)
+                    putExtra("media_artist", videoAuthor)
+                }
+                context.startActivity(intent)
+            }
         )
     }
 }
@@ -126,8 +139,6 @@ private fun DrawerPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 fun VideoDetailDrawerImpl(
     sheetState: ModalBottomSheetState =
         ModalBottomSheetState(ModalBottomSheetValue.Hidden, density = LocalDensity.current),
@@ -140,6 +151,7 @@ fun VideoDetailDrawerImpl(
     onDelete: () -> Unit = {},
     onOpenLink: () -> Unit = {},
     onShareFile: () -> Unit = {},
+    onPlayFile: (() -> Unit) = {},
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
@@ -193,6 +205,13 @@ fun VideoDetailDrawerImpl(
                         .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.End,
             ) {
+                if (isFileAvailable) {
+                    FilledTonalButtonWithIcon(
+                        onClick = onPlayFile,
+                        icon = Icons.Outlined.PlayArrow,
+                        text = stringResource(R.string.play),
+                    )
+                }
                 OutlinedButtonWithIcon(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     onClick = onDelete,
@@ -211,10 +230,10 @@ fun VideoDetailDrawerImpl(
                         icon = Icons.Outlined.FileDownload,
                         text = stringResource(R.string.redownload),
                         colors =
-                            ButtonDefaults.filledTonalButtonColors(
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            ),
+                        ButtonDefaults.filledTonalButtonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        ),
                     )
                 }
             }
