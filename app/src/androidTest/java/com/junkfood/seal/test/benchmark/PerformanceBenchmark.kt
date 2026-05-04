@@ -49,9 +49,10 @@ class PerformanceBenchmark {
         baselineProfileRule.collectBaselineProfile(
             packageName = "com.junkfood.seal",
             startupMode = ABSOLUTE,
-            target screens = listOf(
+            targetScreens = listOf(
                 "com.junkfood.seal.MainActivity"
             )
+        )
         )
     }
 
