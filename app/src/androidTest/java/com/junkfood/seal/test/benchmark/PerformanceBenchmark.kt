@@ -53,7 +53,6 @@ class PerformanceBenchmark {
                 "com.junkfood.seal.MainActivity"
             )
         )
-        )
     }
 
     /**
