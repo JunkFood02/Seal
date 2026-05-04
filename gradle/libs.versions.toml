@@ -38,7 +38,6 @@ koin = "4.0.0"
 
 ktfmt = "0.20.1"
 ktlint = "12.1.0"
-ktlint = "1.6.0"
 
 # Media3 / ExoPlayer
 media3Exoplayer = "1.10.0"
