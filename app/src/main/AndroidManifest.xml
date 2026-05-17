@@ -43,14 +43,14 @@
             android:name=".CrashReportActivity"
             android:exported="false"
             android:label="CrashReportActivity"
-            android:theme="@style/Theme.Seal" />
+            android:theme="@style/Theme.Kapu" />
         <activity
             android:name=".QuickDownloadActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/title_activity_share"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.Seal.Dialog">
+            android:theme="@style/Theme.Kapu.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -83,7 +83,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="unspecified"
-            android:theme="@style/Theme.Seal">
+            android:theme="@style/Theme.Kapu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
