@@ -34,6 +34,13 @@ object Route {
 
     const val TASK_HASHCODE = "task_hashcode"
     const val TEMPLATE_ID = "template_id"
+
+    const val FOLDERS = "folders"
+    const val FOLDER_DETAIL = "folder_detail"
+    const val PLAYLISTS = "playlists"
+    const val PLAYLIST_DETAIL = "playlist_detail"
+    const val FOLDER_ID = "folder_id"
+    const val PLAYLIST_ID = "playlist_id"
 }
 
 infix fun String.arg(arg: String) = "$this/{$arg}"

@@ -20,7 +20,9 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.PlaylistAdd
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,6 +50,7 @@ import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.component.FilledTonalButtonWithIcon
 import com.junkfood.seal.ui.component.LongTapTextButton
 import com.junkfood.seal.ui.component.OutlinedButtonWithIcon
+import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.component.SealModalBottomSheetM2
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.FileUtil
@@ -60,6 +63,8 @@ fun VideoDetailDrawer(
     isFileAvailable: Boolean = true,
     onDismissRequest: () -> Unit = {},
     onDelete: () -> Unit = {},
+    onMoveToFolder: (() -> Unit)? = null,
+    onAddToPlaylist: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val view = LocalView.current
@@ -107,6 +112,8 @@ fun VideoDetailDrawer(
                     context.startActivity(Intent.createChooser(this, shareTitle))
                 }
             },
+            onMoveToFolder = onMoveToFolder,
+            onAddToPlaylist = onAddToPlaylist,
         )
     }
 }
@@ -140,6 +147,8 @@ fun VideoDetailDrawerImpl(
     onDelete: () -> Unit = {},
     onOpenLink: () -> Unit = {},
     onShareFile: () -> Unit = {},
+    onMoveToFolder: (() -> Unit)? = null,
+    onAddToPlaylist: (() -> Unit)? = null,
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
@@ -182,6 +191,34 @@ fun VideoDetailDrawerImpl(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
+                }
+            }
+
+            if (onMoveToFolder != null || onAddToPlaylist != null) {
+                Row(
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(top = 8.dp)
+                            .padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+                    if (onMoveToFolder != null) {
+                        TextButtonWithIcon(
+                            modifier = Modifier.padding(end = 8.dp),
+                            onClick = onMoveToFolder,
+                            icon = Icons.Outlined.Folder,
+                            text = stringResource(R.string.move_to_folder),
+                        )
+                    }
+                    if (onAddToPlaylist != null) {
+                        TextButtonWithIcon(
+                            modifier = Modifier.padding(end = 8.dp),
+                            onClick = onAddToPlaylist,
+                            icon = Icons.Outlined.PlaylistAdd,
+                            text = stringResource(R.string.add_to_playlist),
+                        )
+                    }
                 }
             }
 

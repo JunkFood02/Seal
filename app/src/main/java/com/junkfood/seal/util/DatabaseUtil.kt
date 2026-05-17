@@ -10,7 +10,10 @@ import com.junkfood.seal.database.backup.BackupUtil.decodeToBackup
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.FolderInfo
 import com.junkfood.seal.database.objects.OptionShortcut
+import com.junkfood.seal.database.objects.Playlist
+import com.junkfood.seal.database.objects.PlaylistVideoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -132,6 +135,46 @@ object DatabaseUtil {
     suspend fun deleteTemplateById(id: Int) = dao.deleteTemplateById(id)
 
     suspend fun deleteTemplates(templates: List<CommandTemplate>) = dao.deleteTemplates(templates)
+
+    // Folder operations
+    fun getFoldersFlow() = dao.getFoldersFlow()
+
+    suspend fun createFolder(name: String): Long = dao.insertFolder(FolderInfo(name = name))
+
+    suspend fun updateFolder(folder: FolderInfo) = dao.updateFolder(folder)
+
+    suspend fun deleteFolder(folder: FolderInfo) = dao.deleteFolder(folder)
+
+    suspend fun moveVideoToFolder(videoId: Int, folderId: Int?) = dao.updateVideoFolder(videoId, folderId)
+
+    fun getVideosByFolderFlow(folderId: Int) = dao.getVideosByFolderFlow(folderId)
+
+    fun getUnfiledVideosFlow() = dao.getUnfiledVideosFlow()
+
+    fun getFolderItemCount(folderId: Int) = dao.getFolderItemCount(folderId)
+
+    // Playlist operations
+    fun getPlaylistsFlow() = dao.getPlaylistsFlow()
+
+    suspend fun createPlaylist(name: String): Long = dao.insertPlaylist(Playlist(name = name))
+
+    suspend fun updatePlaylist(playlist: Playlist) = dao.updatePlaylist(playlist)
+
+    suspend fun deletePlaylist(playlist: Playlist) = dao.deletePlaylist(playlist)
+
+    suspend fun addVideoToPlaylist(playlistId: Int, videoId: Int) {
+        if (dao.getPlaylistEntry(playlistId, videoId) == null) {
+            dao.insertPlaylistVideo(PlaylistVideoInfo(playlistId = playlistId, videoId = videoId))
+        }
+    }
+
+    suspend fun removeVideoFromPlaylist(playlistId: Int, videoId: Int) {
+        dao.deletePlaylistVideo(PlaylistVideoInfo(playlistId = playlistId, videoId = videoId))
+    }
+
+    fun getPlaylistVideosFlow(playlistId: Int) = dao.getPlaylistVideosFlow(playlistId)
+
+    fun getPlaylistItemCount(playlistId: Int) = dao.getPlaylistItemCount(playlistId)
 
     private const val TAG = "DatabaseUtil"
 }

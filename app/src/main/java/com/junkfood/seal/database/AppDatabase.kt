@@ -6,7 +6,10 @@ import androidx.room.RoomDatabase
 import com.junkfood.seal.database.objects.CommandTemplate
 import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
+import com.junkfood.seal.database.objects.FolderInfo
 import com.junkfood.seal.database.objects.OptionShortcut
+import com.junkfood.seal.database.objects.Playlist
+import com.junkfood.seal.database.objects.PlaylistVideoInfo
 
 @Database(
     entities =
@@ -15,14 +18,18 @@ import com.junkfood.seal.database.objects.OptionShortcut
             CommandTemplate::class,
             CookieProfile::class,
             OptionShortcut::class,
+            FolderInfo::class,
+            Playlist::class,
+            PlaylistVideoInfo::class,
         ],
-    version = 5,
+    version = 6,
     autoMigrations =
         [
             AutoMigration(from = 1, to = 2),
             AutoMigration(from = 2, to = 3),
             AutoMigration(from = 3, to = 4),
             AutoMigration(from = 4, to = 5),
+            AutoMigration(from = 5, to = 6),
         ],
 )
 abstract class AppDatabase : RoomDatabase() {

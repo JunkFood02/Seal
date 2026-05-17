@@ -45,6 +45,10 @@ import com.junkfood.seal.ui.page.command.TaskListPage
 import com.junkfood.seal.ui.page.command.TaskLogPage
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.DownloadPageV2
+import com.junkfood.seal.ui.page.folders.FolderDetailPage
+import com.junkfood.seal.ui.page.folders.FolderPage
+import com.junkfood.seal.ui.page.playlists.PlaylistDetailPage
+import com.junkfood.seal.ui.page.playlists.PlaylistPage
 import com.junkfood.seal.ui.page.settings.SettingsPage
 import com.junkfood.seal.ui.page.settings.about.AboutPage
 import com.junkfood.seal.ui.page.settings.about.CreditsPage
@@ -72,7 +76,7 @@ import org.koin.androidx.compose.koinViewModel
 private const val TAG = "HomeEntry"
 
 private val TopDestinations =
-    listOf(Route.HOME, Route.TASK_LIST, Route.SETTINGS_PAGE, Route.DOWNLOADS)
+    listOf(Route.HOME, Route.TASK_LIST, Route.SETTINGS_PAGE, Route.DOWNLOADS, Route.FOLDERS, Route.PLAYLISTS)
 
 @Composable
 fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
@@ -153,6 +157,36 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                     )
                 }
                 animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
+                animatedComposable(Route.FOLDERS) {
+                    FolderPage(
+                        onNavigateBack = onNavigateBack,
+                        onNavigateToFolder = { id, _ ->
+                            navController.navigate("${Route.FOLDER_DETAIL}/$id")
+                        }
+                    )
+                }
+                slideInVerticallyComposable(
+                    Route.FOLDER_DETAIL arg Route.FOLDER_ID,
+                    arguments = listOf(navArgument(Route.FOLDER_ID) { type = NavType.IntType }),
+                ) {
+                    val folderId = it.arguments?.getInt(Route.FOLDER_ID) ?: -1
+                    FolderDetailPage(folderId = folderId, folderName = "", onNavigateBack = onNavigateBack)
+                }
+                animatedComposable(Route.PLAYLISTS) {
+                    PlaylistPage(
+                        onNavigateBack = onNavigateBack,
+                        onNavigateToPlaylist = { id, _ ->
+                            navController.navigate("${Route.PLAYLIST_DETAIL}/$id")
+                        }
+                    )
+                }
+                slideInVerticallyComposable(
+                    Route.PLAYLIST_DETAIL arg Route.PLAYLIST_ID,
+                    arguments = listOf(navArgument(Route.PLAYLIST_ID) { type = NavType.IntType }),
+                ) {
+                    val playlistId = it.arguments?.getInt(Route.PLAYLIST_ID) ?: -1
+                    PlaylistDetailPage(playlistId = playlistId, playlistName = "", onNavigateBack = onNavigateBack)
+                }
                 animatedComposableVariant(Route.TASK_LIST) {
                     TaskListPage(
                         onNavigateBack = onNavigateBack,

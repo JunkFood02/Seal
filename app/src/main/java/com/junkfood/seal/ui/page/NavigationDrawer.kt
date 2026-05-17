@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Subscriptions
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Subscriptions
@@ -194,6 +196,26 @@ fun NavigationDrawerSheetContent(
                         .invokeOnCompletion { onNavigateToRoute(Route.DOWNLOADS) }
                 },
                 selected = currentRoute == Route.DOWNLOADS,
+            )
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.folders)) },
+                icon = { Icon(Icons.Outlined.Folder, null) },
+                onClick = {
+                    scope
+                        .launch { onDismissRequest() }
+                        .invokeOnCompletion { onNavigateToRoute(Route.FOLDERS) }
+                },
+                selected = currentRoute == Route.FOLDERS,
+            )
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.playlists)) },
+                icon = { Icon(Icons.Outlined.LibraryMusic, null) },
+                onClick = {
+                    scope
+                        .launch { onDismissRequest() }
+                        .invokeOnCompletion { onNavigateToRoute(Route.PLAYLISTS) }
+                },
+                selected = currentRoute == Route.PLAYLISTS,
             )
             NavigationDrawerItem(
                 label = { Text(stringResource(R.string.custom_command)) },

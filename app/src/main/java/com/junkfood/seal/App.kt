@@ -19,6 +19,8 @@ import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.DownloaderV2Impl
 import com.junkfood.seal.ui.page.download.HomePageViewModel
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.folders.FolderViewModel
+import com.junkfood.seal.ui.page.playlists.PlaylistViewModel
 import com.junkfood.seal.ui.page.settings.directory.Directory
 import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.videolist.VideoListViewModel
@@ -69,6 +71,8 @@ class App : Application() {
                     viewModel { HomePageViewModel() }
                     viewModel { CookiesViewModel() }
                     viewModel { VideoListViewModel() }
+                    viewModel { FolderViewModel() }
+                    viewModel { PlaylistViewModel() }
                 }
             )
         }
