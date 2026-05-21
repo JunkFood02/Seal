@@ -404,6 +404,10 @@
     <string name="system_settings">System settings</string>
     <string name="force_ipv4">Force IPv4</string>
     <string name="force_ipv4_desc">Make all connections via IPv4</string>
+    <string name="ejs_runtime">EJS JavaScript runtime</string>
+    <string name="ejs_runtime_desc">Use QuickJS + yt-dlp-ejs to solve YouTube signature challenges. Requires libqjs.so in APK.</string>
+    <string name="ejs_status_not_installed">EJS not available: libqjs.so missing, falling back to workaround</string>
+    <string name="ejs_status_available">EJS runtime ready</string>
     <string name="keep_subtitle_files">Keep subtitle files</string>
     <string name="allow_once">Allow once</string>
     <string name="allow_always">Allow always</string>

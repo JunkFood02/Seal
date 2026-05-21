@@ -191,14 +191,14 @@ class App : Application() {
                 Build.VERSION.RELEASE_OR_CODENAME
             } else {
                 Build.VERSION.RELEASE
-            }
+            }.orEmpty()
             return StringBuilder().append("App version: $versionName ($versionCode)\n")
                 .append("Device information: Android $release (API ${Build.VERSION.SDK_INT})\n")
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
                 .append("Yt-dlp version: ${YT_DLP_VERSION.getString()}\n").toString()
         }
 
-        fun isFDroidBuild(): Boolean = packageInfo.versionName.contains("F-Droid")
+        fun isFDroidBuild(): Boolean = packageInfo.versionName?.contains("F-Droid") == true
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
