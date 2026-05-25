@@ -81,8 +81,6 @@ android {
 
     compileSdk = 34
 
-
-
     defaultConfig {
         applicationId = "com.junkfood.seal"
         minSdk = 21

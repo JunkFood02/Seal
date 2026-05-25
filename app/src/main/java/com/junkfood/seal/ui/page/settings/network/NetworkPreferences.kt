@@ -38,12 +38,16 @@ import com.junkfood.seal.util.ARIA2C
 import com.junkfood.seal.util.CELLULAR_DOWNLOAD
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.CUSTOM_COMMAND
+import com.junkfood.seal.util.ENABLE_EJS_RUNTIME
+import com.junkfood.seal.util.EjsStatus
 import com.junkfood.seal.util.FORCE_IPV4
+import com.junkfood.seal.util.JsRuntimeConfig
 import com.junkfood.seal.util.PROXY
 import com.junkfood.seal.util.PreferenceUtil.getValue
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateValue
 import com.junkfood.seal.util.RATE_LIMIT
+import com.junkfood.seal.util.ToastUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +67,7 @@ fun NetworkPreferences(
     var proxy by PROXY.booleanState
     var isCookiesEnabled by COOKIES.booleanState
     var forceIpv4 by FORCE_IPV4.booleanState
+    var ejsRuntime by remember { mutableStateOf(getValue(ENABLE_EJS_RUNTIME)) }
 
     Scaffold(
         modifier = Modifier
@@ -184,6 +189,32 @@ fun NetworkPreferences(
                         forceIpv4 = !forceIpv4
                         FORCE_IPV4.updateBoolean(forceIpv4)
                     }
+                }
+                item {
+                    val ejsStatus = remember(ejsRuntime) { JsRuntimeConfig.checkStatus() }
+                    val ejsDesc = when (ejsStatus) {
+                        EjsStatus.AVAILABLE -> stringResource(R.string.ejs_status_available)
+                        EjsStatus.NOT_INSTALLED -> stringResource(R.string.ejs_status_not_installed)
+                        EjsStatus.DISABLED -> stringResource(R.string.ejs_runtime_desc)
+                    }
+                    PreferenceSwitchWithDivider(
+                        title = stringResource(R.string.ejs_runtime),
+                        description = ejsDesc,
+                        icon = Icons.Outlined.Bolt,
+                        enabled = !isCustomCommandEnabled,
+                        isChecked = ejsRuntime,
+                        onChecked = {
+                            ejsRuntime = !ejsRuntime
+                            updateValue(ENABLE_EJS_RUNTIME, ejsRuntime)
+                            val status = JsRuntimeConfig.checkStatus()
+                            val toastRes = when (status) {
+                                EjsStatus.AVAILABLE -> R.string.ejs_status_available
+                                EjsStatus.NOT_INSTALLED -> R.string.ejs_status_not_installed
+                                EjsStatus.DISABLED -> R.string.ejs_runtime_desc
+                            }
+                            ToastUtil.makeToast(toastRes)
+                        },
+                    )
                 }
                 item {
                     PreferenceItem(title = stringResource(R.string.cookies),

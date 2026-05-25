@@ -119,6 +119,7 @@ object DownloadUtil {
                 }
             }
         }
+        JsRuntimeConfig.applyJsRuntimeConfig(request)
         execute(request, playlistURL).out.run {
             val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
             if (playlistInfo.type != "playlist") {
@@ -178,6 +179,7 @@ object DownloadUtil {
                 addOption("--no-playlist")
                 addOption("--socket-timeout", "5")
             }
+            JsRuntimeConfig.applyJsRuntimeConfig(request)
             return getVideoInfo(request)
         }
     }
@@ -642,6 +644,8 @@ object DownloadUtil {
 
                 addOption("-o", outputBuilder.append(output).toString())
 
+                JsRuntimeConfig.applyJsRuntimeConfig(this)
+
                 for (s in request.buildCommand()) Log.d(TAG, s)
             }.runCatching {
                 YoutubeDL.getInstance().execute(
@@ -741,6 +745,8 @@ object DownloadUtil {
                     enableCookies(userAgentString)
                 }
             }
+
+            JsRuntimeConfig.applyJsRuntimeConfig(request)
 
             onProcessStarted()
             withContext(Dispatchers.Main) {
