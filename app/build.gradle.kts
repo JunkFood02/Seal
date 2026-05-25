@@ -79,8 +79,7 @@ android {
         }
     }
 
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.junkfood.seal"
