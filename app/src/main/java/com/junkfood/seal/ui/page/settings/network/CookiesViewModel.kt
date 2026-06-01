@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,8 @@ class CookiesViewModel : ViewModel() {
         val editingCookieProfile: CookieProfile =
             CookieProfile(id = NEW_PROFILE_ID, url = "", content = "")
     )
+
+    data class CookieImportResult(val importedCount: Int)
 
     val cookiesFlow = DatabaseUtil.getCookiesFlow()
 
@@ -65,5 +68,23 @@ class CookiesViewModel : ViewModel() {
                 DatabaseUtil.updateCookieProfile(profile)
             }
         }
+    }
+
+    suspend fun importNetscapeCookieProfile(
+        url: String,
+        content: String,
+    ): Result<CookieImportResult> =
+        CookieParser.parseNetscapeCookies(content).mapCatching { cookies ->
+            importNetscapeCookieProfile(url = url, cookies = cookies).getOrThrow()
+        }
+
+    suspend fun importNetscapeCookieProfile(
+        url: String,
+        cookies: List<Cookie>,
+    ): Result<CookieImportResult> = runCatching {
+        DatabaseUtil.insertCookieProfile(
+            CookieProfile(id = NEW_PROFILE_ID, url = url, content = cookies.toCookiesFileContent())
+        )
+        CookieImportResult(importedCount = cookies.size)
     }
 }

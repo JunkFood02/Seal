@@ -186,6 +186,14 @@
     <string name="cookies">Cookies</string>
     <string name="cookies_desc">Use Netscape formatted cookies for downloads</string>
     <string name="cookies_file_name" translatable="false">cookies.txt</string>
+    <string name="import_cookies">Import cookies</string>
+    <string name="import_cookies_from_clipboard">Import cookies from clipboard</string>
+    <string name="import_cookies_from_file">Import cookies from file</string>
+    <string name="import_cookies_confirmation_msg">Import %1$d cookie(s) from %2$s? Cookie names, values, and raw content are hidden for safety.</string>
+    <string name="cookies_imported">Imported %1$d cookie(s)</string>
+    <string name="import_cookies_failed">Could not import cookies</string>
+    <string name="imported_cookies_from_clipboard">Imported cookies from clipboard</string>
+    <string name="imported_cookies_from_file">Imported cookies from file</string>
     <string name="clear_temp_files">Clear temporary files</string>
     <string name="clear_temp_files_desc">Delete all temporary files from the temporary directory</string>
     <string name="clear_temp_files_count">Deleted %1$d temporary file(s)</string>
