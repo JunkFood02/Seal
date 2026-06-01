@@ -121,7 +121,6 @@ fun CookieProfilePage(
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
-    val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(COOKIES.getBoolean()) }
     val cookieManager = CookieManager.getInstance()
@@ -152,6 +151,7 @@ fun CookieProfilePage(
                                 profileUrl = profileUrl,
                                 cookies = parsedCookies,
                                 importedCount = parsedCookies.size,
+                                profileCount = CookieParser.groupCookiesByDomain(parsedCookies).size,
                             )
                     }
                 }
@@ -252,33 +252,6 @@ fun CookieProfilePage(
                             onClick = ::toggleUserAgent,
                         )
                         DropdownMenuItem(
-                            leadingIcon = { Icon(Icons.Outlined.ContentPaste, null) },
-                            text = {
-                                Text(stringResource(id = R.string.import_cookies_from_clipboard))
-                            },
-                            onClick = {
-                                expanded = false
-                                clipboardManager.getText()?.text?.let { content ->
-                                    previewNetscapeCookieImport(
-                                        source = clipboardSource,
-                                        profileUrl = clipboardProfileUrl,
-                                        content = content,
-                                    )
-                                }
-                                    ?: ToastUtil.makeToast(
-                                        context.getString(R.string.import_cookies_failed)
-                                    )
-                            },
-                        )
-                        DropdownMenuItem(
-                            leadingIcon = { Icon(Icons.Outlined.Restore, null) },
-                            text = { Text(stringResource(id = R.string.import_cookies_from_file)) },
-                            onClick = {
-                                expanded = false
-                                importLauncher.launch("text/plain")
-                            },
-                        )
-                        DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.FileCopy, null) },
                             text = { Text(stringResource(id = R.string.export_to_file)) },
                             enabled = cookieList.isNotEmpty(),
@@ -353,6 +326,28 @@ fun CookieProfilePage(
                 }
             }
             item {
+                PreferenceItemVariant(
+                    title = stringResource(id = R.string.import_cookies_from_clipboard),
+                    icon = Icons.Outlined.ContentPaste,
+                ) {
+                    clipboardManager.getText()?.text?.let { content ->
+                        previewNetscapeCookieImport(
+                            source = clipboardSource,
+                            profileUrl = clipboardProfileUrl,
+                            content = content,
+                        )
+                    } ?: ToastUtil.makeToast(context.getString(R.string.import_cookies_failed))
+                }
+            }
+            item {
+                PreferenceItemVariant(
+                    title = stringResource(id = R.string.import_cookies_from_file),
+                    icon = Icons.Outlined.Restore,
+                ) {
+                    importLauncher.launch("text/plain")
+                }
+            }
+            item {
                 androidx.compose.material3.HorizontalDivider()
                 val cookiesCount = cookieList.size
                 val siteCount = cookieList.distinctBy { it.domain }.size
@@ -400,18 +395,22 @@ fun CookieProfilePage(
         ImportNetscapeCookieConfirmationDialog(
             preview = preview,
             onDismissRequest = { importPreview = null },
-            onConfirm = {
+            onConfirm = { profileUrl ->
                 scope.launch(Dispatchers.IO) {
                     val result =
                         cookiesViewModel.importNetscapeCookieProfile(
-                            url = preview.profileUrl,
+                            url = profileUrl,
                             cookies = preview.cookies,
                         )
                     withContext(Dispatchers.Main) {
                         result
                             .onSuccess {
                                 ToastUtil.makeToast(
-                                    context.getString(R.string.cookies_imported, it.importedCount)
+                                    context.getString(
+                                        R.string.cookies_imported,
+                                        it.importedCount,
+                                        it.profileCount,
+                                    )
                                 )
                                 importPreview = null
                                 shouldUpdateCookies = true
@@ -433,32 +432,50 @@ private data class NetscapeCookieImportPreview(
     val profileUrl: String,
     val cookies: List<Cookie>,
     val importedCount: Int,
+    val profileCount: Int,
 )
 
 @Composable
 private fun ImportNetscapeCookieConfirmationDialog(
     preview: NetscapeCookieImportPreview,
     onDismissRequest: () -> Unit,
-    onConfirm: () -> Unit,
+    onConfirm: (String) -> Unit,
 ) {
+    var profileUrl by remember(preview) { mutableStateOf(preview.profileUrl) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Outlined.Cookie, null) },
         title = { Text(stringResource(R.string.import_cookies)) },
         text = {
-            Text(
-                text =
-                    stringResource(
-                        R.string.import_cookies_confirmation_msg,
-                        preview.importedCount,
-                        preview.source,
-                    ),
-                style = MaterialTheme.typography.bodyLarge,
-            )
+            Column {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                    value = profileUrl,
+                    label = { Text(stringResource(R.string.cookie_profile_label)) },
+                    onValueChange = { profileUrl = it },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                )
+                Text(
+                    text =
+                        stringResource(
+                            R.string.import_cookies_confirmation_msg,
+                            preview.importedCount,
+                            preview.source,
+                            preview.profileCount,
+                        ),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         },
         dismissButton = { DismissButton { onDismissRequest() } },
         confirmButton = {
-            ConfirmButton(text = stringResource(R.string.import_backup)) { onConfirm() }
+            ConfirmButton(
+                enabled = profileUrl.isNotBlank(),
+                text = stringResource(R.string.import_backup),
+            ) {
+                onConfirm(profileUrl.trim())
+            }
         },
     )
 }
