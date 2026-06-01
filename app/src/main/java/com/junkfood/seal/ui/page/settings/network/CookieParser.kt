@@ -49,6 +49,9 @@ object CookieParser {
         cookies.values.toList()
     }
 
+    fun groupCookiesByDomain(cookies: List<Cookie>): Map<String, List<Cookie>> =
+        cookies.groupBy { it.domain.normalizedCookieDomain() }
+
     private fun String.toNetscapeBoolean(lineIndex: Int): Boolean =
         when (uppercase()) {
             "TRUE" -> true
@@ -56,6 +59,12 @@ object CookieParser {
             else ->
                 throw IllegalArgumentException("Invalid cookie boolean at line ${lineIndex + 1}")
         }
+
+    private fun String.normalizedCookieDomain(): String {
+        val normalized = trim().trimStart('.').lowercase()
+        require(normalized.isNotEmpty()) { "Invalid cookie domain" }
+        return normalized
+    }
 
     private data class CookieKey(val domain: String, val path: String, val name: String)
 }

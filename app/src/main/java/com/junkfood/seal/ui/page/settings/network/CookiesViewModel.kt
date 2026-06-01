@@ -21,7 +21,7 @@ class CookiesViewModel : ViewModel() {
             CookieProfile(id = NEW_PROFILE_ID, url = "", content = "")
     )
 
-    data class CookieImportResult(val importedCount: Int)
+    data class CookieImportResult(val importedCount: Int, val profileCount: Int)
 
     val cookiesFlow = DatabaseUtil.getCookiesFlow()
 
@@ -82,9 +82,16 @@ class CookiesViewModel : ViewModel() {
         url: String,
         cookies: List<Cookie>,
     ): Result<CookieImportResult> = runCatching {
-        DatabaseUtil.insertCookieProfile(
-            CookieProfile(id = NEW_PROFILE_ID, url = url, content = cookies.toCookiesFileContent())
-        )
-        CookieImportResult(importedCount = cookies.size)
+        val groupedCookies = CookieParser.groupCookiesByDomain(cookies)
+        groupedCookies.forEach { (domain, domainCookies) ->
+            DatabaseUtil.insertCookieProfile(
+                CookieProfile(
+                    id = NEW_PROFILE_ID,
+                    url = if (groupedCookies.size == 1) url else domain,
+                    content = domainCookies.toCookiesFileContent(),
+                )
+            )
+        }
+        CookieImportResult(importedCount = cookies.size, profileCount = groupedCookies.size)
     }
 }

@@ -110,6 +110,32 @@ class CookieParserTest {
     }
 
     @Test
+    fun groupCookiesByDomain_groupsLeadingDotWithBareDomain() {
+        val bareDomainCookie = Cookie(domain = "example.com", name = "session", value = "bare")
+        val leadingDotCookie = Cookie(domain = ".example.com", name = "auth", value = "dot")
+
+        val groups = CookieParser.groupCookiesByDomain(listOf(bareDomainCookie, leadingDotCookie))
+
+        assertEquals(setOf("example.com"), groups.keys)
+        assertEquals(listOf(bareDomainCookie, leadingDotCookie), groups.getValue("example.com"))
+    }
+
+    @Test
+    fun groupCookiesByDomain_splitsSubdomainsAndSeparateSites() {
+        val rootCookie = Cookie(domain = ".example.com", name = "root", value = "1")
+        val subdomainCookie = Cookie(domain = "account.example.com", name = "account", value = "2")
+        val otherCookie = Cookie(domain = "example.org", name = "other", value = "3")
+
+        val groups =
+            CookieParser.groupCookiesByDomain(listOf(rootCookie, subdomainCookie, otherCookie))
+
+        assertEquals(setOf("example.com", "account.example.com", "example.org"), groups.keys)
+        assertEquals(listOf(rootCookie), groups.getValue("example.com"))
+        assertEquals(listOf(subdomainCookie), groups.getValue("account.example.com"))
+        assertEquals(listOf(otherCookie), groups.getValue("example.org"))
+    }
+
+    @Test
     fun mergeRuntimeCookies_keepsImportedCookiesWhenWebViewIsEmpty() {
         val importedCookie = Cookie(domain = "example.com", name = "session", value = "imported")
 
