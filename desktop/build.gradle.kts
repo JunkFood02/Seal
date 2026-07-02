@@ -108,6 +108,29 @@ val downloadFfmpeg by
         }
     }
 
+// Seal's own uninstaller (see WindowsIntegration): shipped next to the bundled binaries so the
+// app can register it as the "Uninstall Seal" Start-menu entry on first launch. The script also
+// cleans up everything the installer doesn't know about (PATH entry, registry, app data).
+val bundleUninstallScript by
+    tasks.registering {
+        description = "Copies the Windows uninstall script into the app resources dir"
+
+        val isWindows = hostIsWindows
+        onlyIf { isWindows }
+
+        val scriptFile = layout.projectDirectory.file("packaging/windows/uninstall.ps1").asFile
+        inputs.file(scriptFile)
+        val outputDirProvider = ytDlpBinDir
+        outputs.dir(outputDirProvider)
+
+        val osDirName = osResourceDirName
+
+        doLast {
+            val outputDir = outputDirProvider.get().asFile.resolve(osDirName).apply { mkdirs() }
+            scriptFile.copyTo(outputDir.resolve("uninstall.ps1"), overwrite = true)
+        }
+    }
+
 compose.desktop {
     application {
         mainClass = "com.junkfood.seal.desktop.MainKt"
@@ -142,5 +165,5 @@ compose.desktop {
 // prepareAppResources is the Compose plugin's Sync task that copies appResourcesRootDir into the
 // packaged app image; it must run after the binaries have been downloaded into that dir.
 tasks.matching { it.name == "prepareAppResources" || it.name.startsWith("package") }.configureEach {
-    dependsOn(downloadYtDlp, downloadFfmpeg)
+    dependsOn(downloadYtDlp, downloadFfmpeg, bundleUninstallScript)
 }

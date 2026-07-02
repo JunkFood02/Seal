@@ -11,6 +11,15 @@
 > Based on the original [Seal for Android](https://github.com/JunkFood02/Seal) by
 > [JunkFood02](https://github.com/JunkFood02) — all credit for the Android app and its design
 > goes to the upstream project.
+>
+> **Share links to Seal**: other apps can hand links to the desktop app via `seal://` links,
+> Windows "Open with"/Default apps, or `Seal.exe <url>` — a running instance is focused and the
+> download dialog opens prefilled.
+>
+> **Own uninstaller**: the app bundles `uninstall.ps1` (see `desktop/packaging/windows/`),
+> reachable from the "Uninstall Seal" Start-menu shortcut. It removes the app plus everything the
+> installer doesn't know about — the PATH entry, `seal://`/URL registrations, shortcuts, and
+> (optionally) settings and history. Supports `-Silent` and `-KeepData` switches.
 
 
 English

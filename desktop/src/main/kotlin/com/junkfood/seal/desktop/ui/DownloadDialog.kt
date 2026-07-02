@@ -40,6 +40,9 @@ import com.junkfood.seal.desktop.download.DownloadType
  * Download dialog mirroring the Android app's: URL input plus per-download options (type,
  * quality, format, playlist/subtitle/embed toggles, custom yt-dlp arguments) seeded from the
  * saved defaults, and an entry point into the format selector.
+ *
+ * The URL field is prefilled from [initialUrl] (a link shared from another app) when given,
+ * falling back to a link on the clipboard.
  */
 @Composable
 fun DownloadDialog(
@@ -47,11 +50,20 @@ fun DownloadDialog(
     onDismiss: () -> Unit,
     onConfirm: (url: String, preferences: DownloadPreferences) -> Unit,
     onSelectFormats: (url: String, preferences: DownloadPreferences) -> Unit,
+    initialUrl: String? = null,
 ) {
     val clipboard = LocalClipboardManager.current
-    var url by remember {
+    // Keyed on initialUrl so a link shared while the dialog is already open replaces the field.
+    var url by remember(initialUrl) {
+        val shared = initialUrl?.trim().orEmpty()
         val clip = runCatching { clipboard.getText()?.text?.trim() }.getOrNull().orEmpty()
-        mutableStateOf(if (clip.startsWith("http://") || clip.startsWith("https://")) clip else "")
+        mutableStateOf(
+            when {
+                shared.isNotEmpty() -> shared
+                clip.startsWith("http://") || clip.startsWith("https://") -> clip
+                else -> ""
+            }
+        )
     }
     var prefs by remember { mutableStateOf(defaultPreferences.copy(formatId = null)) }
 

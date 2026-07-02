@@ -14,6 +14,11 @@ data class DesktopSettings(
     val downloadPreferences: DownloadPreferences = DownloadPreferences(),
     /** Set after the bundled binaries dir has been added to the user PATH (Windows only). */
     val addedToPath: Boolean = false,
+    /**
+     * Set after the one-time Windows shell integration (seal:// protocol, URL associations for
+     * shared links, uninstaller registration) has been applied. See WindowsIntegration.
+     */
+    val shellIntegrated: Boolean = false,
 ) {
     companion object {
         fun defaultDownloadDirectory(): String =

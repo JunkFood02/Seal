@@ -18,6 +18,7 @@ import com.junkfood.seal.desktop.download.DownloadState
 import com.junkfood.seal.desktop.download.DownloadTask
 import com.junkfood.seal.desktop.download.YtDlpDownloader
 import com.junkfood.seal.desktop.platform.PathIntegration
+import com.junkfood.seal.desktop.platform.WindowsIntegration
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,9 +40,12 @@ private sealed interface Screen {
  * The download task list and [YtDlpDownloader] live here (not in [HomeScreen]) and the screen
  * switch below uses [Crossfade] instead of a raw `when`, so navigating to Settings/Downloads and
  * back doesn't wipe an in-progress download or cause an abrupt full-tree rebuild.
+ *
+ * [sharedUrl] is a link handed to Seal by another app (share/protocol/CLI, see Main); it opens
+ * the download dialog prefilled, and [onSharedUrlConsumed] clears it once acted upon.
  */
 @Composable
-fun SealApp() {
+fun SealApp(sharedUrl: String? = null, onSharedUrlConsumed: () -> Unit = {}) {
     var screen by remember { mutableStateOf<Screen>(Screen.Home) }
     var settings by remember { mutableStateOf(SettingsStore.load()) }
     var history by remember { mutableStateOf(HistoryStore.load()) }
@@ -52,19 +56,32 @@ fun SealApp() {
     val scope = rememberCoroutineScope()
     var nextId by remember { mutableStateOf(0L) }
 
-    // First launch of a packaged install: put the bundled yt-dlp/ffmpeg dir on the user PATH
-    // (Windows only) so the tools are also usable from any terminal. The installer itself
-    // (jpackage MSI) can't run custom actions, so this happens here instead.
+    // First launch of a packaged install (the jpackage installer can't run custom actions, so
+    // both run here instead): put the bundled yt-dlp/ffmpeg dir on the user PATH so the tools
+    // are also usable from any terminal, and register the Windows shell integration (seal://
+    // protocol, URL associations for shared links, and Seal's own uninstaller entry).
     LaunchedEffect(Unit) {
         if (!settings.addedToPath) {
-            val dir = downloader.binaryDirectory ?: return@LaunchedEffect
-            val added = withContext(Dispatchers.IO) { PathIntegration.ensureOnUserPath(dir) }
-            if (added) {
-                settings = settings.copy(addedToPath = true)
+            val dir = downloader.binaryDirectory
+            if (dir != null) {
+                val added = withContext(Dispatchers.IO) { PathIntegration.ensureOnUserPath(dir) }
+                if (added) {
+                    settings = settings.copy(addedToPath = true)
+                    SettingsStore.save(settings)
+                }
+            }
+        }
+        if (!settings.shellIntegrated) {
+            val registered = withContext(Dispatchers.IO) { WindowsIntegration.register() }
+            if (registered) {
+                settings = settings.copy(shellIntegrated = true)
                 SettingsStore.save(settings)
             }
         }
     }
+
+    // A link shared from another app always lands on Home, where the prefilled dialog opens.
+    LaunchedEffect(sharedUrl) { if (sharedUrl != null) screen = Screen.Home }
 
     fun updateTask(taskId: Long, transform: (DownloadTask) -> DownloadTask) {
         val index = tasks.indexOfFirst { it.id == taskId }
@@ -111,6 +128,8 @@ fun SealApp() {
                 HomeScreen(
                     settings = settings,
                     tasks = tasks,
+                    sharedUrl = sharedUrl,
+                    onSharedUrlConsumed = onSharedUrlConsumed,
                     onStartDownload = ::startDownload,
                     onCancelDownload = ::cancelDownload,
                     onOpenVideoList = { screen = Screen.VideoList },

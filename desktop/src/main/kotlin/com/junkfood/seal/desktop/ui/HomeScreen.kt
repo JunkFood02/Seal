@@ -66,21 +66,30 @@ fun HomeScreen(
     onOpenVideoList: () -> Unit,
     onOpenSettings: () -> Unit,
     fetchVideoInfo: suspend (String) -> VideoInfo,
+    sharedUrl: String? = null,
+    onSharedUrlConsumed: () -> Unit = {},
 ) {
     var showInputDialog by remember { mutableStateOf(false) }
     var showOverflowMenu by remember { mutableStateOf(false) }
     var formatSelection by remember { mutableStateOf<FormatSelectionState?>(null) }
 
-    if (showInputDialog) {
+    // A link shared from another app opens the dialog directly, prefilled with that link.
+    if (showInputDialog || sharedUrl != null) {
         DownloadDialog(
+            initialUrl = sharedUrl,
             defaultPreferences = settings.downloadPreferences,
-            onDismiss = { showInputDialog = false },
+            onDismiss = {
+                showInputDialog = false
+                onSharedUrlConsumed()
+            },
             onConfirm = { url, prefs ->
                 showInputDialog = false
+                onSharedUrlConsumed()
                 onStartDownload(url, prefs)
             },
             onSelectFormats = { url, prefs ->
                 showInputDialog = false
+                onSharedUrlConsumed()
                 formatSelection = FormatSelectionState(url = url, preferences = prefs)
             },
         )
