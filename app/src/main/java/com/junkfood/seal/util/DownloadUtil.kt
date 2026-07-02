@@ -427,6 +427,33 @@ object DownloadUtil {
             }
             .toString()
 
+    fun parseNetscapeCookies(content: String): List<Cookie> {
+        val cookies = mutableListOf<Cookie>()
+        content.lines().forEach { line ->
+            val trimmed = line.trim()
+            if (trimmed.isEmpty()) return@forEach
+            val processed =
+                if (trimmed.startsWith("#HttpOnly_")) trimmed.removePrefix("#HttpOnly_")
+                else if (trimmed.startsWith("#")) return@forEach
+                else trimmed
+            val fields = processed.split("\t")
+            if (fields.size >= 7) {
+                cookies.add(
+                    Cookie(
+                        domain = fields[0],
+                        includeSubdomains = fields[1].uppercase() == "TRUE",
+                        path = fields[2],
+                        secure = fields[3].uppercase() == "TRUE",
+                        expiry = fields[4].toLongOrNull() ?: 0L,
+                        name = fields[5],
+                        value = fields[6],
+                    )
+                )
+            }
+        }
+        return cookies
+    }
+
     fun getCookiesContentFromDatabase(): Result<String> =
         getCookieListFromDatabase().mapCatching { it.toCookiesFileContent() }
 

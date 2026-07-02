@@ -29,6 +29,7 @@ import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.FileCopy
+import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.MoreVert
@@ -89,13 +90,16 @@ import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.parseNetscapeCookies
 import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -150,6 +154,54 @@ fun CookieProfilePage(
                 scope.launch(Dispatchers.IO) {
                     context.contentResolver.openOutputStream(uri)?.use {
                         it.write(cookieList.toCookiesFileContent().toByteArray())
+                    }
+                }
+            }
+        }
+
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                scope.launch(Dispatchers.IO) {
+                    runCatching {
+                        val content = context.contentResolver.openInputStream(it)?.use { stream ->
+                            stream.bufferedReader().readText()
+                        } ?: throw Exception("Failed to read file")
+                        val importedCookies = parseNetscapeCookies(content)
+                        if (importedCookies.isEmpty()) throw Exception("No valid cookies found")
+                        val contentString = importedCookies.toCookiesFileContent()
+                        FileUtil.writeContentToFile(contentString, context.getCookiesFile())
+                        importedCookies.forEach { cookie ->
+                            val domain =
+                                if (cookie.domain.startsWith(".")) cookie.domain.drop(1)
+                                else cookie.domain
+                            val url = "https://$domain${cookie.path}"
+                            cookieManager.setCookie(url, "${cookie.name}=${cookie.value}")
+                        }
+                        cookieManager.flush()
+                        importedCookies.groupBy { it.domain }.forEach { (domain, cookies) ->
+                            DatabaseUtil.insertCookieProfile(
+                                CookieProfile(
+                                    id = 0,
+                                    url = "https://$domain",
+                                    content = cookies.toCookiesFileContent(),
+                                )
+                            )
+                        }
+                        importedCookies
+                    }.onSuccess { importedCookies ->
+                        withContext(Dispatchers.Main) {
+                            cookieList = importedCookies
+                            ToastUtil.makeToast(
+                                context.getString(R.string.cookies_imported, importedCookies.size)
+                            )
+                        }
+                    }.onFailure {
+                        withContext(Dispatchers.Main) {
+                            ToastUtil.makeToast(context.getString(R.string.import_failed))
+                        }
                     }
                 }
             }
@@ -210,6 +262,14 @@ fun CookieProfilePage(
                             },
                         )
                         DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.FileOpen, null) },
+                            text = { Text(stringResource(id = R.string.import_from_file)) },
+                            onClick = {
+                                expanded = false
+                                importLauncher.launch(arrayOf("text/plain", "text/*"))
+                            },
+                        )
+                        DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.DeleteForever, null) },
                             text = { Text(stringResource(id = R.string.clear_all_cookies)) },
                             onClick = {
@@ -235,7 +295,7 @@ fun CookieProfilePage(
                             isCookieEnabled = false
                             COOKIES.updateBoolean(false)
                         } else if (
-                            (cookies.isEmpty() || !cookieManager.hasCookies()) && !isCookieEnabled
+                            (cookies.isEmpty() || (cookieList.isEmpty() && !cookieManager.hasCookies())) && !isCookieEnabled
                         ) {
                             showHelpDialog = true
                         } else {

@@ -343,6 +343,10 @@
     <string name="remove_multiple_templates_msg">Remove %1$s from command templates for good?</string>
     <string name="ua_header">User-Agent header</string>
     <string name="export_to_file">Export to file</string>
+    <string name="import_from_file">Import from file</string>
+    <string name="import_cookies_desc">Import a Netscape formatted cookies.txt file exported from your browser</string>
+    <string name="cookies_imported">%1$d cookies imported</string>
+    <string name="import_failed">Failed to import cookies</string>
     <string name="output_template">Output template</string>
     <string name="presets">Presets</string>
     <string name="output_template_desc">Specify the template for output file names</string>
