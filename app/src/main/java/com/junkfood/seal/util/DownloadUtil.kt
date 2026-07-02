@@ -372,11 +372,23 @@ object DownloadUtil {
         this.addOption("--download-archive", context.getArchiveFile().absolutePath)
 
     @CheckResult
-    fun getCookieListFromDatabase(): Result<List<Cookie>> = runCatching {
-        CookieManager.getInstance().run {
-            if (!hasCookies()) throw Exception("There is no cookies in the database!")
-            flush()
-        }
+    suspend fun getCookieListFromDatabase(): Result<List<Cookie>> = runCatching {
+        val profiles = DatabaseUtil.getCookieProfileList()
+        if (profiles.isEmpty()) throw Exception("There is no cookies in the database!")
+        profiles.flatMap { parseNetscapeCookies(it.content) }
+            .ifEmpty { throw Exception("There is no cookies in the database!") }
+    }
+
+    suspend fun getCookiesContentFromDatabase(): Result<String> = runCatching {
+        val profiles = DatabaseUtil.getCookieProfileList()
+        if (profiles.isEmpty()) throw Exception("There is no cookies in the database!")
+        profiles.joinToString(separator = "") { it.content }
+            .ifEmpty { throw Exception("There is no cookies in the database!") }
+    }
+
+    @CheckResult
+    fun extractCookiesFromWebView(): Result<String> = runCatching {
+        CookieManager.getInstance().flush()
         SQLiteDatabase.openDatabase(
                 context.dataDir.resolve("app_webview/Default/Cookies").absolutePath,
                 null,
@@ -417,7 +429,8 @@ object DownloadUtil {
                     close()
                 }
                 close()
-                cookieList
+                if (cookieList.isEmpty()) throw Exception("No cookies found in WebView")
+                cookieList.toCookiesFileContent()
             }
     }
 
@@ -453,9 +466,6 @@ object DownloadUtil {
         }
         return cookies
     }
-
-    fun getCookiesContentFromDatabase(): Result<String> =
-        getCookieListFromDatabase().mapCatching { it.toCookiesFileContent() }
 
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")

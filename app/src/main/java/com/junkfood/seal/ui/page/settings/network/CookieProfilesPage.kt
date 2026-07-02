@@ -49,9 +49,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -91,11 +91,8 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DatabaseUtil
-import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.parseNetscapeCookies
 import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
-import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
@@ -125,26 +122,15 @@ fun CookieProfilePage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(COOKIES.getBoolean()) }
-    val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
     val view = LocalView.current
 
-    var cookieList by remember { mutableStateOf(listOf<Cookie>()) }
-
-    var shouldUpdateCookies by remember { mutableStateOf(false) }
+    val cookieList by remember(cookies) {
+        derivedStateOf { cookies.flatMap { parseNetscapeCookies(it.content) } }
+    }
 
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-
-    DisposableEffect(shouldUpdateCookies) {
-        scope.launch(Dispatchers.IO) {
-            DownloadUtil.getCookieListFromDatabase().getOrNull()?.let {
-                cookieList = it
-                FileUtil.writeContentToFile(it.toCookiesFileContent(), context.getCookiesFile())
-            }
-        }
-        onDispose { shouldUpdateCookies = false }
-    }
 
     val exportLauncher =
         rememberLauncherForActivityResult(
@@ -171,29 +157,27 @@ fun CookieProfilePage(
                         } ?: throw Exception("Failed to read file")
                         val importedCookies = parseNetscapeCookies(content)
                         if (importedCookies.isEmpty()) throw Exception("No valid cookies found")
-                        val contentString = importedCookies.toCookiesFileContent()
-                        FileUtil.writeContentToFile(contentString, context.getCookiesFile())
-                        importedCookies.forEach { cookie ->
-                            val domain =
-                                if (cookie.domain.startsWith(".")) cookie.domain.drop(1)
-                                else cookie.domain
-                            val url = "https://$domain${cookie.path}"
-                            cookieManager.setCookie(url, "${cookie.name}=${cookie.value}")
-                        }
-                        cookieManager.flush()
-                        importedCookies.groupBy { it.domain }.forEach { (domain, cookies) ->
-                            DatabaseUtil.insertCookieProfile(
-                                CookieProfile(
-                                    id = 0,
-                                    url = "https://$domain",
-                                    content = cookies.toCookiesFileContent(),
+                        importedCookies.groupBy { it.domain }.forEach { (domain, cookiesForDomain) ->
+                            val url = "https://${domain.removePrefix(".")}"
+                            val existing = DatabaseUtil.getCookieProfileByUrl(url)
+                            val profile =
+                                existing?.copy(
+                                    content = cookiesForDomain.toCookiesFileContent()
                                 )
-                            )
+                                    ?: CookieProfile(
+                                        id = 0,
+                                        url = url,
+                                        content = cookiesForDomain.toCookiesFileContent(),
+                                    )
+                            if (existing != null) {
+                                DatabaseUtil.updateCookieProfile(profile)
+                            } else {
+                                DatabaseUtil.insertCookieProfile(profile)
+                            }
                         }
                         importedCookies
                     }.onSuccess { importedCookies ->
                         withContext(Dispatchers.Main) {
-                            cookieList = importedCookies
                             ToastUtil.makeToast(
                                 context.getString(R.string.cookies_imported, importedCookies.size)
                             )
@@ -294,9 +278,7 @@ fun CookieProfilePage(
                         if (isCookieEnabled) {
                             isCookieEnabled = false
                             COOKIES.updateBoolean(false)
-                        } else if (
-                            (cookies.isEmpty() || (cookieList.isEmpty() && !cookieManager.hasCookies())) && !isCookieEnabled
-                        ) {
+                        } else if (cookies.isEmpty()) {
                             showHelpDialog = true
                         } else {
                             isCookieEnabled = true
@@ -354,7 +336,6 @@ fun CookieProfilePage(
             },
         ) {
             showEditDialog = false
-            shouldUpdateCookies = true
         }
     }
 
@@ -371,9 +352,10 @@ fun CookieProfilePage(
     if (showClearCookieDialog) {
         ClearCookiesDialog(onDismissRequest = { showClearCookieDialog = false }) {
             view.slightHapticFeedback()
-            scope
-                .launch(Dispatchers.IO) { CookieManager.getInstance().removeAllCookies(null) }
-                .invokeOnCompletion { shouldUpdateCookies = true }
+            scope.launch(Dispatchers.IO) {
+                CookieManager.getInstance().removeAllCookies(null)
+                DatabaseUtil.deleteAllCookieProfiles()
+            }
         }
     }
 }
