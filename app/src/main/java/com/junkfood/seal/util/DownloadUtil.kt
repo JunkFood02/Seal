@@ -434,6 +434,31 @@ object DownloadUtil {
             }
     }
 
+    suspend fun syncCookiesToWebView() {
+        withContext(Dispatchers.IO) {
+            DatabaseUtil.getCookieProfileList().forEach { profile ->
+                parseNetscapeCookies(profile.content).forEach { cookie ->
+                    val domain = cookie.domain.removePrefix(".")
+                    val url = "https://$domain${cookie.path}"
+                    CookieManager.getInstance().setCookie(url, cookie.toSetCookieHeader())
+                }
+            }
+            CookieManager.getInstance().flush()
+        }
+    }
+
+    private fun Cookie.toSetCookieHeader(): String {
+        val expiresPart =
+            if (expiry > 0) "; Expires=${formatHttpDate(expiry)}" else ""
+        val securePart = if (secure) "; Secure" else ""
+        return "$name=$value; Domain=$domain; Path=$path$expiresPart$securePart"
+    }
+
+    private fun formatHttpDate(unixSeconds: Long): String =
+        java.text.SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", java.util.Locale.US).apply {
+            timeZone = java.util.TimeZone.getTimeZone("GMT")
+        }.format(java.util.Date(unixSeconds * 1000L))
+
     fun List<Cookie>.toCookiesFileContent(): String =
         this.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
                 acc.append(cookie.toNetscapeCookieString()).append("\n")

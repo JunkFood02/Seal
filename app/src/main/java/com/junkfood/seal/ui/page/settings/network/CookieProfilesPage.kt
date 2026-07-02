@@ -91,6 +91,7 @@ import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
 import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.DownloadUtil.parseNetscapeCookies
 import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -332,7 +333,10 @@ fun CookieProfilePage(
             cookiesViewModel = cookiesViewModel,
             navigateToCookieGeneratorPage = {
                 cookiesViewModel.updateCookieProfile()
-                navigateToCookieGeneratorPage()
+                scope.launch(Dispatchers.IO) {
+                    DownloadUtil.syncCookiesToWebView()
+                    withContext(Dispatchers.Main) { navigateToCookieGeneratorPage() }
+                }
             },
         ) {
             showEditDialog = false
