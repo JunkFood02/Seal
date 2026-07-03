@@ -236,6 +236,14 @@ fun CookieProfilePage(
                             onClick = ::toggleUserAgent,
                         )
                         DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.FileOpen, null) },
+                            text = { Text(stringResource(id = R.string.import_from_file)) },
+                            onClick = {
+                                expanded = false
+                                importLauncher.launch(arrayOf("text/plain", "text/*"))
+                            },
+                        )
+                        DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.FileCopy, null) },
                             text = { Text(stringResource(id = R.string.export_to_file)) },
                             enabled = cookieList.isNotEmpty(),
@@ -244,14 +252,6 @@ fun CookieProfilePage(
                                 exportLauncher.launch(
                                     "cookies_exported${System.currentTimeMillis()}.txt"
                                 )
-                            },
-                        )
-                        DropdownMenuItem(
-                            leadingIcon = { Icon(Icons.Outlined.FileOpen, null) },
-                            text = { Text(stringResource(id = R.string.import_from_file)) },
-                            onClick = {
-                                expanded = false
-                                importLauncher.launch(arrayOf("text/plain", "text/*"))
                             },
                         )
                         DropdownMenuItem(
