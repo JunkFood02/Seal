@@ -257,6 +257,7 @@ fun CookieProfilePage(
                         DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.DeleteForever, null) },
                             text = { Text(stringResource(id = R.string.clear_all_cookies)) },
+                            enabled = cookieList.isNotEmpty(),
                             onClick = {
                                 expanded = false
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
