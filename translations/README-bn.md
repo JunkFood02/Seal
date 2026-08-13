@@ -133,7 +133,7 @@ English
 
 ## ⭐️ স্টার চার্ট
 
-[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+[![Star History Chart](https://star-history.dera.page/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.dera.page/#JunkFood02/Seal&Timeline)
 
 
 ## 🧱 ক্রেডিট
