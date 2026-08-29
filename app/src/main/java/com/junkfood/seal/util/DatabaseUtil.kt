@@ -49,7 +49,13 @@ object DatabaseUtil {
 
     suspend fun getCookieById(id: Int) = dao.getCookieById(id)
 
+    suspend fun getCookieProfileByUrl(url: String) = dao.getCookieProfileByUrl(url)
+
+    suspend fun getCookieProfileList() = dao.getCookieProfileList()
+
     suspend fun deleteCookieProfile(profile: CookieProfile) = dao.deleteCookieProfile(profile)
+
+    suspend fun deleteAllCookieProfiles() = dao.deleteAllCookieProfiles()
 
     suspend fun insertCookieProfile(profile: CookieProfile) = dao.insertCookieProfile(profile)
 

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -33,6 +34,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.junkfood.seal.App
 import com.junkfood.seal.R
+import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.ui.common.HapticFeedback.slightHapticFeedback
 import com.junkfood.seal.ui.common.LocalWindowWidthState
 import com.junkfood.seal.ui.common.Route
@@ -66,6 +68,9 @@ import com.junkfood.seal.ui.page.settings.network.NetworkPreferences
 import com.junkfood.seal.ui.page.settings.network.WebViewPage
 import com.junkfood.seal.ui.page.settings.troubleshooting.TroubleShootingPage
 import com.junkfood.seal.ui.page.videolist.VideoListPage
+import com.junkfood.seal.util.DatabaseUtil
+import com.junkfood.seal.util.DownloadUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -257,6 +262,20 @@ fun NavGraphBuilder.settingsGraph(
             WebViewPage(cookiesViewModel = cookiesViewModel) {
                 onNavigateBack()
                 CookieManager.getInstance().flush()
+                cookiesViewModel.viewModelScope.launch(Dispatchers.IO) {
+                    val url = cookiesViewModel.stateFlow.value.editingCookieProfile.url
+                    DownloadUtil.extractCookiesFromWebView().onSuccess { content ->
+                        val existing = DatabaseUtil.getCookieProfileByUrl(url)
+                        val profile =
+                            existing?.copy(content = content)
+                                ?: CookieProfile(id = 0, url = url, content = content)
+                        if (existing != null) {
+                            DatabaseUtil.updateCookieProfile(profile)
+                        } else {
+                            DatabaseUtil.insertCookieProfile(profile)
+                        }
+                    }
+                }
             }
         }
         animatedComposable(Route.TROUBLESHOOTING) {
