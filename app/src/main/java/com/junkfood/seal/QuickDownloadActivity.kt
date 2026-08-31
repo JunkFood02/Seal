@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,7 +31,7 @@ import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
-import com.junkfood.seal.util.matchUrlFromSharedText
+import com.junkfood.seal.util.matchUrlsFromSharedText
 import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -39,20 +40,22 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 private const val TAG = "QuickDownloadActivity"
 
 class QuickDownloadActivity : ComponentActivity() {
-    private var sharedUrlCached: String = ""
+    private var sharedUrlsCached : List<String>? = null
 
-    private fun Intent.getSharedURL(): String? {
+    private fun Intent.getSharedURLs(): List<String>? {
         val intent = this
 
         return when (intent.action) {
             Intent.ACTION_VIEW -> {
-                intent.dataString
+                intent.dataString?.let {
+                    listOf(it)
+                }
             }
 
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedContent ->
                     intent.removeExtra(Intent.EXTRA_TEXT)
-                    matchUrlFromSharedText(sharedContent)
+                    matchUrlsFromSharedText(sharedContent)
                 }
             }
 
@@ -65,9 +68,12 @@ class QuickDownloadActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent.getSharedURL()?.let { sharedUrlCached = it }
+        intent.getSharedURLs()?.let {
+            sharedUrlsCached = it
+        }
 
-        if (sharedUrlCached.isEmpty()) {
+        if (sharedUrlsCached.isNullOrEmpty()) {
+            Log.e(TAG, getString(R.string.share_fail_msg))
             finish()
         }
 
@@ -93,7 +99,7 @@ class QuickDownloadActivity : ComponentActivity() {
         }
 
         val viewModel: DownloadDialogViewModel = getViewModel()
-        viewModel.postAction(Action.ShowSheet(listOf(sharedUrlCached)))
+        viewModel.postAction(Action.ShowSheet(sharedUrlsCached))
 
         setContent {
             SettingsProvider(calculateWindowSizeClass(this).widthSizeClass) {
