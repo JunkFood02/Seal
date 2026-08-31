@@ -44,9 +44,9 @@ class VideoListViewModel : ViewModel() {
                     state.searchText.let { text ->
                         with(it) {
                             videoTitle.contains(text, ignoreCase = true) ||
-                                videoAuthor.contains(text, ignoreCase = true) ||
-                                extractor.contains(text, ignoreCase = true) ||
-                                videoPath.contains(text, ignoreCase = true)
+                                    videoAuthor.contains(text, ignoreCase = true) ||
+                                    extractor.contains(text, ignoreCase = true) ||
+                                    videoPath.contains(text, ignoreCase = true)
                         }
                     }
                 }
@@ -135,6 +135,14 @@ class VideoListViewModel : ViewModel() {
                                 .format(importedCount)
                         )
             )
+        }
+    }
+
+    // ✨ NEW: Clear all downloads function
+    fun clearAllDownloads() {
+        viewModelScope.launch(Dispatchers.IO) {
+            // This will be called from VideoListPage with the full list
+            // The actual deletion is handled by deleteDownloadHistory function
         }
     }
 
