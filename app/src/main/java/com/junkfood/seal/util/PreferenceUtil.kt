@@ -62,6 +62,7 @@ const val SUBDIRECTORY_PLAYLIST_TITLE = "subdirectory_playlist_title"
 const val PLAYLIST = "playlist"
 private const val LANGUAGE = "language"
 const val NOTIFICATION = "notification"
+const val NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
 private const val THEME_COLOR = "theme_color"
 const val PALETTE_STYLE = "palette_style"
 const val SUBTITLE = "subtitle"
@@ -216,6 +217,7 @@ private val BooleanPreferenceDefaults =
         CELLULAR_DOWNLOAD to false,
         YT_DLP_AUTO_UPDATE to true,
         NOTIFICATION to true,
+        NOTIFICATION_PERMISSION_REQUESTED to false,
         EMBED_METADATA to true,
         USE_CUSTOM_AUDIO_PRESET to false,
     )
