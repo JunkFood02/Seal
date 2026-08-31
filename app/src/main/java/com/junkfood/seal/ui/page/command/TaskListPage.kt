@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -95,6 +96,8 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
             skipHalfExpanded = true,
             initialValue = ModalBottomSheetValue.Hidden,
         )
+    val keyboardController = LocalSoftwareKeyboardController.current
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -187,6 +190,8 @@ fun TaskListPage(onNavigateBack: () -> Unit, onNavigateToDetail: (Int) -> Unit) 
                 LaunchedEffect(sheetState.targetValue) {
                     if (sheetState.targetValue == ModalBottomSheetValue.Expanded)
                         url = matchUrlFromString(clipboardManager.getText()?.text.toString(), true)
+                    if (sheetState.targetValue == ModalBottomSheetValue.Hidden)
+                        keyboardController?.hide()
                 }
 
                 Column(Modifier.fillMaxWidth()) {
