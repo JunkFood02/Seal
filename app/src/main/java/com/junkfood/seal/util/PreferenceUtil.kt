@@ -142,6 +142,7 @@ enum class DownloadType {
     Video,
     Playlist,
     Command,
+    Image,
 }
 
 const val CONVERT_ASS = 1
