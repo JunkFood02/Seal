@@ -93,6 +93,8 @@ data class Format(
     val tbr: Double? = null,
     @SerialName("filesize") val fileSize: Double? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
+    @SerialName("language") val language: String? = null,
+    @SerialName("language_preference") val languagePreference: Int? = null,
 ) {
     fun isAudioOnly(): Boolean = vcodec == null || vcodec == "none"
 
@@ -139,6 +141,8 @@ data class RequestedDownload(
     @SerialName("filesize") val fileSize: Double? = null,
     @SerialName("filesize_approx") val fileSizeApprox: Double? = null,
     val filename: String? = null,
+    @SerialName("language") val language: String? = null,
+    @SerialName("language_preference") val languagePreference: Int? = null,
 ) {
     fun toFormat(): Format =
         Format(
@@ -160,6 +164,8 @@ data class RequestedDownload(
             tbr = tbr,
             fileSize = fileSize,
             fileSizeApprox = fileSizeApprox,
+            language = language,
+            languagePreference = languagePreference,
         )
 }
 
