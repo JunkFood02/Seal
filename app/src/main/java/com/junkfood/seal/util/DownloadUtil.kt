@@ -63,7 +63,10 @@ object DownloadUtil {
 
     const val EXTENSION = ".%(ext)s"
 
-    private const val ID = "[%(id)s]"
+    // Bounded like the title above: extractors without a real id fall back to the URL basename
+    // and its query string, which overflows the 255-byte limit on a path component.
+    // https://github.com/JunkFood02/Seal/issues/1886
+    private const val ID = "[%(id).32B]"
 
     private const val CLIP_TIMESTAMP = "%(section_start)d-%(section_end)d"
 
