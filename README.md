@@ -151,6 +151,13 @@ Some of the UI designs and codes are borrowed from [Read You](https://github.com
 
 [Monet](https://github.com/Kyant0/Monet)
 
+
+## 🔗 Quick Links
+
+* [Report a Bug](https://github.com/JunkFood02/Seal/issues/new)
+* [Request a Feature](https://github.com/JunkFood02/Seal/issues/new)
+* [Contribution Guidelines](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md)
+
 ## 📃 License
 
 [![GitHub](https://img.shields.io/github/license/JunkFood02/Seal?style=for-the-badge)](https://github.com/JunkFood02/Seal/blob/main/LICENSE)
