@@ -1,10 +1,12 @@
 package com.junkfood.seal
 
+import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -14,7 +16,11 @@ import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.AppEntry
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.NotificationUtil
 import com.junkfood.seal.util.PreferenceUtil
+import com.junkfood.seal.util.PreferenceUtil.getBoolean
+import com.junkfood.seal.util.PreferenceUtil.updateBoolean
+import com.junkfood.seal.util.NOTIFICATION_PERMISSION_REQUESTED
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
 import kotlinx.coroutines.runBlocking
@@ -23,6 +29,10 @@ import org.koin.compose.KoinContext
 
 class MainActivity : AppCompatActivity() {
     private val dialogViewModel: DownloadDialogViewModel by viewModel()
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            NOTIFICATION_PERMISSION_REQUESTED.updateBoolean(true)
+        }
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        requestNotificationPermissionIfNeeded()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -80,6 +92,14 @@ class MainActivity : AppCompatActivity() {
                 null
             }
         }
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (NOTIFICATION_PERMISSION_REQUESTED.getBoolean()) return
+        if (NotificationUtil.areNotificationsEnabled()) return
+
+        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     companion object {

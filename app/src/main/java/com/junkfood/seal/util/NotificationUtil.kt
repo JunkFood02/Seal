@@ -12,6 +12,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.Action
 import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.NotificationActionReceiver
@@ -110,6 +111,7 @@ object NotificationUtil {
         title: String? = null,
         text: String? = null,
         intent: PendingIntent? = null,
+        actions: List<Action> = emptyList(),
     ) {
         Log.d(TAG, "finishNotification: ")
         notificationManager.cancel(notificationId)
@@ -123,6 +125,7 @@ object NotificationUtil {
                 .setAutoCancel(true)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
+        actions.forEach { builder.addAction(it) }
         notificationManager.notify(notificationId, builder.build())
     }
 
