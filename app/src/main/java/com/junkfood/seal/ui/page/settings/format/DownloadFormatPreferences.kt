@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.SpatialAudioOff
 import androidx.compose.material.icons.outlined.Subtitles
 import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.VideoFile
 import androidx.compose.material.icons.outlined.VideoSettings
 import androidx.compose.material3.AlertDialog
@@ -56,6 +57,7 @@ import com.junkfood.seal.util.FORMAT_SELECTION
 import com.junkfood.seal.util.FORMAT_SORTING
 import com.junkfood.seal.util.MERGE_MULTI_AUDIO_STREAM
 import com.junkfood.seal.util.MERGE_OUTPUT_MKV
+import com.junkfood.seal.util.PREFER_ORIGINAL_AUDIO
 import com.junkfood.seal.util.PreferenceStrings
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
@@ -108,6 +110,7 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
     var isFormatSelectionEnabled by FORMAT_SELECTION.booleanState
     var mergeAudioStream by MERGE_MULTI_AUDIO_STREAM.booleanState
     var showMergeAudioDialog by remember { mutableStateOf(false) }
+    var preferOriginalAudio by PREFER_ORIGINAL_AUDIO.booleanState
 
     Scaffold(
         modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -198,6 +201,19 @@ fun DownloadFormatPreferences(onNavigateBack: () -> Unit, navigateToSubtitlePage
                         isArtworkCroppingEnabled = !isArtworkCroppingEnabled
                         PreferenceUtil.updateValue(CROP_ARTWORK, isArtworkCroppingEnabled)
                     }
+                }
+                item {
+                    PreferenceSwitch(
+                        title = stringResource(id = R.string.prefer_original_audio),
+                        description = stringResource(id = R.string.prefer_original_audio_desc),
+                        icon = Icons.Outlined.Translate,
+                        isChecked = preferOriginalAudio,
+                        enabled = !isCustomCommandEnabled,
+                        onClick = {
+                            preferOriginalAudio = !preferOriginalAudio
+                            PREFER_ORIGINAL_AUDIO.updateBoolean(preferOriginalAudio)
+                        },
+                    )
                 }
                 item { PreferenceSubtitle(text = stringResource(id = R.string.video)) }
                 item {

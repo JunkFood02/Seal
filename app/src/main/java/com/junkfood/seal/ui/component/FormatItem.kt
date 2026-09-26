@@ -288,11 +288,32 @@ fun FormatItem(
 
         val firstLineText = connectWithDelimiter(fileSizeText, tbrText, delimiter = " ")
 
-        val secondLineText = connectWithDelimiter(ext, codec, delimiter = " ").uppercase()
+        val langTag = if (formatInfo.isAudioOnly() && !language.isNullOrEmpty()) "[$language]" else null
+        val secondLineText = connectWithDelimiter(ext, codec, langTag, delimiter = " ").uppercase()
+
+        val audioTrackNote = buildString {
+            if (!language.isNullOrEmpty() && format?.contains(language, ignoreCase = true) != true) {
+                append("[$language]")
+            }
+            if (!formatNote.isNullOrEmpty() && format?.contains(formatNote, ignoreCase = true) != true) {
+                val cleanNote = if (formatNote.startsWith("medium, ", ignoreCase = true)) {
+                    formatNote.substringAfter("medium, ")
+                } else formatNote
+                if (isNotEmpty()) append(" ")
+                append(cleanNote)
+            }
+        }.takeIf { it.isNotBlank() }
+
+        val titleText =
+            if (audioTrackNote != null) {
+                connectWithBlank((format ?: formatId).orEmpty(), "($audioTrackNote)")
+            } else {
+                format.toString()
+            }
 
         FormatItem(
             modifier = modifier,
-            title = format.toString(),
+            title = titleText,
             containsAudio = formatInfo.containsAudio(),
             containsVideo = formatInfo.containsVideo(),
             firstLineText = firstLineText,
