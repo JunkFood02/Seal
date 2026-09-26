@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Spellcheck
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +41,9 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.page.settings.BasePreferencePage
 import com.junkfood.seal.ui.page.settings.general.YtdlpUpdateChannelDialog
+import com.junkfood.seal.util.DEBUG_LOG_TO_FILE
+import com.junkfood.seal.util.DebugLogger
+import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.RESTRICT_FILENAMES
@@ -57,6 +64,7 @@ fun TroubleShootingPage(
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var logSizeText by remember { mutableStateOf(DebugLogger.getLogFileSizeString()) }
 
     BasePreferencePage(
         modifier = modifier,
@@ -160,6 +168,14 @@ fun TroubleShootingPage(
                     YtdlpUpdateChannelDialog(onDismissRequest = { showYtdlpDialog = false })
                 }
             }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.js_runtime),
+                    description = App.getJsRuntimeInfo(),
+                    icon = Icons.Outlined.Code,
+                    onClick = {},
+                )
+            }
 
             item { PreferenceSubtitle(text = stringResource(R.string.network)) }
             item {
@@ -181,6 +197,54 @@ fun TroubleShootingPage(
                 ) {
                     restrictFilenames = !restrictFilenames
                     RESTRICT_FILENAMES.updateBoolean(restrictFilenames)
+                }
+            }
+            item { PreferenceSubtitle(text = stringResource(R.string.trouble_shooting)) }
+            item {
+                var keepLogs by DEBUG_LOG_TO_FILE.booleanState
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.keep_debug_logs),
+                    icon = Icons.Outlined.BugReport,
+                    description = stringResource(id = R.string.keep_debug_logs_desc),
+                    isChecked = keepLogs,
+                ) {
+                    keepLogs = !keepLogs
+                    DEBUG_LOG_TO_FILE.updateBoolean(keepLogs)
+                    logSizeText = DebugLogger.getLogFileSizeString()
+                }
+            }
+            item {
+                val logFile = DebugLogger.getLogFile()
+                if (logFile.exists() && logFile.length() > 0) {
+                    PreferenceItem(
+                        title = stringResource(R.string.share_logs),
+                        description = "${logFile.absolutePath} ($logSizeText)",
+                        icon = Icons.Outlined.Share,
+                        onClick = {
+                            FileUtil.createIntentForSharingFile(logFile.absolutePath)?.let {
+                                context.startActivity(
+                                    android.content.Intent.createChooser(
+                                        it,
+                                        context.getString(R.string.share_logs),
+                                    )
+                                )
+                            } ?: context.makeToast(R.string.no_logs_found)
+                        },
+                    )
+                    PreferenceItem(
+                        title = stringResource(R.string.clear_debug_logs),
+                        description = null,
+                        icon = Icons.Outlined.DeleteOutline,
+                        onClick = {
+                            scope.launch {
+                                DebugLogger.clearLog()
+                                logSizeText = DebugLogger.getLogFileSizeString()
+                                withContext(Dispatchers.Main) {
+                                    context.makeToast(R.string.logs_cleared)
+                                }
+                            }
+                        },
+                    )
                 }
             }
         }

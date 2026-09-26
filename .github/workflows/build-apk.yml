@@ -1,0 +1,77 @@
+name: Build Android APKs
+
+on:
+  push:
+    branches: [ "main", "feature/**", "fix/**" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Accept Android SDK Licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Create Keystore for Signing
+        run: |
+          keytool -genkey -v -keystore test.keystore -storepass android -alias testkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Seal Test,O=Seal,C=US"
+          cat <<EOF > keystore.properties
+          storeFile=../test.keystore
+          storePassword=android
+          keyAlias=testkey
+          keyPassword=android
+          EOF
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Setup Android NDK
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;26.1.10909125" || true
+          NDK_DIR=$(find "$ANDROID_HOME/ndk" -maxdepth 1 -mindepth 1 2>/dev/null | sort -V | tail -n 1 || true)
+          if [ -n "$NDK_DIR" ]; then
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
+          fi
+
+      - name: Build & Package JavaScript Runtime
+        run: ./scripts/build-quickjs.sh
+
+      - name: Build Generic Release APKs
+        run: ./gradlew assembleGenericRelease
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Seal-Release-APKs
+          path: app/build/outputs/apk/generic/release/*.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/generic/release/*.apk
+          prerelease: true
+          generate_release_notes: true

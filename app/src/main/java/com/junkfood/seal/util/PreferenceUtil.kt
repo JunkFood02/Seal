@@ -108,6 +108,7 @@ const val MERGE_OUTPUT_MKV = "merge_to_mkv"
 const val USE_CUSTOM_AUDIO_PRESET = "custom_audio_preset"
 
 const val MERGE_MULTI_AUDIO_STREAM = "multi_audio_stream"
+const val DEBUG_LOG_TO_FILE = "debug_log_to_file"
 
 const val DOWNLOAD_TYPE_INITIALIZATION = "download_type_init"
 private const val DOWNLOAD_TYPE = "download_type"
@@ -218,6 +219,7 @@ private val BooleanPreferenceDefaults =
         NOTIFICATION to true,
         EMBED_METADATA to true,
         USE_CUSTOM_AUDIO_PRESET to false,
+        DEBUG_LOG_TO_FILE to false,
     )
 
 private val IntPreferenceDefaults =

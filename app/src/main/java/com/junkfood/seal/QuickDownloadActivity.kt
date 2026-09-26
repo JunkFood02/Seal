@@ -28,17 +28,20 @@ import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Se
 import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.DebugLogger
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
+import com.junkfood.seal.download.DownloaderV2
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 private const val TAG = "QuickDownloadActivity"
 
 class QuickDownloadActivity : ComponentActivity() {
+    private val downloader: DownloaderV2 by inject()
     private var sharedUrlCached: String = ""
 
     private fun Intent.getSharedURL(): String? {
@@ -65,10 +68,13 @@ class QuickDownloadActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DebugLogger.log(TAG, "onCreate: intent action=${intent.action}")
         intent.getSharedURL()?.let { sharedUrlCached = it }
 
         if (sharedUrlCached.isEmpty()) {
+            DebugLogger.log(TAG, "sharedUrlCached is empty, finishing")
             finish()
+            return
         }
 
         App.startService()
@@ -81,15 +87,10 @@ class QuickDownloadActivity : ComponentActivity() {
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
-            } else {
-                setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
-            }
         }
 
         if (Build.VERSION.SDK_INT < 33) {
-            runBlocking { setLanguage(PreferenceUtil.getLocaleFromPreference()) }
+            setLanguage(PreferenceUtil.getLocaleFromPreference())
         }
 
         val viewModel: DownloadDialogViewModel = getViewModel()
@@ -120,13 +121,13 @@ class QuickDownloadActivity : ComponentActivity() {
                         if (sheetValue == DownloadDialogViewModel.SheetValue.Expanded) {
                             showDialog = true
                         } else if (sheetValue == DownloadDialogViewModel.SheetValue.Hidden) {
-                            launch { sheetState.hide() }
-                                .invokeOnCompletion {
-                                    showDialog = false
-                                    if (selectionState == SelectionState.Idle) {
-                                        this@QuickDownloadActivity.finish()
-                                    }
-                                }
+                            DebugLogger.log(TAG, "sheet hidden, dismissing QuickDownloadActivity")
+                            launch {
+                                runCatching { sheetState.hide() }
+                            }.invokeOnCompletion {
+                                showDialog = false
+                                this@QuickDownloadActivity.finish()
+                            }
                         }
                     }
 
@@ -164,6 +165,14 @@ class QuickDownloadActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        DebugLogger.log(TAG, "onDestroy")
+        super.onDestroy()
+        if (!downloader.hasActiveTasks()) {
+            App.stopService()
         }
     }
 }

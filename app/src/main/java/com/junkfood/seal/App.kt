@@ -13,10 +13,12 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.download.DownloaderV2
 import com.junkfood.seal.download.DownloaderV2Impl
+import com.junkfood.seal.util.DebugLogger
 import com.junkfood.seal.ui.page.download.HomePageViewModel
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.settings.directory.Directory
@@ -145,18 +147,32 @@ class App : Application() {
 
         fun startService() {
             if (isServiceRunning) return
-            Intent(context.applicationContext, DownloadService::class.java).also { intent ->
+            DebugLogger.log("App", "startService called")
+            try {
+                val intent = Intent(context.applicationContext, DownloadService::class.java)
+                ContextCompat.startForegroundService(context.applicationContext, intent)
                 context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+                isServiceRunning = true
+            } catch (e: Exception) {
+                DebugLogger.log("App", "startService failed", e)
+                e.printStackTrace()
             }
         }
 
         fun stopService() {
             if (!isServiceRunning) return
+            DebugLogger.log("App", "stopService called")
+            isServiceRunning = false
             try {
-                isServiceRunning = false
-                context.applicationContext.run { unbindService(connection) }
+                context.applicationContext.unbindService(connection)
             } catch (e: Exception) {
-                e.printStackTrace()
+                DebugLogger.log("App", "unbindService failed", e)
+            }
+            try {
+                val intent = Intent(context.applicationContext, DownloadService::class.java)
+                context.applicationContext.stopService(intent)
+            } catch (e: Exception) {
+                DebugLogger.log("App", "stopService failed", e)
             }
         }
 
@@ -217,6 +233,21 @@ class App : Application() {
                 .append("Supported ABIs: ${Build.SUPPORTED_ABIS.contentToString()}\n")
                 .append("Yt-dlp version: ${YT_DLP_VERSION.getString()}\n")
                 .toString()
+        }
+
+        fun getJsRuntimeInfo(): String {
+            val nativeLibDir = context.applicationInfo.nativeLibraryDir
+            val deno = java.io.File(nativeLibDir, "libdeno.so")
+            if (deno.exists()) {
+                return "Deno (libdeno.so, ${deno.length() / (1024 * 1024)} MB)"
+            }
+            val quickjs =
+                java.io.File(nativeLibDir, "libquickjs.so").takeIf { it.exists() }
+                    ?: java.io.File(nativeLibDir, "libqjs.so").takeIf { it.exists() }
+            if (quickjs != null) {
+                return "QuickJS (${quickjs.name}, ${quickjs.length() / 1024} KB)"
+            }
+            return "None detected"
         }
 
         fun isFDroidBuild(): Boolean = BuildConfig.FLAVOR == "fdroid"

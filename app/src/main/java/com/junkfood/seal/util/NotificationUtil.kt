@@ -111,15 +111,18 @@ object NotificationUtil {
         text: String? = null,
         intent: PendingIntent? = null,
     ) {
-        Log.d(TAG, "finishNotification: ")
-        notificationManager.cancel(notificationId)
-        if (!NOTIFICATION.getBoolean()) return
+        Log.d(TAG, "finishNotification: notificationId=$notificationId")
+        if (!NOTIFICATION.getBoolean()) {
+            notificationManager.cancel(notificationId)
+            return
+        }
 
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_seal)
                 .setContentText(text)
                 .setOngoing(false)
+                .setProgress(0, 0, false)
                 .setAutoCancel(true)
         title?.let { builder.setContentTitle(title) }
         intent?.let { builder.setContentIntent(intent) }
