@@ -832,11 +832,13 @@ object DownloadUtil {
     ): Result<List<String>> =
         preferences.run {
             val fileName =
-                preferences.newTitle.ifEmpty {
-                    videoInfo.filename
-                        ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
-                        ?: videoInfo.title
-                }
+                FileUtil.sanitizeFileName(
+                    preferences.newTitle.ifEmpty {
+                        videoInfo.filename
+                            ?: videoInfo.requestedDownloads?.firstOrNull()?.filename
+                            ?: videoInfo.title
+                    }
+                )
 
             Log.d(TAG, "onFinishDownloading: $fileName")
             if (sdcard) {
