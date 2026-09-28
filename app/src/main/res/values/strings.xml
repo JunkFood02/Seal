@@ -231,7 +231,7 @@
     <string name="remove_cookie_profile_desc">Remove this entry for \"%1$s\"? Please note that the cookies stored for this site will not be cleared.</string>
     <string name="custom_command_enabled_hint">Some options are unavailable when using custom command</string>
     <string name="how_does_it_work">How does it work?</string>
-    <string name="cookies_usage_msg">Downloading from some sites requires account authentication information. Click \"Generate new cookies\", enter the URL of the website and then log in with your account in the browser page, the app will generate it for you.</string>
+    <string name="cookies_usage_msg">Downloading from some sites requires account authentication. You can either log in via the in-app browser (Generate new cookies) or import a Netscape-format cookies.txt file from the menu. Both methods store the cookies in Seal for use with yt-dlp.</string>
     <string name="custom_command_usage_msg">yt-dlp is a powerful command-line tool for downloading videos. Seal makes it easier to use yt-dlp by providing an intuitive GUI, presets for common commands, and other additional features.\n\nFor advanced usage of yt-dlp, Seal allows you to create, save and execute custom command templates directly, just like in a terminal.\n\nWhen using custom commands, most of the GUI options and features would be disabled.</string>
     <string name="telegram_channel">Telegram channel</string>
     <string name="matrix_space">Matrix space</string>
@@ -343,6 +343,10 @@
     <string name="remove_multiple_templates_msg">Remove %1$s from command templates for good?</string>
     <string name="ua_header">User-Agent header</string>
     <string name="export_to_file">Export to file</string>
+    <string name="import_from_file">Import from file</string>
+    <string name="import_cookies_desc">Import a Netscape formatted cookies.txt file exported from your browser</string>
+    <string name="cookies_imported">%1$d cookies imported</string>
+    <string name="import_failed">Failed to import cookies</string>
     <string name="output_template">Output template</string>
     <string name="presets">Presets</string>
     <string name="output_template_desc">Specify the template for output file names</string>

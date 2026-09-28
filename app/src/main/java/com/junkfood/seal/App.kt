@@ -24,6 +24,7 @@ import com.junkfood.seal.ui.page.settings.network.CookiesViewModel
 import com.junkfood.seal.ui.page.videolist.VideoListViewModel
 import com.junkfood.seal.util.AUDIO_DIRECTORY
 import com.junkfood.seal.util.COMMAND_DIRECTORY
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.FileUtil.createEmptyFile
@@ -91,13 +92,16 @@ class App : Application() {
                 YoutubeDL.init(this@App)
                 FFmpeg.init(this@App)
                 Aria2c.init(this@App)
-                DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
-                    FileUtil.writeContentToFile(it, getCookiesFile())
-                }
+                migrateLegacyCookies()
+                writeCookiesFile()
                 UpdateUtil.deleteOutdatedApk()
             } catch (th: Throwable) {
                 withContext(Dispatchers.Main) { startCrashReportActivity(th) }
             }
+        }
+
+        applicationScope.launch(Dispatchers.IO) {
+            DatabaseUtil.getCookiesFlow().collect { writeCookiesFile() }
         }
 
         videoDownloadDir = VIDEO_DIRECTORY.getString(getExternalDownloadDirectory().absolutePath)
@@ -121,6 +125,23 @@ class App : Application() {
                     putExtra("error_report", getVersionReport() + "\n" + th.stackTraceToString())
                 }
         )
+    }
+
+    private suspend fun migrateLegacyCookies() {
+        val profiles = DatabaseUtil.getCookieProfileList()
+        val legacyProfiles = profiles.filter { it.content.isBlank() }
+        if (legacyProfiles.isEmpty()) return
+        DownloadUtil.extractCookiesFromWebView().onSuccess { content ->
+            legacyProfiles.forEach { profile ->
+                DatabaseUtil.updateCookieProfile(profile.copy(content = content))
+            }
+        }
+    }
+
+    private suspend fun writeCookiesFile() {
+        DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
+            FileUtil.writeContentToFile(it, getCookiesFile())
+        } ?: getCookiesFile().delete()
     }
 
     companion object {
