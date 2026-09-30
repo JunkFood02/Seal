@@ -387,10 +387,10 @@
     <string name="reset">Скід</string>
     <string name="download_queue">Чарга загрузкі</string>
     <plurals name="video_count">
-        <item quantity="one">адзін</item>
-        <item quantity="few">некалькі</item>
-        <item quantity="many">шмат</item>
-        <item quantity="other">шмат</item>
+        <item quantity="one">%d відэа</item>
+        <item quantity="few">%d відэа</item>
+        <item quantity="many">%d відэа</item>
+        <item quantity="other">%d відэа</item>
     </plurals>
     <string name="download_hint">Каб пачаць спампоўку, дакраніцеся да кнопкі спампоўкі або падзяліцеся спасылкай на відэа з гэтай праграмай</string>
     <string name="all">Усе</string>

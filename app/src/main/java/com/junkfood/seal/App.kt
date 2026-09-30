@@ -13,6 +13,7 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.content.getSystemService
 import com.google.android.material.color.DynamicColors
 import com.junkfood.seal.download.DownloaderV2
@@ -89,8 +90,15 @@ class App : Application() {
         applicationScope.launch((Dispatchers.IO)) {
             try {
                 YoutubeDL.init(this@App)
-                FFmpeg.init(this@App)
-                Aria2c.init(this@App)
+            } catch (th: Throwable) {
+                withContext(Dispatchers.Main) { startCrashReportActivity(th) }
+            }
+            // FFmpeg/Aria2c failures must not abort the rest of startup: they surface through
+            // FfmpegUtil.ensureReady() before a download starts (with an actionable message)
+            // and can be retried from the troubleshooting page.
+            runCatching { FFmpeg.init(this@App) }.onFailure { Log.e(TAG, "FFmpeg.init failed", it) }
+            runCatching { Aria2c.init(this@App) }.onFailure { Log.e(TAG, "Aria2c.init failed", it) }
+            try {
                 DownloadUtil.getCookiesContentFromDatabase().getOrNull()?.let {
                     FileUtil.writeContentToFile(it, getCookiesFile())
                 }
@@ -124,6 +132,8 @@ class App : Application() {
     }
 
     companion object {
+        private const val TAG = "App"
+
         lateinit var clipboard: ClipboardManager
         lateinit var videoDownloadDir: String
         lateinit var audioDownloadDir: String
