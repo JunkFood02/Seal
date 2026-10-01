@@ -424,6 +424,15 @@
     <string name="task_added">Task added to queue</string>
     <string name="you_ll_find_your_downloads_here">You\'ll find your downloads here</string>
     <string name="download_hint">Tap on the download button or share a video link to this app to start a download</string>
+    <!-- Rotating tips shown on the empty download screen -->
+    <string name="tip_share">Share a video link to Seal from any app to start downloading right away.</string>
+    <string name="tip_save_as_audio">Turn on \"Save as audio\" to grab just the audio track from any video.</string>
+    <string name="tip_download_playlist">Enable \"Download playlist\" to download every video in a playlist at once.</string>
+    <string name="tip_sponsorblock">Switch on SponsorBlock to automatically skip or remove sponsored segments.</string>
+    <string name="tip_embed_subtitles">Use \"Embed subtitles\" to bake captions right into your videos.</string>
+    <string name="tip_embed_metadata">Enable \"Embed metadata\" to add thumbnails and tags to your audio files.</string>
+    <string name="tip_custom_command">Power user? Save custom command templates to run yt-dlp options directly.</string>
+    <string name="tip_cookies">Need to download from a site that requires login? Generate cookies in Settings.</string>
     <string name="status_downloaded">Downloaded</string>
     <string name="all">All</string>
     <string name="select_multiple_link">Select from %1$d links</string>
