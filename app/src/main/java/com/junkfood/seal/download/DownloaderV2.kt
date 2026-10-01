@@ -45,6 +45,10 @@ private const val MAX_CONCURRENCY = 3
 interface DownloaderV2 {
     fun getTaskStateMap(): SnapshotStateMap<Task, Task.State>
 
+    fun getTaskLogMap(): SnapshotStateMap<String, String> = mutableStateMapOf()
+
+    fun getTaskLog(taskId: String): String = getTaskLogMap()[taskId] ?: ""
+
     fun cancel(task: Task): Boolean
 
     fun cancel(taskId: String): Boolean {
@@ -68,6 +72,10 @@ interface DownloaderV2 {
 
 internal object FakeDownloaderV2 : DownloaderV2 {
     override fun getTaskStateMap(): SnapshotStateMap<Task, Task.State> {
+        return mutableStateMapOf()
+    }
+
+    override fun getTaskLogMap(): SnapshotStateMap<String, String> {
         return mutableStateMapOf()
     }
 
@@ -96,7 +104,10 @@ internal object FakeDownloaderV2 : DownloaderV2 {
 class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComponent {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val taskStateMap = mutableStateMapOf<Task, Task.State>()
+    private val taskLogMap = mutableStateMapOf<String, String>()
     private val snapshotFlow = snapshotFlow { taskStateMap.toMap() }
+
+    override fun getTaskLogMap(): SnapshotStateMap<String, String> = taskLogMap
 
     init {
         scope.launch(Dispatchers.Default) {
@@ -174,6 +185,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     override fun remove(task: Task): Boolean {
         if (taskStateMap.contains(task)) {
             taskStateMap.remove(task)
+            taskLogMap.remove(task.id)
             return true
         }
         return false
@@ -272,6 +284,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                             textId = R.string.download_error_msg,
                             notificationId = notificationId,
                             report = throwable.stackTraceToString(),
+                            taskId = id,
                         )
                     }
             }
@@ -279,11 +292,11 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
     }
 
     private fun Task.download() {
-        check(downloadState == ReadyWithInfo && info != null)
         if (type is TypeInfo.CustomCommand) {
             execute()
             return
         }
+        check(downloadState == ReadyWithInfo && info != null)
         scope
             .launch(Dispatchers.Default) {
                 DownloadUtil.downloadVideo(
@@ -343,6 +356,7 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                             textId = R.string.fetch_info_error_msg,
                             notificationId = notificationId,
                             report = throwable.stackTraceToString(),
+                            taskId = id,
                         )
                     }
             }
@@ -397,9 +411,10 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
      * @see Task.TypeInfo.CustomCommand
      */
     private fun Task.execute() {
-        check(downloadState == Idle)
+        check(downloadState == Idle || downloadState == ReadyWithInfo)
         check(type is TypeInfo.CustomCommand)
         val template = type.template
+        val logBuilder = StringBuilder(taskLogMap[id] ?: "")
         scope
             .launch {
                 DownloadUtil.executeCustomCommandTask(url, id, template, preferences) {
@@ -407,6 +422,8 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                         _,
                         text ->
                         val progress = progressPercentage / 100f
+                        logBuilder.appendLine(text)
+                        taskLogMap[id] = logBuilder.toString()
                         when (val preState = downloadState) {
                             is Running -> {
                                 downloadState =
@@ -425,17 +442,25 @@ class DownloaderV2Impl(private val appContext: Context) : DownloaderV2, KoinComp
                     }
                     .onFailure { throwable ->
                         if (throwable is YoutubeDL.CanceledException) {
+                            logBuilder.appendLine("[Canceled]")
+                            taskLogMap[id] = logBuilder.toString()
                             return@onFailure
                         }
+                        logBuilder.appendLine(throwable.stackTraceToString())
+                        taskLogMap[id] = logBuilder.toString()
                         downloadState = Error(throwable = throwable, action = Download)
                         NotificationUtil.notifyError(
                             title = viewState.title,
                             textId = R.string.fetch_info_error_msg,
                             notificationId = notificationId,
                             report = throwable.stackTraceToString(),
+                            taskId = id,
                         )
                     }
-                    .onSuccess {
+                    .onSuccess { response ->
+                        if (response.out.isNotEmpty()) logBuilder.appendLine(response.out)
+                        if (response.err.isNotEmpty()) logBuilder.appendLine(response.err)
+                        taskLogMap[id] = logBuilder.toString()
                         downloadState = Completed(null)
 
                         val text = appContext.getString(R.string.status_completed)

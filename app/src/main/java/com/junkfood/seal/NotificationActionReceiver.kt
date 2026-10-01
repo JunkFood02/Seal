@@ -22,6 +22,7 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
         const val ACTION_CANCEL_TASK = 0
         const val ACTION_ERROR_REPORT = 1
+        const val ACTION_RESTART_TASK = 2
 
         const val ACTION_KEY = PACKAGE_NAME_PREFIX + "action"
         const val TASK_ID_KEY = PACKAGE_NAME_PREFIX + "taskId"
@@ -45,6 +46,11 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
                 val errorReport = intent.getStringExtra(ERROR_REPORT_KEY)
                 if (!errorReport.isNullOrEmpty()) copyErrorReport(errorReport, notificationId)
             }
+
+            ACTION_RESTART_TASK -> {
+                val taskId = intent.getStringExtra(TASK_ID_KEY)
+                restartTask(taskId, notificationId)
+            }
         }
     }
 
@@ -55,10 +61,15 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
         if (res) {
             Log.d(TAG, "Task (id:$taskId) was killed.")
         } else {
-            // todo: reserved for custom commands
             YoutubeDL.destroyProcessById(taskId)
-            Downloader.onProcessCanceled(taskId)
         }
+    }
+
+    private fun restartTask(taskId: String?, notificationId: Int) {
+        if (taskId.isNullOrEmpty()) return
+        NotificationUtil.cancelNotification(notificationId)
+        val task = downloader.getTaskStateMap().keys.find { it.id == taskId }
+        task?.let { downloader.restart(it) }
     }
 
     private fun copyErrorReport(error: String, notificationId: Int) {

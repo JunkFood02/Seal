@@ -17,6 +17,7 @@ import com.junkfood.seal.App.Companion.context
 import com.junkfood.seal.NotificationActionReceiver
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_CANCEL_TASK
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_ERROR_REPORT
+import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_RESTART_TASK
 import com.junkfood.seal.NotificationActionReceiver.Companion.ACTION_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.ERROR_REPORT_KEY
 import com.junkfood.seal.NotificationActionReceiver.Companion.NOTIFICATION_ID_KEY
@@ -175,6 +176,7 @@ object NotificationUtil {
         textId: Int = R.string.download_error_msg,
         notificationId: Int,
         report: String,
+        taskId: String? = null,
     ) {
         if (!NOTIFICATION.getBoolean()) return
 
@@ -194,6 +196,23 @@ object NotificationUtil {
                     PendingIntent.FLAG_IMMUTABLE or
                     PendingIntent.FLAG_UPDATE_CURRENT,
             )
+
+        val restartPendingIntent =
+            taskId?.let {
+                Intent(context.applicationContext, NotificationActionReceiver::class.java)
+                    .putExtra(TASK_ID_KEY, taskId)
+                    .putExtra(NOTIFICATION_ID_KEY, notificationId)
+                    .putExtra(ACTION_KEY, ACTION_RESTART_TASK)
+                    .run {
+                        PendingIntent.getBroadcast(
+                            context.applicationContext,
+                            notificationId,
+                            this,
+                            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
+                        )
+                    }
+            }
+
         NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_seal)
             .setContentTitle(title)
@@ -204,6 +223,15 @@ object NotificationUtil {
                 context.getString(R.string.copy_error_report),
                 pendingIntent,
             )
+            .apply {
+                restartPendingIntent?.let {
+                    addAction(
+                        0,
+                        context.getString(R.string.restart),
+                        it,
+                    )
+                }
+            }
             .run {
                 notificationManager.cancel(notificationId)
                 notificationManager.notify(notificationId, build())
