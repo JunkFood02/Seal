@@ -41,6 +41,8 @@ object DatabaseUtil {
 
     fun getCookiesFlow() = dao.getCookieProfileFlow()
 
+    suspend fun getCookieProfileList() = dao.getCookieProfileList()
+
     fun getShortcuts() = dao.getOptionShortcuts()
 
     suspend fun deleteShortcut(shortcut: OptionShortcut) = dao.deleteShortcut(shortcut)
