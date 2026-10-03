@@ -440,8 +440,6 @@ private fun DialogSingleChoiceItemVariant(
     }
 }
 
-@Composable fun SavedURLsDialog(modifier: Modifier = Modifier) {}
-
 @Preview
 @Composable
 private fun SavedUrlPreview() {

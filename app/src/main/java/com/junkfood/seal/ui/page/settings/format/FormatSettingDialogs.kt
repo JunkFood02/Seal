@@ -138,43 +138,6 @@ fun VideoResolutionSelectField(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun VideoFormatPreferenceSelectField(
-    modifier: Modifier = Modifier,
-    videoFormatPreference: Int,
-    onSelect: (Int) -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    val videoFormatText = PreferenceStrings.getVideoFormatLabel(videoFormatPreference)
-
-    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
-        OutlinedTextField(
-            modifier = modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable),
-            value = videoFormatText,
-            onValueChange = {},
-            readOnly = true,
-            leadingIcon = { Icon(Icons.Outlined.VideoFile, null) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-            label = { Text(stringResource(id = R.string.video_format_preference)) },
-        )
-        ExposedDropdownMenu(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            for (i in listOf(FORMAT_COMPATIBILITY, FORMAT_QUALITY)) DropdownMenuItem(
-                text = { Text(PreferenceStrings.getVideoFormatLabel(i)) },
-                onClick = {
-                    onSelect(i)
-                    expanded = false
-                },
-            )
-        }
-    }
-}
-
 @Composable
 fun VideoQuickSettingsDialog(
     videoResolution: Int,

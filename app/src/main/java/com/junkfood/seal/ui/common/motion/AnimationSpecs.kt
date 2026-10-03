@@ -8,10 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.ui.graphics.Path
 import com.junkfood.seal.ui.common.DURATION_ENTER
 
-fun PathInterpolator.toEasing(): Easing {
-    return Easing { f -> this.getInterpolation(f) }
-}
-
 private val path =
     Path().apply {
         moveTo(0f, 0f)
@@ -20,7 +16,6 @@ private val path =
     }
 
 val EmphasizeEasing = PathEasing(path)
-val EmphasizeEasingVariant = CubicBezierEasing(.2f, 0f, 0f, 1f)
 val EmphasizedDecelerate = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
 val EmphasizedAccelerate = CubicBezierEasing(0.3f, 0f, 1f, 1f)
 

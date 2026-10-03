@@ -37,17 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 
-/**
- * Returns the provided [Dp] as an [Int] value by the [LocalDensity].
- *
- * @param slideDistance Value to the slide distance dimension, 30dp by default.
- */
-@Composable
-public fun rememberSlideDistance(slideDistance: Dp = MotionConstants.DefaultSlideDistance): Int {
-    val density = LocalDensity.current
-    return remember(density, slideDistance) { with(density) { slideDistance.roundToPx() } }
-}
-
 private const val ProgressThreshold = 0.35f
 
 private val Int.ForOutgoing: Int
@@ -151,19 +140,6 @@ public fun materialSharedAxisYOut(
                     easing = FastOutLinearInEasing,
                 )
         )
-
-/**
- * [materialSharedAxisZ] allows to switch a layout with shared Z-axis transition.
- *
- * @param forward whether the direction of the animation is forward.
- * @param durationMillis the duration of transition.
- */
-public fun materialSharedAxisZ(
-    forward: Boolean,
-    durationMillis: Int = MotionConstants.DefaultMotionDuration,
-): ContentTransform =
-    materialSharedAxisZIn(forward = forward, durationMillis = durationMillis) togetherWith
-        materialSharedAxisZOut(forward = forward, durationMillis = durationMillis)
 
 /**
  * [materialSharedAxisZIn] allows to switch a layout with shared Z-axis enter transition.
