@@ -204,6 +204,16 @@ object FileUtil {
             PRIVATE_DIRECTORY_SUFFIX,
         )
 
+    fun getPicturesSealFile(name: String): File {
+        val dir = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            ), "Seal"
+        )
+        if (!dir.exists()) dir.mkdirs()
+        return File(dir, name)
+    }
+
     fun File.createEmptyFile(fileName: String): Result<File> =
         this.runCatching {
                 mkdirs()

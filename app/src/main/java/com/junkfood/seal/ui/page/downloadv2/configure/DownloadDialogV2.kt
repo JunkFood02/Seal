@@ -126,6 +126,7 @@ import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadType
 import com.junkfood.seal.util.DownloadType.Audio
 import com.junkfood.seal.util.DownloadType.Command
+import com.junkfood.seal.util.DownloadType.Image
 import com.junkfood.seal.util.DownloadType.Playlist
 import com.junkfood.seal.util.DownloadType.Video
 import com.junkfood.seal.util.DownloadType.entries
@@ -153,6 +154,7 @@ private fun DownloadType.label(): String =
             Video -> R.string.video
             Command -> R.string.commands
             Playlist -> R.string.playlist
+            Image -> R.string.image
         }
     )
 
@@ -285,6 +287,7 @@ private fun ErrorPage(modifier: Modifier = Modifier, state: Error, onActionPost:
             when (this) {
                 is Action.FetchFormats -> url
                 is Action.FetchPlaylist -> url
+                is Action.FetchImages -> url
                 else -> {
                     throw IllegalArgumentException()
                 }
@@ -556,7 +559,7 @@ private fun ConfigurePage(
                 onSelect = { selectedType = it },
             )
             Column(modifier = Modifier.animateContentSize()) {
-                if (selectedType != Command) {
+                if (selectedType != Command && selectedType != Image) {
                     DrawerSheetSubtitle(
                         text = stringResource(id = R.string.format_selection),
                         modifier = Modifier,
@@ -575,7 +578,7 @@ private fun ConfigurePage(
                         enabled = selectedType != Playlist,
                         onClick = { useFormatSelection = true },
                     )
-                } else {
+                } else if (selectedType == Command) {
                     if (showTemplateSelectionDialog) {
                         TemplatePickerDialog { showTemplateSelectionDialog = false }
                     }
@@ -653,6 +656,8 @@ private fun ConfigurePage(
                 )
                 if (selectedType == Playlist) {
                     onActionPost(Action.FetchPlaylist(url = url, preferences = preferences))
+                } else if (selectedType == Image) {
+                    onActionPost(Action.FetchImages(url = url, preferences = preferences))
                 } else {
                     onActionPost(
                         Action.FetchFormats(
@@ -1123,7 +1128,7 @@ private fun ActionButtons(
     val action =
         if (selectedType == Command) {
             StartTask
-        } else if (selectedType == Playlist || useFormatSelection) {
+        } else if (selectedType == Playlist || selectedType == Image || useFormatSelection) {
             FetchInfo
         } else {
             Download

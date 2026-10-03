@@ -90,6 +90,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.junkfood.seal.R
 import com.junkfood.seal.download.DownloaderV2
+import com.junkfood.seal.download.PlaylistEnqueueResult
 import com.junkfood.seal.download.Task
 import com.junkfood.seal.download.Task.DownloadState.Canceled
 import com.junkfood.seal.download.Task.DownloadState.Completed
@@ -111,12 +112,14 @@ import com.junkfood.seal.ui.page.downloadv2.configure.Config
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
+import com.junkfood.seal.ui.page.downloadv2.configure.ImageSelectionPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PreferencesMock
 import com.junkfood.seal.ui.svg.DynamicColorImageVectors
 import com.junkfood.seal.ui.svg.drawablevectors.download
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.PlaylistResult
 import com.junkfood.seal.util.FileUtil
 import com.junkfood.seal.util.getErrorReport
 import com.junkfood.seal.util.makeToast
@@ -289,6 +292,13 @@ fun DownloadPageV2(
 
         is DownloadDialogViewModel.SelectionState.PlaylistSelection -> {
             PlaylistSelectionPage(
+                state = selectionState,
+                onDismissRequest = { dialogViewModel.postAction(Action.Reset) },
+            )
+        }
+
+        is DownloadDialogViewModel.SelectionState.ImageSelection -> {
+            ImageSelectionPage(
                 state = selectionState,
                 onDismissRequest = { dialogViewModel.postAction(Action.Reset) },
             )
@@ -790,6 +800,15 @@ internal class DownloadPageV2Test {
             override fun enqueue(task: Task) {}
 
             override fun enqueue(task: Task, state: Task.State) {}
+
+            override fun downloadPlaylistItems(
+                playlistResult: PlaylistResult,
+                preferences: DownloadUtil.DownloadPreferences,
+            ): PlaylistEnqueueResult {
+                return PlaylistEnqueueResult(0, playlistResult.entries?.size ?: 0)
+            }
+
+            override fun downloadImages(imageUrls: List<String>, quality: com.junkfood.seal.ui.page.downloadv2.configure.ImageQuality): Int = 0
 
             override fun remove(task: Task): Boolean {
                 return true
