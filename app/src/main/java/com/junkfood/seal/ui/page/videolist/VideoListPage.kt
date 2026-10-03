@@ -34,7 +34,9 @@ import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Restore
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -78,7 +80,6 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.junkfood.seal.App
 import com.junkfood.seal.R
 import com.junkfood.seal.database.backup.BackupUtil
@@ -123,7 +124,7 @@ fun DownloadedVideoInfo.filterSort(
     filterSet: Set<String>,
 ): Boolean {
     return filterByType(videoFilter = viewState.videoFilter, audioFilter = viewState.audioFilter) &&
-        filterByExtractor(filterSet.elementAtOrNull(viewState.activeFilterIndex))
+            filterByExtractor(filterSet.elementAtOrNull(viewState.activeFilterIndex))
 }
 
 fun DownloadedVideoInfo.filterByExtractor(extractor: String?): Boolean {
@@ -138,7 +139,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
     val viewState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val fullVideoList by viewModel.videoListFlow.collectAsStateWithLifecycle(emptyList())
     val searchedVideoList by
-        viewModel.searchedVideoListFlow.collectAsStateWithLifecycle(emptyList())
+    viewModel.searchedVideoListFlow.collectAsStateWithLifecycle(emptyList())
 
     val videoList = if (viewState.isSearching) searchedVideoList else fullVideoList
     val filterSet by viewModel.filterSetFlow.collectAsState(mutableSetOf())
@@ -158,7 +159,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
     val clipboardManager = LocalClipboardManager.current
 
     val fileSizeMap by
-        viewModel.fileSizeMapFlow.collectAsStateWithLifecycle(initialValue = emptyMap())
+    viewModel.fileSizeMapFlow.collectAsStateWithLifecycle(initialValue = emptyMap())
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val hostState = remember { SnackbarHostState() }
 
@@ -169,6 +170,8 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
 
     var showExportDialog by remember { mutableStateOf(false) }
     var showImportDialog by remember { mutableStateOf(false) }
+    // ✨ NEW: State for Clear All dialog
+    var showClearAllDialog by remember { mutableStateOf(false) }
 
     val lazyListState = rememberLazyListState()
 
@@ -222,7 +225,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
             mutableIntStateOf(
                 videoList.count { info ->
                     selectedItemIds.contains(info.id) &&
-                        info.filterByType(videoFilter = true, audioFilter = false)
+                            info.filterByType(videoFilter = true, audioFilter = false)
                 }
             )
         }
@@ -231,19 +234,19 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
             mutableIntStateOf(
                 videoList.count { info ->
                     selectedItemIds.contains(info.id) &&
-                        info.filterByType(videoFilter = false, audioFilter = true)
+                            info.filterByType(videoFilter = false, audioFilter = true)
                 }
             )
         }
 
     val selectedFileSizeSum by
-        remember(selectedItemIds.size) {
-            derivedStateOf {
-                selectedItemIds.fold(0L) { acc: Long, id: Int ->
-                    acc + fileSizeMap.getOrElse(id) { 0L }
-                }
+    remember(selectedItemIds.size) {
+        derivedStateOf {
+            selectedItemIds.fold(0L) { acc: Long, id: Int ->
+                acc + fileSizeMap.getOrElse(id) { 0L }
             }
         }
+    }
 
     val visibleItemCount =
         remember(videoList, viewState) {
@@ -251,17 +254,17 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
         }
 
     val checkBoxState by
-        remember(selectedItemIds, visibleItemCount) {
-            derivedStateOf {
-                if (selectedItemIds.isEmpty()) ToggleableState.Off
-                else if (
-                    selectedItemIds.size == visibleItemCount.intValue &&
-                        selectedItemIds.isNotEmpty()
-                )
-                    ToggleableState.On
-                else ToggleableState.Indeterminate
-            }
+    remember(selectedItemIds, visibleItemCount) {
+        derivedStateOf {
+            if (selectedItemIds.isEmpty()) ToggleableState.Off
+            else if (
+                selectedItemIds.size == visibleItemCount.intValue &&
+                selectedItemIds.isNotEmpty()
+            )
+                ToggleableState.On
+            else ToggleableState.Indeterminate
         }
+    }
 
     var showRemoveDialog by remember { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -357,6 +360,25 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
                                         expanded = false
                                     },
                                 )
+
+                                // ✨ NEW: Clear All Downloads menu item
+                                if (fullVideoList.isNotEmpty()) {
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = Icons.Outlined.DeleteSweep,
+                                                contentDescription = null,
+                                            )
+                                        },
+                                        text = {
+                                            Text(text = "Clear All Downloads")
+                                        },
+                                        onClick = {
+                                            showClearAllDialog = true
+                                            expanded = false
+                                        },
+                                    )
+                                }
                             }
                         }
                     }
@@ -383,7 +405,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
                                     for (item in videoList) {
                                         if (
                                             !selectedItemIds.contains(item.id) &&
-                                                item.filterSort(viewState, filterSet)
+                                            item.filterSort(viewState, filterSet)
                                         ) {
                                             selectedItemIds.add(item.id)
                                         }
@@ -559,7 +581,7 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
                         modifier = Modifier.padding(horizontal = 12.dp),
                         text =
                             stringResource(R.string.delete_file) +
-                                " (${selectedFileSizeSum.toFileSizeText()})",
+                                    " (${selectedFileSizeSum.toFileSizeText()})",
                         checked = deleteFile,
                     ) {
                         deleteFile = !deleteFile
@@ -605,8 +627,8 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
             }
 
         ExportDialog(onDismissRequest = { showExportDialog = false }, itemCount = list.size) {
-            type,
-            destination ->
+                type,
+                destination ->
             list.backupToString(type).let {
                 when (destination) {
                     Clipboard -> clipboardManager.setText(AnnotatedString(it))
@@ -653,6 +675,38 @@ fun VideoListPage(viewModel: VideoListViewModel = koinViewModel(), onNavigateBac
             view.slightHapticFeedback()
             showImportDialog = false
         }
+    }
+
+    // ✨ NEW: Clear All Downloads confirmation dialog
+    if (showClearAllDialog) {
+        AlertDialog(
+            onDismissRequest = { showClearAllDialog = false },
+            title = { Text("Clear All Downloads?") },
+            text = {
+                Text("This will delete all ${fullVideoList.size} downloaded items. This action cannot be undone.")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        // Delete all videos from the database
+                        viewModel.deleteDownloadHistory(
+                            infoList = fullVideoList,
+                            deleteFile = true  // Also delete files
+                        )
+                        showClearAllDialog = false
+                    }
+                ) {
+                    Text("Delete All")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showClearAllDialog = false }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 
