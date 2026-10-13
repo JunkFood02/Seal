@@ -88,8 +88,8 @@
 
 ## ⭐️ تاريخ النجوم
 <p align="right">
-<a href="https://star-history.com/#JunkFood02/Seal&Timeline">
-<img src="https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline" alt="Star History Chart" />
+<a href="https://star-history.dera.page/#JunkFood02/Seal&Timeline">
+<img src="https://star-history.dera.page/svg?repos=JunkFood02/Seal&type=Timeline" alt="Star History Chart" />
 </a>
 
 ## 🧱 الاعتمادات

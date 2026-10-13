@@ -105,7 +105,7 @@ Seal 永遠提供眾人免費使用並開放原始碼。若您悅納，請考慮
 
 ## ⭐️ Star 歷程
 
-[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+[![Star History Chart](https://star-history.dera.page/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.dera.page/#JunkFood02/Seal&Timeline)
 
 
 ## 🧱 致謝

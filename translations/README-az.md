@@ -107,7 +107,7 @@ Siz [Hosted Weblate](https://hosted.weblate.org/projects/seal/)-də Seal-ı tər
 
 ## ⭐️ Ulduz Tarixçəsi
 
-[![Ulduz Tarixçəsi Sxemi](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+[![Ulduz Tarixçəsi Sxemi](https://star-history.dera.page/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.dera.page/#JunkFood02/Seal&Timeline)
 
 
 ## 🧱 Kreditlər
