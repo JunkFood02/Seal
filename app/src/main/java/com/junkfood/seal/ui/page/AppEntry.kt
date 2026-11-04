@@ -153,21 +153,23 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                     )
                 }
                 animatedComposable(Route.DOWNLOADS) { VideoListPage { onNavigateBack() } }
-                animatedComposableVariant(Route.TASK_LIST) {
-                    TaskListPage(
-                        onNavigateBack = onNavigateBack,
-                        onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
-                    )
-                }
-                slideInVerticallyComposable(
-                    Route.TASK_LOG arg Route.TASK_HASHCODE,
-                    arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
-                ) {
-                    TaskLogPage(
-                        onNavigateBack = onNavigateBack,
-                        taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
-                    )
-                }
+                // [SIMPLIFIED] disabled (commented out, not deleted): custom command task list route
+                // animatedComposableVariant(Route.TASK_LIST) {
+                    // TaskListPage(
+                        // onNavigateBack = onNavigateBack,
+                        // onNavigateToDetail = { navController.navigate(Route.TASK_LOG id it) },
+                    // )
+                // }
+                // [SIMPLIFIED] disabled (commented out, not deleted): custom command task log route
+                // slideInVerticallyComposable(
+                    // Route.TASK_LOG arg Route.TASK_HASHCODE,
+                    // arguments = listOf(navArgument(Route.TASK_HASHCODE) { type = NavType.IntType }),
+                // ) {
+                    // TaskLogPage(
+                        // onNavigateBack = onNavigateBack,
+                        // taskHashCode = it.arguments?.getInt(Route.TASK_HASHCODE) ?: -1,
+                    // )
+                // }
 
                 settingsGraph(
                     onNavigateBack = onNavigateBack,
@@ -178,7 +180,8 @@ fun AppEntry(dialogViewModel: DownloadDialogViewModel) {
                 )
             }
 
-            AppUpdater()
+            // [SIMPLIFIED] disabled (commented out, not deleted): self-updater of the app (points at upstream releases)
+            // AppUpdater()
             YtdlpUpdater()
         }
     }
@@ -207,60 +210,74 @@ fun NavGraphBuilder.settingsGraph(
             }
         }
         animatedComposable(Route.SUBTITLE_PREFERENCES) { SubtitlePreference { onNavigateBack() } }
-        animatedComposable(Route.ABOUT) {
-            AboutPage(
-                onNavigateBack = onNavigateBack,
-                onNavigateToCreditsPage = { onNavigateTo(Route.CREDITS) },
-                onNavigateToUpdatePage = { onNavigateTo(Route.AUTO_UPDATE) },
-                onNavigateToDonatePage = { onNavigateTo(Route.DONATE) },
-            )
-        }
-        animatedComposable(Route.DONATE) { SponsorsPage(onNavigateBack) }
-        animatedComposable(Route.CREDITS) { CreditsPage(onNavigateBack) }
-        animatedComposable(Route.AUTO_UPDATE) { UpdatePage(onNavigateBack) }
-        animatedComposable(Route.APPEARANCE) {
-            AppearancePreferences(onNavigateBack = onNavigateBack, onNavigateTo = onNavigateTo)
-        }
-        animatedComposable(Route.INTERACTION) { InteractionPreferencePage(onBack = onNavigateBack) }
-        animatedComposable(Route.LANGUAGES) { LanguagePage { onNavigateBack() } }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for ABOUT (its entry points are disabled)
+        // animatedComposable(Route.ABOUT) {
+            // AboutPage(
+                // onNavigateBack = onNavigateBack,
+                // onNavigateToCreditsPage = { onNavigateTo(Route.CREDITS) },
+                // onNavigateToUpdatePage = { onNavigateTo(Route.AUTO_UPDATE) },
+                // onNavigateToDonatePage = { onNavigateTo(Route.DONATE) },
+            // )
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for DONATE (its entry points are disabled)
+        // animatedComposable(Route.DONATE) { SponsorsPage(onNavigateBack) }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for CREDITS (its entry points are disabled)
+        // animatedComposable(Route.CREDITS) { CreditsPage(onNavigateBack) }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for AUTO_UPDATE (its entry points are disabled)
+        // animatedComposable(Route.AUTO_UPDATE) { UpdatePage(onNavigateBack) }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for APPEARANCE (its entry points are disabled)
+        // animatedComposable(Route.APPEARANCE) {
+            // AppearancePreferences(onNavigateBack = onNavigateBack, onNavigateTo = onNavigateTo)
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for INTERACTION (its entry points are disabled)
+        // animatedComposable(Route.INTERACTION) { InteractionPreferencePage(onBack = onNavigateBack) }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for LANGUAGES (its entry points are disabled)
+        // animatedComposable(Route.LANGUAGES) { LanguagePage { onNavigateBack() } }
         animatedComposable(Route.DOWNLOAD_DIRECTORY) {
             DownloadDirectoryPreferences { onNavigateBack() }
         }
-        animatedComposable(Route.TEMPLATE) {
-            TemplateListPage(onNavigateBack = onNavigateBack) {
-                onNavigateTo(Route.TEMPLATE_EDIT id it)
-            }
-        }
-        animatedComposable(
-            Route.TEMPLATE_EDIT arg Route.TEMPLATE_ID,
-            arguments = listOf(navArgument(Route.TEMPLATE_ID) { type = NavType.IntType }),
-        ) {
-            TemplateEditPage(onNavigateBack, it.arguments?.getInt(Route.TEMPLATE_ID) ?: -1)
-        }
-        animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onNavigateBack() } }
-        animatedComposable(Route.NETWORK_PREFERENCES) {
-            NetworkPreferences(
-                navigateToCookieProfilePage = { onNavigateTo(Route.COOKIE_PROFILE) }
-            ) {
-                onNavigateBack()
-            }
-        }
-        animatedComposable(Route.COOKIE_PROFILE) {
-            CookieProfilePage(
-                cookiesViewModel = cookiesViewModel,
-                navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) },
-            ) {
-                onNavigateBack()
-            }
-        }
-        animatedComposable(Route.COOKIE_GENERATOR_WEBVIEW) {
-            WebViewPage(cookiesViewModel = cookiesViewModel) {
-                onNavigateBack()
-                CookieManager.getInstance().flush()
-            }
-        }
-        animatedComposable(Route.TROUBLESHOOTING) {
-            TroubleShootingPage(onNavigateTo = onNavigateTo, onBack = onNavigateBack)
-        }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for TEMPLATE (its entry points are disabled)
+        // animatedComposable(Route.TEMPLATE) {
+            // TemplateListPage(onNavigateBack = onNavigateBack) {
+                // onNavigateTo(Route.TEMPLATE_EDIT id it)
+            // }
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for TEMPLATE_EDIT (its entry points are disabled)
+        // animatedComposable(
+            // Route.TEMPLATE_EDIT arg Route.TEMPLATE_ID,
+            // arguments = listOf(navArgument(Route.TEMPLATE_ID) { type = NavType.IntType }),
+        // ) {
+            // TemplateEditPage(onNavigateBack, it.arguments?.getInt(Route.TEMPLATE_ID) ?: -1)
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for DARK_THEME (its entry points are disabled)
+        // animatedComposable(Route.DARK_THEME) { DarkThemePreferences { onNavigateBack() } }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for NETWORK_PREFERENCES (its entry points are disabled)
+        // animatedComposable(Route.NETWORK_PREFERENCES) {
+            // NetworkPreferences(
+                // navigateToCookieProfilePage = { onNavigateTo(Route.COOKIE_PROFILE) }
+            // ) {
+                // onNavigateBack()
+            // }
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for COOKIE_PROFILE (its entry points are disabled)
+        // animatedComposable(Route.COOKIE_PROFILE) {
+            // CookieProfilePage(
+                // cookiesViewModel = cookiesViewModel,
+                // navigateToCookieGeneratorPage = { onNavigateTo(Route.COOKIE_GENERATOR_WEBVIEW) },
+            // ) {
+                // onNavigateBack()
+            // }
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for COOKIE_GENERATOR_WEBVIEW (its entry points are disabled)
+        // animatedComposable(Route.COOKIE_GENERATOR_WEBVIEW) {
+            // WebViewPage(cookiesViewModel = cookiesViewModel) {
+                // onNavigateBack()
+                // CookieManager.getInstance().flush()
+            // }
+        // }
+        // [SIMPLIFIED] disabled (commented out, not deleted): route for TROUBLESHOOTING (its entry points are disabled)
+        // animatedComposable(Route.TROUBLESHOOTING) {
+            // TroubleShootingPage(onNavigateTo = onNavigateTo, onBack = onNavigateBack)
+        // }
     }
 }

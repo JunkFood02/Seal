@@ -144,16 +144,18 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
                     }
                 }
             }
-            if (!showBatteryHint && showSponsorMessage > 30)
-                item {
-                    PreferencesHintCard(
-                        title = stringResource(id = R.string.sponsor),
-                        icon = Icons.Rounded.VolunteerActivism,
-                        description = stringResource(id = R.string.sponsor_desc),
-                    ) {
-                        onNavigateTo(Route.DONATE)
-                    }
-                }
+            // [SIMPLIFIED] disabled (commented out, not deleted): sponsor hint condition (must stay together with its item)
+            // if (!showBatteryHint && showSponsorMessage > 30)
+                // [SIMPLIFIED] disabled (commented out, not deleted): sponsor hint card (item body)
+                // item {
+                    // PreferencesHintCard(
+                        // title = stringResource(id = R.string.sponsor),
+                        // icon = Icons.Rounded.VolunteerActivism,
+                        // description = stringResource(id = R.string.sponsor_desc),
+                    // ) {
+                        // onNavigateTo(Route.DONATE)
+                    // }
+                // }
             item {
                 SettingItem(
                     title = stringResource(id = R.string.general_settings),
@@ -183,63 +185,69 @@ fun SettingsPage(onNavigateBack: () -> Unit, onNavigateTo: (String) -> Unit) {
                     onNavigateTo(Route.DOWNLOAD_FORMAT)
                 }
             }
-            item {
-                SettingItem(
-                    title = stringResource(id = R.string.network),
-                    description = stringResource(id = R.string.network_settings_desc),
-                    icon =
-                        if (App.connectivityManager.isActiveNetworkMetered)
-                            Icons.Rounded.SignalCellular4Bar
-                        else Icons.Rounded.SignalWifi4Bar,
-                ) {
-                    onNavigateTo(Route.NETWORK_PREFERENCES)
-                }
-            }
-            item {
-                SettingItem(
-                    title = stringResource(id = R.string.custom_command),
-                    description = stringResource(id = R.string.custom_command_desc),
-                    icon = Icons.Rounded.Terminal,
-                ) {
-                    onNavigateTo(Route.TEMPLATE)
-                }
-            }
-            item {
-                SettingItem(
-                    title = stringResource(id = R.string.look_and_feel),
-                    description = stringResource(id = R.string.display_settings),
-                    icon = Icons.Rounded.Palette,
-                ) {
-                    onNavigateTo(Route.APPEARANCE)
-                }
-            }
-            item {
-                SettingItem(
-                    title = stringResource(id = R.string.interface_and_interaction),
-                    description = stringResource(id = R.string.settings_before_download),
-                    icon = Icons.Rounded.ViewComfy,
-                ) {
-                    onNavigateTo(Route.INTERACTION)
-                }
-            }
-            item {
-                SettingItem(
-                    title = stringResource(R.string.trouble_shooting),
-                    description = stringResource(R.string.trouble_shooting_desc),
-                    icon = Icons.Rounded.BugReport,
-                ) {
-                    onNavigateTo(Route.TROUBLESHOOTING)
-                }
-            }
-            item {
-                SettingItem(
-                    title = stringResource(id = R.string.about),
-                    description = stringResource(id = R.string.about_page),
-                    icon = Icons.Rounded.Info,
-                ) {
-                    onNavigateTo(Route.ABOUT)
-                }
-            }
+            // [SIMPLIFIED] disabled (commented out, not deleted): network/cookies/proxy settings entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(id = R.string.network),
+                    // description = stringResource(id = R.string.network_settings_desc),
+                    // icon =
+                        // if (App.connectivityManager.isActiveNetworkMetered)
+                            // Icons.Rounded.SignalCellular4Bar
+                        // else Icons.Rounded.SignalWifi4Bar,
+                // ) {
+                    // onNavigateTo(Route.NETWORK_PREFERENCES)
+                // }
+            // }
+            // [SIMPLIFIED] disabled (commented out, not deleted): custom command templates entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(id = R.string.custom_command),
+                    // description = stringResource(id = R.string.custom_command_desc),
+                    // icon = Icons.Rounded.Terminal,
+                // ) {
+                    // onNavigateTo(Route.TEMPLATE)
+                // }
+            // }
+            // [SIMPLIFIED] disabled (commented out, not deleted): appearance entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(id = R.string.look_and_feel),
+                    // description = stringResource(id = R.string.display_settings),
+                    // icon = Icons.Rounded.Palette,
+                // ) {
+                    // onNavigateTo(Route.APPEARANCE)
+                // }
+            // }
+            // [SIMPLIFIED] disabled (commented out, not deleted): interface/interaction entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(id = R.string.interface_and_interaction),
+                    // description = stringResource(id = R.string.settings_before_download),
+                    // icon = Icons.Rounded.ViewComfy,
+                // ) {
+                    // onNavigateTo(Route.INTERACTION)
+                // }
+            // }
+            // [SIMPLIFIED] disabled (commented out, not deleted): troubleshooting entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(R.string.trouble_shooting),
+                    // description = stringResource(R.string.trouble_shooting_desc),
+                    // icon = Icons.Rounded.BugReport,
+                // ) {
+                    // onNavigateTo(Route.TROUBLESHOOTING)
+                // }
+            // }
+            // [SIMPLIFIED] disabled (commented out, not deleted): about entry
+            // item {
+                // SettingItem(
+                    // title = stringResource(id = R.string.about),
+                    // description = stringResource(id = R.string.about_page),
+                    // icon = Icons.Rounded.Info,
+                // ) {
+                    // onNavigateTo(Route.ABOUT)
+                // }
+            // }
         }
     }
 }

@@ -195,16 +195,17 @@ fun NavigationDrawerSheetContent(
                 },
                 selected = currentRoute == Route.DOWNLOADS,
             )
-            NavigationDrawerItem(
-                label = { Text(stringResource(R.string.custom_command)) },
-                icon = { Icon(Icons.Outlined.Terminal, null) },
-                onClick = {
-                    scope
-                        .launch { onDismissRequest() }
-                        .invokeOnCompletion { onNavigateToRoute(Route.TASK_LIST) }
-                },
-                selected = currentRoute == Route.TASK_LIST,
-            )
+            // [SIMPLIFIED] disabled (commented out, not deleted): custom command entry
+            // NavigationDrawerItem(
+                // label = { Text(stringResource(R.string.custom_command)) },
+                // icon = { Icon(Icons.Outlined.Terminal, null) },
+                // onClick = {
+                    // scope
+                        // .launch { onDismissRequest() }
+                        // .invokeOnCompletion { onNavigateToRoute(Route.TASK_LIST) }
+                // },
+                // selected = currentRoute == Route.TASK_LIST,
+            // )
             NavigationDrawerItem(
                 label = { Text(stringResource(R.string.settings)) },
                 icon = { Icon(Icons.Outlined.Settings, null) },
@@ -216,16 +217,17 @@ fun NavigationDrawerSheetContent(
                 selected = currentRoute == Route.SETTINGS_PAGE,
             )
 
-            NavigationDrawerItem(
-                label = { Text(stringResource(R.string.sponsor)) },
-                icon = { Icon(Icons.Outlined.VolunteerActivism, null) },
-                onClick = {
-                    scope
-                        .launch { onDismissRequest() }
-                        .invokeOnCompletion { onNavigateToRoute(Route.DONATE) }
-                },
-                selected = currentRoute == Route.DONATE,
-            )
+            // [SIMPLIFIED] disabled (commented out, not deleted): sponsor/donate entry
+            // NavigationDrawerItem(
+                // label = { Text(stringResource(R.string.sponsor)) },
+                // icon = { Icon(Icons.Outlined.VolunteerActivism, null) },
+                // onClick = {
+                    // scope
+                        // .launch { onDismissRequest() }
+                        // .invokeOnCompletion { onNavigateToRoute(Route.DONATE) }
+                // },
+                // selected = currentRoute == Route.DONATE,
+            // )
 
             if (showQuickSettings) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
@@ -266,38 +268,41 @@ fun NavigationDrawerSheetContent(
                     selected = currentRoute == Route.DOWNLOAD_DIRECTORY,
                 )
 
-                NavigationDrawerItem(
-                    label = { Text(stringResource(R.string.cookies)) },
-                    icon = { Icon(Icons.Rounded.Cookie, null) },
-                    onClick = {
-                        scope
-                            .launch { onDismissRequest() }
-                            .invokeOnCompletion { onNavigateToRoute(Route.COOKIE_PROFILE) }
-                    },
-                    selected = currentRoute == Route.COOKIE_PROFILE,
-                )
+                // [SIMPLIFIED] disabled (commented out, not deleted): cookies entry
+                // NavigationDrawerItem(
+                    // label = { Text(stringResource(R.string.cookies)) },
+                    // icon = { Icon(Icons.Rounded.Cookie, null) },
+                    // onClick = {
+                        // scope
+                            // .launch { onDismissRequest() }
+                            // .invokeOnCompletion { onNavigateToRoute(Route.COOKIE_PROFILE) }
+                    // },
+                    // selected = currentRoute == Route.COOKIE_PROFILE,
+                // )
 
-                NavigationDrawerItem(
-                    label = { Text(stringResource(R.string.trouble_shooting)) },
-                    icon = { Icon(Icons.Rounded.BugReport, null) },
-                    onClick = {
-                        scope
-                            .launch { onDismissRequest() }
-                            .invokeOnCompletion { onNavigateToRoute(Route.TROUBLESHOOTING) }
-                    },
-                    selected = currentRoute == Route.TROUBLESHOOTING,
-                )
+                // [SIMPLIFIED] disabled (commented out, not deleted): troubleshooting entry
+                // NavigationDrawerItem(
+                    // label = { Text(stringResource(R.string.trouble_shooting)) },
+                    // icon = { Icon(Icons.Rounded.BugReport, null) },
+                    // onClick = {
+                        // scope
+                            // .launch { onDismissRequest() }
+                            // .invokeOnCompletion { onNavigateToRoute(Route.TROUBLESHOOTING) }
+                    // },
+                    // selected = currentRoute == Route.TROUBLESHOOTING,
+                // )
 
-                NavigationDrawerItem(
-                    label = { Text(stringResource(R.string.about)) },
-                    icon = { Icon(Icons.Rounded.Info, null) },
-                    onClick = {
-                        scope
-                            .launch { onDismissRequest() }
-                            .invokeOnCompletion { onNavigateToRoute(Route.ABOUT) }
-                    },
-                    selected = currentRoute == Route.ABOUT,
-                )
+                // [SIMPLIFIED] disabled (commented out, not deleted): about entry
+                // NavigationDrawerItem(
+                    // label = { Text(stringResource(R.string.about)) },
+                    // icon = { Icon(Icons.Rounded.Info, null) },
+                    // onClick = {
+                        // scope
+                            // .launch { onDismissRequest() }
+                            // .invokeOnCompletion { onNavigateToRoute(Route.ABOUT) }
+                    // },
+                    // selected = currentRoute == Route.ABOUT,
+                // )
             }
         }
         Spacer(Modifier.weight(1f))
@@ -372,18 +377,19 @@ fun NavigationRailContent(
             onClick = { onNavigateToRoute(Route.DOWNLOADS) },
         )
 
-        NavigationRailItemVariant(
-            icon = {
-                Icon(
-                    if (currentTopDestination == Route.TASK_LIST) Icons.Filled.Terminal
-                    else Icons.Outlined.Terminal,
-                    stringResource(R.string.custom_command),
-                )
-            },
-            modifier = Modifier,
-            selected = currentTopDestination == Route.TASK_LIST,
-            onClick = { onNavigateToRoute(Route.TASK_LIST) },
-        )
+        // [SIMPLIFIED] disabled (commented out, not deleted): custom command rail entry
+        // NavigationRailItemVariant(
+            // icon = {
+                // Icon(
+                    // if (currentTopDestination == Route.TASK_LIST) Icons.Filled.Terminal
+                    // else Icons.Outlined.Terminal,
+                    // stringResource(R.string.custom_command),
+                // )
+            // },
+            // modifier = Modifier,
+            // selected = currentTopDestination == Route.TASK_LIST,
+            // onClick = { onNavigateToRoute(Route.TASK_LIST) },
+        // )
 
         NavigationRailItemVariant(
             icon = {

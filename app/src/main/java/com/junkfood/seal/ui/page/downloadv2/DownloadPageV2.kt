@@ -550,7 +550,10 @@ fun Header(modifier: Modifier = Modifier, onMenuOpen: () -> Unit = {}) {
 @Composable
 private fun HeaderCompact(modifier: Modifier = Modifier, onMenuOpen: () -> Unit) {
 
-    Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier.fillMaxWidth().height(64.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         IconButton(onClick = onMenuOpen, modifier = Modifier) {
             Icon(
                 imageVector = Icons.Outlined.Menu,
@@ -567,17 +570,26 @@ private fun HeaderCompact(modifier: Modifier = Modifier, onMenuOpen: () -> Unit)
                     fontWeight = FontWeight.Medium,
                 ),
         )
+        // [SIMPLIFIED] added: one-tap button to update the yt-dlp library
+        Spacer(modifier = Modifier.weight(1f))
+        YtdlpUpdateButton()
     }
 }
 
 @Composable
 private fun HeaderExpanded(modifier: Modifier = Modifier) {
-    Row(modifier = modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier.fillMaxWidth().height(64.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             stringResource(R.string.download_queue),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
         )
+        // [SIMPLIFIED] added: one-tap button to update the yt-dlp library
+        Spacer(modifier = Modifier.weight(1f))
+        YtdlpUpdateButton()
     }
     Spacer(Modifier.height(4.dp))
 }
