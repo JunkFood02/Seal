@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Spellcheck
@@ -17,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,7 @@ import com.junkfood.seal.ui.component.PreferenceSubtitle
 import com.junkfood.seal.ui.component.PreferenceSwitch
 import com.junkfood.seal.ui.page.settings.BasePreferencePage
 import com.junkfood.seal.ui.page.settings.general.YtdlpUpdateChannelDialog
+import com.junkfood.seal.util.FfmpegUtil
 import com.junkfood.seal.util.PreferenceUtil.getString
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.RESTRICT_FILENAMES
@@ -159,6 +162,45 @@ fun TroubleShootingPage(
                 if (showYtdlpDialog) {
                     YtdlpUpdateChannelDialog(onDismissRequest = { showYtdlpDialog = false })
                 }
+            }
+
+            item {
+                var ffmpegDescription by remember { mutableStateOf("") }
+                fun statusDescription(status: FfmpegUtil.Status): String =
+                    if (status is FfmpegUtil.Status.Ready) {
+                        context.getString(R.string.ffmpeg_engine_ok)
+                    } else {
+                        context.getString(
+                            R.string.ffmpeg_engine_error,
+                            FfmpegUtil.userMessage(context, status),
+                        )
+                    }
+
+                LaunchedEffect(Unit) {
+                    withContext(Dispatchers.IO) {
+                        ffmpegDescription =
+                            statusDescription(
+                                FfmpegUtil.ensureReady(context.applicationContext)
+                            )
+                    }
+                }
+                PreferenceItem(
+                    title = stringResource(R.string.ffmpeg_engine),
+                    description = ffmpegDescription,
+                    icon = Icons.Outlined.Build,
+                    onClick = {
+                        scope.launch(Dispatchers.IO) {
+                            val description =
+                                statusDescription(
+                                    FfmpegUtil.forceCheck(context.applicationContext)
+                                )
+                            withContext(Dispatchers.Main) {
+                                ffmpegDescription = description
+                                context.makeToast(description)
+                            }
+                        }
+                    },
+                )
             }
 
             item { PreferenceSubtitle(text = stringResource(R.string.network)) }

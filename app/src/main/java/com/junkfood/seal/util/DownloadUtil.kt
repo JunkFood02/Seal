@@ -42,6 +42,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.io.File
 import java.util.Locale
 
 object DownloadUtil {
@@ -87,10 +88,13 @@ object DownloadUtil {
     fun getPlaylistOrVideoInfo(
         playlistURL: String,
         downloadPreferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
-    ): Result<YoutubeDLInfo> =
-        YoutubeDL.runCatching {
+    ): Result<YoutubeDLInfo> {
+        val resolvedUrl =
+            runCatching { GoogleDriveResolver.resolve(playlistURL) }
+                .getOrElse { return Result.failure(it.asUserFacing()) }
+        return YoutubeDL.runCatching {
             ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
-            val request = YoutubeDLRequest(playlistURL)
+            val request = YoutubeDLRequest(resolvedUrl)
             with(request) {
                 //            addOption("--compat-options", "no-youtube-unavailable-videos")
                 addOption("--flat-playlist")
@@ -120,10 +124,18 @@ object DownloadUtil {
             execute(request, playlistURL).out.run {
                 val playlistInfo = jsonFormat.decodeFromString<PlaylistResult>(this)
                 if (playlistInfo.type != "playlist") {
-                    jsonFormat.decodeFromString<VideoInfo>(this)
+                    jsonFormat.decodeFromString<VideoInfo>(this).let { info ->
+                        if (resolvedUrl == playlistURL) info
+                        else
+                            info.copy(
+                                originalUrl = playlistURL,
+                                webpageUrl = info.webpageUrl ?: playlistURL,
+                            )
+                    }
                 } else playlistInfo
             }
         }
+    }
 
     @CheckResult
     private fun getVideoInfo(
@@ -143,9 +155,15 @@ object DownloadUtil {
         taskKey: String? = null,
         preferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
     ): Result<VideoInfo> {
+        // Google Drive links are resolved to a direct URL first (virus-scan confirm, quota
+        // and permission pages handled); the original URL is kept on the returned info so
+        // downloadVideo() can resolve again with a fresh token.
+        val resolvedUrl =
+            runCatching { GoogleDriveResolver.resolve(url) }
+                .getOrElse { return Result.failure(it.asUserFacing()) }
         with(preferences) {
             val request =
-                YoutubeDLRequest(url).apply {
+                YoutubeDLRequest(resolvedUrl).apply {
                     addOption("-o", BASENAME)
                     if (restrictFilenames) {
                         addOption("--restrict-filenames")
@@ -182,7 +200,10 @@ object DownloadUtil {
                     addOption("--no-playlist")
                     addOption("--socket-timeout", "5")
                 }
-            return getVideoInfo(request, taskKey)
+            return getVideoInfo(request, taskKey).map { info ->
+                if (resolvedUrl == url) info
+                else info.copy(originalUrl = url, webpageUrl = info.webpageUrl ?: url)
+            }
         }
     }
 
@@ -677,9 +698,35 @@ object DownloadUtil {
                             Throwable(context.getString(R.string.fetch_info_error_msg))
                         )
                 }
-            val request = YoutubeDLRequest(url)
+            // Re-resolve Google Drive links: confirm tokens from the info stage may expire.
+            val directUrl =
+                runCatching { GoogleDriveResolver.resolve(url) }
+                    .getOrElse { return Result.failure(it.asUserFacing()) }
+
+            // Make sure the FFmpeg engine is initialized and executable before starting.
+            // ensureReady() also waits for a concurrent first-run extraction, which otherwise
+            // races with downloads started right after app launch.
+            val ffmpegStatus = FfmpegUtil.ensureReady(context)
+            val needsFfmpeg =
+                extractAudio ||
+                    videoInfo.vcodec == "none" ||
+                    createThumbnail ||
+                    videoClips.isNotEmpty() ||
+                    splitByChapter ||
+                    embedThumbnail ||
+                    mergeToMkv ||
+                    (downloadSubtitle && (embedSubtitle || convertSubtitle != 0))
+            if (needsFfmpeg && ffmpegStatus is FfmpegUtil.Status.Unavailable) {
+                return Result.failure(Throwable(ffmpegFailureMessage(null)))
+            }
+
+            val request = YoutubeDLRequest(directUrl)
             val pathBuilder = StringBuilder()
             val outputBuilder = StringBuilder()
+            // Concurrent tasks share Download/Seal/tmp; give every task its own temp dir so
+            // same-named outputs (thumbnails, .part files) can't be deleted mid-run by others.
+            val taskTempDir =
+                File(getExternalTempDir(), "task_${taskId.hashCode().toUInt().toString(16)}")
 
             request
                 .apply {
@@ -776,7 +823,7 @@ object DownloadUtil {
                         addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                     }
                     if (Build.VERSION.SDK_INT > 23 && !sdcard)
-                        addOption("-P", "temp:" + getExternalTempDir())
+                        addOption("-P", "temp:" + taskTempDir.absolutePath)
 
                     if (splitByChapter) {
                         addOption("-o", OUTPUT_TEMPLATE_CHAPTERS)
@@ -813,8 +860,10 @@ object DownloadUtil {
                             downloadPath = pathBuilder.toString(),
                             sdcardUri = sdcardUri,
                         )
-                    } else Result.failure(th)
+                    } else Result.failure(mapMissingFfmpegError(th))
                 }
+            // Success only: keep partial files on failure so a retry can resume.
+            taskTempDir.deleteRecursively()
             return onFinishDownloading(
                 preferences = this,
                 videoInfo = videoInfo,
@@ -908,9 +957,15 @@ object DownloadUtil {
             }
 
         return runCatching {
-            YoutubeDL.getInstance()
-                .execute(request = request, processId = taskId, callback = progressCallback)
-        }
+                YoutubeDL.getInstance()
+                    .execute(request = request, processId = taskId, callback = progressCallback)
+            }
+            .recoverCatching { th ->
+                if (FfmpegUtil.isMissingFfmpegError(th.message)) {
+                    throw Throwable(ffmpegFailureMessage(th), th)
+                }
+                throw th
+            }
     }
 
     suspend fun executeCommandInBackground(
@@ -972,16 +1027,31 @@ object DownloadUtil {
                         }
                     onTaskEnded(template, url, response.out + "\n" + response.err)
                 }
-                .onFailure {
-                    it.printStackTrace()
-                    if (it is YoutubeDL.CanceledException) return@onFailure
-                    it.message.run {
+                .onFailure { original ->
+                    original.printStackTrace()
+                    if (original is YoutubeDL.CanceledException) return@onFailure
+                    val th = mapMissingFfmpegError(original)
+                    th.message.run {
                         if (isNullOrEmpty()) onTaskEnded(template, url)
                         else onTaskError(this, template, url)
                     }
                 }
             onProcessEnded()
         }
+    }
+
+    private fun Throwable.asUserFacing(): Throwable =
+        if (this is DriveError) Throwable(userMessage(context), this) else this
+
+    private fun ffmpegFailureMessage(th: Throwable?): String {
+        val status = FfmpegUtil.currentStatus() ?: FfmpegUtil.ensureReady(context)
+        val reason = FfmpegUtil.userMessage(context, status).ifEmpty { th?.message.orEmpty() }
+        return context.getString(R.string.download_requires_ffmpeg, reason)
+    }
+
+    private fun mapMissingFfmpegError(th: Throwable): Throwable {
+        if (!FfmpegUtil.isMissingFfmpegError(th.message)) return th
+        return Throwable(ffmpegFailureMessage(th), th)
     }
 
     private fun checkIfAv1HardwareAccelerated(): Boolean {
