@@ -42,6 +42,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.io.File
+import java.io.FileNotFoundException
 import java.util.Locale
 
 object DownloadUtil {
@@ -92,6 +94,7 @@ object DownloadUtil {
             ToastUtil.makeToastSuspend(context.getString(R.string.fetching_playlist_info))
             val request = YoutubeDLRequest(playlistURL)
             with(request) {
+                configureJsRuntime()
                 //            addOption("--compat-options", "no-youtube-unavailable-videos")
                 addOption("--flat-playlist")
                 addOption("--dump-single-json")
@@ -146,6 +149,7 @@ object DownloadUtil {
         with(preferences) {
             val request =
                 YoutubeDLRequest(url).apply {
+                    configureJsRuntime()
                     addOption("-o", BASENAME)
                     if (restrictFilenames) {
                         addOption("--restrict-filenames")
@@ -430,6 +434,26 @@ object DownloadUtil {
     fun getCookiesContentFromDatabase(): Result<String> =
         getCookieListFromDatabase().mapCatching { it.toCookiesFileContent() }
 
+    fun getBundledJsRuntime(): Pair<String, File>? {
+        val nativeLibDir = context.applicationInfo.nativeLibraryDir
+        val deno = File(nativeLibDir, "libdeno.so")
+        if (deno.exists()) return "deno" to deno
+
+        val quickjs =
+            File(nativeLibDir, "libquickjs.so").takeIf { it.exists() }
+                ?: File(nativeLibDir, "libqjs.so").takeIf { it.exists() }
+        if (quickjs != null) return "quickjs" to quickjs
+
+        return null
+    }
+
+    private fun YoutubeDLRequest.configureJsRuntime(): YoutubeDLRequest = apply {
+        if (buildCommand().contains("--js-runtimes")) return@apply
+        getBundledJsRuntime()?.let { (runtime, file) ->
+            addOption("--js-runtimes", "$runtime:${file.absolutePath}")
+        }
+    }
+
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")
 
@@ -437,6 +461,7 @@ object DownloadUtil {
         downloadPreferences: DownloadPreferences
     ): YoutubeDLRequest =
         this.apply {
+            configureJsRuntime()
             downloadPreferences.run {
                 addOption("--add-metadata")
                 addOption("--no-embed-info-json")
@@ -562,6 +587,7 @@ object DownloadUtil {
         playlistUrl: String,
     ): YoutubeDLRequest =
         this.apply {
+            configureJsRuntime()
             with(preferences) {
                 addOption("-x")
                 if (downloadSubtitle) {
@@ -775,7 +801,7 @@ object DownloadUtil {
                     if (newTitle.isNotEmpty()) {
                         addCommands(listOf("--replace-in-metadata", "title", ".+", newTitle))
                     }
-                    if (Build.VERSION.SDK_INT > 23 && !sdcard)
+                    if (Build.VERSION.SDK_INT > 23 && !sdcard && !aria2c)
                         addOption("-P", "temp:" + getExternalTempDir())
 
                     if (splitByChapter) {
@@ -795,12 +821,14 @@ object DownloadUtil {
                     addOption("-o", outputBuilder.append(output).toString())
 
                     for (s in request.buildCommand()) Log.d(TAG, s)
+                    DebugLogger.log(TAG, "downloadVideo command: ${request.buildCommand()}")
                 }
                 .runCatching {
                     YoutubeDL.getInstance()
                         .execute(request = this, processId = taskId, callback = progressCallback)
                 }
                 .onFailure { th ->
+                    DebugLogger.log(TAG, "downloadVideo execution failed: ${th.message}", th)
                     return if (
                         sponsorBlock &&
                             th.message?.contains("Unable to communicate with SponsorBlock API") ==
@@ -854,21 +882,24 @@ object DownloadUtil {
                         }
                     }
             } else {
-                FileUtil.scanFileToMediaLibraryPostDownload(
+                val scannedFiles =
+                    FileUtil.scanFileToMediaLibraryPostDownload(
                         title = fileName,
                         downloadDir = downloadPath,
                     )
-                    .run {
-                        if (privateMode) Result.success(emptyList())
-                        else
-                            Result.success(
-                                if (splitByChapter) {
-                                    insertSplitChapterIntoHistory(videoInfo, this)
-                                } else {
-                                    insertInfoIntoDownloadHistory(videoInfo, this)
-                                }
-                            )
+                DebugLogger.log(TAG, "onFinishDownloading: scannedFiles=$scannedFiles in $downloadPath for title=$fileName")
+                if (privateMode) {
+                    Result.success(emptyList())
+                } else {
+                    if (scannedFiles.isNotEmpty()) {
+                        if (splitByChapter) {
+                            insertSplitChapterIntoHistory(videoInfo, scannedFiles)
+                        } else {
+                            insertInfoIntoDownloadHistory(videoInfo, scannedFiles)
+                        }
                     }
+                    Result.success(scannedFiles)
+                }
             }
         }
 
@@ -885,6 +916,7 @@ object DownloadUtil {
         val request =
             with(preferences) {
                 YoutubeDLRequest(urlList).apply {
+                    configureJsRuntime()
                     commandDirectory.takeIf { it.isNotEmpty() }?.let { addOption("-P", it) }
                     addOption("--newline")
                     if (aria2c) {
@@ -926,6 +958,7 @@ object DownloadUtil {
             ToastUtil.makeToastSuspend(context.getString(R.string.start_execute))
             val request =
                 YoutubeDLRequest(urlList).apply {
+                    configureJsRuntime()
                     commandDirectory.takeIf { it.isNotEmpty() }?.let { addOption("-P", it) }
                     addOption("--newline")
                     if (aria2c) {

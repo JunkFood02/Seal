@@ -14,10 +14,10 @@ import com.junkfood.seal.ui.common.SettingsProvider
 import com.junkfood.seal.ui.page.AppEntry
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
 import com.junkfood.seal.ui.theme.SealTheme
+import com.junkfood.seal.util.DebugLogger
 import com.junkfood.seal.util.PreferenceUtil
 import com.junkfood.seal.util.matchUrlFromSharedText
 import com.junkfood.seal.util.setLanguage
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.KoinContext
 
@@ -27,9 +27,10 @@ class MainActivity : AppCompatActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DebugLogger.log(TAG, "onCreate")
 
         if (Build.VERSION.SDK_INT < 33) {
-            runBlocking { setLanguage(PreferenceUtil.getLocaleFromPreference()) }
+            setLanguage(PreferenceUtil.getLocaleFromPreference())
         }
         enableEdgeToEdge()
 

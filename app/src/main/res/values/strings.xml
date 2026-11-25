@@ -450,4 +450,12 @@
         <item quantity="one">%d audio</item>
         <item quantity="other">%d audios</item>
     </plurals>
+    <string name="keep_debug_logs">Keep debug logs to file</string>
+    <string name="keep_debug_logs_desc">Record troubleshooting logs to file in tmp directory</string>
+    <string name="log_file_path">Debug log file</string>
+    <string name="clear_debug_logs">Clear debug logs</string>
+    <string name="logs_cleared">Debug logs cleared</string>
+    <string name="share_logs">Share debug logs</string>
+    <string name="no_logs_found">No logs found</string>
+    <string name="js_runtime">JavaScript Runtime</string>
 </resources>
