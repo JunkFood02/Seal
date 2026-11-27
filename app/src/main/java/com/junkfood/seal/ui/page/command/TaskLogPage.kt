@@ -42,12 +42,15 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.junkfood.seal.Downloader
 import com.junkfood.seal.R
+import com.junkfood.seal.download.DownloaderV2
+import com.junkfood.seal.download.Task
 import com.junkfood.seal.ui.component.ButtonChip
+import org.koin.compose.koinInject
 
 private const val TAG = "TaskLogPage"
 
@@ -55,8 +58,13 @@ private const val TAG = "TaskLogPage"
 @Composable
 fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
     Log.d(TAG, "TaskLogPage: $taskHashCode")
+    val downloader: DownloaderV2 = koinInject()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val task = Downloader.mutableTaskList.values.find { it.hashCode() == taskHashCode } ?: return
+    val taskEntry =
+        downloader.getTaskStateMap().entries.find { it.key.id.hashCode() == taskHashCode } ?: return
+    val task = taskEntry.key
+    val state = taskEntry.value.downloadState
+    val logOutput = downloader.getTaskLog(task.id)
     val clipboardManager = LocalClipboardManager.current
     var expandLog by remember { mutableStateOf(false) }
     Scaffold(
@@ -89,54 +97,51 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                         .horizontalScroll(rememberScrollState())
                         .padding(horizontal = 16.dp)
                 ) {
-                    task.run {
-                        ButtonChip(
-                            icon = Icons.Outlined.ContentCopy,
-                            label = stringResource(id = R.string.copy_log),
-                        ) {
-                            onCopyLog(clipboardManager)
-                        }
-                        if (state is Downloader.CustomCommandTask.State.Error)
-                            ButtonChip(
-                                icon = Icons.Outlined.ErrorOutline,
-                                label = stringResource(id = R.string.copy_error_report),
-                                iconColor = MaterialTheme.colorScheme.error,
-                            ) {
-                                onCopyError(clipboardManager)
-                            }
-                        if (state is Downloader.CustomCommandTask.State.Running)
-                            ButtonChip(
-                                icon = Icons.Outlined.Cancel,
-                                label = stringResource(id = R.string.cancel),
-                                iconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            ) {
-                                onCancel()
-                            }
-                        if (
-                            state is Downloader.CustomCommandTask.State.Canceled ||
-                                state is Downloader.CustomCommandTask.State.Error
-                        )
-                            ButtonChip(
-                                icon = Icons.Outlined.RestartAlt,
-                                label = stringResource(id = R.string.restart),
-                            ) {
-                                onRestart()
-                            }
-                        if (!expandLog)
-                            ElevatedAssistChip(
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                onClick = { expandLog = true },
-                                label = { Text(stringResource(id = R.string.expand)) },
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.UnfoldMore,
-                                        null,
-                                        modifier =
-                                            Modifier.size(AssistChipDefaults.IconSize).rotate(90f),
-                                    )
-                                },
-                            )
+                    ButtonChip(
+                        icon = Icons.Outlined.ContentCopy,
+                        label = stringResource(id = R.string.copy_log),
+                    ) {
+                        clipboardManager.setText(AnnotatedString(logOutput))
                     }
+                    if (state is Task.DownloadState.Error)
+                        ButtonChip(
+                            icon = Icons.Outlined.ErrorOutline,
+                            label = stringResource(id = R.string.copy_error_report),
+                            iconColor = MaterialTheme.colorScheme.error,
+                        ) {
+                            clipboardManager.setText(
+                                AnnotatedString(state.throwable.stackTraceToString())
+                            )
+                        }
+                    if (state is Task.DownloadState.Running)
+                        ButtonChip(
+                            icon = Icons.Outlined.Cancel,
+                            label = stringResource(id = R.string.cancel),
+                            iconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ) {
+                            downloader.cancel(task)
+                        }
+                    if (state is Task.DownloadState.Canceled || state is Task.DownloadState.Error)
+                        ButtonChip(
+                            icon = Icons.Outlined.RestartAlt,
+                            label = stringResource(id = R.string.restart),
+                        ) {
+                            downloader.restart(task)
+                        }
+                    if (!expandLog)
+                        ElevatedAssistChip(
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            onClick = { expandLog = true },
+                            label = { Text(stringResource(id = R.string.expand)) },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.UnfoldMore,
+                                    null,
+                                    modifier =
+                                        Modifier.size(AssistChipDefaults.IconSize).rotate(90f),
+                                )
+                            },
+                        )
                 }
             }
         },
@@ -155,7 +160,7 @@ fun TaskLogPage(onNavigateBack: () -> Unit, taskHashCode: Int) {
                             }
                             .padding(top = 12.dp)
                             .padding(horizontal = 20.dp),
-                    text = task.output,
+                    text = logOutput,
                     style =
                         MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
                 )

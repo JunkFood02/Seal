@@ -7,10 +7,10 @@ import com.junkfood.seal.util.DownloadUtil
 import com.junkfood.seal.util.Format
 import com.junkfood.seal.util.VideoInfo
 import com.junkfood.seal.util.toHttpsUrl
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlin.math.roundToInt
 
 private val TypeInfo.id: String
     get() =
@@ -20,8 +20,11 @@ private val TypeInfo.id: String
             TypeInfo.URL -> ""
         }
 
-private fun makeId(url: String, type: TypeInfo, preferences: DownloadUtil.DownloadPreferences): String =
-    "${url}_${type.id}_${preferences.hashCode()}"
+private fun makeId(
+    url: String,
+    type: TypeInfo,
+    preferences: DownloadUtil.DownloadPreferences,
+): String = "${url}_${type.id}_${preferences.hashCode()}"
 
 @Serializable
 data class Task(

@@ -7,17 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v2.0.0][2.0.0] - unreleased
 
+### Milestone 1 (Stabilization & V1 Retirement) - in progress
+
+- Fully decommission legacy single-job `Downloader` and obsolete V1 pages
+- Migrate command task execution and queue monitoring to `DownloaderV2`
+- Improve multi-task notification action handling and process cancellation
+- Add automated unit tests for `TaskFactory` and queue state serialization
+
 ### Notable changes from v1.13
 
-- Concurrent downloading
-- Download queue
-- User interface overhaul
-- Large screen support
-- Resume failed/canceled download
-- Backup & restore unfinished tasks in the download queue
-- Select from formats/playlists in Quick Download
+- Concurrent downloading with configurable concurrency throttling
+- Download queue with fine-grained task states (Idle, FetchingInfo, Running, etc.)
+- User interface overhaul with Material Design 3 and Monet dynamic color
+- Adaptive layouts and large screen / tablet support
+- Resume failed and canceled downloads
+- Persistent backup & restore for unfinished tasks in the download queue via MMKV
+- Select from formats/playlists directly in Quick Download
 - Predictive back animation support for Android 14+
-- Bump up minimum API level to 24 (Android 7.0)
+- Bump up minimum API level to 24 (Android 7.0) and target API 35 (Android 15)
 
 ## [v1.13.0][1.13.0] - 2024-08-18
 

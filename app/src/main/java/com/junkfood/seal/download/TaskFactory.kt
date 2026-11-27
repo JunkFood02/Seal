@@ -102,13 +102,32 @@ object TaskFactory {
                         uploader = entry.uploader ?: entry.channel ?: playlistResult.channel ?: "",
                         thumbnailUrl = (entry.thumbnails?.lastOrNull()?.url) ?: "",
                     )
-                val task = Task(url = playlistUrl, preferences = preferences, type = Task.TypeInfo.Playlist(index))
+                val task =
+                    Task(
+                        url = playlistUrl,
+                        preferences = preferences,
+                        type = Task.TypeInfo.Playlist(index),
+                    )
                 val state =
                     Task.State(downloadState = Idle, videoInfo = null, viewState = viewState)
                 TaskWithState(task, state)
             }
 
         return taskList
+    }
+
+    /** @return A [TaskWithState] created for custom command execution */
+    @CheckResult
+    fun createWithCustomCommand(
+        url: String,
+        template: com.junkfood.seal.database.objects.CommandTemplate,
+        preferences: DownloadPreferences = DownloadPreferences.createFromPreferences(),
+    ): TaskWithState {
+        val task =
+            Task(url = url, preferences = preferences, type = Task.TypeInfo.CustomCommand(template))
+        val viewState = Task.ViewState(url = url, title = template.name)
+        val state = Task.State(downloadState = Idle, videoInfo = null, viewState = viewState)
+        return TaskWithState(task, state)
     }
 
     data class TaskWithState(val task: Task, val state: Task.State)
