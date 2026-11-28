@@ -54,6 +54,13 @@ interface VideoInfoDao {
 
     @Query("select * from CookieProfile") fun getCookieProfileFlow(): Flow<List<CookieProfile>>
 
+    @Query("select * from CookieProfile") suspend fun getCookieProfileList(): List<CookieProfile>
+
+    @Query("select * from CookieProfile where url=:url limit 1")
+    suspend fun getCookieProfileByUrl(url: String): CookieProfile?
+
+    @Query("delete from CookieProfile") suspend fun deleteAllCookieProfiles()
+
     @Insert suspend fun insertTemplate(template: CommandTemplate): Long
 
     @Insert @Transaction suspend fun importTemplates(templateList: List<CommandTemplate>)

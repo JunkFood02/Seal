@@ -29,6 +29,7 @@ import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.FileCopy
+import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.GeneratingTokens
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.MoreVert
@@ -48,9 +49,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -89,13 +90,14 @@ import com.junkfood.seal.ui.component.TextButtonWithIcon
 import com.junkfood.seal.ui.theme.SealTheme
 import com.junkfood.seal.ui.theme.generateLabelColor
 import com.junkfood.seal.util.COOKIES
+import com.junkfood.seal.util.DatabaseUtil
 import com.junkfood.seal.util.DownloadUtil
+import com.junkfood.seal.util.DownloadUtil.parseNetscapeCookies
 import com.junkfood.seal.util.DownloadUtil.toCookiesFileContent
-import com.junkfood.seal.util.FileUtil
-import com.junkfood.seal.util.FileUtil.getCookiesFile
 import com.junkfood.seal.util.PreferenceUtil.getBoolean
 import com.junkfood.seal.util.PreferenceUtil.updateBoolean
 import com.junkfood.seal.util.USER_AGENT
+import com.junkfood.seal.util.ToastUtil
 import com.junkfood.seal.util.matchUrlFromClipboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -121,26 +123,15 @@ fun CookieProfilePage(
     val state by cookiesViewModel.stateFlow.collectAsStateWithLifecycle()
     var showClearCookieDialog by remember { mutableStateOf(false) }
     var isCookieEnabled by remember { mutableStateOf(COOKIES.getBoolean()) }
-    val cookieManager = CookieManager.getInstance()
     var showHelpDialog by remember { mutableStateOf(false) }
     val view = LocalView.current
 
-    var cookieList by remember { mutableStateOf(listOf<Cookie>()) }
-
-    var shouldUpdateCookies by remember { mutableStateOf(false) }
+    val cookieList by remember(cookies) {
+        derivedStateOf { cookies.flatMap { parseNetscapeCookies(it.content) } }
+    }
 
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-
-    DisposableEffect(shouldUpdateCookies) {
-        scope.launch(Dispatchers.IO) {
-            DownloadUtil.getCookieListFromDatabase().getOrNull()?.let {
-                cookieList = it
-                FileUtil.writeContentToFile(it.toCookiesFileContent(), context.getCookiesFile())
-            }
-        }
-        onDispose { shouldUpdateCookies = false }
-    }
 
     val exportLauncher =
         rememberLauncherForActivityResult(
@@ -150,6 +141,52 @@ fun CookieProfilePage(
                 scope.launch(Dispatchers.IO) {
                     context.contentResolver.openOutputStream(uri)?.use {
                         it.write(cookieList.toCookiesFileContent().toByteArray())
+                    }
+                }
+            }
+        }
+
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                scope.launch(Dispatchers.IO) {
+                    runCatching {
+                        val content = context.contentResolver.openInputStream(it)?.use { stream ->
+                            stream.bufferedReader().readText()
+                        } ?: throw Exception("Failed to read file")
+                        val importedCookies = parseNetscapeCookies(content)
+                        if (importedCookies.isEmpty()) throw Exception("No valid cookies found")
+                        importedCookies.groupBy { it.domain }.forEach { (domain, cookiesForDomain) ->
+                            val url = "https://${domain.removePrefix(".")}"
+                            val existing = DatabaseUtil.getCookieProfileByUrl(url)
+                            val profile =
+                                existing?.copy(
+                                    content = cookiesForDomain.toCookiesFileContent()
+                                )
+                                    ?: CookieProfile(
+                                        id = 0,
+                                        url = url,
+                                        content = cookiesForDomain.toCookiesFileContent(),
+                                    )
+                            if (existing != null) {
+                                DatabaseUtil.updateCookieProfile(profile)
+                            } else {
+                                DatabaseUtil.insertCookieProfile(profile)
+                            }
+                        }
+                        importedCookies
+                    }.onSuccess { importedCookies ->
+                        withContext(Dispatchers.Main) {
+                            ToastUtil.makeToast(
+                                context.getString(R.string.cookies_imported, importedCookies.size)
+                            )
+                        }
+                    }.onFailure {
+                        withContext(Dispatchers.Main) {
+                            ToastUtil.makeToast(context.getString(R.string.import_failed))
+                        }
                     }
                 }
             }
@@ -199,6 +236,14 @@ fun CookieProfilePage(
                             onClick = ::toggleUserAgent,
                         )
                         DropdownMenuItem(
+                            leadingIcon = { Icon(Icons.Outlined.FileOpen, null) },
+                            text = { Text(stringResource(id = R.string.import_from_file)) },
+                            onClick = {
+                                expanded = false
+                                importLauncher.launch(arrayOf("text/plain", "text/*"))
+                            },
+                        )
+                        DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.FileCopy, null) },
                             text = { Text(stringResource(id = R.string.export_to_file)) },
                             enabled = cookieList.isNotEmpty(),
@@ -212,6 +257,7 @@ fun CookieProfilePage(
                         DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Outlined.DeleteForever, null) },
                             text = { Text(stringResource(id = R.string.clear_all_cookies)) },
+                            enabled = cookieList.isNotEmpty(),
                             onClick = {
                                 expanded = false
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -234,9 +280,7 @@ fun CookieProfilePage(
                         if (isCookieEnabled) {
                             isCookieEnabled = false
                             COOKIES.updateBoolean(false)
-                        } else if (
-                            (cookies.isEmpty() || !cookieManager.hasCookies()) && !isCookieEnabled
-                        ) {
+                        } else if (cookies.isEmpty()) {
                             showHelpDialog = true
                         } else {
                             isCookieEnabled = true
@@ -290,11 +334,13 @@ fun CookieProfilePage(
             cookiesViewModel = cookiesViewModel,
             navigateToCookieGeneratorPage = {
                 cookiesViewModel.updateCookieProfile()
-                navigateToCookieGeneratorPage()
+                scope.launch(Dispatchers.IO) {
+                    DownloadUtil.syncCookiesToWebView()
+                    withContext(Dispatchers.Main) { navigateToCookieGeneratorPage() }
+                }
             },
         ) {
             showEditDialog = false
-            shouldUpdateCookies = true
         }
     }
 
@@ -311,9 +357,10 @@ fun CookieProfilePage(
     if (showClearCookieDialog) {
         ClearCookiesDialog(onDismissRequest = { showClearCookieDialog = false }) {
             view.slightHapticFeedback()
-            scope
-                .launch(Dispatchers.IO) { CookieManager.getInstance().removeAllCookies(null) }
-                .invokeOnCompletion { shouldUpdateCookies = true }
+            scope.launch(Dispatchers.IO) {
+                CookieManager.getInstance().removeAllCookies(null)
+                DatabaseUtil.deleteAllCookieProfiles()
+            }
         }
     }
 }
