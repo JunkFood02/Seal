@@ -98,6 +98,16 @@ object FileUtil {
             }
         }
 
+    // Characters that FAT32/exFAT (common on SD cards and some MTP targets) reject.
+    // Keeping spaces and non-ASCII letters intact so titles stay readable.
+    private val ILLEGAL_FILENAME_CHARS = Regex("""[\\/:*?"<>|]""")
+
+    fun sanitizeFileName(name: String): String {
+        val sanitized = ILLEGAL_FILENAME_CHARS.replace(name, "_")
+        // Trim trailing dots/spaces which Windows rejects and some Android OEMs mishandle.
+        return sanitized.trimEnd('.', ' ').ifEmpty { "download" }
+    }
+
     fun deleteFile(path: String) =
         path.runCatching {
             if (!File(path).delete()) DocumentFile.fromSingleUri(context, Uri.parse(this))?.delete()
