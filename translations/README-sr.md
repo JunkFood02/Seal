@@ -108,7 +108,7 @@ Seal ће увек бити бесплатан и отвореног кода з
 >За слање извештаја о грешкама, захтева за функције, питања или било које друге идеје за побољшање апликације, прво прочитајте [CONTRIBUTING.md](https://github.com/JunkFood02/Seal/blob/main/CONTRIBUTING.md) за упутства и смернице. 
 
 ## ⭐️ Графикон раста броја звездица
-[![Star History Chart](https://api.star-history.com/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.com/#JunkFood02/Seal&Timeline)
+[![Star History Chart](https://star-history.dera.page/svg?repos=JunkFood02/Seal&type=Timeline)](https://star-history.dera.page/#JunkFood02/Seal&Timeline)
 
 
 ## 🧱 Кредити 
