@@ -447,6 +447,7 @@ object DownloadUtil {
                     }
                 } else {
                     applyFormatSorter(this, toFormatSorter())
+                    addOption("--audio-multistreams")
                 }
                 if (downloadSubtitle) {
                     if (autoSubtitle) {
@@ -601,6 +602,7 @@ object DownloadUtil {
                     }
                 } else {
                     applyFormatSorter(preferences, toAudioFormatSorter())
+                    addOption("--audio-multistreams")
                 }
 
                 if (embedMetadata) {
