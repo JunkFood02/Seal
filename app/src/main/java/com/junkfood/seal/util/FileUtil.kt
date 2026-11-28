@@ -82,6 +82,19 @@ object FileUtil {
             clipData = ClipData(null, arrayOf(mimeType), ClipData.Item(data))
         }
 
+    fun createIntentForSharingFile(file: File, mimeType: String): Intent? {
+        val uri = FileProvider.getUriForFile(
+            context,
+            context.getFileProvider(),
+            file
+        )
+        return Intent(Intent.ACTION_SEND).apply {
+            type = mimeType
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+    }
+
     fun Context.getFileProvider() = "$packageName.provider"
 
     fun String.getFileSize(): Long =
