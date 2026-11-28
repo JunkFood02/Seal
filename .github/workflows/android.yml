@@ -1,4 +1,4 @@
-name: Build Release APK
+Name: Build Release APK
 
 on:
   workflow_dispatch:
@@ -23,7 +23,13 @@ jobs:
 
     - uses: gradle/actions/setup-gradle@v3
 
-    - run: gradle assembleRelease
+    # إعطاء صلاحية التنفيذ للـ Gradle Wrapper لضمان عدم حدوث خطأ Permission denied
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    # استخدام ./gradlew لضمان توافق إصدار الـ Gradle تماماً مع مشروعك
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
 
     - name: Sign app APK
       id: sign_app
@@ -39,6 +45,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: signed-apks
-        path: app/build/outputs/apk/release/*-arm64-v8a-release-signed.apk
+        # تعديل المسار ليصبح عاماً ويلتقط أي ملف APK ينتهي بـ signed.apk داخل مجلد الـ release
+        path: app/build/outputs/apk/release/*-signed.apk
         if-no-files-found: error
         retention-days: 20
+        
