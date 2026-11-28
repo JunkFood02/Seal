@@ -19,6 +19,20 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "DownloadDialogViewModel"
 
+enum class ImageQuality(val suffix: String, val displayName: String) {
+    LOW("default.jpg", "Low"),
+    MEDIUM("mqdefault.jpg", "Medium"),
+    HIGH("hqdefault.jpg", "High"),
+    HD("sddefault.jpg", "HD"),
+    ORIGINAL("maxresdefault.jpg", "Original");
+
+    companion object {
+        fun fromSuffix(suffix: String): ImageQuality? {
+            return entries.find { it.suffix == suffix }
+        }
+    }
+}
+
 class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel() {
 
     sealed interface SelectionState {
@@ -27,6 +41,9 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
         data class PlaylistSelection(val result: PlaylistResult) : SelectionState
 
         data class FormatSelection(val info: VideoInfo) : SelectionState
+
+        data class ImageSelection(val info: VideoInfo?, val playlist: PlaylistResult?) :
+            SelectionState
     }
 
     sealed interface SheetState {
@@ -65,6 +82,11 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             val preferences: DownloadUtil.DownloadPreferences,
         ) : Action
 
+        data class FetchImages(
+            val url: String,
+            val preferences: DownloadUtil.DownloadPreferences,
+        ) : Action
+
         data class DownloadWithPreset(
             val urlList: List<String>,
             val preferences: DownloadUtil.DownloadPreferences,
@@ -84,10 +106,17 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
     private val mSheetStateFlow: MutableStateFlow<SheetState> =
         MutableStateFlow(SheetState.InputUrl)
     private val mSheetValueFlow: MutableStateFlow<SheetValue> = MutableStateFlow(SheetValue.Hidden)
+    private val mImageQualityFlow: MutableStateFlow<ImageQuality> =
+        MutableStateFlow(ImageQuality.ORIGINAL)
 
     val selectionStateFlow = mSelectionStateFlow.asStateFlow()
     val sheetStateFlow = mSheetStateFlow.asStateFlow()
     val sheetValueFlow = mSheetValueFlow.asStateFlow()
+    val imageQualityFlow = mImageQualityFlow.asStateFlow()
+
+    fun setImageQuality(quality: ImageQuality) {
+        mImageQualityFlow.update { quality }
+    }
 
     private val sheetState
         get() = sheetStateFlow.value
@@ -98,6 +127,7 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
                 is Action.ProceedWithURLs -> proceedWithUrls(this)
                 is Action.FetchFormats -> fetchFormat(this)
                 is Action.FetchPlaylist -> fetchPlaylist(this)
+                is Action.FetchImages -> fetchImages(this)
                 is Action.DownloadWithPreset -> downloadWithPreset(urlList, preferences)
                 is Action.RunCommand -> runCommand(url, template, preferences)
                 Action.HideSheet -> hideDialog()
@@ -172,6 +202,43 @@ class DownloadDialogViewModel(private val downloader: DownloaderV2) : ViewModel(
             }
 
         mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchFormat_$url", job = job) }
+    }
+
+    private fun fetchImages(action: Action.FetchImages) {
+        val (url, preferences) = action
+
+        val job =
+            viewModelScope.launch(Dispatchers.IO) {
+                DownloadUtil.getPlaylistOrVideoInfo(
+                        playlistURL = url,
+                        downloadPreferences = preferences,
+                    )
+                    .onSuccess { info ->
+                        withContext(Dispatchers.Main) {
+                            when (info) {
+                                is PlaylistResult -> {
+                                    mSelectionStateFlow.update {
+                                        SelectionState.ImageSelection(info = null, playlist = info)
+                                    }
+                                }
+
+                                is VideoInfo -> {
+                                    mSelectionStateFlow.update {
+                                        SelectionState.ImageSelection(info = info, playlist = null)
+                                    }
+                                }
+                            }
+                            hideDialog()
+                        }
+                    }
+                    .onFailure { th ->
+                        withContext(Dispatchers.Main) {
+                            mSheetStateFlow.update { SheetState.Error(action, throwable = th) }
+                        }
+                    }
+            }
+
+        mSheetStateFlow.update { SheetState.Loading(taskKey = "FetchImages_$url", job = job) }
     }
 
     private fun downloadWithPreset(
