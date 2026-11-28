@@ -2,9 +2,14 @@ package com.junkfood.seal.ui.page.downloadv2
 
 import android.content.Intent
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.animateTo
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.horizontalScroll
@@ -38,6 +43,7 @@ import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -57,6 +63,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,10 +113,10 @@ import com.junkfood.seal.ui.component.SealModalBottomSheet
 import com.junkfood.seal.ui.component.SelectionGroupDefaults
 import com.junkfood.seal.ui.component.SelectionGroupItem
 import com.junkfood.seal.ui.component.SelectionGroupRow
-import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.configure.Config
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialog
 import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel
+import com.junkfood.seal.ui.page.downloadv2.configure.DownloadDialogViewModel.Action
 import com.junkfood.seal.ui.page.downloadv2.configure.FormatPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PlaylistSelectionPage
 import com.junkfood.seal.ui.page.downloadv2.configure.PreferencesMock
@@ -652,7 +659,69 @@ private fun DownloadQueuePlaceholder(modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                 )
+                Spacer(Modifier.height(28.dp))
+                RotatingDownloadTip()
             }
+        }
+    }
+}
+
+private const val TipRotationIntervalMillis = 7_000L
+
+private val downloadTips =
+    listOf(
+        R.string.tip_share,
+        R.string.tip_save_as_audio,
+        R.string.tip_download_playlist,
+        R.string.tip_sponsorblock,
+        R.string.tip_embed_subtitles,
+        R.string.tip_embed_metadata,
+        R.string.tip_custom_command,
+        R.string.tip_cookies,
+    )
+
+/**
+ * A subtle, auto-rotating "Did you know?" tip shown on the empty download screen. It starts on a
+ * random tip and cross-fades to the next one every few seconds to help users discover features.
+ */
+@Composable
+private fun RotatingDownloadTip(modifier: Modifier = Modifier) {
+    if (downloadTips.isEmpty()) return
+    val startIndex = remember { downloadTips.indices.random() }
+    var step by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(TipRotationIntervalMillis)
+            step++
+        }
+    }
+
+    val tipRes = downloadTips[(startIndex + step) % downloadTips.size]
+
+    Row(
+        modifier = modifier.widthIn(max = 360.dp).padding(horizontal = 24.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.TipsAndUpdates,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp),
+            tint = MaterialTheme.colorScheme.primary,
+        )
+        AnimatedContent(
+            targetState = tipRes,
+            transitionSpec = { fadeIn(tween(400)) togetherWith fadeOut(tween(400)) },
+            label = "download tip",
+        ) { res ->
+            Text(
+                text = stringResource(res),
+                modifier = Modifier.padding(start = 8.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
