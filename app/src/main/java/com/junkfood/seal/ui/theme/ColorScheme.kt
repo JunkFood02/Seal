@@ -12,29 +12,6 @@ import com.kyant.monet.TonalPalettes
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import io.material.hct.Hct
 
-@Composable
-fun Number.autoDark(isDarkTheme: Boolean = LocalDarkTheme.current.isDarkTheme()): Double =
-    if (!isDarkTheme) this.toDouble()
-    else
-        when (this.toDouble()) {
-            6.0 -> 98.0
-            10.0 -> 99.0
-            20.0 -> 95.0
-            25.0 -> 90.0
-            30.0 -> 90.0
-            40.0 -> 80.0
-            50.0 -> 60.0
-            60.0 -> 50.0
-            70.0 -> 40.0
-            80.0 -> 40.0
-            90.0 -> 30.0
-            95.0 -> 20.0
-            98.0 -> 10.0
-            99.0 -> 10.0
-            100.0 -> 20.0
-            else -> this.toDouble()
-        }
-
 @Deprecated(
     message = "Deprecated",
     replaceWith =
@@ -166,16 +143,6 @@ const val DEFAULT_SEED_COLOR = 0xa3d48d
 @ReadOnlyComposable
 fun Int.generateLabelColor(): Color =
     Color(Hct.from(hue = (this % 360).toDouble(), chroma = 36.0, tone = 80.0).toInt())
-        .harmonizeWithPrimary()
-
-/**
- * @return a [Color] generated using [Hct] algorithm, harmonized with `primary` color
- * @receiver Seed number used for generating color
- */
-@Composable
-@ReadOnlyComposable
-fun Int.generateOnLabelColor(): Color =
-    Color(Hct.from(hue = (this % 360).toDouble(), chroma = 36.0, tone = 20.0).toInt())
         .harmonizeWithPrimary()
 
 val ErrorTonalPalettes = Color.Red.toTonalPalettes()

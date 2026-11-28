@@ -134,9 +134,6 @@ fun NavGraphBuilder.animatedComposableVariant(
         content = content,
     )
 
-val springSpec =
-    spring(stiffness = Spring.StiffnessMedium, visibilityThreshold = IntOffset.VisibilityThreshold)
-
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.slideInVerticallyComposable(
     route: String,

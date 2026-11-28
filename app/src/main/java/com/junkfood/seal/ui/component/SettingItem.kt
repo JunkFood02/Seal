@@ -20,15 +20,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingTitle(text: String) {
-    Text(
-        modifier = Modifier.padding(top = 32.dp).padding(horizontal = 20.dp, vertical = 16.dp),
-        text = text,
-        style = MaterialTheme.typography.displaySmall,
-    )
-}
-
-@Composable
 fun SettingItem(title: String, description: String, icon: ImageVector?, onClick: () -> Unit) {
     Surface(modifier = Modifier.clickable { onClick() }) {
         Row(

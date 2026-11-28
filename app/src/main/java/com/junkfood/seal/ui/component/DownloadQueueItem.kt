@@ -37,9 +37,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,13 +58,6 @@ import com.junkfood.seal.ui.theme.harmonizeWithPrimary
 import com.kyant.monet.LocalTonalPalettes
 import com.kyant.monet.TonalPalettes.Companion.toTonalPalettes
 import com.kyant.monet.dynamicColorScheme
-
-@Composable
-// @Preview
-fun PlaylistPreview() {
-    var selected by remember { mutableStateOf(false) }
-    Column() { PreviewThemeLight { PlaylistItem(selected = selected) { selected = !selected } } }
-}
 
 @Composable
 fun PlaylistItem(

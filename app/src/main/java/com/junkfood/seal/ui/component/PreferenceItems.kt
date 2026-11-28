@@ -508,56 +508,6 @@ fun PreferenceSwitchWithDivider(
     }
 }
 
-@Composable
-fun PreferencesCautionCard(
-    title: String,
-    description: String? = null,
-    icon: ImageVector? = null,
-    onClick: () -> Unit = {},
-) {
-
-    Row(
-        modifier =
-            Modifier.fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp)
-                .clip(MaterialTheme.shapes.extraLarge)
-                .background(MaterialTheme.colorScheme.errorContainer.harmonizeWithPrimary())
-                .clickable { onClick() }
-                .padding(horizontal = 12.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        icon?.let {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.padding(start = 8.dp, end = 16.dp).size(24.dp),
-                tint = MaterialTheme.colorScheme.error.harmonizeWithPrimary(),
-            )
-        }
-        Column(
-            modifier =
-                Modifier.weight(1f).padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
-        ) {
-            with(MaterialTheme) {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    style = PreferenceTitleVariant,
-                    color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
-                )
-                if (description != null)
-                    Text(
-                        text = description,
-                        color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
 fun PreferencesHintCardPreview() {
