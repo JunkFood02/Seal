@@ -20,8 +20,10 @@ import com.junkfood.seal.Downloader.onTaskStarted
 import com.junkfood.seal.Downloader.toNotificationId
 import com.junkfood.seal.R
 import com.junkfood.seal.database.objects.CommandTemplate
+import com.junkfood.seal.database.objects.CookieProfile
 import com.junkfood.seal.database.objects.DownloadedVideoInfo
 import com.junkfood.seal.ui.page.settings.network.Cookie
+import com.junkfood.seal.ui.page.settings.network.CookieParser
 import com.junkfood.seal.util.FileUtil.getArchiveFile
 import com.junkfood.seal.util.FileUtil.getConfigFile
 import com.junkfood.seal.util.FileUtil.getCookiesFile
@@ -38,11 +40,11 @@ import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLException
 import com.yausername.youtubedl_android.YoutubeDLRequest
 import com.yausername.youtubedl_android.YoutubeDLResponse
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import java.util.Locale
 
 object DownloadUtil {
 
@@ -372,7 +374,7 @@ object DownloadUtil {
         this.addOption("--download-archive", context.getArchiveFile().absolutePath)
 
     @CheckResult
-    fun getCookieListFromDatabase(): Result<List<Cookie>> = runCatching {
+    private fun getWebViewCookieListFromDatabase(): Result<List<Cookie>> = runCatching {
         CookieManager.getInstance().run {
             if (!hasCookies()) throw Exception("There is no cookies in the database!")
             flush()
@@ -421,14 +423,50 @@ object DownloadUtil {
             }
     }
 
+    private fun Cookie.toRuntimeCookieKey(): RuntimeCookieKey =
+        RuntimeCookieKey(domain = domain, path = path, name = name)
+
+    fun mergeRuntimeCookies(
+        webViewCookies: List<Cookie>,
+        importedCookies: List<Cookie>,
+    ): List<Cookie> =
+        linkedMapOf<RuntimeCookieKey, Cookie>()
+            .apply {
+                webViewCookies.forEach { this[it.toRuntimeCookieKey()] = it }
+                importedCookies.forEach { this[it.toRuntimeCookieKey()] = it }
+            }
+            .values
+            .toList()
+
+    private fun List<CookieProfile>.parseImportedCookies(): Result<List<Cookie>> = runCatching {
+        filter { it.content.isNotBlank() }
+            .flatMap { profile -> CookieParser.parseNetscapeCookies(profile.content).getOrThrow() }
+    }
+
+    suspend fun getCookieListFromDatabase(): Result<List<Cookie>> {
+        val importedCookiesResult = DatabaseUtil.getCookieProfileList().parseImportedCookies()
+        val webViewCookiesResult = getWebViewCookieListFromDatabase()
+
+        return importedCookiesResult.mapCatching { importedCookies ->
+            val webViewCookies =
+                webViewCookiesResult.getOrElse {
+                    if (importedCookies.isEmpty()) throw it
+                    emptyList()
+                }
+            mergeRuntimeCookies(webViewCookies = webViewCookies, importedCookies = importedCookies)
+        }
+    }
+
     fun List<Cookie>.toCookiesFileContent(): String =
         this.fold(StringBuilder(COOKIE_HEADER)) { acc, cookie ->
                 acc.append(cookie.toNetscapeCookieString()).append("\n")
             }
             .toString()
 
-    fun getCookiesContentFromDatabase(): Result<String> =
+    suspend fun getCookiesContentFromDatabase(): Result<String> =
         getCookieListFromDatabase().mapCatching { it.toCookiesFileContent() }
+
+    private data class RuntimeCookieKey(val domain: String, val path: String, val name: String)
 
     private fun YoutubeDLRequest.enableAria2c(): YoutubeDLRequest =
         this.addOption("--downloader", "libaria2c.so")
@@ -531,11 +569,12 @@ object DownloadUtil {
                     7 -> "+res"
                     else -> ""
                 }
-            val sorter = if (videoFormat == FORMAT_COMPATIBILITY) {
-                connectWithDelimiter(format, res, delimiter = ",")
-            } else {
-                connectWithDelimiter(res, format, delimiter = ",")
-            }
+            val sorter =
+                if (videoFormat == FORMAT_COMPATIBILITY) {
+                    connectWithDelimiter(format, res, delimiter = ",")
+                } else {
+                    connectWithDelimiter(res, format, delimiter = ",")
+                }
             return@run sorter
         }
 
